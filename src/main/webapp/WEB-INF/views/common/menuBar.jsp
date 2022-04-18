@@ -11,6 +11,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Changa:wght@400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<style>
+	.
+</style>
 </head>
 <body>
     <div class="menu">
@@ -42,8 +45,6 @@
 			</span>
 			<a class="user">권지혜 님</a>
 		</div>
-    </div>
-    <div class="smaill-menu">
     </div>
 </body>
 </html>
