@@ -91,7 +91,6 @@ html, body {
 	font-weight: bold;
 }
 .s-menu {
-	display: none;
 	position: fixed;
 	left: 220px;
 	width: 220px;
