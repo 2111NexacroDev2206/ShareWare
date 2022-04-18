@@ -101,5 +101,12 @@ html, body {
 	z-index: 5;
 }
 .container{
-	
+	position: absolute;
+	left: 220px;
+	top: 75px;
+}
+.s-container{
+	position: absolute;
+	left: 440px;
+	top: 75px;
 }
