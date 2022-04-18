@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" 	value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="url" 				value="jdbc:oracle:thin:@localhost:1521:XE"></property>
+		<property name="username" 			value="SHAREWARE"></property>
+		<property name="password" 			value="SHAREWARE"></property>
+	</bean>
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean"> <!-- 눈에 보이지 않지만 Maven을 통해 자동 생성되었음 -->
+		<property name="configLocation" value="classpath:mybatis-config.xml"></property> <!-- classpath는 src/main/resources -->
+		<property name="dataSource" ref="dataSource"></property> <!-- 연결 정보를 통해 객체 주입 -->
+	</bean>
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate"> <!-- 연결 생성 -->
+		<constructor-arg ref="sqlSession"></constructor-arg>
+	</bean>
+	<!-- 파일 업로드 관련 bean 등록, MultipartResolver -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="100000000"/> <!-- 파일 최대 용량 -->
+		<property name="maxInMemorySize" value="100000000"/> <!-- 사용하는 메모리 -->
+	</bean>
+</beans>
