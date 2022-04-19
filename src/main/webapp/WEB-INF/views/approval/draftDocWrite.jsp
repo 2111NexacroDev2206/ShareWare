@@ -24,7 +24,7 @@
 			<table border="1">
 				<tr>
 					<td>문서번호</td>
-					<td>D010101</td>
+					<td></td>
 					<td rowspan="3">결재</td>
 					<td>담당</td>
 					<td></td>
@@ -32,14 +32,14 @@
 				</tr>
 				<tr>
 					<td>기안일</td>
-					<td></td>
+					<td><input type="date" value="${nowTime }" name="docDate" readonly></td>
 					<td></td>
 					<td><button>선택</button></td>
 					<td><button>선택</button></td>
 				</tr>
 				<tr>
 					<td>기안자</td>
-					<td></td>
+					<td><input type="text" value="" name="memNum" readonly></td>
 					<td>김사원</td>
 					<td></td>
 					<td></td>
@@ -50,9 +50,19 @@
 				</tr>
 				<tr>
 					<td>제목</td>
-					<td><input type="text" name="docTitle"></td>
+					<td colspan="5"><input type="text" name="docTitle"></td>
+				</tr>
+				<tr>
+					<td colspan="6" align="center">내용</td>
+				</tr>
+				<tr>
+					<td colspan="6" align="center"><textarea cols="50" rows="10" name="docContent"></textarea></td>
 				</tr>
 			</table>
+			<input type="file" name="uploadFile">
+			<input type="submit" value="결재 요청">
+			<input type="button" value="임시 저장">
+			<input type="reset" value="취소">
 		</form>
 	</div>
 </body>
