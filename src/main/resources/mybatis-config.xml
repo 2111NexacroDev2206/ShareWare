@@ -8,8 +8,10 @@
 		<setting name="jdbcTypeForNull" value="NULL"/> <!-- 만약에 null 데이터가 전달되었으면 빈칸이 아닌 NULL로 인식하도록 설정 -->
 	</settings>
 	<typeAliases>
+		<typeAlias type="org.kh.shareware.member.domain.Member" 		 alias="Member"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/approval-mapper.xml"></mapper>
+		<mapper resource="mappers/member-mapper.xml"/>
 	</mappers>
 </configuration>
