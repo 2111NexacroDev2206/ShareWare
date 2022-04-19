@@ -7,7 +7,7 @@ private int comNo;
 private String memberNum;
 private Date comDate;
 private String comTitle;
-private String content;
+private String comContent;
 private int comView;
 private String comImgName;
 private String comImgRename;
@@ -15,16 +15,16 @@ private String comImgPath;
 private String somDelete;
 private int comVoteNo;
 
-public Community() {};
+public Community() {}
 
-public Community(int comNo, String memberNum, Date comDate, String comTitle, String content, int comView,
+public Community(int comNo, String memberNum, Date comDate, String comTitle, String comContent, int comView,
 		String comImgName, String comImgRename, String comImgPath, String somDelete, int comVoteNo) {
 	super();
 	this.comNo = comNo;
 	this.memberNum = memberNum;
 	this.comDate = comDate;
 	this.comTitle = comTitle;
-	this.content = content;
+	this.comContent = comContent;
 	this.comView = comView;
 	this.comImgName = comImgName;
 	this.comImgRename = comImgRename;
@@ -65,12 +65,12 @@ public void setComTitle(String comTitle) {
 	this.comTitle = comTitle;
 }
 
-public String getContent() {
-	return content;
+public String getComContent() {
+	return comContent;
 }
 
-public void setContent(String content) {
-	this.content = content;
+public void setComContent(String comContent) {
+	this.comContent = comContent;
 }
 
 public int getComView() {
@@ -124,10 +124,10 @@ public void setComVoteNo(int comVoteNo) {
 @Override
 public String toString() {
 	return "Community [comNo=" + comNo + ", memberNum=" + memberNum + ", comDate=" + comDate + ", comTitle=" + comTitle
-			+ ", content=" + content + ", comView=" + comView + ", comImgName=" + comImgName + ", comImgRename="
+			+ ", comContent=" + comContent + ", comView=" + comView + ", comImgName=" + comImgName + ", comImgRename="
 			+ comImgRename + ", comImgPath=" + comImgPath + ", somDelete=" + somDelete + ", comVoteNo=" + comVoteNo
 			+ "]";
-}
+};
 
 
 }

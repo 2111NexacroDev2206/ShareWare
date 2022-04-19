@@ -12,11 +12,11 @@
 	<table border="1">
 		<tr>
 			<td>제목</td>
-			<td><input type="text" size="50" name="communityTitle"></td>
+			<td><input type="text" size="50" name="comTitle"></td>
 		</tr>
 		<tr>
 			<td>본문</td>
-			<td><input type="text" size="50" name="communityContents"></td>
+			<td><input type="text" size="50" name="comContent"></td>
 		</tr>
 		<tr>
 			<td>첨부파일</td>
