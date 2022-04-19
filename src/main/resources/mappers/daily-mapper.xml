@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="DailyMapper">
+ 	<resultMap type="Daily" id="dailyResultMap">
+ 		<id  	 property="drNo"      	  column="DR_NO"/>
+ 		<result  property="memNum"        column="MEM_NUM"/>
+ 		<result  property="drTitle"       column="DR_TITLE"/>
+ 		<result  property="drWriter"      column="DR_WRITER"/>
+ 		<result  property="drDate"        column="DR_DATE"/>
+ 		<result  property="drContent"     column="DR_CONTENT"/>
+ 		<result  property="drCompletion"  column="DR_COMPLETION"/>
+ 		<result  property="drNote"        column="DR_NOTE"/>
+ 		<result  property="fileName"      column="FILE_NAME"/>
+ 		<result  property="filePath"      column="FILE_PATH"/>
+ 		<result  property="fileReName"      column="FILE_RENAME"/>
+ 	</resultMap>
+ 	
+ 	<select id="selectAllDaily" resultMap="dailyResultMap">
+ 		SELECT * FROM DAILY_REPORT ORDER BY DR_DATE DESC
+ 	</select>
+ 	<insert id="insertDaily">
+ 		INSERT INTO DAILY_REPORT VALUES(
+ 			SEQ_DAILY_NO.NEXTVAL,
+ 			'admin',
+ 			#{drTitle },
+ 			#{drWriter },
+ 			#{drDate },
+ 			#{drContent },
+ 			#{drCompletion },
+ 			#{drNote },
+ 			NULL,
+ 			NULL,
+ 			NULL
+ 		)
+ 	
+ 	</insert>
+ </mapper>
