@@ -10,5 +10,9 @@
 	<typeAliases>
 	</typeAliases>
 	<mappers>
+	<mapper resource="mappers/community-mapper.xml"/>
+	<mapper resource="mappers/fileBoard-mapper.xml"/>
+	<mapper resource="mappers/meetingRoom-mapper.xml"/>
+	<mapper resource="mappers/notice-mapper.xml"/>
 	</mappers>
 </configuration>
