@@ -12,11 +12,11 @@
 	<table border="1">
 		<tr>
 			<td>제목</td>
-			<td></td>
+			<td><input type="text" size="50" name="communityTitle"></td>
 		</tr>
 		<tr>
 			<td>본문</td>
-			<td></td>
+			<td><input type="text" size="50" name="communityContents"></td>
 		</tr>
 		<tr>
 			<td>첨부파일</td>
@@ -26,6 +26,7 @@
 			<td>
 				<input type="submit" value="등록">
 				<input type="reset" value="취소">
+				<input type="button" value="투표등록">
 			</td>
 		</tr>
 	</table>

@@ -3,4 +3,24 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="CommnuityMapper">
+	<resultMap type="Community" id="CommunityResultMap">
+	<id property="comNo" column="COM_NO"/>
+	<result property="memberNum" column="MEMBER_NUM"/>
+	<result property="comDate" column="COM_DATE"/>
+	<result property="comTitle" column="COM_TITLE"/>
+	<result property="content" column="COM_CONTENT"/>
+	<result property="comView" column="COM_VIEW"/>
+	<result property="comImgName" column="COM_IMG_NAME"/>
+	<result property="comImgRename" column="COM_IMG_RENAME"/>
+	<result property="comImgPath" column="COM_IMG_PATH"/>
+	<result property="somDelete" column="COM_DELETE"/>
+	<result property="comVoteNo" column="COM_VOTE_NO"/>
+	</resultMap>
+<insert id="insertCommnuity" parameterType="">
+	INSERT INTO COMMUNITY VALUES(SEQ_COM_NO.NEXTVAL, '이용자', #{communityTitle}, #{communityContents})
+</insert>
+
+<delete id="deleteCommnuity">
+	DELETE FROM COMMUNITY WHERE COM_NO=#{comNo }
+</delete>
 </mapper>
