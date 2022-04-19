@@ -6,7 +6,7 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" 	value="oracle.jdbc.driver.OracleDriver"></property>
-		<property name="url" 				value="jdbc:oracle:thin:@localhost:1521:XE"></property>
+		<property name="url" 				value="jdbc:oracle:thin:@sonof.iptime.org"></property>
 		<property name="username" 			value="SHAREWARE"></property>
 		<property name="password" 			value="SHAREWARE"></property>
 	</bean>

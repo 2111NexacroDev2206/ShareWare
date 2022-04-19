@@ -28,7 +28,7 @@ public class CalendarController {
 		return "calendar/mainCalendar";
 	}
 	
-	@RequestMapping ( value="/calendar/")
+	@RequestMapping ( value="/calendar/schRegister.sw ")
 	public ModelAndView scheduleRegister(ModelAndView mv, 
 			@ModelAttribute CalSch calSch, HttpServletRequest request) {
 		int result = cService.registerSchedule(calSch);
@@ -36,7 +36,7 @@ public class CalendarController {
 			if(result>0) {
 				mv.setViewName("redirect:/calendar/mainCalendar.sw");
 			} else {
-				mv.addObject("msg", "공지사항 등록 실패");
+				mv.addObject("msg", "등록 실");
 				mv.setViewName("common/errorPage");
 			}
 		} catch (Exception e) {
