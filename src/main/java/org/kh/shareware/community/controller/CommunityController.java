@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class CommunityController {
@@ -20,6 +21,20 @@ public class CommunityController {
 	public String CommunityWriteView() {
 		return "commnityWriterForm";
 	}
+
+//디테일 페이지 보기
+	@RequestMapping(value="/community/Detail.sw", method=RequestMethod.GET)
+	public String CommunityDetilView() {
+		return "commnityDetail";
+	}
+	
+//디테일 페이지 보기
+	@RequestMapping(value="/community/Detail.sw", method=RequestMethod.GET)
+	public String CommunityListView() {
+		return "commnityList";
+	}
+		
+	
 //글작성
 	@RequestMapping(value="/community/register.sw", method=RequestMethod.POST)
 	public String resisterCommunity(
@@ -34,4 +49,6 @@ public class CommunityController {
 			return "common/errorPage";
 		}
 	}
+	
+	
 }
