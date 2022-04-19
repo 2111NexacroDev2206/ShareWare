@@ -105,6 +105,26 @@ html, body {
 	border-right: solid 1px rgba(224, 224, 224);
 	z-index: 5;
 }
+.s-menu-title p{
+	text-align: center;
+	padding-top : 80px;
+	padding-bottom : 20px;
+	font-size : 25px;
+	font-weight: bold;
+}
+.s-list-item a {
+	margin-left: 55px;
+	display:inline-block;
+	padding-top : 13px;
+	padding-bottom : 13px;
+	color: rgb(51, 51, 51);
+	text-decoration: none;
+	font-size: 17px;
+}
+.s-list-item.active a {
+	font-weight: 900;
+	color: rgb(65, 93, 145);
+}
 .container{
 	position: absolute;
 	left: 220px;
