@@ -21,5 +21,4 @@ public class CommunityStoreLogic implements CommunityStore {
 		List<Community> cList = sqlsession.selectList("CommnuityMapper.listCommnuity");
 		return cList;
 	}
-
 }

@@ -8,6 +8,7 @@
 		<setting name="jdbcTypeForNull" value="NULL"/> <!-- 만약에 null 데이터가 전달되었으면 빈칸이 아닌 NULL로 인식하도록 설정 -->
 	</settings>
 	<typeAliases>
+	<typeAlias type="org.kh.shareware.community.domain.Community" alias="Community"/>
 	</typeAliases>
 	<mappers>
 	<mapper resource="mappers/community-mapper.xml"/>

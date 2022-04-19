@@ -26,5 +26,4 @@ public class CommunityServiceImpl implements CommunityService{
 		List<Community> cList = cStore.listCommunity(sqlsession);
 		return cList;
 	}
-
 }

@@ -21,28 +21,27 @@ public class CommunityController {
 	
 //글작성 페이지 보기
 	@RequestMapping(value="/community/WriteView.sw", method=RequestMethod.GET)
-	public String CommunityWriteView(
-			Model model) {
-		
-		List<Community> cList = cService.listCommunity();
-		if(cList != null) {
-			return "community/communityWriteForm";
-		}else {
-			model.addAttribute("msg", "게시글 등록 실패");
-			return "common/errorPage";
-		}
+	public String CommunityWriteView() {
+		return "community/communityWriteForm";
 	}
 
 //디테일 페이지 보기
 	@RequestMapping(value="/community/Detail.sw", method=RequestMethod.GET)
 	public String CommunityDetilView() {
-		return "community/commnityDetail";
+		return "community/communityDetail";
 	}
 	
 //리스트 페이지 보기
-	@RequestMapping(value="/community/List.sw", method=RequestMethod.GET)
-	public String CommunityListView() {
-		return "community/commnityList";
+	@RequestMapping(value="/community/list.sw", method=RequestMethod.GET)
+	public String CommunityListView(
+			Model model) {
+		List<Community> cList = cService.listCommunity();
+		if(cList != null) {
+			return "community/communityList";
+		}else {
+			model.addAttribute("msg", "게시글 등록 실패");
+			return "common/errorPage";
+		}
 	}
 		
 	
@@ -54,7 +53,7 @@ public class CommunityController {
 		
 		int result = cService.resisterCommunity(community);
 		if(result>0) {
-			return "community/commnityDetail";
+			return "community/communityDetail";
 		}else {
 			model.addAttribute("msg", "게시글 등록 실패");
 			return "common/errorPage";
