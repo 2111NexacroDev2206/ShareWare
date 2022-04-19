@@ -8,13 +8,13 @@
 		<setting name="jdbcTypeForNull" value="NULL"/> <!-- 만약에 null 데이터가 전달되었으면 빈칸이 아닌 NULL로 인식하도록 설정 -->
 	</settings>
 	<typeAliases>
-		<typeAlias type="org.kh.shareware.report.domain.Daily" 	 alias="Daily"/>
-		<typeAlias type="org.kh.shareware.member.domain.Member" 		 alias="Member"/>
-		<typeAlias type="org.kh.shareware.community.domain.Community" alias="Community"/>
+		<typeAlias type="org.kh.shareware.report.domain.Daily" 	 		alias="Daily"/>
+		<typeAlias type="org.kh.shareware.member.domain.Member" 		alias="Member"/>
+		<typeAlias type="org.kh.shareware.community.domain.Community" 	alias="Community"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/daily-mapper.xml"/>
-		<mapper resource="mappers/approval-mapper.xml"></mapper>
+		<mapper resource="mappers/approval-mapper.xml"/>
 		<mapper resource="mappers/member-mapper.xml"/>
 		<mapper resource="mappers/community-mapper.xml"/>
 	</mappers>

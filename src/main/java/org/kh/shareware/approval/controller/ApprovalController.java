@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kh.shareware.approval.domain.AppDocument;
+import org.kh.shareware.approval.domain.Approval;
 import org.kh.shareware.approval.service.ApprovalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ public class ApprovalController {
 	@Autowired
 	private ApprovalService aService;
 
+	// 기안서 작성 페이지
 	@RequestMapping(value = "/approval/draftDocWriteView.sw")
 	public String docWriteView(Model model) {
 		model.addAttribute("myCondition", "approval");
@@ -33,14 +35,17 @@ public class ApprovalController {
 		return "approval/draftDocWrite";
 	}
 	
+	// 기안서 결재 요청
 	@RequestMapping(value = "/approval/draftDocWrite.sw", method = RequestMethod.POST)
 	public ModelAndView docRegister(ModelAndView mv
 			, @ModelAttribute AppDocument appDoc
+			, @ModelAttribute Approval app
 			, @RequestParam(value="uploadFile", required=false) MultipartFile uploadFile
 			, HttpServletRequest request) {
 		try {
-			int result = aService.registerDoc(appDoc);
-			if(result > 0) {
+			int dResult = aService.registerDoc(appDoc); // 기안서 등록
+			int aResult = aService.registerApp(app); // 결재자 등록
+			if(dResult > 0 && aResult > 0) {
 				mv.addObject("msg", "등록 성공");
 			}else {
 				mv.addObject("msg", "등록 실패");

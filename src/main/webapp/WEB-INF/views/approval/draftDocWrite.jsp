@@ -7,17 +7,7 @@
 <title>기안서</title>
 </head>
 <body>
-	<jsp:include page="../common/menuBar.jsp"></jsp:include>
-	<div class="s-menu">
-		<div class="s-menu-title">
-			<p>전자결재
-			<i class="fa-solid fa-pen-to-square fa-lg"></i>
-		</div>
-		<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}"><a href="">기안 문서함</a></div>
-		<div class="s-list-item ${listCondition eq 'approval' ? 'active' : ''}"><a href="">결재 문서함</a></div>
-		<div class="s-list-item ${listCondition eq 'reference' ? 'active' : ''}"><a href="">참조 문서함</a></div>
-		<div class="s-list-item ${listCondition eq 'temporary' ? 'active' : ''}"><a href="">임시 저장함</a></div>
-	</div>
+	<jsp:include page="appMenu.jsp"></jsp:include>
 	<div class="s-container">
 		<h1>기안서</h1>
 		<form action="/approval/draftDocWrite.sw" method="post" enctype="multipart/form-data">
@@ -59,7 +49,9 @@
 					<td colspan="6" align="center"><textarea cols="50" rows="10" name="docContent"></textarea></td>
 				</tr>
 			</table>
+			<p>파일 첨부
 			<input type="file" name="uploadFile">
+			<br>
 			<input type="submit" value="결재 요청">
 			<input type="button" value="임시 저장">
 			<input type="reset" value="취소">
