@@ -7,9 +7,9 @@
 <title>자료게시판 글쓰기</title>
 </head>
 <body>
-	<h1>자료 등록 페이지(임시)</h1>
+		<h1>게시글 등록 페이지(임시)</h1>
 	<form action="/community/register.sw" method="post" enctype="multipart/form-data">
-	<table border="1">
+	<table border="2">
 		<tr>
 			<td>제목</td>
 			<td></td>
