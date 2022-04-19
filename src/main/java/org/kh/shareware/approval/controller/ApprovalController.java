@@ -29,7 +29,7 @@ public class ApprovalController {
 	public String docWriteView(Model model) {
 		model.addAttribute("myCondition", "approval");
 		model.addAttribute("listCondition", "draft");
-		Date nowTime = new Date();
+		Date nowTime = new Date(); // 현재 날짜 가져오기
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 		model.addAttribute("nowTime", sf.format(nowTime));
 		return "approval/draftDocWrite";
