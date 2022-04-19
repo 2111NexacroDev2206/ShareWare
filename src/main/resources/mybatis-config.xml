@@ -9,8 +9,11 @@
 	</settings>
 	<typeAliases>
 		<typeAlias type="org.kh.shareware.report.domain.Daily" 	 alias="Daily"/>
+		<typeAlias type="org.kh.shareware.member.domain.Member" 		 alias="Member"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/daily-mapper.xml"/>
+		<mapper resource="mappers/approval-mapper.xml"></mapper>
+		<mapper resource="mappers/member-mapper.xml"/>
 	</mappers>
 </configuration>
