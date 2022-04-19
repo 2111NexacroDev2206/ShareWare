@@ -40,6 +40,47 @@
 						<input type="text" name="address" value="${loginUser.address }">
 					</td>
 				</tr>
+				
+				<tr>
+					<td>전화번호</td>
+					<td>
+						<input type="text" name="phone" value="${loginUser.address }">
+					</td>
+					<td>이메일</td>
+					<td>
+						<input type="text" name="mail" value="${loginUser.address }">
+					</td>
+				</tr>
+				<tr>
+					<td>입사일</td>
+					<td>
+						<input type="text" name="hireDate" value="${loginUser.hireDate }">
+					</td>
+					<td>퇴사일</td>
+					<td>
+						<input type="text" name="retireDate" value="${loginUser.retireDate }">
+					</td>
+				</tr>
+				<tr>
+					<td>생년월일</td>
+					<td>
+						<input type="text" name="birth" value="${loginUser.birth }">
+					</td>
+					<td>성별</td>
+					<td>
+						<input type="text" name="gender" value="${loginUser.gender }">
+					</td>
+				</tr>
+				<tr>
+					<td>계좌</td>
+					<td>
+						<input type="text" name="account" value="${loginUser.account }">
+					</td>
+					<td>은행</td>
+					<td>
+						<input type="text" name="bank" value="${loginUser.bank }">
+					</td>
+				</tr>
 			</table>
 			
 		</form>
