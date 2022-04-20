@@ -5,11 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>기안서</title>
-<link href="/resources/css/appModal-style.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
-	<jsp:include page="appMenu.jsp"></jsp:include>
+	<jsp:include page="appMenu.jsp"></jsp:include> <!-- 메뉴 + 소메뉴 -->
 	<div class="s-container">
 		<h1>기안서</h1>
 		<form action="/approval/draftDocWrite.sw" method="post" enctype="multipart/form-data">
@@ -62,47 +61,6 @@
 			<input type="reset" value="취소">
 		</form>
 	</div>
-	<div class="m-appSel-wrap" id="appSelModal">
-		<div class="m-appSel">
-			<div class="m-header">
-				<span class="m-header-title">결재자 선택</span>
-			</div>
-			<div class="m-body">
-				<div class="m-search">
-					<form action="/approval/appSelsearch.kh" method="get" class="s-form">
-						<select class="s-select" name="searchCondition">
-							<option value="all">전체</option>
-							<option value="division">부서</option>
-							<option value="name">이름</option>
-						</select>
-						<div class="s-input">
-							<input type="text" name="searchValue" class="s-text">
-							<input type="submit" class="i-search" value="&#xf002;">
-						</div>
-					</form>
-				</div>
-				<div class="m-list">
-				</div>
-			</div>
-			<div class="m-footer">
-				<span class="m-btn confirm" id="confirm">확인</span>
-				<span class="m-btn cancel" id="cancel">취소</span>
-			</div>
-		</div>
-	</div>
+	<jsp:include page="appModal.jsp"></jsp:include> <!-- 결재자 선택 모달 -->
 </body>
-<script>
-	function appBtn() {
-		$("#appSelModal").css('display', 'flex').hide().fadeIn();
-	}
-	$("#cancel").click(function(){
-	      modalClose();
-    });
-	$("#confirm").click(function(){
-	      modalClose();
-	});
-	function modalClose(){
-	    $("#appSelModal").fadeOut();
-	}
-</script>
 </html>

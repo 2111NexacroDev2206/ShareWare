@@ -10,6 +10,7 @@
 		bottom:0;
 		display:none;
 		padding:15px;
+		z-index: 1000;
 	}
 	.m-appSel {
 		width:100%;
@@ -85,7 +86,7 @@
 	.m-btn {
 		display:inline-flex;
 		width:35%;
-		height:80%;
+		height:70%;
 		float:left;
 		justify-content:center;
 		align-items:center;
