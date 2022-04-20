@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ApprovalMapper">
 	<insert id="insertDoc">
-		INSERT INTO APP_DOC VALUES('D'||SEQ_DOC.NEXTVAL, 'admin', 1, #{docTitle}, #{docContent}, DEFAULT, #{docDate}, NULL, NULL, NULL, NULL, NULL)
+		INSERT INTO APP_DOC VALUES('D'||SEQ_DOC.NEXTVAL, #{memNum}, 1, #{docTitle}, #{docContent}, DEFAULT, #{docDate}, NULL, NULL, NULL, NULL, NULL)
 	</insert>
 	<insert id="insertApp">
 		INSERT INTO APPROVAL VALUES(SEQ_APP.NEXTVAL, 'D'||SEQ_DOC.CURRVAL, 'admin', 1, NULL, DEFAULT, NULL)

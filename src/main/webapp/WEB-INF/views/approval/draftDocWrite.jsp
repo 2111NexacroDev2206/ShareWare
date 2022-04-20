@@ -19,34 +19,37 @@
 					<td>담당</td>
 					<td></td>
 					<td></td>
+					<td></td>
 				</tr>
 				<tr>
 					<td>기안일</td>
-					<td><input type="date" value="${nowTime }" name="docDate" readonly></td>
+					<td>${nowTime }<input type="hidden" value="${nowTime }" name="docDate" readonly></td>
 					<td></td>
+					<td><button>선택</button></td>
 					<td><button>선택</button></td>
 					<td><button>선택</button></td>
 				</tr>
 				<tr>
 					<td>기안자</td>
-					<td><input type="text" value="" name="memNum" readonly></td>
-					<td>김사원</td>
+					<td>${loginUser.memberName }<input type="hidden" value="${loginUser.memberNum }" name="memNum" readonly></td>
+					<td>${loginUser.memberName }</td>
+					<td></td>
 					<td></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="5">참조자</td>
+					<td colspan="6">참조자</td>
 					<td><button>선택</button></td>
 				</tr>
 				<tr>
 					<td>제목</td>
-					<td colspan="5"><input type="text" name="docTitle"></td>
+					<td colspan="6"><input type="text" name="docTitle"></td>
 				</tr>
 				<tr>
-					<td colspan="6" align="center">내용</td>
+					<td colspan="7" align="center">내용</td>
 				</tr>
 				<tr>
-					<td colspan="6" align="center"><textarea cols="50" rows="10" name="docContent"></textarea></td>
+					<td colspan="7" align="center"><textarea cols="50" rows="10" name="docContent"></textarea></td>
 				</tr>
 			</table>
 			<p>파일 첨부

@@ -33,14 +33,12 @@ public class memberController {
 			Member loginUser = mService.loginMember(member);
 			if(loginUser != null) {
 				HttpSession session = request.getSession();
-				session.setAttribute("memberNum", loginUser.getMemberNum());
-				session.setAttribute("password", loginUser.getPassword());
+				session.setAttribute("loginUser", loginUser);
 				return "redirect:/home.sw";
 			}else {
 				request.setAttribute("msg", "회원 조회 실패");
 				return "common/errorPage";
 			}
-		
 	}
 	
 	//마이페이지

@@ -41,7 +41,7 @@
 			<span class="material-icons" style="font-size:45px;">
 				account_circle
 			</span>
-			<a class="user">권지혜 님</a>
+			<a class="user">${loginUser.memberName } 님</a>
 		</div>
     </div>
 </body>
