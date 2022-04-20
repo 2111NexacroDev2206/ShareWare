@@ -1,5 +1,8 @@
 package org.kh.shareware.member.service.logic;
 
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.member.domain.Member;
 import org.kh.shareware.member.service.memberService;
 import org.kh.shareware.member.store.memberStore;
@@ -13,7 +16,7 @@ public class memberServiceImpl implements memberService{
 	@Autowired
 	private memberStore mStore;
 	@Autowired
-	private SqlSessionTemplate sqlSession;
+	private SqlSession sqlSession;
 	
 	//로그인
 	@Override
@@ -27,6 +30,12 @@ public class memberServiceImpl implements memberService{
 	public Member printOneById(String memberNum) {
 		Member memberOne = mStore.selectOneById(sqlSession, memberNum);
 		return memberOne;
+	}
+
+	@Override
+	public List<Member> modalPrintAll() {
+		List<Member> mList = mStore.selectAllMember(sqlSession);
+		return mList;
 	}
 	
 }

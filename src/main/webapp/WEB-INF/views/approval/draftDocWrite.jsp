@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>기안서</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
 	<jsp:include page="appMenu.jsp"></jsp:include> <!-- 메뉴 + 소메뉴 -->
@@ -16,7 +15,7 @@
 				<tr>
 					<td>문서번호</td>
 					<td></td>
-					<td rowspan="3">결재</td>
+					<td rowspan="3" style="writing-mode: vertical-rl;">결재</td>
 					<td>담당</td>
 					<td></td>
 					<td></td>
