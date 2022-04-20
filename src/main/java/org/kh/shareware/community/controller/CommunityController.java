@@ -2,8 +2,12 @@ package org.kh.shareware.community.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.kh.shareware.community.domain.Community;
 import org.kh.shareware.community.service.CommunityService;
+import org.kh.shareware.member.domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,8 +32,9 @@ public class CommunityController {
 //디테일 페이지 보기
 	@RequestMapping(value="/community/detail.sw", method=RequestMethod.GET)
 	public String datailCommunity(
-			Model model,
-			@RequestParam("comNo") Integer comNo) {
+			Model model
+			,HttpServletRequest request
+			,@RequestParam("comNo") Integer comNo) {
 		
 		//게시글 번호로 검색
 		Community community = cService.detailCommunity(comNo);
@@ -61,7 +66,12 @@ public class CommunityController {
 	@RequestMapping(value="/community/register.sw", method=RequestMethod.POST)
 	public String resisterCommunity(
 			Model model
+			,HttpServletRequest request //session 에 저장 된 아이디를 가져와야함
 			, @ModelAttribute Community community) {
+		
+		HttpSession session = request.getSession();
+		String memberNum = ((Member)session.getAttribute("loginUser")).getMemberNum();
+		community.setMemberNum(memberNum);
 		
 		int result = cService.resisterCommunity(community);
 		if(result>0) {
