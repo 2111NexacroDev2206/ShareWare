@@ -1,6 +1,6 @@
 package org.kh.shareware.calendar.domain;
 
-public class Calander {
+public class Calandar {
 	private String calNo;
 	private int schNo;
 	private String memNum;
@@ -9,8 +9,8 @@ public class Calander {
 	private String memDivision;
 	private String memRank;
 	
-	public Calander() {}
-	public Calander(String calNo, int schNo, String memNum, String calName, String memName, String memDivision,
+	public Calandar() {}
+	public Calandar(String calNo, int schNo, String memNum, String calName, String memName, String memDivision,
 			String memRank) {
 		super();
 		this.calNo = calNo;
