@@ -11,9 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Changa:wght@400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<style>
-	.
-</style>
+<script src="https://kit.fontawesome.com/c7853f4d26.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="menu">
@@ -27,7 +25,7 @@
         <div class="list-item"><a href="">주소록</a></div>
         <div class="list-item"><a href="">게시판</a></div>
         <div class="list-item"><a href="">회의실 예약</a></div>
-        <div class="list-item"><a href="">전자결재</a></div>
+        <div class="list-item ${myCondition eq 'approval' ? 'active' : ''}"><a href="">전자결재</a></div>
         <div class="list-item"><a href="">채팅</a></div>
         <div class="list-item"><a href="">일정</a></div>
         <div class="list-item"><a href="">메일</a></div>
@@ -43,7 +41,7 @@
 			<span class="material-icons" style="font-size:45px;">
 				account_circle
 			</span>
-			<a class="user">권지혜 님</a>
+			<a class="user">${loginUser.memberName } 님</a>
 		</div>
     </div>
 </body>

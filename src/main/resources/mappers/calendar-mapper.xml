@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="CalendarMapper">
+	<insert id="insertCalendar">
+		INSERT INTO CAL_SCH VALUES(SEQ_SCH_NO.NEXTVAL, MEM_NUM=#{memNum}, CAL_NO = #{calNo}, SCH_NAME=#{schName}, CAL_NAME=#{calName}, SCH_START_DATE=#{schStartDate}, SCH_START_HOUR=#{schStartHour}, 
+		SCH_START_MIN=#{schStartMin}, SCH_END_DATE=#{schEndDate}, SCH_END_HOUR=#{schEndHour},SCH_END_MIN=#{schEndMin}, SCH_CONTENT=#{schContent}, DEFAULT, DEFAULT )
+	</insert>
+	
+	</mapper>
