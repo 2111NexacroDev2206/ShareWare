@@ -24,7 +24,7 @@
 <select id="listCommnuity" resultMap="CommunityResultMap">
 	SELECT * FROM COMMUNITY ORDER BY COM_DATE DESC
 </select>
-<select id="listCommnuity" resultMap="CommunityResultMap">
+<select id="detailOneByNo" resultMap="CommunityResultMap">
 	SELECT * FROM COMMUNITY WHERE COM_NO = #{comNo}
 </select>
 </mapper>

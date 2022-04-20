@@ -26,7 +26,7 @@ public class CommunityController {
 	}
 
 //디테일 페이지 보기
-	@RequestMapping(value="/community/Detail.sw", method=RequestMethod.GET)
+	@RequestMapping(value="/community/detail.sw", method=RequestMethod.GET)
 	public String datailCommunity(
 			Model model,
 			@RequestParam("comNo") Integer comNo) {
@@ -34,10 +34,10 @@ public class CommunityController {
 		//게시글 번호로 검색
 		Community community = cService.detailCommunity(comNo);
 		if(community != null) {
-			model.addAttribute("Community",community);
+			model.addAttribute("community",community);
 			return "community/communityDetail";
 		}else {
-			model.addAttribute("msg", "게시글 등록 실패");
+			model.addAttribute("msg", "게시글 상세보기 실패");
 			return "common/errorPage";
 		}	
 	}
@@ -51,7 +51,7 @@ public class CommunityController {
 			model.addAttribute("cList", cList);
 			return "community/communityList";
 		}else {
-			model.addAttribute("msg", "게시글 등록 실패");
+			model.addAttribute("msg", "리스트 출력 실패");
 			return "common/errorPage";
 		}
 	}
