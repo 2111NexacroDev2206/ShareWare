@@ -10,8 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class CommunityController {
@@ -27,8 +27,19 @@ public class CommunityController {
 
 //디테일 페이지 보기
 	@RequestMapping(value="/community/Detail.sw", method=RequestMethod.GET)
-	public String CommunityDetilView() {
-		return "community/communityDetail";
+	public String datailCommunity(
+			Model model,
+			@RequestParam("comNo") Integer comNo) {
+		
+		//게시글 번호로 검색
+		Community community = cService.detailCommunity(comNo);
+		if(community != null) {
+			model.addAttribute("Community",community);
+			return "community/communityDetail";
+		}else {
+			model.addAttribute("msg", "게시글 등록 실패");
+			return "common/errorPage";
+		}	
 	}
 	
 //리스트 페이지 보기
@@ -37,6 +48,7 @@ public class CommunityController {
 			Model model) {
 		List<Community> cList = cService.listCommunity();
 		if(cList != null) {
+			model.addAttribute("cList", cList);
 			return "community/communityList";
 		}else {
 			model.addAttribute("msg", "게시글 등록 실패");

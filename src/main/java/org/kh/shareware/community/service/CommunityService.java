@@ -8,5 +8,6 @@ public interface CommunityService {
 
 	int resisterCommunity(Community community);
 	List<Community> listCommunity();
+	Community detailCommunity(Integer comNo);
 
 }
