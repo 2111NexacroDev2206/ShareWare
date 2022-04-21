@@ -1,5 +1,9 @@
 package org.kh.shareware.community.controller;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
@@ -32,26 +38,34 @@ public class CommunityController {
 	
 	
 	//글작성
-		@RequestMapping(value="/community/register.sw", method=RequestMethod.POST)
-		public String resisterCommunity(
-				Model model
-				,HttpServletRequest request //session 에 저장 된 아이디를 가져와야함
-				, @ModelAttribute Community community) {
-			
+	@ResponseBody
+	@RequestMapping(value="/community/register.sw", method=RequestMethod.POST)
+	public String resisterCommunity(Model Model
+			,HttpServletRequest request //session 에 저장 된 아이디를 가져와야함
+			,@ModelAttribute Community community
+			,@RequestParam(value="comImgName", required=false) MultipartFile comImgName) {
 			HttpSession session = request.getSession();
 			String memberNum = ((Member)session.getAttribute("loginUser")).getMemberNum();
 			community.setMemberNum(memberNum);
 			
+			if(comImgName != null && !comImgName.getOriginalFilename().equals("")) {
+				HashMap<String, String> fileMap = saveFile(comImgName, request);
+				String filePath = fileMap.get("filePath");
+				String fileRename = fileMap.get("fileName"); //바꾼 이름을 가져옴
+				if(filePath != null && !filePath.equals("")) {
+					community.setComImgName(comImgName.getOriginalFilename()); 
+					community.setComImgRename(fileRename); //가져온 값을 넣어줌
+					community.setComImgPath(filePath);
+				}
+			}
 			int result = cService.resisterCommunity(community);
 			if(result>0) {
-				return "community/communityDetail";
+				return "success";
 			}else {
-				model.addAttribute("msg", "게시글 등록 실패");
-				return "common/errorPage";
+				return "fail";
 			}
-		}	
-		
-		
+	}
+	
 		//리스트 페이지 보기
 		@RequestMapping(value="/community/list.sw", method=RequestMethod.GET)
 		public String CommunityListView(
@@ -98,5 +112,36 @@ public class CommunityController {
 		return "fail";
 	}
 		
-
+	public HashMap<String, String> saveFile(MultipartFile file, HttpServletRequest request) {
+		String filePath = "";
+		HashMap<String, String> fileMap = new HashMap<String, String>();
+		// 파일 경로 설정
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		// 저장 폴더 선택
+		String savePath = root + "\\puploadFiles";
+		// 없으면 생성
+		File folder = new File(savePath);
+		if(!folder.exists()) folder.mkdir();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		// 업로드한 파일명
+		String originalFileName = file.getOriginalFilename();
+		// 파일 확장자명
+		String extensionName = originalFileName.substring(originalFileName.lastIndexOf(".")+1);
+		// 변경할 파일명, 변경할 때에는 SimpleDateFormat 객체를 이용해서
+		// 업로드 당시 시각을 파일의 이름으로 바꿔줌
+		String renameFileName 
+			= sdf.format(new Date(System.currentTimeMillis()))+"."+extensionName;
+		filePath = folder + "\\" + renameFileName;
+		// 두가지 값을 map에 저장하여 리턴하기
+		fileMap.put("filePath", filePath);
+		fileMap.put("fileName", renameFileName); 
+		// 파일 저장
+		try {
+			file.transferTo(new File(filePath)); // 파일 저장됨
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// 파일경로 리턴
+		return fileMap;
+	}
 }

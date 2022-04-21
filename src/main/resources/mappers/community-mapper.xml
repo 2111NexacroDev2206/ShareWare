@@ -18,7 +18,7 @@
 	</resultMap>
 	
 <insert id="insertCommnuity">
-	INSERT INTO COMMUNITY VALUES(SEQ_COM_NO.NEXTVAL ,#{memberNum } ,DEFAULT ,#{comTitle },#{comContent }, 1, NULL,NULL,NULL,NULL,NULL)
+	INSERT INTO COMMUNITY VALUES(SEQ_COM_NO.NEXTVAL ,#{memberNum } ,DEFAULT ,#{comTitle },#{comContent }, 1, #{comImgName}, #{comImgRename}, #{comImgPath},NULL,NULL)
 </insert>
 
 <select id="listCommnuity" resultMap="CommunityResultMap">

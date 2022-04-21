@@ -14,7 +14,7 @@
 	<table border="1">
 		<tr>
 			<td>제목</td>
-			<td><input type="text" size="50" name="comTitle"></td>
+			<td><input type="text" size="50" id="comTitle"></td>
 		</tr>
 		<tr>
 			<td>본문</td>
@@ -24,7 +24,7 @@
 		</tr>
 		<tr>
 			<td>첨부파일</td>
-			<td><input type="file" name="comImgName" onchange="loadImg(this);"></td>
+			<td><input type="file" accept=".jpg,.pdf,.bmp,.png,.jpeg" id="comImgName" onchange="loadImg(this);"></td>
 			<!--onchange="loadImg(this)주기->function loadImg(obj)받기-->
 		</tr>
 		<tr>
@@ -48,6 +48,32 @@
 			}
 		}
 	}
+
+	$("#comInsert").on("click", function(){
+		var comTitle = $("#comTitle").val();
+		var comContent = $("div").text();
+		var comImgName = $("#comImgName").val();
+		console.log(comTitle);
+		console.log(comContent);
+		console.log(comImgName);
+		  jQuery.ajax({
+	             url : "/community/register.sw"
+	           , type : "POST"
+	           , data : {
+	        	   "comTitle":comTitle
+					,"comContent":comContent
+					,"comImgName":comImgName
+	           }, success:function(data){
+	        	   if(data == "success"){
+	        		   location.href = '/community/list.sw';
+	           }else{
+	        	   alert("삭제 실패!");
+	        	   }
+	        },error : function() {
+				alert("ajax 통신 오류! 관리자에게 문의해주세요.");
+			}
+		})
+	});
 
 	</script>
 </body>
