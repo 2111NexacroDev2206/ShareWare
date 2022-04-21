@@ -6,7 +6,7 @@ import org.kh.shareware.common.Search;
 import org.kh.shareware.member.domain.Member;
 import org.kh.shareware.member.domain.PageInfo;
 
-public interface memberService {
+public interface MemberService {
 
 	public Member loginMember(Member member);
 	public Member printOneById(String memberNum); //사원정보

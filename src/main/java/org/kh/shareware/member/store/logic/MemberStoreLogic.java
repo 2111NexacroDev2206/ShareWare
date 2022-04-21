@@ -7,11 +7,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.common.Search;
 import org.kh.shareware.member.domain.Member;
 import org.kh.shareware.member.domain.PageInfo;
-import org.kh.shareware.member.store.memberStore;
+import org.kh.shareware.member.store.MemberStore;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class memberStoreLogic implements memberStore{
+public class MemberStoreLogic implements MemberStore{
 	
 	//로그인
 	@Override

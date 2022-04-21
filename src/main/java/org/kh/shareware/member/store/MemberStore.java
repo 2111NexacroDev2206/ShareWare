@@ -7,7 +7,7 @@ import org.kh.shareware.common.Search;
 import org.kh.shareware.member.domain.Member;
 import org.kh.shareware.member.domain.PageInfo;
 
-public interface memberStore {
+public interface MemberStore {
 
 	public Member selectLoginMember(SqlSession session, Member member);
 

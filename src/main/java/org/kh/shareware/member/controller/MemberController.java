@@ -11,7 +11,7 @@ import org.kh.shareware.common.Pagination;
 import org.kh.shareware.common.Search;
 import org.kh.shareware.member.domain.Member;
 import org.kh.shareware.member.domain.PageInfo;
-import org.kh.shareware.member.service.memberService;
+import org.kh.shareware.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,10 +26,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
-public class memberController {
+public class MemberController {
 	
 	@Autowired
-	private memberService mService;
+	private MemberService mService;
 	
 	@RequestMapping(value="member/loginView.sw",method=RequestMethod.GET)
 	public String memberLoginView() {
