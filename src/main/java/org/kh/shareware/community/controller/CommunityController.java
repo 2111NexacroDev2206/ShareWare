@@ -29,6 +29,42 @@ public class CommunityController {
 	public String CommunityWriteView() {
 		return "community/communityWriteForm";
 	}
+	
+	
+	//글작성
+		@RequestMapping(value="/community/register.sw", method=RequestMethod.POST)
+		public String resisterCommunity(
+				Model model
+				,HttpServletRequest request //session 에 저장 된 아이디를 가져와야함
+				, @ModelAttribute Community community) {
+			
+			HttpSession session = request.getSession();
+			String memberNum = ((Member)session.getAttribute("loginUser")).getMemberNum();
+			community.setMemberNum(memberNum);
+			
+			int result = cService.resisterCommunity(community);
+			if(result>0) {
+				return "community/communityDetail";
+			}else {
+				model.addAttribute("msg", "게시글 등록 실패");
+				return "common/errorPage";
+			}
+		}	
+		
+		
+		//리스트 페이지 보기
+		@RequestMapping(value="/community/list.sw", method=RequestMethod.GET)
+		public String CommunityListView(
+				Model model) {
+			List<Community> cList = cService.listCommunity();
+			if(cList != null) {
+				model.addAttribute("cList", cList);
+				return "community/communityList";
+			}else {
+				model.addAttribute("msg", "리스트 출력 실패");
+				return "common/errorPage";
+			}
+		}
 
 //디테일 페이지 보기
 	@RequestMapping(value="/community/detail.sw", method=RequestMethod.GET)
@@ -48,19 +84,7 @@ public class CommunityController {
 		}	
 	}
 	
-//리스트 페이지 보기
-	@RequestMapping(value="/community/list.sw", method=RequestMethod.GET)
-	public String CommunityListView(
-			Model model) {
-		List<Community> cList = cService.listCommunity();
-		if(cList != null) {
-			model.addAttribute("cList", cList);
-			return "community/communityList";
-		}else {
-			model.addAttribute("msg", "리스트 출력 실패");
-			return "common/errorPage";
-		}
-	}
+
 	
 	//글삭제
 	@ResponseBody
@@ -74,24 +98,5 @@ public class CommunityController {
 		return "fail";
 	}
 		
-	
-//글작성
-	@RequestMapping(value="/community/register.sw", method=RequestMethod.POST)
-	public String resisterCommunity(
-			Model model
-			,HttpServletRequest request //session 에 저장 된 아이디를 가져와야함
-			, @ModelAttribute Community community) {
-		
-		HttpSession session = request.getSession();
-		String memberNum = ((Member)session.getAttribute("loginUser")).getMemberNum();
-		community.setMemberNum(memberNum);
-		
-		int result = cService.resisterCommunity(community);
-		if(result>0) {
-			return "community/communityDetail";
-		}else {
-			model.addAttribute("msg", "게시글 등록 실패");
-			return "common/errorPage";
-		}
-	}	
+
 }
