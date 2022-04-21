@@ -13,6 +13,8 @@ public class Daily {
 	private String filePath;
 	private String fileReName;
 	
+	public Daily() {}
+	
 	public int getDrNo() {
 		return drNo;
 	}
