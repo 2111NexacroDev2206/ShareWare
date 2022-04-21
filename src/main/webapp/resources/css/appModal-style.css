@@ -82,6 +82,7 @@
 	#m-list-table {
 		margin-left: 10px;
 		font-size: 14px;
+		border-collapse: collapse;
 	}
 	.clicked {
 		background-color : rgba(117, 144, 194, 0.25);
