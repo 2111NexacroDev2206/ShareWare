@@ -30,10 +30,16 @@
 		SELECT * FROM MEMBER WHERE MEMBER_NUM= #{memberNum} 
 	</select>
 	
+	<select id="selectAllList" resultMap="memberResultMap">
+		SELECT * FROM MEMBER 
+	</select>
+	<select id="selectListCount" resultType="_int"> 
+		SELECT COUNT(*) FROM MEMBER
+	</select>
+	
 	<select id="selectAllMember" resultMap="memberResultMap">
 		SELECT * FROM MEMBER
 	</select>
-	
 	<select id="selectMemberSearch" resultMap="memberResultMap">
 		SELECT * FROM MEMBER
 		<if test="searchCondition.toString() == 'division'">
