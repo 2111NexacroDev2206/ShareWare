@@ -23,29 +23,10 @@ public class DailyServiceImpl implements DailyService{
 		int result = dStore.insertDaily(daily, sqlSession);
 		return result;
 	}
-	//일일 업무 목록
+
 	@Override
 	public List<Daily> printAllDaily() {
 		List<Daily> dList = dStore.selectAllDaily(sqlSession);
 		return dList;
 	}
-	//일일 업무 상세
-	@Override
-	public Daily printOneByNo(int drNo) {
-		Daily daily = dStore.selectOneByNo(sqlSession, drNo);
-		return daily;
-	}
-	//일일 업무 삭제
-	@Override
-	public int removeDaily(int drNo) {
-		int result = dStore.deleteDaily(sqlSession, drNo);
-		return result;
-	}
-	//일일 업무 수정 페이지
-	@Override
-	public int modifyDaily(Daily daily) {
-		int result = dStore.updateDaily(sqlSession, daily);
-		return result;
-	}
-
 }

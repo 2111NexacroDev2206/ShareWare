@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Community {
 private int comNo;
-private String memberNum; //게시글작성자 =로그인유저=게시글 회원이름
+private String memberNum;
 private Date comDate;
 private String comTitle;
 private String comContent;

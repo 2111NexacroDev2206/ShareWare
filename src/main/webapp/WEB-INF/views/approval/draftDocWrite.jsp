@@ -7,7 +7,7 @@
 <title>기안서</title>
 </head>
 <body>
-	<jsp:include page="appMenu.jsp"></jsp:include> <!-- 메뉴 + 소메뉴 -->
+	<jsp:include page="appMenu.jsp"></jsp:include>
 	<div class="s-container">
 		<h1>기안서</h1>
 		<form action="/approval/draftDocWrite.sw" method="post" enctype="multipart/form-data">
@@ -15,41 +15,38 @@
 				<tr>
 					<td>문서번호</td>
 					<td></td>
-					<td rowspan="3" style="writing-mode: vertical-rl;">결재</td>
+					<td rowspan="3">결재</td>
 					<td>담당</td>
-					<td></td>
 					<td></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td>기안일</td>
-					<td>${nowTime }<input type="hidden" value="${nowTime }" name="docDate" readonly></td>
+					<td><input type="date" value="${nowTime }" name="docDate" readonly></td>
 					<td></td>
-					<td><button type="button" onclick="appBtn();">선택</button></td>
-					<td><button type="button">선택</button></td>
-					<td><button type="button">선택</button></td>
+					<td><button>선택</button></td>
+					<td><button>선택</button></td>
 				</tr>
 				<tr>
 					<td>기안자</td>
-					<td>${loginUser.memberName }<input type="hidden" value="${loginUser.memberNum }" name="memNum" readonly></td>
-					<td>${loginUser.memberName }</td>
-					<td></td>
+					<td><input type="text" value="" name="memNum" readonly></td>
+					<td>김사원</td>
 					<td></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="6">참조자</td>
-					<td><button type="button">선택</button></td>
+					<td colspan="5">참조자</td>
+					<td><button>선택</button></td>
 				</tr>
 				<tr>
 					<td>제목</td>
-					<td colspan="6"><input type="text" name="docTitle"></td>
+					<td colspan="5"><input type="text" name="docTitle"></td>
 				</tr>
 				<tr>
-					<td colspan="7" align="center">내용</td>
+					<td colspan="6" align="center">내용</td>
 				</tr>
 				<tr>
-					<td colspan="7" align="center"><textarea cols="50" rows="10" name="docContent"></textarea></td>
+					<td colspan="6" align="center"><textarea cols="50" rows="10" name="docContent"></textarea></td>
 				</tr>
 			</table>
 			<p>파일 첨부
@@ -60,6 +57,5 @@
 			<input type="reset" value="취소">
 		</form>
 	</div>
-	<jsp:include page="appModal.jsp"></jsp:include> <!-- 결재자 선택 모달 -->
 </body>
 </html>

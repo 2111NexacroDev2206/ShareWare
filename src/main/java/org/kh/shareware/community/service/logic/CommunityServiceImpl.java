@@ -26,10 +26,4 @@ public class CommunityServiceImpl implements CommunityService{
 		List<Community> cList = cStore.listCommunity(sqlsession);
 		return cList;
 	}
-
-	@Override
-	public Community detailCommunity(Integer comNo) {
-		Community community = cStore.detailCommunity(sqlsession, comNo);
-		return community;
-	}
 }

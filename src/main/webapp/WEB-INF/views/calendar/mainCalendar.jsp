@@ -11,14 +11,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
-
+	
 	
     <jsp:include page="../common/menuBar.jsp"></jsp:include>
    
 	<script>
 	
 	 
-
+	
 
 	
 	var calendar;
@@ -41,13 +41,101 @@
 	        	list : "목록"
 	        	
 	        },
+	     // 이벤트명 : function(){} : 각 날짜에 대한 이벤트를 통해 처리할 내용.. 
+	     select: function(arg) {  var title = ('입력할 일정:'); 
+	     // title 값이 있을때, 화면에 calendar.addEvent() json형식으로 일정을 추가
+	     if (title) { calendar.addEvent({ 
+	    	 title: title, start: arg.start,
+	    	 end: arg.end, 
+	    	 allDay: arg.allDay, 
+	    	 backgroundColor:"yellow", textColor:"blue" }) }
+	     	calendar.unselect() 
+	     				},
+	     	eventClick: function(arg) { // 있는 일정 클릭시, console.log("#등록된 일정 클릭#"); 
+	     				console.log(arg.event); if (confirm('Are you sure you want to delete this event?')) { 
+	     					arg.event.remove() } },
+	     						
 	       
 	       		 editable : true, //수정가능
 	        	selectable: true, // 달력일자 선택 가능, 드래그
 	        	nowIndicator: true, // 현재 시간 마크
 	        	locale: 'ko', //한국어 설정
 	        eventAdd:function() {
-	        	alert("y");
+	        	$("#calendarModal").modal("show"); // modal 나타내기
+	        	$(function(){
+             	   
+
+                    $('input[name=alStatus]').on('change', function(){  //알림여부 체크시 셀렉트 박스 보이게
+                        var alStatus = this.checked;
+                        
+                          if(alStatus){
+                             $('#aType').show(); 
+                             
+                          } else {
+                          $('#aType').hide();
+                          }
+                     })
+                  })
+                  $("#addCalendar").on("click",function(){  // modal의 추가 버튼 클릭 시
+						var schNo = $("schNo").val();
+						var memNum = 'admin';
+                      var schName = $("#schName").val();
+                      var schContent = $("#schContent").val();
+                      var schStartDate = $("#schStartDate").val();
+                      var schStartTime = $("#schStartTime").val();
+                      var schEndDate = $("#schEndDate").val();
+                      var schEndTime = $("#schEndTime").val();
+                      var alStatus;
+                      if($("alStatus").attr("checked")) {
+                      	alStatus = "y";
+                      }else{
+                      	alStatus = "n";
+                      }
+                      $.ajax({
+                		  url: "/calendar/schRegister.sw",
+                		  type: "post",
+                		  data: { 
+                			  "schNo" : schNo,
+                			  "memNum" : 'admin',
+                			  "schName" : schName,
+                            "schContent" : schContent,
+                            "schStartDate" : schStartDate,
+                            "schStartTime" : schStartTime,
+                            "schEndDate" : schEndDate,
+                            "schEndTime" : schEndTime,
+                            "alStatus" : alStatus
+                            }
+                     /*  success : function(data) {
+                      	if(data == "success") {
+                      		
+                      	}
+                      } */
+                		});
+
+                    //내용 입력 여부 확인
+                      if(schName == null || schName == ""){
+                          alert("제목을 입력하세요.");
+                      }else if(schStartDate == "" || schEndDate ==""){
+                          alert("날짜를 입력하세요.");
+                      }else if(new Date(schEndDate)- new Date(schStartTime) < 0){ // date 타입으로 변경 후 확인
+                          alert("종료일이 시작일보다 먼저입니다.");
+                      }else{ // 정상적인 입력 시
+                          var obj = {
+                          	"schNo" : schNo,
+                              "schName" : schName,
+                              "schContent" : schContent,
+                              "schStartDate" : schStartDate,
+                              "schStartTime" : schStartTime,
+                              "schEndDate" : schEndDate,
+                              "schEndTime" : schEndTime,
+                              "alStatus" : alStatus
+                              
+
+                          }//전송할 객체 생성
+
+                          console.log(obj); //서버로 해당 객체를 전달해서 DB 연동 가능
+                      }
+                  });
 	        },
 	        customButtons: {
                     addEventButton: { // 추가한 버튼 설정
@@ -70,13 +158,11 @@
                                       }
                                  })
                               })
+                            
 							//$("addCalendar").modal
 							
-						
-
-
-
 							$("#addCalendar").on("click",function(){  // modal의 추가 버튼 클릭 시
+								var schNo = $("schNo").val();
 								var memNum = 'admin';
                                 var schName = $("#schName").val();
                                 var schContent = $("#schContent").val();
@@ -94,6 +180,7 @@
                           		  url: "/calendar/schRegister.sw",
                           		  type: "post",
                           		  data: { 
+                          			  "schNo" : schNo,
                           			  "memNum" : 'admin',
                           			  "schName" : schName,
                                       "schContent" : schContent,
@@ -119,6 +206,7 @@
                                     alert("종료일이 시작일보다 먼저입니다.");
                                 }else{ // 정상적인 입력 시
                                     var obj = {
+                                    	"schNo" : schNo,
                                         "schName" : schName,
                                         "schContent" : schContent,
                                         "schStartDate" : schStartDate,
@@ -136,9 +224,28 @@
 						 
                         }	
                     }
-	        }
+	        },
 	    // 데이터를 불러오는 곳(json 형태이며 여러 개면 json array)
-	       
+	       events: function(info, successCallback, failureCallback) {
+	    	   $.ajax({
+	    		   url : "/calendar/schListView.sw",
+	    	   	   type : 'GET',
+	    	   		dataType : 'json',
+	    	   		data : {
+	    	   			"schStartDate" : moment(info.schStartDateStr).format('YYYY-MM-DD'),
+	    	   			"schEndDate" : moment(info.schEndDateStr).format('YYYY-MM-DD')
+	    	   		},
+	    	   success : function(data) {
+	    		   successCallback(data);
+	    	   }
+	    	   	   
+	    	   })
+	    	   
+	    	   
+	       }
+	   /*  function successCallback(data){
+	    	
+	    } */
 
 	    });
 	    calendar.render();
@@ -325,7 +432,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.js"></script>
-	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 	
     
 	</body>

@@ -9,7 +9,7 @@
 </head>
 <body>
 <h1>게시글 목록(임시)</h1>
-<a href="/community/WriteView.sw">게시글 작성</a>
+<a href="/community/writeView.sw">게시글 작성</a>
 <br>
 <table align="center" border="1">
 	<tr>
@@ -19,7 +19,7 @@
 		<th>날짜</th>
 		<th>조회수</th>
 	</tr>
-	<c:forEach items="${cList }" var="community">
+	<c:forEach items="${cList }" var="community"> <!-- 반복문 -->
 	<tr>
 		<td>${community.comNo} </td>
 		<c:url var="cDetail" value="/community/detail.sw">
@@ -32,5 +32,6 @@
 	</tr>
 	</c:forEach>
 	</table>
+
 </body>
 </html>

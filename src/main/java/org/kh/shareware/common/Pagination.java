@@ -5,19 +5,19 @@ public class Pagination {
 	public static PageInfo getPageInfo(int currentPage, int totalCount) {
 		PageInfo pi = null;
 		
-		int memberLimit = 5;
+		int boardLimit = 5;
 		int naviLimit = 5;
 		int maxPage;
 		int startNavi;
 		int endNavi;
 		
-		maxPage = (int)((double)totalCount / memberLimit + 0.9); 
-		startNavi = ((int)((double)currentPage / naviLimit + 0.9) - 1); 
+		maxPage = (int)((double)totalCount / boardLimit + 0.9); // 23 / 5 = 4.8 -> 4 이므로 double로 형변환 후 0.9 더해줌 5.7 -> int로 강제 형변환 5
+		startNavi = ((int)((double)currentPage / naviLimit + 0.9) - 1) * naviLimit + 1; // 1 <- 1 ~ 5, 6 <- 6 ~ 10, 11 <- 11 ~ 15
 		endNavi = startNavi + naviLimit - 1;
 		if(maxPage < endNavi) {
 			endNavi = maxPage;
 		}
-		pi = new PageInfo(currentPage, memberLimit, naviLimit, startNavi, endNavi, totalCount, maxPage);
+		pi = new PageInfo(currentPage, boardLimit, naviLimit, startNavi, endNavi, totalCount, maxPage);
 		return pi;
 	}
 }

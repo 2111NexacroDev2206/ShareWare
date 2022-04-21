@@ -14,14 +14,11 @@
  		<result  property="drNote"        column="DR_NOTE"/>
  		<result  property="fileName"      column="FILE_NAME"/>
  		<result  property="filePath"      column="FILE_PATH"/>
- 		<result  property="fileReName"    column="FILE_RENAME"/>
+ 		<result  property="fileReName"      column="FILE_RENAME"/>
  	</resultMap>
  	
  	<select id="selectAllDaily" resultMap="dailyResultMap">
  		SELECT * FROM DAILY_REPORT ORDER BY DR_DATE DESC
- 	</select>
- 	<select id="selectOneDaily" resultMap="dailyResultMap">
- 		SELECT * FROM DAILY_REPORT WHERE DR_NO = #{drNo }
  	</select>
  	<insert id="insertDaily">
  		INSERT INTO DAILY_REPORT VALUES(
@@ -39,16 +36,4 @@
  		)
  	
  	</insert>
- 	<update id="updateDaily"> 
- 		UPDATE DAILY_REPORT 
- 		SET DR_TITLE = #{drTitle}
- 		   ,DR_CONTENT = #{drContent}
- 		   ,DR_COMPLETION =#{drCompletion} 
- 		   ,DR_NOTE = #{drNote}
- 		WHERE DR_NO = #{drNo}
- 	</update>
- 	
- 	<delete id="deleteDaily">
- 		DELETE FROM DAILY_REPORT WHERE DR_NO = #{drNo}
- 	</delete>
  </mapper>

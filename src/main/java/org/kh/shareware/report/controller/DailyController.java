@@ -62,6 +62,7 @@ public class DailyController {
 			,@RequestParam(value="uploadFile", required=false) MultipartFile uploadFile
 			,HttpServletRequest request){
 	
+		
 		int result = service.registerDaily(daily);
 		if(result > 0) {
 			mv.setViewName("redirect:/report/dailyList.sw");
@@ -71,89 +72,6 @@ public class DailyController {
 		}
 		return mv;
 	}
-	
-	//일일 업무 상세화면 
-	 @RequestMapping(value="/report/dailyDetail.sw", method=RequestMethod.GET)
-	   public ModelAndView dailyDetailView(
-			   ModelAndView mv
-				, @RequestParam(value = "drNo", required =false) Integer drNo) {
-	try {
-		Daily daily = service.printOneByNo(drNo);
-		if(daily != null) {
-			mv.addObject("daily", daily);
-			mv.setViewName("report/dailyDetail");
-		}else {
-			mv.addObject("msg", "공지사항 상세조회 실패");
-			mv.setViewName("common/errorPage");
-		}
-	}catch(Exception e) {
-		mv.addObject("msg", e.toString());
-		mv.setViewName("common/errorPage");
-	}
-	return mv;
-	 }
-	//일일 업무 수정 화면 
-	 @RequestMapping(value="/report/dailyModifyView.sw", method=RequestMethod.GET)
-		public String dailyModifyView(
-				  Model model
-				, @RequestParam(value = "drNo", required =false) Integer drNo) {
-			try {
-				// 수정화면에 필요한 데이터 DB 가져오기
-				Daily daily = service.printOneByNo(drNo);
-				if(daily != null) {
-					model.addAttribute("daily", daily);
-					return "report/dailyUpdateView";
-				}else {
-					// 데이터가 없을 때 메시지 출력
-					model.addAttribute("msg", "No Data Found!!");
-					return "common/errorPage";
-				}
-			}catch(Exception e) {
-				model.addAttribute("msg", e.toString());
-				return "common/errorPage";
-			}
-			
-		}
-	 //일일 업무 수정
-	 @RequestMapping(value="/report/dailyUpdate.sw", method=RequestMethod.POST)
-		public ModelAndView dailyUpdate(
-				ModelAndView mv
-				, @ModelAttribute Daily daily
-				// 400 오류 방지
-				, HttpServletRequest request) {
-			try {
-				// 디비에 해당 데이터 저장(비즈니스 로직)
-				int result = service.modifyDaily(daily);
-				if(result > 0) {
-					mv.setViewName("report/dailyDetail");
-				}else {
-					mv.addObject("msg", "업무일지 수정실패");
-					mv.setViewName("common/errorPage");
-				}
-			} catch(Exception e) {
-				mv.addObject("msg", e.toString());
-				mv.setViewName("common/errorPage");
-			}
-			return mv;
-		}
-	 
-	//일일 업무 삭제 
-	 @RequestMapping(value="/report/dailyDelete.sw", method=RequestMethod.GET)
-	 public String dailyDelete(
-			 Model model
-			 , @RequestParam("drNo") int drNo) {
-		 try {
-			 int result = service.removeDaily(drNo);
-			 if(result > 0) {
-				 return "redirect:/report/dailyList.sw";
-			 }else
-				 model.addAttribute("msg", "업무일지 삭제 실패");
-			 	 return "common/errorPage";
-		 }catch(Exception e) {
-				 model.addAttribute("msg", e.toString());
-				 return("common/errorPage");
-			}
-}
 }
 	
 

@@ -3,8 +3,25 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	<mapper namespace="CalendarMapper">
+	<resultMap type="CalSch" id="calSchResultMap">
+		<id property="schNo" column="SCH_NO"/>
+		<result property="memNum" column="MEM_NUM"/>
+		<result property="calNo" column="CAL_NO"/>
+		<result property="schName" column="SCH_NAME"/>
+		<result property="schStartDate" column="SCH_START_DATE"/>
+		<result property="schStartTime" column="SCH_START_TIME"/>
+		<result property="schEndDate" column="SCH_END_DATE"/>
+		<result property="schEndTime" column="SCH_END_TIME"/>
+		<result property="schContent" column="SCH_CONTENT"/>
+		<result property="alStatus" column="AL_STATUS"/>
+	</resultMap>
 	<insert id="insertSchedule">
 		INSERT INTO CAL_SCH VALUES(SEQ_SCH_NO.NEXTVAL, #{memNum}, #{calNo}, #{schName}, #{schStartDate}, #{schStartTime}, #{schEndDate}, #{schEndTime}, #{schContent}, #{alStatus}) 
 	</insert>
+	
+	<select id="selectAllSchedule" resultMap="calSchResultMap">
+		SELECT * FROM CAL_SCH WHERE MEM_NUM = #{memNum} ORDER BY SCH_NO DESC
+	</select>
+	
 	
 	</mapper>

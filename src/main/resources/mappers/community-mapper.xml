@@ -18,13 +18,10 @@
 	</resultMap>
 	
 <insert id="insertCommnuity">
-	INSERT INTO COMMUNITY VALUES(SEQ_COM_NO.NEXTVAL ,#{memberNum } ,DEFAULT ,#{comTitle },#{comContent }, 1, NULL,NULL,NULL,NULL,NULL)
+	INSERT INTO COMMUNITY VALUES(SEQ_COM_NO.NEXTVAL, '1' , DEFAULT ,${comTitle },${comContent }, 1, NULL,NULL,NULL,NULL,NULL)
 </insert>
 
 <select id="listCommnuity" resultMap="CommunityResultMap">
 	SELECT * FROM COMMUNITY ORDER BY COM_DATE DESC
-</select>
-<select id="detailOneByNo" resultMap="CommunityResultMap">
-	SELECT * FROM COMMUNITY WHERE COM_NO = #{comNo}
 </select>
 </mapper>
