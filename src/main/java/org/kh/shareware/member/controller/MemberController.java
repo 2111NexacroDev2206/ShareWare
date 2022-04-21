@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.kh.shareware.common.Search;
 import org.kh.shareware.member.common.PageInfo;
 import org.kh.shareware.member.common.Pagination;
 import org.kh.shareware.member.domain.Member;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
 
 
 @Controller
@@ -85,4 +89,25 @@ public class MemberController {
 		}
 	}
 	
+	// 사원 목록(전자결재 결재자, 참조자 선택 모달창)
+	@ResponseBody
+	@RequestMapping(value = "/modal/member/list.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+	public String modalMemberList(Model model) {
+		List<Member> mList = mService.modalPrintAll();
+		if(!mList.isEmpty()) {
+			return new Gson().toJson(mList);
+		}
+		return null;
+	}
+	
+	// 사원 목록 검색(전자결재 결재자, 참조자 선택 모달창)
+	@ResponseBody
+	@RequestMapping(value = "/modal/member/search.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+	public String modalMemberSearch(Model model, @ModelAttribute Search search) {
+		List<Member> mList = mService.modalPrintSearch(search);
+		if(!mList.isEmpty()) {
+			return new Gson().toJson(mList);
+		}
+		return null;
+	}
 }

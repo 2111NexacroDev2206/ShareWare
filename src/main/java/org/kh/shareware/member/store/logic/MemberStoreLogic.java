@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+import org.kh.shareware.common.Search;
 import org.kh.shareware.member.common.PageInfo;
 import org.kh.shareware.member.domain.Member;
 import org.kh.shareware.member.store.MemberStore;
@@ -41,5 +42,17 @@ public class MemberStoreLogic implements MemberStore{
 	public int selectListCount(SqlSession sqlSession) {
 		int totalCount = sqlSession.selectOne("MemberMapper.selectListCount");
 		return totalCount;
+	}
+	
+	@Override
+	public List<Member> selectAllMember(SqlSession session) {
+		List<Member> mList = session.selectList("MemberMapper.selectAllMember");
+		return mList;
+	}
+	
+	@Override
+	public List<Member> selectMemberSearch(SqlSession session, Search search) {
+		List<Member> mList = session.selectList("MemberMapper.selectMemberSearch", search);
+		return mList;
 	}
 }
