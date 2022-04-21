@@ -51,6 +51,7 @@
 					+ '</td><td>' + mList[i].division + ' ' + mList[i].memberName + ' '+ mList[i].rank + '</td></tr>';
 				});
 				$("#m-list-table").append(tr);
+				appSelect(); // 결재자 선택
 			},
 			error : function() {
 				alert("사원 목록 조회 실패");
@@ -58,17 +59,17 @@
 		})
 	}
 	$("#cancel").click(function(){
-	      modalClose();
+	    modalClose();
     });
 	$("#confirm").click(function(){
-	      modalClose();
+	    modalClose();
 	});
 	function modalClose(){
 	    $("#appSelModal").fadeOut();
 	}
 	
-	// 결재자 선택 검색
-	$("#btn-search").on("click", function() {
+	// 결재자 선택 사원 검색
+	$("#btn-search").click(function() {
 		var searchCondition = $("#s-condition").val();
 		var searchValue = $("#s-value").val(); 
 		$.ajax({
@@ -80,7 +81,7 @@
 				var tr;
 				$.each(mList, function(i) {
 					tr += '<tr><td style="display:none;">' + mList[i].memberNum
-					+ '</td><td>' + mList[i].division + ' ' + mList[i].memberName + ' '+ mList[i].rank + '</td></tr>';
+					+ '</td><td id="">' + mList[i].division + ' ' + mList[i].memberName + ' '+ mList[i].rank + '</td></tr>';
 				});
 				$("#m-list-table").append(tr);
 			},
@@ -89,5 +90,15 @@
 			}
 		})
 	});
+	
+	// 결재자 선택
+	function appSelect() {
+		$("#m-list-table tr").click(function(){
+			var str = "";
+			var tdArr = new Array(); // 배열 선언
+			
+			// 현재 클릭된 Row(<tr>)
+		});
+	}
 </script>
 </html>
