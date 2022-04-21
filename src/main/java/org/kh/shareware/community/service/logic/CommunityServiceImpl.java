@@ -32,4 +32,10 @@ public class CommunityServiceImpl implements CommunityService{
 		Community community = cStore.detailCommunity(sqlsession, comNo);
 		return community;
 	}
+
+	@Override
+	public int removeCommunity(int comNo) {
+		int result = cStore.resisterCommunity(sqlsession, comNo);
+		return result;
+	}
 }

@@ -13,5 +13,6 @@ public interface CommunityStore {
 	List<Community> listCommunity(SqlSession sqlsession);
 	//자유게시판 상세보기
 	Community detailCommunity(SqlSession sqlsession, Integer comNo);
+	int resisterCommunity(SqlSession sqlsession, int comNo);
 
 }

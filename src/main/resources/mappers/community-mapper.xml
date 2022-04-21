@@ -27,4 +27,8 @@
 <select id="detailOneByNo" resultMap="CommunityResultMap">
 	SELECT * FROM COMMUNITY WHERE COM_NO = #{comNo}
 </select>
+<delete id="deleltCommunity">
+	DELETE FROM COMMUNITY WHERE COM_NO = #{comNo }
+</delete>
+
 </mapper>

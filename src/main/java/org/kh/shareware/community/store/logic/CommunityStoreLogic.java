@@ -27,4 +27,10 @@ public class CommunityStoreLogic implements CommunityStore {
 		Community community = sqlsession.selectOne("CommnuityMapper.detailOneByNo", comNo);
 		return community;
 	}
+
+	@Override
+	public int resisterCommunity(SqlSession sqlsession, int comNo) {
+		int result = sqlsession.delete("CommnuityMapper.deleltCommunity", comNo);
+		return result;
+	}
 }

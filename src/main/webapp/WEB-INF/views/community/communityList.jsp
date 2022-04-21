@@ -9,7 +9,8 @@
 </head>
 <body>
 <h1>게시글 목록(임시)</h1>
-<a href="/community/WriteView.sw">게시글 작성</a>
+<button onclick="location.href='/community/WriteView.sw'">글 작성</button>
+<!-- <a href="/community/WriteView.sw">게시글 작성</a> -->
 <br>
 <table align="center" border="1">
 	<tr>
@@ -32,5 +33,6 @@
 	</tr>
 	</c:forEach>
 	</table>
+	
 </body>
 </html>

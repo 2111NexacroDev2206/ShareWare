@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
@@ -59,6 +60,18 @@ public class CommunityController {
 			model.addAttribute("msg", "리스트 출력 실패");
 			return "common/errorPage";
 		}
+	}
+	
+	//글삭제
+	@ResponseBody
+	@RequestMapping(value="/community/deleteCommunity.sw", method=RequestMethod.GET)
+	public String removeCommunity(
+		@RequestParam("comNo") Integer comNo) {
+		int result =cService.removeCommunity(comNo);
+		if(result >0) {
+			return "success";
+		}
+		return "fail";
 	}
 		
 	
