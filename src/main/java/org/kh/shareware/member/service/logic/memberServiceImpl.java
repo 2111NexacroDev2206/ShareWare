@@ -1,6 +1,9 @@
 package org.kh.shareware.member.service.logic;
 
+import java.util.List;
+
 import org.kh.shareware.member.domain.Member;
+import org.kh.shareware.member.domain.PageInfo;
 import org.kh.shareware.member.service.memberService;
 import org.kh.shareware.member.store.memberStore;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -28,5 +31,18 @@ public class memberServiceImpl implements memberService{
 		Member memberOne = mStore.selectOneById(sqlSession, memberNum);
 		return memberOne;
 	}
+
+	//주소록
+	@Override
+	public List<Member> printAll(PageInfo pi) {
+		List<Member> mList = mStore.selectAll(sqlSession, pi);
+		return mList;
+	}
+	@Override
+	public int getListCount() {
+		int totalCount = mStore.selectListCount(sqlSession);
+		return totalCount;
+	}
+
 	
 }
