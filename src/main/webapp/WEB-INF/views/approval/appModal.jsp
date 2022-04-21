@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>결재자 선택</title>
 <link href="/resources/css/appModal-style.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 </head>
 <body>
 	<div class="m-appSel-wrap" id="appSelModal">
@@ -122,7 +123,15 @@
 			trArr.division = td.eq(1).text();
 			trArr.memberName = td.eq(2).text();
 			trArr.rank = td.eq(3).text();
-			Arr.push(trArr); // 객체를 배열에 담기
+			
+			// 객체에 데이터가 있는지 여부 판단
+			var checkedArrIdx = _.findIndex(Arr, { memberNum : trArr.memberNum }); // 동일한 값 인덱스 찾기
+			if(checkedArrIdx > -1) {
+				_.remove(Arr, { memberNum : trArr.memberNum }); // 동일한 값 지우기
+			}else {
+				Arr.push(trArr); // 객체를 배열에 담기
+			}
+			console.log(Arr);
 		});
 	}
 </script>
