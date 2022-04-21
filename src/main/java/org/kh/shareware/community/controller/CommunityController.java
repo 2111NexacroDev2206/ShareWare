@@ -33,7 +33,7 @@ public class CommunityController {
 	@RequestMapping(value="/community/detail.sw", method=RequestMethod.GET)
 	public String datailCommunity(
 			Model model
-			,HttpServletRequest request
+			,HttpSession session
 			,@RequestParam("comNo") Integer comNo) {
 		
 		//게시글 번호로 검색

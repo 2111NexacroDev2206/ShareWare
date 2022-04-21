@@ -9,7 +9,7 @@
 </head>
 <body>
 	<h1>자유게시판 상세보기</h1>
-	<c:if test="${sessionScope.userId == memberNum}">
+	<c:if test="${sessionScope.memberNum == community.memberNum}">
 		<button onclick="#">수정</button>
 		<button onclick="#">삭제</button>
 	</c:if>
