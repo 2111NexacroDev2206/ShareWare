@@ -45,13 +45,8 @@
 			url : "/modal/member/list.sw",
 			type : "get",
 			success : function(mList) {
-				var tr;
-				$.each(mList, function(i) {
-					tr += '<tr><td style="display:none;">' + mList[i].memberNum
-					+ '</td><td>' + mList[i].division + ' ' + mList[i].memberName + ' '+ mList[i].rank + '</td></tr>';
-				});
-				$("#m-list-table").append(tr);
-				appSelect(); // 결재자 선택
+				$("#s-value").val(""); // 검색 입력창 지우기
+				appList(mList);
 			},
 			error : function() {
 				alert("사원 목록 조회 실패");
@@ -77,13 +72,7 @@
 			type : "get",
 			data : { "searchCondition" : searchCondition,  "searchValue" : searchValue },
 			success : function(mList) {
-				$("#m-list-table").html(""); // 테이블 값 지우기
-				var tr;
-				$.each(mList, function(i) {
-					tr += '<tr><td style="display:none;">' + mList[i].memberNum
-					+ '</td><td id="">' + mList[i].division + ' ' + mList[i].memberName + ' '+ mList[i].rank + '</td></tr>';
-				});
-				$("#m-list-table").append(tr);
+				appList(mList);
 			},
 			error : function() {
 				alert("사원 목록 검색 실패");
@@ -91,13 +80,41 @@
 		})
 	});
 	
+	// 사원 목록 불러오기
+	function appList(mList) {
+		$("#m-list-table").html(""); // 테이블 값 지우기
+		var tr;
+		$.each(mList, function(i) {
+			tr += '<tr><td style="display:none;">' + mList[i].memberNum
+			+ '</td><td>' + mList[i].division
+			+ '</td><td>' + mList[i].memberName
+			+ '</td><td>' + mList[i].rank + '</td></tr>';
+		});
+		$("#m-list-table").append(tr);
+		appSelect(); // 결재자 선택
+	}
+	
 	// 결재자 선택
+	var Arr = new Array(); // 선택한 결재자를 담을 배열 선언
 	function appSelect() {
 		$("#m-list-table tr").click(function(){
-			var str = "";
-			var tdArr = new Array(); // 배열 선언
-			
+			var trArr = new Object(); // 한 행의 배열을 담을 객체 선언
+			var tdArr = new Array(); // 배열 선언(사원번호, 부서, 이름, 직급)
 			// 현재 클릭된 Row(<tr>)
+			var tr = $(this);
+			var td = tr.children();
+			
+			// 반복문을 이용해서 배열에 값을 담아 사용 가능
+			td.each(function(i){
+				tdArr.push(td.eq(i).text());
+			});
+			
+			// td.eq(index)를 통해 값 가져와서 trArr 객체에 넣기
+			trArr.memberNum = td.eq(0).text();
+			trArr.division = td.eq(1).text();
+			trArr.memberName = td.eq(2).text();
+			trArr.rank = td.eq(3).text();
+			Arr.push(trArr); // 객체를 배열에 담기
 		});
 	}
 </script>
