@@ -100,9 +100,17 @@
 		$("#m-list-table tr").click(function(){
 			var trArr = new Object(); // 한 행의 배열을 담을 객체 선언
 			var tdArr = new Array(); // 배열 선언(사원번호, 부서, 이름, 직급)
+			
 			// 현재 클릭된 Row(<tr>)
 			var tr = $(this);
 			var td = tr.children();
+			
+			// 선택한 행 클래스 clicked를 추가/삭제해서 배경색 변경하기
+			if(tr.hasClass("clicked")) { // 클래스 clicked가 있으면
+				tr.removeClass("clicked"); // 클래스 clicked 삭제
+			}else {
+				tr.addClass("clicked"); // 없으면 클래스 clicked 추가
+			}
 			
 			// 반복문을 이용해서 배열에 값을 담아 사용 가능
 			td.each(function(i){
