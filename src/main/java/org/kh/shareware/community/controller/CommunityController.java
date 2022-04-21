@@ -52,6 +52,8 @@ public class CommunityController {
 				HashMap<String, String> fileMap = saveFile(comImgName, request);
 				String filePath = fileMap.get("filePath");
 				String fileRename = fileMap.get("fileName"); //바꾼 이름을 가져옴
+				System.out.println(filePath);
+				System.out.println(fileRename);
 				if(filePath != null && !filePath.equals("")) {
 					community.setComImgName(comImgName.getOriginalFilename()); 
 					community.setComImgRename(fileRename); //가져온 값을 넣어줌
@@ -115,20 +117,24 @@ public class CommunityController {
 	public HashMap<String, String> saveFile(MultipartFile file, HttpServletRequest request) {
 		String filePath = "";
 		HashMap<String, String> fileMap = new HashMap<String, String>();
+		//HashMap 선언
+		
 		// 파일 경로 설정
 		String root = request.getSession().getServletContext().getRealPath("resources");
+		
 		// 저장 폴더 선택
-		String savePath = root + "\\puploadFiles";
+		String savePath = root + "\\loadFile";
 		// 없으면 생성
 		File folder = new File(savePath);
 		if(!folder.exists()) folder.mkdir();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		
 		// 업로드한 파일명
 		String originalFileName = file.getOriginalFilename();
 		// 파일 확장자명
 		String extensionName = originalFileName.substring(originalFileName.lastIndexOf(".")+1);
 		// 변경할 파일명, 변경할 때에는 SimpleDateFormat 객체를 이용해서
-		// 업로드 당시 시각을 파일의 이름으로 바꿔줌
+		// 시간을 파일의 이름으로 바꿔줌
 		String renameFileName 
 			= sdf.format(new Date(System.currentTimeMillis()))+"."+extensionName;
 		filePath = folder + "\\" + renameFileName;
