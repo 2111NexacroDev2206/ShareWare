@@ -3,13 +3,8 @@ package org.kh.shareware.member.service;
 import java.util.List;
 
 import org.kh.shareware.common.Search;
-<<<<<<< HEAD
+import org.kh.shareware.member.domain.Member;
 import org.kh.shareware.member.common.PageInfo;
-import org.kh.shareware.member.domain.Member;
-=======
-import org.kh.shareware.member.domain.Member;
-import org.kh.shareware.member.domain.PageInfo;
->>>>>>> refs/heads/master
 
 public interface MemberService {
 
