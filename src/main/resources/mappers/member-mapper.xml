@@ -29,4 +29,12 @@
   	<select id="selectOneById" resultMap="memberResultMap">
 		SELECT * FROM MEMBER WHERE MEMBER_NUM= #{memberNum} 
 	</select>
+	
+	<select id="selectAllList" resultMap="memberResultMap">
+		SELECT * FROM MEMBER 
+	</select>
+	<select id="selectListCount" resultType="_int"> 
+		SELECT COUNT(*) FROM MEMBER
+	</select>
+	
   	</mapper>

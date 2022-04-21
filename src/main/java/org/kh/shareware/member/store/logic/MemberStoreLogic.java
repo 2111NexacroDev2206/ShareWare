@@ -4,14 +4,14 @@ import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+import org.kh.shareware.member.common.PageInfo;
 import org.kh.shareware.member.domain.Member;
-import org.kh.shareware.member.domain.PageInfo;
-import org.kh.shareware.member.store.memberStore;
+import org.kh.shareware.member.store.MemberStore;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class memberStoreLogic implements memberStore{
+public class MemberStoreLogic implements MemberStore{
 	
 	//로그인
 	@Override

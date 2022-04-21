@@ -2,19 +2,19 @@ package org.kh.shareware.member.service.logic;
 
 import java.util.List;
 
+import org.kh.shareware.member.common.PageInfo;
 import org.kh.shareware.member.domain.Member;
-import org.kh.shareware.member.domain.PageInfo;
-import org.kh.shareware.member.service.memberService;
-import org.kh.shareware.member.store.memberStore;
+import org.kh.shareware.member.service.MemberService;
+import org.kh.shareware.member.store.MemberStore;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class memberServiceImpl implements memberService{
+public class MemberServiceImpl implements MemberService{
 	
 	@Autowired
-	private memberStore mStore;
+	private MemberStore mStore;
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
