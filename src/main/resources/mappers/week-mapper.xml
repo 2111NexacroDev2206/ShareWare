@@ -15,5 +15,5 @@
  		<result  property="fileName"      column="FILE_NAME"/>
  		<result  property="filePath"      column="FILE_PATH"/>
  		<result  property="fileReName"    column="FILE_RENAME"/>
- </resultMap>
- 
+ 	</resultMap>
+</mapper>
