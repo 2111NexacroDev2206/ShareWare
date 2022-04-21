@@ -1,21 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>일일 업무 목록</title>
+<title>주간 업무 목록</title>
 </head>
 <body>
 	<div>
-		<h1>일일 업무목록</h1>
+		<h1>주간 업무목록</h1>
 	</div>
 	<div>
-		<div>
-			<a href="/report/dailyWriteView.sw">+일지작성</a>
-		</div>
+		<button></button>
 		<table align="center" width="" border="1">
 			<thead>
 				<tr>
@@ -26,13 +23,13 @@
 				</tr>
 			</thead>
 			<tbody>
-			<c:forEach items="${dList }" var="daily" varStatus="status"> 
+			<c:forEach items="${dList }" var="daily"> 
 				<tr>
-					<td>${fn:length(dList ) - status.count + 1}</td>
-					<c:url var="drDetail" value="/report/dailyDetail.sw">
+					<td>${daily.drNo }</td>
+					<%-- <c:url var="" value="">
 						<c:param name="drNo" value="${daily.drNo }"></c:param>
-					</c:url>			
-					<td><a href="${drDetail}">${daily.drTitle }</a></td>
+					</c:url> --%>			
+					<td><a href="">${daily.drTitle }</a></td>
 					<td>${daily.drDate }</td>
 					<td>${daily.drWriter }</td>	
 				</tr>
