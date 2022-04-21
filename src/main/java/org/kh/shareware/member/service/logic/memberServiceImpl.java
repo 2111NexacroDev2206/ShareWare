@@ -3,6 +3,7 @@ package org.kh.shareware.member.service.logic;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.kh.shareware.common.Search;
 import org.kh.shareware.member.domain.Member;
 import org.kh.shareware.member.domain.PageInfo;
 import org.kh.shareware.member.service.memberService;
@@ -31,13 +32,19 @@ public class memberServiceImpl implements memberService{
 		Member memberOne = mStore.selectOneById(sqlSession, memberNum);
 		return memberOne;
 	}
-
+	
 	@Override
 	public List<Member> modalPrintAll() {
 		List<Member> mList = mStore.selectAllMember(sqlSession);
 		return mList;
 	}
 
+	@Override
+	public List<Member> modalPrintSearch(Search search) {
+		List<Member> mList = mStore.selectMemberSearch(sqlSession, search);
+		return mList;
+	}
+	
 	@Override
 	public int getListCount() {
 		// TODO Auto-generated method stub

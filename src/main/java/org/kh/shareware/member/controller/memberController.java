@@ -8,12 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.kh.shareware.common.Pagination;
+import org.kh.shareware.common.Search;
 import org.kh.shareware.member.domain.Member;
 import org.kh.shareware.member.domain.PageInfo;
 import org.kh.shareware.member.service.memberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -75,6 +77,17 @@ public class memberController {
 	@RequestMapping(value = "/modal/member/list.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
 	public String modalMemberList(Model model) {
 		List<Member> mList = mService.modalPrintAll();
+		if(!mList.isEmpty()) {
+			return new Gson().toJson(mList);
+		}
+		return null;
+	}
+	
+	// 사원 목록 검색(전자결재 결재자, 참조자 선택 모달창)
+	@ResponseBody
+	@RequestMapping(value = "/modal/member/search.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+	public String modalMemberSearch(Model model, @ModelAttribute Search search) {
+		List<Member> mList = mService.modalPrintSearch(search);
 		if(!mList.isEmpty()) {
 			return new Gson().toJson(mList);
 		}
