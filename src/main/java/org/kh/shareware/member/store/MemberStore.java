@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.member.common.PageInfo;
 import org.kh.shareware.member.domain.Member;
-import org.mybatis.spring.SqlSessionTemplate;
 
 public interface MemberStore {
 
@@ -14,6 +13,6 @@ public interface MemberStore {
 	public Member selectOneById(SqlSession session, String memberNum);
 
 	//주소록
-	public List<Member> selectAll(SqlSessionTemplate sqlSession, PageInfo pi);
-	public int selectListCount(SqlSessionTemplate sqlSession);
+	public List<Member> selectAll(SqlSession sqlSession, PageInfo pi);
+	public int selectListCount(SqlSession sqlSession);
 }

@@ -7,7 +7,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.member.common.PageInfo;
 import org.kh.shareware.member.domain.Member;
 import org.kh.shareware.member.store.MemberStore;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -29,7 +28,7 @@ public class MemberStoreLogic implements MemberStore{
 
 	//주소록
 	@Override
-	public List<Member> selectAll(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public List<Member> selectAll(SqlSession sqlSession, PageInfo pi) {
 		int limit = pi.getMemberLimit();
 		int currentPage = pi.getCurrentPage();
 		int offset = (currentPage - 1) * limit;
@@ -39,7 +38,7 @@ public class MemberStoreLogic implements MemberStore{
 		return mList;
 	}
 	@Override
-	public int selectListCount(SqlSessionTemplate sqlSession) {
+	public int selectListCount(SqlSession sqlSession) {
 		int totalCount = sqlSession.selectOne("MemberMapper.selectListCount");
 		return totalCount;
 	}

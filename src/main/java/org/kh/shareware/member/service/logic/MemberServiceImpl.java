@@ -2,11 +2,11 @@ package org.kh.shareware.member.service.logic;
 
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.member.common.PageInfo;
 import org.kh.shareware.member.domain.Member;
 import org.kh.shareware.member.service.MemberService;
 import org.kh.shareware.member.store.MemberStore;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ public class MemberServiceImpl implements MemberService{
 	@Autowired
 	private MemberStore mStore;
 	@Autowired
-	private SqlSessionTemplate sqlSession;
+	private SqlSession sqlSession;
 	
 	//로그인
 	@Override
