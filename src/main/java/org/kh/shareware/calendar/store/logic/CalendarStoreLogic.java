@@ -13,7 +13,7 @@ public class CalendarStoreLogic implements CalendarStore{
 
 	@Override
 	public int insertSchedule(CalSch calSch, SqlSession sqlSession) {
-		int result = sqlSession.insert("CalendarMapper.", calSch);
+		int result = sqlSession.insert("CalendarMapper.insertSchedule", calSch);
 		return result;
 	}
 
