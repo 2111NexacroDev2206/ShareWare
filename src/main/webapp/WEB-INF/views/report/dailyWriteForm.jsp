@@ -7,51 +7,42 @@
 <title>일일 업무 작성 </title>
 </head>
 <body>
-	<form action="/report/dailyRegister.sw" method="post" enctype="multipart/form-data">
-	<div>
-		<h3> 일 일 업 무 일 지</h3>
-	</div>
-	<div>
-		<table>
+<jsp:include page="reportMenu.jsp"></jsp:include>
+	<div class="s-container">
+		<h3 align="center"> 일 일 업 무 일 지</h3>
+		<form action="/report/dailyRegister.sw" method="post" enctype="multipart/form-data">
+		<table border="1">
 			<tr> 
 				<td>제목</td>
 				<td><input type="text" name="drTitle" ></td>
 				<td>부서명</td>
-				<td><input type="hidden"></td>
+				<td><input type="text" >"${login.divName }"</td>
 			</tr>
 				<tr> 
 				<td>작성일</td>
-				<td><input type="text" value="${nowTime }" name="drDate"></td>
+				<td><input value="${nowTime }" name="drDate"></td>
 				<td>작성자</td>
 				<td><input type="text" name="drWriter"></td>
 			</tr>
-			<tr></tr>
-		</table>
-		</div>
-		
-		<div>
-		<table border="1">
 			<tr> 
-				<td>업무내용</td>
-				<td>처리내용</td>
+				<td colspan="3">업무내용</td>
+				<td colspan="1">처리내용</td>
 			</tr>
 			<tr>
-				<td><textarea name="drContent"></textarea></td>
-				<td><textarea name="drCompletion"></textarea></td>
+				<td colspan="3"><textarea name="drContent"></textarea></td>
+				<td colspan="1"><textarea name="drCompletion"></textarea></td>
 			</tr>
 			<tr>
-				<td colspan="2" >비 고</td>
+				<td colspan="4" >비 고</td>
 			</tr>
 			<tr>
-				<td colspan="2"><textarea name="drNote"></textarea></td>
+				<td colspan="4"><textarea name="drNote"></textarea></td>
 			</tr>
 		</table>
-	</div>
-	<div>
-		파일첨부 <input type="file"> 
+		<p>파일첨부 <input type="file" name="uploadFile"> 
 		<input type="reset" value="취소">
 		<input type="submit" value="등록">
-	</div>
 	</form>
+	</div>
 </body>
 </html>

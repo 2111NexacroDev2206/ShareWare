@@ -30,16 +30,21 @@
 		SELECT * FROM MEMBER WHERE MEMBER_NUM= #{memberNum} 
 	</select>
 	
-	<select id="selectAllList" resultMap="memberResultMap">
-		SELECT * FROM MEMBER 
+	<select id="selectAllMember" resultMap="memberResultMap">
+		SELECT * FROM MEMBER
 	</select>
-	<select id="selectListCount" resultType="_int"> 
-		SELECT COUNT(*) FROM MEMBER
-	</select>
+	
 	<select id="selectMemberSearch" resultMap="memberResultMap">
 		SELECT * FROM MEMBER
-		<if test="searchCondition.toString() == 'division'"> WHERE DIVISION LIKE '%' || #{searchValue} || '%' </if>
-		<if test="searchCondition.toString() == 'memberName'"> WHERE MEMBER_NAME LIKE '%' || #{searchValue} || '%' </if>
-		<if test="searchCondition.toString() == 'all'"> WHERE DIVISION LIKE '%' || #{searchValue} || '%' OR MEMBER_NAME LIKE '%' || #{searchValue} || '%' </if>
+		<if test="searchCondition.toString() == 'division'">
+			WHERE DIVISION LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'memberName'">
+			WHERE MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'all'">
+			WHERE DIVISION LIKE '%' || #{searchValue} || '%'
+			OR MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
 	</select>
   	</mapper>

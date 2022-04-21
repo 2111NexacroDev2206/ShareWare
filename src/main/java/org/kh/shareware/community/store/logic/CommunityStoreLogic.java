@@ -21,4 +21,10 @@ public class CommunityStoreLogic implements CommunityStore {
 		List<Community> cList = sqlsession.selectList("CommnuityMapper.listCommnuity");
 		return cList;
 	}
+
+	@Override
+	public Community detailCommunity(SqlSession sqlsession, Integer comNo) {
+		Community community = sqlsession.selectOne("CommnuityMapper.detailOneByNo", comNo);
+		return community;
+	}
 }
