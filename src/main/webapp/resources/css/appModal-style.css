@@ -83,6 +83,7 @@
 		margin: 10px;
 		font-size: 14px;
 		border-collapse: collapse;
+		cursor:pointer;
 	}
 	.clicked {
 		background-color : rgba(117, 144, 194, 0.25);
