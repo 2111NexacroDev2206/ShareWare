@@ -7,7 +7,7 @@
 <title>기안서</title>
 </head>
 <body>
-	<jsp:include page="appMenu.jsp"></jsp:include>
+	<jsp:include page="appMenu.jsp"></jsp:include> <!-- 메뉴 + 소메뉴 -->
 	<div class="s-container">
 		<h1>기안서</h1>
 		<form action="/approval/draftDocWrite.sw" method="post" enctype="multipart/form-data">
@@ -15,7 +15,7 @@
 				<tr>
 					<td>문서번호</td>
 					<td></td>
-					<td rowspan="3">결재</td>
+					<td rowspan="3" style="writing-mode: vertical-rl;">결재</td>
 					<td>담당</td>
 					<td></td>
 					<td></td>
@@ -25,9 +25,9 @@
 					<td>기안일</td>
 					<td>${nowTime }<input type="hidden" value="${nowTime }" name="docDate" readonly></td>
 					<td></td>
-					<td><button>선택</button></td>
-					<td><button>선택</button></td>
-					<td><button>선택</button></td>
+					<td><button type="button" onclick="appBtn();">선택</button></td>
+					<td><button type="button">선택</button></td>
+					<td><button type="button">선택</button></td>
 				</tr>
 				<tr>
 					<td>기안자</td>
@@ -39,7 +39,7 @@
 				</tr>
 				<tr>
 					<td colspan="6">참조자</td>
-					<td><button>선택</button></td>
+					<td><button type="button">선택</button></td>
 				</tr>
 				<tr>
 					<td>제목</td>
@@ -60,5 +60,6 @@
 			<input type="reset" value="취소">
 		</form>
 	</div>
+	<jsp:include page="appModal.jsp"></jsp:include> <!-- 결재자 선택 모달 -->
 </body>
 </html>

@@ -29,4 +29,8 @@
   	<select id="selectOneById" resultMap="memberResultMap">
 		SELECT * FROM MEMBER WHERE MEMBER_NUM= #{memberNum} 
 	</select>
+	
+	<select id="selectAllMember" resultMap="memberResultMap">
+		SELECT * FROM MEMBER
+	</select>
   	</mapper>

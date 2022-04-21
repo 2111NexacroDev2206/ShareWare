@@ -16,11 +16,30 @@ public class DailyStoreLogic implements DailyStore{
 		int result = sqlSession.insert("DailyMapper.insertDaily", daily);
 		return result;
 	}
-
+	//일일 업무 목록
 	@Override
 	public List<Daily> selectAllDaily(SqlSession sqlSession) {
 		List<Daily> dList = sqlSession.selectList("DailyMapper.selectAllDaily");
 		return dList;
 	}
+	//일일 업무 상세 
+	@Override
+	public Daily selectOneByNo(SqlSession sqlSession, int drNo) {
+		Daily daily = sqlSession.selectOne("DailyMapper.selectOneDaily",drNo );
+		return daily;
+	}
+	//일일 업무 삭제
+	@Override
+	public int deleteDaily(SqlSession sqlSession, int drNo) {
+		int result = sqlSession.delete("DailyMapper.deleteDaily", drNo);
+		return result;
+	}
+	//일일 업무 수정
+	@Override
+	public int updateDaily(SqlSession sqlSession, Daily daily) {
+		int result = sqlSession.update("DailyMapper.updateDaily", daily);
+		return result;
+	}
+	
 	
 }

@@ -2,10 +2,14 @@ package org.kh.shareware.member.controller;
 
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.kh.shareware.common.Pagination;
 import org.kh.shareware.member.domain.Member;
+import org.kh.shareware.member.domain.PageInfo;
 import org.kh.shareware.member.service.memberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +17,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -41,10 +49,35 @@ public class memberController {
 			}
 	}
 	
+	//로그아웃
+	@RequestMapping(value="/member/logout.sw", method=RequestMethod.GET)
+	public String memberLogout(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if(session != null) {
+			session.invalidate();
+			return "redirect:/home.sw";
+		}else {
+			request.setAttribute("msg", "로그아웃 실패!");
+			return "common/errorPage";
+		}
+	}
+	
 	//마이페이지
+
 	@RequestMapping(value="/member/myInfo.sw", method=RequestMethod.GET)
 	public String memberMyInfo(HttpServletRequest request) {
-
+		
 		return "member/myInfo";
+	}
+	
+	// 사원 목록(전자결재 결재자, 참조자 선택 모달창)
+	@ResponseBody
+	@RequestMapping(value = "/modal/member/list.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+	public String modalMemberList(Model model) {
+		List<Member> mList = mService.modalPrintAll();
+		if(!mList.isEmpty()) {
+			return new Gson().toJson(mList);
+		}
+		return null;
 	}
 }
