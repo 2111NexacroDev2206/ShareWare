@@ -17,7 +17,7 @@
 		<th>번호</th>
 		<th width="300">제목</th>
 		<th>작성자</th>
-		<th>날짜</th>
+		<th>작성일</th>
 		<th>조회수</th>
 	</tr>
 	<c:forEach items="${cList }" var="community">

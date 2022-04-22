@@ -33,4 +33,10 @@ public class CommunityStoreLogic implements CommunityStore {
 		int result = sqlsession.delete("CommnuityMapper.deleltCommunity", comNo);
 		return result;
 	}
+
+	@Override
+	public int viewCountCommunity(SqlSession sqlsession, Integer comNo) {
+		int result = sqlsession.delete("CommnuityMapper.viewCount", comNo);
+		return result;
+	}
 }

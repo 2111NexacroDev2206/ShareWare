@@ -10,5 +10,6 @@ public interface CommunityService {
 	List<Community> listCommunity();
 	Community detailCommunity(Integer comNo);
 	int removeCommunity(int comNo);
+	int viewCountCommunity(Integer comNo);
 
 }

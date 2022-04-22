@@ -18,7 +18,7 @@
 	</resultMap>
 	
 <insert id="insertCommnuity">
-	INSERT INTO COMMUNITY VALUES(SEQ_COM_NO.NEXTVAL ,#{memberNum } ,DEFAULT ,#{comTitle },#{comContent }, 1, #{comImgName}, #{comImgRename}, #{comImgPath},NULL,NULL)
+	INSERT INTO COMMUNITY VALUES(SEQ_COM_NO.NEXTVAL ,#{memberNum } ,DEFAULT ,#{comTitle },#{comContent }, DEFAULT, #{comImgName}, #{comImgRename}, #{comImgPath},NULL,NULL)
 </insert>
 
 <select id="listCommnuity" resultMap="CommunityResultMap">
@@ -30,5 +30,9 @@
 <delete id="deleltCommunity">
 	DELETE FROM COMMUNITY WHERE COM_NO = #{comNo }
 </delete>
+
+<update id="viewCount">
+	UPDATE COMMUNITY SET COM_VIEW = COM_VIEW+1 WHERE COM_NO = #{comNo}
+</update>
 
 </mapper>

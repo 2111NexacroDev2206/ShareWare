@@ -93,6 +93,8 @@ public class CommunityController {
 			Model model
 			,HttpSession session
 			,@RequestParam("comNo") Integer comNo) {
+		//조회수 증가
+		cService.viewCountCommunity(comNo);
 		
 		//게시글 번호로 검색
 		Community community = cService.detailCommunity(comNo);

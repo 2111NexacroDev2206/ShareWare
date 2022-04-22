@@ -38,4 +38,10 @@ public class CommunityServiceImpl implements CommunityService{
 		int result = cStore.resisterCommunity(sqlsession, comNo);
 		return result;
 	}
+
+	@Override
+	public int viewCountCommunity(Integer comNo) {
+		int result = cStore.viewCountCommunity(sqlsession, comNo);
+		return result;
+	}
 }
