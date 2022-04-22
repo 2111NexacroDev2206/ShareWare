@@ -58,10 +58,10 @@ public class ApprovalController {
 				aResult = aService.registerApp(app); // 결재자 등록
 			}
 			// 참조자
-			if(!refMemNum.isEmpty()) {
-				String[] refArray = refMemNum.split(",");
+			if(!refMemNum.isEmpty()) { // 참조자가 있는 경우에만
+				String[] refArray = refMemNum.split(","); // 배열에 참조자 넣기
 				for(int i = 0; i < refArray.length; i++) {
-					ref.setMemNum(refArray[i]);
+					ref.setMemNum(refArray[i]); // 참조자 사원번호
 					rResult = aService.registerRef(ref); // 참조자 등록
 				}
 			}else {
