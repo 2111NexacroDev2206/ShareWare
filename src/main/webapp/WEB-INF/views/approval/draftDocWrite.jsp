@@ -25,7 +25,7 @@
 					<td>기안일</td>
 					<td>${nowTime }<input type="hidden" value="${nowTime }" name="docDate" readonly></td>
 					<td></td>
-					<td colspan="3" align="center"><button type="button" onclick="appBtn();">선택</button></td>
+					<td colspan="3" align="center"><button type="button" onclick="appBtn('app');">선택</button></td>
 				</tr>
 				<tr>
 					<td>기안자</td>
@@ -36,8 +36,9 @@
 					<td id="name-app2"></td><input type="hidden" id="num-app2" name="appMemNum2" readonly>
 				</tr>
 				<tr>
-					<td colspan="6">참조자</td>
-					<td><button type="button">선택</button></td>
+					<td>참조자</td>
+					<td colspan="5" id="ref-list"></td>
+					<td><button type="button" onclick="appBtn('ref');">선택</button></td>
 				</tr>
 				<tr>
 					<td>제목</td>

@@ -12,7 +12,7 @@
 	<div class="m-appSel-wrap" id="appSelModal">
 		<div class="m-appSel">
 			<div class="m-header">
-				<span class="m-header-title">결재자 선택</span>
+				<span class="m-header-title" id="header"></span>
 			</div>
 			<div class="m-body">
 				<div class="m-search">
@@ -31,7 +31,7 @@
 					</table>
 				</div>
 				<div class="m-select">
-					<strong>결재자</strong><br>
+					<strong id="s-text"></strong><br>
 					<p id="s-list">
 				</div>
 			</div>
@@ -43,36 +43,44 @@
 	</div>
 </body>
 <script>
-	// 결재자 선택 모달
-	function appBtn() {
+	var varType; // 결재자/참조자 구분 넣을 변수 선언
+	// 결재자/참조자 선택 모달
+	function appBtn(type) {
+		varType = type; // 변수에 type 넣어주기
+		if(type == "app") {
+			$("#header").html("결재자 선택");
+			$("#s-text").html("결재자");
+		}else if(type == "ref"){
+			$("#header").html("참조자 선택");
+			$("#s-text").html("참조자");
+		}
 		$("#appSelModal").css('display', 'flex').hide().fadeIn();
 		$.ajax({
 			url : "/modal/member/list.sw",
 			type : "get",
 			success : function(mList) {
 				$("#s-value").val(""); // 검색 입력창 지우기
-				appList(mList);
+				appList(mList, type);
 			},
 			error : function() {
 				alert("사원 목록 조회 실패");
 			}
 		})
 	}
-	$("#cancel").click(function(){
-	    modalClose();
-	    $("#s-list").html(""); // 결재자 선택 텍스트 초기화
-    });
 	$("#confirm").click(function(){
 	    modalClose();
 	    appSelView();
-	    
 	});
+	$("#cancel").click(function(){
+	    modalClose();
+    });
 	function modalClose(){
 	    $("#appSelModal").fadeOut();
+	    $("#s-list").html(""); // 결재자/참조자 선택 텍스트 초기화
 	}
 	
-	// 결재자 선택 사원 검색
-	$("#btn-search").click(function() {
+	// 결재자/참조자 선택 사원 검색
+	$("#btn-search").click(function(type) {
 		var searchCondition = $("#s-condition").val();
 		var searchValue = $("#s-value").val(); 
 		$.ajax({
@@ -80,7 +88,7 @@
 			type : "get",
 			data : { "searchCondition" : searchCondition,  "searchValue" : searchValue },
 			success : function(mList) {
-				appList(mList);
+				appList(mList, type);
 			},
 			error : function() {
 				alert("사원 목록 검색 실패");
@@ -89,7 +97,7 @@
 	});
 	
 	// 사원 목록 불러오기
-	function appList(mList) {
+	function appList(mList, type) {
 		$("#m-list-table").html(""); // 테이블 값 지우기
 		var tr;
 		$.each(mList, function(i) {
@@ -99,13 +107,14 @@
 			+ '</td><td>' + mList[i].rank + '</td></tr>';
 		});
 		$("#m-list-table").append(tr);
-		appSelect(); // 결재자 선택
+		appSelect(type); // 결재자/참조자 선택
 	}
 	
-	// 결재자 선택
-	var Arr = new Array(); // 선택한 결재자를 담을 배열 선언
-	function appSelect() {
-		Arr = [];
+	// 결재자/참조자 선택
+	var Arr = new Array(); // 선택한 결재자/참조자를 담을 배열 선언
+	var arrText = new Array(); // 화면에 보여줄 텍스트 배열 선언
+	function appSelect(type) {
+		Arr = []; // 배열 비우기
 		$("#m-list-table tr").click(function(){
 			var trArr = new Object(); // 한 행의 배열을 담을 객체 선언
 			var tdArr = new Array(); // 배열 선언(사원번호, 부서, 이름, 직급)
@@ -127,14 +136,18 @@
 			
 			// 객체에 데이터가 있는지 여부 판단
 			var checkedArrIdx = _.findIndex(Arr, { memberNum : trArr.memberNum }); // 동일한 값 인덱스 찾기
-			var arrText = [];
+			arrText = []; // 배열 비우기
 			if(checkedArrIdx > -1) {
 				_.remove(Arr, { memberNum : trArr.memberNum }); // 동일한 값 지우기
 			}else {
-				if(Arr.length < 3) { // 선택한 결재자 수가 3보다 작으면
-					Arr.push(trArr); // 객체를 배열에 담기
-				}else {
-					alert("결재자는 3명까지만 선택할 수 있습니다.");
+				if(type == "app") {
+					if(Arr.length < 3) { // 선택한 결재자 수가 3보다 작으면
+						Arr.push(trArr); // 객체를 배열에 담기
+					}else {
+						alert("결재자는 3명까지만 선택할 수 있습니다.");
+					}
+				}else if(type == "ref"){
+					Arr.push(trArr);
 				}
 			}
 			Arr.forEach(function(el, index) {
@@ -143,14 +156,17 @@
 			$("#s-list").html(arrText.join("<br>")); // 개행해서 s-list 영역에 출력
 		});
 	}
-	// 선택한 결재자 문서 작성 페이지에 표시
+	// 선택한 결재자/참조자 문서 작성 페이지에 표시
 	function appSelView() {
-		Arr.forEach(function(el, i){
-			$("#d-app" + i).text(el.division);
-			$("#name-app" + i).text(el.memberName);
-			$("#num-app" + i).val(el.memberNum);
-		});
-		console.log(Arr);
+		if(varType == "app") {
+			Arr.forEach(function(el, i){
+				$("#d-app" + i).text(el.division);
+				$("#name-app" + i).text(el.memberName);
+				$("#num-app" + i).val(el.memberNum);
+			});
+		}else if(varType == "ref"){
+			$("#ref-list").text(arrText.join(", "));
+		}
 	}
 </script>
 </html>
