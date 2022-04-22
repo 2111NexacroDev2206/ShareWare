@@ -31,13 +31,13 @@
 					<td>기안자</td>
 					<td>${loginUser.memberName }<input type="hidden" value="${loginUser.memberNum }" name="memNum" readonly></td>
 					<td>${loginUser.memberName }</td>
-					<td id="name-app0"></td><input type="hidden" id="num-app0" name="appMemNum0" readonly>
-					<td id="name-app1"></td><input type="hidden" id="num-app1" name="appMemNum1" readonly>
-					<td id="name-app2"></td><input type="hidden" id="num-app2" name="appMemNum2" readonly>
+					<td id="name-app0"></td><input type="hidden" id="num-app" name="appMemNum" readonly>
+					<td id="name-app1"></td>
+					<td id="name-app2"></td>
 				</tr>
 				<tr>
 					<td>참조자</td>
-					<td colspan="5" id="ref-list"></td>
+					<td colspan="5" id="ref-list"></td><input type="hidden" id="num-ref" name="refMemNum" readonly>
 					<td><button type="button" onclick="appBtn('ref');">선택</button></td>
 				</tr>
 				<tr>
