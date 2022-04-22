@@ -1,7 +1,7 @@
 package org.kh.shareware.report.controller;
 
-
-
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -61,17 +61,51 @@ public class DailyController {
 			,@ModelAttribute Daily daily
 			,@RequestParam(value="uploadFile", required=false) MultipartFile uploadFile
 			,HttpServletRequest request){
-	
-		int result = service.registerDaily(daily);
-		if(result > 0) {
-			mv.setViewName("redirect:/report/dailyList.sw");
-		}else {
-			mv.addObject("msg", "업무일지 등록 실패");
+		try {
+			if(uploadFile != null && !uploadFile.getOriginalFilename().equals("")) {
+				HashMap<String, String> fileMap = saveFile(uploadFile, request); // 업로드한 파일 저장하고 경로 리턴
+				String filePath = fileMap.get("filePath");
+				String fileRename = fileMap.get("fileName");
+				if(filePath != null && !filePath.equals("")) {
+					
+				}
+			}
+			int result = service.registerDaily(daily);
+			if(result > 0) {
+				mv.setViewName("redirect:/report/dailyList.sw");
+			}else {
+				mv.addObject("msg", "업무일지 등록 실패");
+				mv.setViewName("common/errorPage");
+			}
+		}catch(Exception e) {
 			mv.setViewName("common/errorPage");
+			mv.addObject("msg", e.toString());
 		}
 		return mv;
 	}
 	
+	private HashMap<String, String> saveFile(MultipartFile file, HttpServletRequest request) {
+		String filePath = "";
+		HashMap<String, String> fileMap = new HashMap<String, String>();
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "\\duploadFiles";
+		File folder = new File(savePath);
+		if(!folder.exists()) folder.mkdir();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String originalFileName = file.getOriginalFilename();
+		String extensionName = originalFileName.substring(originalFileName.lastIndexOf(".")+1);
+		String renameFileName 
+			= sdf.format(new Date(System.currentTimeMillis()))+"."+extensionName;
+		filePath = folder + "\\" + renameFileName;
+		fileMap.put("filePath", filePath);
+		fileMap.put("fileName", renameFileName); 
+		try {
+			file.transferTo(new File(filePath)); 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return fileMap;
+	}
 	//일일 업무 상세화면 
 	 @RequestMapping(value="/report/dailyDetail.sw", method=RequestMethod.GET)
 	   public ModelAndView dailyDetailView(
@@ -83,7 +117,7 @@ public class DailyController {
 			mv.addObject("daily", daily);
 			mv.setViewName("report/dailyDetail");
 		}else {
-			mv.addObject("msg", "공지사항 상세조회 실패");
+			mv.addObject("msg", "업무일지 상세조회 실패");
 			mv.setViewName("common/errorPage");
 		}
 	}catch(Exception e) {
@@ -120,8 +154,24 @@ public class DailyController {
 				ModelAndView mv
 				, @ModelAttribute Daily daily
 				// 400 오류 방지
+				, @RequestParam(value="reloadFile", required=false) MultipartFile reloadFile
 				, HttpServletRequest request) {
 			try {
+				// 프로젝트 경로에 파일수정(reloadFile, request), 삭제하고 다시 업로드
+				if(reloadFile != null && !reloadFile.isEmpty()) {
+					// 기존 파일 삭제 하고
+					// (기존 파일 삭제할 때는 파일이름 필요!)
+					deleteFile(daily.getFilePath(), request);
+					// 새로운 파일 업로드
+					HashMap<String, String> fileMap = saveFile(reloadFile, request); // 새롭게 저장
+					String savePath = fileMap.get("filePath");
+					String fileRename = fileMap.get("fileName");
+					if(savePath != null) {
+						daily.setFileName(reloadFile.getOriginalFilename());
+						daily.setFileReName(fileRename);
+						daily.setFilePath(savePath); // 새로운 경로로 업데이트 하기 위해서
+					}
+				}
 				// 디비에 해당 데이터 저장(비즈니스 로직)
 				int result = service.modifyDaily(daily);
 				if(result > 0) {
@@ -137,6 +187,13 @@ public class DailyController {
 			return mv;
 		}
 	 
+	private void deleteFile(String filePath, HttpServletRequest request) {
+		File deleteFile = new File(filePath);
+		if(deleteFile.exists()) { // 파일이 존재하면
+			// 파일 삭제
+			deleteFile.delete();
+		}
+	}
 	//일일 업무 삭제 
 	 @RequestMapping(value="/report/dailyDelete.sw", method=RequestMethod.GET)
 	 public String dailyDelete(

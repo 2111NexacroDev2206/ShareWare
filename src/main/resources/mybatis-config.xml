@@ -9,6 +9,7 @@
 	</settings>
 	<typeAliases>
 		<typeAlias type="org.kh.shareware.report.domain.Daily" 	 		alias="Daily"/>
+		<typeAlias type="org.kh.shareware.report.domain.Week" 	 		alias="Week"/>
 		<typeAlias type="org.kh.shareware.member.domain.Member" 		alias="Member"/>
 		<typeAlias type="org.kh.shareware.community.domain.Community" 	alias="Community"/>
 		<typeAlias type="org.kh.shareware.calendar.domain.CalSch" 		alias="CalSch"/>
@@ -18,6 +19,7 @@
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/daily-mapper.xml"/>
+		<mapper resource="mappers/week-mapper.xml"/>
 		<mapper resource="mappers/approval-mapper.xml"/>
 		<mapper resource="mappers/member-mapper.xml"/>
 		<mapper resource="mappers/community-mapper.xml"/>

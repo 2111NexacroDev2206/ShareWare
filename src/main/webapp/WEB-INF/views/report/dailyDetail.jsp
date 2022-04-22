@@ -14,7 +14,7 @@
 		<table border="1">
 			<tr> 
 				<td>제목</td>
-				<td>${daily.drNo }</td>
+				<td>${daily.drTitle }</td>
 				<td>부서명</td>
 				<td>${loginUser.divName }</td>
 			</tr>
@@ -39,7 +39,7 @@
 				<td colspan="4"><textarea name="drNote">${daily.drNote }</textarea></td>
 			</tr>
 		</table>
-		<p>파일첨부 <input type="file" name="uploadFile"> 
+		<p>첨부파일</p>
 		<input type="button" onclick="location.href='/report/dailyModifyView.sw?drNo=${daily.drNo}'" value="수정">
 		<input type="button" onclick="location.href='/report/dailyDelete.sw?drNo=${daily.drNo}'" value="삭제">
 		<input type="button" onclick="location.href='/report/dailyList.sw'" value="목록">

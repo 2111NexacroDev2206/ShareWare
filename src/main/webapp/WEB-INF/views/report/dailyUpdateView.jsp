@@ -41,7 +41,7 @@
 					<td colspan="4"><textarea name="drNote" >${daily.drNote }</textarea></td>
 				</tr>
 			</table>
-			<p>파일첨부 <input type="file" name="uploadFile"> 
+			<p>파일첨부 <input type="file" name="reloadFile">{daily.fileName}
 			<input type="button" onclick="location.href='/report/dailyModifyView.sw?drNo=${daily.drNo}'" value="취소">
 			<input type="submit" value="등록">
 		</form>
