@@ -58,10 +58,14 @@ public class ApprovalController {
 				aResult = aService.registerApp(app); // 결재자 등록
 			}
 			// 참조자
-			String[] refArray = refMemNum.split(",");
-			for(int i = 0; i < refArray.length; i++) {
-				ref.setMemNum(refArray[i]);
-				rResult = aService.registerRef(ref); // 참조자 등록
+			if(!refMemNum.isEmpty()) {
+				String[] refArray = refMemNum.split(",");
+				for(int i = 0; i < refArray.length; i++) {
+					ref.setMemNum(refArray[i]);
+					rResult = aService.registerRef(ref); // 참조자 등록
+				}
+			}else {
+				rResult = 1;
 			}
 			if(dResult > 0 && aResult > 0 && rResult > 0) {
 				mv.addObject("msg", "등록 성공");

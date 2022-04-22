@@ -10,7 +10,7 @@
 	<jsp:include page="appMenu.jsp"></jsp:include> <!-- 메뉴 + 소메뉴 -->
 	<div class="s-container">
 		<h1>기안서</h1>
-		<form action="/approval/draftDocWrite.sw" method="post" enctype="multipart/form-data">
+		<form id="form" action="/approval/draftDocWrite.sw" method="post" enctype="multipart/form-data">
 			<table border="1">
 				<tr>
 					<td>문서번호</td>
@@ -42,23 +42,36 @@
 				</tr>
 				<tr>
 					<td>제목</td>
-					<td colspan="6"><input type="text" name="docTitle"></td>
+					<td colspan="6"><input type="text" name="docTitle" id="title"></td>
 				</tr>
 				<tr>
 					<td colspan="7" align="center">내용</td>
 				</tr>
 				<tr>
-					<td colspan="7" align="center"><textarea cols="50" rows="10" name="docContent"></textarea></td>
+					<td colspan="7" align="center"><textarea cols="50" rows="10" name="docContent" id="content"></textarea></td>
 				</tr>
 			</table>
 			<p>파일 첨부
 			<input type="file" name="uploadFile">
 			<br>
-			<input type="submit" value="결재 요청">
+			<input type="button" value="결재 요청" onclick="nullChk();">
 			<input type="button" value="임시 저장">
 			<input type="reset" value="취소">
 		</form>
 	</div>
 	<jsp:include page="appModal.jsp"></jsp:include> <!-- 결재자 선택 모달 -->
+	<script>
+		function nullChk() {
+			if($("#title").val() == "") {
+				alert("제목을 입력해주세요.");
+			}else if($("#content").val() == "") {
+				alert("내용을 입력해주세요.");
+			}else if($("#num-app").val() == "") {
+				alert("결재자를 선택해주세요.");
+			}else {
+				$("#form").submit();
+			}
+		}
+	</script>
 </body>
 </html>
