@@ -17,25 +17,23 @@
 					<td></td>
 					<td rowspan="3" style="writing-mode: vertical-rl;">결재</td>
 					<td>담당</td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td id="d-app0"></td>
+					<td id="d-app1"></td>
+					<td id="d-app2"></td>
 				</tr>
 				<tr>
 					<td>기안일</td>
 					<td>${nowTime }<input type="hidden" value="${nowTime }" name="docDate" readonly></td>
 					<td></td>
-					<td><button type="button" onclick="appBtn();">선택</button></td>
-					<td><button type="button">선택</button></td>
-					<td><button type="button">선택</button></td>
+					<td colspan="3" align="center"><button type="button" onclick="appBtn();">선택</button></td>
 				</tr>
 				<tr>
 					<td>기안자</td>
 					<td>${loginUser.memberName }<input type="hidden" value="${loginUser.memberNum }" name="memNum" readonly></td>
 					<td>${loginUser.memberName }</td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td id="name-app0"></td><input type="hidden" id="num-app0" name="appMemNum0" readonly>
+					<td id="name-app1"></td><input type="hidden" id="num-app1" name="appMemNum1" readonly>
+					<td id="name-app2"></td><input type="hidden" id="num-app2" name="appMemNum2" readonly>
 				</tr>
 				<tr>
 					<td colspan="6">참조자</td>

@@ -60,9 +60,12 @@
 	}
 	$("#cancel").click(function(){
 	    modalClose();
+	    $("#s-list").html(""); // 결재자 선택 텍스트 초기화
     });
 	$("#confirm").click(function(){
 	    modalClose();
+	    appSelView();
+	    
 	});
 	function modalClose(){
 	    $("#appSelModal").fadeOut();
@@ -100,8 +103,9 @@
 	}
 	
 	// 결재자 선택
+	var Arr = new Array(); // 선택한 결재자를 담을 배열 선언
 	function appSelect() {
-		var Arr = new Array(); // 선택한 결재자를 담을 배열 선언
+		Arr = [];
 		$("#m-list-table tr").click(function(){
 			var trArr = new Object(); // 한 행의 배열을 담을 객체 선언
 			var tdArr = new Array(); // 배열 선언(사원번호, 부서, 이름, 직급)
@@ -127,13 +131,26 @@
 			if(checkedArrIdx > -1) {
 				_.remove(Arr, { memberNum : trArr.memberNum }); // 동일한 값 지우기
 			}else {
-				Arr.push(trArr); // 객체를 배열에 담기
+				if(Arr.length < 3) { // 선택한 결재자 수가 3보다 작으면
+					Arr.push(trArr); // 객체를 배열에 담기
+				}else {
+					alert("결재자는 3명까지만 선택할 수 있습니다.");
+				}
 			}
 			Arr.forEach(function(el, index) {
 				arrText.push(el.division +" "+ el.memberName +" "+ el.rank);
 			});
 			$("#s-list").html(arrText.join("<br>")); // 개행해서 s-list 영역에 출력
 		});
+	}
+	// 선택한 결재자 문서 작성 페이지에 표시
+	function appSelView() {
+		Arr.forEach(function(el, i){
+			$("#d-app" + i).text(el.division);
+			$("#name-app" + i).text(el.memberName);
+			$("#num-app" + i).val(el.memberNum);
+		});
+		console.log(Arr);
 	}
 </script>
 </html>

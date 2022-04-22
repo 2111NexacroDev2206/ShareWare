@@ -41,10 +41,19 @@ public class ApprovalController {
 			, @ModelAttribute AppDocument appDoc
 			, @ModelAttribute Approval app
 			, @RequestParam(value="uploadFile", required=false) MultipartFile uploadFile
+			, @RequestParam(value="appMemNum0") String appMemNum0
+			, @RequestParam(value="appMemNum1") String appMemNum1
+			, @RequestParam(value="appMemNum2") String appMemNum2
 			, HttpServletRequest request) {
 		try {
 			int dResult = aService.registerDoc(appDoc); // 기안서 등록
-			int aResult = aService.registerApp(app); // 결재자 등록
+			int aResult = 0; // 결재자 등록 결과 변수 선언
+			String[] appArray = { appMemNum0, appMemNum1, appMemNum2 }; // 배열에 결재자 넣기
+			for(int i = 0; i < appArray.length; i++) {
+				app.setMemNum(appArray[i]); // 결재자 사원번호
+				app.setAppLevel(i+1); // 결재자 순번
+				aResult = aService.registerApp(app); // 결재자 등록
+			}
 			if(dResult > 0 && aResult > 0) {
 				mv.addObject("msg", "등록 성공");
 			}else {
