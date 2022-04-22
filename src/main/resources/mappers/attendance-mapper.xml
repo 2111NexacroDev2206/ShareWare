@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="AttendanceMapper">
+  	<resultMap type="Attendance" id="attendanceResultMap">
+  		<id property="attDate" column="ATT_DATE"/>
+  		<result property="attStrDate" column="ATT_STR_DATE"/>
+  		<result property="attFinDate" column="ATT_FIN_DATE"/>
+  		<result property="attTotalDate" column="ATT_TOTAL_DATE"/>
+  		<result property="attStatus" column="ATT_STATUS"/>
+  	</resultMap>
+  	
+  	
+  	<insert id="insertAttendance">
+  		INSERT INTO ATTENDANCE VALUES(SYSDATE,#{attStrTime},#{attFinTime},#{attTotalTime}, 'N')
+  	</insert>
+  	
+  	<select id="selectAllList" resultMap="attendanceResultMap">
+  		SELECT * FROM ATTENDANCE
+  	</select>
+  	<select id="selectListCount" resultType="_int"> 
+		SELECT COUNT(*) FROM ATTENDANCE
+	</select>
+	
+  </mapper>
