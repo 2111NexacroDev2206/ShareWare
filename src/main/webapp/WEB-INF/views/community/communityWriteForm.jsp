@@ -18,8 +18,33 @@
 		</tr>
 		<tr>
 			<td>본문</td>
-			<td><div contentEditable="true" id="comContent" style="height:500px;">
-				<img id ="img" /></div>
+			<td>
+				<div contentEditable="true" id="comContent" style="height:500px;">
+					<img id ="img" style="height:100px; width: 100px" />
+				<div id="vote-body-div">
+					<div id="vote-textbox-div">
+						<div id="vote-textbox1-div">
+							<input class="vote-input1" type="text">
+						</div>
+						<div id="vote-textbox2-div">
+							<input class="vote-input2" type="text">	
+						</div>
+						<div id="vote-textbox3-div">
+							<input class="vote-input3" type="text">
+							<button type="button" id="vote-input-delete1">-</button>
+						</div>
+						<div id="vote-textbox4-div">
+							<input class="vote-input4" type="text">
+							<button type="button" id="vote-input-delete2">-</button>
+						</div>
+					</div>
+						<div id="button-box">
+							<button type="button" id="voteInsert">등록</button>
+							<button type="button" id="voteDelete">삭제</button>
+							<button type="button" id="voteInputAdd" value='createDiv' onclick='createTextDiv()'>+</button>
+						</div>
+				</div>
+				</div>
 			</td>
 		</tr>
 		<tr>
@@ -31,15 +56,49 @@
 			<td>
 				<button type="button" id="comInsert">등록</button>
 				<button>취소</button>
-				<button>투표등록</button>
+				<button type="button" id="comVoteInsert">투표등록</button>
 			</td>
 		</tr>
 	</table>
 	</form>
 	
 	<script>
+
+	document.getElementById("vote-body-div").style.display = "none";
+	document.getElementById("vote-textbox3-div").style.display = "none";
+	document.getElementById("vote-textbox4-div").style.display = "none";
+
+	$("#comVoteInsert").on("click",function(){
+		const div =document.getElementById('vote-body-div');
+
+
+		if(div.style.display === 'none'){
+			div.style.display = 'block';
+		}
+
+	});
+
+	var divCondition = 0;
+	$("#voteInputAdd").on("click",function(){
+		const div1 =document.getElementById('vote-textbox3-div');
+		const div2 =document.getElementById('vote-textbox4-div');
+
+		if(div1.style.display === 'none'){
+			div1.style.display = 'block';
+			divCondition = 1; 
+		}else if(divCondition == 1){
+			div2.style.display = 'block';
+			divCondition = 0;
+		}
+	});
+
 	
-	
+	$("#voteInputAdd").on("click",function(){
+
+
+	});
+
+
 
 	const imageInput = $("#comImgName")[0];
 	  console.log("imageInput: ", imageInput.files)
