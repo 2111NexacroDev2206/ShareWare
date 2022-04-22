@@ -42,18 +42,23 @@ public class CommunityController {
 	@RequestMapping(value="/community/register.sw", method=RequestMethod.POST)
 	public String resisterCommunity(Model Model
 			,HttpServletRequest request //session 에 저장 된 아이디를 가져와야함
-			,@ModelAttribute Community community
-			,@RequestParam(value="comImgName", required=false) MultipartFile comImgName) {
+			,@RequestParam(value="uploadFile", required=false) MultipartFile comImgName
+			,@RequestParam("comContent")String comContent // 객체로 전달했기 때문에 @RequestParam으로 값을 가져와서 셋팅해줘야함
+			,@RequestParam("comTitle")String comTitle ){
+	
 			HttpSession session = request.getSession();
 			String memberNum = ((Member)session.getAttribute("loginUser")).getMemberNum();
-			community.setMemberNum(memberNum);
+			
+			Community community = new Community();
+			
+			community.setMemberNum(memberNum);//값넣어주기
+			community.setComTitle(comContent);
+			community.setComContent(comTitle);
 			
 			if(comImgName != null && !comImgName.getOriginalFilename().equals("")) {
 				HashMap<String, String> fileMap = saveFile(comImgName, request);
 				String filePath = fileMap.get("filePath");
 				String fileRename = fileMap.get("fileName"); //바꾼 이름을 가져옴
-				System.out.println(filePath);
-				System.out.println(fileRename);
 				if(filePath != null && !filePath.equals("")) {
 					community.setComImgName(comImgName.getOriginalFilename()); 
 					community.setComImgRename(fileRename); //가져온 값을 넣어줌
