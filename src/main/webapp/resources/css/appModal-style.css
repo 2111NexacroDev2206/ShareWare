@@ -85,8 +85,15 @@
 		border-collapse: collapse;
 		cursor:pointer;
 	}
-	.clicked {
+	.tr:hover{
 		background-color : rgba(117, 144, 194, 0.25);
+	}
+	.m-select {
+		margin-top: 10px;
+		font-size: 14px;
+	}
+	.s-header {
+		font-weight: bold;
 	}
 	.m-footer {
 		width:100%;

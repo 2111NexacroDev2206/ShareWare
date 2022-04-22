@@ -30,6 +30,10 @@
 					<table id="m-list-table">
 					</table>
 				</div>
+				<div class="m-select">
+					<strong>결재자</strong><br>
+					<p id="s-list">
+				</div>
 			</div>
 			<div class="m-footer">
 				<span class="m-btn confirm" id="confirm">확인</span>
@@ -86,7 +90,7 @@
 		$("#m-list-table").html(""); // 테이블 값 지우기
 		var tr;
 		$.each(mList, function(i) {
-			tr += '<tr><td style="display:none;">' + mList[i].memberNum
+			tr += '<tr class="tr"><td style="display:none;">' + mList[i].memberNum
 			+ '</td><td>' + mList[i].division
 			+ '</td><td>' + mList[i].memberName
 			+ '</td><td>' + mList[i].rank + '</td></tr>';
@@ -96,8 +100,8 @@
 	}
 	
 	// 결재자 선택
-	var Arr = new Array(); // 선택한 결재자를 담을 배열 선언
 	function appSelect() {
+		var Arr = new Array(); // 선택한 결재자를 담을 배열 선언
 		$("#m-list-table tr").click(function(){
 			var trArr = new Object(); // 한 행의 배열을 담을 객체 선언
 			var tdArr = new Array(); // 배열 선언(사원번호, 부서, 이름, 직급)
@@ -105,14 +109,7 @@
 			// 현재 클릭된 Row(<tr>)
 			var tr = $(this);
 			var td = tr.children();
-			
-			// 선택한 행 클래스 clicked를 추가/삭제해서 배경색 변경하기
-			if(tr.hasClass("clicked")) { // 클래스 clicked가 있으면
-				tr.removeClass("clicked"); // 클래스 clicked 삭제
-			}else {
-				tr.addClass("clicked"); // 없으면 클래스 clicked 추가
-			}
-			
+						
 			// 반복문을 이용해서 배열에 값을 담아 사용 가능
 			td.each(function(i){
 				tdArr.push(td.eq(i).text());
@@ -126,12 +123,16 @@
 			
 			// 객체에 데이터가 있는지 여부 판단
 			var checkedArrIdx = _.findIndex(Arr, { memberNum : trArr.memberNum }); // 동일한 값 인덱스 찾기
+			var arrText = [];
 			if(checkedArrIdx > -1) {
 				_.remove(Arr, { memberNum : trArr.memberNum }); // 동일한 값 지우기
 			}else {
 				Arr.push(trArr); // 객체를 배열에 담기
 			}
-			console.log(Arr);
+			Arr.forEach(function(el, index) {
+				arrText.push(el.division +" "+ el.memberName +" "+ el.rank);
+			});
+			$("#s-list").html(arrText.join("<br>")); // 개행해서 s-list 영역에 출력
 		});
 	}
 </script>
