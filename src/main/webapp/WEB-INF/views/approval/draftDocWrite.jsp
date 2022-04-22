@@ -10,7 +10,7 @@
 	<jsp:include page="appMenu.jsp"></jsp:include> <!-- 메뉴 + 소메뉴 -->
 	<div class="s-container">
 		<h1>기안서</h1>
-		<form id="form" action="/approval/draftDocWrite.sw" method="post" enctype="multipart/form-data">
+		<form id="form" action="/approval/draftDocWrite.sw" method="post" enctype="multipart/form-data" onsubmit="return nullChk()">
 			<table border="1">
 				<tr>
 					<td>문서번호</td>
@@ -25,7 +25,9 @@
 					<td>기안일</td>
 					<td>${nowTime }<input type="hidden" value="${nowTime }" name="docDate" readonly></td>
 					<td></td>
-					<td colspan="3" align="center"><button type="button" onclick="appBtn('app');">선택</button></td>
+					<td align="center"><button type="button" onclick="appBtn('app');">선택</button></td>
+					<td></td>
+					<td></td>
 				</tr>
 				<tr>
 					<td>기안자</td>
@@ -38,7 +40,7 @@
 				<tr>
 					<td>참조자</td>
 					<td colspan="5" id="ref-list"></td><input type="hidden" id="num-ref" name="refMemNum" readonly>
-					<td><button type="button" onclick="appBtn('ref');">선택</button></td>
+					<td><button id="app-btn" type="button" onclick="appBtn('ref');">선택</button></td>
 				</tr>
 				<tr>
 					<td>제목</td>
@@ -54,7 +56,7 @@
 			<p>파일 첨부
 			<input type="file" name="uploadFile">
 			<br>
-			<input type="button" value="결재 요청" onclick="nullChk();">
+			<input type="submit" value="결재 요청">
 			<input type="button" value="임시 저장">
 			<input type="button" value="취소">
 		</form>
@@ -64,12 +66,15 @@
 		function nullChk() {
 			if($("#title").val() == "") {
 				alert("제목을 입력해주세요.");
+				$("#title").focus();
+				return false;
 			}else if($("#content").val() == "") {
 				alert("내용을 입력해주세요.");
+				$("#content").focus();
+				return false;
 			}else if($("#num-app").val() == "") {
 				alert("결재자를 선택해주세요.");
-			}else {
-				$("#form").submit();
+				return false;
 			}
 		}
 	</script>
