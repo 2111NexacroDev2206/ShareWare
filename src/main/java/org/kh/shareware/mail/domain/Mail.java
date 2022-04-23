@@ -22,7 +22,7 @@ public class Mail {
 	private char resHour;
 	private char resMin;
 	private String memNum;
-	
+
 	
 	public Mail() {}
 
@@ -252,5 +252,13 @@ public class Mail {
 				+ aDate + ", rejReason=" + rejReason + ", resDate=" + resDate + ", resHour=" + resHour + ", resMin="
 				+ resMin + ", memNum=" + memNum + "]";
 	}
+
+	
+
+
+	
+
+	
+
 
 }
