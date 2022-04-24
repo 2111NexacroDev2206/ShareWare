@@ -42,7 +42,7 @@ public class ApprovalController {
 			, @ModelAttribute AppDocument appDoc
 			, @ModelAttribute Approval app
 			, @ModelAttribute AppReference ref
-			, @RequestParam(value="uploadFile", required=false) MultipartFile uploadFile
+			, @RequestParam(value="uploadFile", required=false) MultipartFile uploadFile[]
 			, @RequestParam(value="appMemNum") String appMemNum
 			, @RequestParam(value="refMemNum") String refMemNum
 			, HttpServletRequest request) {
