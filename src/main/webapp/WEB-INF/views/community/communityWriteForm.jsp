@@ -144,40 +144,29 @@
 		}
 	}
 
-	$("voteInsert").on("click", function(){
-		var cVoteText1 = $("vote-input1").val();
-		var cVoteText2 = $("vote-input2").val();
-		var cVoteText3 = $("vote-input3").val();
-		var cVoteText4 = $("vote-input4").val();
-
-		jQuery.ajax({
-		             url : "/community/voteInsert.sw"
-		           , type : "POST"
-		           , data : {"cVoteText1": cVoteText1
-							,"cVoteText2": cVoteText1
-							,"cVoteText3": cVoteText1
-							,"cVoteText4": cVoteText1}
-		           , success:function(data){
-		        	   if(data == "success"){
-		        		   location.href = '/community/list.sw';
-		           }else{
-		        	   alert("삭제 실패!");
-		        	   }
-		        },error : function() {
-					alert("ajax 통신 오류! 관리자에게 문의해주세요.");
-				}
-			})
-		
-	});
 	
 	  $("#comInsert").on("click", function(){
 			var comTitle = $("#comTitle").val();
-			var comContent = $("div").text();
+			var comContent = $("#comContent").text();
+			
+		//	var cVoteText1 = $("#vote-input1").val();
+		//	var cVoteText2 = $("#vote-input2").val();
+		//	var cVoteText3 = $("#vote-input3").val();
+		//	var cVoteText4 = $("#vote-input4").val();
 			
 			 const formData = new FormData();
 			  formData.append("uploadFile", imageInput.files[0]);
 			   formData.append("comTitle", comTitle);
-			   formData.append("comContent", comContent);
+			   
+		//	   if(cVoteText1 != null && cVoteText2 != null){
+			//	   formData.append("cVoteText1", cVoteText1);
+			//	   formData.append("cVoteText2", cVoteText2);
+			//	   formData.append("cVoteText3", cVoteText3);
+			//	   formData.append("cVoteText4", cVoteText4);
+			//   }else{
+			//	   alert("투표 선택지를 입력해주세요!");
+			//   }
+			   
 
 			  jQuery.ajax({
 		             url : "/community/register.sw"
@@ -189,7 +178,7 @@
 		        	   if(data == "success"){
 		        		   location.href = '/community/list.sw';
 		           }else{
-		        	   alert("삭제 실패!");
+		        	   alert("등록 실패!");
 		        	   }
 		        },error : function() {
 					alert("ajax 통신 오류! 관리자에게 문의해주세요.");

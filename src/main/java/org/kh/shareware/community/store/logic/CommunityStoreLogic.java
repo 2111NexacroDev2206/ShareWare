@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.community.domain.Community;
+import org.kh.shareware.community.domain.CommunityVote;
 import org.kh.shareware.community.store.CommunityStore;
 import org.springframework.stereotype.Repository;
 
@@ -36,7 +37,13 @@ public class CommunityStoreLogic implements CommunityStore {
 
 	@Override
 	public int viewCountCommunity(SqlSession sqlsession, Integer comNo) {
-		int result = sqlsession.delete("CommnuityMapper.viewCount", comNo);
+		int result = sqlsession.update("CommnuityMapper.viewCount", comNo);
+		return result;
+	}
+
+	@Override
+	public int insertCommunityVote(SqlSession sqlsession, CommunityVote communityVote) {
+		int result = sqlsession.insert("CommnuityMapper.insertCommnuityVote", communityVote);
 		return result;
 	}
 }

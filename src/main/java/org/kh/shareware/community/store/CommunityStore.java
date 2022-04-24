@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.community.domain.Community;
+import org.kh.shareware.community.domain.CommunityVote;
 
 public interface CommunityStore {
 	
@@ -15,5 +16,6 @@ public interface CommunityStore {
 	Community detailCommunity(SqlSession sqlsession, Integer comNo);
 	int resisterCommunity(SqlSession sqlsession, int comNo);
 	int viewCountCommunity(SqlSession sqlsession, Integer comNo);
+	int insertCommunityVote(SqlSession sqlsession, CommunityVote communityVote);
 
 }

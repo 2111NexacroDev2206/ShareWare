@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.kh.shareware.community.domain.Community;
+import org.kh.shareware.community.domain.CommunityVote;
 import org.kh.shareware.community.service.CommunityService;
 import org.kh.shareware.member.domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,12 +45,17 @@ public class CommunityController {
 			,HttpServletRequest request //session 에 저장 된 아이디를 가져와야함
 			,@RequestParam(value="uploadFile", required=false) MultipartFile comImgName
 			,@RequestParam("comContent")String comContent // 객체로 전달했기 때문에 @RequestParam으로 값을 가져와서 셋팅해줘야함
-			,@RequestParam("comTitle")String comTitle ){
+			,@RequestParam("comTitle")String comTitle
+			,@RequestParam("cVoteText1")String cVoteText1
+			,@RequestParam("cVoteText2")String cVoteText2
+			,@RequestParam("cVoteText3")String cVoteText3
+			,@RequestParam("cVoteText4")String cVoteText4){
 	
 			HttpSession session = request.getSession();
 			String memberNum = ((Member)session.getAttribute("loginUser")).getMemberNum();
 			
 			Community community = new Community();
+			CommunityVote communityVote = new CommunityVote();
 			
 			community.setMemberNum(memberNum);//값넣어주기
 			community.setComTitle(comContent);
@@ -65,7 +71,23 @@ public class CommunityController {
 					community.setComImgPath(filePath);
 				}
 			}
+			
+		
 			int result = cService.resisterCommunity(community);
+			
+			if(cVoteText1 != null) {
+				
+				int comNo = community.getComNo();
+				
+				communityVote.setComNo(comNo);
+				communityVote.setcVoteText1(cVoteText1);
+				communityVote.setcVoteText2(cVoteText2);
+				communityVote.setcVoteText3(cVoteText3);
+				communityVote.setcVoteText4(cVoteText4);
+				
+				int VoteResult = cService.registerCommunityVote(communityVote);
+			}
+			
 			if(result>0) {
 				return "success";
 			}else {

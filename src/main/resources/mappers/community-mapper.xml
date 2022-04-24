@@ -35,4 +35,8 @@
 	UPDATE COMMUNITY SET COM_VIEW = COM_VIEW+1 WHERE COM_NO = #{comNo}
 </update>
 
+<insert id="insertCommnuityVote">
+	INSERT INTO C_VOTE VALUES(SEQ_CVOTE_NO.NEXTVAL ,#{comNo }, DEFAULT, #{cVoteText1}, DEFAULT, DEFAULT, #{cVoteText2}, DEFAULT, DEFAULT, #{cVoteText3}, DEFAULT, DEFAULT, #{cVoteText4}, DEFAULT, DEFAULT)
+</insert>
+
 </mapper>

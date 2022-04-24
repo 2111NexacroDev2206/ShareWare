@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.community.domain.Community;
+import org.kh.shareware.community.domain.CommunityVote;
 import org.kh.shareware.community.service.CommunityService;
 import org.kh.shareware.community.store.CommunityStore;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,4 +45,11 @@ public class CommunityServiceImpl implements CommunityService{
 		int result = cStore.viewCountCommunity(sqlsession, comNo);
 		return result;
 	}
+
+	@Override
+	public int registerCommunityVote(CommunityVote communityVote) {
+		int result = cStore.insertCommunityVote(sqlsession,communityVote);
+		return result;
+	}
+
 }
