@@ -157,6 +157,7 @@
 			 const formData = new FormData();
 			  formData.append("uploadFile", imageInput.files[0]);
 			   formData.append("comTitle", comTitle);
+			   formData.append("comContent", comContent);
 			   
 		//	   if(cVoteText1 != null && cVoteText2 != null){
 			//	   formData.append("cVoteText1", cVoteText1);
