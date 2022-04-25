@@ -11,6 +11,7 @@
 	<div class="s-container">
 		<h1 id="h-title">문서 양식</h1>
 		<form id="form" action="" method="post" enctype="multipart/form-data" onsubmit="return nullChk()">
+			<input type="hidden" value=${form.formNo } name='formNo' readonly>
 			<table border="1" id="table">
 				<tr>
 					<td>문서번호</td>
@@ -42,16 +43,6 @@
 					<td colspan="5" id="ref-list"></td><input type="hidden" id="num-ref" name="refMemNum" readonly>
 					<td><button id="app-btn" type="button" onclick="appBtn('ref');">선택</button></td>
 				</tr>
-				<tr>
-					<td>제목</td>
-					<td colspan="6"><input type="text" name="docTitle" id="title"></td>
-				</tr>
-				<tr>
-					<td colspan="7" align="center">내용</td>
-				</tr>
-				<tr>
-					<td colspan="7" align="center"><textarea cols="50" rows="10" name="docContent" id="content"></textarea></td>
-				</tr>
 			</table>
 			<p>파일 첨부
 			<input type="file" id="file-input" name="uploadFile">
@@ -77,6 +68,10 @@
 				return false;
 			}
 		}
+		// 문서 양식 불러오기
+		var formContent;
+		formContent = "${form.formContent}";
+		$("#table").append(formContent);
 	</script>
 </body>
 </html>

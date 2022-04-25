@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kh.shareware.approval.domain.AppDocument;
 import org.kh.shareware.approval.domain.AppFile;
+import org.kh.shareware.approval.domain.AppForm;
 import org.kh.shareware.approval.domain.AppReference;
 import org.kh.shareware.approval.domain.Approval;
 import org.kh.shareware.approval.service.ApprovalService;
@@ -31,13 +32,27 @@ public class ApprovalController {
 
 	// 문서 작성 페이지
 	@RequestMapping(value = "/approval/{param}DocWriteView.sw")
-	public String docWriteView(Model model, @PathVariable("param") String parameter) {
-		model.addAttribute("myCondition", "approval");
-		model.addAttribute("listCondition", "draft");
-		Date nowTime = new Date(); // 현재 날짜 가져오기
-		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-		model.addAttribute("nowTime", sf.format(nowTime));
-		return "approval/" + parameter+ "DocWrite";
+	public ModelAndView docWriteView(ModelAndView mv, Model model, @PathVariable("param") String parameter) {
+		try {
+			model.addAttribute("myCondition", "approval");
+			model.addAttribute("listCondition", "draft");
+			Date nowTime = new Date(); // 현재 날짜 가져오기
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			model.addAttribute("nowTime", sf.format(nowTime));
+			AppForm form = new AppForm();
+			form = aService.printForm(parameter);
+			if(form != null) {
+				mv.addObject("form", form);
+				mv.setViewName("approval/" + parameter + "DocWrite");
+			}else {
+				mv.addObject("msg", "문서 양식 조회 실패");
+				mv.setViewName("common/errorPage");
+			}
+		}catch(Exception e) {
+			mv.addObject("msg", e.toString());
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
 	}
 	
 	// 결재 요청
@@ -47,21 +62,14 @@ public class ApprovalController {
 			, @ModelAttribute Approval app
 			, @ModelAttribute AppReference ref
 			, @ModelAttribute AppFile file
+			, @ModelAttribute AppForm form
 			, @RequestParam(value="uploadFile", required=false) MultipartFile uploadFile
 			, @RequestParam(value="appMemNum") String appMemNum
 			, @RequestParam(value="refMemNum") String refMemNum
 			, HttpServletRequest request
 			, @PathVariable("param") String parameter) {
 		try {
-			if(parameter.equals("draft")) {
-				appDoc.setFormNo(1);
-			}else if(parameter.equals("app")) {
-				appDoc.setFormNo(2);
-			}else if(parameter.equals("leave")) {
-				appDoc.setFormNo(3);
-			}else if(parameter.equals("exp")) {
-				appDoc.setFormNo(4);
-			}
+			appDoc.setFormNo(form.getFormNo()); // 문서 양식 번호
 			int dResult = aService.registerDoc(appDoc); // 문서 등록
 			int aResult = 0; // 결재자 등록 결과 변수 선언
 			int rResult = 0; // 참조자 등록 결과 변수 선언
@@ -110,8 +118,7 @@ public class ApprovalController {
 			}else {
 				mv.addObject("msg", "등록 성공");
 			}
-			mv.addObject("loc", "/approval/{param}DocWriteView.sw");
-			mv.setViewName("common/msg");
+			mv.setViewName("redirect:/approval/" + parameter + "DocWriteView.sw");
 		}catch(Exception e) {
 			mv.addObject("msg", e.toString());
 			mv.setViewName("common/errorPage");

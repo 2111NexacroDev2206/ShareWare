@@ -3,6 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ApprovalMapper">
+	<resultMap type="AppForm" id="appFormResultMap">
+		<id property="formNo" column="FORM_NO"/>
+		<result property="formName" column="FORM_NAME"/>
+		<result property="formContent" column="FORM_CONTENT"/>
+	</resultMap>
+	<select id="selectForm" resultMap="appFormResultMap"><!-- 문서 양식 조회 -->
+		SELECT * FROM APP_FORM WHERE FORM_NAME = #{parameter}
+	</select>
 	<insert id="insertDoc"><!-- 문서 등록 -->
 		INSERT INTO APP_DOC VALUES
 		<if test="formNo == 1">

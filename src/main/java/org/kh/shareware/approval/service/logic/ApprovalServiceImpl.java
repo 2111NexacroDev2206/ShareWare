@@ -3,6 +3,7 @@ package org.kh.shareware.approval.service.logic;
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.approval.domain.AppDocument;
 import org.kh.shareware.approval.domain.AppFile;
+import org.kh.shareware.approval.domain.AppForm;
 import org.kh.shareware.approval.domain.AppReference;
 import org.kh.shareware.approval.domain.Approval;
 import org.kh.shareware.approval.service.ApprovalService;
@@ -41,6 +42,12 @@ public class ApprovalServiceImpl implements ApprovalService{
 	public int registerFile(AppFile file) {
 		int result = aStore.insertFile(sqlSession, file);
 		return result;
+	}
+
+	@Override
+	public AppForm printForm(String parameter) {
+		AppForm form = aStore.selectForm(sqlSession, parameter);
+		return form;
 	}
 
 }
