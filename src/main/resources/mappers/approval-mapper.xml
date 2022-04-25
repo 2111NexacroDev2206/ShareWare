@@ -3,10 +3,13 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ApprovalMapper">
-	<insert id="insertDoc">
+	<insert id="insertDoc"><!-- 문서 등록 -->
 		INSERT INTO APP_DOC VALUES('D'||SEQ_DOC.NEXTVAL, #{memNum}, 1, #{docTitle}, #{docContent}, DEFAULT, #{docDate}, NULL, NULL, NULL, NULL, NULL)
 	</insert>
-	<insert id="insertApp">
-		INSERT INTO APPROVAL VALUES(SEQ_APP.NEXTVAL, 'D'||SEQ_DOC.CURRVAL, 'admin', 1, NULL, DEFAULT, NULL)
+	<insert id="insertApp"><!-- 결재자 등록 -->
+		INSERT INTO APPROVAL VALUES(SEQ_APP.NEXTVAL, 'D'||SEQ_DOC.CURRVAL, #{memNum}, #{appLevel}, NULL, DEFAULT, NULL)
+	</insert>
+	<insert id="insertRef"><!-- 참조자 등록 -->
+		INSERT INTO APP_REF VALUES(SEQ_REF.NEXTVAL, 'D'||SEQ_DOC.CURRVAL, #{memNum})
 	</insert>
 </mapper>

@@ -1,4 +1,4 @@
-package org.kh.shareware.member.domain;
+package org.kh.shareware.member.common;
 
 public class PageInfo {
 

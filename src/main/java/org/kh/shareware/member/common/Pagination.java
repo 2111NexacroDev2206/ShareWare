@@ -1,6 +1,5 @@
 package org.kh.shareware.member.common;
 
-import org.kh.shareware.common.PageInfo;
 
 public class Pagination {
 	public static PageInfo getPageInfo(int currentPage, int totalCount) {
