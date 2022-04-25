@@ -12,4 +12,7 @@
 	<insert id="insertRef"><!-- 참조자 등록 -->
 		INSERT INTO APP_REF VALUES(SEQ_REF.NEXTVAL, 'D'||SEQ_DOC.CURRVAL, #{memNum})
 	</insert>
+	<insert id="insertFile"><!-- 파일 등록 -->
+		INSERT INTO APP_FILE VALUES(SEQ_FILE.NEXTVAL, 'D'||SEQ_DOC.CURRVAL, #{fileName}, #{fileReName}, #{filePath})
+	</insert>
 </mapper>

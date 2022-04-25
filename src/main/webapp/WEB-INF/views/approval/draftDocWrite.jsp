@@ -54,9 +54,7 @@
 				</tr>
 			</table>
 			<p>파일 첨부
-			<input type="file" id="file-input" name="uploadFile[]" multiple>
-			<h2>업로드된 파일</h2>
-			<div id="preview" ></div>
+			<input type="file" id="file-input" name="uploadFile">
 			<input type="submit" value="결재 요청">
 			<input type="button" value="임시 저장">
 			<input type="button" value="취소">

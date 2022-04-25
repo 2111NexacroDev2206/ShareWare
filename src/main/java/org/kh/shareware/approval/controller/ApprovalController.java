@@ -1,11 +1,14 @@
 package org.kh.shareware.approval.controller;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.kh.shareware.approval.domain.AppDocument;
+import org.kh.shareware.approval.domain.AppFile;
 import org.kh.shareware.approval.domain.AppReference;
 import org.kh.shareware.approval.domain.Approval;
 import org.kh.shareware.approval.service.ApprovalService;
@@ -42,7 +45,8 @@ public class ApprovalController {
 			, @ModelAttribute AppDocument appDoc
 			, @ModelAttribute Approval app
 			, @ModelAttribute AppReference ref
-			, @RequestParam(value="uploadFile", required=false) MultipartFile uploadFile[]
+			, @ModelAttribute AppFile file
+			, @RequestParam(value="uploadFile", required=false) MultipartFile uploadFile
 			, @RequestParam(value="appMemNum") String appMemNum
 			, @RequestParam(value="refMemNum") String refMemNum
 			, HttpServletRequest request) {
@@ -50,6 +54,7 @@ public class ApprovalController {
 			int dResult = aService.registerDoc(appDoc); // 기안서 등록
 			int aResult = 0; // 결재자 등록 결과 변수 선언
 			int rResult = 0; // 참조자 등록 결과 변수 선언
+			int fResult = 0; // 파일 첨부 등록 결과 변수 선언
 			// 결재자
 			String[] appArray = appMemNum.split(","); // 배열에 결재자 넣기
 			for(int i = 0; i < appArray.length; i++) {
@@ -67,10 +72,32 @@ public class ApprovalController {
 			}else {
 				rResult = 1;
 			}
-			if(dResult > 0 && aResult > 0 && rResult > 0) {
-				mv.addObject("msg", "등록 성공");
+			// 파일 첨부
+			if(uploadFile != null && !uploadFile.getOriginalFilename().equals("")) {
+				// input type이 file인 경우 Object(객체)에 담게 되므로 String인 NoticeFilePath에 저장하기 위한 작업
+				// input 태그의 name 값을 Notice의 noticeFilePath로 하면 안됨(MultipartFile은 String이 아니기 때문)
+				HashMap<String, String> fileMap = saveFile(uploadFile, request); // 업로드한 파일
+				String filePath = fileMap.get("filePath");
+				String fileRename = fileMap.get("fileName");
+				if(filePath != null && !filePath.equals("")) {
+					file.setFileName(uploadFile.getOriginalFilename());
+					file.setFileReName(fileRename);
+					file.setFilePath(filePath);
+					fResult = aService.registerFile(file);
+				}
 			}else {
-				mv.addObject("msg", "등록 실패");
+				fResult = 1;
+			}
+			if(dResult < 1) {
+				mv.addObject("msg", "문서 등록 실패");
+			}else if(aResult < 1) {
+				mv.addObject("msg", "결재자 등록 실패");
+			}else if(rResult < 1) {
+				mv.addObject("msg", "참조자 등록 실패");
+			}else if(fResult < 1) {
+				mv.addObject("msg", "파일 등록 실패");
+			}else {
+				mv.addObject("msg", "등록 성공");
 			}
 			mv.addObject("loc", "/approval/draftDocWriteView.sw");
 			mv.setViewName("common/msg");
@@ -79,6 +106,31 @@ public class ApprovalController {
 			mv.setViewName("common/errorPage");
 		}
 		return mv;
+	}
+	
+	private HashMap<String, String> saveFile(MultipartFile file, HttpServletRequest request) {
+		String filePath = "";
+		HashMap<String, String> fileMap = new HashMap<String, String>();
+		String root = request.getSession().getServletContext().getRealPath("resources"); // 파일 경로 설정
+		String savePath = root + "\\auploadFiles"; // 저장 폴더 선택
+		File folder = new File(savePath); // 폴더 없으면 생성
+		if(!folder.exists()) folder.mkdir();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String originalFileName = file.getOriginalFilename(); // 업로드한 파일명
+		String extensionName = originalFileName.substring(originalFileName.lastIndexOf(".") + 1); // 파일 확장자명
+		// 변경할 파일명, 변경할 때에는 SimpleDateFormat 객체를 이용해서 업로드 당시 시각을 파일의 이름으로 바꿔줌
+		String renameFileName = sdf.format(new Date(System.currentTimeMillis())) + "." + extensionName;
+		filePath = folder + "\\" + renameFileName;
+		// 두 가지 값을 map에 저장하여 리턴하기
+		fileMap.put("filePath", filePath);
+		fileMap.put("fileName", renameFileName);
+		try {
+			file.transferTo(new File(filePath)); // 파일 저장
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return fileMap; // 파일 경로 리턴
 	}
 	
 }

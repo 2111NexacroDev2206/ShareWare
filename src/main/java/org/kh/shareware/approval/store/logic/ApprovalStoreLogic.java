@@ -2,6 +2,7 @@ package org.kh.shareware.approval.store.logic;
 
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.approval.domain.AppDocument;
+import org.kh.shareware.approval.domain.AppFile;
 import org.kh.shareware.approval.domain.AppReference;
 import org.kh.shareware.approval.domain.Approval;
 import org.kh.shareware.approval.store.ApprovalStore;
@@ -25,6 +26,12 @@ public class ApprovalStoreLogic implements ApprovalStore{
 	@Override
 	public int insertRef(SqlSession sqlSession, AppReference ref) {
 		int result = sqlSession.insert("ApprovalMapper.insertRef", ref);
+		return result;
+	}
+
+	@Override
+	public int insertFile(SqlSession sqlSession, AppFile file) {
+		int result = sqlSession.insert("ApprovalMapper.insertFile", file);
 		return result;
 	}
 
