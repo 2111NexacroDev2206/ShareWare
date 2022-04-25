@@ -8,8 +8,11 @@
 		<result property="formName" column="FORM_NAME"/>
 		<result property="formContent" column="FORM_CONTENT"/>
 	</resultMap>
+	<select id="selectAllForm" resultMap="appFormResultMap"><!-- 문서 양식 전체 조회 -->
+		SELECT * FROM APP_FORM
+	</select>
 	<select id="selectForm" resultMap="appFormResultMap"><!-- 문서 양식 조회 -->
-		SELECT * FROM APP_FORM WHERE FORM_NAME = #{parameter}
+		SELECT * FROM APP_FORM WHERE FORM_NO = #{formNo}
 	</select>
 	<insert id="insertDoc"><!-- 문서 등록 -->
 		INSERT INTO APP_DOC VALUES

@@ -10,7 +10,7 @@
 	<jsp:include page="appMenu.jsp"></jsp:include> <!-- 메뉴 + 소메뉴 -->
 	<div class="s-container">
 		<h1 id="h-title">문서 양식</h1>
-		<form id="form" action="" method="post" enctype="multipart/form-data" onsubmit="return nullChk()">
+		<form id="form" action="/approval/docWrite.sw" method="post" enctype="multipart/form-data" onsubmit="return nullChk()">
 			<input type="hidden" value=${form.formNo } name='formNo' readonly>
 			<table border="1" id="table">
 				<tr>

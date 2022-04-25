@@ -1,5 +1,7 @@
 package org.kh.shareware.approval.store;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.approval.domain.AppDocument;
 import org.kh.shareware.approval.domain.AppFile;
@@ -13,6 +15,7 @@ public interface ApprovalStore {
 	public int insertApp(SqlSession sqlSession, Approval app); // 결재자 등록
 	public int insertRef(SqlSession sqlSession, AppReference ref); // 참조자 등록
 	public int insertFile(SqlSession sqlSession, AppFile file); // 파일 등록
-	public AppForm selectForm(SqlSession sqlSession, String parameter); // 문서 양식 조회
+	public AppForm selectForm(SqlSession sqlSession, int formNo); // 문서 양식 조회
+	public List<AppForm> selectAllForm(SqlSession sqlSession); // 문서 양식 전체 조회
 
 }

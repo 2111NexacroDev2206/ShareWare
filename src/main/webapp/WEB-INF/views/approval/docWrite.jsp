@@ -4,13 +4,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>지출결의서</title>
+<title></title>
 </head>
 <body>
 	<jsp:include page="docForm.jsp"></jsp:include> <!-- 문서 양식 -->
 </body>
 <script>
-	$("#h-title").text("지출결의서");
-	$("#form").attr("action", "/approval/expDocWrite.sw");
+	$(document).attr("title", "${form.formName}");
+	$("#h-title").text("${form.formName}");
 </script>
 </html>

@@ -1,5 +1,7 @@
 package org.kh.shareware.approval.service.logic;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.approval.domain.AppDocument;
 import org.kh.shareware.approval.domain.AppFile;
@@ -33,21 +35,27 @@ public class ApprovalServiceImpl implements ApprovalService{
 	}
 
 	@Override
-	public int registerRef(AppReference ref) {
+	public int registerRef(AppReference ref) { // 참조자 등록
 		int result = aStore.insertRef(sqlSession, ref);
 		return result;
 	}
 
 	@Override
-	public int registerFile(AppFile file) {
+	public int registerFile(AppFile file) { // 파일 등록
 		int result = aStore.insertFile(sqlSession, file);
 		return result;
 	}
 
 	@Override
-	public AppForm printForm(String parameter) {
-		AppForm form = aStore.selectForm(sqlSession, parameter);
+	public AppForm printForm(int formNo) { // 문서 양식 조회
+		AppForm form = aStore.selectForm(sqlSession, formNo);
 		return form;
+	}
+
+	@Override
+	public List<AppForm> printAllForm() { // 문서 양식 전체 조회
+		List<AppForm> fList = aStore.selectAllForm(sqlSession);
+		return fList;
 	}
 
 }

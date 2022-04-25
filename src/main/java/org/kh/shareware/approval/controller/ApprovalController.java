@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,35 +16,59 @@ import org.kh.shareware.approval.domain.Approval;
 import org.kh.shareware.approval.service.ApprovalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
 
 @Controller
 public class ApprovalController {
 	
 	@Autowired
 	private ApprovalService aService;
-
+	
+	// 기안 문서함으로 이동
+	@RequestMapping(value = "/approval/{param}ListView.sw")
+	public String docListView(Model model, @PathVariable("param") String parameter) {
+		model.addAttribute("myCondition", "approval");
+		model.addAttribute("listCondition", parameter);
+		return "approval/" + parameter + "List";
+	}
+	
+	// 문서 양식 전체 조회
+	@ResponseBody
+	@RequestMapping(value = "/modal/appForm/list.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+	public String appFormList() {
+		List<AppForm> fList = aService.printAllForm();
+		if(!fList.isEmpty()) {
+			return new Gson().toJson(fList);
+		}
+		return null;
+	}
+	
 	// 문서 작성 페이지
-	@RequestMapping(value = "/approval/{param}DocWriteView.sw")
-	public ModelAndView docWriteView(ModelAndView mv, Model model, @PathVariable("param") String parameter) {
+	@RequestMapping(value = "/approval/docWriteView.sw")
+	public ModelAndView docWriteView(ModelAndView mv, Model model
+			, @RequestParam int formNo
+			, @ModelAttribute AppForm form) {
 		try {
 			model.addAttribute("myCondition", "approval");
 			model.addAttribute("listCondition", "draft");
 			Date nowTime = new Date(); // 현재 날짜 가져오기
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 			model.addAttribute("nowTime", sf.format(nowTime));
-			AppForm form = new AppForm();
-			form = aService.printForm(parameter);
+			form = aService.printForm(formNo);
 			if(form != null) {
 				mv.addObject("form", form);
-				mv.setViewName("approval/" + parameter + "DocWrite");
+				mv.setViewName("approval/docWrite");
 			}else {
 				mv.addObject("msg", "문서 양식 조회 실패");
 				mv.setViewName("common/errorPage");
@@ -56,7 +81,7 @@ public class ApprovalController {
 	}
 	
 	// 결재 요청
-	@RequestMapping(value = "/approval/{param}DocWrite.sw", method = RequestMethod.POST)
+	@RequestMapping(value = "/approval/docWrite.sw", method = RequestMethod.POST)
 	public ModelAndView docRegister(ModelAndView mv
 			, @ModelAttribute AppDocument appDoc
 			, @ModelAttribute Approval app
@@ -66,8 +91,7 @@ public class ApprovalController {
 			, @RequestParam(value="uploadFile", required=false) MultipartFile uploadFile
 			, @RequestParam(value="appMemNum") String appMemNum
 			, @RequestParam(value="refMemNum") String refMemNum
-			, HttpServletRequest request
-			, @PathVariable("param") String parameter) {
+			, HttpServletRequest request) {
 		try {
 			appDoc.setFormNo(form.getFormNo()); // 문서 양식 번호
 			int dResult = aService.registerDoc(appDoc); // 문서 등록
@@ -118,7 +142,8 @@ public class ApprovalController {
 			}else {
 				mv.addObject("msg", "등록 성공");
 			}
-			mv.setViewName("redirect:/approval/" + parameter + "DocWriteView.sw");
+			mv.addObject("loc", "/approval/draftListView.sw");
+			mv.setViewName("common/msg");
 		}catch(Exception e) {
 			mv.addObject("msg", e.toString());
 			mv.setViewName("common/errorPage");
