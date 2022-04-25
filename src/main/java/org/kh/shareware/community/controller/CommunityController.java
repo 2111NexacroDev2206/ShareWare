@@ -126,8 +126,13 @@ public class CommunityController {
 		
 		//게시글 번호로 검색
 		Community community = cService.detailCommunity(comNo);
+		//투표 번호 검색
+		CommunityVote communityVote = cService.detailCommunityVote(comNo);
+		
+		
 		if(community != null) {
 			model.addAttribute("community",community);
+			model.addAttribute("communityVote",communityVote);
 			return "community/communityDetail";
 		}else {
 			model.addAttribute("msg", "게시글 상세보기 실패");
@@ -141,14 +146,34 @@ public class CommunityController {
 	@ResponseBody
 	@RequestMapping(value="/community/deleteCommunity.sw", method=RequestMethod.GET)
 	public String removeCommunity(
-		@RequestParam("comNo") Integer comNo) {
-		int voteResult = cService.removeCommunityVote(comNo);
+		@RequestParam("comNo") Integer comNo
+		,@RequestParam("comVoteNo") Integer comVoteNo) {
+		
+		if(comVoteNo != null) {
+			int voteResult = cService.removeCommunityVote(comNo);
+		}
+		
 		int result =cService.removeCommunity(comNo);
 		if(result >0) {
 			return "success";
 		}
 		return "fail";
 	}
+	
+	//투표 삭제
+		@ResponseBody
+		@RequestMapping(value="/community/deleteCommuntyVote.sw", method=RequestMethod.GET)
+		public String removeCommunityVote(
+			@RequestParam("comNo") Integer comNo) {
+			
+			
+				int Result = cService.removeCommunityVote(comNo);
+			
+			if(Result >0) {
+				return "success";
+			}
+			return "fail";
+		}
 		
 	public HashMap<String, String> saveFile(MultipartFile file, HttpServletRequest request) {
 		String filePath = "";

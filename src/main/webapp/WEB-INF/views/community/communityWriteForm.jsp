@@ -49,7 +49,7 @@
 							<button type="button" id="voteInputAdd">+</button>
 						</div>
 					</div>
-				</div>
+				<!--</div>  -->
 				
 			</td>
 		</tr>

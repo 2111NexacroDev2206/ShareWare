@@ -46,4 +46,16 @@ public class CommunityStoreLogic implements CommunityStore {
 		int result = sqlsession.insert("CommnuityMapper.insertCommnuityVote", communityVote);
 		return result;
 	}
+
+	@Override
+	public int removeCommunityVote(SqlSession sqlsession, Integer comNo) {
+		int result = sqlsession.delete("CommnuityMapper.deleteCommnuityVote", comNo);
+		return result;
+	}
+
+	@Override
+	public CommunityVote deleteCommunityVote(SqlSession sqlsession, Integer comNo) {
+		CommunityVote communityVote = sqlsession.selectOne("CommnuityMapper.selectCommnuityVote", comNo);
+		return communityVote;
+	}
 }

@@ -35,8 +35,39 @@
 	UPDATE COMMUNITY SET COM_VIEW = COM_VIEW+1 WHERE COM_NO = #{comNo}
 </update>
 
+
+<resultMap type="CommunityVote" id="CommunityVoteResultMap">
+		<id property="comVoteNo" column="COM_VOTE_NO"/>
+		<result property="comNo" column="COM_NO"/>
+		<result property="cVoteSc1" column="C_VOTE_SC1"/>
+		<result property="cVoteSc2" column="C_VOTE_SC2"/>
+		<result property="cVoteSc3" column="C_VOTE_SC3"/>
+		<result property="cVoteSc4" column="C_VOTE_SC4"/>
+		<result property="cVoteText1" column="C_VOTE_S_TEXT1"/>
+		<result property="cVoteText2" column="C_VOTE_S_TEXT2"/>
+		<result property="cVoteText3" column="C_VOTE_S_TEXT3"/>
+		<result property="cVoteText4" column="C_VOTE_S_TEXT4"/>
+		<result property="cVoteSelect1" column="C_VOTE_SELECT1"/>
+		<result property="cVoteSelect2" column="C_VOTE_SELECT2"/>
+		<result property="cVoteSelect3" column="C_VOTE_SELECT3"/>
+		<result property="cVoteSelect4" column="C_VOTE_SELECT4"/>
+		<result property="cVoteState" column="C_VOTE_STATE"/>
+	</resultMap>
+
+
+
 <insert id="insertCommnuityVote">
 	INSERT INTO C_VOTE VALUES(SEQ_CVOTE_NO.NEXTVAL ,SEQ_COM_NO.CURRVAL, DEFAULT, #{cVoteText1}, DEFAULT, DEFAULT, #{cVoteText2}, DEFAULT, DEFAULT, #{cVoteText3}, DEFAULT, DEFAULT, #{cVoteText4}, DEFAULT, DEFAULT)
 </insert>
+
+<select id="selectCommnuityVote" resultMap="CommunityVoteResultMap">
+	SELECT * FROM C_VOTE WHERE COM_NO= #{comNo}
+</select>
+
+<delete id="deleteCommnuityVote">
+	DELETE FROM C_VOTE WHERE COM_NO = #{comNo }
+</delete>
+
+
 
 </mapper>

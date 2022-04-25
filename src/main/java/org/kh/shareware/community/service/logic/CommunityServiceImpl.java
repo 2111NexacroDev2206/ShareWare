@@ -54,8 +54,16 @@ public class CommunityServiceImpl implements CommunityService{
 
 	@Override
 	public int removeCommunityVote(Integer comNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = cStore.removeCommunityVote(sqlsession,comNo);
+		return result;
 	}
+
+	@Override
+	public CommunityVote detailCommunityVote(Integer comNo) {
+		CommunityVote communityVote = cStore.deleteCommunityVote(sqlsession,comNo);
+		return communityVote;
+	}
+
+	
 
 }

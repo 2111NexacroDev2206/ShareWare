@@ -17,5 +17,7 @@ public interface CommunityStore {
 	int resisterCommunity(SqlSession sqlsession, int comNo);
 	int viewCountCommunity(SqlSession sqlsession, Integer comNo);
 	int insertCommunityVote(SqlSession sqlsession, CommunityVote communityVote);
+	int removeCommunityVote(SqlSession sqlsession, Integer comNo);
+	CommunityVote deleteCommunityVote(SqlSession sqlsession, Integer comNo);
 
 }
