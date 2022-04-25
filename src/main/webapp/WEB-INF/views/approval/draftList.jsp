@@ -12,6 +12,7 @@
 	<div class="s-container">
 		<button id="app-btn">결재 상신</button>
 	</div>
+	<!-- 문서 양식 선택 모달 -->
 	<div class="m-appSel-wrap" id="appSelModal">
 		<div class="m-appSel">
 			<div class="m-header">
@@ -31,6 +32,7 @@
 	</div>
 </body>
 <script>
+	// 문서 양식 목록 조회
 	$.ajax({
 		url : "/modal/appForm/list.sw",
 		type : "get",

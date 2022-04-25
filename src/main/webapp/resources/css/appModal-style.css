@@ -50,7 +50,7 @@
 		margin-right: 5px;
 		text-align: center;
 	}
-	.s-selForm {
+	.s-selForm { /* 문서 양식 선택 */
 		height: 40px;
 		width: 100%;
 		border-radius: 4px;
