@@ -88,31 +88,8 @@
 		})
 	});
 	
-	$("#andVote").on("click", function(){
-		var comNo = "${community.comNo}";
-		var comVoteNo = "${CommunityVote.comVoteNo}";
-		$.ajax({
-			url: "/community/deleteCommuntyVote.sw",
-			type: "GET",
-			data: {"comNo": comNo
-				,"comVoteNo":comVoteNo},
-			success : function(data) {
-				if(data == "success") {
-					location.href = '/community/list.sw';
-				}else {
-					alert("삭제 실패!");
-				}
-			},
-			error : function() {
-				alert("ajax 통신 오류! 관리자에게 문의해주세요.");
-			}
-		})
-	});
 	
-	
-	
-	
-	
+
 	
 </script>
 </html>
