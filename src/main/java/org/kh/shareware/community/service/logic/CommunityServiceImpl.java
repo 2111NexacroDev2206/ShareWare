@@ -52,4 +52,10 @@ public class CommunityServiceImpl implements CommunityService{
 		return result;
 	}
 
+	@Override
+	public int removeCommunityVote(Integer comNo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

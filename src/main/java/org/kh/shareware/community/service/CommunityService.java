@@ -13,5 +13,6 @@ public interface CommunityService {
 	int removeCommunity(int comNo);
 	int viewCountCommunity(Integer comNo);
 	int registerCommunityVote(CommunityVote communityVote);
+	int removeCommunityVote(Integer comNo);
 
 }

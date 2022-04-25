@@ -36,7 +36,7 @@
 </update>
 
 <insert id="insertCommnuityVote">
-	INSERT INTO C_VOTE VALUES(SEQ_CVOTE_NO.NEXTVAL ,#{comNo }, DEFAULT, #{cVoteText1}, DEFAULT, DEFAULT, #{cVoteText2}, DEFAULT, DEFAULT, #{cVoteText3}, DEFAULT, DEFAULT, #{cVoteText4}, DEFAULT, DEFAULT)
+	INSERT INTO C_VOTE VALUES(SEQ_CVOTE_NO.NEXTVAL ,SEQ_COM_NO.CURRVAL, DEFAULT, #{cVoteText1}, DEFAULT, DEFAULT, #{cVoteText2}, DEFAULT, DEFAULT, #{cVoteText3}, DEFAULT, DEFAULT, #{cVoteText4}, DEFAULT, DEFAULT)
 </insert>
 
 </mapper>

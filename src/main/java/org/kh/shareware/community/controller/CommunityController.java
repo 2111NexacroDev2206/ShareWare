@@ -44,15 +44,21 @@ public class CommunityController {
 	public String resisterCommunity(Model Model
 			,HttpServletRequest request //session 에 저장 된 아이디를 가져와야함
 			,@RequestParam(value="uploadFile", required=false) MultipartFile comImgName
-			,@RequestParam("comContent")String comContent // 객체로 전달했기 때문에 @RequestParam으로 값을 가져와서 셋팅해줘야함
+			,@RequestParam("comContent")String comContent // @RequestParam으로 값을 가져와서 세팅해줘야함
 			,@RequestParam("comTitle")String comTitle
-			,@RequestParam("cVoteText1")String cVoteText1
-			,@RequestParam("cVoteText2")String cVoteText2
-			,@RequestParam("cVoteText3")String cVoteText3
-			,@RequestParam("cVoteText4")String cVoteText4){
+			,@RequestParam(value="cVoteText1", required=false, defaultValue="")String cVoteText1
+			,@RequestParam(value="cVoteText2", required=false, defaultValue="")String cVoteText2
+			,@RequestParam(value="cVoteText3", required=false, defaultValue="")String cVoteText3
+			,@RequestParam(value="cVoteText4", required=false, defaultValue="")String cVoteText4){
 	
 			HttpSession session = request.getSession();
-			String memberNum = ((Member)session.getAttribute("loginUser")).getMemberNum();
+			String memberNum = "";
+			Member member = (Member)session.getAttribute("loginUser");
+			if(member != null) {
+				memberNum = member.getMemberNum();
+			}else {
+				memberNum = "admin";
+			}
 			
 			Community community = new Community();
 			CommunityVote communityVote = new CommunityVote();
@@ -75,7 +81,7 @@ public class CommunityController {
 		
 			int result = cService.resisterCommunity(community);
 			
-			if(cVoteText1 != null) {
+			if(cVoteText1 != "") {
 				
 				int comNo = community.getComNo();
 				
@@ -136,6 +142,7 @@ public class CommunityController {
 	@RequestMapping(value="/community/deleteCommunity.sw", method=RequestMethod.GET)
 	public String removeCommunity(
 		@RequestParam("comNo") Integer comNo) {
+		int voteResult = cService.removeCommunityVote(comNo);
 		int result =cService.removeCommunity(comNo);
 		if(result >0) {
 			return "success";

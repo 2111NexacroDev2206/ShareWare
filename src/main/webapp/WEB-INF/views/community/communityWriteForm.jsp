@@ -15,12 +15,17 @@
 		<tr>
 			<td>제목</td>
 			<td><input type="text" size="50" id="comTitle"></td>
+			
 		</tr>
 		<tr>
 			<td>본문</td>
 			<td>
-				<div contentEditable="true" id="comContent" style="height:500px;">
-					<img id ="img" />
+ 				<!-- <div contentEditable="true" id="comContent" style="height:500px;">  -->
+				<textarea id="comContent" rows="" cols=""></textarea>
+					<div>
+						<img id ="img" />
+					</div>
+					
 				<div id="vote-body-div">
 					<div id="vote-textbox-div">
 						<div id="vote-textbox1-div">
@@ -43,8 +48,9 @@
 							<button type="button" id="voteInsert">등록</button>
 							<button type="button" id="voteInputAdd">+</button>
 						</div>
+					</div>
 				</div>
-				</div>
+				
 			</td>
 		</tr>
 		<tr>
@@ -69,23 +75,25 @@
 	document.getElementById("vote-textbox4-div").style.display = "none";
 	document.getElementById("btn-delete1").style.display = "none";
 	document.getElementById("btn-delete2").style.display = "none";
+	
+	const voteBodyDiv =document.getElementById('vote-body-div');
+	
+	
 
 	$("#comVoteInsert").on("click",function(){
-		const div =document.getElementById('vote-body-div');
 
 
-		if(div.style.display === 'none'){
-			div.style.display = 'block';
+		if(voteBodyDiv.style.display === 'none'){
+			voteBodyDiv.style.display = 'block';
 		}
 
 	});
 
 	$("#voteDelete").on("click",function(){
-		const div =document.getElementById('vote-body-div');
 
 
-		if(div.style.display === 'block'){
-			div.style.display = 'none';
+		if(voteBodyDiv.style.display === 'block'){
+			voteBodyDiv.style.display = 'none';
 		}
 
 	});
@@ -146,29 +154,38 @@
 
 	
 	  $("#comInsert").on("click", function(){
+		    
 			var comTitle = $("#comTitle").val();
-			var comContent = $("#comContent").text();
+			var comContent = $("#comContent").val();
 			
 			var cVoteText1 = $("#vote-input1").val();
 			var cVoteText2 = $("#vote-input2").val();
 			var cVoteText3 = $("#vote-input3").val();
 			var cVoteText4 = $("#vote-input4").val();
+			var insertTrue = 1; //0이면 ajax 동작 x 1이면 동작 되게
+			
 			
 			 const formData = new FormData();
 			  formData.append("uploadFile", imageInput.files[0]);
 			   formData.append("comTitle", comTitle);
-			   formData.append("comContent", comContent);
+			   formData.append("comContent", comContent.trim());
 			   
-			   if(cVoteText1 != null && cVoteText2 != null){
-				   formData.append("cVoteText1", cVoteText1);
-				   formData.append("cVoteText2", cVoteText2);
-				   formData.append("cVoteText3", cVoteText3);
-				   formData.append("cVoteText4", cVoteText4);
-			   }else{
-				   alert("투표 선택지를 입력해주세요!");
+			   //투표가 보여지고 있을 때
+			   if(voteBodyDiv.style.display === 'block'){
+				   if(cVoteText1 == "" && cVoteText2 == ""){
+					   //만약 text1이랑  text2가 값이 없으면
+					   alert("투표 선택지를 입력해주세요!");
+					   insertTrue = 0;
+				   }else{//투표 선택지에 값이 있으면 데이터 넣어주기
+					   formData.append("cVoteText1", cVoteText1);
+					   formData.append("cVoteText2", cVoteText2);
+					   formData.append("cVoteText3", cVoteText3);
+					   formData.append("cVoteText4", cVoteText4);
+					   insertTrue = 1;
+				   }
 			   }
-			   
-
+			  
+		if(insertTrue == 1){
 			  jQuery.ajax({
 		             url : "/community/register.sw"
 		           ,processData: false
@@ -185,7 +202,15 @@
 					alert("ajax 통신 오류! 관리자에게 문의해주세요.");
 				}
 			})
+		}
+			
 		});
+			
+			
+
+
+
+			 
 	</script>
 </body>
 </html>
