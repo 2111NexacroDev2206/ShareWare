@@ -7,6 +7,10 @@
 <title>품의서</title>
 </head>
 <body>
-
+	<jsp:include page="docForm.jsp"></jsp:include> <!-- 문서 양식 -->
 </body>
+<script>
+	$("#h-title").text("품의서");
+	$("#form").attr("action", "/approval/appDocWrite.sw");
+</script>
 </html>

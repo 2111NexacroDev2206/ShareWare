@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,19 +29,19 @@ public class ApprovalController {
 	@Autowired
 	private ApprovalService aService;
 
-	// 기안서 작성 페이지
-	@RequestMapping(value = "/approval/draftDocWriteView.sw")
-	public String docWriteView(Model model) {
+	// 문서 작성 페이지
+	@RequestMapping(value = "/approval/{param}DocWriteView.sw")
+	public String docWriteView(Model model, @PathVariable("param") String parameter) {
 		model.addAttribute("myCondition", "approval");
 		model.addAttribute("listCondition", "draft");
 		Date nowTime = new Date(); // 현재 날짜 가져오기
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 		model.addAttribute("nowTime", sf.format(nowTime));
-		return "approval/draftDocWrite";
+		return "approval/" + parameter+ "DocWrite";
 	}
 	
-	// 기안서 결재 요청
-	@RequestMapping(value = "/approval/draftDocWrite.sw", method = RequestMethod.POST)
+	// 결재 요청
+	@RequestMapping(value = "/approval/{param}DocWrite.sw", method = RequestMethod.POST)
 	public ModelAndView docRegister(ModelAndView mv
 			, @ModelAttribute AppDocument appDoc
 			, @ModelAttribute Approval app
@@ -49,9 +50,19 @@ public class ApprovalController {
 			, @RequestParam(value="uploadFile", required=false) MultipartFile uploadFile
 			, @RequestParam(value="appMemNum") String appMemNum
 			, @RequestParam(value="refMemNum") String refMemNum
-			, HttpServletRequest request) {
+			, HttpServletRequest request
+			, @PathVariable("param") String parameter) {
 		try {
-			int dResult = aService.registerDoc(appDoc); // 기안서 등록
+			if(parameter.equals("draft")) {
+				appDoc.setFormNo(1);
+			}else if(parameter.equals("app")) {
+				appDoc.setFormNo(2);
+			}else if(parameter.equals("leave")) {
+				appDoc.setFormNo(3);
+			}else if(parameter.equals("exp")) {
+				appDoc.setFormNo(4);
+			}
+			int dResult = aService.registerDoc(appDoc); // 문서 등록
 			int aResult = 0; // 결재자 등록 결과 변수 선언
 			int rResult = 0; // 참조자 등록 결과 변수 선언
 			int fResult = 0; // 파일 첨부 등록 결과 변수 선언
@@ -99,7 +110,7 @@ public class ApprovalController {
 			}else {
 				mv.addObject("msg", "등록 성공");
 			}
-			mv.addObject("loc", "/approval/draftDocWriteView.sw");
+			mv.addObject("loc", "/approval/{param}DocWriteView.sw");
 			mv.setViewName("common/msg");
 		}catch(Exception e) {
 			mv.addObject("msg", e.toString());
@@ -108,6 +119,7 @@ public class ApprovalController {
 		return mv;
 	}
 	
+	// 파일 저장
 	private HashMap<String, String> saveFile(MultipartFile file, HttpServletRequest request) {
 		String filePath = "";
 		HashMap<String, String> fileMap = new HashMap<String, String>();
@@ -132,5 +144,4 @@ public class ApprovalController {
 		}
 		return fileMap; // 파일 경로 리턴
 	}
-	
 }

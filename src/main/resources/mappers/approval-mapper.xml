@@ -4,7 +4,19 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ApprovalMapper">
 	<insert id="insertDoc"><!-- 문서 등록 -->
-		INSERT INTO APP_DOC VALUES('D'||SEQ_DOC.NEXTVAL, #{memNum}, 1, #{docTitle}, #{docContent}, DEFAULT, #{docDate}, NULL, NULL, NULL, NULL, NULL)
+		INSERT INTO APP_DOC VALUES
+		<if test="formNo == 1">
+			('D'||SEQ_DOC.NEXTVAL, #{memNum}, #{formNo}, #{docTitle}, #{docContent}, DEFAULT, #{docDate}, NULL, NULL, NULL, NULL, NULL)
+		</if>
+		<if test="formNo == 2">
+			('A'||SEQ_DOC.NEXTVAL, #{memNum}, #{formNo}, #{docTitle}, #{docContent}, DEFAULT, #{docDate}, NULL, NULL, NULL, NULL, NULL)
+		</if>
+		<if test="formNo == 3">
+			('L'||SEQ_DOC.NEXTVAL, #{memNum}, #{formNo}, #{docTitle}, #{docContent}, DEFAULT, #{docDate}, NULL, NULL, NULL, NULL, NULL)
+		</if>
+		<if test="formNo == 4">
+			('E'||SEQ_DOC.NEXTVAL, #{memNum}, #{formNo}, #{docTitle}, #{docContent}, DEFAULT, #{docDate}, NULL, NULL, NULL, NULL, NULL)
+		</if>
 	</insert>
 	<insert id="insertApp"><!-- 결재자 등록 -->
 		INSERT INTO APPROVAL VALUES(SEQ_APP.NEXTVAL, 'D'||SEQ_DOC.CURRVAL, #{memNum}, #{appLevel}, NULL, DEFAULT, NULL)

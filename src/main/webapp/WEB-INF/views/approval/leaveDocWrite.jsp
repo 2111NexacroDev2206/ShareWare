@@ -7,6 +7,10 @@
 <title>휴가신청서</title>
 </head>
 <body>
-
+	<jsp:include page="docForm.jsp"></jsp:include> <!-- 문서 양식 -->
 </body>
+<script>
+	$("#h-title").text("휴가신청서");
+	$("#form").attr("action", "/approval/leaveDocWrite.sw");
+</script>
 </html>

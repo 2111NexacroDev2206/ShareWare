@@ -80,15 +80,15 @@
 	}
 	
 	// 결재자/참조자 선택 사원 검색
-	$("#btn-search").click(function(type) {
+	$("#btn-search").click(function() {
 		var searchCondition = $("#s-condition").val();
-		var searchValue = $("#s-value").val(); 
+		var searchValue = $("#s-value").val();
 		$.ajax({
 			url : "/modal/member/search.sw",
 			type : "get",
 			data : { "searchCondition" : searchCondition,  "searchValue" : searchValue },
 			success : function(mList) {
-				appList(mList, type);
+				appList(mList, varType);
 			},
 			error : function() {
 				alert("사원 목록 검색 실패");
