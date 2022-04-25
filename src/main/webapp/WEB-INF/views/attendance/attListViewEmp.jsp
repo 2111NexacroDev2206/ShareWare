@@ -7,13 +7,29 @@
 	SimpleDateFormat sf = new SimpleDateFormat("a hh:mm:ss");
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>근태관리</title>
+
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>  
+	<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+
+	<script type="text/javascript">
+
+	</script>
+
+
 </head>
 <body>
+
+
 	<%= sf.format(nowTime) %>
 	<br>
 	<form action="/attendance/registerAtt.sw" method="post">
@@ -22,6 +38,24 @@
 			<input type="submit" id="button2" value="퇴근">
 		</div> <br>
 		
+	<!-- 검색일<input type="text" id="searchDate">  -->
+    	<div>
+	      <input type="date" value="Sysdate">
+	      <input type="submit" value="검색">
+    	</div>
+    </form>
+  	<br>
+	
+		<div>
+			<table border="1">
+				<tr><th>통계</th></tr>
+				<tr>
+					<td>지각</td>
+					<td>조퇴</td>
+					<td>출근</td>
+				</tr>
+			</table>
+		</div>
 		<div>
 			<table border="1">
 				<tr>

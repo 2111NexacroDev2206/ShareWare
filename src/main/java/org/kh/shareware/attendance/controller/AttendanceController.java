@@ -24,12 +24,6 @@ public class AttendanceController {
 	@Autowired
 	private AttendanceService aService;
 	
-//	//근태관리페이지
-//	@RequestMapping(value="/attendance/attListViewEmp.sw", method=RequestMethod.GET)
-//	public String attListViewEmp(HttpServletRequest request) {
-//		
-//		return "attendance/attListViewEmp";
-//	}
 	
 	// 출퇴근 등록
 	@RequestMapping(value = "/attendance/registerAtt.sw", method = RequestMethod.POST)
