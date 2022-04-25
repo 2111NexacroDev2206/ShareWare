@@ -25,6 +25,11 @@ public class AttendanceServicImpl implements AttendanceService{
 		int result = aStore.insertAttendance(sqlSession,attendance);
 		return result;
 	}
+	@Override
+	public int modifyAttendance(Attendance attendance) {
+		int result = aStore.updateAttendance(sqlSession,attendance);
+		return result;
+	}
 
 	//근태 리스트
 	@Override
@@ -37,5 +42,6 @@ public class AttendanceServicImpl implements AttendanceService{
 		List<Attendance> aList = aStore.selectAll(sqlSession, pi);
 		return aList;
 	}
+
 
 }

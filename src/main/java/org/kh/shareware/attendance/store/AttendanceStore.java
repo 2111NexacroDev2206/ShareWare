@@ -9,8 +9,10 @@ import org.kh.shareware.member.common.PageInfo;
 public interface AttendanceStore {
 	//등록
 	public int insertAttendance(SqlSession sqlSession, Attendance attendance);
+	public int updateAttendance(SqlSession sqlSession, Attendance attendance);
 
 	//근태리스트
 	public List<Attendance> selectAll(SqlSession sqlSession, PageInfo pi);
 	public int selectListCount(SqlSession sqlSession);
+
 }

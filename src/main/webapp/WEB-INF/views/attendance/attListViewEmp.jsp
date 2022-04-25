@@ -11,6 +11,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,33 +21,39 @@
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>  
 	<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-
-	<script type="text/javascript">
-
-	</script>
+	
 
 
 </head>
 <body>
 
-
-	<%= sf.format(nowTime) %>
-	<br>
+	<%= sf.format(nowTime) %><br>
+	
+	$("#datepicker").datepicker({
+	
+	});
+	
+	
 	<form action="/attendance/registerAtt.sw" method="post">
 		<div id="">
 			<input type="submit" id="button1" value="출근">
+		</div> <br>
+	</form>
+	<form action="/attendance/modifyAtt.sw" method="post">
+		<div id="">
 			<input type="submit" id="button2" value="퇴근">
 		</div> <br>
-		
+	</form>		
+	
 	<!-- 검색일<input type="text" id="searchDate">  -->
+	<form action="/attendance/searchDate.sw" method="post">
     	<div>
 	      <input type="date" value="Sysdate">
 	      <input type="submit" value="검색">
     	</div>
-    </form>
-  	<br>
-	
-		<div>
+    
+    	<br>
+    	<div>
 			<table border="1">
 				<tr><th>통계</th></tr>
 				<tr>
@@ -56,6 +63,9 @@
 				</tr>
 			</table>
 		</div>
+    </form>
+  	<br>
+		
 		<div>
 			<table border="1">
 				<tr>
@@ -66,7 +76,7 @@
 					<th>근무상태</th>
 				</tr>
 				<c:forEach items="${aList }" var="attendance">
-					<tr>
+				<tr>
 					<td>${attendance.attDate }</td>
 					<td>${attendance.attStrTime }</td>
 					<td>${attendance.attFinTime }</td>
@@ -77,7 +87,7 @@
 				
 			</table>
 		</div>
-	</form>
+
 	
 </body>
 </html>

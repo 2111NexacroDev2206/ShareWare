@@ -5,18 +5,27 @@
   
   <mapper namespace="AttendanceMapper">
   	<resultMap type="Attendance" id="attendanceResultMap">
-  		<id property="attDate" column="ATT_DATE"/>
-  		<result property="attStrDate" column="ATT_STR_DATE"/>
-  		<result property="attFinDate" column="ATT_FIN_DATE"/>
-  		<result property="attTotalDate" column="ATT_TOTAL_DATE"/>
+  		<id property="attNo" column="ATT_NO"/>
+  		<result property="attDate" column="ATT_DATE"/>
+  		<result property="attStrTime" column="ATT_STR_TIME"/>
+  		<result property="attFinTime" column="ATT_FIN_TIME"/>
+  		<result property="attTotalTime" column="ATT_TOTAL_TIME"/>
   		<result property="attStatus" column="ATT_STATUS"/>
+  		<result property="lateNum" column="LATE_NUM"/>
+  		<result property="earlyNum" column="EARLY_NUM"/>
+  		<result property="attNum" column="ATT_NUM"/>
   	</resultMap>
   	
-  	
+  	<!-- 출퇴근 등록 -->
   	<insert id="insertAttendance">
-  		INSERT INTO ATTENDANCE VALUES(SYSDATE,#{attStrTime},#{attFinTime},#{attTotalTime}, 'N')
+  		INSERT INTO ATTENDANCE VALUES(SEQ_ATTENDANCE_NO.NEXTVAL,SYSDATE,TO_CHAR(SYSDATE,'HH24:mm:ss'),null,null,'Y',0, 0, 0)
   	</insert>
+  	<update id="updateAttendance">
+  		UPDATE ATTENDANCE SET ATT_FIN_TIME = TO_CHAR(SYSDATE,'HH24:mm:ss')
+                        WHERE ATT_NO = (SELECT MAX(ATT_NO) FROM ATTENDANCE)
+  	</update>
   	
+  	<!-- 주소록 -->
   	<select id="selectAllList" resultMap="attendanceResultMap">
   		SELECT * FROM ATTENDANCE
   	</select>

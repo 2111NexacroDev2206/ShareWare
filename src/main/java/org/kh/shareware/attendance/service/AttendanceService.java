@@ -7,7 +7,9 @@ import org.kh.shareware.member.common.PageInfo;
 
 public interface AttendanceService {
 
+	//출퇴근
 	int registerAttendance(Attendance attendance);
+	int modifyAttendance(Attendance attendance);
 
 	int getListCount();
 	List<Attendance> printAll(PageInfo pi);

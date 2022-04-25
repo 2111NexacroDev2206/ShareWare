@@ -12,10 +12,15 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class AttendanceStoreLogic implements AttendanceStore{
 
-	//등록
+	//출퇴근 등록
 	@Override
 	public int insertAttendance(SqlSession sqlSession, Attendance attendance) {
 		int result = sqlSession.insert("AttendanceMapper.insertAttendance", attendance);
+		return result;
+	}
+	@Override
+	public int updateAttendance(SqlSession sqlSession, Attendance attendance) {
+		int result = sqlSession.update("AttendanceMapper.updateAttendance", attendance);
 		return result;
 	}
 
@@ -35,5 +40,6 @@ public class AttendanceStoreLogic implements AttendanceStore{
 		int totalCount = sqlSession.selectOne("AttendanceMapper.selectListCount");
 		return totalCount;
 	}
+
 
 }
