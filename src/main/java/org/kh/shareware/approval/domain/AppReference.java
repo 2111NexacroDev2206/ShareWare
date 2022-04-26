@@ -2,7 +2,7 @@ package org.kh.shareware.approval.domain;
 
 public class AppReference {
 	private int refNo;
-	private String docNo;
+	private int docNo;
 	private String memNum;
 	
 	public AppReference() {}
@@ -15,11 +15,11 @@ public class AppReference {
 		this.refNo = refNo;
 	}
 
-	public String getDocNo() {
+	public int getDocNo() {
 		return docNo;
 	}
 
-	public void setDocNo(String docNo) {
+	public void setDocNo(int docNo) {
 		this.docNo = docNo;
 	}
 

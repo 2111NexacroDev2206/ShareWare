@@ -2,7 +2,7 @@ package org.kh.shareware.approval.domain;
 
 public class AppFile {
 	private int fileNo;
-	private String docNo;
+	private int docNo;
 	private String fileName;
 	private String fileReName;
 	private String filePath;
@@ -17,11 +17,11 @@ public class AppFile {
 		this.fileNo = fileNo;
 	}
 
-	public String getDocNo() {
+	public int getDocNo() {
 		return docNo;
 	}
 
-	public void setDocNo(String docNo) {
+	public void setDocNo(int docNo) {
 		this.docNo = docNo;
 	}
 

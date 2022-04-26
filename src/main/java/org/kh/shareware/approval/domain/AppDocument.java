@@ -3,7 +3,7 @@ package org.kh.shareware.approval.domain;
 import java.sql.Date;
 
 public class AppDocument {
-	private String docNo;
+	private int docNo;
 	private String memNum;
 	private int formNo;
 	private String docTitle;
@@ -11,18 +11,18 @@ public class AppDocument {
 	private String docStatus;
 	private String docDate;
 	private String leaveType;
-	private Date leaveStart;
-	private Date leaveEnd;
+	private String leaveStart;
+	private String leaveEnd;
 	private String leaveTime;
-	private int leaveDay;
+	private float leaveDay;
 	
 	public AppDocument() {}
 
-	public String getDocNo() {
+	public int getDocNo() {
 		return docNo;
 	}
 
-	public void setDocNo(String docNo) {
+	public void setDocNo(int docNo) {
 		this.docNo = docNo;
 	}
 
@@ -82,19 +82,19 @@ public class AppDocument {
 		this.leaveType = leaveType;
 	}
 
-	public Date getLeaveStart() {
+	public String getLeaveStart() {
 		return leaveStart;
 	}
 
-	public void setLeaveStart(Date leaveStart) {
+	public void setLeaveStart(String leaveStart) {
 		this.leaveStart = leaveStart;
 	}
 
-	public Date getLeaveEnd() {
+	public String getLeaveEnd() {
 		return leaveEnd;
 	}
 
-	public void setLeaveEnd(Date leaveEnd) {
+	public void setLeaveEnd(String leaveEnd) {
 		this.leaveEnd = leaveEnd;
 	}
 
@@ -106,11 +106,11 @@ public class AppDocument {
 		this.leaveTime = leaveTime;
 	}
 
-	public int getLeaveDay() {
+	public float getLeaveDay() {
 		return leaveDay;
 	}
 
-	public void setLeaveDay(int leaveDay) {
+	public void setLeaveDay(float leaveDay) {
 		this.leaveDay = leaveDay;
 	}
 
@@ -121,5 +121,5 @@ public class AppDocument {
 				+ leaveType + ", leaveStart=" + leaveStart + ", leaveEnd=" + leaveEnd + ", leaveTime=" + leaveTime
 				+ ", leaveDay=" + leaveDay + "]";
 	}
-	
+
 }

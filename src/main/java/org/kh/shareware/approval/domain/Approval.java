@@ -2,7 +2,7 @@ package org.kh.shareware.approval.domain;
 
 public class Approval {
 	private int appNo;
-	private String docNo;
+	private int docNo;
 	private String memNum;
 	private int appLevel;
 	private String appDate;
@@ -19,11 +19,11 @@ public class Approval {
 		this.appNo = appNo;
 	}
 
-	public String getDocNo() {
+	public int getDocNo() {
 		return docNo;
 	}
 
-	public void setDocNo(String docNo) {
+	public void setDocNo(int docNo) {
 		this.docNo = docNo;
 	}
 

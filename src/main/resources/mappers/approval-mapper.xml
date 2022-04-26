@@ -15,27 +15,15 @@
 		SELECT * FROM APP_FORM WHERE FORM_NO = #{formNo}
 	</select>
 	<insert id="insertDoc"><!-- 문서 등록 -->
-		INSERT INTO APP_DOC VALUES
-		<if test="formNo == 1">
-			('D'||SEQ_DOC.NEXTVAL, #{memNum}, #{formNo}, #{docTitle}, #{docContent}, DEFAULT, #{docDate}, NULL, NULL, NULL, NULL, NULL)
-		</if>
-		<if test="formNo == 2">
-			('A'||SEQ_DOC.NEXTVAL, #{memNum}, #{formNo}, #{docTitle}, #{docContent}, DEFAULT, #{docDate}, NULL, NULL, NULL, NULL, NULL)
-		</if>
-		<if test="formNo == 3">
-			('L'||SEQ_DOC.NEXTVAL, #{memNum}, #{formNo}, #{docTitle}, #{docContent}, DEFAULT, #{docDate}, NULL, NULL, NULL, NULL, NULL)
-		</if>
-		<if test="formNo == 4">
-			('E'||SEQ_DOC.NEXTVAL, #{memNum}, #{formNo}, #{docTitle}, #{docContent}, DEFAULT, #{docDate}, NULL, NULL, NULL, NULL, NULL)
-		</if>
+		INSERT INTO APP_DOC VALUES(SEQ_DOC.NEXTVAL, #{memNum}, #{formNo}, #{docTitle}, #{docContent}, DEFAULT, #{docDate}, #{leaveType}, #{leaveStart}, #{leaveEnd}, #{leaveTime}, #{leaveDay})
 	</insert>
 	<insert id="insertApp"><!-- 결재자 등록 -->
-		INSERT INTO APPROVAL VALUES(SEQ_APP.NEXTVAL, 'D'||SEQ_DOC.CURRVAL, #{memNum}, #{appLevel}, NULL, DEFAULT, NULL)
+		INSERT INTO APPROVAL VALUES(SEQ_APP.NEXTVAL, SEQ_DOC.CURRVAL, #{memNum}, #{appLevel}, NULL, DEFAULT, NULL)
 	</insert>
 	<insert id="insertRef"><!-- 참조자 등록 -->
-		INSERT INTO APP_REF VALUES(SEQ_REF.NEXTVAL, 'D'||SEQ_DOC.CURRVAL, #{memNum})
+		INSERT INTO APP_REF VALUES(SEQ_REF.NEXTVAL, SEQ_DOC.CURRVAL, #{memNum})
 	</insert>
 	<insert id="insertFile"><!-- 파일 등록 -->
-		INSERT INTO APP_FILE VALUES(SEQ_FILE.NEXTVAL, 'D'||SEQ_DOC.CURRVAL, #{fileName}, #{fileReName}, #{filePath})
+		INSERT INTO APP_FILE VALUES(SEQ_FILE.NEXTVAL, SEQ_DOC.CURRVAL, #{fileName}, #{fileReName}, #{filePath})
 	</insert>
 </mapper>

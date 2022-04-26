@@ -69,9 +69,8 @@
 			}
 		}
 		// 문서 양식 불러오기
-		var formContent;
-		formContent = "${form.formContent}";
-		$("#table").append(formContent);
+		var formContent = '${form.formContent}';
+		$("#table").after(formContent);
 	</script>
 </body>
 </html>
