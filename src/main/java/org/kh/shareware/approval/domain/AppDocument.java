@@ -1,7 +1,5 @@
 package org.kh.shareware.approval.domain;
 
-import java.sql.Date;
-
 public class AppDocument {
 	private int docNo;
 	private String memNum;
