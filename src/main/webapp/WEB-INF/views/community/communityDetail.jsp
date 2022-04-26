@@ -20,7 +20,7 @@
 	<div dorder="1">${community.comTitle}</div>
 	<div dorder="1">${community.comContent}
 
-			<!-- 글쓴이, 투표 종료 전 -->
+			
 			<c:choose>
 				<c:when test="${loginUser.memberNum == community.memberNum && communityVote.comVoteNo !=null}">
 					<div id="vote-body-div">
@@ -45,21 +45,21 @@
 										${communityVote.cVoteSelect4}표
 									</div>
 								</c:if>
-								<!-- 투표 종료가 되어있으면 해당 버튼이 생성되지 않도록 -->
+								
 								<c:if test="${communityVote.cVoteState == 0}">
 									<button type="button" id="andVote"> 투표 종료</button>
 								</c:if>
 								</div>
 						</div>
 				</c:when>
-				<!-- 작성자 아님 -->
+				
 				<c:when test="${loginUser.memberNum != community.memberNum && communityVote.comVoteNo !=null}">
 					<div id="vote-body-div">
 							<div id="vote-textbox-div">
 								<div id="vote-textbox1-div">
 									${communityVote.cVoteText1}
-									<c:if test="cVoteSelect.cSelectTrue ==0" >
-									<button type="button" id="andVote">투표</button>
+									<c:if test="${cVoteSelect.cSelectTrue == null}" >
+									<button type="button" id="select1">투표</button>
 									</c:if>
 									<c:if test="cVoteSelect.cSelectTrue ==1" >
 									${communityVote.cVoteSelect1}표
@@ -67,8 +67,8 @@
 								</div>
 								<div id="vote-textbox2-div">
 									${communityVote.cVoteText2}
-									<c:if test="cVoteSelect.cSelectTrue ==0" >
-									<button type="button" id="andVote">투표</button>
+									<c:if test="${cVoteSelect.cSelectTrue == null}" >
+									<button type="button" id="select2">투표</button>
 									</c:if>
 									<c:if test="cVoteSelect.cSelectTrue ==1" >
 									${communityVote.cVoteSelect2}표
@@ -78,10 +78,10 @@
 									<div id="vote-textbox3-div">
 										${communityVote.cVoteText3}
 									</div>
-										<c:if test="cVoteSelect.cSelectTrue ==0" >
-											<button type="button" id="andVote">투표</button>
+										<c:if test="${cVoteSelect.cSelectTrue == null}" >
+											<button type="button" id="select3">투표</button>
 										</c:if>
-										<c:if test="cVoteSelect.cSelectTrue ==1" >
+										<c:if test="${cVoteSelect.cSelectTrue ==1}" >
 											${communityVote.cVoteSelect3}표
 										</c:if>
 								</c:if>
@@ -89,17 +89,16 @@
 									<div id="vote-textbox4-div">
 										${communityVote.cVoteText4}
 									</div>
-									<c:if test="cVoteSelect.cSelectTrue ==0" >
-										<button type="button" id="andVote">투표</button>
+									<c:if test="${cVoteSelect.cSelectTrue == null}" >
+										<button type="button" id="select4">투표</button>
 									</c:if>
-									<c:if test="cVoteSelect.cSelectTrue ==1" >
+									<c:if test="${cVoteSelect.cSelectTrue ==1}" >
 										${communityVote.cVoteSelect4}표
 									</c:if>
 								</c:if>
 								</div>
 						</div>
 				</c:when>
-				
 			</c:choose>
 	</div>
 	
