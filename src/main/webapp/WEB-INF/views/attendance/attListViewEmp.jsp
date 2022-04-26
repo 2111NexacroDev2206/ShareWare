@@ -9,9 +9,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,8 +19,6 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>  
 	<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 	
-
-
 </head>
 <body>
 
@@ -84,8 +79,17 @@
 					<td>${attendance.attStatus }</td>
 				</tr>
 				</c:forEach>
-				
 			</table>
+			<br>
+			<div id="page">
+				<c:forEach var="p" begin="${pi.startNavi }"
+					end="${pi.endNavi }">
+					<c:url var="pagination" value="/attendance/attListViewEmp.sw">
+						<c:param name="page" value="${p }"></c:param>
+					</c:url>
+					<a href="${pagination }">${p }</a>&nbsp;
+				</c:forEach>
+			</div>
 		</div>
 
 	
