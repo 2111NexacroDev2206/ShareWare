@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.community.domain.Community;
 import org.kh.shareware.community.domain.CommunityVote;
+import org.kh.shareware.community.domain.CommunityVoteSelect;
 
 public interface CommunityStore {
 	
@@ -19,5 +20,7 @@ public interface CommunityStore {
 	int insertCommunityVote(SqlSession sqlsession, CommunityVote communityVote);
 	int removeCommunityVote(SqlSession sqlsession, Integer comNo);
 	CommunityVote deleteCommunityVote(SqlSession sqlsession, Integer comNo);
+	CommunityVoteSelect selectVoteSelect(SqlSession sqlsession, Integer comNo);
+	int updateAndVote(SqlSession sqlsession, Integer comNo);
 
 }

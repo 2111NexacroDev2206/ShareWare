@@ -60,14 +60,29 @@
 	INSERT INTO C_VOTE VALUES(SEQ_CVOTE_NO.NEXTVAL ,SEQ_COM_NO.CURRVAL, DEFAULT, #{cVoteText1}, DEFAULT, DEFAULT, #{cVoteText2}, DEFAULT, DEFAULT, #{cVoteText3}, DEFAULT, DEFAULT, #{cVoteText4}, DEFAULT, DEFAULT)
 </insert>
 
-<select id="selectCommnuityVote" resultMap="CommunityVoteResultMap">
+<select id="CommnuityVoteView" resultMap="CommunityVoteResultMap">
 	SELECT * FROM C_VOTE WHERE COM_NO= #{comNo}
 </select>
 
-<delete id="deleteCommnuityVote">
-	DELETE FROM C_VOTE WHERE COM_NO = #{comNo }
+<select id="CommnuityVoteView" resultMap="CommunityVoteResultMap">
+	SELECT * FROM C_VOTE WHERE COM_NO= #{comNo}
+</select>
+
+<delete id="updateAndCommnuityVote">
+	UPDATE C_VOTE SET C_VOTE_STATE = 2 WHERE COM_NO = #{comNo}
 </delete>
 
+<resultMap type="CommunityVoteSelect" id="CommunityVoteSelectResultMap">
+		<id property="comVoteNo" column="COM_VOTE_NO"/>
+		<result property="comNo" column="COM_NO"/>
+		<result property="memberNum" column="MEMBER_NUM"/>
+		<result property="cSelectTrue" column="C_SELECT_TRUE"/>
+		<result property="cSelect" column="C_SELECT"/>
+	</resultMap>
+
+<select id="selectCommnuityVote" resultMap="CommunityVoteSelectResultMap">
+	SELECT * FROM C_VOTE_MEMBER WHERE COM_NO= #{comNo}
+</select>
 
 
 </mapper>

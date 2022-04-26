@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.kh.shareware.community.domain.Community;
 import org.kh.shareware.community.domain.CommunityVote;
+import org.kh.shareware.community.domain.CommunityVoteSelect;
 import org.kh.shareware.community.service.CommunityService;
 import org.kh.shareware.member.domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,20 +120,23 @@ public class CommunityController {
 	@RequestMapping(value="/community/detail.sw", method=RequestMethod.GET)
 	public String datailCommunity(
 			Model model
-			,HttpSession session
+			,HttpServletRequest request
 			,@RequestParam("comNo") Integer comNo) {
 		//조회수 증가
 		cService.viewCountCommunity(comNo);
+	
 		
 		//게시글 번호로 검색
 		Community community = cService.detailCommunity(comNo);
 		//투표 번호 검색
 		CommunityVote communityVote = cService.detailCommunityVote(comNo);
-		
+		//사용자 번호로 사용자 투표테이블 가져오기
+		CommunityVoteSelect cVoteSelect = cService.viewCommunityVote(comNo);
 		
 		if(community != null) {
 			model.addAttribute("community",community);
 			model.addAttribute("communityVote",communityVote);
+			model.addAttribute("cVoteSelect",cVoteSelect);
 			return "community/communityDetail";
 		}else {
 			model.addAttribute("msg", "게시글 상세보기 실패");
@@ -150,7 +154,7 @@ public class CommunityController {
 		,@RequestParam("comVoteNo") Integer comVoteNo) {
 		
 		if(comVoteNo != null) {
-			int voteResult = cService.removeCommunityVote(comNo);
+			cService.removeCommunityVote(comNo);
 		}
 		
 		int result =cService.removeCommunity(comNo);
@@ -161,19 +165,30 @@ public class CommunityController {
 	}
 	
 	//투표 삭제
-		@ResponseBody
 		@RequestMapping(value="/community/deleteCommuntyVote.sw", method=RequestMethod.GET)
 		public String removeCommunityVote(
 			@RequestParam("comNo") Integer comNo) {
 			
-			
-				int Result = cService.removeCommunityVote(comNo);
+				int Result = cService.andCommunityVote(comNo);
 			
 			if(Result >0) {
 				return "success";
 			}
 			return "fail";
 		}
+		
+		//투표 종료
+		@RequestMapping(value="/community/andVoteCommunity.sw", method=RequestMethod.GET)
+		public String andVoteCommunity(
+			@RequestParam("comNo") Integer comNo) {
+					
+					int Result = cService.removeCommunityVote(comNo);
+					
+				if(Result >0) {
+					return "success";
+				}
+				return "fail";
+			}
 		
 	public HashMap<String, String> saveFile(MultipartFile file, HttpServletRequest request) {
 		String filePath = "";

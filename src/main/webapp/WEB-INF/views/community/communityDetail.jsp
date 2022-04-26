@@ -19,53 +19,93 @@
 	<span>작성일 : ${community.comDate}</span>
 	<div dorder="1">${community.comTitle}</div>
 	<div dorder="1">${community.comContent}
-	
-			<c:if test="${loginUser.memberNum == community.memberNum}">
-				<div id="vote-body-div">
-					<div id="vote-textbox-div">
-						<div id="vote-textbox1-div">
-							${communityVote.cVoteText1}
-							투표 받은 갯수 : ${communityVote.cVoteSelect1}
+
+			<!-- 글쓴이, 투표 종료 전 -->
+			<c:choose>
+				<c:when test="${loginUser.memberNum == community.memberNum && communityVote.cVoteState == 0 && communityVote.comVoteNo !=null}">
+					<div id="vote-body-div">
+							<div id="vote-textbox-div">
+								<div id="vote-textbox1-div">
+									${communityVote.cVoteText1}
+									${communityVote.cVoteSelect1}표
+								</div>
+								<div id="vote-textbox2-div">
+									${communityVote.cVoteText2}
+									${communityVote.cVoteSelect2}표
+								</div>
+								<c:if test="${communityVote.cVoteText3 != null}">
+									<div id="vote-textbox3-div">
+										${communityVote.cVoteText3}
+										${communityVote.cVoteSelect3}표
+									</div>
+								</c:if>
+								<c:if test="${communityVote.cVoteText4 != null}">
+									<div id="vote-textbox4-div">
+										${communityVote.cVoteText4}
+										${communityVote.cVoteSelect4}표
+									</div>
+								</c:if>
+								<!-- 투표 종료가 되어있으면 해당 버튼이 생성되지 않도록 -->
+								<c:if test="${communityVote.cVoteState == 0}">
+									<button type="button" id="andVote"> 투표 종료</button>
+								</c:if>
+								</div>
 						</div>
-						<div id="vote-textbox2-div">
-							${communityVote.cVoteText2}
-							투표 받은 갯수 : ${communityVote.cVoteSelect2}
+				</c:when>
+				<c:when test="${loginUser.memberNum == community.memberNum && communityVote.cVoteState == 0 && communityVote.comVoteNo !=null}">
+					<div id="vote-body-div">
+							<div id="vote-textbox-div">
+								<div id="vote-textbox1-div">
+									${communityVote.cVoteText1}
+									${communityVote.cVoteSelect1}표
+								</div>
+								<div id="vote-textbox2-div">
+									${communityVote.cVoteText2}
+									${communityVote.cVoteSelect2}표
+								</div>
+								<c:if test="${communityVote.cVoteText3 != null}">
+									<div id="vote-textbox3-div">
+										${communityVote.cVoteText3}
+										${communityVote.cVoteSelect3}표
+									</div>
+								</c:if>
+								<c:if test="${communityVote.cVoteText4 != null}">
+									<div id="vote-textbox4-div">
+										${communityVote.cVoteText4}
+										${communityVote.cVoteSelect4}표
+									</div>
+								</c:if>
+								<!-- 투표 종료가 되어있으면 해당 버튼이 생성되지 않도록 -->
+								<c:if test="${communityVote.cVoteState == 0}">
+									<button type="button" id="andVote"> 투표 종료</button>
+								</c:if>
+								</div>
 						</div>
-						<div id="vote-textbox3-div">
-							${communityVote.cVoteText3}
-							투표 받은 갯수 : ${communityVote.cVoteSelect3}
-						</div>
-						<div id="vote-textbox4-div">
-							${communityVote.cVoteText4}
-							투표 받은 갯수 : ${communityVote.cVoteSelect4}
-						</div>
-						<button type="button" id="andVote">종료</button>
-					</div>
-				</div>
-		</c:if>
-				
+						</c:when>	
+			</c:choose>
 	</div>
 	
 </body>
 <script>
 
-	var voteNo = ${communityVote.comVoteNo}
-	var voteText3 = ${communityVote.cVoteText3}
-	var voteText4 = ${communityVote.cVoteText4}
-	
-	getCommunityVote();
-	
-	
-	function getCommunityVote(){
-
-		if(voteNo == ""){//화면이 출력 될 때... 투표가 없으면 투표가 보이지 않아야 함
-			document.getElementById("vote-body-div").style.display = "none";
-		}else if(voteText3 == null){ //값이 없으면 div 출력 x
-			document.getElementById("vote-textbox3-div").style.display = "none";
-		}else if(voteText4 == null){//값이 없으면 div 출력 x
-			document.getElementById("vote-textbox4-div").style.display = "none";
-		}
-	}
+	$("#andVote").on("click", function(){
+		var comNo = "${community.comNo}";
+		$.ajax({
+			url: "/community/andVoteCommunity.sw",
+			type: "GET",
+			data: {"comNo": comNo},
+			success : function(data) {
+				if(data == "success") {
+					alert("투표가 종료 되었습니다.");
+				}else {
+					alert("삭제 실패!");
+				}
+			},
+			error : function() {
+				alert("ajax 통신 오류! 관리자에게 문의해주세요.");
+			}
+		})
+	});
 
 	$("#delete").on("click", function(){
 		var comNo = "${community.comNo}";

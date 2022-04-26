@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.community.domain.Community;
 import org.kh.shareware.community.domain.CommunityVote;
+import org.kh.shareware.community.domain.CommunityVoteSelect;
 import org.kh.shareware.community.service.CommunityService;
 import org.kh.shareware.community.store.CommunityStore;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,18 @@ public class CommunityServiceImpl implements CommunityService{
 	public CommunityVote detailCommunityVote(Integer comNo) {
 		CommunityVote communityVote = cStore.deleteCommunityVote(sqlsession,comNo);
 		return communityVote;
+	}
+
+	@Override
+	public CommunityVoteSelect viewCommunityVote(Integer comNo) {
+		CommunityVoteSelect cVoteSelect =cStore.selectVoteSelect(sqlsession, comNo);
+		return cVoteSelect;
+	}
+
+	@Override
+	public int andCommunityVote(Integer comNo) {
+		int result = cStore.updateAndVote(sqlsession,comNo);
+		return result;
 	}
 
 	
