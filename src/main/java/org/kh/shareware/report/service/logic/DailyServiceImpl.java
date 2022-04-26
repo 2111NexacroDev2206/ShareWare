@@ -47,5 +47,10 @@ public class DailyServiceImpl implements DailyService{
 		int result = dStore.updateDaily(sqlSession, daily);
 		return result;
 	}
+	@Override
+	public int removeFileInfo(Integer drNo) {
+		int result = dStore.deleteFileInfo(sqlSession, drNo);
+		return result;
+	}
 
 }

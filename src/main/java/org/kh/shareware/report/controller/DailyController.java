@@ -29,7 +29,9 @@ public class DailyController {
 	
 	//일일 업무 목록
 	@RequestMapping(value="/report/dailyList.sw", method = RequestMethod.GET)
-	public ModelAndView dailyListView(ModelAndView mv) {
+	public ModelAndView dailyListView(Model model, ModelAndView mv) {
+		//model.addAttribute("myCondition", "report");
+		model.addAttribute("listCondition", "dailyList");
 		try {
 			List<Daily> dList = service.printAllDaily();
 			if(!dList.isEmpty()) {
@@ -49,6 +51,7 @@ public class DailyController {
 	//일일 업무 등록 화면 
 	@RequestMapping(value="/report/dailyWriteView.sw")
 	public String dailyWriteView(Model model) {
+		model.addAttribute("listCondition", "dailyWrite");
 		Date nowTime = new Date();
 	    SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 	    model.addAttribute("nowTime", sf.format(nowTime));
@@ -60,14 +63,18 @@ public class DailyController {
 	public ModelAndView dailyRegister(ModelAndView mv
 			,@ModelAttribute Daily daily
 			,@RequestParam(value="uploadFile", required=false) MultipartFile uploadFile
-			,HttpServletRequest request){
+			,HttpServletRequest request
+			,Model model){
+		model.addAttribute("listCondition", "dailyWrite");
 		try {
 			if(uploadFile != null && !uploadFile.getOriginalFilename().equals("")) {
 				HashMap<String, String> fileMap = saveFile(uploadFile, request); // 업로드한 파일 저장하고 경로 리턴
 				String filePath = fileMap.get("filePath");
-				String fileRename = fileMap.get("fileName");
+				String fileReName = fileMap.get("fileName");
 				if(filePath != null && !filePath.equals("")) {
-					
+					daily.setFileName(uploadFile.getOriginalFilename());
+					daily.setFileReName(fileReName);
+					daily.setFilePath(filePath);
 				}
 			}
 			int result = service.registerDaily(daily);
@@ -165,10 +172,10 @@ public class DailyController {
 					// 새로운 파일 업로드
 					HashMap<String, String> fileMap = saveFile(reloadFile, request); // 새롭게 저장
 					String savePath = fileMap.get("filePath");
-					String fileRename = fileMap.get("fileName");
+					String fileReName = fileMap.get("fileName");
 					if(savePath != null) {
 						daily.setFileName(reloadFile.getOriginalFilename());
-						daily.setFileReName(fileRename);
+						daily.setFileReName(fileReName);
 						daily.setFilePath(savePath); // 새로운 경로로 업데이트 하기 위해서
 					}
 				}
@@ -211,6 +218,22 @@ public class DailyController {
 				 return("common/errorPage");
 			}
 }
+	 
+	 //첨부파일 삭제
+	 @RequestMapping(value="/report/dailyFileDelete.sw", method=RequestMethod.GET )
+	 public String fileDelete(ModelAndView mv
+				// 400 오류 방지
+				, @RequestParam(value="filePath", required=false) String filePath 
+				,@RequestParam(value = "drNo", required =false) Integer drNo 
+				, HttpServletRequest request  ){
+		 
+					// 프로젝트 경로에 파일수정(reloadFile, request), 삭제하고 다시 업로드
+						deleteFile(filePath, request);
+				int result = service.removeFileInfo(drNo);
+				return "redirect:/report/dailyList.sw";
+		 
+	 }
+			 
 }
 	
 

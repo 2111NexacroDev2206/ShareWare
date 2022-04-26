@@ -11,5 +11,6 @@ public interface DailyStore {
 	public Daily selectOneByNo(SqlSession sqlSession, int drNo);  //일일업무 상세 
 	public int deleteDaily(SqlSession sqlSession, int drNo);	// 일일업무 삭제 
 	public int updateDaily(SqlSession sqlSession, Daily daily); // 일일업무 수정
+	public int deleteFileInfo(SqlSession sqlSession, Integer drNo); //파일 삭제
 
 }

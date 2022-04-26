@@ -18,7 +18,7 @@
  	</resultMap>
  	
  	<select id="selectAllDaily" resultMap="dailyResultMap">
- 		SELECT * FROM DAILY_REPORT ORDER BY DR_DATE DESC
+ 		SELECT * FROM DAILY_REPORT ORDER BY DR_DATE DESC , DR_NO DESC
  	</select>
  	<select id="selectOneDaily" resultMap="dailyResultMap">
  		SELECT * FROM DAILY_REPORT WHERE DR_NO = #{drNo }
@@ -33,9 +33,10 @@
  			#{drContent },
  			#{drCompletion },
  			#{drNote },
- 			NULL,
- 			NULL,
- 			NULL
+ 			#{fileName},
+ 			#{filePath},
+ 			#{fileReName}
+ 			
  		)
  	
  	</insert>
@@ -45,10 +46,20 @@
  		   ,DR_CONTENT = #{drContent}
  		   ,DR_COMPLETION =#{drCompletion} 
  		   ,DR_NOTE = #{drNote}
+ 		   ,FILE_NAME = #{fileName}
+ 		   ,FILE_PATH = #{filePath}
+ 		   ,FILE_RENAME = #{fileReName}
  		WHERE DR_NO = #{drNo}
  	</update>
  	
  	<delete id="deleteDaily">
  		DELETE FROM DAILY_REPORT WHERE DR_NO = #{drNo}
  	</delete>
+ 	<update id="updateFileInfo">
+ 		UPDATE DAILY_REPORT
+ 		SET FILE_NAME = NULL
+ 			,FILE_PATH = NULL
+ 			,FILE_RENAME = NULL
+ 		WHERE DR_NO = #{drNo}
+ 	</update>
  </mapper>

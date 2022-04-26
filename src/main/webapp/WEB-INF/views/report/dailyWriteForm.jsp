@@ -17,7 +17,7 @@
 				<td>제목</td>
 				<td><input type="text" name="drTitle" ></td>
 				<td>부서명</td>
-				<td><input type="text" >"${login.divName }"</td>
+				<td><input type="text" >${login.divName }</td>
 			</tr>
 			<tr> 
 				<td>작성일</td>

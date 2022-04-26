@@ -11,8 +11,12 @@
 <jsp:include page="reportMenu.jsp"></jsp:include>
 	<div class="s-container">
 		<h3 align="center"> 일 일 업 무 일 지</h3>
-		<form action="/report/dailyUpdate.sw" method="post">
+		<form action="/report/dailyUpdate.sw" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="drNo" value="${daily.drNo }">
+			<input type="hidden" name="fileName" value="${daily.fileName }">
+			<input type="hidden" name="filePath" value="${daily.filePath }">
+			<input type="hidden" name="fileReName" value="${daily.fileReName }">
+			<input type="hidden" name="drDate" value="${daily.drDate }">
 			<table border="1">
 				<tr> 
 					<td>제목</td>
@@ -41,10 +45,16 @@
 					<td colspan="4"><textarea name="drNote" >${daily.drNote }</textarea></td>
 				</tr>
 			</table>
-			<p>파일첨부 <input type="file" name="reloadFile">{daily.fileName}
+			<p>첨부파일</p> 
+			<input type="file" name="reloadFile"> <span id="file-val">${daily.fileName }</span> <button id="btn-delete" type="button" onclick="location.href='/report/dailyFileDelete.sw?filePath=${daily.filePath}&drNo=${daily.drNo}'">X</button>
 			<input type="button" onclick="location.href='/report/dailyModifyView.sw?drNo=${daily.drNo}'" value="취소">
 			<input type="submit" value="등록">
 		</form>
 		</div>
 </body>
+<script>
+	if($("#file-val").text() == "") {
+		$("#btn-delete").css("display","none");
+	}
+</script>
 </html>

@@ -16,6 +16,7 @@
 		<typeAlias type="org.kh.shareware.calendar.domain.Calendar" 	alias="Calendar"/>
 		<typeAlias type="org.kh.shareware.calendar.domain.CalBmk" 		alias="CalBmk"/>
 		<typeAlias type="org.kh.shareware.calendar.domain.CalMem" 		alias="CalMem"/>
+		<typeAlias type="org.kh.shareware.project.domain.Project" 		alias="Project"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/daily-mapper.xml"/>
@@ -23,6 +24,7 @@
 		<mapper resource="mappers/approval-mapper.xml"/>
 		<mapper resource="mappers/member-mapper.xml"/>
 		<mapper resource="mappers/community-mapper.xml"/>
-		<mapper resource="mappers/calendar-mapper.xml"/>	
+		<mapper resource="mappers/calendar-mapper.xml"/>
+		<mapper resource="mappers/project-mapper.xml"/>	
 	</mappers>
 </configuration>

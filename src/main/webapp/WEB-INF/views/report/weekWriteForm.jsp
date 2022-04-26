@@ -25,7 +25,7 @@
 			<tr> 
 				<td>일자</td>
 				<td colspan="2">업무 제목</td>
-				<td>업무 내용</td>
+				<td>업무 내용</td><input type="hidden" input value="${nowTime }" name="wrDate">
 			</tr>
 			<tr>
 				<td><input type="text" name=""></td>

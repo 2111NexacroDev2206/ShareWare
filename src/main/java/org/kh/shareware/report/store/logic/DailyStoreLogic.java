@@ -40,6 +40,12 @@ public class DailyStoreLogic implements DailyStore{
 		int result = sqlSession.update("DailyMapper.updateDaily", daily);
 		return result;
 	}
+	//파일삭제
+	@Override
+	public int deleteFileInfo(SqlSession sqlSession, Integer drNo) {
+		int result = sqlSession.update("DailyMapper.updateFileInfo", drNo);
+		return result;
+	}
 	
 	
 }

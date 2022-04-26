@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>일일 업무 상세 </title>
+<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
 <jsp:include page="reportMenu.jsp"></jsp:include>
@@ -40,9 +41,21 @@
 			</tr>
 		</table>
 		<p>첨부파일</p>
+		<a href="../../../resources/duploadFiles/${daily.fileReName }" download>
+		 		${daily.fileName }
+				</a>
+		
 		<input type="button" onclick="location.href='/report/dailyModifyView.sw?drNo=${daily.drNo}'" value="수정">
-		<input type="button" onclick="location.href='/report/dailyDelete.sw?drNo=${daily.drNo}'" value="삭제">
+		<input type="button" onclick="delPop();" value="삭제">
 		<input type="button" onclick="location.href='/report/dailyList.sw'" value="목록">
 	</div>
 </body>
+<script>
+	function delPop(){
+		var truefalse = confirm("삭제하시겠습니까?");
+		if(truefalse) {
+		location.href='/report/dailyDelete.sw?drNo=${daily.drNo}';
+		}
+	}
+</script>
 </html>
