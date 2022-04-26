@@ -23,4 +23,5 @@ public interface CommunityStore {
 	CommunityVoteSelect selectVoteSelect(SqlSession sqlsession, Integer comNo);
 	int updateAndVote(SqlSession sqlsession, Integer comNo);
 
+
 }

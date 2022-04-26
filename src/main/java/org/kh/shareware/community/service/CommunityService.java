@@ -22,5 +22,6 @@ public interface CommunityService {
 	CommunityVote detailCommunityVote(Integer comNo);
 	CommunityVoteSelect viewCommunityVote(Integer comNo);
 	int andCommunityVote(Integer comNo);
+	
 
 }

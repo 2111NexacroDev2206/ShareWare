@@ -22,7 +22,7 @@
 
 			<!-- 글쓴이, 투표 종료 전 -->
 			<c:choose>
-				<c:when test="${loginUser.memberNum == community.memberNum && communityVote.cVoteState == 0 && communityVote.comVoteNo !=null}">
+				<c:when test="${loginUser.memberNum == community.memberNum && communityVote.comVoteNo !=null}">
 					<div id="vote-body-div">
 							<div id="vote-textbox-div">
 								<div id="vote-textbox1-div">
@@ -52,64 +52,65 @@
 								</div>
 						</div>
 				</c:when>
-				<c:when test="${loginUser.memberNum == community.memberNum && communityVote.cVoteState == 0 && communityVote.comVoteNo !=null}">
+				<!-- 작성자 아님 -->
+				<c:when test="${loginUser.memberNum != community.memberNum && communityVote.comVoteNo !=null}">
 					<div id="vote-body-div">
 							<div id="vote-textbox-div">
 								<div id="vote-textbox1-div">
 									${communityVote.cVoteText1}
+									<c:if test="cVoteSelect.cSelectTrue ==0" >
+									<button type="button" id="andVote">투표</button>
+									</c:if>
+									<c:if test="cVoteSelect.cSelectTrue ==1" >
 									${communityVote.cVoteSelect1}표
+									</c:if>
 								</div>
 								<div id="vote-textbox2-div">
 									${communityVote.cVoteText2}
+									<c:if test="cVoteSelect.cSelectTrue ==0" >
+									<button type="button" id="andVote">투표</button>
+									</c:if>
+									<c:if test="cVoteSelect.cSelectTrue ==1" >
 									${communityVote.cVoteSelect2}표
+									</c:if>
 								</div>
 								<c:if test="${communityVote.cVoteText3 != null}">
 									<div id="vote-textbox3-div">
 										${communityVote.cVoteText3}
-										${communityVote.cVoteSelect3}표
 									</div>
+										<c:if test="cVoteSelect.cSelectTrue ==0" >
+											<button type="button" id="andVote">투표</button>
+										</c:if>
+										<c:if test="cVoteSelect.cSelectTrue ==1" >
+											${communityVote.cVoteSelect3}표
+										</c:if>
 								</c:if>
 								<c:if test="${communityVote.cVoteText4 != null}">
 									<div id="vote-textbox4-div">
 										${communityVote.cVoteText4}
-										${communityVote.cVoteSelect4}표
 									</div>
-								</c:if>
-								<!-- 투표 종료가 되어있으면 해당 버튼이 생성되지 않도록 -->
-								<c:if test="${communityVote.cVoteState == 0}">
-									<button type="button" id="andVote"> 투표 종료</button>
+									<c:if test="cVoteSelect.cSelectTrue ==0" >
+										<button type="button" id="andVote">투표</button>
+									</c:if>
+									<c:if test="cVoteSelect.cSelectTrue ==1" >
+										${communityVote.cVoteSelect4}표
+									</c:if>
 								</c:if>
 								</div>
 						</div>
-						</c:when>	
+				</c:when>
+				
 			</c:choose>
 	</div>
 	
 </body>
 <script>
 
-	$("#andVote").on("click", function(){
-		var comNo = "${community.comNo}";
-		$.ajax({
-			url: "/community/andVoteCommunity.sw",
-			type: "GET",
-			data: {"comNo": comNo},
-			success : function(data) {
-				if(data == "success") {
-					alert("투표가 종료 되었습니다.");
-				}else {
-					alert("삭제 실패!");
-				}
-			},
-			error : function() {
-				alert("ajax 통신 오류! 관리자에게 문의해주세요.");
-			}
-		})
-	});
-
+	//글 삭제
 	$("#delete").on("click", function(){
 		var comNo = "${community.comNo}";
-		var comVoteNo = "${CommunityVote.comVoteNo}";
+		var comVoteNo = "${communityVote.comVoteNo}";
+		
 		$.ajax({
 			url: "/community/deleteCommunity.sw",
 			type: "GET",
@@ -127,7 +128,31 @@
 			}
 		})
 	});
+
+
+	//투표 종료
+	$("#andVote").on("click", function(){
+		var comNo = "${community.comNo}";
+		$.ajax({
+			url: "/community/andVoteCommunity.sw",
+			type: "GET",
+			data: {"comNo": comNo},
+			success : function(data) {
+				if(data == "success") {
+					alert("투표가 종료 되었습니다.");
+				}else {
+					alert("투표 종료 실패!");
+				}
+			},
+			error : function() {
+				alert("ajax 통신 오류! 관리자에게 문의해주세요.");
+			}
+		})
+	});
+
 	
+
+
 	
 
 	

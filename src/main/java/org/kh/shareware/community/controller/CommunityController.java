@@ -163,13 +163,28 @@ public class CommunityController {
 		}
 		return "fail";
 	}
+
+//	//투표 종료
+	@ResponseBody
+	@RequestMapping(value="/community/andVoteCommunity.sw", method=RequestMethod.GET)
+			public String andVoteCommunity(
+				@RequestParam("comNo") Integer comNo) {
+						
+						int Result = cService.andCommunityVote(comNo);
+						
+					if(Result >0) {
+						return "success";
+					}
+					return "fail";
+				}
+			
 	
 	//투표 삭제
 		@RequestMapping(value="/community/deleteCommuntyVote.sw", method=RequestMethod.GET)
 		public String removeCommunityVote(
 			@RequestParam("comNo") Integer comNo) {
 			
-				int Result = cService.andCommunityVote(comNo);
+				int Result = cService.removeCommunityVote(comNo);
 			
 			if(Result >0) {
 				return "success";
@@ -177,18 +192,6 @@ public class CommunityController {
 			return "fail";
 		}
 		
-		//투표 종료
-		@RequestMapping(value="/community/andVoteCommunity.sw", method=RequestMethod.GET)
-		public String andVoteCommunity(
-			@RequestParam("comNo") Integer comNo) {
-					
-					int Result = cService.removeCommunityVote(comNo);
-					
-				if(Result >0) {
-					return "success";
-				}
-				return "fail";
-			}
 		
 	public HashMap<String, String> saveFile(MultipartFile file, HttpServletRequest request) {
 		String filePath = "";

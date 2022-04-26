@@ -64,13 +64,13 @@
 	SELECT * FROM C_VOTE WHERE COM_NO= #{comNo}
 </select>
 
-<select id="CommnuityVoteView" resultMap="CommunityVoteResultMap">
-	SELECT * FROM C_VOTE WHERE COM_NO= #{comNo}
-</select>
-
-<delete id="updateAndCommnuityVote">
-	UPDATE C_VOTE SET C_VOTE_STATE = 2 WHERE COM_NO = #{comNo}
+<delete id="deleteCommnuityVote">
+	DELETE FROM C_VOTE WHERE COM_NO = #{comNo }
 </delete>
+
+<update id="updateAndCommnuityVote">
+	UPDATE C_VOTE SET C_VOTE_STATE = 2 WHERE COM_NO = #{comNo}
+</update>
 
 <resultMap type="CommunityVoteSelect" id="CommunityVoteSelectResultMap">
 		<id property="comVoteNo" column="COM_VOTE_NO"/>

@@ -65,10 +65,11 @@ public class CommunityStoreLogic implements CommunityStore {
 		CommunityVoteSelect cVoteSelect = sqlsession.selectOne("CommnuityMapper.selectCommnuityVote", comNo);
 		return cVoteSelect;
 	}
-
+	
 	@Override
 	public int updateAndVote(SqlSession sqlsession, Integer comNo) {
 		int result = sqlsession.update("CommnuityMapper.updateAndCommnuityVote", comNo);
 		return result;
 	}
+
 }
