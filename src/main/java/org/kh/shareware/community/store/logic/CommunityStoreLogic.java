@@ -1,6 +1,7 @@
 package org.kh.shareware.community.store.logic;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.community.domain.Community;
@@ -79,8 +80,14 @@ public class CommunityStoreLogic implements CommunityStore {
 	}
 
 	@Override
-	public int updateCountCVote(SqlSession sqlsession, int comNo) {
-		int result = sqlsession.update("CommnuityMapper.updateCountCVote", comNo);
+	public int updateCountCVote(SqlSession sqlsession, Map<String, Object> map) {
+		int result = sqlsession.update("CommnuityMapper.updateCountCVote", map);
+		return result;
+	}
+
+	@Override
+	public int removeCVoteMember(SqlSession sqlsession, Integer comNo) {
+		int result = sqlsession.delete("CommnuityMapper.deleteCVoteMember", comNo);
 		return result;
 	}
 

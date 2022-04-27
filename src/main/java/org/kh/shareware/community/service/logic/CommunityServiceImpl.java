@@ -1,6 +1,7 @@
 package org.kh.shareware.community.service.logic;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.community.domain.Community;
@@ -84,8 +85,14 @@ public class CommunityServiceImpl implements CommunityService{
 	}
 
 	@Override
-	public int countCVoteSelect(int comNo) {
-		int result = cStore.updateCountCVote(sqlsession, comNo);
+	public int countCVoteSelect(Map<String, Object> map) {
+		int result = cStore.updateCountCVote(sqlsession, map);
+		return result;
+	}
+
+	@Override
+	public int removeCVoteMember(Integer comNo) {
+		int result =cStore.removeCVoteMember(sqlsession, comNo);
 		return result;
 	}
 

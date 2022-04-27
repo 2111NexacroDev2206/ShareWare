@@ -1,6 +1,7 @@
 package org.kh.shareware.community.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kh.shareware.community.domain.Community;
 import org.kh.shareware.community.domain.CommunityVote;
@@ -23,7 +24,8 @@ public interface CommunityService {
 	CommunityVoteSelect viewCommunityVote(Integer comNo);
 	int endCommunityVote(Integer comNo);
 	int registerCVoteSelect(CommunityVoteSelect cVoteSelect);
-	int countCVoteSelect(int comNo);
+	int countCVoteSelect(Map<String, Object> map);
+	int removeCVoteMember(Integer comNo);
 	
 	
 

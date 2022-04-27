@@ -1,6 +1,7 @@
 package org.kh.shareware.community.store;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.community.domain.Community;
@@ -23,7 +24,8 @@ public interface CommunityStore {
 	CommunityVoteSelect selectVoteSelect(SqlSession sqlsession, Integer comNo);
 	int updateEndVote(SqlSession sqlsession, Integer comNo);
 	int registerCVoteSelect(SqlSession sqlsession, CommunityVoteSelect cVoteSelect);
-	int updateCountCVote(SqlSession sqlsession, int comNo);
+	int updateCountCVote(SqlSession sqlsession, Map<String, Object> map);
+	int removeCVoteMember(SqlSession sqlsession, Integer comNo);
 
 
 }

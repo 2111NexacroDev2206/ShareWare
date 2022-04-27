@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -65,8 +66,8 @@ public class CommunityController {
 			CommunityVote communityVote = new CommunityVote();
 			
 			community.setMemberNum(memberNum);//값넣어주기
-			community.setComTitle(comContent);
-			community.setComContent(comTitle);
+			community.setComTitle(comTitle);
+			community.setComContent(comContent);
 			
 			if(comImgName != null && !comImgName.getOriginalFilename().equals("")) {
 				HashMap<String, String> fileMap = saveFile(comImgName, request);
@@ -151,9 +152,13 @@ public class CommunityController {
 	@RequestMapping(value="/community/deleteCommunity.sw", method=RequestMethod.GET)
 	public String removeCommunity(
 		@RequestParam("comNo") Integer comNo
-		,@RequestParam("comVoteNo") Integer comVoteNo) {
+		,@RequestParam("comVoteNo") Integer comVoteNo
+		,@RequestParam("cSelect") Integer cSelect) {
 		
 		if(comVoteNo != null) {
+			if(cSelect!= null) {
+				cService.removeCVoteMember(comNo);
+			}
 			cService.removeCommunityVote(comNo);
 		}
 		
@@ -175,16 +180,19 @@ public class CommunityController {
 				//CommunityVoteSelect 는 insert
 				//CommunityVote는 update
 			
+		Map<String, Object> map = new HashMap<>();
+			map.put("cSelect",cSelect);
+			map.put("comNo",comNo);
 			
 			CommunityVoteSelect cVoteSelect = new CommunityVoteSelect();
 				cVoteSelect.setMemberNum(memberNum);
 				cVoteSelect.setComVoteNo(comVoteNo);
 				cVoteSelect.setComNo(comNo);
 				cVoteSelect.setcSelect(cSelect);
-				
+
 					
 				int selectResult = cService.registerCVoteSelect(cVoteSelect);
-				int updateReulst = cService.countCVoteSelect(comNo);
+				int updateReulst = cService.countCVoteSelect(map);
 			if(selectResult >0 && updateReulst>0) {
 				return "success";
 			}

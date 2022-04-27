@@ -19,20 +19,23 @@
 	<span>작성일 : ${community.comDate}</span>
 	<div dorder="1">${community.comTitle}</div>
 	<div dorder="1">${community.comContent}
-
-			
-			<c:choose>
-				<c:when test="${loginUser.memberNum == community.memberNum && communityVote.comVoteNo !=null}">
+				
+		
+				<c:if test="${loginUser.memberNum eq community.memberNum && communityVote.comVoteNo ne null}">
 					<div id="vote-body-div">
 							<div id="vote-textbox-div">
+							<c:if test="${communityVote.cVoteText1 != null}">
 								<div id="vote-textbox1-div">
 									${communityVote.cVoteText1}
 									${communityVote.cVoteSelect1}표
 								</div>
+							</c:if>
+							<c:if test="${communityVote.cVoteText2 != null}">
 								<div id="vote-textbox2-div">
 									${communityVote.cVoteText2}
 									${communityVote.cVoteSelect2}표
 								</div>
+							</c:if>
 								<c:if test="${communityVote.cVoteText3 != null}">
 									<div id="vote-textbox3-div">
 										${communityVote.cVoteText3}
@@ -45,24 +48,25 @@
 										${communityVote.cVoteSelect4}표
 									</div>
 								</c:if>
-								
-								<c:if test="${communityVote.cVoteState == 0}">
+								<c:if test="${communityVote.cVoteState == 0 && communityVote.cVoteText1 != null }">
+								<div>
 									<button type="button" id="andVote"> 투표 종료</button>
+								</div>
 								</c:if>
 								</div>
 						</div>
-				</c:when>
+				</c:if>
 				
-				<c:when test="${loginUser.memberNum != community.memberNum && communityVote.comVoteNo !=null}">
+				<c:if test="${loginUser.memberNum != community.memberNum && communityVote.comVoteNo !=null}">
 					<div id="vote-body-div">
 							<div id="vote-textbox-div">
 								<div id="vote-textbox1-div">
 									${communityVote.cVoteText1}
-									<c:if test="${cVoteSelect.cSelectTrue == null}" >
+									<c:if test="${loginUser.memberNum != community.memberNum && cVoteSelect.cSelectTrue == null}" >
 									<button type="button" id="select1">투표</button>
 									</c:if>
 									<!-- 1번 투표를 했을 때 -->
-									<c:if test="${cVoteSelect.cSelectTrue ==1}" >
+									<c:if test="${loginUser.memberNum != community.memberNum && cVoteSelect.cSelectTrue ==1}" >
 									${communityVote.cVoteSelect1}표
 									</c:if>
 								</div>
@@ -99,8 +103,8 @@
 								</c:if>
 								</div>
 						</div>
-				</c:when>
-			</c:choose>
+				</c:if>
+			
 	</div>
 	
 </body>
@@ -152,7 +156,7 @@
 				,success : function(data) {
 					if(data == "success") {
 						alert("투표완료");
-					
+						location.href = '/community/list.sw';
 					}else {
 						alert("투표 실패!");
 					}
@@ -168,12 +172,14 @@
 	$("#delete").on("click", function(){
 		var comNo = "${community.comNo}";
 		var comVoteNo = "${communityVote.comVoteNo}";
+		var cSelect = "${cVoteSelect.cSelect}";
 		
 		$.ajax({
 			url: "/community/deleteCommunity.sw",
 			type: "GET",
 			data: {"comNo": comNo
-				,"comVoteNo":comVoteNo},
+				,"comVoteNo":comVoteNo
+				,"cSelect":cSelect},
 			success : function(data) {
 				if(data == "success") {
 					location.href = '/community/list.sw';
