@@ -21,7 +21,10 @@ public interface CommunityService {
 	int removeCommunityVote(Integer comNo);
 	CommunityVote detailCommunityVote(Integer comNo);
 	CommunityVoteSelect viewCommunityVote(Integer comNo);
-	int andCommunityVote(Integer comNo);
+	int endCommunityVote(Integer comNo);
+	int registerCVoteSelect(CommunityVoteSelect cVoteSelect);
+	int countCVoteSelect(int comNo);
+	
 	
 
 }

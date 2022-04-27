@@ -92,7 +92,7 @@ public class CommunityController {
 				communityVote.setcVoteText3(cVoteText3);
 				communityVote.setcVoteText4(cVoteText4);
 				
-				int VoteResult = cService.registerCommunityVote(communityVote);
+				cService.registerCommunityVote(communityVote);
 			}
 			
 			if(result>0) {
@@ -141,7 +141,7 @@ public class CommunityController {
 		}else {
 			model.addAttribute("msg", "게시글 상세보기 실패");
 			return "common/errorPage";
-		}	
+		}
 	}
 	
 
@@ -163,14 +163,41 @@ public class CommunityController {
 		}
 		return "fail";
 	}
+	
+	//투표 	
+	@ResponseBody
+	@RequestMapping(value="/community/insetCommunityVote.sw", method=RequestMethod.GET)
+	public String registerCommunityVote(
+		@RequestParam("comNo") int comNo
+		,@RequestParam("comVoteNo") int comVoteNo
+		,@RequestParam("cSelect") int cSelect
+		,@RequestParam("memberNum") String memberNum) {
+				//CommunityVoteSelect 는 insert
+				//CommunityVote는 update
+			
+			
+			CommunityVoteSelect cVoteSelect = new CommunityVoteSelect();
+				cVoteSelect.setMemberNum(memberNum);
+				cVoteSelect.setComVoteNo(comVoteNo);
+				cVoteSelect.setComNo(comNo);
+				cVoteSelect.setcSelect(cSelect);
+				
+					
+				int selectResult = cService.registerCVoteSelect(cVoteSelect);
+				int updateReulst = cService.countCVoteSelect(comNo);
+			if(selectResult >0 && updateReulst>0) {
+				return "success";
+			}
+			return "fail";
+		}
 
 //	//투표 종료
 	@ResponseBody
-	@RequestMapping(value="/community/andVoteCommunity.sw", method=RequestMethod.GET)
+	@RequestMapping(value="/community/endVoteCommunity.sw", method=RequestMethod.GET)
 			public String andVoteCommunity(
 				@RequestParam("comNo") Integer comNo) {
 						
-						int Result = cService.andCommunityVote(comNo);
+						int Result = cService.endCommunityVote(comNo);
 						
 					if(Result >0) {
 						return "success";

@@ -72,12 +72,21 @@ public class CommunityServiceImpl implements CommunityService{
 	}
 
 	@Override
-	public int andCommunityVote(Integer comNo) {
-		int result = cStore.updateAndVote(sqlsession,comNo);
+	public int endCommunityVote(Integer comNo) {
+		int result = cStore.updateEndVote(sqlsession,comNo);
 		return result;
 	}
 
+	@Override
+	public int registerCVoteSelect(CommunityVoteSelect cVoteSelect) {
+		int result = cStore.registerCVoteSelect(sqlsession, cVoteSelect);
+		return result;
+	}
 
-	
+	@Override
+	public int countCVoteSelect(int comNo) {
+		int result = cStore.updateCountCVote(sqlsession, comNo);
+		return result;
+	}
 
 }

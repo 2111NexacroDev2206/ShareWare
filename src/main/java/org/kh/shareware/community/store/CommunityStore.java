@@ -21,7 +21,9 @@ public interface CommunityStore {
 	int removeCommunityVote(SqlSession sqlsession, Integer comNo);
 	CommunityVote deleteCommunityVote(SqlSession sqlsession, Integer comNo);
 	CommunityVoteSelect selectVoteSelect(SqlSession sqlsession, Integer comNo);
-	int updateAndVote(SqlSession sqlsession, Integer comNo);
+	int updateEndVote(SqlSession sqlsession, Integer comNo);
+	int registerCVoteSelect(SqlSession sqlsession, CommunityVoteSelect cVoteSelect);
+	int updateCountCVote(SqlSession sqlsession, int comNo);
 
 
 }

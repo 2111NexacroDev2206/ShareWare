@@ -14,7 +14,7 @@
 		<button>수정</button>
 		<button type="button" id="delete">삭제</button>
 	</c:if>
-
+	
 	<span>글쓴이 : ${community.memberNum }</span>
 	<span>작성일 : ${community.comDate}</span>
 	<div dorder="1">${community.comTitle}</div>
@@ -61,7 +61,8 @@
 									<c:if test="${cVoteSelect.cSelectTrue == null}" >
 									<button type="button" id="select1">투표</button>
 									</c:if>
-									<c:if test="cVoteSelect.cSelectTrue ==1" >
+									<!-- 1번 투표를 했을 때 -->
+									<c:if test="${cVoteSelect.cSelectTrue ==1}" >
 									${communityVote.cVoteSelect1}표
 									</c:if>
 								</div>
@@ -70,7 +71,7 @@
 									<c:if test="${cVoteSelect.cSelectTrue == null}" >
 									<button type="button" id="select2">투표</button>
 									</c:if>
-									<c:if test="cVoteSelect.cSelectTrue ==1" >
+									<c:if test="${cVoteSelect.cSelectTrue ==1}" >
 									${communityVote.cVoteSelect2}표
 									</c:if>
 								</div>
@@ -105,6 +106,64 @@
 </body>
 <script>
 
+	$("#select1").on("click", function(){
+		alert("1번 버튼 실행");
+		var select = 1;
+		voteSelect(select)
+	});
+	
+	$("#select2").on("click", function(){
+		alert("2번 버튼 실행");
+		var select = 2;
+		voteSelect(select)
+	});
+	
+	$("#select3").on("click", function(){
+		alert("3번 버튼 실행");
+		var select = 3;
+		voteSelect(select)
+	});
+	
+	$("#select4").on("click", function(){
+		alert("4번 버튼 실행");
+		var select = 4;
+		voteSelect(select)
+	});
+	
+	function voteSelect(select){
+		var cSelectTrue ="${cVoteSelect.cSelectTrue}"
+		if(cSelectTrue == 1){
+			alert("이미 투표에 참여했습니다.");
+		}else{
+			var cSelect = select;
+			var comNo ="${community.comNo}";
+			var comVoteNo = "${communityVote.comVoteNo}";
+			var memberNum = "${loginUser.memberNum}";
+			
+			//voteMember에 insert
+			//vote update 해야됨
+			$.ajax({
+				url: "/community/insetCommunityVote.sw",
+				type: "GET",
+				data: {"comNo": comNo
+					,"comVoteNo": comVoteNo
+					,"cSelect" : cSelect
+					,"memberNum":memberNum}
+				,success : function(data) {
+					if(data == "success") {
+						alert("투표완료");
+					
+					}else {
+						alert("투표 실패!");
+					}
+				},
+				error : function() {
+					alert("ajax 통신 오류! 관리자에게 문의해주세요.");
+				}
+		})}
+		
+	};
+
 	//글 삭제
 	$("#delete").on("click", function(){
 		var comNo = "${community.comNo}";
@@ -133,7 +192,7 @@
 	$("#andVote").on("click", function(){
 		var comNo = "${community.comNo}";
 		$.ajax({
-			url: "/community/andVoteCommunity.sw",
+			url: "/community/endVoteCommunity.sw",
 			type: "GET",
 			data: {"comNo": comNo},
 			success : function(data) {

@@ -72,6 +72,27 @@
 	UPDATE C_VOTE SET C_VOTE_STATE = 2 WHERE COM_NO = #{comNo}
 </update>
 
+<update id="updateCountCVote">
+	UPDATE C_VOTE 
+	
+	<SET>
+	C_VOTE_STATE = 1,
+	<if test="">
+	C_VOTE_SELECT1+1,
+	</if>
+	<if test="">
+	C_VOTE_SELECT2+1,
+	</if>
+	<if test="">
+	C_VOTE_SELECT3+1,
+	</if>
+	<if test="">
+	C_VOTE_SELECT4+1,
+	</if>
+	</SET> 
+	WHERE COM_NO = #{comNo} 
+</update>
+
 <resultMap type="CommunityVoteSelect" id="CommunityVoteSelectResultMap">
 		<id property="comVoteNo" column="COM_VOTE_NO"/>
 		<result property="comNo" column="COM_NO"/>
@@ -83,6 +104,12 @@
 <select id="selectCommnuityVote" resultMap="CommunityVoteSelectResultMap">
 	SELECT * FROM C_VOTE_MEMBER WHERE COM_NO= #{comNo}
 </select>
+
+<insert id="insertCVoteSelect">
+	INSERT INTO C_VOTE_MEMBER VALUES(#{comVoteNo}, #{comNo}, #{memberNum}, 1, #{cSelect} )
+</insert>
+
+
 
 
 </mapper>

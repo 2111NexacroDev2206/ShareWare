@@ -67,9 +67,23 @@ public class CommunityStoreLogic implements CommunityStore {
 	}
 	
 	@Override
-	public int updateAndVote(SqlSession sqlsession, Integer comNo) {
-		int result = sqlsession.update("CommnuityMapper.updateAndCommnuityVote", comNo);
+	public int updateEndVote(SqlSession sqlsession, Integer comNo) {
+		int result = sqlsession.update("CommnuityMapper.updateEndCommnuityVote", comNo);
 		return result;
 	}
+
+	@Override
+	public int registerCVoteSelect(SqlSession sqlsession, CommunityVoteSelect cVoteSelect) {
+		int result = sqlsession.insert("CommnuityMapper.insertCVoteSelect",cVoteSelect);
+		return result;
+	}
+
+	@Override
+	public int updateCountCVote(SqlSession sqlsession, int comNo) {
+		int result = sqlsession.update("CommnuityMapper.updateCountCVote", comNo);
+		return result;
+	}
+
+	
 
 }
