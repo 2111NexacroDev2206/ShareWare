@@ -89,7 +89,7 @@
 				<c:if test="${formName ne '휴가신청서'}">
 					<tr>
 						<td colspan="7">
-							<textarea rows="5" cols="5" name="docContent">${form.formContent }</textarea>
+							<textarea name="docContent">${form.formContent }</textarea>
 						</td>
 					</tr>
 				</c:if>
@@ -121,7 +121,9 @@
 		
 		// CKEditor
 		if("${form.formName}" !== "휴가신청서"){
-			CKEDITOR.replace( 'docContent' );
+			CKEDITOR.replace( 'docContent', {
+				height: 350
+			} );
 		}
 	</script>
 </body>
