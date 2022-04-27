@@ -20,7 +20,9 @@
 	<div dorder="1">${community.comTitle}</div>
 	<div dorder="1">${community.comContent}
 				
-		
+		<c:if test="${community.comImgName != null}">
+			<img src = "../../../resources/loadFile/${community.comImgRename}" alt="${community.comImgName}">
+		</c:if>
 				<c:if test="${loginUser.memberNum eq community.memberNum && communityVote.comVoteNo ne null}">
 					<div id="vote-body-div">
 							<div id="vote-textbox-div">
