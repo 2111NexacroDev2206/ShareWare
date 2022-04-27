@@ -36,7 +36,10 @@ public class AttendanceController {
 		Member value = (Member) session.getAttribute("loginUser");
 		try{
 			if (value != null) {
+				attendance.setMemNum(value.getMemberNum()); // 사원번호
 				// 지각이면 
+				attendance.setAttStatus("지각");
+				attendance.setAttStatus("출근");
 				int result = aService.registerAttendance(attendance);
 				if(result > 0) {
 					return "redirect:/attendance/attListViewEmp.sw";
@@ -63,7 +66,7 @@ public class AttendanceController {
 			Member value = (Member) session.getAttribute("loginUser");
 			try {
 				if (value != null) {
-					
+					attendance.setMemNum(value.getMemberNum()); // 사원번호
 					int result = aService.modifyAttendance(attendance);
 					if(result > 0) {
 						return "redirect:/attendance/attListViewEmp.sw";

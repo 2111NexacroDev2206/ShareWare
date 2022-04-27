@@ -2,11 +2,11 @@
     pageEncoding="UTF-8"%>
     <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	Date nowTime = new Date();
 	SimpleDateFormat sf = new SimpleDateFormat("a hh:mm:ss");
 %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 <!DOCTYPE html>
@@ -21,12 +21,7 @@
 	
 </head>
 <body>
-
 	<%= sf.format(nowTime) %><br>
-	
-	$("#datepicker").datepicker({
-	
-	});
 	
 	
 	<form action="/attendance/registerAtt.sw" method="post">

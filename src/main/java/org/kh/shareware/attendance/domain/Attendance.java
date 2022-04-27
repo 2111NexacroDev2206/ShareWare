@@ -7,25 +7,9 @@ public class Attendance {
 	private String attFinTime;
 	private String attTotalTime;
 	private String attStatus;
-	private int lateNum;
-	private int earlyNum;
-	private int attNum;
+	private String memNum;
 	
 	public Attendance() {}
-
-	public Attendance(int attNo, String attDate, String attStrTime, String attFinTime, String attTotalTime,
-			String attStatus, int lateNum, int earlyNum, int attNum) {
-		super();
-		this.attNo = attNo;
-		this.attDate = attDate;
-		this.attStrTime = attStrTime;
-		this.attFinTime = attFinTime;
-		this.attTotalTime = attTotalTime;
-		this.attStatus = attStatus;
-		this.lateNum = lateNum;
-		this.earlyNum = earlyNum;
-		this.attNum = attNum;
-	}
 
 	public int getAttNo() {
 		return attNo;
@@ -75,37 +59,19 @@ public class Attendance {
 		this.attStatus = attStatus;
 	}
 
-	public int getLateNum() {
-		return lateNum;
+	public String getMemNum() {
+		return memNum;
 	}
 
-	public void setLateNum(int lateNum) {
-		this.lateNum = lateNum;
-	}
-
-	public int getEarlyNum() {
-		return earlyNum;
-	}
-
-	public void setEarlyNum(int earlyNum) {
-		this.earlyNum = earlyNum;
-	}
-
-	public int getAttNum() {
-		return attNum;
-	}
-
-	public void setAttNum(int attNum) {
-		this.attNum = attNum;
+	public void setMemNum(String memNum) {
+		this.memNum = memNum;
 	}
 
 	@Override
 	public String toString() {
 		return "Attendance [attNo=" + attNo + ", attDate=" + attDate + ", attStrTime=" + attStrTime + ", attFinTime="
-				+ attFinTime + ", attTotalTime=" + attTotalTime + ", attStatus=" + attStatus + ", lateNum=" + lateNum
-				+ ", earlyNum=" + earlyNum + ", attNum=" + attNum + "]";
+				+ attFinTime + ", attTotalTime=" + attTotalTime + ", attStatus=" + attStatus + ", memNum=" + memNum
+				+ "]";
 	}
-
-	
 	
 }
