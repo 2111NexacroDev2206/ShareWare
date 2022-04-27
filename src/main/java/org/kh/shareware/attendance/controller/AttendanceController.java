@@ -61,20 +61,24 @@ public class AttendanceController {
 			HttpSession session = request.getSession();
 			session.getAttribute("loginUser");
 			Member value = (Member) session.getAttribute("loginUser");
-			if (value != null) {
-				
-				int result = aService.modifyAttendance(attendance);
-				if(result > 0) {
-					return "redirect:/attendance/attListViewEmp.sw";
+			try {
+				if (value != null) {
+					
+					int result = aService.modifyAttendance(attendance);
+					if(result > 0) {
+						return "redirect:/attendance/attListViewEmp.sw";
+					}else {
+						model.addAttribute("msg", "퇴근 등록 실패!");
+						return "common/errorPage";
+					}
 				}else {
-					model.addAttribute("msg", "퇴근 등록 실패!");
+					model.addAttribute("msg", "로그인 실패!");
 					return "common/errorPage";
 				}
-			}else {
-				model.addAttribute("msg", "퇴근 등록 실패!");
+			}catch(Exception e) {
+				model.addAttribute("msg", e.toString());
 				return "common/errorPage";
 			}
-			
 		}
 	
 	//출퇴근 리스트

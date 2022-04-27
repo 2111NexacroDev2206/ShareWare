@@ -110,4 +110,11 @@ public class MemberController {
 		}
 		return null;
 	}
+	
+	//조직도
+	@RequestMapping(value="/member/organizationView.sw", method=RequestMethod.GET)
+	public String organizationView() {
+		return "/member/organizationView";
+	}
+
 }
