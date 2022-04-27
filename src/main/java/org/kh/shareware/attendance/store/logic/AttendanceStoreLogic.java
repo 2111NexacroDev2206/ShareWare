@@ -26,7 +26,7 @@ public class AttendanceStoreLogic implements AttendanceStore{
 
 	//근태리스트
 	@Override
-	public List<Attendance> selectAll(SqlSession sqlSession, PageInfo pi) {
+	public List<Attendance> selectAll(SqlSession sqlSession, PageInfo pi, String memNum) {
 		int limit = pi.getMemberLimit();
 		int currentPage = pi.getCurrentPage();
 		int offset = (currentPage - 1) * limit;

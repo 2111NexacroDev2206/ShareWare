@@ -1,6 +1,6 @@
 package org.kh.shareware.attendance.controller;
 
-import java.util.HashMap;
+import java.time.LocalTime;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class AttendanceController {
@@ -37,9 +36,16 @@ public class AttendanceController {
 		try{
 			if (value != null) {
 				attendance.setMemNum(value.getMemberNum()); // 사원번호
-				// 지각이면 
-				attendance.setAttStatus("지각");
-				attendance.setAttStatus("출근");
+				// 지각
+				LocalTime now = LocalTime.now();
+				int hour = now.getHour();
+				int second = now.getSecond();
+					// 시 분 초 -> 9, 0, 1 -> 지각
+					if(hour >= 9 && second > 0) {
+						attendance.setAttStatus("지각");
+					}else {
+						attendance.setAttStatus("출근");
+					}
 				int result = aService.registerAttendance(attendance);
 				if(result > 0) {
 					return "redirect:/attendance/attListViewEmp.sw";
@@ -67,6 +73,15 @@ public class AttendanceController {
 			try {
 				if (value != null) {
 					attendance.setMemNum(value.getMemberNum()); // 사원번호
+					//조퇴
+					LocalTime now = LocalTime.now();
+					int hour = now.getHour();
+					int second = now.getSecond();
+						if(hour >= 13 && hour <= 18) {
+							attendance.setAttStatus("조퇴");
+						}else {
+							attendance.setAttStatus("퇴근");
+						}
 					int result = aService.modifyAttendance(attendance);
 					if(result > 0) {
 						return "redirect:/attendance/attListViewEmp.sw";

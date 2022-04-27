@@ -12,7 +12,7 @@ public interface AttendanceStore {
 	public int updateAttendance(SqlSession sqlSession, Attendance attendance);
 
 	//근태리스트
-	public List<Attendance> selectAll(SqlSession sqlSession, PageInfo pi);
+	List<Attendance> selectAll(SqlSession sqlSession, PageInfo pi, String memNum);
 	public int selectListCount(SqlSession sqlSession);
 
 }
