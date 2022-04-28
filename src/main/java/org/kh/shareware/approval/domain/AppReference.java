@@ -4,6 +4,7 @@ public class AppReference {
 	private int refNo;
 	private int docNo;
 	private String memNum;
+	private String refStatus;
 	
 	public AppReference() {}
 
@@ -31,9 +32,18 @@ public class AppReference {
 		this.memNum = memNum;
 	}
 
+	public String getRefStatus() {
+		return refStatus;
+	}
+
+	public void setRefStatus(String refStatus) {
+		this.refStatus = refStatus;
+	}
+
 	@Override
 	public String toString() {
-		return "AppReference [refNo=" + refNo + ", docNo=" + docNo + ", memNum=" + memNum + "]";
+		return "AppReference [refNo=" + refNo + ", docNo=" + docNo + ", memNum=" + memNum + ", refStatus=" + refStatus
+				+ "]";
 	}
-	
+
 }

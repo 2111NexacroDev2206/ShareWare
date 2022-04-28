@@ -12,7 +12,7 @@
 	<jsp:include page="appMenu.jsp"></jsp:include> <!-- 메뉴 + 소메뉴 -->
 	<div class="s-container">
 		<h1 id="h-title">문서 양식</h1>
-		<form id="form" action="/approval/docWrite.sw" method="post" enctype="multipart/form-data" onsubmit="return nullChk()">
+		<form id="form" action="/approval/saveDoc.sw" method="post" enctype="multipart/form-data" onsubmit="return nullChk()">
 			<input type="hidden" value=${form.formNo } name='formNo' readonly>
 			<table border="1" id="table">
 				<tr>
@@ -97,7 +97,7 @@
 			<p>파일 첨부
 			<input type="file" id="file-input" name="uploadFile">
 			<input type="submit" value="결재 요청">
-			<input type="button" value="임시 저장">
+			<input type="button" value="임시 저장" onclick="temSave()">
 			<input type="button" value="취소">
 		</form>
 	</div>
@@ -120,6 +120,12 @@
 			CKEDITOR.replace( 'docContent', {
 				height: 350
 			} );
+		}
+		
+		// 임시 저장
+		function temSave() {
+			$("#form").attr("action", "/approval/saveTemporary.sw");
+			$("#form").submit();
 		}
 	</script>
 </body>
