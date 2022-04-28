@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +11,33 @@
 <body>
 	<jsp:include page="appMenu.jsp"></jsp:include> <!-- 메뉴 + 소메뉴 -->
 	<div class="s-container">
+		<h2 id="h-title">기안 문서함</h2>
+		<a>전체</a>
+		<a>진행</a>
+		<a>완료</a>
+		<a>반려</a>
 		<button id="app-btn">결재 상신</button>
+		<table border="1">
+			<tr>
+				<th>기안일</th>
+				<th>문서양식</th>
+				<th>제목</th>
+				<th>문서번호</th>
+				<th>결재상태</th>
+			</tr>
+			<c:forEach items="${dList }" var="appDoc">
+				<tr>
+					<td>${appDoc.docDate }</td>
+					<td>${appDoc.formName }</td>
+					<c:url var="aDetail" value="/approval/detail.sw">
+						<c:param name="docNo" value="${appDoc.docNo }"></c:param>
+					</c:url>
+					<td><a href="${aDetail }">${appDoc.docTitle }</a></td>
+					<td>${appDoc.docNo }</td>
+					<td>${appDoc.docStatus }</td>
+				</tr>
+			</c:forEach>
+		</table>
 	</div>
 	<!-- 문서 양식 선택 모달 -->
 	<div class="m-appSel-wrap" id="appSelModal">

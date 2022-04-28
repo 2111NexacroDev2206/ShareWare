@@ -4,6 +4,7 @@ public class AppDocument {
 	private int docNo;
 	private String memNum;
 	private int formNo;
+	private String formName;
 	private String docTitle;
 	private String docContent;
 	private String docStatus;
@@ -40,6 +41,14 @@ public class AppDocument {
 
 	public void setFormNo(int formNo) {
 		this.formNo = formNo;
+	}
+
+	public String getFormName() {
+		return formName;
+	}
+
+	public void setFormName(String formName) {
+		this.formName = formName;
 	}
 
 	public String getDocTitle() {
@@ -132,10 +141,11 @@ public class AppDocument {
 
 	@Override
 	public String toString() {
-		return "AppDocument [docNo=" + docNo + ", memNum=" + memNum + ", formNo=" + formNo + ", docTitle=" + docTitle
-				+ ", docContent=" + docContent + ", docStatus=" + docStatus + ", docDate=" + docDate + ", leaveType="
-				+ leaveType + ", leaveStart=" + leaveStart + ", leaveEnd=" + leaveEnd + ", leaveTime=" + leaveTime
-				+ ", leaveDay=" + leaveDay + ", leaveLeft=" + leaveLeft + ", leaveApply=" + leaveApply + "]";
+		return "AppDocument [docNo=" + docNo + ", memNum=" + memNum + ", formNo=" + formNo + ", formName=" + formName
+				+ ", docTitle=" + docTitle + ", docContent=" + docContent + ", docStatus=" + docStatus + ", docDate="
+				+ docDate + ", leaveType=" + leaveType + ", leaveStart=" + leaveStart + ", leaveEnd=" + leaveEnd
+				+ ", leaveTime=" + leaveTime + ", leaveDay=" + leaveDay + ", leaveLeft=" + leaveLeft + ", leaveApply="
+				+ leaveApply + "]";
 	}
 
 }

@@ -4,6 +4,8 @@ public class AppReference {
 	private int refNo;
 	private int docNo;
 	private String memNum;
+	private String division;
+	private String rank;
 	private String refStatus;
 	
 	public AppReference() {}
@@ -32,6 +34,22 @@ public class AppReference {
 		this.memNum = memNum;
 	}
 
+	public String getDivision() {
+		return division;
+	}
+
+	public void setDivision(String division) {
+		this.division = division;
+	}
+
+	public String getRank() {
+		return rank;
+	}
+
+	public void setRank(String rank) {
+		this.rank = rank;
+	}
+
 	public String getRefStatus() {
 		return refStatus;
 	}
@@ -42,8 +60,8 @@ public class AppReference {
 
 	@Override
 	public String toString() {
-		return "AppReference [refNo=" + refNo + ", docNo=" + docNo + ", memNum=" + memNum + ", refStatus=" + refStatus
-				+ "]";
+		return "AppReference [refNo=" + refNo + ", docNo=" + docNo + ", memNum=" + memNum + ", division=" + division
+				+ ", rank=" + rank + ", refStatus=" + refStatus + "]";
 	}
 
 }

@@ -8,6 +8,23 @@
 		<result property="formName" column="FORM_NAME"/>
 		<result property="formContent" column="FORM_CONTENT"/>
 	</resultMap>
+	<resultMap type="AppDocument" id="appDocResultMap">
+		<id property="docNo" column="DOC_NO"/>
+		<result property="memNum" column="MEM_NUM"/>
+		<result property="formNo" column="FORM_NO"/>
+		<result property="formName" column="FORM_NAME"/>
+		<result property="docTitle" column="DOC_TITLE"/>
+		<result property="docContent" column="DOC_CONTENT"/>
+		<result property="docStatus" column="DOC_STATUS"/>
+		<result property="docDate" column="DOC_DATE"/>
+		<result property="leaveType" column="LEAVE_TYPE"/>
+		<result property="leaveStart" column="LEAVE_START"/>
+		<result property="leaveEnd" column="LEAVE_END"/>
+		<result property="leaveTime" column="LEAVE_TIME"/>
+		<result property="leaveDay" column="LEAVE_DAY"/>
+		<result property="leaveLeft" column="LEAVE_LEFT"/>
+		<result property="leaveApply" column="LEAVE_APPLY"/>
+	</resultMap>
 	<select id="selectAllForm" resultMap="appFormResultMap"><!-- 문서 양식 전체 조회 -->
 		SELECT * FROM APP_FORM
 	</select>
@@ -28,5 +45,8 @@
 	</insert>
 	<select id="selectOneLeaveDoc" resultType="string"><!-- 잔여 연차 조회 -->
 		SELECT * FROM(SELECT LEAVE_LEFT FROM APP_DOC WHERE MEM_NUM = #{memberNum} AND FORM_NO = 3 AND LEAVE_TYPE IN('연차', '반차') AND SUBSTR(DOC_DATE, 1, 4) = TO_CHAR(SYSDATE, 'YYYY') AND DOC_STATUS != '임시' ORDER BY DOC_NO DESC) WHERE ROWNUM = 1
+	</select>
+	<select id="selectAllDoc" resultMap="appDocResultMap">
+		SELECT DOC_DATE, FORM_NAME, DOC_TITLE, DOC_NO, DOC_STATUS FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO WHERE MEM_NUM = #{memberNum} AND DOC_STATUS != '임시' ORDER BY DOC_NO DESC
 	</select>
 </mapper>

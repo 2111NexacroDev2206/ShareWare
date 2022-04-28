@@ -64,4 +64,10 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return leaveLeft;
 	}
 
+	@Override
+	public List<AppDocument> printAll(String memberNum) { // 기안 문서 조회(기안 문서함)
+		List<AppDocument> dList = aStore.selectAllDoc(sqlSession, memberNum);
+		return dList;
+	}
+
 }

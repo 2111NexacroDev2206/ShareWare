@@ -56,4 +56,10 @@ public class ApprovalStoreLogic implements ApprovalStore{
 		return leaveLeft;
 	}
 
+	@Override
+	public List<AppDocument> selectAllDoc(SqlSession sqlSession, String memberNum) { // 기안 문서 조회(기안 문서함)
+		List<AppDocument> dList = sqlSession.selectList("ApprovalMapper.selectAllDoc", memberNum);
+		return dList;
+	}
+
 }

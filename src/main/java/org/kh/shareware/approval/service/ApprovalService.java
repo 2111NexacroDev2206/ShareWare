@@ -17,5 +17,6 @@ public interface ApprovalService {
 	public AppForm printForm(int formNo); // 문서 양식 조회
 	public List<AppForm> printAllForm(); // 문서 양식 전체 조회
 	public String printOneLeaveDoc(String memberNum); // 휴가 신청서 조회(잔여 연차)
+	public List<AppDocument> printAll(String memberNum); // 기안 문서 조회(기안 문서함)
 
 }

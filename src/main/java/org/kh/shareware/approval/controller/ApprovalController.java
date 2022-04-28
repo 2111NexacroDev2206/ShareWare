@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.kh.shareware.approval.domain.AppDocument;
 import org.kh.shareware.approval.domain.AppFile;
@@ -14,6 +15,7 @@ import org.kh.shareware.approval.domain.AppForm;
 import org.kh.shareware.approval.domain.AppReference;
 import org.kh.shareware.approval.domain.Approval;
 import org.kh.shareware.approval.service.ApprovalService;
+import org.kh.shareware.member.domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,9 +38,13 @@ public class ApprovalController {
 	
 	// 기안 문서함으로 이동
 	@RequestMapping(value = "/approval/{param}ListView.sw")
-	public String docListView(Model model, @PathVariable("param") String parameter) {
+	public String docListView(Model model, @PathVariable("param") String parameter, HttpServletRequest request) {
 		model.addAttribute("myCondition", "approval");
 		model.addAttribute("listCondition", parameter);
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
+		List<AppDocument> dList = aService.printAll(member.getMemberNum());
+		model.addAttribute("dList", dList);
 		return "approval/" + parameter + "List";
 	}
 	
@@ -202,4 +208,5 @@ public class ApprovalController {
 		}
 		return fileMap; // 파일 경로 리턴
 	}
+	
 }
