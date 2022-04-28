@@ -38,21 +38,22 @@ public class ApprovalController {
 	@Autowired
 	private ApprovalService aService;
 	
-	// 기안 문서함으로 이동
+	// 문서함으로 이동(기안/결재/참조/임시)
 	@RequestMapping(value = "/approval/{param}ListView.sw")
 	public String docListView(Model model, @PathVariable("param") String parameter
 			, HttpServletRequest request
 			, @RequestParam(value="page", required = false) Integer page) {
+		model.addAttribute("myCondition", "approval");
+		model.addAttribute("listCondition", parameter);
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
 		int currentPage = (page != null) ? page : 1;
 		int totalCount = aService.getListCount(member.getMemberNum());
 		PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
-		model.addAttribute("myCondition", "approval");
-		model.addAttribute("listCondition", parameter);
 		List<AppDocument> dList = aService.printAll(member.getMemberNum(), pi);
 		model.addAttribute("dList", dList);
 		model.addAttribute("pi", pi);
+		model.addAttribute("type", parameter);
 		return "approval/" + parameter + "List";
 	}
 	
