@@ -43,15 +43,19 @@ public class ApprovalController {
 	@RequestMapping(value = "/approval/{param}ListView.sw")
 	public String docListView(Model model, @PathVariable("param") String parameter
 			, HttpServletRequest request
-			, @RequestParam(value="page", required = false) Integer page) {
+			, @RequestParam(value="page", required = false) Integer page
+			, @RequestParam(value="docStatus", required = false) String docStatus
+			, @ModelAttribute AppDocument appDoc) {
 		model.addAttribute("myCondition", "approval");
 		model.addAttribute("listCondition", parameter);
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
+		appDoc.setDocStatus(docStatus);
+		appDoc.setMemNum(member.getMemberNum());
 		int currentPage = (page != null) ? page : 1;
-		int totalCount = aService.getListCount(member.getMemberNum());
+		int totalCount = aService.getListCount(appDoc);
 		PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
-		List<AppDocument> dList = aService.printAll(member.getMemberNum(), pi);
+		List<AppDocument> dList = aService.printAll(appDoc, pi);
 		model.addAttribute("dList", dList);
 		model.addAttribute("pi", pi);
 		model.addAttribute("type", parameter);
@@ -68,12 +72,12 @@ public class ApprovalController {
 		model.addAttribute("listCondition", "draft");
 		try {
 			HttpSession session = request.getSession();
-			int currentPage = (page != null) ? page : 1;
 			search.setMemberNum(((Member)session.getAttribute("loginUser")).getMemberNum()); // 세션 값에서 사원번호 가져오기
+			int currentPage = (page != null) ? page : 1;
 			int totalCount = aService.getSearchDraftCount(search);
 			PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
 			List<AppDocument> searchDraft = aService.printSearchDraft(search, pi);
-			if(!searchDraft.isEmpty()) {
+			if(searchDraft != null) {
 				mv.addObject("dList", searchDraft);
 				mv.addObject("search", search);
 				mv.addObject("pi", pi);

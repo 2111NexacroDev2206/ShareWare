@@ -47,10 +47,23 @@
 		SELECT * FROM(SELECT LEAVE_LEFT FROM APP_DOC WHERE MEM_NUM = #{memberNum} AND FORM_NO = 3 AND LEAVE_TYPE IN('연차', '반차') AND SUBSTR(DOC_DATE, 1, 4) = TO_CHAR(SYSDATE, 'YYYY') AND DOC_STATUS != '임시' ORDER BY DOC_NO DESC) WHERE ROWNUM = 1
 	</select>
 	<select id="selectAllDoc" resultMap="appDocResultMap"><!-- 기안 문서 조회(기안 문서함) -->
-		SELECT DOC_DATE, FORM_NAME, DOC_TITLE, DOC_NO, DOC_STATUS FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO WHERE MEM_NUM = #{memberNum} AND DOC_STATUS != '임시' ORDER BY DOC_NO DESC
+		SELECT DOC_DATE, FORM_NAME, DOC_TITLE, DOC_NO, DOC_STATUS FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO WHERE MEM_NUM = #{memNum}
+		<if test="docStatus.toString() != '전체'">
+			AND DOC_STATUS = '${docStatus}'
+		</if>
+		<if test="docStatus.toString() == '전체'">
+			AND DOC_STATUS != '임시'
+		</if>
+		ORDER BY DOC_NO DESC
 	</select>
 	<select id="selectListCount" resultType="_int"><!-- 문서함 페이징 -->
-		SELECT COUNT(*) FROM APP_DOC WHERE MEM_NUM = #{memberNum} AND DOC_STATUS != '임시'
+		SELECT COUNT(*) FROM APP_DOC WHERE MEM_NUM = #{memNum}
+		<if test="docStatus.toString() != '전체'">
+			AND DOC_STATUS = '${docStatus}'
+		</if>
+		<if test="docStatus.toString() == '전체'">
+			AND DOC_STATUS != '임시'
+		</if>
 	</select>
 	<select id="selectListDraftSearch" resultMap="appDocResultMap"><!-- 기안 문서함 검색 -->
 		SELECT DOC_DATE, FORM_NAME, DOC_TITLE, DOC_NO, DOC_STATUS FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO WHERE MEM_NUM = #{memberNum} AND DOC_STATUS != '임시'

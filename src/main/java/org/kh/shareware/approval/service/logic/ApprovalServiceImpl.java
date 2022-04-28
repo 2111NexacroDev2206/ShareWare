@@ -67,14 +67,14 @@ public class ApprovalServiceImpl implements ApprovalService{
 	}
 
 	@Override
-	public List<AppDocument> printAll(String memberNum, PageInfo pi) { // 기안 문서 조회(기안 문서함)
-		List<AppDocument> dList = aStore.selectAllDoc(sqlSession, memberNum, pi);
+	public List<AppDocument> printAll(AppDocument appDoc, PageInfo pi) { // 기안 문서 조회(기안 문서함)
+		List<AppDocument> dList = aStore.selectAllDoc(sqlSession, appDoc, pi);
 		return dList;
 	}
 
 	@Override
-	public int getListCount(String memberNum) { // 문서함 페이징
-		int totalCount = aStore.selectListCount(sqlSession, memberNum);
+	public int getListCount(AppDocument appDoc) { // 문서함 페이징
+		int totalCount = aStore.selectListCount(sqlSession, appDoc);
 		return totalCount;
 	}
 

@@ -60,18 +60,18 @@ public class ApprovalStoreLogic implements ApprovalStore{
 	}
 
 	@Override
-	public List<AppDocument> selectAllDoc(SqlSession sqlSession, String memberNum, PageInfo pi) { // 기안 문서 조회(기안 문서함)
+	public List<AppDocument> selectAllDoc(SqlSession sqlSession, AppDocument appDoc, PageInfo pi) { // 기안 문서 조회(기안 문서함)
 		int limit = pi.getDocLimit();
 		int currentPage = pi.getCurrentPage();
 		int offset = (currentPage - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		List<AppDocument> dList = sqlSession.selectList("ApprovalMapper.selectAllDoc", memberNum, rowBounds);
+		List<AppDocument> dList = sqlSession.selectList("ApprovalMapper.selectAllDoc", appDoc, rowBounds);
 		return dList;
 	}
 
 	@Override
-	public int selectListCount(SqlSession sqlSession, String memberNum) { // 문서함 페이징
-		int totalCount = sqlSession.selectOne("ApprovalMapper.selectListCount", memberNum);
+	public int selectListCount(SqlSession sqlSession, AppDocument appDoc) { // 문서함 페이징
+		int totalCount = sqlSession.selectOne("ApprovalMapper.selectListCount", appDoc);
 		return totalCount;
 	}
 
