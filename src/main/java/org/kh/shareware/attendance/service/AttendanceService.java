@@ -10,8 +10,10 @@ public interface AttendanceService {
 	//출퇴근
 	int registerAttendance(Attendance attendance);
 	int modifyAttendance(Attendance attendance);
+	
+	int getListCount(String memNum);
+	List<Attendance> printAll(PageInfo pi, String memNum);
 
-	int getListCount();
-	List<Attendance> printAll(PageInfo pi);
+
 
 }

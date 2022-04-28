@@ -13,6 +13,6 @@ public interface AttendanceStore {
 
 	//근태리스트
 	List<Attendance> selectAll(SqlSession sqlSession, PageInfo pi, String memNum);
-	public int selectListCount(SqlSession sqlSession);
+	public int selectListCount(SqlSession sqlSession, String memNum);
 
 }

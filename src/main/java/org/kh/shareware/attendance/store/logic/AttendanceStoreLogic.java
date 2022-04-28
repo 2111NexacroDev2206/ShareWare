@@ -32,12 +32,12 @@ public class AttendanceStoreLogic implements AttendanceStore{
 		int offset = (currentPage - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		List<Attendance> aList 
-			= sqlSession.selectList("AttendanceMapper.selectAllList", pi, rowBounds);
+			= sqlSession.selectList("AttendanceMapper.selectAllList", memNum, rowBounds);
 		return aList;
 	}
 	@Override
-	public int selectListCount(SqlSession sqlSession) {
-		int totalCount = sqlSession.selectOne("AttendanceMapper.selectListCount");
+	public int selectListCount(SqlSession sqlSession, String memNum) {
+		int totalCount = sqlSession.selectOne("AttendanceMapper.selectListCount",memNum);
 		return totalCount;
 	}
 

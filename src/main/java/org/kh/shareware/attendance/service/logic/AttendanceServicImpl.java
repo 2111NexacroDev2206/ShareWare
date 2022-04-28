@@ -33,14 +33,14 @@ public class AttendanceServicImpl implements AttendanceService{
 
 	//근태 리스트
 	@Override
-	public int getListCount() {
-		int totalCount = aStore.selectListCount(sqlSession);
-		return totalCount;
+	public List<Attendance> printAll(PageInfo pi, String memNum) {
+		List<Attendance> aList = aStore.selectAll(sqlSession, pi, memNum);
+		return aList;
 	}
 	@Override
-	public List<Attendance> printAll(PageInfo pi) {
-		List<Attendance> aList = aStore.selectAll(sqlSession, pi);
-		return aList;
+	public int getListCount(String memNum) {
+		int totalCount = aStore.selectListCount(sqlSession,memNum);
+		return totalCount;
 	}
 
 

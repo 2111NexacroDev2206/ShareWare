@@ -51,6 +51,11 @@
 					<td>조퇴</td>
 					<td>출근</td>
 				</tr>
+				<tr>
+					<td>0</td>
+					<td>0</td>
+					<td>0</td>
+				</tr>
 			</table>
 		</div>
     </form>
@@ -66,6 +71,7 @@
 					<th>근무상태</th>
 				</tr>
 				<c:forEach items="${aList }" var="attendance">
+				<c:if test="${sessionScope.memNum eq member.memNum }">
 				<tr>
 					<td>${attendance.attDate }</td>
 					<td>${attendance.attStrTime }</td>
@@ -73,6 +79,7 @@
 					<td>${attendance.attTotalTime }</td>
 					<td>${attendance.attStatus }</td>
 				</tr>
+				</c:if>
 				</c:forEach>
 			</table>
 			<br>
