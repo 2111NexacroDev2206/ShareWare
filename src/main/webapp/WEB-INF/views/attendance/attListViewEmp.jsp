@@ -51,11 +51,13 @@
 					<td>조퇴</td>
 					<td>출근</td>
 				</tr>
+				<c:if test="${sessionScope.memNum eq member.memNum }">
 				<tr>
-					<td>0</td>
-					<td>0</td>
-					<td>0</td>
-				</tr>
+					<c:forEach items="${sList }" var="attStats">
+								<td>${attStats.attCount}</td>
+					</c:forEach>
+				</tr>	
+				</c:if>
 			</table>
 		</div>
     </form>

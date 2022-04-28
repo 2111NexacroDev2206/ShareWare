@@ -14,6 +14,12 @@
   		<result property="memNum" column="MEM_NUM"/>
   	</resultMap>
   	
+  		<resultMap type="Stats" id="statsResultMap">
+  			<id property="attStatus" column="ATT_STATUS"/>
+	  		<result property="attCount" column="ATT_COUNT"/>
+	  		<result property="memNum" column="MEM_NUM"/>
+  		</resultMap>
+  
   	<!-- 출근 등록 -->
   	<update id="insertAttendance">           
         UPDATE ATTENDANCE SET ATT_STR_TIME = TO_CHAR(SYSDATE, 'HH24:MI:SS'), ATT_STATUS = #{attStatus } WHERE  ATT_NO = (SELECT MAX(ATT_NO) FROM ATTENDANCE WHERE MEM_NUM = #{memNum})
@@ -32,6 +38,11 @@
 		SELECT COUNT(*) FROM ATTENDANCE WHERE MEM_NUM = #{memNum}
 	</select>
 	
+	<!-- 통계 -->
+  	<select id="selectStats" resultMap="statsResultMap">
+  			SELECT ATT_STATUS, COUNT(ATT_STATUS) "ATT_COUNT", MEM_NUM FROM ATTENDANCE GROUP BY ATT_STATUS, MEM_NUM HAVING MEM_NUM = #{memNum}
+  	</select>
+  	
 	<select id="selectAttendanceSearch" resultMap="attendanceResultMap">
 	</select>
   </mapper>

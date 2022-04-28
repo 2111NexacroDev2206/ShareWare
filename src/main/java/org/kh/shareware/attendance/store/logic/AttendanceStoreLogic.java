@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.attendance.domain.Attendance;
+import org.kh.shareware.attendance.domain.Stats;
 import org.kh.shareware.attendance.store.AttendanceStore;
 import org.kh.shareware.member.common.PageInfo;
 import org.springframework.stereotype.Repository;
@@ -39,6 +40,14 @@ public class AttendanceStoreLogic implements AttendanceStore{
 	public int selectListCount(SqlSession sqlSession, String memNum) {
 		int totalCount = sqlSession.selectOne("AttendanceMapper.selectListCount",memNum);
 		return totalCount;
+	}
+	
+	//통계
+	@Override
+	public List<Stats> selectStats(SqlSession sqlSession, String memNum) {
+		List<Stats> sList 
+		= sqlSession.selectList("AttendanceMapper.selectStats", memNum);
+	return sList;
 	}
 
 

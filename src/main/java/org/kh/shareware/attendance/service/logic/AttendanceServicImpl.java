@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.attendance.domain.Attendance;
+import org.kh.shareware.attendance.domain.Stats;
 import org.kh.shareware.attendance.service.AttendanceService;
 import org.kh.shareware.attendance.store.AttendanceStore;
 import org.kh.shareware.member.common.PageInfo;
@@ -41,6 +42,13 @@ public class AttendanceServicImpl implements AttendanceService{
 	public int getListCount(String memNum) {
 		int totalCount = aStore.selectListCount(sqlSession,memNum);
 		return totalCount;
+	}
+	
+	//통계
+	@Override
+	public List<Stats> printStats(String memNum) {
+		List<Stats> sList = aStore.selectStats(sqlSession, memNum);
+		return sList;
 	}
 
 

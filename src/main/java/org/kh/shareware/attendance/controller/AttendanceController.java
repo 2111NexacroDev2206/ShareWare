@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.kh.shareware.attendance.domain.Attendance;
+import org.kh.shareware.attendance.domain.Stats;
 import org.kh.shareware.attendance.service.AttendanceService;
 import org.kh.shareware.member.common.PageInfo;
 import org.kh.shareware.member.common.Pagination;
@@ -24,7 +25,7 @@ public class AttendanceController {
 
 	@Autowired
 	private AttendanceService aService;
-	
+
 	
 	// 출근 등록
 	@RequestMapping(value = "/attendance/registerAtt.sw", method = RequestMethod.POST)
@@ -103,12 +104,17 @@ public class AttendanceController {
 	@RequestMapping(value="/attendance/attListViewEmp.sw", method=RequestMethod.GET)
 	public String attListViewEmp(
 			Model model
+			, HttpSession session
 			, @RequestParam(value="page", required=false) Integer page) {
 		int currentPage = (page != null) ? page : 1;
-		int totalCount = aService.getListCount();
+		Member value = (Member) session.getAttribute("loginUser");
+		String memNum = value.getMemberNum();
+		int totalCount = aService.getListCount(memNum);
 		PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
-		List<Attendance> aList = aService.printAll(pi);
+		List<Attendance> aList = aService.printAll(pi, memNum);
+		List<Stats> sList = aService.printStats(memNum); //통계
 		if(!aList.isEmpty()) {
+			model.addAttribute("sList", sList); //통계
 			model.addAttribute("aList", aList);
 			model.addAttribute("pi", pi);
 		}
