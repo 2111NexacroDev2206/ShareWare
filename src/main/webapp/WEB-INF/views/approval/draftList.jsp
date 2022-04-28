@@ -13,6 +13,7 @@
 	<div class="s-container">
 		<h2 id="h-title">기안 문서함</h2>
 		<a>전체</a>
+		<a>대기</a>
 		<a>진행</a>
 		<a>완료</a>
 		<a>반려</a>
@@ -39,6 +40,21 @@
 			</c:forEach>
 		</table>
 		<jsp:include page="appPaging.jsp"></jsp:include> <!-- 페이징 -->
+		<div class="m-search">
+			<form action="/approval/draftSearch.sw" method="get">
+				<select class="s-select" id="s-condition" name="searchCondition" style="text-align: left; width: 80px;">
+					<option value="all">전체</option>
+					<option value="docDate">기안일</option>
+					<option value="formName">문서양식</option>
+					<option value="docTitle">제목</option>
+					<option value="docNo">문서번호</option>
+				</select>
+				<div class="s-input">
+					<input type="text" id="s-value" name="searchValue" class="s-text">
+					<input type="submit" id="btn-search" class="i-search" value="&#xf002;">
+				</div>
+			</form>
+		</div>
 	</div>
 	<!-- 문서 양식 선택 모달 -->
 	<div class="m-appSel-wrap" id="appSelModal">

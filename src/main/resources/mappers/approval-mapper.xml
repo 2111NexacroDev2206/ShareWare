@@ -49,7 +49,50 @@
 	<select id="selectAllDoc" resultMap="appDocResultMap"><!-- 기안 문서 조회(기안 문서함) -->
 		SELECT DOC_DATE, FORM_NAME, DOC_TITLE, DOC_NO, DOC_STATUS FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO WHERE MEM_NUM = #{memberNum} AND DOC_STATUS != '임시' ORDER BY DOC_NO DESC
 	</select>
-	<select id="selectListCount" resultType="_int">
+	<select id="selectListCount" resultType="_int"><!-- 문서함 페이징 -->
 		SELECT COUNT(*) FROM APP_DOC WHERE MEM_NUM = #{memberNum} AND DOC_STATUS != '임시'
+	</select>
+	<select id="selectListDraftSearch" resultMap="appDocResultMap"><!-- 기안 문서함 검색 -->
+		SELECT DOC_DATE, FORM_NAME, DOC_TITLE, DOC_NO, DOC_STATUS FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO WHERE MEM_NUM = #{memberNum} AND DOC_STATUS != '임시'
+		<if test="searchCondition.toString() == 'docDate'">
+			AND DOC_DATE LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'formName'">
+			AND FORM_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'docTitle'">
+			AND DOC_TITLE LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'docNo'">
+			AND DOC_NO LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'all'">
+			AND (DOC_NO LIKE '%' || #{searchValue} || '%'
+			OR DOC_DATE LIKE '%' || #{searchValue} || '%'
+			OR FORM_NAME LIKE '%' || #{searchValue} || '%'
+			OR DOC_TITLE LIKE '%' || #{searchValue} || '%')
+		</if>
+		ORDER BY DOC_NO DESC
+	</select>
+	<select id="selectSearchDraftCount" resultType="_int"><!-- 기안 문서함 검색 페이징 -->
+		SELECT COUNT(*) FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO WHERE MEM_NUM = #{memberNum} AND DOC_STATUS != '임시'
+		<if test="searchCondition.toString() == 'docDate'">
+			AND DOC_DATE LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'formName'">
+			AND FORM_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'docTitle'">
+			AND DOC_TITLE LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'docNo'">
+			AND DOC_NO LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'all'">
+			AND (DOC_NO LIKE '%' || #{searchValue} || '%'
+			OR DOC_DATE LIKE '%' || #{searchValue} || '%'
+			OR FORM_NAME LIKE '%' || #{searchValue} || '%'
+			OR DOC_TITLE LIKE '%' || #{searchValue} || '%')
+		</if>
 	</select>
 </mapper>

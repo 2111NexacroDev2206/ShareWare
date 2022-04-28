@@ -17,6 +17,7 @@ import org.kh.shareware.approval.domain.Approval;
 import org.kh.shareware.approval.service.ApprovalService;
 import org.kh.shareware.common.PageInfo;
 import org.kh.shareware.common.Pagination;
+import org.kh.shareware.common.Search;
 import org.kh.shareware.member.domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -55,6 +56,39 @@ public class ApprovalController {
 		model.addAttribute("pi", pi);
 		model.addAttribute("type", parameter);
 		return "approval/" + parameter + "List";
+	}
+	
+	// 기안 문서함 검색
+	@RequestMapping(value = "/approval/draftSearch.sw")
+	public ModelAndView draftSearchList(Model model, ModelAndView mv
+			, @ModelAttribute Search search
+			, HttpServletRequest request
+			, @RequestParam(value="page", required = false) Integer page) {
+		model.addAttribute("myCondition", "approval");
+		model.addAttribute("listCondition", "draft");
+		try {
+			HttpSession session = request.getSession();
+			int currentPage = (page != null) ? page : 1;
+			search.setMemberNum(((Member)session.getAttribute("loginUser")).getMemberNum()); // 세션 값에서 사원번호 가져오기
+			int totalCount = aService.getSearchDraftCount(search);
+			PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
+			List<AppDocument> searchDraft = aService.printSearchDraft(search, pi);
+			if(!searchDraft.isEmpty()) {
+				mv.addObject("dList", searchDraft);
+				mv.addObject("search", search);
+				mv.addObject("pi", pi);
+				mv.addObject("type", "draft");
+				mv.setViewName("approval/draftList");
+			}else {
+				mv.addObject("msg", "검색 실패");
+				mv.addObject("loc", "/approval/draftListView.sw");
+				mv.setViewName("common/msg");
+			}
+		}catch(Exception e) {
+			mv.addObject("msg", e.toString());
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
 	}
 	
 	// 문서 양식 전체 조회

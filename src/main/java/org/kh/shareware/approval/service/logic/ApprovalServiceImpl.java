@@ -11,6 +11,7 @@ import org.kh.shareware.approval.domain.Approval;
 import org.kh.shareware.approval.service.ApprovalService;
 import org.kh.shareware.approval.store.ApprovalStore;
 import org.kh.shareware.common.PageInfo;
+import org.kh.shareware.common.Search;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -72,8 +73,20 @@ public class ApprovalServiceImpl implements ApprovalService{
 	}
 
 	@Override
-	public int getListCount(String memberNum) { // 기안 문서함 페이징 처리
+	public int getListCount(String memberNum) { // 문서함 페이징
 		int totalCount = aStore.selectListCount(sqlSession, memberNum);
+		return totalCount;
+	}
+
+	@Override
+	public List<AppDocument> printSearchDraft(Search search, PageInfo pi) { // 기안 문서함 검색
+		List<AppDocument> dList = aStore.selectAllDraftSearch(sqlSession, search, pi);
+		return dList;
+	}
+
+	@Override
+	public int getSearchDraftCount(Search search) { // 기안 문서함 검색 페이징
+		int totalCount = aStore.selectSearchDraftCount(sqlSession, search);
 		return totalCount;
 	}
 

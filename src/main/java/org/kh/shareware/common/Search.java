@@ -1,10 +1,19 @@
 package org.kh.shareware.common;
 
 public class Search {
+	private String memberNum;
 	private String searchCondition;
 	private String searchValue;
 	
 	public Search() {}
+
+	public String getMemberNum() {
+		return memberNum;
+	}
+
+	public void setMemberNum(String memberNum) {
+		this.memberNum = memberNum;
+	}
 
 	public String getSearchCondition() {
 		return searchCondition;
@@ -24,7 +33,8 @@ public class Search {
 
 	@Override
 	public String toString() {
-		return "Search [searchCondition=" + searchCondition + ", searchValue=" + searchValue + "]";
+		return "Search [memberNum=" + memberNum + ", searchCondition=" + searchCondition + ", searchValue="
+				+ searchValue + "]";
 	}
 	
 }
