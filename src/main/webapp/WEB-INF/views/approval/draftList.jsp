@@ -38,6 +38,23 @@
 				</tr>
 			</c:forEach>
 		</table>
+		<div class="paging">
+			<c:if test="${pi.startNavi == 1 }">
+				<a href="/approval/draftListView.sw?page=1"></a>
+			</c:if>
+			<c:if test="${pi.prev}">
+				<a href="/approval/draftListView.sw?page=${pi.startNavi-1}">Prev</a>
+			</c:if>
+			<c:forEach var="p" begin="${pi.startNavi }" end="${pi.endNavi }">
+				<c:url var="pagination" value="/approval/draftListView.sw">
+					<c:param name="page" value="${p }"></c:param>
+				</c:url>
+				<a href="${pagination }"><button class="on1">${p }</button></a>&nbsp;									
+			</c:forEach>
+			<c:if test="${pi.next && pi.endNavi > 0}">
+				<a href="/approval/draftListView.sw?page=${pi.endNavi+1}">Next</a>
+			</c:if>
+		</div>
 	</div>
 	<!-- 문서 양식 선택 모달 -->
 	<div class="m-appSel-wrap" id="appSelModal">

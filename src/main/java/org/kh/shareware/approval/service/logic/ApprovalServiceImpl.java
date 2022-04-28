@@ -10,6 +10,7 @@ import org.kh.shareware.approval.domain.AppReference;
 import org.kh.shareware.approval.domain.Approval;
 import org.kh.shareware.approval.service.ApprovalService;
 import org.kh.shareware.approval.store.ApprovalStore;
+import org.kh.shareware.common.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,9 +66,15 @@ public class ApprovalServiceImpl implements ApprovalService{
 	}
 
 	@Override
-	public List<AppDocument> printAll(String memberNum) { // 기안 문서 조회(기안 문서함)
-		List<AppDocument> dList = aStore.selectAllDoc(sqlSession, memberNum);
+	public List<AppDocument> printAll(String memberNum, PageInfo pi) { // 기안 문서 조회(기안 문서함)
+		List<AppDocument> dList = aStore.selectAllDoc(sqlSession, memberNum, pi);
 		return dList;
+	}
+
+	@Override
+	public int getListCount(String memberNum) { // 기안 문서함 페이징 처리
+		int totalCount = aStore.selectListCount(sqlSession, memberNum);
+		return totalCount;
 	}
 
 }

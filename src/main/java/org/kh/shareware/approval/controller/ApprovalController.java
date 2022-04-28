@@ -15,6 +15,8 @@ import org.kh.shareware.approval.domain.AppForm;
 import org.kh.shareware.approval.domain.AppReference;
 import org.kh.shareware.approval.domain.Approval;
 import org.kh.shareware.approval.service.ApprovalService;
+import org.kh.shareware.common.PageInfo;
+import org.kh.shareware.common.Pagination;
 import org.kh.shareware.member.domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,13 +40,19 @@ public class ApprovalController {
 	
 	// 기안 문서함으로 이동
 	@RequestMapping(value = "/approval/{param}ListView.sw")
-	public String docListView(Model model, @PathVariable("param") String parameter, HttpServletRequest request) {
-		model.addAttribute("myCondition", "approval");
-		model.addAttribute("listCondition", parameter);
+	public String docListView(Model model, @PathVariable("param") String parameter
+			, HttpServletRequest request
+			, @RequestParam(value="page", required = false) Integer page) {
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
-		List<AppDocument> dList = aService.printAll(member.getMemberNum());
+		int currentPage = (page != null) ? page : 1;
+		int totalCount = aService.getListCount(member.getMemberNum());
+		PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
+		model.addAttribute("myCondition", "approval");
+		model.addAttribute("listCondition", parameter);
+		List<AppDocument> dList = aService.printAll(member.getMemberNum(), pi);
 		model.addAttribute("dList", dList);
+		model.addAttribute("pi", pi);
 		return "approval/" + parameter + "List";
 	}
 	

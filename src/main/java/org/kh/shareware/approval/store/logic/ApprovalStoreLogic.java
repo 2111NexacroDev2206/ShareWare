@@ -2,6 +2,7 @@ package org.kh.shareware.approval.store.logic;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.approval.domain.AppDocument;
 import org.kh.shareware.approval.domain.AppFile;
@@ -9,6 +10,7 @@ import org.kh.shareware.approval.domain.AppForm;
 import org.kh.shareware.approval.domain.AppReference;
 import org.kh.shareware.approval.domain.Approval;
 import org.kh.shareware.approval.store.ApprovalStore;
+import org.kh.shareware.common.PageInfo;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -57,9 +59,19 @@ public class ApprovalStoreLogic implements ApprovalStore{
 	}
 
 	@Override
-	public List<AppDocument> selectAllDoc(SqlSession sqlSession, String memberNum) { // 기안 문서 조회(기안 문서함)
-		List<AppDocument> dList = sqlSession.selectList("ApprovalMapper.selectAllDoc", memberNum);
+	public List<AppDocument> selectAllDoc(SqlSession sqlSession, String memberNum, PageInfo pi) { // 기안 문서 조회(기안 문서함)
+		int limit = pi.getDocLimit();
+		int currentPage = pi.getCurrentPage();
+		int offset = (currentPage - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<AppDocument> dList = sqlSession.selectList("ApprovalMapper.selectAllDoc", memberNum, rowBounds);
 		return dList;
+	}
+
+	@Override
+	public int selectListCount(SqlSession sqlSession, String memberNum) { // 기안 문서함 페이징 처리
+		int totalCount = sqlSession.selectOne("ApprovalMapper.selectListCount", memberNum);
+		return totalCount;
 	}
 
 }
