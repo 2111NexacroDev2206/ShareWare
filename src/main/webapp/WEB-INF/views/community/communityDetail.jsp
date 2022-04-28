@@ -11,7 +11,7 @@
 <body>
 	<h1>자유게시판 상세보기</h1>
 	<c:if test="${loginUser.memberNum == community.memberNum}">
-		<button>수정</button>
+		<button type="button" onclick="location.href='/community/modifyView.sw'">수정</button>
 		<button type="button" id="delete">삭제</button>
 	</c:if>
 	

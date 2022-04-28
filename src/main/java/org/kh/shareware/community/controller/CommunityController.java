@@ -145,6 +145,12 @@ public class CommunityController {
 		}
 	}
 	
+	//글 수정페이지 보기
+	@RequestMapping(value="/community/modifyView.sw", method=RequestMethod.GET)
+	public String CommunityModifyView() {
+		return "community/commuityModifyForm";
+	}
+	
 
 	
 	//글삭제
