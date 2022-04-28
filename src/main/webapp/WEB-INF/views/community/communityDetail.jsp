@@ -10,8 +10,12 @@
 </head>
 <body>
 	<h1>자유게시판 상세보기</h1>
+	<form action="/community/modifyView.sw" method="GET" enctype="multipart/form-data" id="upDateForm">
 	<c:if test="${loginUser.memberNum == community.memberNum}">
-		<button type="button" onclick="location.href='/community/modifyView.sw'">수정</button>
+		<c:url var="update" value="/community/modifyView.sw">
+			<c:param name="comNo" value="${community.comNo }"></c:param>
+		</c:url>
+		<input type="button" id="upload" onclick="location.href='${update}'" value="수정"/>
 		<button type="button" id="delete">삭제</button>
 	</c:if>
 	
@@ -108,7 +112,7 @@
 				</c:if>
 			
 	</div>
-	
+	</form>
 </body>
 <script>
 
@@ -158,7 +162,6 @@
 				,success : function(data) {
 					if(data == "success") {
 						alert("투표완료");
-						location.href = '/community/list.sw';
 					}else {
 						alert("투표 실패!");
 					}
@@ -169,7 +172,8 @@
 		})}
 		
 	};
-
+	
+	
 	//글 삭제
 	$("#delete").on("click", function(){
 		var comNo = "${community.comNo}";

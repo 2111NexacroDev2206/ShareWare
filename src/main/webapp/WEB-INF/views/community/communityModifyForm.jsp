@@ -28,7 +28,7 @@
 			<td>본문</td>
 			<td>
  				<!-- <div contentEditable="true" id="comContent" style="height:500px;">  -->
-				<textarea id="comContent" value="${community.comContent}" rows="" cols=""></textarea>
+				<input type="text" id="comContent" value="${community.comContent}">
 					<div>
 						<img id ="img" />
 					</div>
@@ -77,34 +77,6 @@
 	
 	<script>
 
-	document.getElementById("vote-body-div").style.display = "none";
-	document.getElementById("vote-textbox3-div").style.display = "none";
-	document.getElementById("vote-textbox4-div").style.display = "none";
-	document.getElementById("btn-delete1").style.display = "none";
-	document.getElementById("btn-delete2").style.display = "none";
-	
-	const voteBodyDiv =document.getElementById('vote-body-div');
-	
-	
-
-	$("#comVoteInsert").on("click",function(){
-
-
-		if(voteBodyDiv.style.display === 'none'){
-			voteBodyDiv.style.display = 'block';
-		}
-
-	});
-
-	$("#voteDelete").on("click",function(){
-
-
-		if(voteBodyDiv.style.display === 'block'){
-			voteBodyDiv.style.display = 'none';
-		}
-
-	});
-	
 	</script>
 
 </body>

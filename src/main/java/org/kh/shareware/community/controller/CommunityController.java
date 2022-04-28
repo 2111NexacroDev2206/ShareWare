@@ -116,7 +116,9 @@ public class CommunityController {
 				return "common/errorPage";
 			}
 		}
-
+	
+		
+		
 //디테일 페이지 보기
 	@RequestMapping(value="/community/detail.sw", method=RequestMethod.GET)
 	public String datailCommunity(
@@ -145,12 +147,32 @@ public class CommunityController {
 		}
 	}
 	
-	//글 수정페이지 보기
-	@RequestMapping(value="/community/modifyView.sw", method=RequestMethod.GET)
-	public String CommunityModifyView() {
-		return "community/commuityModifyForm";
-	}
+
 	
+	//글 수정 페이지 보기
+	@RequestMapping(value="/community/modifyView.sw", method=RequestMethod.GET)
+	public String CommunityModifyView(
+			Model model
+			,@RequestParam("comNo") int comNo) {
+	
+		
+		//게시글 번호로 검색
+		Community community = cService.detailCommunity(comNo);
+		//투표 번호 검색
+		CommunityVote communityVote = cService.detailCommunityVote(comNo);
+		//사용자 번호로 사용자 투표테이블 가져오기
+		CommunityVoteSelect cVoteSelect = cService.viewCommunityVote(comNo);
+		
+		if(community != null) {
+			model.addAttribute("community",community);
+			model.addAttribute("communityVote",communityVote);
+			model.addAttribute("cVoteSelect",cVoteSelect);
+			return "community/communityModifyForm";
+		}else {
+			model.addAttribute("msg", "게시글 상세보기 실패");
+			return "common/errorPage";
+		}	
+	}
 
 	
 	//글삭제
