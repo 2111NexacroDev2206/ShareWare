@@ -13,6 +13,8 @@ public class AppDocument {
 	private String leaveEnd;
 	private String leaveTime;
 	private float leaveDay;
+	private float leaveLeft;
+	private float leaveApply;
 	
 	public AppDocument() {}
 
@@ -112,12 +114,28 @@ public class AppDocument {
 		this.leaveDay = leaveDay;
 	}
 
+	public float getLeaveLeft() {
+		return leaveLeft;
+	}
+
+	public void setLeaveLeft(float leaveLeft) {
+		this.leaveLeft = leaveLeft;
+	}
+
+	public float getLeaveApply() {
+		return leaveApply;
+	}
+
+	public void setLeaveApply(float leaveApply) {
+		this.leaveApply = leaveApply;
+	}
+
 	@Override
 	public String toString() {
 		return "AppDocument [docNo=" + docNo + ", memNum=" + memNum + ", formNo=" + formNo + ", docTitle=" + docTitle
 				+ ", docContent=" + docContent + ", docStatus=" + docStatus + ", docDate=" + docDate + ", leaveType="
 				+ leaveType + ", leaveStart=" + leaveStart + ", leaveEnd=" + leaveEnd + ", leaveTime=" + leaveTime
-				+ ", leaveDay=" + leaveDay + "]";
+				+ ", leaveDay=" + leaveDay + ", leaveLeft=" + leaveLeft + ", leaveApply=" + leaveApply + "]";
 	}
 
 }

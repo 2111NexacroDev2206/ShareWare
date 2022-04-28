@@ -50,4 +50,10 @@ public class ApprovalStoreLogic implements ApprovalStore{
 		return fList;
 	}
 
+	@Override
+	public String selectOneLeaveDoc(SqlSession sqlSession, String memberNum) { // 휴가 신청서 조회(잔여 연차)
+		String leaveLeft = sqlSession.selectOne("ApprovalMapper.selectOneLeaveDoc", memberNum);
+		return leaveLeft;
+	}
+
 }

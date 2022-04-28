@@ -56,7 +56,7 @@ public class ApprovalController {
 	// 문서 작성 페이지
 	@RequestMapping(value = "/approval/docWriteView.sw")
 	public ModelAndView docWriteView(ModelAndView mv, Model model
-			, @RequestParam int formNo
+			, @RequestParam(value = "formNo") int formNo
 			, @ModelAttribute AppForm form) {
 		try {
 			model.addAttribute("myCondition", "approval");
@@ -148,6 +148,17 @@ public class ApprovalController {
 			mv.setViewName("common/errorPage");
 		}
 		return mv;
+	}
+	
+	// 휴가 신청서 조회(잔여 연차)
+	@ResponseBody
+	@RequestMapping(value = "/approval/leaveDocSearch.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+	public String leaveDocSearch(@RequestParam(value = "memberNum") String memberNum) {
+		String leaveLeft = aService.printOneLeaveDoc(memberNum);
+		if(!leaveLeft.equals("")) {
+			return new Gson().toJson(leaveLeft);
+		}
+		return null;
 	}
 	
 	// 파일 저장

@@ -17,5 +17,6 @@ public interface ApprovalStore {
 	public int insertFile(SqlSession sqlSession, AppFile file); // 파일 등록
 	public AppForm selectForm(SqlSession sqlSession, int formNo); // 문서 양식 조회
 	public List<AppForm> selectAllForm(SqlSession sqlSession); // 문서 양식 전체 조회
+	public String selectOneLeaveDoc(SqlSession sqlSession, String memberNum); // 휴가 신청서 조회(잔여 연차)
 
 }

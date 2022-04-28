@@ -58,4 +58,10 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return fList;
 	}
 
+	@Override
+	public String printOneLeaveDoc(String memberNum) { // 휴가 신청서 조회(잔여 연차)
+		String leaveLeft = aStore.selectOneLeaveDoc(sqlSession, memberNum);
+		return leaveLeft;
+	}
+
 }

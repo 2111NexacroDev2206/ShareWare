@@ -20,6 +20,22 @@
 	    var leaveStart = 0; // 휴가 시작일 변수 선언
 	    var leaveEnd = 0;   // 휴가 종료일 변수 선언
 	    var leaveDay = 0;   // 휴가 일수 변수 선언
+	    var totalLeave = 0; // 잔여 연차
+	    var memberNum = "${loginUser.memberNum}"; // 로그인 한 유저의 사원번호
+	    var breakTotal = "${loginUser.breakTotal}"; // 로그인 한 유저의 총 연차수
+	 	$.ajax({ // 잔여 연차 조회
+	 		url : "/approval/leaveDocSearch.sw",
+	 		type : "get",
+	 		data : { "memberNum" : memberNum },
+	 		success : function(leaveLeft) {
+	 			totalLeave = leaveLeft;
+	 			$("#left-leave").val(totalLeave);
+	 		},
+	 		error : function() {
+	 			totalLeave = breakTotal;
+	 			$("#left-leave").val(totalLeave);
+	 		}
+	 	})
 	    function leaveStartDate(e) { // 휴가 시작일 값 날짜화
 	        leaveStart = new Date(e.target.value);
 	        calLeaveDate();
@@ -28,8 +44,6 @@
 	        leaveEnd = new Date(e.target.value);
 	        calLeaveDate();
 	    }
-	    var totalLeave = 15; // 잔여 연차
-	    $("#left-leave").text(totalLeave);
 	    function calLeaveDate() { // 휴가 날짜 차이 계산(연차, 반차인 경우에만)
 	        if($("#leaveType").val() == "반차") { // 반차인 경우
 	            leaveDay = 0.5;
@@ -44,10 +58,7 @@
 	    }
 	    $("#leaveType").change(function() { // 휴가 종류 선택에 따라 처리하는 함수
 	        var leaveType = $("#leaveType").val();
-	        $("#title").val(leaveType + " 신청합니다.");
-	        $("#startDate").val(""); // 휴가 시작일 값 초기화
-	        $("#endDate").val(""); // 휴가 종료일 값 초기화
-	        leaveDay = 0; // 휴가일 초기화
+	        $("#td-title").val(leaveType + " 신청합니다.");
 	        if($(this).val() == "반차") {
 	            leaveDay = 0.5;
 	            $("#leaveTime").css("display", "inline-flex"); // 오전/오후 보이기
@@ -58,7 +69,7 @@
 	            setLeaveDay(leaveDay);
 	            viewLeaveDay(leaveDay);
 	        }else{
-	            leaveDay = 0; // 휴가일 초기화
+	        	calLeaveDate();
 	            $("#leaveTime").css("display", "none"); // 오전 오후 숨기기
 	            $(":radio[name='leaveTime']").prop("checked", false); // 휴가 시간 라디오 버튼 체크 해제
 	            $("#endDate").css("display", "inline-flex"); // 휴가 종료일 보이기
@@ -69,11 +80,11 @@
 	    });
 	    function viewLeaveDay(leaveDay) { // 휴가 종류에 따라 연차 일수 표시
 	        if($("#leaveType").val() == "연차" || $("#leaveType").val() == "반차") { // 반차 또는 연차인 경우
-	            $("#apply-leave").text(leaveDay);
-	            $("#left-leave").text(totalLeave - leaveDay);
+	            $("#apply-leave").val(leaveDay);
+	            $("#left-leave").val(totalLeave - leaveDay);
 	        }else {
-	            $("#left-leave").text(totalLeave);
-	            $("#apply-leave").text(0);
+	            $("#left-leave").val(totalLeave);
+	            $("#apply-leave").val(0);
 	        }
 	    }
 	    function setLeaveDay(leaveDay) { // 휴가 일수 표시 및 value 값 넣기
