@@ -113,14 +113,16 @@
 		<update id="updateTemMailFile">
 			UPDATE MAIL_FILE SET MAIL_FILE_NAME = #{mailFileName}, MAIL_FILE_RENAME = #{mailFileRename}, MAIL_FILE_PATH = #{mailFilePath} WHERE MAIL_NO = #{mailNo}
 		</update> 
+		<!-- 보낸 메일-->
 		<select id="selectMail" resultMap="mailResultMap">
 			SELECT MAIL_NO, I_STATUS, READ_TYPE, F_STATUS, MAIL_SENDER, MAIL_SUBJECT, MAIL_FROM_DATE
 			 FROM MAIL WHERE MAIL_TYPE = 'S' AND MAIL_SENDER = 'admin' ORDER BY MAIL_NO DESC
 		</select>
+		<!-- 받은 메일 -->
 		<select id="selectRecMail" resultMap="mailResultMap">
 			SELECT * FROM
 			(SELECT MAIL_NO, I_STATUS, READ_TYPE, F_STATUS, MAIL_SENDER, MAIL_SUBJECT, MAIL_FROM_DATE
-			 FROM MAIL WHERE MAIL_TYPE = 'S')
+			 FROM MAIL WHERE MAIL_TYPE = 'S'AND MAIL_SENDER != 'admin')
 			JOIN MAIL_REC USING(MAIL_NO)
 			WHERE MAIL_RECEIVER = 'admin'
 		</select>

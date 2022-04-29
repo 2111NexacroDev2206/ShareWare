@@ -150,8 +150,8 @@ border-bottom: 1px solid lightgray;
 				<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}" id="file"><a href="/mail/FmailListView.sw"><small>첨부</small></a></div>
 			</div>
 			<div>
-				<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}"><a href="/mail/RmailListView.sw">받은 메일함</a></div>
-				<div class="s-list-item ${listCondition eq 'approval' ? 'active' : ''}"><a href="/mail/SmailListView.sw">보낸 메일함</a></div>
+				<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}"><a href="/mail/SmailListView.sw">받은 메일함</a></div>
+				<div class="s-list-item ${listCondition eq 'approval' ? 'active' : ''}"><a href="/mail/RmailListView.sw">보낸 메일함</a></div>
 				<div class="s-list-item ${listCondition eq 'reference' ? 'active' : ''}"><a href="/mail/MmailListView.sw">내게 쓴 메일함</a></div>
 				<div class="s-list-item ${listCondition eq 'reference' ? 'active' : ''}"><a href="">보낸 승인 메일함</a></div>
 				<div class="s-list-item ${listCondition eq 'reference' ? 'active' : ''}"><a href="">즐겨찾는 그룹</a></div>
@@ -178,26 +178,8 @@ border-bottom: 1px solid lightgray;
 			</tr>
 			
 			<c:forEach items="${mList }" var="mail">
+			<!-- 받은 메일 함 -->
 			<c:if test="${mail.mailReceiver eq 'admin' && mail.mailSender ne 'admin'}">
-				<tr>
-					 <c:url var="mDetail" value="/mail/mailDetailView.sw">
-					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
-						</c:url> 
-					<td width="30px;"><input name="RowCheck" type="checkbox"
-						value="${mail.mailNo}" /></td>
-					<td width="30px;">
-					<span><c:if test="${mail.iStatus eq '0'}"><i class="fa-solid fa-paperclip-vertical"></i></c:if>
-					<c:if test="${mail.iStatus eq '1'}"></c:if></span><c:out value="${mail.iStatus}"/>
-					</td>
-					<td width="30px;">${mail.readType }</td>
-					<td width="30px;">${mail.fStatus }</td>
-					<td width="150px;">${mail.mailReceiver }</td>
-					<td><a href="${mDetail}">${mail.mailSubject }</a></td>
-					<td width="150px;"><fmt:formatDate
-							value="${mail.mailFromDate }" pattern="yyyy/MM/ddHH:mm:ss" /></td>
-				</tr>
-				</c:if>
-				<c:if test="${mail.mailReceiver ne 'admin' && mail.mailSender eq 'admin'}">
 				<tr>
 					 <c:url var="mDetail" value="/mail/mailDetailView.sw">
 					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
@@ -216,13 +198,33 @@ border-bottom: 1px solid lightgray;
 							value="${mail.mailFromDate }" pattern="yyyy/MM/ddHH:mm:ss" /></td>
 				</tr>
 				</c:if>
-				<c:if test="${mail.mailSender eq 'admin' && mail.mailReceiver eq 'admin'}">
+				<!-- 보낸 메일 함 --> 
+				<c:if test="${mail.mailReceiver ne 'admin' && mail.mailSender eq 'admin'}">
 				<tr>
 					 <c:url var="mDetail" value="/mail/mailDetailView.sw">
 					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
 						</c:url> 
 					<td width="30px;"><input name="RowCheck" type="checkbox"
 						value="${mail.mailNo}" /></td>
+					<td width="30px;">
+					<span><c:if test="${mail.iStatus eq '0'}"><i class="fa-solid fa-paperclip-vertical"></i></c:if>
+					<c:if test="${mail.iStatus eq '1'}"></c:if></span><c:out value="${mail.iStatus}"/>
+					</td>
+					<td width="30px;">${mail.readType }</td>
+					<td width="30px;">${mail.fStatus }</td>
+					<td width="150px;">${mail.mailReceiver }</td>
+					<td><a href="${mDetail}">${mail.mailSubject }</a></td>
+					<td width="150px;"><fmt:formatDate
+							value="${mail.mailFromDate }" pattern="yyyy/MM/ddHH:mm:ss" /></td>
+				</tr>
+				</c:if>
+				<!-- 내게 쓴 메일 함 -->
+				<c:if test="${mail.mailSender eq 'admin' && mail.mailReceiver eq 'admin'}">
+				<tr>
+					 <c:url var="mDetail" value="/mail/mailDetailView.sw">
+					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
+						</c:url> 
+					<td width="30px;"><input name="RowCheck" type="checkbox" value="${mail.mailNo}" /></td>
 					<td width="30px;">
 					<span><c:if test="${mail.iStatus eq '0'}"><i class="fa-solid fa-paperclip-vertical"></i></c:if>
 					<c:if test="${mail.iStatus eq '1'}"></c:if></span><c:out value="${mail.iStatus}"/>

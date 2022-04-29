@@ -181,11 +181,11 @@ public class MailController {
 			List<Mail> mMyList = null;
 			List<MailFile> mFileList = null;
 			String viewName = "mail/mailList";
-			// 받은 편지함일 때
+			// 보낸 편지함일 때
 			if(mailCategory.equals("R")) {
 				mList = mService.printMail();
 				mv.addObject("mList", mList);
-			//보낸 편지함일 때
+			//받은 편지함일 때
 			}else if(mailCategory.equals("S")) {
 				mRecList = mService.printMailRec();
 				mv.addObject("mList", mRecList);
