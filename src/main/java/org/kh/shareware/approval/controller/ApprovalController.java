@@ -44,7 +44,7 @@ public class ApprovalController {
 	public String docListView(Model model, @PathVariable("param") String parameter
 			, HttpServletRequest request
 			, @RequestParam(value="page", required = false) Integer page
-			, @RequestParam(value="docStatus", required = false) String docStatus
+			, @RequestParam(value="docStatus") String docStatus
 			, @ModelAttribute AppDocument appDoc) {
 		model.addAttribute("myCondition", "approval");
 		model.addAttribute("listCondition", parameter);
@@ -59,6 +59,7 @@ public class ApprovalController {
 		model.addAttribute("dList", dList);
 		model.addAttribute("pi", pi);
 		model.addAttribute("type", parameter);
+		model.addAttribute("docStatus", docStatus);
 		return "approval/" + parameter + "List";
 	}
 	
