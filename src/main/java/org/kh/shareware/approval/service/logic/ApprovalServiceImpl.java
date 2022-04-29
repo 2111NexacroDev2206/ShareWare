@@ -114,4 +114,10 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return result;
 	}
 
+	@Override
+	public AppFile printOneFile(int docNo) { // 기안 문서함 상세 조회(파일)
+		AppFile appFile = aStore.selectOneFile(sqlSession, docNo);
+		return appFile;
+	}
+
 }

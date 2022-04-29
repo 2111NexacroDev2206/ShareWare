@@ -115,4 +115,10 @@ public class ApprovalStoreLogic implements ApprovalStore{
 		return result;
 	}
 
+	@Override
+	public AppFile selectOneFile(SqlSession sqlSession, int docNo) { // 기안 문서함 상세 조회(파일)
+		AppFile appFile = sqlSession.selectOne("ApprovalMapper.selectOneFile", docNo);
+		return appFile;
+	}
+
 }

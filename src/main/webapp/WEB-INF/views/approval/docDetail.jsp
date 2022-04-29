@@ -88,14 +88,19 @@
 			</c:if>
 			<c:if test="${appDoc.formName ne '휴가신청서'}">
 				<tr>
+					<td colspan="7" align="center">내용</td>
+				</tr>
+				<tr>
 					<td colspan="7">
 						${appDoc.docContent }
 					</td>
 				</tr>
 			</c:if>
 		</table>
-		<p>파일 첨부
-		<input type="file" id="file-input" name="uploadFile">
+		<c:if test="${appFile != null }">
+			<span>첨부 파일</span>
+			<a href="../../../resources/auploadFiles/${appFile.fileReName }" download>${appFile.fileName}</a>
+		</c:if>
 		<input type="button" id="btn-cancel" value="상신 취소">
 		<input type="button" value="목록" onclick="location.href='/approval/draftListView.sw'">
 	</div>

@@ -47,6 +47,13 @@
 		<result property="rank" column="RANK"/>
 		<result property="refStatus" column="REF_STATUS"/>
 	</resultMap>
+	<resultMap type="AppFile" id="appFileResultMap">
+		<id property="fileNo" column="FILE_NO"/>
+		<result property="docNo" column="DOC_NO"/>
+		<result property="fileName" column="FILE_NAME"/>
+		<result property="fileReName" column="FILE_RENAME"/>
+		<result property="filePath" column="FILE_PATH"/>
+	</resultMap>
 	<select id="selectListForm" resultMap="appFormResultMap"><!-- 문서 양식 전체 조회 -->
 		SELECT * FROM APP_FORM
 	</select>
@@ -141,7 +148,10 @@
 	<select id="selectListRef" resultMap="appRefResultMap"><!-- 기안 문서함 상세 조회(결재자) -->
 		SELECT REF_NO, DOC_NO, MEM_NUM, MEMBER_NAME, DIV_NAME, RANK, REF_STATUS FROM APP_REF JOIN MEMBER ON MEMBER_NUM = MEM_NUM JOIN DIVISION ON DIVISION = DIV_CODE WHERE DOC_NO = #{docNo} ORDER BY REF_NO
 	</select>
-	<delete id="deleteDoc">
+	<delete id="deleteDoc"><!-- 상신 취소 -->
 		DELETE FROM APP_DOC WHERE DOC_NO = #{docNo}
 	</delete>
+	<select id="selectOneFile" resultMap="appFileResultMap"><!-- 기안 문서함 상세 조회(파일) -->
+		SELECT * FROM APP_FILE WHERE DOC_NO = #{docNo}
+	</select>
 </mapper>

@@ -28,5 +28,6 @@ public interface ApprovalStore {
 	public List<Approval> selectAllApp(SqlSession sqlSession, int docNo); // 기안 문서함 상세 조회(결재자)
 	public List<AppReference> selectAllRef(SqlSession sqlSession, int docNo); // 기안 문서함 상세 조회(참조자)
 	public int deleteDoc(SqlSession sqlSession, int docNo); // 상신 취소
+	public AppFile selectOneFile(SqlSession sqlSession, int docNo); // 기안 문서함 상세 조회(파일)
 
 }

@@ -267,13 +267,15 @@ public class ApprovalController {
 		model.addAttribute("myCondition", "approval");
 		model.addAttribute("listCondition", "draft");
 		try {
-			AppDocument appDoc = aService.printOneDoc(docNo);
-			List<Approval> aList = aService.printAllApp(docNo);
-			List<AppReference> rList = aService.printAllRef(docNo);
+			AppDocument appDoc = aService.printOneDoc(docNo); // 기안 문서 상세 조회
+			List<Approval> aList = aService.printAllApp(docNo); // 결재자 조회
+			List<AppReference> rList = aService.printAllRef(docNo); // 참조자 조회
+			AppFile appFile = aService.printOneFile(docNo); // 파일 조회
 			if(appDoc != null && !aList.isEmpty()) {
 				mv.addObject("appDoc", appDoc);
 				mv.addObject("aList", aList);
 				mv.addObject("rList", rList);
+				mv.addObject("appFile", appFile);
 				mv.setViewName("approval/docDetail");
 			}else {
 				mv.addObject("msg", "기안 문서 상세 조회 실패");
