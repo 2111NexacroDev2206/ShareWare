@@ -98,7 +98,7 @@
 			<input type="file" id="file-input" name="uploadFile">
 			<input type="submit" value="결재 요청">
 			<input type="button" value="임시 저장" onclick="temSave()">
-			<input type="button" value="취소">
+			<input type="button" value="취소" onclick="location.href='/approval/draftListView.sw'">
 		</form>
 	</div>
 	<jsp:include page="appModal.jsp"></jsp:include> <!-- 결재자 선택 모달 -->

@@ -25,7 +25,7 @@
         <div class="list-item"><a href="">주소록</a></div>
         <div class="list-item"><a href="">게시판</a></div>
         <div class="list-item"><a href="">회의실 예약</a></div>
-        <div class="list-item ${myCondition eq 'approval' ? 'active' : ''}"><a href="/approval/draftListView.sw?docStatus=전체">전자결재</a></div>
+        <div class="list-item ${myCondition eq 'approval' ? 'active' : ''}"><a href="/approval/draftListView.sw">전자결재</a></div>
         <div class="list-item"><a href="">채팅</a></div>
         <div class="list-item"><a href="">일정</a></div>
         <div class="list-item"><a href="">메일</a></div>

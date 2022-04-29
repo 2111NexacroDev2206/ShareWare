@@ -96,11 +96,19 @@
 		</table>
 		<p>파일 첨부
 		<input type="file" id="file-input" name="uploadFile">
-		<input type="button" id="btn-cancel" value="상신 취소" onclick="location.href='/approval/cancle.sw?docNo=${appDoc.docNo}'">
+		<input type="button" id="btn-cancel" value="상신 취소">
 		<input type="button" value="목록" onclick="location.href='/approval/draftListView.sw'">
 	</div>
 	<script>
-		
+		if("${appDoc.docStatus}" != "대기") { // 문서 상태가 대기가 아닌 경우 상신 취소 버튼 숨기기
+			$("#btn-cancel").css("display", "none");
+		}
+		$("#btn-cancel").click(function() { // 상신 취소 클릭 시 확인창 뜨고 확인 누르면 상신 취소 실행
+			var result = confirm("상신 취소하시겠습니까?");
+			if(result == true) {
+				location.href = '/approval/cancle.sw?docNo=${appDoc.docNo}'
+			}
+		})
 	</script>
 </body>
 </html>
