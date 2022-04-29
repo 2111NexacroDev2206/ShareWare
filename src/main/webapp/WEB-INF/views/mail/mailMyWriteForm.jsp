@@ -90,7 +90,7 @@
 				<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}" id="file"><a href="#"><small>첨부</small></a></div>
 			</div>
 			<div>
-				<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}"><a href="">받은 메일함</a></div>
+				<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}"><a href="mailListView.sw">받은 메일함</a></div>
 				<div class="s-list-item ${listCondition eq 'approval' ? 'active' : ''}"><a href="">보낸 메일함</a></div>
 				<div class="s-list-item ${listCondition eq 'reference' ? 'active' : ''}"><a href="">내게 쓴 메일함</a></div>
 				<div class="s-list-item ${listCondition eq 'reference' ? 'active' : ''}"><a href="">보낸 승인 메일함</a></div>
