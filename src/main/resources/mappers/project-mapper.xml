@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="ProjectMapper">
+  	<resultMap type="Project" id="projectResultMap">
+  		<id 	property="projectNo"		column="PROJECT_NO"/>
+  		<result property="projectTitle"		column="PROJECT_TITLE"/>
+  		<result property="projectMade"		column="PROJECT_MADE"/>
+  		<result property="pStartDate"		column="P_START_DATE"/>
+  		<result property="pEndDate"			column="P_END_DATE"/>
+  		<result property="pStatus"			column="P_STATUS"/>
+  		<result property="projectContent"	column="PROJECT_CONTENT"/>
+  	</resultMap>
+  	<select id="selectAllProject" resultMap="projectResultMap">
+  		SELECT * FROM PROJECT JOIN PARTICIPANT USING(PROJECT_NO) WHERE PROJECT_MADE= #{memNum} OR MEM_NUM = #{memNum} ORDER BY PROJECT_NO DESC 
+  	</select>
+  	<select id="selectOneProject" resultMap="projectResultMap" >
+  		SELECT * FROM PROJECT WHERE PROJECT_NO = #{projectNo}
+  	</select>
+  	<select id="selectOneProjectDetail" resultMap="projectResultMap" >
+  		SELECT * FROM PROJECT WHERE PROJECT_NO = #{projectNo}
+  	</select>
+  	<resultMap type="Member" id="memberResultMap">
+  		<id property="memberNum" column="MEMBER_NUM"/>
+  		<result property="memberName" column="MEMBER_NAME"/>
+  		<result property="division" column="DIVISION"/>
+  		<result property="rank" column="RANK"/>
+  		<result property="address" column="ADDRESS"/>
+  		<result property="phone" column="PHONE"/>
+  		<result property="mail" column="MAIL"/>
+  		<result property="hireDate" column="HIRE_DATE"/>
+  		<result property="retireDate" column="RETIRE_DATE"/>
+  		<result property="birth" column="BIRTH"/>
+  		<result property="account" column="ACCOUNT"/>
+  		<result property="bank" column="BANK"/>
+  		<result property="password" column="PASSWORD"/>
+  		<result property="gender" column="GENDER"/>
+  		<result property="photo" column="PHOTO"/>
+  		<result property="breakTotal" column="BREAK_TOTAL"/>
+  	</resultMap>
+  	<select id="selectAllParticipant" resultMap="memberResultMap">
+  		SELECT MEMBER_NUM, DIVISION, RANK, MEMBER_NAME FROM MEMBER JOIN PARTICIPANT ON MEM_NUM = MEMBER_NUM WHERE PROJECT_NO = #{projectNo }
+  	</select>
+  	<insert id="insertProject">
+  		INSERT INTO PROJECT VALUES(
+  			SEQ_PROJECT_NO.NEXTVAL,
+  			#{projectTitle},
+  			#{projectMade},
+  			#{pStartDate},
+  			#{pEndDate},
+  			DEFAULT,
+  			#{projectContent}
+  		)
+  	</insert>
+  	<insert id="insertParticipant">
+  		INSERT INTO PARTICIPANT VALUES(#{memberNum}, SEQ_PROJECT_NO.CURRVAL)
+  	</insert>
+  	<update id="updateProject">
+  		UPDATE PROJECT
+  		SET  PROJECT_TITLE = #{projectTitle}
+  		 	,P_START_DATE = #{pStartDate}
+  		 	,P_END_DATE = #{pEndDate}
+  		 	,PROJECT_CONTENT = #{projectContent}
+  		 WHERE PROJECT_NO = #{projectNo}
+  	</update>
+
+  	<delete id="deleteProject">
+  		DELETE FROM PROJECT WHERE PROJECT_NO = #{projectNo}
+  	</delete>
+  	<delete id="deleteParticipant">
+  		DELETE FROM PARTICIPANT WHERE PROJECT_NO =  #{projectNo}
+  	</delete>
+  	
+  </mapper>

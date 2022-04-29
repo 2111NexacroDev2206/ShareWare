@@ -21,3 +21,4 @@ public interface MemberStore {
 	public List<Member> selectMemberSearch(SqlSession session, Search search);
 
 }
+
