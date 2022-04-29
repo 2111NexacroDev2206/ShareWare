@@ -6,7 +6,7 @@
   	<resultMap type="Member" id="memberResultMap">
   		<id property="memberNum" column="MEMBER_NUM"/>
   		<result property="memberName" column="MEMBER_NAME"/>
-  		<result property="division" column="DIVISION"/>
+  		<result property="division" column="DIV_NAME"/>
   		<result property="rank" column="RANK"/>
   		<result property="address" column="ADDRESS"/>
   		<result property="phone" column="PHONE"/>
@@ -38,18 +38,18 @@
 	</select>
 	
 	<select id="selectAllMember" resultMap="memberResultMap">
-		SELECT * FROM MEMBER
+		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE
 	</select>
 	<select id="selectMemberSearch" resultMap="memberResultMap">
-		SELECT * FROM MEMBER
+		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE
 		<if test="searchCondition.toString() == 'division'">
-			WHERE DIVISION LIKE '%' || #{searchValue} || '%'
+			WHERE DIV_NAME LIKE '%' || #{searchValue} || '%'
 		</if>
 		<if test="searchCondition.toString() == 'memberName'">
 			WHERE MEMBER_NAME LIKE '%' || #{searchValue} || '%'
 		</if>
 		<if test="searchCondition.toString() == 'all'">
-			WHERE DIVISION LIKE '%' || #{searchValue} || '%'
+			WHERE DIV_NAME LIKE '%' || #{searchValue} || '%'
 			OR MEMBER_NAME LIKE '%' || #{searchValue} || '%'
 		</if>
 	</select>
