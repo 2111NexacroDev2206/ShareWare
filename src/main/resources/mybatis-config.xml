@@ -15,13 +15,14 @@
 		<typeAlias type="org.kh.shareware.calendar.domain.Calendar" alias="Calendar"/>
 		<typeAlias type="org.kh.shareware.calendar.domain.CalBmk" alias="CalBmk"/>
 		<typeAlias type="org.kh.shareware.calendar.domain.CalMem" alias="CalMem"/>
+		<typeAlias type="org.kh.shareware.approval.domain.AppForm" 		alias="AppForm"/>
+		<typeAlias type="org.kh.shareware.approval.domain.AppDocument" 	alias="AppDocument"/>
 		<typeAlias type="org.kh.shareware.mail.domain.Mail" alias="Mail"/>
 		<typeAlias type="org.kh.shareware.mail.domain.MailRef" alias="MailRef"/>
 		<typeAlias type="org.kh.shareware.mail.domain.MailRec" alias="MailRec"/>
 		<typeAlias type="org.kh.shareware.mail.domain.MailBmk" alias="MailBmk"/>
 		<typeAlias type="org.kh.shareware.mail.domain.MailFile" alias="MailFile"/>
-		
-	</typeAliases>
+		</typeAliases>
 	<mappers>
 		<mapper resource="mappers/daily-mapper.xml"/>
 		<mapper resource="mappers/approval-mapper.xml"/>

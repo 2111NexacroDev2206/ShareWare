@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="MemberMapper">
+  	<resultMap type="Member" id="memberResultMap">
+  		<id property="memberNum" column="MEMBER_NUM"/>
+  		<result property="memberName" column="MEMBER_NAME"/>
+  		<result property="division" column="DIVISION"/>
+  		<result property="rank" column="RANK"/>
+  		<result property="address" column="ADDRESS"/>
+  		<result property="phone" column="PHONE"/>
+  		<result property="mail" column="MAIL"/>
+  		<result property="hireDate" column="HIRE_DATE"/>
+  		<result property="retireDate" column="RETIRE_DATE"/>
+  		<result property="birth" column="BIRTH"/>
+  		<result property="account" column="ACCOUNT"/>
+  		<result property="bank" column="BANK"/>
+  		<result property="password" column="PASSWORD"/>
+  		<result property="gender" column="GENDER"/>
+  		<result property="photo" column="PHOTO"/>
+  		<result property="breakTotal" column="BREAK_TOTAL"/>
+  	</resultMap>
+  	
+  	<select id="selectLoginMember"  parameterType="Member" resultMap="memberResultMap">
+  		SELECT * FROM MEMBER WHERE MEMBER_NUM=#{memberNum} AND PASSWORD=#{password}
+  	</select>
+  	
+  	<select id="selectOneById" resultMap="memberResultMap">
+		SELECT * FROM MEMBER WHERE MEMBER_NUM= #{memberNum} 
+	</select>
+	
+	<select id="selectAllList" resultMap="memberResultMap">
+		SELECT * FROM MEMBER 
+	</select>
+	<select id="selectListCount" resultType="_int"> 
+		SELECT COUNT(*) FROM MEMBER
+	</select>
+	
+	<select id="selectAllMember" resultMap="memberResultMap">
+		SELECT * FROM MEMBER
+	</select>
+	<select id="selectMemberSearch" resultMap="memberResultMap">
+		SELECT * FROM MEMBER
+		<if test="searchCondition.toString() == 'division'">
+			WHERE DIVISION LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'memberName'">
+			WHERE MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'all'">
+			WHERE DIVISION LIKE '%' || #{searchValue} || '%'
+			OR MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+	</select>
+  	</mapper>
