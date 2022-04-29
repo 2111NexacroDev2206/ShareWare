@@ -11,12 +11,15 @@
 		<typeAlias type="org.kh.shareware.report.domain.Daily" 	 		alias="Daily"/>
 		<typeAlias type="org.kh.shareware.member.domain.Member" 		alias="Member"/>
 		<typeAlias type="org.kh.shareware.community.domain.Community" 	alias="Community"/>
-		<typeAlias type="org.kh.shareware.calendar.domain.CalSch" alias="CalSch"/>
-		<typeAlias type="org.kh.shareware.calendar.domain.Calendar" alias="Calendar"/>
-		<typeAlias type="org.kh.shareware.calendar.domain.CalBmk" alias="CalBmk"/>
-		<typeAlias type="org.kh.shareware.calendar.domain.CalMem" alias="CalMem"/>
+		<typeAlias type="org.kh.shareware.calendar.domain.CalSch" 		alias="CalSch"/>
+		<typeAlias type="org.kh.shareware.calendar.domain.Calendar" 	alias="Calendar"/>
+		<typeAlias type="org.kh.shareware.calendar.domain.CalBmk" 		alias="CalBmk"/>
+		<typeAlias type="org.kh.shareware.calendar.domain.CalMem" 		alias="CalMem"/>
 		<typeAlias type="org.kh.shareware.approval.domain.AppForm" 		alias="AppForm"/>
 		<typeAlias type="org.kh.shareware.approval.domain.AppDocument" 	alias="AppDocument"/>
+		<typeAlias type="org.kh.shareware.approval.domain.Approval" 	alias="Approval"/>
+		<typeAlias type="org.kh.shareware.approval.domain.AppReference" alias="AppReference"/>
+		<typeAlias type="org.kh.shareware.approval.domain.AppFile" 		alias="AppFile"/>
 		<typeAlias type="org.kh.shareware.mail.domain.Mail" alias="Mail"/>
 		<typeAlias type="org.kh.shareware.mail.domain.MailRef" alias="MailRef"/>
 		<typeAlias type="org.kh.shareware.mail.domain.MailRec" alias="MailRec"/>

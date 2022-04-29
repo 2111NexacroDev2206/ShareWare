@@ -43,13 +43,13 @@ public class ApprovalStoreLogic implements ApprovalStore{
 
 	@Override
 	public AppForm selectForm(SqlSession sqlSession, int formNo) { // 문서 양식 조회
-		AppForm form = sqlSession.selectOne("ApprovalMapper.selectForm", formNo);
+		AppForm form = sqlSession.selectOne("ApprovalMapper.selectOneForm", formNo);
 		return form;
 	}
 
 	@Override
 	public List<AppForm> selectAllForm(SqlSession sqlSession) { // 문서 양식 전체 조회
-		List<AppForm> fList = sqlSession.selectList("ApprovalMapper.selectAllForm");
+		List<AppForm> fList = sqlSession.selectList("ApprovalMapper.selectListForm");
 		return fList;
 	}
 
@@ -65,13 +65,13 @@ public class ApprovalStoreLogic implements ApprovalStore{
 		int currentPage = pi.getCurrentPage();
 		int offset = (currentPage - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		List<AppDocument> dList = sqlSession.selectList("ApprovalMapper.selectAllDoc", appDoc, rowBounds);
+		List<AppDocument> dList = sqlSession.selectList("ApprovalMapper.selectListDoc", appDoc, rowBounds);
 		return dList;
 	}
 
 	@Override
 	public int selectListCount(SqlSession sqlSession, AppDocument appDoc) { // 문서함 페이징
-		int totalCount = sqlSession.selectOne("ApprovalMapper.selectListCount", appDoc);
+		int totalCount = sqlSession.selectOne("ApprovalMapper.selectOneListCount", appDoc);
 		return totalCount;
 	}
 
@@ -87,8 +87,26 @@ public class ApprovalStoreLogic implements ApprovalStore{
 
 	@Override
 	public int selectSearchDraftCount(SqlSession sqlSession, Search search) { // 기안 문서함 검색 페이징
-		int totalCount = sqlSession.selectOne("ApprovalMapper.selectSearchDraftCount", search);
+		int totalCount = sqlSession.selectOne("ApprovalMapper.selectOneSearchDraftCount", search);
 		return totalCount;
+	}
+
+	@Override
+	public AppDocument selectOneDoc(SqlSession sqlSession, int docNo) { // 기안 문서함 상세 조회
+		AppDocument appDoc = sqlSession.selectOne("ApprovalMapper.selectOneDoc", docNo);
+		return appDoc;
+	}
+
+	@Override
+	public List<Approval> selectAllApp(SqlSession sqlSession, int docNo) { // 기안 문서함 상세 조회(결재자)
+		List<Approval> aList = sqlSession.selectList("ApprovalMapper.selectListApp", docNo);
+		return aList;
+	}
+
+	@Override
+	public List<AppReference> selectAllRef(SqlSession sqlSession, int docNo) { // 기안 문서함 상세 조회(참조자)
+		List<AppReference> rList = sqlSession.selectList("ApprovalMapper.selectListRef", docNo);
+		return rList;
 	}
 
 }

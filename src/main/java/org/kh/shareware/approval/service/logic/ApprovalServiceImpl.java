@@ -90,4 +90,22 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return totalCount;
 	}
 
+	@Override
+	public AppDocument printOneDoc(int docNo) { // 기안 문서함 상세 조회
+		AppDocument appDoc = aStore.selectOneDoc(sqlSession, docNo);
+		return appDoc;
+	}
+
+	@Override
+	public List<Approval> printAllApp(int docNo) { // 기안 문서함 상세 조회(결재자)
+		List<Approval> aList = aStore.selectAllApp(sqlSession, docNo);
+		return aList;
+	}
+
+	@Override
+	public List<AppReference> printAllRef(int docNo) { // 기안 문서함 상세 조회(참조자)
+		List<AppReference> rList = aStore.selectAllRef(sqlSession, docNo);
+		return rList;
+	}
+
 }

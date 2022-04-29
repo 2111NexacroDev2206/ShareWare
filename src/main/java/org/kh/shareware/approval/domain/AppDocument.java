@@ -3,6 +3,7 @@ package org.kh.shareware.approval.domain;
 public class AppDocument {
 	private int docNo;
 	private String memNum;
+	private String memName;
 	private int formNo;
 	private String formName;
 	private String docTitle;
@@ -33,6 +34,14 @@ public class AppDocument {
 
 	public void setMemNum(String memNum) {
 		this.memNum = memNum;
+	}
+
+	public String getMemName() {
+		return memName;
+	}
+
+	public void setMemName(String memName) {
+		this.memName = memName;
 	}
 
 	public int getFormNo() {
@@ -141,11 +150,11 @@ public class AppDocument {
 
 	@Override
 	public String toString() {
-		return "AppDocument [docNo=" + docNo + ", memNum=" + memNum + ", formNo=" + formNo + ", formName=" + formName
-				+ ", docTitle=" + docTitle + ", docContent=" + docContent + ", docStatus=" + docStatus + ", docDate="
-				+ docDate + ", leaveType=" + leaveType + ", leaveStart=" + leaveStart + ", leaveEnd=" + leaveEnd
-				+ ", leaveTime=" + leaveTime + ", leaveDay=" + leaveDay + ", leaveLeft=" + leaveLeft + ", leaveApply="
-				+ leaveApply + "]";
+		return "AppDocument [docNo=" + docNo + ", memNum=" + memNum + ", memName=" + memName + ", formNo=" + formNo
+				+ ", formName=" + formName + ", docTitle=" + docTitle + ", docContent=" + docContent + ", docStatus="
+				+ docStatus + ", docDate=" + docDate + ", leaveType=" + leaveType + ", leaveStart=" + leaveStart
+				+ ", leaveEnd=" + leaveEnd + ", leaveTime=" + leaveTime + ", leaveDay=" + leaveDay + ", leaveLeft="
+				+ leaveLeft + ", leaveApply=" + leaveApply + "]";
 	}
 
 }

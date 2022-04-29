@@ -44,12 +44,15 @@ public class ApprovalController {
 	public String docListView(Model model, @PathVariable("param") String parameter
 			, HttpServletRequest request
 			, @RequestParam(value="page", required = false) Integer page
-			, @RequestParam(value="docStatus") String docStatus
+			, @RequestParam(value="docStatus", required = false) String docStatus
 			, @ModelAttribute AppDocument appDoc) {
 		model.addAttribute("myCondition", "approval");
 		model.addAttribute("listCondition", parameter);
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
+		if(docStatus == null) {
+			docStatus = "전체";
+		}
 		appDoc.setDocStatus(docStatus);
 		appDoc.setMemNum(member.getMemberNum());
 		int currentPage = (page != null) ? page : 1;
@@ -257,4 +260,29 @@ public class ApprovalController {
 		return fileMap; // 파일 경로 리턴
 	}
 	
+	// 기안 문서함 문서 상세 페이지
+	@RequestMapping(value = "/approval/detail.sw")
+	private ModelAndView docDetailView(ModelAndView mv, Model model, @RequestParam("docNo") int docNo) {
+		model.addAttribute("myCondition", "approval");
+		model.addAttribute("listCondition", "draft");
+		try {
+			AppDocument appDoc = aService.printOneDoc(docNo);
+			List<Approval> aList = aService.printAllApp(docNo);
+			List<AppReference> rList = aService.printAllRef(docNo);
+			if(appDoc != null && !aList.isEmpty()) {
+				mv.addObject("appDoc", appDoc);
+				mv.addObject("aList", aList);
+				mv.addObject("rList", rList);
+				mv.setViewName("approval/docDetail");
+			}else {
+				mv.addObject("msg", "기안 문서 상세 조회 실패");
+				mv.addObject("loc", "/approval/draftListView.sw");
+				mv.setViewName("common/msg");
+			}
+		}catch(Exception e) {
+			mv.addObject("msg", e.toString());
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
+	}
 }
