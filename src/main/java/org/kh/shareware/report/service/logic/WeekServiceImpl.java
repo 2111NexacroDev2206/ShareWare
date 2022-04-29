@@ -26,8 +26,8 @@ public class WeekServiceImpl implements WeekService {
 	}
 	//주간업무 목록
 	@Override
-	public List<Week> printAllWeek() {
-		List<Week> wList = wStore.selectAllWeek(sqlSession);
+	public List<Week> printAllWeek(String memNum) {
+		List<Week> wList = wStore.selectAllWeek(sqlSession ,memNum );
 		return wList;
 	}
 	//주간업무 상세
@@ -36,12 +36,24 @@ public class WeekServiceImpl implements WeekService {
 		Week week = wStore.selectOneByNo(sqlSession, wrNo);
 		return week;
 	}
+	//주간 업무 수정
+	@Override
+	public int modifyWeek(Week week) {
+		int result = wStore.updateWeek(sqlSession, week);
+		return result;
+	}
+	
 	//주간업무 삭제
 	@Override
 	public int removeWeek(int wrNo) {
 		int result = wStore.deleteWeek(sqlSession, wrNo);
 		return result;
 	}
-	
+	//첨부파일 삭제
+	@Override
+	public int removeFileInfo(Integer wrNo) {
+		int result = wStore.deleteFileInfo(sqlSession, wrNo);
+		return result;
+	}
 
 }

@@ -8,7 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.kh.shareware.member.domain.Member;
 import org.kh.shareware.report.domain.Daily;
 import org.kh.shareware.report.service.DailyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,18 +31,16 @@ public class DailyController {
 	
 	//일일 업무 목록
 	@RequestMapping(value="/report/dailyList.sw", method = RequestMethod.GET)
-	public ModelAndView dailyListView(Model model, ModelAndView mv) {
+	public ModelAndView dailyListView(Model model, ModelAndView mv
+			, HttpServletRequest request) {
 		//model.addAttribute("myCondition", "report");
 		model.addAttribute("listCondition", "dailyList");
+		HttpSession session = request.getSession();
+		String memNum = ((Member)(session.getAttribute("loginUser"))).getMemberNum();
 		try {
-			List<Daily> dList = service.printAllDaily();
-			if(!dList.isEmpty()) {
-				mv.addObject("dList", dList);
-				mv.setViewName("report/dailyList");
-			}else {
-				mv.addObject("msg", "업무일지 조회 실패");
-				mv.setViewName("common/errorPage");
-			}
+			List<Daily> dList = service.printAllDaily(memNum);
+			mv.addObject("dList", dList);
+			mv.setViewName("report/dailyList");
 		}catch(Exception e) {
 			mv.addObject("msg", e.toString());
 			mv.setViewName("common/errorPage");
@@ -220,7 +220,7 @@ public class DailyController {
 }
 	 
 	 //첨부파일 삭제
-	 @RequestMapping(value="/report/dailyFileDelete.sw", method=RequestMethod.GET )
+	 @RequestMapping(value="/report/dailyFileDelete.sw", method=RequestMethod.GET)
 	 public String fileDelete(ModelAndView mv
 				// 400 오류 방지
 				, @RequestParam(value="filePath", required=false) String filePath 
@@ -230,7 +230,7 @@ public class DailyController {
 					// 프로젝트 경로에 파일수정(reloadFile, request), 삭제하고 다시 업로드
 						deleteFile(filePath, request);
 				int result = service.removeFileInfo(drNo);
-				return "redirect:/report/dailyList.sw";
+				return "redirect:/report/dailyModifyView.sw?drNo="+drNo;
 		 
 	 }
 			 

@@ -16,25 +16,41 @@
  	</resultMap>
  	
  	<select id="selectAllWeek" resultMap="weekResultMap">
- 		SELECT * FROM WEEK_REPORT ORDER BY WR_DATE DESC
+ 		SELECT * FROM WEEK_REPORT WHERE MEM_NUM = #{memNum} ORDER BY WR_DATE DESC,  WR_NO DESC
  	</select>
  	<select id="selectOneWeek" resultMap="weekResultMap">
- 		SELECT * FROM WEEK_REPORT WHERE WR_NO = #{wrNo }
+ 		SELECT WR_NO, MEM_NUM, WR_TITLE, WR_WRITER, WR_DATE, WR_CONTENT, FILE_NAME, FILE_PATH, FILE_RENAME FROM WEEK_REPORT WHERE WR_NO = #{wrNo }
  	</select>
  	<insert id="insertWeek">
  		INSERT INTO WEEK_REPORT VALUES(
  			SEQ_WEEK_NO.NEXTVAL,
- 			'admin',
+ 			#{memNum},
  			#{wrTitle },
  			#{wrWriter },
  			#{wrDate },
  			#{wrContent },
- 			NULL,
- 			NULL,
- 			NULL
+ 			#{fileName},
+ 			#{filePath},
+ 			#{fileReName}
  		)
  	</insert>
  	<delete id="deleteWeek">
  		DELETE FROM WEEK_REPORT WHERE WR_NO = #{wrNo}
  	</delete>
+ 	<update id="updateWeek">
+	 	UPDATE WEEK_REPORT 
+	 		SET WR_TITLE = #{wrTitle}
+	 		   ,WR_CONTENT = #{wrContent}
+	 		   ,FILE_NAME = #{fileName}
+	 		   ,FILE_PATH = #{filePath}
+	 		   ,FILE_RENAME = #{fileReName}
+	 		WHERE WR_NO = #{wrNo}
+ 	</update>
+ 	<update id="updateFileInfo">
+ 		UPDATE WEEK_REPORT
+ 		SET FILE_NAME = NULL
+ 			,FILE_PATH = NULL
+ 			,FILE_RENAME = NULL
+ 		WHERE WR_NO = #{wrNo}
+ 	</update>
 </mapper>

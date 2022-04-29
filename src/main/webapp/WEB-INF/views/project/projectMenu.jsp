@@ -13,7 +13,7 @@
 			<p>프로젝트 관리 
 			<i class="fa-solid fa-folders"></i>
 		</div>
-		<input type="button" value="프로젝트 생성" onclick="">
+		<input type="button" value="프로젝트 생성" onclick="location.href='/project/newProjectView.sw'">
 		<div class="s-list-item ${listCondition eq 'dailyWrite' ? 'active' : ''}"><a href="">전체보기</a></div>
 		<div class="s-list-item ${listCondition eq 'approval' ? 'active' : ''}"><a href="">진행중인 프로젝트</a></div>
 		<div class="s-list-item ${listCondition eq 'dailyList' ? 'active' : ''}"><a href="">종료된 프로젝트</a></div>

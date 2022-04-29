@@ -17,6 +17,7 @@
 		<typeAlias type="org.kh.shareware.calendar.domain.CalBmk" 		alias="CalBmk"/>
 		<typeAlias type="org.kh.shareware.calendar.domain.CalMem" 		alias="CalMem"/>
 		<typeAlias type="org.kh.shareware.project.domain.Project" 		alias="Project"/>
+		<typeAlias type="org.kh.shareware.project.domain.Participant" 	alias="Participant"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/daily-mapper.xml"/>

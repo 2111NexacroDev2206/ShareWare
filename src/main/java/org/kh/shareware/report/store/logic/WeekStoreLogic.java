@@ -18,8 +18,8 @@ public class WeekStoreLogic implements WeekStore{
 	}
 	//주간 업무 목록
 	@Override
-	public List<Week> selectAllWeek(SqlSession sqlSession) {
-		List<Week> wList = sqlSession.selectList("WeekMapper.selectAllWeek");
+	public List<Week> selectAllWeek(SqlSession sqlSession, String memNum) {
+		List<Week> wList = sqlSession.selectList("WeekMapper.selectAllWeek" , memNum);
 		return wList;
 	}
 	//주간 업무 상세
@@ -28,10 +28,21 @@ public class WeekStoreLogic implements WeekStore{
 		Week week = sqlSession.selectOne("WeekMapper.selectOneWeek", wrNo);
 		return week;
 	}
+	//주간 업무 수정
+	@Override
+	public int updateWeek(SqlSession sqlSession, Week week) {
+		int result = sqlSession.update("WeekMapper.updateWeek", week);
+		return result;
+	}
 	//주간 업무 삭제
 	@Override
 	public int deleteWeek(SqlSession sqlSession, int wrNo) {
 		int result = sqlSession.delete("WeekMapper.deleteWeek", wrNo);
+		return result;
+	}
+	@Override
+	public int deleteFileInfo(SqlSession sqlSession, Integer wrNo) {
+		int result = sqlSession.update("WeekMapper.updateFileInfo" , wrNo);
 		return result;
 	}
 

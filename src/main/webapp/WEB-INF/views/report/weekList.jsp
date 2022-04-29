@@ -9,13 +9,10 @@
 <title>주간 업무 목록</title>
 </head>
 <body>
-	<div>
+<jsp:include page="reportMenu.jsp"></jsp:include>
+	<div class="s-container">
 		<h1>주간 업무목록</h1>
-	</div>
-	<div>
-		<div>
 			<a href="/report/weekWriteView.sw">+일지작성</a>
-		</div>
 		<table align="center" width="" border="1">
 			<thead>
 				<tr>
