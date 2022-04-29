@@ -96,7 +96,7 @@
 		</table>
 		<p>파일 첨부
 		<input type="file" id="file-input" name="uploadFile">
-		<input type="button" id="btn-cancel" value="상신 취소">
+		<input type="button" id="btn-cancel" value="상신 취소" onclick="location.href='/approval/cancle.sw?docNo=${appDoc.docNo}'">
 		<input type="button" value="목록" onclick="location.href='/approval/draftListView.sw'">
 	</div>
 	<script>

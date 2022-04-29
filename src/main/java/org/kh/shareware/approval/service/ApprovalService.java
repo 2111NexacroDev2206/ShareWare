@@ -26,5 +26,6 @@ public interface ApprovalService {
 	public AppDocument printOneDoc(int docNo); // 기안 문서함 상세 조회
 	public List<Approval> printAllApp(int docNo); // 기안 문서함 상세 조회(결재자)
 	public List<AppReference> printAllRef(int docNo); // 기안 문서함 상세 조회(참조자)
+	public int removeDoc(int docNo); // 상신 취소
 
 }

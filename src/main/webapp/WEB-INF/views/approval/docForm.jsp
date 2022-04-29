@@ -78,7 +78,7 @@
 	                    <td>연차 일수</td>
 	                    <td colspan="6" id="td-leave-day">
 	                        	잔여 연차 : <input type="text" name="leaveLeft" id="left-leave" readonly>
-	                        	신청 연차 : <input type="text" name="leaveLeft" id="apply-leave" readonly>
+	                        	신청 연차 : <input type="text" name="leaveApply" id="apply-leave" readonly>
 	                    </td>
 	                </tr>
 	                <tr>

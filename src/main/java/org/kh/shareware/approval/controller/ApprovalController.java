@@ -226,12 +226,13 @@ public class ApprovalController {
 	// 휴가 신청서 조회(잔여 연차)
 	@ResponseBody
 	@RequestMapping(value = "/approval/leaveDocSearch.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
-	public String leaveDocSearch(@RequestParam(value = "memberNum") String memberNum) {
+	public String leaveDocSearch(@RequestParam(value = "memberNum") String memberNum
+			,HttpServletRequest request) {
 		String leaveLeft = aService.printOneLeaveDoc(memberNum);
-		if(!leaveLeft.equals("")) {
+		HttpSession session = request.getSession();
+		String totalLeave = ((Member)session.getAttribute("loginUser")).getBreakTotal(); // 세션 값에서 총 연차수 가져오기
+		leaveLeft = (leaveLeft == null) ? totalLeave : leaveLeft;
 			return new Gson().toJson(leaveLeft);
-		}
-		return null;
 	}
 	
 	// 파일 저장
@@ -284,5 +285,25 @@ public class ApprovalController {
 			mv.setViewName("common/errorPage");
 		}
 		return mv;
+	}
+	
+	// 상신 취소
+	@RequestMapping(value = "/approval/cancle.sw")
+	private String docRemove(Model model, @RequestParam("docNo") int docNo) {
+		try {
+			int result = aService.removeDoc(docNo);
+			if(result > 0) {
+				model.addAttribute("msg", "상신 취소 성공");
+				model.addAttribute("loc", "/approval/draftListView.sw");
+				return "common/msg";
+			}else {
+				model.addAttribute("msg", "상신 취소 실패");
+				model.addAttribute("loc", "/approval/draftListView.sw");
+				return "common/msg";
+			}
+		}catch(Exception e) {
+			model.addAttribute("msg", e.toString());
+			return "common/errorPage";
+		}
 	}
 }

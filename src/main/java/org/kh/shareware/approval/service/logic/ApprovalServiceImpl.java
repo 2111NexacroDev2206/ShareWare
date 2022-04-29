@@ -108,4 +108,10 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return rList;
 	}
 
+	@Override
+	public int removeDoc(int docNo) { // 상신 취소
+		int result = aStore.deleteDoc(sqlSession, docNo);
+		return result;
+	}
+
 }

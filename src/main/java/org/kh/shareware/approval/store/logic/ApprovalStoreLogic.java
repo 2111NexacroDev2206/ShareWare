@@ -109,4 +109,10 @@ public class ApprovalStoreLogic implements ApprovalStore{
 		return rList;
 	}
 
+	@Override
+	public int deleteDoc(SqlSession sqlSession, int docNo) { // 상신 취소
+		int result = sqlSession.delete("ApprovalMapper.deleteDoc", docNo);
+		return result;
+	}
+
 }
