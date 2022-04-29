@@ -96,13 +96,21 @@
 			</table>
 			<p>파일 첨부
 			<input type="file" id="file-input" name="uploadFile">
-			<input type="submit" value="결재 요청">
+			<input type="button" value="결재 요청" onclick="docSave()">
 			<input type="button" value="임시 저장" onclick="temSave()">
 			<input type="button" value="취소" onclick="location.href='/approval/draftListView.sw'">
 		</form>
 	</div>
 	<jsp:include page="appModal.jsp"></jsp:include> <!-- 결재자 선택 모달 -->
 	<script>
+		// 결재 요청 확인창
+		function docSave() {
+			var result = confirm("결재 요청하시겠습니까?");
+			if(result == true) {
+				$("#form").submit();
+			}
+		}
+	
 		// 유효성 체크
 		function nullChk() {
 			if($("#title").val() == "") {
