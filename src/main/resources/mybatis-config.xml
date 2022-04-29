@@ -17,6 +17,9 @@
 		<typeAlias type="org.kh.shareware.calendar.domain.CalMem" 		alias="CalMem"/>
 		<typeAlias type="org.kh.shareware.approval.domain.AppForm" 		alias="AppForm"/>
 		<typeAlias type="org.kh.shareware.approval.domain.AppDocument" 	alias="AppDocument"/>
+		<typeAlias type="org.kh.shareware.approval.domain.Approval" 	alias="Approval"/>
+		<typeAlias type="org.kh.shareware.approval.domain.AppReference" alias="AppReference"/>
+		<typeAlias type="org.kh.shareware.approval.domain.AppFile" 		alias="AppFile"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/daily-mapper.xml"/>

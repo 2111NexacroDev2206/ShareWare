@@ -18,9 +18,9 @@
         <p class="share">Share
         <p class="ware">Ware
         <div class="list-item ${myCondition eq 'home' ? 'active' : ''}"><a href="/home.sw">홈</a></div>
-        <div class="list-item"><a href="">프로젝트 관리</a></div>
-        <div class="list-item"><a href="">업무일지</a></div>
-        <div class="list-item"><a href="">근태 관리</a></div>
+        <div class="list-item ${myCondition eq 'project' ? 'active' : ''}"><a href="">프로젝트 관리</a></div>
+        <div class="list-item ${myCondition eq 'report' ? 'active' : ''}"><a href="">업무일지</a></div>
+        <div class="list-item "><a href="">근태 관리</a></div>
         <div class="list-item"><a href="">조직도</a></div>
         <div class="list-item"><a href="">주소록</a></div>
         <div class="list-item"><a href="">게시판</a></div>

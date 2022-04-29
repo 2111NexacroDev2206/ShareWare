@@ -12,7 +12,7 @@
 	<jsp:include page="appMenu.jsp"></jsp:include> <!-- 메뉴 + 소메뉴 -->
 	<div class="s-container">
 		<h2 id="h-title">기안 문서함</h2>
-		<a href="/approval/draftListView.sw?docStatus=전체">전체</a>
+		<a href="/approval/draftListView.sw">전체</a>
 		<a href="/approval/draftListView.sw?docStatus=대기">대기</a>
 		<a href="/approval/draftListView.sw?docStatus=진행">진행</a>
 		<a href="/approval/draftListView.sw?docStatus=완료">완료</a>

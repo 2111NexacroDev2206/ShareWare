@@ -4,6 +4,7 @@ public class AppReference {
 	private int refNo;
 	private int docNo;
 	private String memNum;
+	private String memberName;
 	private String division;
 	private String rank;
 	private String refStatus;
@@ -34,6 +35,14 @@ public class AppReference {
 		this.memNum = memNum;
 	}
 
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+
 	public String getDivision() {
 		return division;
 	}
@@ -60,8 +69,8 @@ public class AppReference {
 
 	@Override
 	public String toString() {
-		return "AppReference [refNo=" + refNo + ", docNo=" + docNo + ", memNum=" + memNum + ", division=" + division
-				+ ", rank=" + rank + ", refStatus=" + refStatus + "]";
+		return "AppReference [refNo=" + refNo + ", docNo=" + docNo + ", memNum=" + memNum + ", memberName=" + memberName
+				+ ", division=" + division + ", rank=" + rank + ", refStatus=" + refStatus + "]";
 	}
 
 }

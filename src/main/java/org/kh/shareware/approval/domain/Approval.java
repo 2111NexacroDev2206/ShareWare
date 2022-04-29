@@ -4,6 +4,7 @@ public class Approval {
 	private int appNo;
 	private int docNo;
 	private String memNum;
+	private String memberName;
 	private String division;
 	private String rank;
 	private int appLevel;
@@ -35,6 +36,14 @@ public class Approval {
 
 	public void setMemNum(String memNum) {
 		this.memNum = memNum;
+	}
+
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
 	}
 
 	public String getDivision() {
@@ -87,9 +96,9 @@ public class Approval {
 
 	@Override
 	public String toString() {
-		return "Approval [appNo=" + appNo + ", docNo=" + docNo + ", memNum=" + memNum + ", division=" + division
-				+ ", rank=" + rank + ", appLevel=" + appLevel + ", appDate=" + appDate + ", appStatus=" + appStatus
-				+ ", rejReason=" + rejReason + "]";
+		return "Approval [appNo=" + appNo + ", docNo=" + docNo + ", memNum=" + memNum + ", memberName=" + memberName
+				+ ", division=" + division + ", rank=" + rank + ", appLevel=" + appLevel + ", appDate=" + appDate
+				+ ", appStatus=" + appStatus + ", rejReason=" + rejReason + "]";
 	}
-	
+
 }
