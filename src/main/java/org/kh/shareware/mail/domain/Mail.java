@@ -10,12 +10,13 @@ public class Mail {
 	private int mailCount;
 	private String MailSender;
 	private String mailFromAddr;
-	private int rStatus;
-	private int iStatus;
-	private int readType;
-	private int fStatus;
+	private String rStatus;
+	private String iStatus;
+	private String readType;
+	private String fStatus;
 	private Date mailFromDate;
 	private Date mailToDate;
+	private String aStatus;
 	private Date aDate;
 	private String rejReason;
 	private Date resDate;
@@ -33,9 +34,10 @@ public class Mail {
 
 
 	public Mail(int mailNo, String mailType, String mailSubject, String mailContent, int mailCount, String mailSender,
-			String mailFromAddr, int rStatus, int iStatus, int readType, int fStatus, Date mailFromDate,
-			Date mailToDate, Date aDate, String rejReason, Date resDate, char resHour, char resMin, String memNum,
-			String mailReceiver, String mailReferee, String mailFileName, String mailFileRename, String mailFilePath) {
+			String mailFromAddr, String rStatus, String iStatus, String readType, String fStatus, Date mailFromDate,
+			Date mailToDate, String aStatus, Date aDate, String rejReason, Date resDate, char resHour, char resMin,
+			String memNum, String mailReceiver, String mailReferee, String mailFileName, String mailFileRename,
+			String mailFilePath) {
 		super();
 		this.mailNo = mailNo;
 		this.mailType = mailType;
@@ -50,6 +52,7 @@ public class Mail {
 		this.fStatus = fStatus;
 		this.mailFromDate = mailFromDate;
 		this.mailToDate = mailToDate;
+		this.aStatus = aStatus;
 		this.aDate = aDate;
 		this.rejReason = rejReason;
 		this.resDate = resDate;
@@ -134,42 +137,42 @@ public class Mail {
 	}
 
 
-	public int getrStatus() {
+	public String getrStatus() {
 		return rStatus;
 	}
 
 
-	public void setrStatus(int rStatus) {
+	public void setrStatus(String rStatus) {
 		this.rStatus = rStatus;
 	}
 
 
-	public int getiStatus() {
+	public String getiStatus() {
 		return iStatus;
 	}
 
 
-	public void setiStatus(int iStatus) {
+	public void setiStatus(String iStatus) {
 		this.iStatus = iStatus;
 	}
 
 
-	public int getReadType() {
+	public String getReadType() {
 		return readType;
 	}
 
 
-	public void setReadType(int readType) {
+	public void setReadType(String readType) {
 		this.readType = readType;
 	}
 
 
-	public int getfStatus() {
+	public String getfStatus() {
 		return fStatus;
 	}
 
 
-	public void setfStatus(int fStatus) {
+	public void setfStatus(String fStatus) {
 		this.fStatus = fStatus;
 	}
 
@@ -191,6 +194,16 @@ public class Mail {
 
 	public void setMailToDate(Date mailToDate) {
 		this.mailToDate = mailToDate;
+	}
+
+
+	public String getaStatus() {
+		return aStatus;
+	}
+
+
+	public void setaStatus(String aStatus) {
+		this.aStatus = aStatus;
 	}
 
 
@@ -309,16 +322,16 @@ public class Mail {
 		return "Mail [mailNo=" + mailNo + ", mailType=" + mailType + ", mailSubject=" + mailSubject + ", mailContent="
 				+ mailContent + ", mailCount=" + mailCount + ", MailSender=" + MailSender + ", mailFromAddr="
 				+ mailFromAddr + ", rStatus=" + rStatus + ", iStatus=" + iStatus + ", readType=" + readType
-				+ ", fStatus=" + fStatus + ", mailFromDate=" + mailFromDate + ", mailToDate=" + mailToDate + ", aDate="
-				+ aDate + ", rejReason=" + rejReason + ", resDate=" + resDate + ", resHour=" + resHour + ", resMin="
-				+ resMin + ", memNum=" + memNum + ", mailReceiver=" + mailReceiver + ", mailReferee=" + mailReferee
-				+ ", mailFileName=" + mailFileName + ", mailFileRename=" + mailFileRename + ", mailFilePath="
-				+ mailFilePath + "]";
+				+ ", fStatus=" + fStatus + ", mailFromDate=" + mailFromDate + ", mailToDate=" + mailToDate
+				+ ", aStatus=" + aStatus + ", aDate=" + aDate + ", rejReason=" + rejReason + ", resDate=" + resDate
+				+ ", resHour=" + resHour + ", resMin=" + resMin + ", memNum=" + memNum + ", mailReceiver="
+				+ mailReceiver + ", mailReferee=" + mailReferee + ", mailFileName=" + mailFileName + ", mailFileRename="
+				+ mailFileRename + ", mailFilePath=" + mailFilePath + "]";
 	}
 	
-
 	
 
+	
 	
 
 

@@ -125,7 +125,15 @@ border-bottom: 1px solid lightgray;
 					success : function(data) {
 						if (data = 1) {
 							alert("삭제되었습니다.");
-							location.replace("/mail/mailListView.sw")//page로 새로고침
+							if(mailCategory =='R'){
+							 location.replace("/mail/RmailListView.sw")//page로 새로고침 */
+							} else if(mailCategory =='S'){
+							 location.replace("/mail/SmailListView.sw")//page로 새로고침 */
+							} else if(mailCategory =='M'){
+							 location.replace("/mail/MmailListView.sw")//page로 새로고침 */
+							} else if(mailCategory =='F'){
+							 location.replace("/mail/FmailListView.sw")//page로 새로고침 */
+							}
 						} else {
 							alert("삭제 실패했습니다.")
 						}
@@ -134,15 +142,15 @@ border-bottom: 1px solid lightgray;
 			}
 		}
 	</script>
-	<form action="/mail/mailListView.sw" method="post">
-	<div class="s-menu">
-		<div class="s-menu-title">
-			<p>
-				메일 <i class="fa-solid fa-pen-to-square fa-lg"></i>
-		</div>
-		<div>
-			 	&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" onclick= "javascript: form.action='/mail/WriteView.sw'" style="width:90px; height: 35px;">메일쓰기</button>
-				&nbsp;&nbsp;<button type="submit" onclick= "javascript: form.action='/mail/WriteMyView.sw'" style="width: 90px; height: 35px;">내게쓰기</button>
+	
+		<div class="s-menu">
+			<div class="s-menu-title">
+				<p>메일
+				<i class="fa-solid fa-pen-to-square fa-lg"></i>
+			</div>
+			<div>
+			 	&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" onclick="location.href= 'WriteView.sw';" style="width:90px; height: 35px;">메일쓰기</button>
+				&nbsp;&nbsp;<button type="submit" onclick="location.href= 'WriteView.sw';" style="width: 90px; height: 35px;">내게쓰기</button>
 			</div>
 			<div>
 				<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}" id="read"><a href="#"><small>안읽음</small></a></div>
@@ -158,28 +166,38 @@ border-bottom: 1px solid lightgray;
 				<div class="s-list-item ${listCondition eq 'temporary' ? 'active' : ''}"><a href="/mail/mailTemListView.sw">임시 저장함</a></div>
 
 			</div>
-	</div>
-	<!-- <form action="/mail/mailRListView.sw" method="post"></form> -->
+		</div>
+		
+	
+	
 	<div id="mailRList">
-		<input type="hidden" name="mailReceiver"
-			value="${loginUser.memberName }"> 
-			<%-- <input type="hidden"name="mailNo" value="${mail.mailNo}"> --%>
-		
-		<!-- <input type="submit" value="삭제하기" class="btn_ckeck_no" onclick="">  -->
-		
-		<button type="submit" onclick="deleteValue();">삭제하기</button>
-		
-		<br>
+	<button type="submit" onclick="deleteValue();">삭제하기</button>
+	<form action="/mail/${mailCategory}mailSearch.sw" method="get">
+		<%-- <input type="hidden" name="mailReceiver" value="${loginUser.memberName }">  --%>
+				<select name="searchCondition">
+					<option value="all">전체</option>
+					<c:if test="${mailCategory == 'R'}">
+					<option value="receiver">수신인</option></c:if>
+					<c:if test="${mailCategory == 'S'}">
+					<option value="sender">발신인</option></c:if>
+					<c:if test="${mailCategory == 'F'}">
+					<option value="fileName">파일이름</option></c:if>
+					<option value="subject">제목</option>
+					<option value="content">내용</option>
+				</select>
+			<input type="text" name="searchValue">
+			<input type="submit" value="검색">
+	</form> 	
 		<table id="rMail" border="0">
-
+		
 			<tr>
-				<th colspan="7"><input name="allCheck" type="checkbox" id="allCheck" /></th>
+				<th colspan="8"><input name="allCheck" type="checkbox" id="allCheck" /></th>
 				
 			</tr>
 			
 			<c:forEach items="${mList }" var="mail">
 			<!-- 받은 메일 함 -->
-			<c:if test="${mail.mailReceiver eq 'admin' && mail.mailSender ne 'admin'}">
+			<c:if test="${mailCategory == 'S' }">
 				<tr>
 					 <c:url var="mDetail" value="/mail/mailDetailView.sw">
 					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
@@ -191,7 +209,9 @@ border-bottom: 1px solid lightgray;
 					<c:if test="${mail.iStatus eq '1'}"></c:if></span><c:out value="${mail.iStatus}"/>
 					</td>
 					<td width="30px;">${mail.readType }</td>
-					<td width="30px;">${mail.fStatus }</td>
+					<td width="30px;"><c:if test="${mail.mailFileName ne null }"><i class="fa-solid fa-file"></i></c:if>
+					<c:if test="${mail.mailFileName eq null }"></c:if>
+					</td>
 					<td width="150px;">${mail.mailSender }</td>
 					<td><a href="${mDetail}">${mail.mailSubject }</a></td>
 					<td width="150px;"><fmt:formatDate
@@ -199,7 +219,7 @@ border-bottom: 1px solid lightgray;
 				</tr>
 				</c:if>
 				<!-- 보낸 메일 함 --> 
-				<c:if test="${mail.mailReceiver ne 'admin' && mail.mailSender eq 'admin'}">
+				<c:if test="${mailCategory == 'R' }">
 				<tr>
 					 <c:url var="mDetail" value="/mail/mailDetailView.sw">
 					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
@@ -211,7 +231,9 @@ border-bottom: 1px solid lightgray;
 					<c:if test="${mail.iStatus eq '1'}"></c:if></span><c:out value="${mail.iStatus}"/>
 					</td>
 					<td width="30px;">${mail.readType }</td>
-					<td width="30px;">${mail.fStatus }</td>
+					<td width="30px;"><c:if test="${mail.mailFileName ne null }"><i class="fa-solid fa-file"></i></c:if>
+					<c:if test="${mail.mailFileName eq null }"></c:if>
+					</td>
 					<td width="150px;">${mail.mailReceiver }</td>
 					<td><a href="${mDetail}">${mail.mailSubject }</a></td>
 					<td width="150px;"><fmt:formatDate
@@ -219,7 +241,7 @@ border-bottom: 1px solid lightgray;
 				</tr>
 				</c:if>
 				<!-- 내게 쓴 메일 함 -->
-				<c:if test="${mail.mailSender eq 'admin' && mail.mailReceiver eq 'admin'}">
+				<c:if test="${mailCategory == 'M' }">
 				<tr>
 					 <c:url var="mDetail" value="/mail/mailDetailView.sw">
 					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
@@ -230,14 +252,16 @@ border-bottom: 1px solid lightgray;
 					<c:if test="${mail.iStatus eq '1'}"></c:if></span><c:out value="${mail.iStatus}"/>
 					</td>
 					<td width="30px;">${mail.readType }</td>
-					<td width="30px;">${mail.fStatus }</td>
+					<td width="30px;"><c:if test="${mail.mailFileName ne null }"><i class="fa-solid fa-file"></i></c:if>
+					<c:if test="${mail.mailFileName eq null }"></c:if>
+					</td>
 					<td width="150px;">${mail.mailReceiver }</td>
 					<td><a href="${mDetail}">${mail.mailSubject }</a></td>
 					<td width="150px;"><fmt:formatDate
 							value="${mail.mailFromDate }" pattern="yyyy/MM/ddHH:mm:ss" /></td>
 				</tr>
 				</c:if>
-				<c:if test="${mail.mailFileName ne null && (mail.mailSender eq 'admin' || mail.mailReceiver eq 'admin')  }">
+				<c:if test="${mailCategory == 'F' }">
 				<tr>
 					 <c:url var="mDetail" value="/mail/mailDetailView.sw">
 					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
@@ -249,9 +273,12 @@ border-bottom: 1px solid lightgray;
 					<c:if test="${mail.iStatus eq '1'}"></c:if></span><c:out value="${mail.iStatus}"/>
 					</td>
 					<td width="30px;">${mail.readType }</td>
-					<td width="30px;">${mail.fStatus }</td>
+					<td width="30px;"><c:if test="${mail.mailFileName ne null }"><i class="fa-solid fa-file"></i></c:if>
+					<c:if test="${mail.mailFileName eq null }"></c:if>
+					</td>
 					<td width="150px;">${mail.mailReceiver }</td>
 					<td><a href="${mDetail}">${mail.mailSubject }</a></td>
+					<td width="150px;"><a href="/resources/mUploadFiles/${mail.mailFileRename}" download>${mail.mailFileName}</a></td>
 					<td width="150px;"><fmt:formatDate
 							value="${mail.mailFromDate }" pattern="yyyy/MM/ddHH:mm:ss" /></td>
 				</tr>
@@ -259,45 +286,5 @@ border-bottom: 1px solid lightgray;
 			</c:forEach>
 		</table>
 	</div>
-	</form>
-	<form action="/mail/RmailSearch.sw" method="get">
-		<select name="searchCondition">
-			<option value="all">전체</option>
-			<option value="sender">발신인</option>
-			<option value="subject">제목</option>
-			<option value="content">내용</option>
-		</select>
-		<input type="text" name="searchValue">
-		<input type="submit" value="검색">
-	</form>
-	<form action="/mail/SmailSearch.sw" method="get">
-		<select name="searchCondition">
-			<option value="all">전체</option>
-			<option value="receiver">수신인</option>
-			<option value="subject">제목</option>
-			<option value="content">내용</option>
-		</select>
-		<input type="text" name="searchValue">
-		<input type="submit" value="검색">
-	</form>
-	<form action="/mail/MmailSearch.sw" method="get">
-		<select name="searchCondition">
-			<option value="all">전체</option>
-			<option value="subject">제목</option>
-			<option value="content">내용</option>
-		</select>
-		<input type="text" name="searchValue">
-		<input type="submit" value="검색">
-	</form>
-	<form action="/mail/FmailSearch.sw" method="get">
-		<select name="searchCondition">
-			<option value="all">전체</option>
-			<option value="fileName">파일이름</option>
-			<option value="subject">제목</option>
-			<option value="content">내용</option>
-		</select>
-		<input type="text" name="searchValue">
-		<input type="submit" value="검색">
-	</form>
 </body>
 </html>

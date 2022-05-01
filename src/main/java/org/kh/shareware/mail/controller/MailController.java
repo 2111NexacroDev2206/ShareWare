@@ -53,29 +53,29 @@ public class MailController {
 			,HttpServletRequest request) {
 		
 		try {
-		
+			
 			if(uploadFile != null && !uploadFile.getOriginalFilename().equals("")) {
 				HashMap <String, String>  fileMap = saveFile(uploadFile, request);
 				String filePath = fileMap.get("filePath");
 				String fileRename = fileMap.get("fileName");
-			
-				if(filePath !=null && !filePath.equals("")) {
+				 
+				
+				if(filePath != null && !filePath.equals("")) {
 					mailFile.setMailFileName(uploadFile.getOriginalFilename());
 					mailFile.setMailFileRename(fileRename);
 					mailFile.setMailFilePath(filePath);
+					mail.setfStatus("1");
 				}
 			
 			}
 			int mResult = mService.registerMail(mail);
 			int recResult = mService.registerMailRec(mailRec);
 			int refResult = mService.registerMailRef(mailRef);
-			int fResult;
-			if(uploadFile != null) {
-				 fResult = mService.registerMailFile(mailFile);
-			}
-			if(mResult > 0 && recResult>0 && refResult>0) {
+			int fResult = mService.registerMailFile(mailFile);
+			
+			if(mResult > 0 && recResult>0 && refResult>0 ) {
 				mv.addObject("msg", "등록 성공");
-				mv.setViewName("redirect:/mail/RmailListView.sw");
+				mv.setViewName("/mail/mailDetail");
 			} else {
 				mv.addObject("msg", "메일 발신 실패");
 				mv.setViewName("common/errorPage");
@@ -197,10 +197,9 @@ public class MailController {
 			} else if (mailCategory.equals("F")){
 				mFileList = mService.printMailFile();
 				mv.addObject("mList", mFileList);
-			}else {
-				mv.addObject("msg", "받은 메일 조회 실패");
-				viewName = "common/errorPage";
 			}
+			
+			mv.addObject("mailCategory", mailCategory);
 			mv.setViewName(viewName);
 		} catch (Exception e) {
 			mv.addObject("msg", e.toString());
@@ -222,7 +221,7 @@ public class MailController {
 				mv.setViewName("mail/mailTemList");
 				
 			} else {
-				mv.addObject("msg", "받은 메일 조회 실패");
+				mv.addObject("msg", "임시 저장 조회 실패");
 				mv.setViewName("common/errorPage");
 			}
 		} catch (Exception e) {
@@ -244,10 +243,12 @@ public class MailController {
 			List<MailRec> searchRecList = null;
 			List<Mail> searchMyList = null;
 			List<MailFile> searchFileList = null;
-			String viewName = "mail/mailList";
+			
+			
 			if(mailCategory.equals("R")) {
 				searchList = mService.printSearchMail(mailSearch);
 				mv.addObject("mList", searchList);
+				
 			} else if(mailCategory.equals("S")) {
 				searchRecList = mService.printSearchMailRec(mailSearch);
 				mv.addObject("mList", searchRecList);
@@ -257,14 +258,12 @@ public class MailController {
 			} else if(mailCategory.equals("F")) {
 				searchFileList = mService.printSearchMailFile(mailSearch);
 				mv.addObject("mList", searchFileList);
-			} else {
-				mv.addObject("msg", "받은 메일 조회 실패");
-				viewName = "common/errorPage";
-			}
-				mv.setViewName(viewName);
+			} 
+				mv.addObject("mailCategory", mailCategory);
+				mv.setViewName( "mail/mailList");
 			
 		} catch (Exception e) {
-			mv.addObject("mList", e.toString());
+			mv.addObject("msg", e.toString());
 			mv.setViewName("common/errorPage");
 		}
 		
@@ -428,9 +427,9 @@ public class MailController {
 			try {
 				
 				int mResult = 0;
-				int mRecResult =0;
-				int mRefResult =0;
-				int mFileResult =0;
+				int mRecResult = 0;
+				int mRefResult = 0;
+				int mFileResult = 0;
 				for(int i = 0; i<values.length; i++) {
 					
 					  mResult = mService.removeChkMail(Integer.parseInt(values[i]));
@@ -462,7 +461,7 @@ public class MailController {
 		public String mailDelete(
 				Model model
 				, @RequestParam("mailNo") int mailNo
-				) {
+				 ) {
 			
 			try {
 				
@@ -471,8 +470,7 @@ public class MailController {
 				int mRefResult = mService.removeMailRef(mailNo);
 				int mFileResult = mService.removeMailFile(mailNo);
 				if(mResult > 0 && mRecResult>0 && mRefResult>0 && mFileResult>0) {
-					
-					return "redirect:/mail/mailRListView.sw";
+					return "mail/RmailList";
 				} else {
 					model.addAttribute("msg", "메일 삭제 실패");
 					return "common/errorPage";
@@ -481,6 +479,7 @@ public class MailController {
 				model.addAttribute("msg", e.toString());
 				return "common/errorPage";
 			}
+			
 			
 			
 		}

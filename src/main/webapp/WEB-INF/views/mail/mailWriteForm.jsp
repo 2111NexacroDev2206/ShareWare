@@ -90,8 +90,8 @@
 				<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}" id="file"><a href="/mail/FmailListView.sw"><small>첨부</small></a></div>
 			</div>
 			<div>
-				<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}"><a href="/mail/RmailListView.sw">받은 메일함</a></div>
-				<div class="s-list-item ${listCondition eq 'approval' ? 'active' : ''}"><a href="/mail/SmailListView.sw">보낸 메일함</a></div>
+				<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}"><a href="/mail/SmailListView.sw">받은 메일함</a></div>
+				<div class="s-list-item ${listCondition eq 'approval' ? 'active' : ''}"><a href="/mail/RmailListView.sw">보낸 메일함</a></div>
 				<div class="s-list-item ${listCondition eq 'reference' ? 'active' : ''}"><a href="/mail/MmailListView.sw">내게 쓴 메일함</a></div>
 				<div class="s-list-item ${listCondition eq 'reference' ? 'active' : ''}"><a href="">보낸 승인 메일함</a></div>
 				<div class="s-list-item ${listCondition eq 'reference' ? 'active' : ''}"><a href="">즐겨찾는 그룹</a></div>
