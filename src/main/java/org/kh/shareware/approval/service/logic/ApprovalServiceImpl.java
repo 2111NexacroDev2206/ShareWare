@@ -180,4 +180,28 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return totalCount;
 	}
 
+	@Override
+	public List<AppDocument> printAllAppDoc(Approval app, PageInfo pi) { // 결재 문서함 문서 조회
+		List<AppDocument> dList = aStore.selectAllAppDoc(sqlSession, app, pi);
+		return dList;
+	}
+
+	@Override
+	public int getListCountApp(Approval app) { // 결재 문서함 페이징
+		int totalCount = aStore.selectListCountApp(sqlSession, app);
+		return totalCount;
+	}
+
+	@Override
+	public List<AppDocument> printSearchApp(Search search, PageInfo pi) { // 결재 문서함 검색
+		List<AppDocument> dList = aStore.selectAllAppSearch(sqlSession, search, pi);
+		return dList;
+	}
+
+	@Override
+	public int getSearchAppCount(Search search) { // 결재 문서함 검색 페이징
+		int totalCount = aStore.selectSearchAppCount(sqlSession, search);
+		return totalCount;
+	}
+
 }

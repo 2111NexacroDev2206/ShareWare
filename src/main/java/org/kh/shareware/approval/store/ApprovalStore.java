@@ -39,5 +39,9 @@ public interface ApprovalStore {
 	public int selectListCountRef(SqlSession sqlSession, AppReference ref); // 참조 문서함 페이징
 	public List<AppDocument> selectAllRefSearch(SqlSession sqlSession, Search search, PageInfo pi); // 참조 문서함 검색
 	public int selectSearchRefCount(SqlSession sqlSession, Search search); // 참조 문서함 검색 페이징
+	public List<AppDocument> selectAllAppDoc(SqlSession sqlSession, Approval app, PageInfo pi); // 결재 문서함 문서 조회
+	public int selectListCountApp(SqlSession sqlSession, Approval app); // 결재 문서함 페이징
+	public List<AppDocument> selectAllAppSearch(SqlSession sqlSession, Search search, PageInfo pi); // 결재 문서함 검색
+	public int selectSearchAppCount(SqlSession sqlSession, Search search); // 결재 문서함 검색 페이징
 
 }

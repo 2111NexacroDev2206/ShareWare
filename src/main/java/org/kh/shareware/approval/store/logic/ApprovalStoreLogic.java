@@ -189,4 +189,36 @@ public class ApprovalStoreLogic implements ApprovalStore{
 		return totalCount;
 	}
 
+	@Override
+	public List<AppDocument> selectAllAppDoc(SqlSession sqlSession, Approval app, PageInfo pi) { // 결재 문서함 문서 조회
+		int limit = pi.getDocLimit();
+		int currentPage = pi.getCurrentPage();
+		int offset = (currentPage - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<AppDocument> dList = sqlSession.selectList("ApprovalMapper.selectListAppDoc", app, rowBounds);
+		return dList;
+	}
+
+	@Override
+	public int selectListCountApp(SqlSession sqlSession, Approval app) { // 결재 문서함 페이징
+		int totalCount = sqlSession.selectOne("ApprovalMapper.selectOneListCountApp", app);
+		return totalCount;
+	}
+
+	@Override
+	public List<AppDocument> selectAllAppSearch(SqlSession sqlSession, Search search, PageInfo pi) { // 결재 문서함 검색
+		int limit = pi.getDocLimit();
+		int currentPage = pi.getCurrentPage();
+		int offset = (currentPage - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<AppDocument> dList = sqlSession.selectList("ApprovalMapper.selectListAppSearch", search, rowBounds);
+		return dList;
+	}
+
+	@Override
+	public int selectSearchAppCount(SqlSession sqlSession, Search search) { // 결재 문서함 검색 페이징
+		int totalCount = sqlSession.selectOne("ApprovalMapper.selectOneSearchAppCount", search);
+		return totalCount;
+	}
+
 }

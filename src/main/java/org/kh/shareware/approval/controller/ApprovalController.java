@@ -73,6 +73,12 @@ public class ApprovalController {
 			totalCount = aService.getListCountRef(ref);
 			pi = Pagination.getPageInfo(currentPage, totalCount);
 			dList = aService.printAllRefDoc(ref, pi);
+		}else if(parameter.equals("app")) { // 결재 문서함
+			app.setDocStatus(docStatus);
+			app.setMemNum(member.getMemberNum());
+			totalCount = aService.getListCountApp(app);
+			pi = Pagination.getPageInfo(currentPage, totalCount);
+			dList = aService.printAllAppDoc(app, pi);
 		}
 		model.addAttribute("dList", dList);
 		model.addAttribute("pi", pi);
@@ -109,6 +115,10 @@ public class ApprovalController {
 				int totalCount = aService.getSearchRefCount(search);
 				pi = Pagination.getPageInfo(currentPage, totalCount);
 				searchDoc = aService.printSearchRef(search, pi);
+			}else if(parameter.equals("app")) { // 결재 문서함
+				int totalCount = aService.getSearchAppCount(search);
+				pi = Pagination.getPageInfo(currentPage, totalCount);
+				searchDoc = aService.printSearchApp(search, pi);
 			}
 			if(searchDoc != null) {
 				mv.addObject("dList", searchDoc);

@@ -38,5 +38,9 @@ public interface ApprovalService {
 	public int getListCountRef(AppReference ref); // 참조 문서함 페이징
 	public List<AppDocument> printSearchRef(Search search, PageInfo pi); // 참조 문서함 검색
 	public int getSearchRefCount(Search search); // 참조 문서함 검색 페이징
+	public List<AppDocument> printAllAppDoc(Approval app, PageInfo pi); // 결재 문서함 문서 조회
+	public int getListCountApp(Approval app); // 결재 문서함 페이징
+	public List<AppDocument> printSearchApp(Search search, PageInfo pi); // 결재 문서함 검색
+	public int getSearchAppCount(Search search); // 결재 문서함 검색 페이징
 
 }
