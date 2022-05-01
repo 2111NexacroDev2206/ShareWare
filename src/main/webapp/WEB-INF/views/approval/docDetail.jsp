@@ -67,8 +67,11 @@
                 <tr>
                     <td>휴가 기간</td>
                     <td colspan="6" id="td-leave-date">
-                        ${appDoc.leaveStart }~${appDoc.leaveEnd }
+                    	<c:if test="${appDoc.leaveType ne '반차'}">
+                        	${appDoc.leaveStart }~${appDoc.leaveEnd }
+                        </c:if>
                         <c:if test="${appDoc.leaveType eq '반차'}">
+                        	${appDoc.leaveStart }
                         	${appDoc.leaveTime }
                         </c:if>
                         	휴가 일수 : ${appDoc.leaveDay }
@@ -102,7 +105,7 @@
 			<a href="../../../resources/auploadFiles/${appFile.fileReName }" download>${appFile.fileName}</a>
 		</c:if>
 		<input type="button" id="btn-cancel" value="상신 취소">
-		<input type="button" value="목록" onclick="location.href='/approval/draftListView.sw'">
+		<input type="button" value="목록" onclick="location.href='/approval/${type}ListView.sw'">
 	</div>
 	<script>
 		if("${appDoc.docStatus}" != "대기") { // 문서 상태가 대기가 아닌 경우 상신 취소 버튼 숨기기
@@ -111,7 +114,7 @@
 		$("#btn-cancel").click(function() { // 상신 취소 클릭 시 확인창 뜨고 확인 누르면 상신 취소 실행
 			var result = confirm("상신 취소하시겠습니까?");
 			if(result == true) {
-				location.href = '/approval/cancle.sw?docNo=${appDoc.docNo}'
+				location.href = '/approval/cancle.sw?type=${type}&docNo=${appDoc.docNo}'
 			}
 		})
 	</script>

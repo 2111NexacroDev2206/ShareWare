@@ -88,6 +88,9 @@
 				</c:if>
 				<c:if test="${formName ne '휴가신청서'}">
 					<tr>
+						<td colspan="7" align="center">내용</td>
+					</tr>
+					<tr>
 						<td colspan="7">
 							<textarea name="docContent">${form.formContent }</textarea>
 						</td>
@@ -101,7 +104,7 @@
 			<input type="button" value="취소" onclick="location.href='/approval/draftListView.sw'">
 		</form>
 	</div>
-	<jsp:include page="appModal.jsp"></jsp:include> <!-- 결재자 선택 모달 -->
+	<jsp:include page="appModal.jsp"></jsp:include> <!-- 결재자/참조자 선택 모달 -->
 	<script>
 		// 결재 요청 확인창
 		function docSave() {

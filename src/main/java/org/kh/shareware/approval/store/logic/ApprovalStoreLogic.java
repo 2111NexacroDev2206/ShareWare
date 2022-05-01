@@ -60,7 +60,7 @@ public class ApprovalStoreLogic implements ApprovalStore{
 	}
 
 	@Override
-	public List<AppDocument> selectAllDoc(SqlSession sqlSession, AppDocument appDoc, PageInfo pi) { // 기안 문서 조회(기안 문서함)
+	public List<AppDocument> selectAllDoc(SqlSession sqlSession, AppDocument appDoc, PageInfo pi) { // 문서 조회(기안 문서함/임시 저장함)
 		int limit = pi.getDocLimit();
 		int currentPage = pi.getCurrentPage();
 		int offset = (currentPage - 1) * limit;
@@ -119,6 +119,42 @@ public class ApprovalStoreLogic implements ApprovalStore{
 	public AppFile selectOneFile(SqlSession sqlSession, int docNo) { // 기안 문서함 상세 조회(파일)
 		AppFile appFile = sqlSession.selectOne("ApprovalMapper.selectOneFile", docNo);
 		return appFile;
+	}
+
+	@Override
+	public int updateDoc(SqlSession sqlSession, AppDocument appDoc) { // 임시 저장 수정(문서)
+		int result = sqlSession.update("ApprovalMapper.updateDoc", appDoc);
+		return result;
+	}
+
+	@Override
+	public int deleteApp(SqlSession sqlSession, int docNo) { // 결재자 삭제
+		int result = sqlSession.delete("ApprovalMapper.deleteApp", docNo);
+		return result;
+	}
+
+	@Override
+	public int deleteRef(SqlSession sqlSession, int docNo) { // 참조자 삭제
+		int result = sqlSession.delete("ApprovalMapper.deleteRef", docNo);
+		return result;
+	}
+
+	@Override
+	public int updateApp(SqlSession sqlSession, Approval app) { // 결재자 상태 변경(임시->대기)
+		int result = sqlSession.update("ApprovalMapper.updateApp", app);
+		return result;
+	}
+
+	@Override
+	public int updateRef(SqlSession sqlSession, AppReference ref) { // 참조자 상태 변경(임시->참조)
+		int result = sqlSession.update("ApprovalMapper.updateRef", ref);
+		return result;
+	}
+
+	@Override
+	public int deleteFile(SqlSession sqlSession, int docNo) { // 파일 삭제
+		int result = sqlSession.delete("ApprovalMapper.deleteFile", docNo);
+		return result;
 	}
 
 }

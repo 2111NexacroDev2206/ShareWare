@@ -45,20 +45,31 @@ public class ApprovalController {
 			, HttpServletRequest request
 			, @RequestParam(value="page", required = false) Integer page
 			, @RequestParam(value="docStatus", required = false) String docStatus
-			, @ModelAttribute AppDocument appDoc) {
+			, @ModelAttribute AppDocument appDoc
+			, @ModelAttribute Approval app
+			, @ModelAttribute AppReference ref) {
 		model.addAttribute("myCondition", "approval");
 		model.addAttribute("listCondition", parameter);
 		HttpSession session = request.getSession();
-		Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
-		if(docStatus == null) {
+	Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
+		if(parameter.equals("tem")) {
+			docStatus = "임시";
+		}else if(docStatus == null) {
 			docStatus = "전체";
 		}
-		appDoc.setDocStatus(docStatus);
-		appDoc.setMemNum(member.getMemberNum());
 		int currentPage = (page != null) ? page : 1;
-		int totalCount = aService.getListCount(appDoc);
-		PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
-		List<AppDocument> dList = aService.printAll(appDoc, pi);
+		int totalCount = 0; 
+		PageInfo pi = null;
+		List<AppDocument> dList = null;
+		if(parameter.equals("draft") || parameter.equals("tem")) {
+			appDoc.setDocStatus(docStatus);
+			appDoc.setMemNum(member.getMemberNum());
+			totalCount = aService.getListCount(appDoc);
+			pi = Pagination.getPageInfo(currentPage, totalCount);
+			dList = aService.printAll(appDoc, pi);
+		}else if(parameter.equals("app")) {
+			
+		}
 		model.addAttribute("dList", dList);
 		model.addAttribute("pi", pi);
 		model.addAttribute("type", parameter);
@@ -66,30 +77,35 @@ public class ApprovalController {
 		return "approval/" + parameter + "List";
 	}
 	
-	// 기안 문서함 검색
-	@RequestMapping(value = "/approval/draftSearch.sw")
-	public ModelAndView draftSearchList(Model model, ModelAndView mv
+	// 문서함 검색(기안/결재/참조/임시)
+	@RequestMapping(value = "/approval/{param}Search.sw")
+	public ModelAndView searchList(Model model, ModelAndView mv
 			, @ModelAttribute Search search
 			, HttpServletRequest request
+			, @PathVariable("param") String parameter
 			, @RequestParam(value="page", required = false) Integer page) {
 		model.addAttribute("myCondition", "approval");
-		model.addAttribute("listCondition", "draft");
+		model.addAttribute("listCondition", parameter);
 		try {
 			HttpSession session = request.getSession();
 			search.setMemberNum(((Member)session.getAttribute("loginUser")).getMemberNum()); // 세션 값에서 사원번호 가져오기
 			int currentPage = (page != null) ? page : 1;
-			int totalCount = aService.getSearchDraftCount(search);
-			PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
-			List<AppDocument> searchDraft = aService.printSearchDraft(search, pi);
-			if(searchDraft != null) {
-				mv.addObject("dList", searchDraft);
+			PageInfo pi = null;
+			List<AppDocument> searchDoc = null;
+			if(parameter.equals("draft")) {
+				int totalCount = aService.getSearchDraftCount(search);
+				pi = Pagination.getPageInfo(currentPage, totalCount);
+				searchDoc = aService.printSearchDraft(search, pi);
+			}
+			if(searchDoc != null) {
+				mv.addObject("dList", searchDoc);
 				mv.addObject("search", search);
 				mv.addObject("pi", pi);
-				mv.addObject("type", "draft");
-				mv.setViewName("approval/draftList");
+				mv.addObject("type", parameter);
+				mv.setViewName("approval/" + parameter + "List");
 			}else {
 				mv.addObject("msg", "검색 실패");
-				mv.addObject("loc", "/approval/draftListView.sw");
+				mv.addObject("loc", "/approval/" + parameter + "ListView.sw");
 				mv.setViewName("common/msg");
 			}
 		}catch(Exception e) {
@@ -136,7 +152,7 @@ public class ApprovalController {
 		return mv;
 	}
 	
-	// 결재 요청
+	// 결재 요청, 임시 저장
 	@RequestMapping(value = "/approval/save{param}.sw", method = RequestMethod.POST)
 	public ModelAndView docRegister(ModelAndView mv
 			, @ModelAttribute AppDocument appDoc
@@ -212,9 +228,14 @@ public class ApprovalController {
 			}else if(fResult < 1) {
 				mv.addObject("msg", "파일 등록 실패");
 			}else {
-				mv.addObject("msg", "등록 성공");
+				if(parameter.equals("Doc")) {
+					mv.addObject("msg", "결재 요청 성공");
+					mv.addObject("loc", "/approval/draftListView.sw");
+				}else if(parameter.equals("Temporary")) {
+					mv.addObject("msg", "임시 저장 성공");
+					mv.addObject("loc", "/approval/temListView.sw");
+				}
 			}
-			mv.addObject("loc", "/approval/draftListView.sw");
 			mv.setViewName("common/msg");
 		}catch(Exception e) {
 			mv.addObject("msg", e.toString());
@@ -261,13 +282,18 @@ public class ApprovalController {
 		return fileMap; // 파일 경로 리턴
 	}
 	
-	// 기안 문서함 문서 상세 페이지
+	// 문서 상세 페이지
 	@RequestMapping(value = "/approval/detail.sw")
-	private ModelAndView docDetailView(ModelAndView mv, Model model, @RequestParam("docNo") int docNo) {
+	private ModelAndView docDetailView(ModelAndView mv, Model model
+			, @RequestParam("docNo") int docNo
+			, @RequestParam("type") String type) {
 		model.addAttribute("myCondition", "approval");
-		model.addAttribute("listCondition", "draft");
+		model.addAttribute("listCondition", type);
+		Date nowTime = new Date(); // 현재 날짜 가져오기
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		model.addAttribute("nowTime", sf.format(nowTime));
 		try {
-			AppDocument appDoc = aService.printOneDoc(docNo); // 기안 문서 상세 조회
+			AppDocument appDoc = aService.printOneDoc(docNo); // 문서 상세 조회
 			List<Approval> aList = aService.printAllApp(docNo); // 결재자 조회
 			List<AppReference> rList = aService.printAllRef(docNo); // 참조자 조회
 			AppFile appFile = aService.printOneFile(docNo); // 파일 조회
@@ -276,10 +302,15 @@ public class ApprovalController {
 				mv.addObject("aList", aList);
 				mv.addObject("rList", rList);
 				mv.addObject("appFile", appFile);
-				mv.setViewName("approval/docDetail");
+				mv.addObject("type", type);
+				if(type.equals("draft")) { // 기안 문서함
+					mv.setViewName("approval/docDetail");
+				}else if(type.equals("tem")){ // 임시 저장함
+					mv.setViewName("approval/docUpdate");
+				}
 			}else {
-				mv.addObject("msg", "기안 문서 상세 조회 실패");
-				mv.addObject("loc", "/approval/draftListView.sw");
+				mv.addObject("msg", "문서 상세 조회 실패");
+				mv.addObject("loc", "/approval/" + type + "ListView.sw");
 				mv.setViewName("common/msg");
 			}
 		}catch(Exception e) {
@@ -289,18 +320,26 @@ public class ApprovalController {
 		return mv;
 	}
 	
-	// 상신 취소
+	// 상신 취소, 삭제
 	@RequestMapping(value = "/approval/cancle.sw")
-	private String docRemove(Model model, @RequestParam("docNo") int docNo) {
+	private String docRemove(Model model, @RequestParam("docNo") int docNo, @RequestParam("type") String type) {
 		try {
 			int result = aService.removeDoc(docNo);
 			if(result > 0) {
-				model.addAttribute("msg", "상신 취소 성공");
-				model.addAttribute("loc", "/approval/draftListView.sw");
+				if(type.equals("draft")) {
+					model.addAttribute("msg", "상신 취소 성공");
+				}else if(type.equals("tem")){
+					model.addAttribute("msg", "삭제 성공");
+				}
+				model.addAttribute("loc", "/approval/" + type + "ListView.sw");
 				return "common/msg";
 			}else {
-				model.addAttribute("msg", "상신 취소 실패");
-				model.addAttribute("loc", "/approval/draftListView.sw");
+				if(type.equals("draft")) {
+					model.addAttribute("msg", "상신 취소 실패");
+				}else if(type.equals("tem")){
+					model.addAttribute("msg", "삭제 실패");
+				}
+				model.addAttribute("loc", "/approval/" + type + "ListView.sw");
 				return "common/msg";
 			}
 		}catch(Exception e) {
@@ -308,4 +347,138 @@ public class ApprovalController {
 			return "common/errorPage";
 		}
 	}
+	
+	// 임시 저장 수정(결재 요청, 임시 저장)
+	@RequestMapping(value = "/approval/update{param}.sw", method = RequestMethod.POST)
+	private ModelAndView docUpdate(ModelAndView mv
+			, @ModelAttribute AppDocument appDoc
+			, @ModelAttribute Approval app
+			, @ModelAttribute AppReference ref
+			, @ModelAttribute AppFile file
+			, @ModelAttribute AppForm form
+			, @RequestParam(value="reloadFile", required=false) MultipartFile reloadFile
+			, @RequestParam(value="appMemNum", required=false) String appMemNum
+			, @RequestParam(value="refMemNum", required=false) String refMemNum
+			, HttpServletRequest request
+			, @PathVariable("param") String parameter) {
+		try {
+			if(parameter.equals("Doc")) {
+				appDoc.setDocStatus("대기");
+			}else if(parameter.equals("Temporary")) {
+				appDoc.setDocStatus("임시");
+			}
+			int dResult = aService.modifyDoc(appDoc); // 문서 수정
+			int aResult = 0; // 결재자 등록 결과 변수 선언
+			int rResult = 0; // 참조자 등록 결과 변수 선언
+			int fResult = 0; // 파일 첨부 등록 결과 변수 선언
+			// 결재자
+			if(!appMemNum.equals("")) {
+				aService.removeApp(appDoc.getDocNo());
+				String[] appArray = appMemNum.split(","); // 배열에 결재자 넣기
+				for(int i = 0; i < appArray.length; i++) {
+					app.setDocNo(appDoc.getDocNo());
+					app.setMemNum(appArray[i]); // 결재자 사원번호
+					app.setAppLevel(i+1); // 결재자 순번
+					if(parameter.equals("Doc")) {
+						app.setAppStatus("대기");
+					}else if(parameter.equals("Temporary")) {
+						app.setAppStatus("임시");
+					}
+					aResult = aService.registerApp(app); // 결재자 등록
+				}
+			}else {
+				if(parameter.equals("Doc")) {
+					app.setAppStatus("대기");
+					aService.modifyApp(app); // 결재자 상태 변경(임시->대기)
+				}
+				aResult = 1;
+			}
+			// 참조자
+			if(!refMemNum.equals("")) {
+				List<AppReference> rList = aService.printAllRef(appDoc.getDocNo()); // 참조자 조회
+				if(!rList.isEmpty()) {
+					aService.removeRef(appDoc.getDocNo());
+				}
+				String[] refArray = refMemNum.split(","); // 배열에 참조자 넣기
+				for(int i = 0; i < refArray.length; i++) {
+					ref.setDocNo(appDoc.getDocNo());
+					ref.setMemNum(refArray[i]); // 참조자 사원번호
+					if(parameter.equals("Doc")) {
+						ref.setRefStatus("참조");
+					}else if(parameter.equals("Temporary")) {
+						ref.setRefStatus("임시");
+					}
+					rResult = aService.registerRef(ref); // 참조자 등록
+				}
+			}else {
+				if(parameter.equals("Doc")) {
+					ref.setRefStatus("참조");
+					aService.modifyRef(ref); // 참조자 상태 변경(임시->참조)
+				}
+				rResult = 1;
+			}
+			if(reloadFile != null && !reloadFile.getOriginalFilename().equals("")) {
+				// 파일이 있으면 기존 파일 삭제
+				AppFile appFile = aService.printOneFile(appDoc.getDocNo()); // 파일 조회
+				if(appFile != null) {
+					aService.removeFile(appDoc.getDocNo());
+					deleteFile(appFile.getFilePath(), request);
+				}
+				// 새로운 파일 다시 업로드
+				HashMap<String, String> fileMap = saveFile(reloadFile, request); // 업로드한 파일
+				String filePath = fileMap.get("filePath");
+				String fileRename = fileMap.get("fileName");
+				if(filePath != null && !filePath.equals("")) {
+					file.setDocNo(appDoc.getDocNo());
+					file.setFileName(reloadFile.getOriginalFilename());
+					file.setFileReName(fileRename);
+					file.setFilePath(filePath);
+					fResult = aService.registerFile(file);
+				}
+			}else {
+				fResult = 1;
+			}
+			if(dResult < 1) {
+				mv.addObject("msg", "문서 수정 실패");
+			}else if(aResult < 1) {
+				mv.addObject("msg", "결재자 등록 실패");
+			}else if(rResult < 1) {
+				mv.addObject("msg", "참조자 등록 실패");
+			}else if(fResult < 1) {
+				mv.addObject("msg", "파일 등록 실패");
+			}else {
+				if(parameter.equals("Doc")) {
+					mv.addObject("msg", "결재 요청 성공");
+					mv.addObject("loc", "/approval/draftListView.sw");
+				}else if(parameter.equals("Temporary")) {
+					mv.addObject("msg", "임시 저장 성공");
+					mv.addObject("loc", "/approval/temListView.sw");
+				}
+			}
+			mv.setViewName("common/msg");
+		}catch(Exception e) {
+			mv.addObject("msg", e.toString());
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
+	}
+	
+	// 파일 삭제
+	public void deleteFile(String filePath, HttpServletRequest request) {
+		File deleteFile = new File(filePath); // 저장 폴더 선택
+		if(deleteFile.exists()) { // 파일이 존재하면
+			deleteFile.delete(); // 파일 삭제
+		}
+	}
+	
+	// 임시 저장 수정 화면에서 선택했던 파일 삭제
+	 @RequestMapping(value="/approval/fileDelete.sw", method=RequestMethod.GET)
+	 public String fileDelete(ModelAndView mv
+				, @RequestParam(value = "filePath", required = false) String filePath 
+				, @RequestParam(value = "docNo", required = false) int docNo 
+				, HttpServletRequest request){
+				deleteFile(filePath, request);
+				aService.removeFile(docNo);
+				return "redirect:/approval/detail.sw?docNo=" + docNo + "&type=tem";
+		 }
 }

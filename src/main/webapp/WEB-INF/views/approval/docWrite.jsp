@@ -66,7 +66,6 @@
 	            leaveDay = 0.5;
 	            $("#leaveTime").css("display", "inline-flex"); // 오전/오후 보이기
 	            $(":radio[name='leaveTime'][value='오전']").prop("checked", true); // 휴가 시간 라디오 버튼 오전 자동으로 체크
-	            document.getElementById("startDate").valueAsDate = new Date(); // 휴가 시작일에 현재 날짜 넣기
 	            $("#endDate").css("display", "none"); // 휴가 종료일 숨기기
 	            $("#tilde").css("display", "none"); // 휴가 시작일과 종료일 사이 '~' 숨기기
 	            setLeaveDay(leaveDay);

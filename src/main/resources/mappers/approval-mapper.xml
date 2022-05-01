@@ -64,20 +64,41 @@
 		INSERT INTO APP_DOC VALUES(SEQ_DOC.NEXTVAL, #{memNum}, #{formNo}, #{docTitle}, #{docContent}, #{docStatus}, #{docDate}, #{leaveType}, #{leaveStart}, #{leaveEnd}, #{leaveTime}, #{leaveDay}, #{leaveLeft}, #{leaveApply})
 	</insert>
 	<insert id="insertApp"><!-- 결재자 등록 -->
-		INSERT INTO APPROVAL VALUES(SEQ_APP.NEXTVAL, SEQ_DOC.CURRVAL, #{memNum}, #{appLevel}, NULL, #{appStatus}, NULL)
+		INSERT INTO APPROVAL VALUES(SEQ_APP.NEXTVAL, 
+		<if test="docNo == 0">
+			SEQ_DOC.CURRVAL
+		</if>
+		<if test="docNo != 0">
+			#{docNo}
+		</if>
+		, #{memNum}, #{appLevel}, NULL, #{appStatus}, NULL)
 	</insert>
 	<insert id="insertRef"><!-- 참조자 등록 -->
-		INSERT INTO APP_REF VALUES(SEQ_REF.NEXTVAL, SEQ_DOC.CURRVAL, #{memNum}, #{refStatus})
+		INSERT INTO APP_REF VALUES(SEQ_REF.NEXTVAL, 
+		<if test="docNo == 0">
+			SEQ_DOC.CURRVAL
+		</if>
+		<if test="docNo != 0">
+			#{docNo}
+		</if>
+		, #{memNum}, #{refStatus})
 	</insert>
 	<insert id="insertFile"><!-- 파일 등록 -->
-		INSERT INTO APP_FILE VALUES(SEQ_FILE.NEXTVAL, SEQ_DOC.CURRVAL, #{fileName}, #{fileReName}, #{filePath})
+		INSERT INTO APP_FILE VALUES(SEQ_FILE.NEXTVAL, 
+		<if test="docNo == 0">
+			SEQ_DOC.CURRVAL
+		</if>
+		<if test="docNo != 0">
+			#{docNo}
+		</if>
+		, #{fileName}, #{fileReName}, #{filePath})
 	</insert>
 	<select id="selectOneLeaveDoc" resultType="string"><!-- 잔여 연차 조회 -->
 		WITH A AS(SELECT BREAK_TOTAL, MEMBER_NUM FROM MEMBER WHERE MEMBER_NUM = #{memberNum})
 		, B AS(SELECT SUM(LEAVE_APPLY) AS LEAVE_LEFT, MEM_NUM FROM APP_DOC WHERE MEM_NUM = #{memberNum} AND FORM_NO = 3 AND LEAVE_TYPE IN('연차', '반차') AND SUBSTR(DOC_DATE, 1, 4) = TO_CHAR(SYSDATE, 'YYYY') AND DOC_STATUS != '임시' GROUP BY MEM_NUM)
 		SELECT A.BREAK_TOTAL - B.LEAVE_LEFT AS LEAVE_LEFT FROM A JOIN B ON MEMBER_NUM = MEM_NUM
 	</select>
-	<select id="selectListDoc" resultMap="appDocResultMap"><!-- 기안 문서 조회(기안 문서함) -->
+	<select id="selectListDoc" resultMap="appDocResultMap"><!-- 문서 조회(기안 문서함/임시 저장함) -->
 		SELECT DOC_DATE, FORM_NAME, DOC_TITLE, DOC_NO, DOC_STATUS FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO WHERE MEM_NUM = #{memNum}
 		<if test="docStatus.toString() != '전체'">
 			AND DOC_STATUS = '${docStatus}'
@@ -154,4 +175,32 @@
 	<select id="selectOneFile" resultMap="appFileResultMap"><!-- 기안 문서함 상세 조회(파일) -->
 		SELECT * FROM APP_FILE WHERE DOC_NO = #{docNo}
 	</select>
+	<update id="updateDoc"><!-- 임시 저장 수정(문서) -->
+		UPDATE APP_DOC SET DOC_TITLE = #{docTitle}
+		, DOC_CONTENT = #{docContent}
+		, DOC_STATUS = #{docStatus}
+		, DOC_DATE = #{docDate}
+		, LEAVE_TYPE = #{leaveType}
+		, LEAVE_START = #{leaveStart}
+		, LEAVE_END = #{leaveEnd}
+		, LEAVE_TIME = #{leaveTime}
+		, LEAVE_DAY = #{leaveDay}
+		, LEAVE_LEFT = #{leaveLeft}
+		, LEAVE_APPLY = #{leaveApply} WHERE DOC_NO = #{docNo}
+	</update>
+	<delete id="deleteApp"><!-- 결재자 삭제 -->
+		DELETE FROM APPROVAL WHERE DOC_NO = #{docNo}
+	</delete>
+	<delete id="deleteRef"><!-- 참조자 삭제 -->
+		DELETE FROM APP_REF WHERE DOC_NO = #{docNo}
+	</delete>
+	<update id="updateApp"><!-- 결재자 상태 변경(임시->대기) -->
+		UPDATE APPROVAL SET APP_STATUS = #{appStatus } WHERE DOC_NO = #{docNo}
+	</update>
+	<update id="updateRef"><!-- 참조자 상태 변경(임시->참조) -->
+		UPDATE APP_REF SET REF_STATUS = #{refStatus } WHERE DOC_NO = #{docNo}
+	</update>
+	<delete id="deleteFile"><!-- 파일 삭제 -->
+		DELETE FROM APP_FILE WHERE DOC_NO = #{docNo}
+	</delete>
 </mapper>

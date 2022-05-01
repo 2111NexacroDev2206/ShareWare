@@ -67,7 +67,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 	}
 
 	@Override
-	public List<AppDocument> printAll(AppDocument appDoc, PageInfo pi) { // 기안 문서 조회(기안 문서함)
+	public List<AppDocument> printAll(AppDocument appDoc, PageInfo pi) { // 문서 조회(기안 문서함/임시 저장함)
 		List<AppDocument> dList = aStore.selectAllDoc(sqlSession, appDoc, pi);
 		return dList;
 	}
@@ -118,6 +118,42 @@ public class ApprovalServiceImpl implements ApprovalService{
 	public AppFile printOneFile(int docNo) { // 기안 문서함 상세 조회(파일)
 		AppFile appFile = aStore.selectOneFile(sqlSession, docNo);
 		return appFile;
+	}
+
+	@Override
+	public int modifyDoc(AppDocument appDoc) { // 임시 저장 수정(문서)
+		int result = aStore.updateDoc(sqlSession, appDoc);
+		return result;
+	}
+
+	@Override
+	public int removeApp(int docNo) { // 결재자 삭제
+		int result = aStore.deleteApp(sqlSession, docNo);
+		return result;
+	}
+
+	@Override
+	public int removeRef(int docNo) { // 참조자 삭제
+		int result = aStore.deleteRef(sqlSession, docNo);
+		return result;
+	}
+
+	@Override
+	public int modifyApp(Approval app) { // 결재자 상태 변경(임시->대기)
+		int result = aStore.updateApp(sqlSession, app);
+		return result;
+	}
+
+	@Override
+	public int modifyRef(AppReference ref) { // 참조자 상태 변경(임시->참조)
+		int result = aStore.updateRef(sqlSession, ref);
+		return result;
+	}
+
+	@Override
+	public int removeFile(int docNo) { // 파일 삭제
+		int result = aStore.deleteFile(sqlSession, docNo);
+		return result;
 	}
 
 }
