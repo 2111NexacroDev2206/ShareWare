@@ -79,31 +79,31 @@ public class ApprovalServiceImpl implements ApprovalService{
 	}
 
 	@Override
-	public List<AppDocument> printSearchDraft(Search search, PageInfo pi) { // 기안 문서함 검색
+	public List<AppDocument> printSearchDraft(Search search, PageInfo pi) { // 문서함 검색
 		List<AppDocument> dList = aStore.selectAllDraftSearch(sqlSession, search, pi);
 		return dList;
 	}
 
 	@Override
-	public int getSearchDraftCount(Search search) { // 기안 문서함 검색 페이징
+	public int getSearchDraftCount(Search search) { // 문서함 검색 페이징
 		int totalCount = aStore.selectSearchDraftCount(sqlSession, search);
 		return totalCount;
 	}
 
 	@Override
-	public AppDocument printOneDoc(int docNo) { // 기안 문서함 상세 조회
+	public AppDocument printOneDoc(int docNo) { // 문서함 상세 조회
 		AppDocument appDoc = aStore.selectOneDoc(sqlSession, docNo);
 		return appDoc;
 	}
 
 	@Override
-	public List<Approval> printAllApp(int docNo) { // 기안 문서함 상세 조회(결재자)
+	public List<Approval> printAllApp(int docNo) { // 문서함 상세 조회(결재자)
 		List<Approval> aList = aStore.selectAllApp(sqlSession, docNo);
 		return aList;
 	}
 
 	@Override
-	public List<AppReference> printAllRef(int docNo) { // 기안 문서함 상세 조회(참조자)
+	public List<AppReference> printAllRef(int docNo) { // 문서함 상세 조회(참조자)
 		List<AppReference> rList = aStore.selectAllRef(sqlSession, docNo);
 		return rList;
 	}
@@ -115,7 +115,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 	}
 
 	@Override
-	public AppFile printOneFile(int docNo) { // 기안 문서함 상세 조회(파일)
+	public AppFile printOneFile(int docNo) { // 문서함 상세 조회(파일)
 		AppFile appFile = aStore.selectOneFile(sqlSession, docNo);
 		return appFile;
 	}

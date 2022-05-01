@@ -76,7 +76,7 @@ public class ApprovalStoreLogic implements ApprovalStore{
 	}
 
 	@Override
-	public List<AppDocument> selectAllDraftSearch(SqlSession sqlSession, Search search, PageInfo pi) { // 기안 문서함 검색
+	public List<AppDocument> selectAllDraftSearch(SqlSession sqlSession, Search search, PageInfo pi) { // 문서함 검색
 		int limit = pi.getDocLimit();
 		int currentPage = pi.getCurrentPage();
 		int offset = (currentPage - 1) * limit;
@@ -86,25 +86,25 @@ public class ApprovalStoreLogic implements ApprovalStore{
 	}
 
 	@Override
-	public int selectSearchDraftCount(SqlSession sqlSession, Search search) { // 기안 문서함 검색 페이징
+	public int selectSearchDraftCount(SqlSession sqlSession, Search search) { // 문서함 검색 페이징
 		int totalCount = sqlSession.selectOne("ApprovalMapper.selectOneSearchDraftCount", search);
 		return totalCount;
 	}
 
 	@Override
-	public AppDocument selectOneDoc(SqlSession sqlSession, int docNo) { // 기안 문서함 상세 조회
+	public AppDocument selectOneDoc(SqlSession sqlSession, int docNo) { //  문서함 상세 조회
 		AppDocument appDoc = sqlSession.selectOne("ApprovalMapper.selectOneDoc", docNo);
 		return appDoc;
 	}
 
 	@Override
-	public List<Approval> selectAllApp(SqlSession sqlSession, int docNo) { // 기안 문서함 상세 조회(결재자)
+	public List<Approval> selectAllApp(SqlSession sqlSession, int docNo) { // 문서함 상세 조회(결재자)
 		List<Approval> aList = sqlSession.selectList("ApprovalMapper.selectListApp", docNo);
 		return aList;
 	}
 
 	@Override
-	public List<AppReference> selectAllRef(SqlSession sqlSession, int docNo) { // 기안 문서함 상세 조회(참조자)
+	public List<AppReference> selectAllRef(SqlSession sqlSession, int docNo) { // 문서함 상세 조회(참조자)
 		List<AppReference> rList = sqlSession.selectList("ApprovalMapper.selectListRef", docNo);
 		return rList;
 	}
@@ -116,7 +116,7 @@ public class ApprovalStoreLogic implements ApprovalStore{
 	}
 
 	@Override
-	public AppFile selectOneFile(SqlSession sqlSession, int docNo) { // 기안 문서함 상세 조회(파일)
+	public AppFile selectOneFile(SqlSession sqlSession, int docNo) { // 문서함 상세 조회(파일)
 		AppFile appFile = sqlSession.selectOne("ApprovalMapper.selectOneFile", docNo);
 		return appFile;
 	}

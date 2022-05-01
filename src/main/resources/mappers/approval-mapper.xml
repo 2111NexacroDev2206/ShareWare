@@ -117,8 +117,14 @@
 			AND DOC_STATUS != '임시'
 		</if>
 	</select>
-	<select id="selectListDraftSearch" resultMap="appDocResultMap"><!-- 기안 문서함 검색 -->
-		SELECT DOC_DATE, FORM_NAME, DOC_TITLE, DOC_NO, DOC_STATUS FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO WHERE MEM_NUM = #{memberNum} AND DOC_STATUS != '임시'
+	<select id="selectListDraftSearch" resultMap="appDocResultMap"><!-- 문서함 검색 -->
+		SELECT DOC_DATE, FORM_NAME, DOC_TITLE, DOC_NO, DOC_STATUS FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO WHERE MEM_NUM = #{memberNum} 
+		<if test="type.toString() == '기안'">
+			AND DOC_STATUS != '임시'
+		</if>
+		<if test="type.toString() == '임시'">
+			AND DOC_STATUS = '임시'
+		</if>
 		<if test="searchCondition.toString() == 'docDate'">
 			AND DOC_DATE LIKE '%' || #{searchValue} || '%'
 		</if>
@@ -139,8 +145,14 @@
 		</if>
 		ORDER BY DOC_NO DESC
 	</select>
-	<select id="selectOneSearchDraftCount" resultType="_int"><!-- 기안 문서함 검색 페이징 -->
-		SELECT COUNT(*) FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO WHERE MEM_NUM = #{memberNum} AND DOC_STATUS != '임시'
+	<select id="selectOneSearchDraftCount" resultType="_int"><!-- 문서함 검색 페이징 -->
+		SELECT COUNT(*) FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO WHERE MEM_NUM = #{memberNum} 
+		<if test="type.toString() == '기안'">
+			AND DOC_STATUS != '임시'
+		</if>
+		<if test="type.toString() == '임시'">
+			AND DOC_STATUS = '임시'
+		</if>
 		<if test="searchCondition.toString() == 'docDate'">
 			AND DOC_DATE LIKE '%' || #{searchValue} || '%'
 		</if>
@@ -160,19 +172,19 @@
 			OR DOC_TITLE LIKE '%' || #{searchValue} || '%')
 		</if>
 	</select>
-	<select id="selectOneDoc" resultMap="appDocResultMap"><!-- 기안 문서함 상세 조회 -->
+	<select id="selectOneDoc" resultMap="appDocResultMap"><!-- 문서함 상세 조회 -->
 		SELECT DOC_NO, MEM_NUM, MEMBER_NAME, FORM_NAME, DOC_TITLE, DOC_CONTENT, DOC_STATUS, DOC_DATE, LEAVE_TYPE, LEAVE_START, LEAVE_END, LEAVE_TIME, LEAVE_DAY, LEAVE_LEFT, LEAVE_APPLY FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO JOIN MEMBER ON MEM_NUM = MEMBER_NUM WHERE DOC_NO = #{docNo}
 	</select>
-	<select id="selectListApp" resultMap="approvalResultMap"><!-- 기안 문서함 상세 조회(결재자) -->
+	<select id="selectListApp" resultMap="approvalResultMap"><!-- 문서함 상세 조회(결재자) -->
 		SELECT APP_NO, DOC_NO, MEM_NUM, MEMBER_NAME, DIV_NAME, RANK, APP_LEVEL, APP_DATE, APP_STATUS, REJ_REASON FROM APPROVAL JOIN MEMBER ON MEMBER_NUM = MEM_NUM JOIN DIVISION ON DIVISION = DIV_CODE WHERE DOC_NO = #{docNo} ORDER BY APP_LEVEL
 	</select>
-	<select id="selectListRef" resultMap="appRefResultMap"><!-- 기안 문서함 상세 조회(결재자) -->
+	<select id="selectListRef" resultMap="appRefResultMap"><!-- 문서함 상세 조회(결재자) -->
 		SELECT REF_NO, DOC_NO, MEM_NUM, MEMBER_NAME, DIV_NAME, RANK, REF_STATUS FROM APP_REF JOIN MEMBER ON MEMBER_NUM = MEM_NUM JOIN DIVISION ON DIVISION = DIV_CODE WHERE DOC_NO = #{docNo} ORDER BY REF_NO
 	</select>
 	<delete id="deleteDoc"><!-- 상신 취소 -->
 		DELETE FROM APP_DOC WHERE DOC_NO = #{docNo}
 	</delete>
-	<select id="selectOneFile" resultMap="appFileResultMap"><!-- 기안 문서함 상세 조회(파일) -->
+	<select id="selectOneFile" resultMap="appFileResultMap"><!-- 문서함 상세 조회(파일) -->
 		SELECT * FROM APP_FILE WHERE DOC_NO = #{docNo}
 	</select>
 	<update id="updateDoc"><!-- 임시 저장 수정(문서) -->

@@ -61,13 +61,13 @@ public class ApprovalController {
 		int totalCount = 0; 
 		PageInfo pi = null;
 		List<AppDocument> dList = null;
-		if(parameter.equals("draft") || parameter.equals("tem")) {
+		if(parameter.equals("draft") || parameter.equals("tem")) { // 기안 문서함, 임시 저장함
 			appDoc.setDocStatus(docStatus);
 			appDoc.setMemNum(member.getMemberNum());
 			totalCount = aService.getListCount(appDoc);
 			pi = Pagination.getPageInfo(currentPage, totalCount);
 			dList = aService.printAll(appDoc, pi);
-		}else if(parameter.equals("app")) {
+		}else if(parameter.equals("app") || parameter.equals("ref")) { // 결재 문서함, 참조 문서함
 			
 		}
 		model.addAttribute("dList", dList);
@@ -86,13 +86,18 @@ public class ApprovalController {
 			, @RequestParam(value="page", required = false) Integer page) {
 		model.addAttribute("myCondition", "approval");
 		model.addAttribute("listCondition", parameter);
+		if(parameter.equals("tem")) {
+			search.setType("임시");
+		}else if(parameter.equals("draft")) {
+			search.setType("기안");
+		}
 		try {
 			HttpSession session = request.getSession();
 			search.setMemberNum(((Member)session.getAttribute("loginUser")).getMemberNum()); // 세션 값에서 사원번호 가져오기
 			int currentPage = (page != null) ? page : 1;
 			PageInfo pi = null;
 			List<AppDocument> searchDoc = null;
-			if(parameter.equals("draft")) {
+			if(parameter.equals("draft") || parameter.equals("tem")) {
 				int totalCount = aService.getSearchDraftCount(search);
 				pi = Pagination.getPageInfo(currentPage, totalCount);
 				searchDoc = aService.printSearchDraft(search, pi);

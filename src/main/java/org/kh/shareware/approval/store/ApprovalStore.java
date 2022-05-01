@@ -22,13 +22,13 @@ public interface ApprovalStore {
 	public String selectOneLeaveDoc(SqlSession sqlSession, String memberNum); // 휴가 신청서 조회(잔여 연차)
 	public List<AppDocument> selectAllDoc(SqlSession sqlSession, AppDocument appDoc, PageInfo pi); // 문서 조회(기안 문서함/임시 저장함)
 	public int selectListCount(SqlSession sqlSession, AppDocument appDoc); // 문서함 페이징
-	public List<AppDocument> selectAllDraftSearch(SqlSession sqlSession, Search search, PageInfo pi); // 기안 문서함 검색
-	public int selectSearchDraftCount(SqlSession sqlSession, Search search); // 기안 문서함 검색 페이징
-	public AppDocument selectOneDoc(SqlSession sqlSession, int docNo); // 기안 문서함 상세 조회
-	public List<Approval> selectAllApp(SqlSession sqlSession, int docNo); // 기안 문서함 상세 조회(결재자)
-	public List<AppReference> selectAllRef(SqlSession sqlSession, int docNo); // 기안 문서함 상세 조회(참조자)
+	public List<AppDocument> selectAllDraftSearch(SqlSession sqlSession, Search search, PageInfo pi); // 문서함 검색
+	public int selectSearchDraftCount(SqlSession sqlSession, Search search); // 문서함 검색 페이징
+	public AppDocument selectOneDoc(SqlSession sqlSession, int docNo); // 문서함 상세 조회
+	public List<Approval> selectAllApp(SqlSession sqlSession, int docNo); // 문서함 상세 조회(결재자)
+	public List<AppReference> selectAllRef(SqlSession sqlSession, int docNo); // 문서함 상세 조회(참조자)
 	public int deleteDoc(SqlSession sqlSession, int docNo); // 상신 취소
-	public AppFile selectOneFile(SqlSession sqlSession, int docNo); // 기안 문서함 상세 조회(파일)
+	public AppFile selectOneFile(SqlSession sqlSession, int docNo); // 문서함 상세 조회(파일)
 	public int updateDoc(SqlSession sqlSession, AppDocument appDoc); // 임시 저장 수정(문서)
 	public int deleteApp(SqlSession sqlSession, int docNo); // 결재자 삭제
 	public int deleteRef(SqlSession sqlSession, int docNo); // 참조자 삭제
