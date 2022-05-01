@@ -67,8 +67,12 @@ public class ApprovalController {
 			totalCount = aService.getListCount(appDoc);
 			pi = Pagination.getPageInfo(currentPage, totalCount);
 			dList = aService.printAll(appDoc, pi);
-		}else if(parameter.equals("app") || parameter.equals("ref")) { // 결재 문서함, 참조 문서함
-			
+		}else if(parameter.equals("ref")) { // 참조 문서함
+			ref.setDocStatus(docStatus);
+			ref.setMemNum(member.getMemberNum());
+			totalCount = aService.getListCountRef(ref);
+			pi = Pagination.getPageInfo(currentPage, totalCount);
+			dList = aService.printAllRefDoc(ref, pi);
 		}
 		model.addAttribute("dList", dList);
 		model.addAttribute("pi", pi);
@@ -101,6 +105,10 @@ public class ApprovalController {
 				int totalCount = aService.getSearchDraftCount(search);
 				pi = Pagination.getPageInfo(currentPage, totalCount);
 				searchDoc = aService.printSearchDraft(search, pi);
+			}else if(parameter.equals("ref")) { // 참조 문서함
+				int totalCount = aService.getSearchRefCount(search);
+				pi = Pagination.getPageInfo(currentPage, totalCount);
+				searchDoc = aService.printSearchRef(search, pi);
 			}
 			if(searchDoc != null) {
 				mv.addObject("dList", searchDoc);
@@ -308,7 +316,7 @@ public class ApprovalController {
 				mv.addObject("rList", rList);
 				mv.addObject("appFile", appFile);
 				mv.addObject("type", type);
-				if(type.equals("draft")) { // 기안 문서함
+				if(!type.equals("tem")) { // 기안/결재/참조
 					mv.setViewName("approval/docDetail");
 				}else if(type.equals("tem")){ // 임시 저장함
 					mv.setViewName("approval/docUpdate");

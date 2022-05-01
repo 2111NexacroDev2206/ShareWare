@@ -35,5 +35,9 @@ public interface ApprovalStore {
 	public int updateApp(SqlSession sqlSession, Approval app); // 결재자 상태 변경(임시->대기)
 	public int updateRef(SqlSession sqlSession, AppReference ref); // 참조자 상태 변경(임시->참조)
 	public int deleteFile(SqlSession sqlSession, int docNo); // 파일 삭제
+	public List<AppDocument> selectAllRefDoc(SqlSession sqlSession, AppReference ref, PageInfo pi); // 참조 문서함 문서 조회
+	public int selectListCountRef(SqlSession sqlSession, AppReference ref); // 참조 문서함 페이징
+	public List<AppDocument> selectAllRefSearch(SqlSession sqlSession, Search search, PageInfo pi); // 참조 문서함 검색
+	public int selectSearchRefCount(SqlSession sqlSession, Search search); // 참조 문서함 검색 페이징
 
 }

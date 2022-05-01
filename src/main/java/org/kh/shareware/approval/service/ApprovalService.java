@@ -21,7 +21,7 @@ public interface ApprovalService {
 	public String printOneLeaveDoc(String memberNum); // 휴가 신청서 조회(잔여 연차)
 	public List<AppDocument> printAll(AppDocument appDoc, PageInfo pi); // 문서 조회(기안 문서함/임시 저장함)
 	public int getListCount(AppDocument appDoc); // 문서함 페이징
-	public List<AppDocument> printSearchDraft(Search search, PageInfo pi); // 기안 문서함 검색
+	public List<AppDocument> printSearchDraft(Search search, PageInfo pi); // 문서함 검색
 	public int getSearchDraftCount(Search search); // 문서함 검색 페이징
 	public AppDocument printOneDoc(int docNo); // 문서함 상세 조회
 	public List<Approval> printAllApp(int docNo); // 문서함 상세 조회(결재자)
@@ -34,5 +34,9 @@ public interface ApprovalService {
 	public int modifyApp(Approval app); // 결재자 상태 변경(임시->대기)
 	public int modifyRef(AppReference ref); // 참조자 상태 변경(임시->참조)
 	public int removeFile(int docNo); // 파일 삭제
+	public List<AppDocument> printAllRefDoc(AppReference ref, PageInfo pi); // 참조 문서함 문서 조회
+	public int getListCountRef(AppReference ref); // 참조 문서함 페이징
+	public List<AppDocument> printSearchRef(Search search, PageInfo pi); // 참조 문서함 검색
+	public int getSearchRefCount(Search search); // 참조 문서함 검색 페이징
 
 }

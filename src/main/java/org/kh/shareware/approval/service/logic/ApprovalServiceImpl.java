@@ -155,5 +155,29 @@ public class ApprovalServiceImpl implements ApprovalService{
 		int result = aStore.deleteFile(sqlSession, docNo);
 		return result;
 	}
+	
+	@Override
+	public List<AppDocument> printAllRefDoc(AppReference ref, PageInfo pi) { // 참조 문서함 문서 조회
+		List<AppDocument> dList = aStore.selectAllRefDoc(sqlSession, ref, pi);
+		return dList;
+	}
+
+	@Override
+	public int getListCountRef(AppReference ref) { // 참조 문서함 페이징
+		int totalCount = aStore.selectListCountRef(sqlSession, ref);
+		return totalCount;
+	}
+
+	@Override
+	public List<AppDocument> printSearchRef(Search search, PageInfo pi) { // 참조 문서함 검색
+		List<AppDocument> dList = aStore.selectAllRefSearch(sqlSession, search, pi);
+		return dList;
+	}
+
+	@Override
+	public int getSearchRefCount(Search search) { // 참조 문서함 검색 페이징
+		int totalCount = aStore.selectSearchRefCount(sqlSession, search);
+		return totalCount;
+	}
 
 }
