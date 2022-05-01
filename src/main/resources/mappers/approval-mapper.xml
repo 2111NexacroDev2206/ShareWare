@@ -279,15 +279,15 @@
 			AND APP_STATUS = '${docStatus}'
 		</if>
 		<if test="docStatus.toString() == '전체'">
-			AND APP_STATUS != '임시'
+			AND APP_STATUS != '임시' AND APP_STATUS != '요청'
 		</if>
 		ORDER BY DOC_NO DESC
 	</select>
 	<select id="selectOneListCountApp" resultType="_int"><!-- 결재 문서함 페이징 -->
-		SELECT COUNT(*) FROM APPROVAL WHERE MEM_NUM = #{memNum} AND APP_STATUS != '임시'
+		SELECT COUNT(*) FROM APPROVAL WHERE MEM_NUM = #{memNum} AND APP_STATUS != '임시' AND APP_STATUS != '요청'
 	</select>
 	<select id="selectListAppSearch" resultMap="appDocResultMap"><!-- 결재 문서함 검색 -->
-		SELECT DOC_NO, DOC_DATE, FORM_NAME, DOC_TITLE, MEMBER_NAME, APP_STATUS AS DOC_STATUS FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO JOIN APPROVAL USING(DOC_NO) JOIN MEMBER ON MEMBER_NUM = APP_DOC.MEM_NUM WHERE APPROVAL.MEM_NUM = #{memberNum} AND APP_STATUS != '임시'
+		SELECT DOC_NO, DOC_DATE, FORM_NAME, DOC_TITLE, MEMBER_NAME, APP_STATUS AS DOC_STATUS FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO JOIN APPROVAL USING(DOC_NO) JOIN MEMBER ON MEMBER_NUM = APP_DOC.MEM_NUM WHERE APPROVAL.MEM_NUM = #{memberNum} AND APP_STATUS != '임시' AND APP_STATUS != '요청'
 		<if test="searchCondition.toString() == 'docDate'">
 			AND DOC_DATE LIKE '%' || #{searchValue} || '%'
 		</if>
@@ -309,7 +309,7 @@
 		ORDER BY DOC_NO DESC
 	</select>
 	<select id="selectOneSearchAppCount" resultType="_int"><!-- 결재 문서함 검색 페이징 -->
-		SELECT COUNT(*) FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO JOIN APPROVAL USING(DOC_NO) JOIN MEMBER ON MEMBER_NUM = APP_DOC.MEM_NUM WHERE APPROVAL.MEM_NUM = #{memberNum} AND APP_STATUS != '임시'
+		SELECT COUNT(*) FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO JOIN APPROVAL USING(DOC_NO) JOIN MEMBER ON MEMBER_NUM = APP_DOC.MEM_NUM WHERE APPROVAL.MEM_NUM = #{memberNum} AND APP_STATUS != '임시' AND APP_STATUS != '요청'
 		<if test="searchCondition.toString() == 'docDate'">
 			AND DOC_DATE LIKE '%' || #{searchValue} || '%'
 		</if>

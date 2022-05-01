@@ -205,7 +205,11 @@ public class ApprovalController {
 				app.setMemNum(appArray[i]); // 결재자 사원번호
 				app.setAppLevel(i+1); // 결재자 순번
 				if(parameter.equals("Doc")) {
-					app.setAppStatus("대기");
+					if(i == 0) {
+						app.setAppStatus("대기"); // 첫 번째 결재자는 대기
+					}else {
+						app.setAppStatus("요청"); // 두 번째 결재자부터는 요청
+					}
 				}else if(parameter.equals("Temporary")) {
 					app.setAppStatus("임시");
 				}
