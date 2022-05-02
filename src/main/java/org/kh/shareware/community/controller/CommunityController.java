@@ -233,7 +233,9 @@ public class CommunityController {
 			public String andVoteCommunity(
 				@RequestParam("comNo") Integer comNo) {
 						
+					
 						int Result = cService.endCommunityVote(comNo);
+						
 						
 					if(Result >0) {
 						return "success";
@@ -243,10 +245,14 @@ public class CommunityController {
 			
 	
 	//투표 삭제
-		@RequestMapping(value="/community/deleteCommuntyVote.sw", method=RequestMethod.GET)
+	@ResponseBody
+	@RequestMapping(value="/community/deleteCommuntyVote.sw", method=RequestMethod.GET)
 		public String removeCommunityVote(
-			@RequestParam("comNo") Integer comNo) {
-			
+			@RequestParam("comNo") Integer comNo
+			,@RequestParam("cSelect") Integer cSelect) {
+				if(cSelect!= null) {
+					cService.removeCVoteMember(comNo);
+				}
 				int Result = cService.removeCommunityVote(comNo);
 			
 			if(Result >0) {
