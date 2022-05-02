@@ -35,13 +35,13 @@
 					<td><a href="${aDetail }">${appDoc.docTitle }</a></td>
 					<td>${appDoc.memName }</td>
 					<c:if test="${appDoc.docStatus == '대기'}">
-						<td><font color="blue">${appDoc.docStatus }</font></td>
+						<td><span class="status-2">${appDoc.docStatus }</span></td>
 					</c:if>
 					<c:if test="${appDoc.docStatus == '완료'}">
-						<td><font color="gray">${appDoc.docStatus }</font></td>
+						<td><span class="status-3">${appDoc.docStatus }</span></td>
 					</c:if>
 					<c:if test="${appDoc.docStatus == '반려'}">
-						<td><font color="red">${appDoc.docStatus }</font></td>
+						<td><span class="status-4">${appDoc.docStatus }</span></td>
 					</c:if>
 				</tr>
 			</c:forEach>

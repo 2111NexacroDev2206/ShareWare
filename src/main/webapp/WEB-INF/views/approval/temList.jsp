@@ -28,7 +28,7 @@
 						<c:param name="docNo" value="${appDoc.docNo }"></c:param>
 					</c:url>
 					<td><a href="${aDetail }">${appDoc.docTitle }</a></td>
-					<td>${appDoc.docStatus }</td>
+					<td><span class="status-5">${appDoc.docStatus }</span></td>
 				</tr>
 			</c:forEach>
 		</table>

@@ -37,8 +37,11 @@
 	border-top: 1px solid rgb(200, 200, 200);
 	height: 45px;
 }
+.t-List tr:hover {
+	background-color: rgb(250, 250, 250);
+}
 .t-List th {
-	background-color: rgb(230, 230, 230);
+	background-color: rgb(240, 240, 240);
 }
 .t-List .th-1 {
 	width: 200px;
@@ -53,6 +56,27 @@
 	text-decoration: none;
 	color: black;
 	cursor: pointer;
+}
+.t-List span {
+	padding: 5px 10px;
+	border-radius: 4px;
+	border: 1px;
+	color: white;
+}
+.status-1 { /* 기안 대기 */
+	background-color: #a6c76c;
+}
+.status-2 { /* 진행, 결재 대기 */
+	background-color: rgb(117, 144, 194);
+}
+.status-3 { /* 완료 */
+	background-color: rgb(130, 130, 130);
+}
+.status-4 { /* 반려 */
+	background-color: #ff616b;
+}
+.status-5 { /* 임시 */
+	background-color: rgb(161, 128, 177);
 }
 .paging {
 	display: inline-flex;

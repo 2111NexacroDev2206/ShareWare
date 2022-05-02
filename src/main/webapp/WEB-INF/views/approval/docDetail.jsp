@@ -110,14 +110,14 @@
 				<textarea readonly>${app.rejReason }</textarea>
 			</c:if>
 		</c:forEach>
-		<c:if test="${type != 'app'}">
+		<c:if test="${type == 'draft'}">
 			<input type="button" id="btn-cancel" value="상신 취소">
 		</c:if>
 		<c:if test="${type == 'app'}">
 			<input type="button" id="btn-app" value="승인">
 			<input type="button" id="btn-rej" value="반려">
 		</c:if>
-		<c:if test="${type != 'app'}">
+		<c:if test="${type == 'draft'}">
 			<c:forEach items="${aList }" var="app">
 				<c:if test="${app.rejReason != null }">
 					<input type="button" value="재상신" onclick="location.href='/approval/detail.sw?type=rej&docNo=${appDoc.docNo}'">
