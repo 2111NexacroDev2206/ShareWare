@@ -69,6 +69,7 @@ public class CommunityController {
 			community.setComTitle(comTitle);
 			community.setComContent(comContent);
 			
+			
 			if(comImgName != null && !comImgName.getOriginalFilename().equals("")) {
 				HashMap<String, String> fileMap = saveFile(comImgName, request);
 				String filePath = fileMap.get("filePath");
@@ -80,13 +81,12 @@ public class CommunityController {
 				}
 			}
 			
-		
 			int result = cService.resisterCommunity(community);
 			
-			if(cVoteText1 != "") {
+			if(!cVoteText1.equals("")) {
 				
 				int comNo = community.getComNo();
-				
+
 				communityVote.setComNo(comNo);
 				communityVote.setcVoteText1(cVoteText1);
 				communityVote.setcVoteText2(cVoteText2);

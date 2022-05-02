@@ -69,7 +69,7 @@
 	</form>
 	
 	<script>
-
+	
 	document.getElementById("vote-body-div").style.display = "none";
 	document.getElementById("vote-textbox3-div").style.display = "none";
 	document.getElementById("vote-textbox4-div").style.display = "none";
@@ -82,7 +82,7 @@
 
 	$("#comVoteInsert").on("click",function(){
 
-
+	
 		if(voteBodyDiv.style.display === 'none'){
 			voteBodyDiv.style.display = 'block';
 		}
@@ -157,7 +157,7 @@
 		    
 			var comTitle = $("#comTitle").val();
 			var comContent = $("#comContent").val();
-			
+	
 			var cVoteText1 = $("#vote-input1").val();
 			var cVoteText2 = $("#vote-input2").val();
 			var cVoteText3 = $("#vote-input3").val();
@@ -184,7 +184,6 @@
 					   insertTrue = 1;
 				   }
 			   }
-			  
 		if(insertTrue == 1){
 			  jQuery.ajax({
 		             url : "/community/register.sw"

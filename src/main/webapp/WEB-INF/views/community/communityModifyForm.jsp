@@ -32,7 +32,7 @@
 					<div>
 						<img id ="img" />
 					</div>
-			<c:if test= "${communityVote.comVoteNo ne null}">
+			
 				<div id="vote-body-div">
 					<div id="vote-textbox-div">
 						<div id="vote-textbox1-div">
@@ -55,7 +55,7 @@
 							<button type="button" id="voteInputAdd">+</button>
 						</div>
 					</div>
-				</c:if>
+		
 				<!--</div>  -->
 				
 			</td>
@@ -76,6 +76,37 @@
 	</form>
 	
 	<script>
+	
+	
+	
+	const voteBodyDiv =document.getElementById('vote-body-div');
+	var voteResult = "${communityVote.comVoteNo}";
+	
+	//투표가 있을 때는 투표가 보이고 투표가 없을 때 화면을 부르면 투표가 안보이게
+	if(voteResult != ""){ //투표 번호가 없으면 투표 보이기
+		voteBodyDiv.style.display = 'block';
+		}else{ // 아니면 안보이게
+			voteBodyDiv.style.display = 'none';
+		}
+	//투표 등록 버튼을 눌렀을 때 투표가 화면에 없으면 보이게 
+	$("#comVoteInsert").on("click",function(){
+ 
+		
+		if(voteBodyDiv.style.display == 'none'){  //만약 화면에 없으면
+			voteBodyDiv.style.display = 'block'; //화면에 보이게
+		}
+
+	});
+	
+	//투표 삭제 버튼을 누르면 안보이게
+	$("#voteDelete").on("click",function(){
+	
+	
+			if(voteBodyDiv.style.display === 'block'){
+				voteBodyDiv.style.display = 'none';
+			}
+	
+		});
 
 	</script>
 
