@@ -5,7 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>임시 저장 수정</title>
+<c:if test="${type == 'tem' }">
+	<title>임시 저장 수정</title>
+</c:if>
+<c:if test="${type == 'rej' }">
+	<title>반려 문서 재상신</title>
+</c:if>
 <script src="https://cdn.ckeditor.com/4.18.0/standard/ckeditor.js"></script>
 </head>
 <body>
@@ -13,10 +18,16 @@
 	<div class="s-container">
 		<h1 id="h-title">${appDoc.formName }</h1>
 		<form id="form" action="/approval/updateDoc.sw" method="post" enctype="multipart/form-data" onsubmit="return nullChk()">
+			<input type="hidden" name="formNo" value="${appDoc.formNo }" readonly>
 			<table border="1" id="table">
 				<tr>
 					<td>문서번호</td>
-					<td>${appDoc.docNo }</td><input type="hidden" name="docNo" value="${appDoc.docNo }" readonly>
+					<c:if test="${type == 'tem' }">
+						<td>${appDoc.docNo }</td><input type="hidden" name="docNo" value="${appDoc.docNo }" readonly>
+					</c:if>
+					<c:if test="${type == 'rej' }">
+						<td><input type="hidden" name="docNo" value="${appDoc.docNo }" readonly></td>
+					</c:if>
 					<td rowspan="3" style="writing-mode: vertical-rl;">결재</td>
 					<td>담당</td>
 					<td id="r-app0">${aList[0].rank }</td>
@@ -33,7 +44,7 @@
 				</tr>
 				<tr>
 					<td>기안자</td>
-					<td>${appDoc.memName }</td>
+					<td>${appDoc.memName }<input type="hidden" value="${loginUser.memberNum }" name="memNum" readonly></td>
 					<td>${appDoc.memName }</td>
 					<td id="name-app0">${aList[0].memberName }</td><input type="hidden" id="num-app" name="appMemNum" readonly>
 					<td id="name-app1">${aList[1].memberName }</td>
@@ -108,16 +119,31 @@
 				</c:if>
 			</table>
 			<p>파일 첨부
-			<input type="file" id="file-input" name="reloadFile">
-			<span id="file-val">${appFile.fileName }</span> <button id="btn-delete" type="button" onclick="deleteFile('${appFile.filePath}',${appFile.docNo} );">X</button>
+			<c:if test="${type == 'tem' }">
+				<input type="file" id="file-input" name="reloadFile">
+				<span id="file-val">${appFile.fileName }</span> <button id="btn-delete" type="button" onclick="deleteFile('${appFile.filePath}',${appFile.docNo} );">X</button>
+			</c:if>
+			<c:if test="${type == 'rej' }">
+				<input type="file" id="file-input" name="uploadFile">
+			</c:if>
 			<input type="button" value="결재 요청" onclick="docSave()">
-			<input type="button" value="임시 저장" onclick="temSave()">
+			<c:if test="${type == 'tem' }">
+				<input type="button" value="임시 저장" onclick="temSave()">
+			</c:if>
+			<c:if test="${type == 'rej' }">
+				<input type="button" value="임시 저장" onclick="rejTemSave()">
+			</c:if>
 			<input type="button" id="btn-cancel" value="삭제">
 			<input type="button" value="취소" onclick="location.href='/approval/temListView.sw'">
 		</form>
 	</div>
 	<jsp:include page="appModal.jsp"></jsp:include> <!-- 결재자/참조자 선택 모달 -->
 	<script>
+		// 반려 문서 재상신
+		if("${type}" == "rej") {
+			$("#form").attr("action", "/approval/saveRejDoc.sw");
+		}
+	
 		// 선택한 파일 삭제	
 		if($("#file-val").text() == "") {
 			$("#btn-delete").css("display","none");
@@ -153,6 +179,12 @@
 		// 임시 저장
 		function temSave() {
 			$("#form").attr("action", "/approval/updateTemporary.sw");
+			$("#form").submit();
+		}
+		
+		// 반려 문서 임시 저장
+		function rejTemSave() {
+			$("#form").attr("action", "/approval/saveRejTem.sw");
 			$("#form").submit();
 		}
 		

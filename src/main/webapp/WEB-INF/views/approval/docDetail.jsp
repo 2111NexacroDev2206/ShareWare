@@ -104,23 +104,53 @@
 			<span>첨부 파일</span>
 			<a href="../../../resources/auploadFiles/${appFile.fileReName }" download>${appFile.fileName}</a>
 		</c:if>
+		<c:forEach items="${aList }" var="app">
+			<c:if test="${app.rejReason != null }">
+				<span>반려 사유</span>
+				<textarea readonly>${app.rejReason }</textarea>
+			</c:if>
+		</c:forEach>
 		<c:if test="${type != 'app'}">
 			<input type="button" id="btn-cancel" value="상신 취소">
 		</c:if>
 		<c:if test="${type == 'app'}">
-			<input type="button" id="btn-app" value="승인" onclick="location.href='/approval/appStatus.sw?docNo=${appDoc.docNo}&type=${type}'">
-			<input type="button" id="btn-rej" value="반려" onclick="location.href='/approval/refStatus.sw?docNo=${appDoc.docNo}&type=${type}'">
+			<input type="button" id="btn-app" value="승인">
+			<input type="button" id="btn-rej" value="반려">
+		</c:if>
+		<c:if test="${type != 'app'}">
+			<c:forEach items="${aList }" var="app">
+				<c:if test="${app.rejReason != null }">
+					<input type="button" value="재상신" onclick="location.href='/approval/detail.sw?type=rej&docNo=${appDoc.docNo}'">
+				</c:if>
+			</c:forEach>
 		</c:if>
 		<input type="button" value="목록" onclick="location.href='/approval/${type}ListView.sw'">
 	</div>
 	<script>
-		if("${appDoc.docStatus}" != "대기") { // 문서 상태가 대기가 아닌 경우 상신 취소 버튼 숨기기
+		if("${docStatus}" != "대기") { // 결재 문서함에서 문서 상태가 대기가 아닌 경우 상신 취소 버튼 숨기기
+			$("#btn-app").css("display", "none");
+			$("#btn-rej").css("display", "none");
+		}
+		if("${appDoc.docStatus}" != "대기") { // 기안 문서함에서 문서 상태가 대기가 아닌 경우 상신 취소 버튼 숨기기
 			$("#btn-cancel").css("display", "none");
 		}
 		$("#btn-cancel").click(function() { // 상신 취소 클릭 시 확인창 뜨고 확인 누르면 상신 취소 실행
 			var result = confirm("상신 취소하시겠습니까?");
 			if(result == true) {
-				location.href = '/approval/cancle.sw?type=${type}&docNo=${appDoc.docNo}'
+				location.href = '/approval/cancle.sw?type=${type}&docNo=${appDoc.docNo}';
+			}
+		})
+		$("#btn-app").click(function() { // 승인 확인 창
+			var result = confirm("승인하시겠습니까?");
+			if(result == true) {
+				location.href = '/approval/appStatus.sw?docNo=${appDoc.docNo}&type=${type}';
+			}
+		})
+		$("#btn-rej").click(function() { // 반려 확인 창
+			var rejReason = prompt("반려 사유를 입력해주세요");
+			var result = confirm("반려하시겠습니까?(반려 사유 : " + rejReason + ")");
+			if(result == true) {
+				location.href = '/approval/refStatus.sw?docNo=${appDoc.docNo}&type=${type}&rejReason=' + rejReason;
 			}
 		})
 	</script>

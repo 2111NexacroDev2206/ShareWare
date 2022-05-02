@@ -28,7 +28,7 @@
 				<tr>
 					<td>${appDoc.docDate }</td>
 					<td>${appDoc.formName }</td>
-					<c:url var="aDetail" value="/approval/detail.sw?type=${type }">
+					<c:url var="aDetail" value="/approval/detail.sw?type=${type }&docStatus=${appDoc.docStatus }">
 						<c:param name="docNo" value="${appDoc.docNo }"></c:param>
 					</c:url>
 					<td><a href="${aDetail }">${appDoc.docTitle }</a></td>

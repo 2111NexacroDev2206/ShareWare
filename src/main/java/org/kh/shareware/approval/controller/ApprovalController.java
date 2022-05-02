@@ -184,15 +184,17 @@ public class ApprovalController {
 			, @ModelAttribute AppFile file
 			, @ModelAttribute AppForm form
 			, @RequestParam(value="uploadFile", required=false) MultipartFile uploadFile
-			, @RequestParam(value="appMemNum") String appMemNum
-			, @RequestParam(value="refMemNum") String refMemNum
+			, @RequestParam(value="appMemNum", required=false) String appMemNum
+			, @RequestParam(value="refMemNum", required=false) String refMemNum
 			, HttpServletRequest request
 			, @PathVariable("param") String parameter) {
 		try {
-			appDoc.setFormNo(form.getFormNo()); // 문서 양식 번호
-			if(parameter.equals("Doc")) {
+			if(parameter.equals("Doc") || parameter.equals("Temporary")) { // 기안 문서 결재 요청/임시 저장
+				appDoc.setFormNo(form.getFormNo()); // 문서 양식 번호
+			}
+			if(parameter.equals("Doc") || parameter.equals("RejDoc")) { // 기안 문서/반려 문서 결재 요청
 				appDoc.setDocStatus("대기");
-			}else if(parameter.equals("Temporary")) {
+			}else if(parameter.equals("Temporary") || parameter.equals("RejTem")) {// 기안 문서/반려 문서 임시 저장
 				appDoc.setDocStatus("임시");
 			}
 			int dResult = aService.registerDoc(appDoc); // 문서 등록
@@ -200,35 +202,90 @@ public class ApprovalController {
 			int rResult = 0; // 참조자 등록 결과 변수 선언
 			int fResult = 0; // 파일 첨부 등록 결과 변수 선언
 			// 결재자
-			String[] appArray = appMemNum.split(","); // 배열에 결재자 넣기
-			for(int i = 0; i < appArray.length; i++) {
-				app.setMemNum(appArray[i]); // 결재자 사원번호
-				app.setAppLevel(i+1); // 결재자 순번
-				if(parameter.equals("Doc")) {
-					if(i == 0) {
-						app.setAppStatus("대기"); // 첫 번째 결재자는 대기
-					}else {
-						app.setAppStatus("요청"); // 두 번째 결재자부터는 요청
+			if(!appMemNum.equals("") || parameter.equals("Temporary") || parameter.equals("Doc")) {
+				String[] appArray = appMemNum.split(","); // 배열에 결재자 넣기
+				for(int i = 0; i < appArray.length; i++) {
+					app.setDocNo(0);
+					app.setMemNum(appArray[i]); // 결재자 사원번호
+					app.setAppLevel(i+1); // 결재자 순번
+					if(!parameter.equals("Temporary")) {
+						if(i == 0) {
+							app.setAppStatus("대기"); // 첫 번째 결재자는 대기
+						}else {
+							app.setAppStatus("요청"); // 두 번째 결재자부터는 요청
+						}
+					}else if(parameter.equals("Temporary")) {
+						app.setAppStatus("임시");
 					}
-				}else if(parameter.equals("Temporary")) {
-					app.setAppStatus("임시");
+					aResult = aService.registerApp(app); // 결재자 등록
 				}
-				aResult = aService.registerApp(app); // 결재자 등록
+			}else { // 반려 문서 재상신인데 결재자 선택하지 않은 경우
+				List<Approval> aList = aService.printAllApp(appDoc.getDocNo());
+				if(!aList.isEmpty()) {
+					for(int i = 0; i < aList.size(); i++) {
+						app.setDocNo(0);
+						app.setMemNum(aList.get(i).getMemNum());
+						app.setAppLevel(aList.get(i).getAppLevel());
+						if(!parameter.equals("RejTem")) { // 임시 저장이 아니면
+							if(i == 0) {
+								app.setAppStatus("대기"); // 첫 번째 결재자는 대기
+							}else {
+								app.setAppStatus("요청"); // 두 번째 결재자부터는 요청
+							}
+						}else if(parameter.equals("RejTem")) { // 임시 저장이면
+							app.setAppStatus("임시");
+						}
+						aResult = aService.registerApp(app); // 결재자 등록
+					}
+				}
 			}
 			// 참조자
-			if(!refMemNum.isEmpty()) { // 참조자가 있는 경우에만
-				String[] refArray = refMemNum.split(","); // 배열에 참조자 넣기
-				for(int i = 0; i < refArray.length; i++) {
-					ref.setMemNum(refArray[i]); // 참조자 사원번호
-					if(parameter.equals("Doc")) {
-						ref.setRefStatus("참조");
-					}else if(parameter.equals("Temporary")) {
-						ref.setRefStatus("임시");
+			if(parameter.equals("RejDoc") || parameter.equals("RejTem")) { // 반려 문서 재상신인 경우
+				if(refMemNum.isEmpty()) { // 참조자가 비어 있다면
+					List<AppReference> rList = aService.printAllRef(appDoc.getDocNo()); // 참조자 조회
+					if(!rList.isEmpty()) {
+						for(int i = 0; i < rList.size(); i++) {
+							ref.setDocNo(0);
+							ref.setMemNum(rList.get(i).getMemNum());
+							if(!parameter.equals("RejTem")) {
+								ref.setRefStatus("참조");
+							}else {
+								ref.setRefStatus("임시");
+							}
+							rResult = aService.registerRef(ref); // 참조자 등록
+						}
+					}else {
+						rResult = 1;
 					}
-					rResult = aService.registerRef(ref); // 참조자 등록
+				}else { // 참조자가 비어있지 않는다면
+					String[] refArray = refMemNum.split(","); // 배열에 참조자 넣기
+					for(int i = 0; i < refArray.length; i++) {
+						ref.setDocNo(0);
+						ref.setMemNum(refArray[i]); // 참조자 사원번호
+						if(!parameter.equals("RejTem")) {
+							ref.setRefStatus("참조");
+						}else {
+							ref.setRefStatus("임시");
+						}
+					}
+						rResult = aService.registerRef(ref); // 참조자 등록
 				}
-			}else {
-				rResult = 1;
+			}else { // 기안 문서 결재 요청/임시 저장
+				if(!refMemNum.isEmpty()) { // 참조자가 있는 경우에만
+					String[] refArray = refMemNum.split(","); // 배열에 참조자 넣기
+					for(int i = 0; i < refArray.length; i++) {
+						ref.setDocNo(0);
+						ref.setMemNum(refArray[i]); // 참조자 사원번호
+						if(!parameter.equals("Temporary")) {
+							ref.setRefStatus("참조");
+						}else {
+							ref.setRefStatus("임시");
+						}
+					}
+						rResult = aService.registerRef(ref); // 참조자 등록
+				}else {
+					rResult = 1;
+				}
 			}
 			// 파일 첨부
 			if(uploadFile != null && !uploadFile.getOriginalFilename().equals("")) {
@@ -255,10 +312,10 @@ public class ApprovalController {
 			}else if(fResult < 1) {
 				mv.addObject("msg", "파일 등록 실패");
 			}else {
-				if(parameter.equals("Doc")) {
+				if(parameter.equals("Doc") || parameter.equals("RejDoc")) {
 					mv.addObject("msg", "결재 요청 성공");
 					mv.addObject("loc", "/approval/draftListView.sw");
-				}else if(parameter.equals("Temporary")) {
+				}else if(parameter.equals("Temporary") || parameter.equals("RejTem")) {
 					mv.addObject("msg", "임시 저장 성공");
 					mv.addObject("loc", "/approval/temListView.sw");
 				}
@@ -313,7 +370,8 @@ public class ApprovalController {
 	@RequestMapping(value = "/approval/detail.sw")
 	private ModelAndView docDetailView(ModelAndView mv, Model model
 			, @RequestParam("docNo") int docNo
-			, @RequestParam("type") String type) {
+			, @RequestParam("type") String type
+			, @RequestParam(value="docStatus", required=false) String docStatus) {
 		model.addAttribute("myCondition", "approval");
 		model.addAttribute("listCondition", type);
 		Date nowTime = new Date(); // 현재 날짜 가져오기
@@ -330,9 +388,12 @@ public class ApprovalController {
 				mv.addObject("rList", rList);
 				mv.addObject("appFile", appFile);
 				mv.addObject("type", type);
-				if(!type.equals("tem")) { // 기안/결재/참조
+				if(!docStatus.equals("")) {
+					mv.addObject("docStatus", docStatus); // 문서 상태에 따라 승인/반려 버튼 보이거나 숨기기
+				}
+				if(type.equals("draft") || type.equals("app") || type.equals("ref")) { // 기안/결재/참조
 					mv.setViewName("approval/docDetail");
-				}else if(type.equals("tem")){ // 임시 저장함
+				}else if(type.equals("tem") || type.equals("rej")){ // 임시 저장함/반려 재상신
 					mv.setViewName("approval/docUpdate");
 				}
 			}else {
@@ -515,6 +576,7 @@ public class ApprovalController {
 			, @PathVariable("param") String parameter
 			, @RequestParam("docNo") int docNo
 			, @RequestParam("type") String type
+			, @RequestParam("rejReason") String rejReason
 			, @ModelAttribute AppDocument appDoc
 			, @ModelAttribute Approval app
 			, HttpServletRequest request) {
@@ -535,6 +597,7 @@ public class ApprovalController {
 					app.setDocStatus("완료");
 				}
 			}else if(parameter.equals("ref")) { // 결재 반려
+				app.setRejReason(rejReason);
 				app.setAppStatus("반려");
 				app.setDocStatus("반려");
 			}
