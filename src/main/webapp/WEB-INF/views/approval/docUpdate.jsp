@@ -12,7 +12,7 @@
 	<title>반려 문서 재상신</title>
 </c:if>
 <link href="/resources/css/approval/appWrite-style.css" rel="stylesheet">
-<script src="https://cdn.ckeditor.com/4.18.0/standard/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
 </head>
 <body>
 	<jsp:include page="appMenu.jsp"></jsp:include> <!-- 메뉴 + 소메뉴 -->
@@ -22,39 +22,43 @@
 			<input type="hidden" name="formNo" value="${appDoc.formNo }" readonly>
 			<input type="hidden" id="num-app" name="appMemNum" readonly>
 			<input type="hidden" id="num-ref" name="refMemNum" readonly>
-			<table border="1" id="table">
-				<tr>
-					<td>문서번호</td>
+			<table id="table">
+				<tr class="tr-s">
+					<td class="td-1" rowspan="2">문서번호</td>
 					<c:if test="${type == 'tem' }">
-						<td>${appDoc.docNo }</td><input type="hidden" name="docNo" value="${appDoc.docNo }" readonly>
+						<td class="td-2" rowspan="2">${appDoc.docNo }</td><input type="hidden" name="docNo" value="${appDoc.docNo }" readonly>
 					</c:if>
 					<c:if test="${type == 'rej' }">
-						<td><input type="hidden" name="docNo" value="${appDoc.docNo }" readonly></td>
+						<td class="td-2" rowspan="2"><input type="hidden" name="docNo" value="${appDoc.docNo }" readonly></td>
 					</c:if>
-					<td rowspan="3" style="writing-mode: vertical-rl;">결재</td>
-					<td>담당</td>
-					<td id="r-app0">${aList[0].rank }</td>
-					<td id="r-app1">${aList[1].rank }</td>
-					<td id="r-app2">${aList[2].rank }</td>
+					<td class="td-3" rowspan="5" style="writing-mode: vertical-rl;">결재</td>
+					<td class="td-4">담당</td>
+					<td class="td-4" id="r-app0">${aList[0].rank }</td>
+					<td class="td-4" id="r-app1">${aList[1].rank }</td>
+					<td class="td-4" id="r-app2">${aList[2].rank }</td>
+				</tr>
+				<tr class="tr-s">
+					<td class="td-5" rowspan="3">${appDoc.docDate }</td>
+					<td align="center" rowspan="3">${aList[0].appDate }<button type="button" onclick="appBtn('app');">선택</button></td>
+					<td class="td-5" rowspan="3">${aList[1].appDate }</td>
+					<td class="td-5" rowspan="3">${aList[2].appDate }</td>
+				</tr>
+				<tr class="tr-m">
+					<td class="td-1">기안일</td>
+					<td class="td-2">${nowTime }<input type="hidden" value="${nowTime }" name="docDate" readonly></td>
+				</tr>
+				<tr class="tr-s">
+					<td class="td-1" rowspan="2">기안자</td>
+					<td class="td-2" rowspan="2">${appDoc.memName }<input type="hidden" value="${loginUser.memberNum }" name="memNum" readonly></td>
 				</tr>
 				<tr>
-					<td>기안일</td>
-					<td>${nowTime }<input type="hidden" value="${nowTime }" name="docDate" readonly></td>
-					<td>${appDoc.docDate }</td>
-					<td align="center">${aList[0].appDate }<button type="button" onclick="appBtn('app');">선택</button></td>
-					<td>${aList[1].appDate }</td>
-					<td>${aList[2].appDate }</td>
+					<td class="td-4">${appDoc.memName }</td>
+					<td class="td-4" id="name-app0">${aList[0].memberName }</td>
+					<td class="td-4" id="name-app1">${aList[1].memberName }</td>
+					<td class="td-4" id="name-app2">${aList[2].memberName }</td>
 				</tr>
-				<tr>
-					<td>기안자</td>
-					<td>${appDoc.memName }<input type="hidden" value="${loginUser.memberNum }" name="memNum" readonly></td>
-					<td>${appDoc.memName }</td>
-					<td id="name-app0">${aList[0].memberName }</td>
-					<td id="name-app1">${aList[1].memberName }</td>
-					<td id="name-app2">${aList[2].memberName }</td>
-				</tr>
-				<tr>
-					<td>참조자</td>
+				<tr class="tr-m">
+					<td class="td-1">참조자</td>
 					<td colspan="5" id="ref-list">
 						<c:forEach items="${rList }" var="appRef" varStatus="index">
 							<c:choose>
@@ -69,8 +73,8 @@
 					</td>
 					<td><button id="app-btn" type="button" onclick="appBtn('ref');">+</button></td>
 				</tr>
-				<tr id="tr-title">
-					<td>제목</td>
+				<tr id="tr-title" class="tr-m">
+					<td class="td-1">제목</td>
 					<td colspan="6"><input type="text" name="docTitle" id="td-title" value="${appDoc.docTitle }"></td>
 				</tr>
 				<c:set var="formName" value="${appDoc.formName}" />
@@ -111,7 +115,7 @@
 	                </tr>
 				</c:if>
 				<c:if test="${appDoc.formName ne '휴가신청서'}">
-					<tr>
+					<tr class="tr-m">
 						<td colspan="7" align="center">내용</td>
 					</tr>
 					<tr>
@@ -136,8 +140,10 @@
 			<c:if test="${type == 'rej' }">
 				<input type="button" value="임시 저장" onclick="rejTemSave()">
 			</c:if>
-			<input type="button" id="btn-cancel" value="삭제">
-			<input type="button" value="취소" onclick="location.href='/approval/temListView.sw'">
+			<div class="div-btn">
+				<input type="button" id="btn-cancel" value="삭제">
+				<input type="button" value="취소" onclick="location.href='/approval/temListView.sw'">
+			</div>
 		</form>
 	</div>
 	<jsp:include page="appModal.jsp"></jsp:include> <!-- 결재자/참조자 선택 모달 -->
@@ -175,7 +181,8 @@
 		// CKEditor
 		if("${appDoc.formName }" !== "휴가신청서"){
 			CKEDITOR.replace( 'docContent', {
-				height: 350
+				height: 350,
+				removePlugins: "exportpdf"
 			} );
 		}
 		

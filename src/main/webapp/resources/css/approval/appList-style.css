@@ -1,4 +1,8 @@
 @charset "UTF-8";
+#h-title {
+	margin-top: 25px;
+	margin-bottom: 5px;
+}
 .type {
 	display: inline-block;
 	height: 50px;
@@ -23,9 +27,10 @@
 	border-radius: 4px;
 	font-size: 15px;
 	float: right;
+	cursor: pointer;
 }
 .t-List{
-	width: 1400px;
+	width: 1350px;
 	margin: 20px 0;
 	font-size: 14px;
 	text-align: center;
@@ -44,13 +49,13 @@
 	background-color: rgb(240, 240, 240);
 }
 .t-List .th-1 {
-	width: 200px;
+	width: 180px;
 }
 .t-List .th-2 {
-	width: 600px;
+	width: 630px;
 }
 .t-List .th-3 {
-	width: 800px;
+	width: 810px;
 }
 .t-List a {
 	text-decoration: none;
@@ -81,7 +86,7 @@
 .paging {
 	display: inline-flex;
 	height: 40px;
-	width: 890px;
+	width: 840px;
 	margin-left: 253px;
 	justify-content: center;
 }

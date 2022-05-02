@@ -12,34 +12,38 @@
 	<jsp:include page="appMenu.jsp"></jsp:include> <!-- 메뉴 + 소메뉴 -->
 	<div class="s-container">
 		<h1 id="h-title">${appDoc.formName }</h1>
-		<table border="1" id="table">
-			<tr>
-				<td>문서번호</td>
-				<td>${appDoc.docNo }</td>
-				<td rowspan="3" style="writing-mode: vertical-rl;">결재</td>
-				<td>담당</td>
-				<td id="r-app0">${aList[0].rank }</td>
-				<td id="r-app1">${aList[1].rank }</td>
-				<td id="r-app2">${aList[2].rank }</td>
+		<table id="table">
+			<tr class="tr-s">
+				<td class="td-1" rowspan="2">문서번호</td>
+				<td class="td-2" rowspan="2">${appDoc.docNo }</td>
+				<td class="td-3" rowspan="5" style="writing-mode: vertical-rl;">결재</td>
+				<td class="td-4">담당</td>
+				<td class="td-4" id="r-app0">${aList[0].rank }</td>
+				<td class="td-4" id="r-app1">${aList[1].rank }</td>
+				<td class="td-4" id="r-app2">${aList[2].rank }</td>
+			</tr>
+			<tr class="tr-s">
+				<td class="td-5" rowspan="3">${appDoc.docDate }</td>
+				<td rowspan="3">${aList[0].appStatus }<br>${aList[0].appDate }</td>
+				<td class="td-5" rowspan="3">${aList[1].appStatus }<br>${aList[1].appDate }</td>
+				<td class="td-5" rowspan="3">${aList[2].appStatus }<br>${aList[2].appDate }</td>
+			</tr>
+			<tr class="tr-m">
+				<td class="td-1">기안일</td>
+				<td class="td-2">${appDoc.docDate }</td>
+			</tr>
+			<tr class="tr-s">
+				<td class="td-1" rowspan="2">기안자</td>
+				<td class="td-2" rowspan="2">${appDoc.memName }</td>
 			</tr>
 			<tr>
-				<td>기안일</td>
-				<td>${appDoc.docDate }</td>
-				<td>${appDoc.docDate }</td>
-				<td>${aList[0].appStatus }<br>${aList[0].appDate }</td>
-				<td>${aList[1].appStatus }<br>${aList[1].appDate }</td>
-				<td>${aList[2].appStatus }<br>${aList[2].appDate }</td>
+				<td class="td-4">${appDoc.memName }</td>
+				<td class="td-4" id="name-app0">${aList[0].memberName }</td>
+				<td class="td-4" id="name-app1">${aList[1].memberName }</td>
+				<td class="td-4" id="name-app2">${aList[2].memberName }</td>
 			</tr>
-			<tr>
-				<td>기안자</td>
-				<td>${appDoc.memName }</td>
-				<td>${appDoc.memName }</td>
-				<td id="name-app0">${aList[0].memberName }</td>
-				<td id="name-app1">${aList[1].memberName }</td>
-				<td id="name-app2">${aList[2].memberName }</td>
-			</tr>
-			<tr>
-				<td>참조자</td>
+			<tr class="tr-m">
+				<td class="td-1">참조자</td>
 				<td colspan="6" id="ref-list">
 					<c:forEach items="${rList }" var="appRef" varStatus="index">
 						<c:choose>
@@ -53,8 +57,8 @@
 					</c:forEach>
 				</td>
 			</tr>
-			<tr id="tr-title">
-				<td>제목</td>
+			<tr id="tr-title" class="tr-m">
+				<td class="td-1">제목</td>
 				<td colspan="6">${appDoc.docTitle }</td>
 			</tr>
 			<c:set var="formName" value="${appDoc.formName}" />
@@ -91,7 +95,7 @@
                 </tr>
 			</c:if>
 			<c:if test="${appDoc.formName ne '휴가신청서'}">
-				<tr>
+				<tr class="tr-m">
 					<td colspan="7" align="center">내용</td>
 				</tr>
 				<tr>
@@ -105,27 +109,29 @@
 			<span>첨부 파일</span>
 			<a href="../../../resources/auploadFiles/${appFile.fileReName }" download>${appFile.fileName}</a>
 		</c:if>
-		<c:forEach items="${aList }" var="app">
-			<c:if test="${app.rejReason != null }">
-				<span>반려 사유</span>
-				<textarea readonly>${app.rejReason }</textarea>
-			</c:if>
-		</c:forEach>
-		<c:if test="${type == 'draft'}">
-			<input type="button" id="btn-cancel" value="상신 취소">
-		</c:if>
-		<c:if test="${type == 'app'}">
-			<input type="button" id="btn-app" value="승인">
-			<input type="button" id="btn-rej" value="반려">
-		</c:if>
-		<c:if test="${type == 'draft'}">
+		<div class="div-btn">
 			<c:forEach items="${aList }" var="app">
 				<c:if test="${app.rejReason != null }">
-					<input type="button" value="재상신" onclick="location.href='/approval/detail.sw?type=rej&docNo=${appDoc.docNo}'">
+					<span>반려 사유</span>
+					<textarea readonly>${app.rejReason }</textarea>
 				</c:if>
 			</c:forEach>
-		</c:if>
-		<input type="button" value="목록" onclick="location.href='/approval/${type}ListView.sw'">
+			<c:if test="${type == 'draft'}">
+				<input type="button" id="btn-cancel" value="상신 취소">
+			</c:if>
+			<c:if test="${type == 'app'}">
+				<input type="button" id="btn-app" value="승인">
+				<input type="button" id="btn-rej" value="반려">
+			</c:if>
+			<c:if test="${type == 'draft'}">
+				<c:forEach items="${aList }" var="app">
+					<c:if test="${app.rejReason != null }">
+						<input type="button" value="재상신" onclick="location.href='/approval/detail.sw?type=rej&docNo=${appDoc.docNo}'">
+					</c:if>
+				</c:forEach>
+			</c:if>
+			<input type="button" value="목록" onclick="location.href='/approval/${type}ListView.sw'">
+		</div>
 	</div>
 	<script>
 		if("${docStatus}" != "대기") { // 결재 문서함에서 문서 상태가 대기가 아닌 경우 상신 취소 버튼 숨기기

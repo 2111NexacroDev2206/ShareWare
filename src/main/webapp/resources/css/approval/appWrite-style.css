@@ -1,0 +1,36 @@
+@charset "UTF-8";
+#h-title {
+	margin: 30px 0;
+	text-align: center;
+}
+#table {
+	margin: 0 50px;
+	width: 1000px;
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+.tr-s {
+	height: 22.5px;
+}
+.tr-m {
+	height: 45px;
+}
+#table td {
+	text-align: center;
+	border: 1px solid black;
+}
+.td-1 { /* 왼쪽에서 첫 번째(문서번호, 기안일, 기안자...) */
+	background-color: rgb(240, 240, 240);
+	width: 150px;
+	letter-spacing: 5px;
+}
+.td-2 { /* 왼쪽에서 두 번째 */
+	width: 200px;
+}
+.td-3 { /* 결재 */
+	width: 50px;
+}
+.td-4 { /* 담당, 부서, 이름 */
+	height: 25px;
+	width: 150px;
+}

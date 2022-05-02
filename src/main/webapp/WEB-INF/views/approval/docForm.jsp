@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>문서 양식</title>
 <link href="/resources/css/approval/appWrite-style.css" rel="stylesheet">
-<script src="https://cdn.ckeditor.com/4.18.0/standard/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/4.18.0/full-all/ckeditor.js"></script>
 </head>
 <body>
 	<jsp:include page="appMenu.jsp"></jsp:include> <!-- 메뉴 + 소메뉴 -->
@@ -17,39 +17,43 @@
 			<input type="hidden" value=${form.formNo } name='formNo' readonly>
 			<input type="hidden" id="num-app" name="appMemNum" readonly>
 			<input type="hidden" id="num-ref" name="refMemNum" readonly>
-			<table border="1" id="table">
-				<tr>
-					<td>문서번호</td>
-					<td></td>
-					<td rowspan="3" style="writing-mode: vertical-rl;">결재</td>
-					<td>담당</td>
-					<td id="r-app0"></td>
-					<td id="r-app1"></td>
-					<td id="r-app2"></td>
+			<table id="table">
+				<tr class="tr-s">
+					<td class="td-1" rowspan="2">문서번호</td>
+					<td class="td-2" rowspan="2"></td>
+					<td class="td-3" rowspan="5" style="writing-mode: vertical-rl;">결재</td>
+					<td class="td-4">담당</td>
+					<td class="td-4" id="r-app0"></td>
+					<td class="td-4" id="r-app1"></td>
+					<td class="td-4" id="r-app2"></td>
+				</tr>
+				<tr class="tr-s">
+					<td class="td-5" rowspan="3"></td>
+					<td align="center" rowspan="3"><button type="button" onclick="appBtn('app');">선택</button></td>
+					<td class="td-5" rowspan="3"></td>
+					<td class="td-5" rowspan="3"></td>
+				</tr>
+				<tr class="tr-m">
+					<td class="td-1">기안일</td>
+					<td class="td-2">${nowTime }<input type="hidden" value="${nowTime }" name="docDate" readonly></td>
+				</tr>
+				<tr class="tr-s">
+					<td class="td-1" rowspan="2">기안자</td>
+					<td class="td-2" rowspan="2">${loginUser.memberName }<input type="hidden" value="${loginUser.memberNum }" name="memNum" readonly></td>
 				</tr>
 				<tr>
-					<td>기안일</td>
-					<td>${nowTime }<input type="hidden" value="${nowTime }" name="docDate" readonly></td>
-					<td></td>
-					<td align="center"><button type="button" onclick="appBtn('app');">선택</button></td>
-					<td></td>
-					<td></td>
+					<td class="td-4">${loginUser.memberName }</td>
+					<td class="td-4" id="name-app0"></td>
+					<td class="td-4" id="name-app1"></td>
+					<td class="td-4" id="name-app2"></td>
 				</tr>
-				<tr>
-					<td>기안자</td>
-					<td>${loginUser.memberName }<input type="hidden" value="${loginUser.memberNum }" name="memNum" readonly></td>
-					<td>${loginUser.memberName }</td>
-					<td id="name-app0"></td>
-					<td id="name-app1"></td>
-					<td id="name-app2"></td>
-				</tr>
-				<tr>
-					<td>참조자</td>
+				<tr class="tr-m">
+					<td class="td-1">참조자</td>
 					<td colspan="5" id="ref-list"></td>
 					<td><button id="app-btn" type="button" onclick="appBtn('ref');">+</button></td>
 				</tr>
-				<tr id="tr-title">
-					<td>제목</td>
+				<tr id="tr-title" class="tr-m">
+					<td class="td-1">제목</td>
 					<td colspan="6"><input type="text" name="docTitle" id="td-title"></td>
 				</tr>
 				<c:set var="formName" value="${form.formName}" />
@@ -90,8 +94,8 @@
 	                </tr>
 				</c:if>
 				<c:if test="${formName ne '휴가신청서'}">
-					<tr>
-						<td colspan="7" align="center">내용</td>
+					<tr class="tr-m">
+						<td colspan="7" align="center" style="background-color: rgb(240, 240, 240);">내용</td>
 					</tr>
 					<tr>
 						<td colspan="7">
@@ -102,9 +106,11 @@
 			</table>
 			<p>파일 첨부
 			<input type="file" id="file-input" name="uploadFile">
-			<input type="button" value="결재 요청" onclick="docSave()">
-			<input type="button" value="임시 저장" onclick="temSave()">
-			<input type="button" value="취소" onclick="location.href='/approval/draftListView.sw'">
+			<div class="div-btn">
+				<input type="button" value="결재 요청" onclick="docSave()">
+				<input type="button" value="임시 저장" onclick="temSave()">
+				<input type="button" value="취소" onclick="location.href='/approval/draftListView.sw'">
+			</div>
 		</form>
 	</div>
 	<jsp:include page="appModal.jsp"></jsp:include> <!-- 결재자/참조자 선택 모달 -->
@@ -132,7 +138,8 @@
 		// CKEditor
 		if("${form.formName}" !== "휴가신청서"){
 			CKEDITOR.replace( 'docContent', {
-				height: 350
+				height: 350,
+				removePlugins: "exportpdf"
 			} );
 		}
 		
