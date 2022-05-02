@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>문서 양식 선택</title>
-<link href="/resources/css/appModal-style.css" rel="stylesheet">
+<link href="/resources/css/approval/appModal-style.css" rel="stylesheet">
 </head>
 <body>
 	<!-- 문서 양식 선택 모달 -->

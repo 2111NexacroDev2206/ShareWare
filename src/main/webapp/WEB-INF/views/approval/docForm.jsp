@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>문서 양식</title>
+<link href="/resources/css/approval/appWrite-style.css" rel="stylesheet">
 <script src="https://cdn.ckeditor.com/4.18.0/standard/ckeditor.js"></script>
 </head>
 <body>
@@ -14,6 +15,8 @@
 		<h1 id="h-title">문서 양식</h1>
 		<form id="form" action="/approval/saveDoc.sw" method="post" enctype="multipart/form-data" onsubmit="return nullChk()">
 			<input type="hidden" value=${form.formNo } name='formNo' readonly>
+			<input type="hidden" id="num-app" name="appMemNum" readonly>
+			<input type="hidden" id="num-ref" name="refMemNum" readonly>
 			<table border="1" id="table">
 				<tr>
 					<td>문서번호</td>
@@ -36,13 +39,13 @@
 					<td>기안자</td>
 					<td>${loginUser.memberName }<input type="hidden" value="${loginUser.memberNum }" name="memNum" readonly></td>
 					<td>${loginUser.memberName }</td>
-					<td id="name-app0"></td><input type="hidden" id="num-app" name="appMemNum" readonly>
+					<td id="name-app0"></td>
 					<td id="name-app1"></td>
 					<td id="name-app2"></td>
 				</tr>
 				<tr>
 					<td>참조자</td>
-					<td colspan="5" id="ref-list"></td><input type="hidden" id="num-ref" name="refMemNum" readonly>
+					<td colspan="5" id="ref-list"></td>
 					<td><button id="app-btn" type="button" onclick="appBtn('ref');">+</button></td>
 				</tr>
 				<tr id="tr-title">

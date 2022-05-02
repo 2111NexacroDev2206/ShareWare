@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>임시 저장함</title>
-<link href="/resources/css/appList-style.css" rel="stylesheet">
+<link href="/resources/css/approval/appList-style.css" rel="stylesheet">
 </head>
 <body>
 	<jsp:include page="appMenu.jsp"></jsp:include> <!-- 메뉴 + 소메뉴 -->

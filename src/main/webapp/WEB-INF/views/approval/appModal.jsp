@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>결재자 선택</title>
-<link href="/resources/css/appModal-style.css" rel="stylesheet">
+<link href="/resources/css/approval/appModal-style.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 </head>
 <body>

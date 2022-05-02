@@ -11,6 +11,7 @@
 <c:if test="${type == 'rej' }">
 	<title>반려 문서 재상신</title>
 </c:if>
+<link href="/resources/css/approval/appWrite-style.css" rel="stylesheet">
 <script src="https://cdn.ckeditor.com/4.18.0/standard/ckeditor.js"></script>
 </head>
 <body>
@@ -19,6 +20,8 @@
 		<h1 id="h-title">${appDoc.formName }</h1>
 		<form id="form" action="/approval/updateDoc.sw" method="post" enctype="multipart/form-data" onsubmit="return nullChk()">
 			<input type="hidden" name="formNo" value="${appDoc.formNo }" readonly>
+			<input type="hidden" id="num-app" name="appMemNum" readonly>
+			<input type="hidden" id="num-ref" name="refMemNum" readonly>
 			<table border="1" id="table">
 				<tr>
 					<td>문서번호</td>
@@ -46,7 +49,7 @@
 					<td>기안자</td>
 					<td>${appDoc.memName }<input type="hidden" value="${loginUser.memberNum }" name="memNum" readonly></td>
 					<td>${appDoc.memName }</td>
-					<td id="name-app0">${aList[0].memberName }</td><input type="hidden" id="num-app" name="appMemNum" readonly>
+					<td id="name-app0">${aList[0].memberName }</td>
 					<td id="name-app1">${aList[1].memberName }</td>
 					<td id="name-app2">${aList[2].memberName }</td>
 				</tr>
@@ -63,7 +66,7 @@
 								</c:when>
 	    					</c:choose>
 						</c:forEach>
-					</td><input type="hidden" id="num-ref" name="refMemNum" readonly>
+					</td>
 					<td><button id="app-btn" type="button" onclick="appBtn('ref');">+</button></td>
 				</tr>
 				<tr id="tr-title">

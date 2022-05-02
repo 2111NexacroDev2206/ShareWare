@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>기안 문서 상세</title>
+<link href="/resources/css/approval/appWrite-style.css" rel="stylesheet">
 </head>
 <body>
 	<jsp:include page="appMenu.jsp"></jsp:include> <!-- 메뉴 + 소메뉴 -->
