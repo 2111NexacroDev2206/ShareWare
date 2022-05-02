@@ -20,9 +20,9 @@
 					<td></td>
 					<td rowspan="3" style="writing-mode: vertical-rl;">결재</td>
 					<td>담당</td>
-					<td id="d-app0"></td>
-					<td id="d-app1"></td>
-					<td id="d-app2"></td>
+					<td id="r-app0"></td>
+					<td id="r-app1"></td>
+					<td id="r-app2"></td>
 				</tr>
 				<tr>
 					<td>기안일</td>

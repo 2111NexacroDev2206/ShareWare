@@ -32,7 +32,7 @@
 		<result property="memNum" column="MEM_NUM"/>
 		<result property="memberName" column="MEMBER_NAME"/>
 		<result property="division" column="DIV_NAME"/>
-		<result property="rank" column="RANK"/>
+		<result property="rank" column="RANK_NAME"/>
 		<result property="appLevel" column="APP_LEVEL"/>
 		<result property="appDate" column="APP_DATE"/>
 		<result property="appStatus" column="APP_STATUS"/>
@@ -44,7 +44,7 @@
 		<result property="memNum" column="MEM_NUM"/>
 		<result property="memberName" column="MEMBER_NAME"/>
 		<result property="division" column="DIV_NAME"/>
-		<result property="rank" column="RANK"/>
+		<result property="rank" column="RANK_NAME"/>
 		<result property="refStatus" column="REF_STATUS"/>
 	</resultMap>
 	<resultMap type="AppFile" id="appFileResultMap">
@@ -176,10 +176,10 @@
 		SELECT DOC_NO, MEM_NUM, MEMBER_NAME, FORM_NAME, DOC_TITLE, DOC_CONTENT, DOC_STATUS, DOC_DATE, LEAVE_TYPE, LEAVE_START, LEAVE_END, LEAVE_TIME, LEAVE_DAY, LEAVE_LEFT, LEAVE_APPLY FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO JOIN MEMBER ON MEM_NUM = MEMBER_NUM WHERE DOC_NO = #{docNo}
 	</select>
 	<select id="selectListApp" resultMap="approvalResultMap"><!-- 문서함 상세 조회(결재자) -->
-		SELECT APP_NO, DOC_NO, MEM_NUM, MEMBER_NAME, DIV_NAME, RANK, APP_LEVEL, APP_DATE, APP_STATUS, REJ_REASON FROM APPROVAL JOIN MEMBER ON MEMBER_NUM = MEM_NUM JOIN DIVISION ON DIVISION = DIV_CODE WHERE DOC_NO = #{docNo} ORDER BY APP_LEVEL
+		SELECT APP_NO, DOC_NO, MEM_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME, APP_LEVEL, APP_DATE, APP_STATUS, REJ_REASON FROM APPROVAL JOIN MEMBER ON MEMBER_NUM = MEM_NUM JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE DOC_NO = #{docNo} ORDER BY APP_LEVEL
 	</select>
-	<select id="selectListRef" resultMap="appRefResultMap"><!-- 문서함 상세 조회(결재자) -->
-		SELECT REF_NO, DOC_NO, MEM_NUM, MEMBER_NAME, DIV_NAME, RANK, REF_STATUS FROM APP_REF JOIN MEMBER ON MEMBER_NUM = MEM_NUM JOIN DIVISION ON DIVISION = DIV_CODE WHERE DOC_NO = #{docNo} ORDER BY REF_NO
+	<select id="selectListRef" resultMap="appRefResultMap"><!-- 문서함 상세 조회(참조자) -->
+		SELECT REF_NO, DOC_NO, MEM_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME, REF_STATUS FROM APP_REF JOIN MEMBER ON MEMBER_NUM = MEM_NUM JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE DOC_NO = #{docNo} ORDER BY REF_NO
 	</select>
 	<delete id="deleteDoc"><!-- 상신 취소 -->
 		DELETE FROM APP_DOC WHERE DOC_NO = #{docNo}
@@ -329,4 +329,16 @@
 			OR DOC_TITLE LIKE '%' || #{searchValue} || '%')
 		</if>
 	</select>
+	<update id="updateAppStatus"><!-- 결재 승인/반려(결재자 상태 변경) -->
+		UPDATE APPROVAL SET APP_STATUS = #{appStatus} WHERE DOC_NO = #{docNo} AND MEM_NUM = #{memNum}
+	</update>
+	<update id="updateDocStatus"><!-- 결재 승인/반려(결재자 상태 변경) -->
+		UPDATE APP_DOC SET DOC_STATUS = #{docStatus} WHERE DOC_NO = #{docNo}
+	</update>
+	<select id="selectListAppStatus" resultMap="approvalResultMap"><!-- 다음 차례 결재자 확인 -->
+		SELECT * FROM APPROVAL WHERE DOC_NO = #{docNo} AND APP_STATUS = '요청' ORDER BY APP_LEVEL
+	</select>
+	<update id="updateAppNext"><!-- 다음 결재자 상태 변경(요청->대기) -->
+		UPDATE APPROVAL SET APP_STATUS = '대기' WHERE APP_NO = #{appNo}
+	</update>
 </mapper>

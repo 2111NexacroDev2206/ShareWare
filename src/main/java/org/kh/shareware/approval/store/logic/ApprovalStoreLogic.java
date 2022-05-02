@@ -221,4 +221,28 @@ public class ApprovalStoreLogic implements ApprovalStore{
 		return totalCount;
 	}
 
+	@Override
+	public int updateAppStatus(SqlSession sqlSession, Approval app) { // 결재 승인/반려(결재자 상태 변경)
+		int result = sqlSession.update("ApprovalMapper.updateAppStatus", app);
+		return result;
+	}
+
+	@Override
+	public int updateDocStatus(SqlSession sqlSession, Approval app) { // 결재 승인/반려(문서 상태 변경)
+		int result = sqlSession.update("ApprovalMapper.updateDocStatus", app);
+		return result;
+	}
+
+	@Override
+	public List<Approval> selectAllAppStatus(SqlSession sqlSession, int docNo) { // 다음 차례 결재자 확인
+		List<Approval> aList = sqlSession.selectList("ApprovalMapper.selectListAppStatus", docNo);
+		return aList;
+	}
+
+	@Override
+	public int updateAppNext(SqlSession sqlSession, int appNo) { // 다음 결재자 상태 변경(요청->대기)
+		int result = sqlSession.update("ApprovalMapper.updateAppNext", appNo);
+		return result;
+	}
+
 }

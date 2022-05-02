@@ -19,9 +19,9 @@
 					<td>${appDoc.docNo }</td><input type="hidden" name="docNo" value="${appDoc.docNo }" readonly>
 					<td rowspan="3" style="writing-mode: vertical-rl;">결재</td>
 					<td>담당</td>
-					<td id="d-app0">${aList[0].division }</td>
-					<td id="d-app1">${aList[1].division }</td>
-					<td id="d-app2">${aList[2].division }</td>
+					<td id="d-app0">${aList[0].rank }</td>
+					<td id="d-app1">${aList[1].rank }</td>
+					<td id="d-app2">${aList[2].rank }</td>
 				</tr>
 				<tr>
 					<td>기안일</td>

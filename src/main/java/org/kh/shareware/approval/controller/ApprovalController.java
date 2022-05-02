@@ -51,7 +51,7 @@ public class ApprovalController {
 		model.addAttribute("myCondition", "approval");
 		model.addAttribute("listCondition", parameter);
 		HttpSession session = request.getSession();
-	Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
+		Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
 		if(parameter.equals("tem")) {
 			docStatus = "임시";
 		}else if(docStatus == null) {
@@ -499,13 +499,62 @@ public class ApprovalController {
 	}
 	
 	// 임시 저장 수정 화면에서 선택했던 파일 삭제
-	 @RequestMapping(value="/approval/fileDelete.sw", method=RequestMethod.GET)
-	 public String fileDelete(ModelAndView mv
-				, @RequestParam(value = "filePath", required = false) String filePath 
-				, @RequestParam(value = "docNo", required = false) int docNo 
-				, HttpServletRequest request){
-				deleteFile(filePath, request);
-				aService.removeFile(docNo);
-				return "redirect:/approval/detail.sw?docNo=" + docNo + "&type=tem";
-		 }
+	@RequestMapping(value="/approval/fileDelete.sw", method=RequestMethod.GET)
+	public String fileDelete(ModelAndView mv
+			, @RequestParam(value = "filePath", required = false) String filePath 
+			, @RequestParam(value = "docNo", required = false) int docNo 
+			, HttpServletRequest request){
+			deleteFile(filePath, request);
+			aService.removeFile(docNo);
+			return "redirect:/approval/detail.sw?docNo=" + docNo + "&type=tem";
+	}
+	
+	// 결재 승인/반려
+	@RequestMapping(value = "/approval/{param}Status.sw")
+	public ModelAndView statusUpdate(ModelAndView mv
+			, @PathVariable("param") String parameter
+			, @RequestParam("docNo") int docNo
+			, @RequestParam("type") String type
+			, @ModelAttribute AppDocument appDoc
+			, @ModelAttribute Approval app
+			, HttpServletRequest request) {
+		try {
+			HttpSession session = request.getSession();
+			app.setMemNum(((Member)session.getAttribute("loginUser")).getMemberNum()); // 세션 값에서 사원번호 가져오기
+			app.setDocNo(docNo);
+			int aResult = 0; // 결재자 상태 변경 결과 변수 선언
+			int dResult = 0; // 문서 상태 변경 결과 변수 선언
+			if(parameter.equals("app")) { // 결재 승인
+				List<Approval> aList = aService.printAllAppStatus(docNo); // 문서 번호에 해당하는 결재자 중에 요청이 있는지 확인
+				if(!aList.isEmpty()) {
+					aService.modifyAppNext(aList.get(0).getAppNo()); // 다음 결재자 상태 변경(요청->대기)
+					app.setAppStatus("완료");
+					app.setDocStatus("진행");
+				}else {
+					app.setAppStatus("완료");
+					app.setDocStatus("완료");
+				}
+			}else if(parameter.equals("ref")) { // 결재 반려
+				app.setAppStatus("반려");
+				app.setDocStatus("반려");
+			}
+			aResult = aService.modifyAppStatus(app); // 결재자 상태 변경
+			dResult = aService.modifyDocStatus(app); // 문서 상태 변경
+			if(aResult > 0 && dResult > 0) {
+				mv.setViewName("redirect:/approval/detail.sw?docNo=" + docNo + "&type=" + type);
+			}else {
+				if(parameter.equals("app")) {
+					mv.addObject("msg", "승인 실패");
+				}else if(parameter.equals("ref")) {
+					mv.addObject("msg", "반려 실패");
+				}
+				mv.addObject("loc", "/approval/detail.sw?docNo=" + docNo + "&type=" + type);
+				mv.setViewName("common/msg");
+			}
+		}catch(Exception e) {
+			mv.addObject("msg", e.toString());
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
+	}
 }

@@ -17,17 +17,17 @@
 				<td>${appDoc.docNo }</td>
 				<td rowspan="3" style="writing-mode: vertical-rl;">결재</td>
 				<td>담당</td>
-				<td id="d-app0">${aList[0].division }</td>
-				<td id="d-app1">${aList[1].division }</td>
-				<td id="d-app2">${aList[2].division }</td>
+				<td id="d-app0">${aList[0].rank }</td>
+				<td id="d-app1">${aList[1].rank }</td>
+				<td id="d-app2">${aList[2].rank }</td>
 			</tr>
 			<tr>
 				<td>기안일</td>
 				<td>${appDoc.docDate }</td>
 				<td>${appDoc.docDate }</td>
-				<td>${aList[0].appDate }</td>
-				<td>${aList[1].appDate }</td>
-				<td>${aList[2].appDate }</td>
+				<td>${aList[0].appStatus }<br>${aList[0].appDate }</td>
+				<td>${aList[1].appStatus }<br>${aList[1].appDate }</td>
+				<td>${aList[2].appStatus }<br>${aList[2].appDate }</td>
 			</tr>
 			<tr>
 				<td>기안자</td>
@@ -104,7 +104,13 @@
 			<span>첨부 파일</span>
 			<a href="../../../resources/auploadFiles/${appFile.fileReName }" download>${appFile.fileName}</a>
 		</c:if>
-		<input type="button" id="btn-cancel" value="상신 취소">
+		<c:if test="${type != 'app'}">
+			<input type="button" id="btn-cancel" value="상신 취소">
+		</c:if>
+		<c:if test="${type == 'app'}">
+			<input type="button" id="btn-app" value="승인" onclick="location.href='/approval/appStatus.sw?docNo=${appDoc.docNo}&type=${type}'">
+			<input type="button" id="btn-rej" value="반려" onclick="location.href='/approval/refStatus.sw?docNo=${appDoc.docNo}&type=${type}'">
+		</c:if>
 		<input type="button" value="목록" onclick="location.href='/approval/${type}ListView.sw'">
 	</div>
 	<script>

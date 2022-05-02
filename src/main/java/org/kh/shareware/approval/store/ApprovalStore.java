@@ -43,5 +43,9 @@ public interface ApprovalStore {
 	public int selectListCountApp(SqlSession sqlSession, Approval app); // 결재 문서함 페이징
 	public List<AppDocument> selectAllAppSearch(SqlSession sqlSession, Search search, PageInfo pi); // 결재 문서함 검색
 	public int selectSearchAppCount(SqlSession sqlSession, Search search); // 결재 문서함 검색 페이징
+	public int updateAppStatus(SqlSession sqlSession, Approval app); // 결재 승인/반려(결재자 상태 변경)
+	public int updateDocStatus(SqlSession sqlSession, Approval app); // 결재 승인/반려(문서 상태 변경)
+	public List<Approval> selectAllAppStatus(SqlSession sqlSession, int docNo); // 다음 차례 결재자 확인
+	public int updateAppNext(SqlSession sqlSession, int appNo); // 다음 결재자 상태 변경(요청->대기)
 
 }

@@ -173,13 +173,13 @@
 	function appSelView() {
 		if(varType == "app") {
 			for(var i = 0; i < 3; i++) { // 전에 입력한 값이 있을 경우 대비 초기화
-				$("#d-app" + i).text("");
+				$("#r-app" + i).text("");
 				$("#name-app" + i).text("");
 				$("#num-app" + i).val("");
 			}
 			var app = []; // 결재자 담을 배열 선언
 			appArr.forEach(function(el, i){
-				$("#d-app" + i).text(el.division);
+				$("#r-app" + i).text(el.rank);
 				$("#name-app" + i).text(el.memberName);
 				app[i] = el.memberNum;
 			});
