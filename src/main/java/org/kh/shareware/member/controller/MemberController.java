@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.kh.shareware.common.Search;
 import org.kh.shareware.member.common.PageInfo;
 import org.kh.shareware.member.common.Pagination;
+import org.kh.shareware.member.domain.Division;
 import org.kh.shareware.member.domain.Member;
 import org.kh.shareware.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,8 +114,15 @@ public class MemberController {
 	
 	//조직도
 	@RequestMapping(value="/member/organizationView.sw", method=RequestMethod.GET)
-	public String organizationView() {
-		return "/member/organizationView";
+	public String organizationView(Model model){
+			List<Division> oList = mService.printOrganization();
+			if(!oList.isEmpty()) {
+				model.addAttribute("oList", oList);
+				return "/member/organizationView";
+			}else {
+				model.addAttribute("msg", "조직도 조회 실패");
+				return "common/errorPage";
+			}
+	
 	}
-
 }

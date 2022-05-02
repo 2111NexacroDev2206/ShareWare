@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.common.Search;
 import org.kh.shareware.member.common.PageInfo;
+import org.kh.shareware.member.domain.Division;
 import org.kh.shareware.member.domain.Member;
 import org.kh.shareware.member.service.MemberService;
 import org.kh.shareware.member.store.MemberStore;
@@ -44,7 +45,14 @@ public class MemberServiceImpl implements MemberService{
 		int totalCount = mStore.selectListCount(sqlSession);
 		return totalCount;
 	}
+	//조직도
+	@Override
+	public List<Division> printOrganization() {
+		List<Division>oList = mStore.selectOrganization(sqlSession);
+		return oList;
+	}
 
+	
 	@Override
 	public List<Member> modalPrintAll() {
 		List<Member> mList = mStore.selectAllMember(sqlSession);
@@ -56,5 +64,6 @@ public class MemberServiceImpl implements MemberService{
 		List<Member> mList = mStore.selectMemberSearch(sqlSession, search);
 		return mList;
 	}
+
 
 }
