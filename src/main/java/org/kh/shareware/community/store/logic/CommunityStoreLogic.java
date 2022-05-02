@@ -1,9 +1,12 @@
 package org.kh.shareware.community.store.logic;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.community.domain.Community;
+import org.kh.shareware.community.domain.CommunityVote;
+import org.kh.shareware.community.domain.CommunityVoteSelect;
 import org.kh.shareware.community.store.CommunityStore;
 import org.springframework.stereotype.Repository;
 
@@ -21,4 +24,73 @@ public class CommunityStoreLogic implements CommunityStore {
 		List<Community> cList = sqlsession.selectList("CommnuityMapper.listCommnuity");
 		return cList;
 	}
+
+	@Override
+	public Community detailCommunity(SqlSession sqlsession, Integer comNo) {
+		Community community = sqlsession.selectOne("CommnuityMapper.detailOneByNo", comNo);
+		return community;
+	}
+
+	@Override
+	public int resisterCommunity(SqlSession sqlsession, int comNo) {
+		int result = sqlsession.delete("CommnuityMapper.deleltCommunity", comNo);
+		return result;
+	}
+
+	@Override
+	public int viewCountCommunity(SqlSession sqlsession, Integer comNo) {
+		int result = sqlsession.update("CommnuityMapper.viewCount", comNo);
+		return result;
+	}
+
+	@Override
+	public int insertCommunityVote(SqlSession sqlsession, CommunityVote communityVote) {
+		int result = sqlsession.insert("CommnuityMapper.insertCommnuityVote", communityVote);
+		return result;
+	}
+
+	@Override
+	public int removeCommunityVote(SqlSession sqlsession, Integer comNo) {
+		int result = sqlsession.delete("CommnuityMapper.deleteCommnuityVote", comNo);
+		return result;
+	}
+
+	@Override
+	public CommunityVote deleteCommunityVote(SqlSession sqlsession, Integer comNo) {
+		CommunityVote communityVote = sqlsession.selectOne("CommnuityMapper.CommnuityVoteView", comNo);
+		return communityVote;
+	}
+
+	@Override
+	public CommunityVoteSelect selectVoteSelect(SqlSession sqlsession, Integer comNo) {
+		CommunityVoteSelect cVoteSelect = sqlsession.selectOne("CommnuityMapper.selectCommnuityVote", comNo);
+		return cVoteSelect;
+	}
+	
+	@Override
+	public int updateEndVote(SqlSession sqlsession, Integer comNo) {
+		int result = sqlsession.update("CommnuityMapper.updateEndCommnuityVote", comNo);
+		return result;
+	}
+
+	@Override
+	public int registerCVoteSelect(SqlSession sqlsession, CommunityVoteSelect cVoteSelect) {
+		int result = sqlsession.insert("CommnuityMapper.insertCVoteSelect",cVoteSelect);
+		return result;
+	}
+
+	@Override
+	public int updateCountCVote(SqlSession sqlsession, Map<String, Object> map) {
+		int result = sqlsession.update("CommnuityMapper.updateCountCVote", map);
+		return result;
+	}
+
+	@Override
+	public int removeCVoteMember(SqlSession sqlsession, Integer comNo) {
+		int result = sqlsession.delete("CommnuityMapper.deleteCVoteMember", comNo);
+		return result;
+	}
+
+	
+
 }
