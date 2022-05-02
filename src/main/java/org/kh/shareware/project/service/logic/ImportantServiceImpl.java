@@ -1,5 +1,5 @@
 package org.kh.shareware.project.service.logic;
 
-public class ImtNoticeServiceImpl {
+public class ImportantServiceImpl {
 
 }

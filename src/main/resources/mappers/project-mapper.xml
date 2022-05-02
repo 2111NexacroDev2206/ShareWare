@@ -6,17 +6,17 @@
   	<resultMap type="Project" id="projectResultMap">
   		<id 	property="projectNo"		column="PROJECT_NO"/>
   		<result property="projectTitle"		column="PROJECT_TITLE"/>
-  		<result property="projectMade"		column="PROJECT_MADE"/>
+  		<result property="projectMade"		column="MEMBER_NAME"/>
   		<result property="pStartDate"		column="P_START_DATE"/>
   		<result property="pEndDate"			column="P_END_DATE"/>
   		<result property="pStatus"			column="P_STATUS"/>
   		<result property="projectContent"	column="PROJECT_CONTENT"/>
   	</resultMap>
   	<select id="selectAllProject" resultMap="projectResultMap">
-  		SELECT * FROM PROJECT JOIN PARTICIPANT USING(PROJECT_NO) WHERE PROJECT_MADE= #{memNum} OR MEM_NUM = #{memNum} ORDER BY PROJECT_NO DESC 
+  		SELECT PROJECT_NO, PROJECT_TITLE, MEMBER_NAME, P_START_DATE, P_END_DATE, P_STATUS, PROJECT_CONTENT FROM PROJECT JOIN PARTICIPANT USING(PROJECT_NO) JOIN MEMBER ON PROJECT_MADE = MEMBER_NUM WHERE PROJECT_MADE= #{memNum} OR MEM_NUM = #{memNum} ORDER BY PROJECT_NO DESC 
   	</select>
   	<select id="selectOneProject" resultMap="projectResultMap" >
-  		SELECT * FROM PROJECT WHERE PROJECT_NO = #{projectNo}
+  		 SELECT * FROM PROJECT WHERE PROJECT_NO = #{projectNo}
   	</select>
   	<select id="selectOneProjectDetail" resultMap="projectResultMap" >
   		SELECT * FROM PROJECT WHERE PROJECT_NO = #{projectNo}

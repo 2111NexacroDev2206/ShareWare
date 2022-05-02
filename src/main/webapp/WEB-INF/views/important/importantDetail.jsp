@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>중요공지 목록</title>
+<title>중요공지 상세 페이지</title>
 </head>
 <body>
 

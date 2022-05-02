@@ -11,7 +11,7 @@
 	<div class="s-menu">
 		<div class="s-menu-title">
 			<p>프로젝트 관리 
-			<i class="fa-solid fa-folders"></i>
+			<i class="fa-solid fa-folder-open"></i>		
 		</div>
 		<input type="button" value="프로젝트 생성" onclick="location.href='/project/newProjectView.sw'">
 		<div class="s-list-item ${listCondition eq 'dailyWrite' ? 'active' : ''}"><a href="">전체보기</a></div>

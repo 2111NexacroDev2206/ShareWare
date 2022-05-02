@@ -32,7 +32,7 @@
 				 			<c:param name="projectNo" value="${project.projectNo }"></c:param>
 				 		</c:url>
 				 		<td><a href="${pDetail}">${project.projectTitle}</a></td>
-				 		<td>${loginUser.memberName }</td>
+				 		<td>${project.projectMade }</td>
 				 		<td>${project.pStartDate}</td>
 				 		<td>
 							<c:if test="${project.pStatus eq 'Y' }">
