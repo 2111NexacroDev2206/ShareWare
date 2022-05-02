@@ -57,6 +57,7 @@ public class ApprovalController {
 		}else if(docStatus == null) {
 			docStatus = "전체";
 		}
+		model.addAttribute("docStatus", docStatus);
 		int currentPage = (page != null) ? page : 1;
 		int totalCount = 0; 
 		PageInfo pi = null;

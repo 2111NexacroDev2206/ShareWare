@@ -78,7 +78,7 @@ html, body {
 	float: left;
 }
 .header-right{
-	margin-right: 30px;
+	margin-right: 35px;
 	display: inline-block;
 	float: right;
 }
@@ -126,11 +126,13 @@ html, body {
 	color: rgb(65, 93, 145);
 }
 .container{
+	margin: 0 40px;
 	position: absolute;
 	left: 220px;
 	top: 75px;
 }
 .s-container{
+	margin: 0 40px;
 	position: absolute;
 	left: 440px;
 	top: 75px;
