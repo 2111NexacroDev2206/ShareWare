@@ -114,6 +114,7 @@
 	    	</div>
 		
 		<div id="mailRegister">
+		<input type="hidden" name="mailSender" value="${loginUser.mail }">
 			<div>
 				<div><small>받는사람</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" size="90" style= "height: 20px" name="mailReceiver">&nbsp;<button type="button"style="width:60px">주소록</button>&nbsp;<button type="submit" style="width: 90px;">즐겨찾는 그룹</button></div>
 			</div>

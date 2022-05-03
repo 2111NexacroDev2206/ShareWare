@@ -173,7 +173,6 @@ border-bottom: 1px solid lightgray;
 	<div id="mailRList">
 	<button type="submit" onclick="deleteValue();">삭제하기</button>
 	<form action="/mail/${mailCategory}mailSearch.sw" method="get">
-		<%-- <input type="hidden" name="mailReceiver" value="${loginUser.memberName }">  --%>
 				<select name="searchCondition">
 					<option value="all">전체</option>
 					<c:if test="${mailCategory == 'R'}">
@@ -187,6 +186,7 @@ border-bottom: 1px solid lightgray;
 				</select>
 			<input type="text" name="searchValue">
 			<input type="submit" value="검색">
+			
 	</form> 	
 		<table id="rMail" border="0">
 		
@@ -221,9 +221,11 @@ border-bottom: 1px solid lightgray;
 				<!-- 보낸 메일 함 --> 
 				<c:if test="${mailCategory == 'R' }">
 				<tr>
+				
 					 <c:url var="mDetail" value="/mail/mailDetailView.sw">
 					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
 						</c:url> 
+						
 					<td width="30px;"><input name="RowCheck" type="checkbox"
 						value="${mail.mailNo}" /></td>
 					<td width="30px;">
@@ -242,6 +244,7 @@ border-bottom: 1px solid lightgray;
 				</c:if>
 				<!-- 내게 쓴 메일 함 -->
 				<c:if test="${mailCategory == 'M' }">
+				
 				<tr>
 					 <c:url var="mDetail" value="/mail/mailDetailView.sw">
 					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
@@ -285,6 +288,7 @@ border-bottom: 1px solid lightgray;
 				</c:if>
 			</c:forEach>
 		</table>
+		<jsp:include page="mailPaging.jsp"></jsp:include>
 	</div>
 </body>
 </html>

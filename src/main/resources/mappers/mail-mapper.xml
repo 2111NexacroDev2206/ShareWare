@@ -74,7 +74,7 @@
 	
 		<insert id="insertMail">
 		 	INSERT INTO MAIL(MAIL_NO, MAIL_TYPE, MAIL_SUBJECT, MAIL_CONTENT, MAIL_SENDER, MAIL_FROM_DATE, MEM_NUM) 
-			VALUES(SEQ_MAIL_NO.NEXTVAL, 'S', #{mailSubject}, #{mailContent}, '111', DEFAULT, #{memNum}) 
+			VALUES(SEQ_MAIL_NO.NEXTVAL, 'S', #{mailSubject}, #{mailContent}, #{mailSender}, DEFAULT, #{memNum}) 
 		</insert>
 		<insert id="insertMailRec">
 			INSERT INTO MAIL_REC(MAIL_NO, MAIL_RECEIVER, REC_NO) VALUES(SEQ_MAIL_NO.CURRVAL, #{mailReceiver}, SEQ_REC_NO.NEXTVAL) 
@@ -89,7 +89,7 @@
 		
 		<insert id="insertTemMail">
 			INSERT INTO MAIL(MAIL_NO, MAIL_TYPE, MAIL_SUBJECT, MAIL_CONTENT, MAIL_SENDER, MAIL_FROM_DATE, MEM_NUM) 
-			VALUES(SEQ_MAIL_NO.NEXTVAL, 'T', #{mailSubject}, #{mailContent}, 'admin', DEFAULT, #{memNum}) 
+			VALUES(SEQ_MAIL_NO.NEXTVAL, 'T', #{mailSubject}, #{mailContent}, #{mailSender}, DEFAULT, #{memNum}) 
 		</insert>
 		<insert id="insertTemMailRec">
 			INSERT INTO MAIL_REC(MAIL_NO, MAIL_RECEIVER, REC_NO) VALUES(SEQ_MAIL_NO.CURRVAL, #{mailReceiver}, SEQ_REC_NO.NEXTVAL) 
@@ -116,37 +116,92 @@
 		<!-- 보낸 메일-->
 		<select id="selectMail" resultMap="mailResultMap">
 			SELECT * FROM
-			(SELECT MAIL_NO, I_STATUS, READ_TYPE, F_STATUS, MAIL_SENDER, MAIL_SUBJECT, MAIL_FROM_DATE
-			 FROM MAIL WHERE MAIL_TYPE = 'S'AND MAIL_SENDER = 'admin')
+			(SELECT MAIL_NO, I_STATUS, READ_TYPE, F_STATUS, MAIL_SENDER, MAIL_SUBJECT, MAIL_FROM_DATE, MEM_NUM
+			 FROM MAIL WHERE MAIL_TYPE = 'S' AND MEM_NUM = #{memNum})
 			JOIN MAIL_REC USING(MAIL_NO)
-			WHERE MAIL_RECEIVER != 'admin'
+			JOIN MEMBER ON (MEM_NUM = MEMBER_NUM)
+			WHERE MAIL_RECEIVER !=  #{mailReceiver} AND MAIL_SENDER = #{mailSender}
 		</select>
 		<!-- 받은 메일 -->
 		<select id="selectRecMail" resultMap="mailResultMap">
 			SELECT * FROM
-			(SELECT MAIL_NO, I_STATUS, READ_TYPE, F_STATUS, MAIL_SENDER, MAIL_SUBJECT, MAIL_FROM_DATE
-			 FROM MAIL WHERE MAIL_TYPE = 'S'AND MAIL_SENDER != 'admin')
+			(SELECT MAIL_NO, I_STATUS, READ_TYPE, F_STATUS, MAIL_SENDER, MAIL_SUBJECT, MAIL_FROM_DATE, MEM_NUM
+			 FROM MAIL WHERE MAIL_TYPE = 'S' AND MAIL_SENDER != #{mailSender})
 			JOIN MAIL_REC USING(MAIL_NO)
-			WHERE MAIL_RECEIVER = 'admin'
+			JOIN MEMBER ON (MEM_NUM = MEMBER_NUM)
+			WHERE MAIL_RECEIVER = #{mailReceiver} 
+			AND MAIL_SENDER != #{mailSender}
 		</select>
 		<select id="selectMyMail" resultMap="mailResultMap">
 			SELECT * FROM
-			(SELECT MAIL_NO, I_STATUS, READ_TYPE, F_STATUS, MAIL_SENDER, MAIL_SUBJECT, MAIL_FROM_DATE
-			 FROM MAIL WHERE MAIL_TYPE = 'S')
+			(SELECT MAIL_NO, I_STATUS, READ_TYPE, F_STATUS, MAIL_SENDER, MAIL_SUBJECT, MAIL_FROM_DATE, MEM_NUM
+			 FROM MAIL WHERE MAIL_TYPE = 'S' AND MEM_NUM = #{memNum})
 			JOIN MAIL_REC USING(MAIL_NO)
-			WHERE MAIL_RECEIVER = 'admin' AND MAIL_SENDER = 'admin'
+			JOIN MEMBER ON (MEM_NUM = MEMBER_NUM)
+			WHERE MAIL_RECEIVER =  #{mailReceiver} AND MAIL_SENDER = #{mailSender}
 		</select>
 		<select id="selectFileMail" resultMap="mailResultMap">
-			SELECT * FROM          
+			 SELECT * FROM 
+            (SELECT * FROM          
 			(SELECT * FROM
-			(SELECT MAIL_NO, I_STATUS, READ_TYPE, F_STATUS, MAIL_SENDER, MAIL_SUBJECT, MAIL_FROM_DATE
+			(SELECT MAIL_NO, I_STATUS, READ_TYPE, F_STATUS, MAIL_SENDER, MAIL_SUBJECT, MAIL_FROM_DATE, MEM_NUM
 			 FROM MAIL)
+            JOIN MEMBER ON (MEM_NUM = MEMBER_NUM)
+            JOIN MAIL_REC USING(MAIL_NO))
 			JOIN MAIL_FILE USING(MAIL_NO))
+			WHERE (MAIL_RECEIVER = #{mailReceiver} OR MAIL_SENDER = #{mailSender}) AND MAIL_FILE_NAME IS NOT NULL
+		</select>
+		<select id="selectMailCount" resultType="_int"><!-- 메일함 페이징 -->
+			SELECT COUNT(*) 
+            FROM  MAIL  
             JOIN MAIL_REC USING(MAIL_NO)
-			WHERE (MAIL_RECEIVER = 'admin' OR MAIL_SENDER = 'admin') AND MAIL_FILE_NAME IS NOT NULL
+            JOIN MEMBER ON (MEM_NUM = MEMBER_NUM)
+            WHERE MAIL_TYPE = 'S' 
+            AND MAIL_RECEIVER != #{mailReceiver}
+            AND MAIL_SENDER = #{mailSender}
+            AND MEM_NUM = #{memNum}
+		</select>
+		<select id="selectMailRecCount" resultType="_int"><!-- 메일함 페이징 -->
+			SELECT COUNT(*) 
+            FROM  MAIL  
+            JOIN MAIL_REC USING(MAIL_NO)
+            JOIN MEMBER ON (MEM_NUM = MEMBER_NUM)
+            WHERE MAIL_TYPE = 'S' 
+            AND MAIL_RECEIVER = #{mailReceiver}
+            AND MAIL_SENDER != #{mailSender}
+		</select>
+		<select id="selectMailMyCount" resultType="_int"><!-- 메일함 페이징 -->
+			SELECT COUNT(*) 
+            FROM  MAIL  
+            JOIN MAIL_REC USING(MAIL_NO)
+            JOIN MEMBER ON (MEM_NUM = MEMBER_NUM)
+            WHERE MAIL_TYPE = 'S' 
+            AND MAIL_RECEIVER = #{mailReceiver}
+            AND MAIL_SENDER = #{mailSender} 
+            AND MEM_NUM = #{memNum}
+		</select>
+		<select id="selectMailFileCount" resultType="_int"><!-- 메일함 페이징 -->
+			SELECT COUNT(*) 
+            FROM  MAIL  
+            JOIN MAIL_REC USING(MAIL_NO)
+            JOIN MEMBER ON (MEM_NUM = MEMBER_NUM)
+            JOIN MAIL_FILE USING(MAIL_NO)
+            WHERE MAIL_TYPE = 'S'
+            AND (MAIL_RECEIVER = #{mailReceiver}
+            OR MAIL_SENDER = #{mailSender} )
+            AND MAIL_FILE_NAME IS NOT NULL
 		</select>
 		<select id="selectTemMail" resultMap="mailResultMap">
-			SELECT M.MAIL_NO,  M.I_STATUS, M.READ_TYPE, M.F_STATUS, M.MAIL_SENDER, M.MAIL_SUBJECT, M.MAIL_FROM_DATE, R.MAIL_RECEIVER FROM MAIL M JOIN MAIL_REC R ON(M.MAIL_NO = R.MAIL_NO) WHERE M.MAIL_TYPE = 'T' ORDER BY M.MAIL_NO DESC
+			SELECT * FROM 
+			(SELECT * FROM 
+            (SELECT MAIL_NO, I_STATUS, READ_TYPE, F_STATUS, MAIL_SENDER, MAIL_SUBJECT, MAIL_FROM_DATE, MEM_NUM
+			FROM MAIL WHERE MAIL_TYPE = 'T' AND MEM_NUM = #{memNum})
+			JOIN MAIL_REC USING(MAIL_NO))
+			JOIN MEMBER ON (MEM_NUM = MEMBER_NUM)
+            WHERE MAIL_RECEIVER = #{mailReceiver} OR MAIL_SENDER = #{mailSender}
+		</select>
+		<select id="selectTemListCount" resultType="_int">
+			SELECT COUNT(*) FROM MAIL WHERE MEM_NUM = #{memNum}
 		</select>
 		<delete id="deleteChkMail">
 			DELETE FROM MAIL WHERE MAIL_NO = #{values}
@@ -173,12 +228,12 @@
 			DELETE FROM MAIL_FILE WHERE MAIL_NO = #{mailNo}
 		</delete>
 		<select id="selectOneMail"  resultMap="mailResultMap">
-				SELECT MAIL_NO, MAIL_SENDER, MAIL_SUBJECT, MAIL_CONTENT
-						FROM MAIL 
-			            WHERE MAIL_NO = #{mailNo} AND MAIL_TYPE = 'S'
+			SELECT MAIL_NO, MAIL_SENDER, MAIL_SUBJECT, MAIL_CONTENT
+				FROM MAIL 
+			    WHERE MAIL_NO = #{mailNo} AND MAIL_TYPE = 'S'
 		</select>
 		<select id="selectOneMailRec" resultMap="mailRecResultMap">
-				SELECT MAIL_NO, MAIL_RECEIVER
+			SELECT MAIL_NO, MAIL_RECEIVER
 				FROM MAIL_REC
 				WHERE MAIL_NO = #{mailNo}
 		</select>
@@ -213,75 +268,162 @@
 				WHERE MAIL_NO = #{mailNo}
 		</select>		
 		 <select id="selectSearchList" resultMap="mailResultMap">
-			SELECT * FROM MAIL JOIN MAIL_REC USING(MAIL_NO)
+			SELECT * FROM MAIL
+			JOIN MAIL_REC USING (MAIL_NO) 
+			JOIN MEMBER ON (MEM_NUM = MEMBER_NUM)
+			WHERE MAIL.MEM_NUM = #{memberNum} AND MAIL_TYPE ='S'
 			<if test="searchCondition.toString() == 'receiver'">
-				WHERE MAIL_RECEIVER LIKE '%' || #{searchValue} || '%'
+				AND MAIL_RECEIVER LIKE '%' || #{searchValue} || '%'
 			</if>
 			<if test="searchCondition.toString() == 'subject'">
-				WHERE MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
+				AND MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
 			</if>
 			<if test="searchCondition.toString() == 'content'">
-				WHERE MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
+				AND MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
 			</if>
 			<if test="searchCondition.toString() == 'all'">
-				WHERE MAIL_RECEIVER LIKE '%' || #{searchValue} || '%'
+				AND (MAIL_RECEIVER LIKE '%' || #{searchValue} || '%'
 				OR MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
-				OR MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
+				OR MAIL_CONTENT LIKE '%' || #{searchValue} || '%')
 			</if>
 			ORDER BY MAIL_NO DESC
 		</select> 
 		<select id="selectSearchRecList" resultMap="mailResultMap">
 			SELECT * FROM MAIL 
+			JOIN MAIL_REC USING (MAIL_NO) 
+			JOIN MEMBER ON (MEM_NUM = MEMBER_NUM) WHERE MAIL_TYPE ='S'
 			<if test="searchCondition.toString() == 'sender'">
-				WHERE MAIL_SENDER LIKE '%' || #{searchValue} || '%'
+				AND MAIL_SENDER LIKE '%' || #{searchValue} || '%'
 			</if>
 			<if test="searchCondition.toString() == 'subject'">
-				WHERE MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
+				AND MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
 			</if>
 			<if test="searchCondition.toString() == 'content'">
-				WHERE MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
+				AND MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
 			</if>
 			<if test="searchCondition.toString() == 'all'">
-				WHERE MAIL_SENDER LIKE '%' || #{searchValue} || '%'
+				AND (MAIL_SENDER LIKE '%' || #{searchValue} || '%'
 				OR MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
-				OR MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
+				OR MAIL_CONTENT LIKE '%' || #{searchValue} || '%')
 			</if>
 			
 			ORDER BY MAIL_NO DESC
 		</select>
 		<select id="selectSearchMyList" resultMap="mailResultMap">
-			SELECT * FROM MAIL JOIN MAIL_REC USING(MAIL_NO)
+			SELECT * FROM MAIL 
+			JOIN MAIL_REC USING (MAIL_NO) 
+			JOIN MEMBER ON (MEM_NUM = MEMBER_NUM)
+			WHERE MAIL.MEM_NUM = #{memberNum} AND MAIL_TYPE ='S'
 			<if test="searchCondition.toString() == 'subject'">
-				WHERE MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
+				AND MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
 			</if>
 			<if test="searchCondition.toString() == 'content'">
-				WHERE MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
+				AND MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
 			</if>
 			<if test="searchCondition.toString() == 'all'">
-				WHERE MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
-				OR MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
+				AND (MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
+				OR MAIL_CONTENT LIKE '%' || #{searchValue} || '%')
 			</if>
 			ORDER BY MAIL_NO DESC
 		</select>
 		<select id="selectSearchFileList" resultMap="mailResultMap">
-			SELECT * FROM MAIL JOIN MAIL_REC USING(MAIL_NO) JOIN MAIL_FILE USING(MAIL_NO)
+			SELECT * FROM MAIL 
+			JOIN MAIL_REC USING (MAIL_NO) 
+			JOIN MEMBER ON (MEM_NUM = MEMBER_NUM)
+			JOIN MAIL_FILE USING (MAIL_NO) 
+			WHERE MAIL.MEM_NUM = #{memberNum} AND MAIL_TYPE ='S'
 			<if test="searchCondition.toString() == 'fileName'">
-				WHERE MAIL_FILE_NAME LIKE '%' || #{searchValue} || '%'
+				AND MAIL_FILE_NAME LIKE '%' || #{searchValue} || '%'
 			</if>
 			<if test="searchCondition.toString() == 'subject'">
-				WHERE MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
+				AND MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
 			</if>
 			<if test="searchCondition.toString() == 'content'">
-				WHERE MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
+				AND MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
 			</if>
 			<if test="searchCondition.toString() == 'all'">
-				WHERE MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
+				AND (MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
 				OR MAIL_FILE_NAME LIKE '%' || #{searchValue} || '%'
-				OR MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
+				OR MAIL_CONTENT LIKE '%' || #{searchValue} || '%')
 			</if>
 			ORDER BY MAIL_NO DESC
 		</select> 
-		
+		 <select id="selectSearchCount" resultType="_int">
+			SELECT COUNT(*) FROM MAIL 
+			JOIN MAIL_REC USING (MAIL_NO) 
+			JOIN MEMBER ON (MEM_NUM = MEMBER_NUM)
+			WHERE MAIL.MEM_NUM = #{memberNum} AND MAIL_TYPE ='S'
+		<if test="searchCondition.toString() == 'receiver'">
+			AND MAIL_RECEIVER LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'subject'">
+			AND MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'content'">
+			AND MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'all'">
+			AND (MAIL_SENDER LIKE '%' || #{searchValue} || '%'
+			OR MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
+			OR MAIL_CONTENT LIKE '%' || #{searchValue} || '%')
+		</if>
+		</select>
+		 <select id="selectSearchRecCount" resultType="_int">
+			SELECT COUNT(*) FROM MAIL 
+			JOIN MAIL_REC USING (MAIL_NO) 
+			JOIN MEMBER ON (MEM_NUM = MEMBER_NUM) WHERE MAIL_TYPE ='S'
+		<if test="searchCondition.toString() == 'sender'">
+			AND MAIL_SENDER LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'subject'">
+			AND MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'content'">
+			AND MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'all'">
+			AND (MAIL_SENDER LIKE '%' || #{searchValue} || '%'
+			OR MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
+			OR MAIL_CONTENT LIKE '%' || #{searchValue} || '%')
+		</if>
+		</select>
+		 <select id="selectSearchMyCount" resultType="_int">
+			SELECT COUNT(*) FROM MAIL 
+			JOIN MAIL_REC USING (MAIL_NO) 
+			JOIN MEMBER ON (MEM_NUM = MEMBER_NUM)
+			WHERE MAIL.MEM_NUM = #{memberNum} AND MAIL_TYPE ='S'
+		<if test="searchCondition.toString() == 'subject'">
+			AND MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'content'">
+			AND MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'all'">
+			AND (MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
+			OR MAIL_CONTENT LIKE '%' || #{searchValue} || '%')
+		</if>
+		</select>
+		 <select id="selectSearchFileCount" resultType="_int">
+			SELECT COUNT(*) FROM MAIL 
+			JOIN MAIL_REC USING (MAIL_NO) 
+			JOIN MEMBER ON (MEM_NUM = MEMBER_NUM)
+			JOIN MAIL_FILE USING (MAIL_NO) 
+			WHERE MAIL.MEM_NUM = #{memberNum} AND MAIL_TYPE ='S'
+		<if test="searchCondition.toString() == 'fileName'">
+			AND MAIL_FILE_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'subject'">
+			AND MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'content'">
+			AND MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'all'">
+			AND (MAIL_FILE_NAME LIKE '%' || #{searchValue} || '%'
+			OR MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
+			OR MAIL_CONTENT LIKE '%' || #{searchValue} || '%')
+		</if>
+		</select>
 	</mapper>
 	
 		

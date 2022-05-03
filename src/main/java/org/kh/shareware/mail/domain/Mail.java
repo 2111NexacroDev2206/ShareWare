@@ -28,6 +28,7 @@ public class Mail {
 	private String mailFileName;
 	private String mailFileRename;
 	private String mailFilePath;
+	
 
 	
 	public Mail() {}
