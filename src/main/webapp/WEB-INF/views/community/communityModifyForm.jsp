@@ -82,8 +82,10 @@
 	<script>
 
 	const voteBodyDiv =document.getElementById('vote-body-div');
-	const div1 =document.getElementById('vote-textbox3-div');
-	const div2 =document.getElementById('vote-textbox4-div');
+	const div1 =document.getElementById('vote-textbox1-div');
+	const div2 =document.getElementById('vote-textbox2-div');
+	const div3 =document.getElementById('vote-textbox3-div');
+	const div4 =document.getElementById('vote-textbox4-div');
 	const divAddButton = document.getElementById('voteInputAdd');
 	const divButton1 =document.getElementById('btn-delete1');
 	const divButton2 =document.getElementById('btn-delete2');
@@ -97,13 +99,17 @@
 	//투표가 있을 때는 투표가 보이고 투표가 없을 때 화면을 부르면 투표가 안보이게
 	
 		if(voteResult != ""){ //투표 번호가 null이 아니면 투표 보이게 하기
+			voteBodyDiv.style.display = 'block';
+			div1.style.display = 'block';
+			div2.style.display = 'block';
+			div3.style.display = 'none';
+			div4.style.display = 'none';
 			if(divText3 != ""){//선택지 3이 null이 아니면 보이게 하기
-				div1.style.display = 'block';
-				 
+				div3.style.display = 'block'; 
 				if(divText4 != ""){//선택지 4가 null이 아니면 보이게 하기
 					divButton1.style.display = 'none';
 					divButton2.style.display = 'block';
-					div2.style.display = 'block';
+					div4.style.display = 'block';
 					}
 			}
 			if(voteState > 0){//투표한 사람이 있거나 투표 종료가 되어있으면 수정 불가
@@ -115,8 +121,8 @@
 			
 		}else{ // 아니면 안보이게
 			voteBodyDiv.style.display = 'none';
-			div1.style.display = 'none';
-			div2.style.display = 'none';
+			div3.style.display = 'none';
+			div4.style.display = 'none';
 			divButton1.style.display = 'none';
 			divButton2.style.display = 'none';
 		}
@@ -136,7 +142,7 @@
 	//만약 투표 테이블이 있으면 테이블 삭제
 	//테이블이 없으면 투표 창만 안보이도록
 	$("#voteDelete").on("click",function(){
-		if(voteResult == null || voteState == 0){
+		if(voteResult == null){
 			if(voteBodyDiv.style.display === 'block'){
 				voteBodyDiv.style.display = 'none';
 			}
@@ -173,12 +179,12 @@
 	$("#voteInputAdd").on("click",function(){
 		
 		//div1 이 생성됐을 때는 -버튼이 보여야함
-		if(div1.style.display === 'none'){
-			div1.style.display = 'block';
+		if(div3.style.display === 'none'){
+			div3.style.display = 'block';
 			divButton1.style.display = 'block';
 		//div2가 생성됐을 때는 div1의 -버튼이 보이면 안됨
-		}else if(div1.style.display === 'block'){
-			div2.style.display = 'block';
+		}else if(div3.style.display === 'block'){
+			div4.style.display = 'block';
 			divButton1.style.display = 'none';
 			divButton2.style.display = 'block';
 		}
@@ -186,15 +192,15 @@
 	
 	$("#btn-delete1").on("click", function(){
 
-		if(div1.style.display === 'block'){
-			div1.style.display = 'none';	
+		if(div3.style.display === 'block'){
+			div3.style.display = 'none';	
 		}
 	});
 
 	$("#btn-delete2").on("click", function(){
 
-		if(div2.style.display === 'block'){
-			div2.style.display = 'none';
+		if(div4.style.display === 'block'){
+			div4.style.display = 'none';
 			divButton1.style.display = 'block';
 		}
 	});
@@ -220,22 +226,25 @@
 	}	
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ수정ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	
-	$("#update").on("click", function(){
+	$("#upDate").on("click", function(){
 		    
 			var comTitle = $("#comTitle").val();
 			var comContent = $("#comContent").val();
-	
+			var comNo = "${community.comNo}";
 			var cVoteText1 = $("#vote-input1").val();
 			var cVoteText2 = $("#vote-input2").val();
 			var cVoteText3 = $("#vote-input3").val();
 			var cVoteText4 = $("#vote-input4").val();
+			var cVoteState = "${communityVote.cVoteState}";
 			var insertTrue = 1; //0이면 ajax 동작 x 1이면 동작 되게
 			
 			
 			 const formData = new FormData();
 			  formData.append("uploadFile", imageInput.files[0]);
+			  formData.append("comNo", comNo);
 			   formData.append("comTitle", comTitle);
 			   formData.append("comContent", comContent.trim());
+			   formData.append("cVoteState", cVoteState);
 			   
 			   //투표가 보여지고 있을 때
 			   if(voteBodyDiv.style.display === 'block'){
@@ -253,7 +262,7 @@
 			   }
 		if(insertTrue == 1){
 			  jQuery.ajax({
-		             url : "/community/register.sw"
+		             url : "/community/modify.sw"
 		           ,processData: false
 		           ,contentType: false
 		           , type : "POST"

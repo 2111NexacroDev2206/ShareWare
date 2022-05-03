@@ -84,8 +84,10 @@ public class CommunityController {
 			int result = cService.resisterCommunity(community);
 			
 			if(!cVoteText1.equals("")) {
+				//글 번호를 가져오는 select 로직을 가셔와서 사용
+				int comNo = cService.searchComNo();
 				
-				int comNo = community.getComNo();
+				//여기에 대신 넣어줌
 
 				communityVote.setComNo(comNo);
 				communityVote.setcVoteText1(cVoteText1);
@@ -173,6 +175,76 @@ public class CommunityController {
 			return "common/errorPage";
 		}	
 	}
+	
+	//글 수정
+	@ResponseBody
+	@RequestMapping(value="/community/modify.sw", method=RequestMethod.POST)
+	public String modifyCommunity(
+			Model model
+			,HttpServletRequest request
+			,@RequestParam(value="uploadFile", required=false) MultipartFile comImgName
+			,@RequestParam("comNo")int comNo
+			,@RequestParam("comContent")String comContent // @RequestParam으로 값을 가져와서 세팅해줘야함
+			,@RequestParam("comTitle")String comTitle
+			,@RequestParam(value="cVoteText1", required=false, defaultValue="")String cVoteText1
+			,@RequestParam(value="cVoteText2", required=false, defaultValue="")String cVoteText2
+			,@RequestParam(value="cVoteText3", required=false, defaultValue="")String cVoteText3
+			,@RequestParam(value="cVoteText4", required=false, defaultValue="")String cVoteText4
+			,@RequestParam(value="cVoteState")Integer cVoteState) {
+	
+		
+	
+		
+		Community community = new Community();
+		CommunityVote communityVote = new CommunityVote();
+		
+		community.setComNo(comNo);
+		community.setComTitle(comTitle);//값넣어주기
+		community.setComContent(comContent);
+		
+		if(comImgName != null && !comImgName.getOriginalFilename().equals("")) {
+			HashMap<String, String> fileMap = saveFile(comImgName, request);
+			String filePath = fileMap.get("filePath");
+			String fileRename = fileMap.get("fileName"); //바꾼 이름을 가져옴
+			if(filePath != null && !filePath.equals("")) {
+				community.setComImgName(comImgName.getOriginalFilename()); 
+				community.setComImgRename(fileRename); //가져온 값을 넣어줌
+				community.setComImgPath(filePath);
+			}
+		}
+		
+		int result = cService.modifyCommunity(community);
+		
+		communityVote.setComNo(comNo);
+		communityVote.setcVoteText1(cVoteText1);
+		communityVote.setcVoteText2(cVoteText2);
+		communityVote.setcVoteText3(cVoteText3);
+		communityVote.setcVoteText4(cVoteText4);
+		
+		
+		
+		if(cVoteState != null && cVoteState == 0) {//만약 등록 되어있는 투표를 수정할 경우
+			
+			cService.modifyCommunityVote(communityVote);
+		}
+		
+		if(!cVoteText1.equals("") && cVoteState == null) {
+			//투표가 등록되어있지 않은 게시판에 투표를 새로 추가할 경우
+			cService.registerCommunityVote(communityVote);
+		}
+		
+		
+		
+		
+		
+		if(result>0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+	
+	
 
 	
 	//글삭제

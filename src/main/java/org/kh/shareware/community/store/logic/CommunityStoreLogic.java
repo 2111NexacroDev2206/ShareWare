@@ -18,21 +18,36 @@ public class CommunityStoreLogic implements CommunityStore {
 		int result = sqlsession.insert("CommnuityMapper.insertCommnuity",community);
 		return result;
 	}
+	
+	//글 번호 검색
+	@Override
+	public int selectComNo(SqlSession sqlsession) {
+		int result =sqlsession.selectOne("CommnuityMapper.selectComNo");
+		return result;
+	}
 
 	@Override
-	public List<Community> listCommunity(SqlSession sqlsession) {
+	public List<Community> SelectAllCommunity(SqlSession sqlsession) {
 		List<Community> cList = sqlsession.selectList("CommnuityMapper.listCommnuity");
 		return cList;
 	}
-
+	
+	//상세보기
 	@Override
 	public Community detailCommunity(SqlSession sqlsession, Integer comNo) {
 		Community community = sqlsession.selectOne("CommnuityMapper.detailOneByNo", comNo);
 		return community;
 	}
-
+	//수정
 	@Override
-	public int resisterCommunity(SqlSession sqlsession, int comNo) {
+	public int updateCommunity(SqlSession sqlsession, Community community) {
+		int result = sqlsession.update("CommnuityMapper.updateCommunity", community);
+		return result;
+	}
+	
+	//삭제
+	@Override
+	public int deleteCommunity(SqlSession sqlsession, int comNo) {
 		int result = sqlsession.delete("CommnuityMapper.deleltCommunity", comNo);
 		return result;
 	}
@@ -50,13 +65,13 @@ public class CommunityStoreLogic implements CommunityStore {
 	}
 
 	@Override
-	public int removeCommunityVote(SqlSession sqlsession, Integer comNo) {
+	public int deleteCommunityVote(SqlSession sqlsession, Integer comNo) {
 		int result = sqlsession.delete("CommnuityMapper.deleteCommnuityVote", comNo);
 		return result;
 	}
 
 	@Override
-	public CommunityVote deleteCommunityVote(SqlSession sqlsession, Integer comNo) {
+	public CommunityVote detailCommunityVote(SqlSession sqlsession, Integer comNo) {
 		CommunityVote communityVote = sqlsession.selectOne("CommnuityMapper.CommnuityVoteView", comNo);
 		return communityVote;
 	}
@@ -90,6 +105,16 @@ public class CommunityStoreLogic implements CommunityStore {
 		int result = sqlsession.delete("CommnuityMapper.deleteCVoteMember", comNo);
 		return result;
 	}
+
+	@Override
+	public void updateCommunityVote(SqlSession sqlsession, CommunityVote communityVote) {
+		sqlsession.update("CommnuityMapper.uqdateCommunityVote", communityVote);
+		
+	}
+
+	
+
+
 
 	
 

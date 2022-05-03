@@ -10,10 +10,12 @@ import org.kh.shareware.community.domain.CommunityVoteSelect;
 public interface CommunityService {
 
 	int resisterCommunity(Community community);
+	int searchComNo();
 	List<Community> listCommunity();
 	Community detailCommunity(Integer comNo);
 	int removeCommunity(int comNo);
 	int viewCountCommunity(Integer comNo);
+	
 	
 	
 	
@@ -26,6 +28,9 @@ public interface CommunityService {
 	int registerCVoteSelect(CommunityVoteSelect cVoteSelect);
 	int countCVoteSelect(Map<String, Object> map);
 	int removeCVoteMember(Integer comNo);
+	int modifyCommunity(Community community);
+	void modifyCommunityVote(CommunityVote communityVote);
+	
 	
 	
 

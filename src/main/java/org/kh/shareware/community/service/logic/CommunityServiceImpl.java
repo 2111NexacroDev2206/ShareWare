@@ -18,6 +18,13 @@ public class CommunityServiceImpl implements CommunityService{
 	@Autowired
 	private SqlSession sqlsession;
 	
+
+	@Override
+	public int searchComNo() {
+		int result = cStore.selectComNo(sqlsession);
+		return result;
+	}
+	
 	@Override
 	public int resisterCommunity(Community community) {
 		int result = cStore.resisterCommunity(sqlsession, community);
@@ -26,9 +33,16 @@ public class CommunityServiceImpl implements CommunityService{
 
 	@Override
 	public List<Community> listCommunity() {
-		List<Community> cList = cStore.listCommunity(sqlsession);
+		List<Community> cList = cStore.SelectAllCommunity(sqlsession);
 		return cList;
 	}
+	
+	@Override
+	public int modifyCommunity(Community community) {
+		int result = cStore.updateCommunity(sqlsession, community);
+		return result;
+	}
+
 
 	@Override
 	public Community detailCommunity(Integer comNo) {
@@ -38,7 +52,7 @@ public class CommunityServiceImpl implements CommunityService{
 
 	@Override
 	public int removeCommunity(int comNo) {
-		int result = cStore.resisterCommunity(sqlsession, comNo);
+		int result = cStore.deleteCommunity(sqlsession, comNo);
 		return result;
 	}
 
@@ -56,13 +70,13 @@ public class CommunityServiceImpl implements CommunityService{
 
 	@Override
 	public int removeCommunityVote(Integer comNo) {
-		int result = cStore.removeCommunityVote(sqlsession,comNo);
+		int result = cStore.deleteCommunityVote(sqlsession,comNo);
 		return result;
 	}
 
 	@Override
 	public CommunityVote detailCommunityVote(Integer comNo) {
-		CommunityVote communityVote = cStore.deleteCommunityVote(sqlsession,comNo);
+		CommunityVote communityVote = cStore.detailCommunityVote(sqlsession,comNo);
 		return communityVote;
 	}
 
@@ -95,5 +109,14 @@ public class CommunityServiceImpl implements CommunityService{
 		int result =cStore.removeCVoteMember(sqlsession, comNo);
 		return result;
 	}
+
+	//투표 수정
+	@Override
+	public void modifyCommunityVote(CommunityVote communityVote) {
+		cStore.updateCommunityVote(sqlsession,communityVote);
+		
+	}
+
+
 
 }
