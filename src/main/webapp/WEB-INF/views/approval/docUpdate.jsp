@@ -12,7 +12,7 @@
 	<title>반려 문서 재상신</title>
 </c:if>
 <link href="/resources/css/approval/appWrite-style.css" rel="stylesheet">
-<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/4.18.0/full-all/ckeditor.js"></script>
 </head>
 <body>
 	<jsp:include page="appMenu.jsp"></jsp:include> <!-- 메뉴 + 소메뉴 -->
@@ -35,13 +35,13 @@
 					<td class="td-4">담당</td>
 					<td class="td-4" id="r-app0">${aList[0].rank }</td>
 					<td class="td-4" id="r-app1">${aList[1].rank }</td>
-					<td class="td-4" id="r-app2">${aList[2].rank }</td>
+					<td class="td-4" id="r-app2" colspan="2">${aList[2].rank }</td>
 				</tr>
 				<tr class="tr-s">
-					<td class="td-5" rowspan="3">${appDoc.docDate }</td>
-					<td align="center" rowspan="3">${aList[0].appDate }<button type="button" onclick="appBtn('app');">선택</button></td>
-					<td class="td-5" rowspan="3">${aList[1].appDate }</td>
-					<td class="td-5" rowspan="3">${aList[2].appDate }</td>
+					<td rowspan="3"></td>
+					<td align="center" rowspan="3"><button type="button" class="btn-select-app" onclick="appBtn('app');">선택</button></td>
+					<td rowspan="3"></td>
+					<td rowspan="3" colspan="2"></td>
 				</tr>
 				<tr class="tr-m">
 					<td class="td-1">기안일</td>
@@ -49,40 +49,42 @@
 				</tr>
 				<tr class="tr-s">
 					<td class="td-1" rowspan="2">기안자</td>
-					<td class="td-2" rowspan="2">${appDoc.memName }<input type="hidden" value="${loginUser.memberNum }" name="memNum" readonly></td>
+					<td class="td-5" rowspan="2">${appDoc.memName }<input type="hidden" value="${loginUser.memberNum }" name="memNum" readonly></td>
 				</tr>
-				<tr>
-					<td class="td-4">${appDoc.memName }</td>
-					<td class="td-4" id="name-app0">${aList[0].memberName }</td>
-					<td class="td-4" id="name-app1">${aList[1].memberName }</td>
-					<td class="td-4" id="name-app2">${aList[2].memberName }</td>
+				<tr class="tr-s">
+					<td class="td-5">${appDoc.memName }</td>
+					<td class="td-5" id="name-app0">${aList[0].memberName }</td>
+					<td class="td-5" id="name-app1">${aList[1].memberName }</td>
+					<td class="td-5" id="name-app2" colspan="2">${aList[2].memberName }</td>
 				</tr>
 				<tr class="tr-m">
 					<td class="td-1">참조자</td>
-					<td colspan="5" id="ref-list">
-						<c:forEach items="${rList }" var="appRef" varStatus="index">
-							<c:choose>
-								<c:when test="${!index.last}">
-									${appRef.division } ${appRef.memberName } ${appRef.rank },
-								</c:when>
-								<c:when test="${index.last}">
-									${appRef.division } ${appRef.memberName } ${appRef.rank }
-								</c:when>
-	    					</c:choose>
-						</c:forEach>
+					<td colspan="6" style="border-right: none;">
+						<span class="s-refList" id="ref-list">
+							<c:forEach items="${rList }" var="appRef" varStatus="index">
+								<c:choose>
+									<c:when test="${!index.last}">
+										${appRef.division } ${appRef.memberName } ${appRef.rank },
+									</c:when>
+									<c:when test="${index.last}">
+										${appRef.division } ${appRef.memberName } ${appRef.rank }
+									</c:when>
+		    					</c:choose>
+							</c:forEach>
+						</span>
 					</td>
-					<td><button id="app-btn" type="button" onclick="appBtn('ref');">+</button></td>
+					<td class="td-btn" style="border-left: none;"><button id="app-btn" type="button" class="btn-select-ref" onclick="appBtn('ref');">+</button></td>
 				</tr>
 				<tr id="tr-title" class="tr-m">
 					<td class="td-1">제목</td>
-					<td colspan="6"><input type="text" name="docTitle" id="td-title" value="${appDoc.docTitle }"></td>
+					<td colspan="7"><input type="text" name="docTitle" id="td-title" value="${appDoc.docTitle }" class="i-title"></td>
 				</tr>
 				<c:set var="formName" value="${appDoc.formName}" />
 				<c:if test="${formName eq '휴가신청서'}">
-	                <tr>
-	                    <td>휴가 종류</td>
-	                    <td colspan="6">
-	                    	<select id="leaveType" name="leaveType">
+	                <tr class="tr-m">
+	                    <td class="td-1">휴가종류</td>
+	                    <td colspan="7">
+	                    	<select id="leaveType" name="leaveType" class="leave-type">
 	                            <option value="">선택</option>
 	                            <option value="연차">연차</option>
 	                            <option value="반차">반차</option>
@@ -92,57 +94,85 @@
 	                        </select>
 	                    </td>
 	                </tr>
-	                <tr>
-	                    <td>휴가 기간</td>
-	                    <td colspan="6" id="td-leave-date">
-	                    	<input type="date" name="leaveStart" onchange="leaveStartDate(event)" id="startDate" value="${appDoc.leaveStart }">
-	                        <span id="tilde">~</span>
-	                        <input type="date" name="leaveEnd" id="endDate" value="${appDoc.leaveEnd }" onchange="leaveEndDate(event)"> 
-	                        <span id="leaveTime" style="display: none;"><input type="radio" name="leaveTime" id="am" value="오전">오전 <input type="radio" name="leaveTime" id="pm" value="오후">오후 </span> 
-                        	휴가 일수 : <span id="s-leaveDay">${appDoc.leaveDay }</span><input type="hidden" name="leaveDay" id="i-leaveDay" value="${appDoc.leaveDay }" readonly>
+	                <tr class="tr-m">
+	                    <td class="td-1">휴가기간</td>
+	                    <td colspan="7" id="td-leave-date">
+	                    	<div class="leave-date">
+		                    	<input type="date" name="leaveStart" onchange="leaveStartDate(event)" id="startDate" value="${appDoc.leaveStart }">
+		                        <span id="tilde">~</span>
+		                        <input type="date" name="leaveEnd" id="endDate" value="${appDoc.leaveEnd }" onchange="leaveEndDate(event)"> 
+		                        <span id="leaveTime" class="leave-time" style="display: none;">
+		                        	<input type="radio" name="leaveTime" id="am" value="오전">오전
+		                        	<input type="radio" name="leaveTime" id="pm" value="오후">오후
+		                        </span>
+		                        <span class="leave-day">
+	                        		<span>휴가 일수 : </span>
+	                        		<span id="s-leaveDay">${appDoc.leaveDay }</span>
+	                        	</span>
+	                        	<input type="hidden" name="leaveDay" id="i-leaveDay" value="${appDoc.leaveDay }" readonly>
+	                    	</div>
+	                    </td>
+	                </tr>
+	                <tr class="tr-m">
+	                    <td class="td-1">연차일수</td>
+	                    <td colspan="7" id="td-leave-day">
+                        	<span>잔여 연차 : </span><input type="text" name="leaveLeft" id="left-leave" value="${appDoc.leaveLeft}" readonly>
+                        	<span>신청 연차 : </span><input type="text" name="leaveApply" id="apply-leave" value="${appDoc.leaveApply}" readonly>
 	                    </td>
 	                </tr>
 	                <tr>
-	                    <td>연차 일수</td>
-	                    <td colspan="6" id="td-leave-day">
-	                        	잔여 연차 : <input type="text" name="leaveLeft" id="left-leave" value="${appDoc.leaveLeft}" readonly>
-	                        	신청 연차 : <input type="text" name="leaveApply" id="apply-leave" value="${appDoc.leaveApply}" readonly>
-	                    </td>
-	                </tr>
-	                <tr>
-	                    <td>휴가 사유</td>
-	                    <td colspan="6" id="td-leave-reason"><textarea cols="50" rows="10" name="docContent">${appDoc.docContent}</textarea></td>
+	                    <td class="td-1">휴가사유</td>
+	                    <td colspan="7" id="td-leave-reason">
+	                    	<textarea cols="50" rows="10" name="docContent">${appDoc.docContent}</textarea>
+                    	</td>
 	                </tr>
 				</c:if>
 				<c:if test="${appDoc.formName ne '휴가신청서'}">
 					<tr class="tr-m">
-						<td colspan="7" align="center">내용</td>
+						<td colspan="8" class="td-content">내용</td>
 					</tr>
 					<tr>
-						<td colspan="7">
-							<textarea name="docContent">${appDoc.docContent }</textarea>
+						<td colspan="8">
+							<textarea name="docContent" class="td-content" style="white-space: pre;">${appDoc.docContent }</textarea>
 						</td>
 					</tr>
 				</c:if>
 			</table>
-			<p>파일 첨부
-			<c:if test="${type == 'tem' }">
-				<input type="file" id="file-input" name="reloadFile">
-				<span id="file-val">${appFile.fileName }</span> <button id="btn-delete" type="button" onclick="deleteFile('${appFile.filePath}',${appFile.docNo} );">X</button>
-			</c:if>
-			<c:if test="${type == 'rej' }">
-				<input type="file" id="file-input" name="uploadFile">
-			</c:if>
-			<input type="button" value="결재 요청" onclick="docSave()">
-			<c:if test="${type == 'tem' }">
-				<input type="button" value="임시 저장" onclick="temSave()">
-			</c:if>
-			<c:if test="${type == 'rej' }">
-				<input type="button" value="임시 저장" onclick="rejTemSave()">
-			</c:if>
-			<div class="div-btn">
-				<input type="button" id="btn-cancel" value="삭제">
-				<input type="button" value="취소" onclick="location.href='/approval/temListView.sw'">
+			<div class="div-span">
+				<span class="s-text">파일 첨부</span>
+				<c:if test="${appFile.fileName == null }">
+					<label for="ex_file" id="file-label">파일 선택</label>
+				</c:if>
+				<c:if test="${type == 'tem' }">
+					<input id="ex_file" type="file" name="reloadFile" onchange="fileSelect(this.value)">
+					<span id="fileName" class="file-name">
+						<c:if test="${appFile.fileName != null }">
+							${appFile.fileName }
+						</c:if>
+						<c:if test="${appFile.fileName == null }">
+							선택된 파일이 없습니다.
+						</c:if>
+					</span>
+					<button type="button" id="btn-delete" class="file-del2" onclick="deleteFile('${appFile.filePath}',${appFile.docNo} );">X</button>
+				</c:if>
+				<c:if test="${type == 'rej' }">
+					<span id="fileName" class="file-name">선택된 파일이 없습니다.</span>
+	                <input id="ex_file" type="file" name="uploadFile" onchange="fileSelect(this.value)">
+				</c:if>
+				<button type="button" id="fileDel" class="file-del" onclick="fileDelBtn()">X</button>
+			</div>
+			<div class="div-btn2">
+				<input type="button" value="결재 요청" onclick="docSave()" class="i-left">
+				<div class="div-btn-right">
+					<c:if test="${type == 'tem' }">
+						<input type="button" value="임시 저장" onclick="temSave()">
+					</c:if>
+					<c:if test="${type == 'rej' }">
+						<input type="button" value="임시 저장" onclick="rejTemSave()">
+					</c:if>
+					<input type="button" id="btn-cancel" value="삭제">
+					<input type="button" value="취소" onclick="location.href='/approval/temListView.sw'">
+				</div>
 			</div>
 		</form>
 	</div>
@@ -152,10 +182,27 @@
 		if("${type}" == "rej") {
 			$("#form").attr("action", "/approval/saveRejDoc.sw");
 		}
+		
+		// 선택한 파일 없으면 버튼 숨기기
+		function fileSelect(value) {
+			if($("#ex_file").val() == "") { 
+				$("#fileDel").css("display", "none");
+			}else {
+				$("#fileDel").css("display", "inline-flex");
+				$("#fileName").text(value.slice(12));
+			}
+		}
+		
+		// 선택한 파일 삭제
+		function fileDelBtn() {
+			$("#ex_file").val("");
+			$("#fileName").text("선택된 파일이 없습니다.");
+			fileSelect();
+		}
 	
-		// 선택한 파일 삭제	
-		if($("#file-val").text() == "") {
-			$("#btn-delete").css("display","none");
+		// 저장된 파일 삭제	
+		if("${appFile.fileName }" == "") { // 저장된 파일이 없을 경우
+			$("#btn-delete").css("display", "none");
 		}
 		function deleteFile(filePath, docNo){
 			location.href="/approval/fileDelete.sw?filePath="+filePath+"&docNo="+docNo;
@@ -171,9 +218,9 @@
 	
 		// 유효성 체크
 		function nullChk() {
-			if($("#title").val() == "") {
+			if($("#td-title").val() == "") {
 				alert("제목을 입력해주세요.");
-				$("#title").focus();
+				$("#td-title").focus();
 				return false;
 			}
 		}
@@ -181,7 +228,7 @@
 		// CKEditor
 		if("${appDoc.formName }" !== "휴가신청서"){
 			CKEDITOR.replace( 'docContent', {
-				height: 350,
+				height: 500,
 				removePlugins: "exportpdf"
 			} );
 		}
@@ -226,7 +273,18 @@
 					$("#pm").prop("checked", true);
 				}
 			}
-		 	
+			$.ajax({ // 잔여 연차 조회
+		 		url : "/approval/leaveDocSearch.sw",
+		 		type : "get",
+		 		data : { "memberNum" : memberNum },
+		 		success : function(leaveLeft) {
+		 			totalLeave = leaveLeft;
+		 			$("#left-leave").val(totalLeave);
+		 		},
+		 		error : function() {
+		 			console.log("잔여 연차 조회 실패");
+		 		}
+		 	})
 		    function leaveStartDate(e) { // 휴가 시작일 값 날짜화
 		        leaveStart = new Date(e.target.value);
 		        calLeaveDate();
@@ -252,18 +310,6 @@
 		        viewLeaveDay(leaveDay);
 		    }
 		    $("#leaveType").change(function() { // 휴가 종류 선택에 따라 처리하는 함수
-		    	$.ajax({ // 잔여 연차 조회
-			 		url : "/approval/leaveDocSearch.sw",
-			 		type : "get",
-			 		data : { "memberNum" : memberNum },
-			 		success : function(leaveLeft) {
-			 			totalLeave = leaveLeft;
-			 			$("#left-leave").val(totalLeave);
-			 		},
-			 		error : function() {
-			 			console.log("잔여 연차 조회 실패");
-			 		}
-			 	})
 		        var leaveType = $("#leaveType").val();
 		        $("#td-title").val(leaveType + " 신청합니다.");
 		        if($(this).val() == "반차") {

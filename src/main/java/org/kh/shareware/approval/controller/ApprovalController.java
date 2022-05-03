@@ -1,6 +1,7 @@
 package org.kh.shareware.approval.controller;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -563,13 +564,20 @@ public class ApprovalController {
 	
 	// 임시 저장 수정 화면에서 선택했던 파일 삭제
 	@RequestMapping(value="/approval/fileDelete.sw", method=RequestMethod.GET)
-	public String fileDelete(ModelAndView mv
+	public ModelAndView fileDelete(ModelAndView mv
 			, @RequestParam(value = "filePath", required = false) String filePath 
 			, @RequestParam(value = "docNo", required = false) int docNo 
 			, HttpServletRequest request){
+		try {
 			deleteFile(filePath, request);
 			aService.removeFile(docNo);
-			return "redirect:/approval/detail.sw?docNo=" + docNo + "&type=tem";
+			String docStatus = URLEncoder.encode("임시", "UTF-8"); // 한글 파라미터 깨짐 방지
+			mv.setViewName("redirect:/approval/detail.sw?docNo=" + docNo + "&type=tem" + "&docStatus=" + docStatus);
+		} catch(Exception e) {
+			mv.addObject("msg", e.toString());
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
 	}
 	
 	// 결재 승인/반려
