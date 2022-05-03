@@ -18,6 +18,7 @@
 #table td {
 	text-align: center;
 	border: 1px solid black;
+	font-size: 14.5px;
 }
 .td-1 { /* 왼쪽에서 첫 번째(문서번호, 기안일, 기안자...) */
 	background-color: rgb(240, 240, 240);

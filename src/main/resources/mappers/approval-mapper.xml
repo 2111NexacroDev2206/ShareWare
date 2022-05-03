@@ -330,13 +330,13 @@
 		</if>
 	</select>
 	<update id="updateAppStatus"><!-- 결재 승인/반려(결재자 상태 변경) -->
-		UPDATE APPROVAL SET APP_STATUS = #{appStatus}
-		<if test="rejReason.toString() != ''">
+		UPDATE APPROVAL SET APP_STATUS = #{appStatus}, APP_DATE = #{appDate}
+		<if test="rejReason != null">
 			, REJ_REASON = #{rejReason}
 		</if>
 		WHERE DOC_NO = #{docNo} AND MEM_NUM = #{memNum}
 	</update>
-	<update id="updateDocStatus"><!-- 결재 승인/반려(결재자 상태 변경) -->
+	<update id="updateDocStatus"><!-- 결재 승인/반려(문서 상태 변경) -->
 		UPDATE APP_DOC SET DOC_STATUS = #{docStatus} WHERE DOC_NO = #{docNo}
 	</update>
 	<select id="selectListAppStatus" resultMap="approvalResultMap"><!-- 다음 차례 결재자 확인 -->

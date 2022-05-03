@@ -1,6 +1,7 @@
 package org.kh.shareware.approval.controller;
 
 import java.io.File;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -577,7 +578,7 @@ public class ApprovalController {
 			, @PathVariable("param") String parameter
 			, @RequestParam("docNo") int docNo
 			, @RequestParam("type") String type
-			, @RequestParam("rejReason") String rejReason
+			, @RequestParam(value = "rejReason", required = false) String rejReason
 			, @ModelAttribute AppDocument appDoc
 			, @ModelAttribute Approval app
 			, HttpServletRequest request) {
@@ -585,6 +586,9 @@ public class ApprovalController {
 			HttpSession session = request.getSession();
 			app.setMemNum(((Member)session.getAttribute("loginUser")).getMemberNum()); // 세션 값에서 사원번호 가져오기
 			app.setDocNo(docNo);
+			Date nowTime = new Date(); // 현재 날짜 가져오기
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			app.setAppDate(sf.format(nowTime)); // 현재 날짜 넣기
 			int aResult = 0; // 결재자 상태 변경 결과 변수 선언
 			int dResult = 0; // 문서 상태 변경 결과 변수 선언
 			if(parameter.equals("app")) { // 결재 승인
@@ -604,15 +608,16 @@ public class ApprovalController {
 			}
 			aResult = aService.modifyAppStatus(app); // 결재자 상태 변경
 			dResult = aService.modifyDocStatus(app); // 문서 상태 변경
+			String docStatus = URLEncoder.encode(app.getDocStatus(), "UTF-8"); // 한글 파라미터 깨짐 방지
 			if(aResult > 0 && dResult > 0) {
-				mv.setViewName("redirect:/approval/detail.sw?docNo=" + docNo + "&type=" + type);
+				mv.setViewName("redirect:/approval/detail.sw?docNo=" + docNo + "&type=" + type + "&docStatus=" + docStatus);
 			}else {
 				if(parameter.equals("app")) {
 					mv.addObject("msg", "승인 실패");
 				}else if(parameter.equals("ref")) {
 					mv.addObject("msg", "반려 실패");
 				}
-				mv.addObject("loc", "/approval/detail.sw?docNo=" + docNo + "&type=" + type);
+				mv.addObject("loc", "/approval/detail.sw?docNo=" + docNo + "&type=" + type + "&docStatus=대기");
 				mv.setViewName("common/msg");
 			}
 		}catch(Exception e) {
