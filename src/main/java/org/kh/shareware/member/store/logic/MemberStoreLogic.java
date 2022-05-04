@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.common.Search;
 import org.kh.shareware.member.common.PageInfo;
+import org.kh.shareware.member.domain.Division;
 import org.kh.shareware.member.domain.Member;
 import org.kh.shareware.member.store.MemberStore;
 import org.springframework.stereotype.Repository;
@@ -54,6 +55,13 @@ public class MemberStoreLogic implements MemberStore{
 	public int selectListCount(SqlSession sqlSession) {
 		int totalCount = sqlSession.selectOne("MemberMapper.selectListCount");
 		return totalCount;
+	}
+	//조직도
+	@Override
+	public List<Division> selectOrganization(SqlSession sqlSession) {
+		List<Division>oList
+		= sqlSession.selectList("MemberMapper.selectOrganization");
+		return oList;
 	}
 
 }

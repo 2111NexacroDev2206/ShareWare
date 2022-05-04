@@ -11,6 +11,7 @@
 		<typeAlias type="org.kh.shareware.report.domain.Daily" 	 		alias="Daily"/>
 		<typeAlias type="org.kh.shareware.report.domain.Week" 	 		alias="Week"/>
 		<typeAlias type="org.kh.shareware.member.domain.Member" 		alias="Member"/>
+		<typeAlias type="org.kh.shareware.member.domain.Division" 		alias="Division"/>
 		<typeAlias type="org.kh.shareware.community.domain.Community" 	alias="Community"/>
 		<typeAlias type="org.kh.shareware.community.domain.CommunityVote" 	alias="CommunityVote"/>
 		<typeAlias type="org.kh.shareware.community.domain.CommunityVoteSelect" 	alias="CommunityVoteSelect"/>
@@ -18,6 +19,8 @@
 		<typeAlias type="org.kh.shareware.calendar.domain.Calendar" 	alias="Calendar"/>
 		<typeAlias type="org.kh.shareware.calendar.domain.CalBmk" 		alias="CalBmk"/>
 		<typeAlias type="org.kh.shareware.calendar.domain.CalMem" 		alias="CalMem"/>
+		<typeAlias type="org.kh.shareware.attendance.domain.Attendance" alias="Attendance"/>
+		<typeAlias type="org.kh.shareware.attendance.domain.Stats" 		alias="Stats"/>
 		<typeAlias type="org.kh.shareware.approval.domain.AppForm" 		alias="AppForm"/>
 		<typeAlias type="org.kh.shareware.approval.domain.AppDocument" 	alias="AppDocument"/>
 		<typeAlias type="org.kh.shareware.approval.domain.Approval" 	alias="Approval"/>
@@ -38,6 +41,7 @@
 		<mapper resource="mappers/member-mapper.xml"/>
 		<mapper resource="mappers/community-mapper.xml"/>
 		<mapper resource="mappers/calendar-mapper.xml"/>
+		<mapper resource="mappers/attendance-mapper.xml"/>
 		<mapper resource="mappers/mail-mapper.xml"/>
 		<mapper resource="mappers/project-mapper.xml"/>	
 	</mappers>

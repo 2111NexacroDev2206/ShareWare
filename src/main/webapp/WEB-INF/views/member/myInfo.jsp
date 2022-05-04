@@ -7,6 +7,16 @@
 <title>기본 정보 조회</title>
 </head>
 <body>
+<<<<<<< HEAD
+=======
+		<!-- 
+		<form method="post" action="upload" enctype="multipart/form-data">
+	         <label>파일:</label>
+	         <input multiple="multiple" type="file" name="file1">
+        </form>
+         -->
+        
+>>>>>>> refs/remotes/origin/minji
 	<div class="">
 		<form action="/member/myInfo.sw" method="post">
 			<table border="1">
