@@ -2,12 +2,14 @@ package org.kh.shareware.mail.store.logic;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+import org.kh.shareware.common.PageInfo;
+import org.kh.shareware.common.Search;
 import org.kh.shareware.mail.domain.Mail;
 import org.kh.shareware.mail.domain.MailFile;
 import org.kh.shareware.mail.domain.MailRec;
 import org.kh.shareware.mail.domain.MailRef;
-import org.kh.shareware.mail.domain.MailSearch;
 import org.kh.shareware.mail.store.MailStore;
 import org.springframework.stereotype.Repository;
 
@@ -92,11 +94,21 @@ public class MailStoreLogic implements MailStore{
 	}
 	// 임시저장 목록
 	@Override
-	public List<Mail> selectTemMail(SqlSession sqlSession) {
-		List<Mail>  tList = sqlSession.selectList("MailMapper.selectTemMail");
+	public List<Mail> selectTemMail(SqlSession sqlSession, Mail mail, PageInfo pi) {
+		int limit = pi.getDocLimit();
+		int currentPage = pi.getCurrentPage();
+		int offset = (currentPage - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<Mail>  tList = sqlSession.selectList("MailMapper.selectTemMail", rowBounds);
 		return tList;
 	}
-
+	
+	@Override
+	public int selectTemListCount(SqlSession sqlSession, Mail mail) {
+		int totalCount = sqlSession.selectOne("MailMapper.selectTemListCount", mail);
+		return totalCount;
+	}
+	
 	@Override
 	public Mail selectOneTemMail(SqlSession sqlSession, int mailNo) {
 		Mail mail = sqlSession.selectOne("MailMapper.selectOneTemMail", mailNo);
@@ -174,53 +186,136 @@ public class MailStoreLogic implements MailStore{
 
 	//메일 검색기능
 	@Override
-	public List<Mail> selectSearchMail(SqlSession sqlSession, MailSearch mailSearch) {
-		List<Mail> searchList = sqlSession.selectList("MailMapper.selectSearchList", mailSearch);
+	public List<Mail> selectSearchMail(SqlSession sqlSession,Search search, PageInfo pi) {
+		int limit = pi.getDocLimit();
+		int currentPage = pi.getCurrentPage();
+		int offset = (currentPage - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<Mail> searchList = sqlSession.selectList("MailMapper.selectSearchList", search, rowBounds);
 		return searchList;
 	}
 
 	@Override
-	public List<MailRec> selectSearchRecMail(SqlSession sqlSession, MailSearch mailSearch) {
-		List<MailRec> searchRecList = sqlSession.selectList("MailMapper.selectSearchRecList", mailSearch);
+	public List<Mail> selectSearchRecMail(SqlSession sqlSession,Search search, PageInfo pi) {
+		int limit = pi.getDocLimit();
+		int currentPage = pi.getCurrentPage();
+		int offset = (currentPage - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<Mail> searchRecList = sqlSession.selectList("MailMapper.selectSearchRecList", search, rowBounds);
 		return searchRecList;
 	}
 
 	@Override
-	public List<Mail> selectSearchMyMail(SqlSession sqlSession, MailSearch mailSearch) {
-		List<Mail> searchMyList = sqlSession.selectList("MailMapper.selectSearchMyList", mailSearch);
+	public List<Mail> selectSearchMyMail(SqlSession sqlSession,Search search, PageInfo pi) {
+		int limit = pi.getDocLimit();
+		int currentPage = pi.getCurrentPage();
+		int offset = (currentPage - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<Mail> searchMyList = sqlSession.selectList("MailMapper.selectSearchMyList", search, rowBounds);
 		return searchMyList;
 	}
 
 	@Override
-	public List<MailFile> selectSearchFileMail(SqlSession sqlSession, MailSearch mailSearch) {
-		List<MailFile> searchFileList = sqlSession.selectList("MailMapper.selectSearchFileList", mailSearch);
+	public List<Mail> selectSearchFileMail(SqlSession sqlSession, Search search, PageInfo pi) {
+		int limit = pi.getDocLimit();
+		int currentPage = pi.getCurrentPage();
+		int offset = (currentPage - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<Mail> searchFileList = sqlSession.selectList("MailMapper.selectSearchFileList", search, rowBounds);
 		return searchFileList;
 	}
 
 	//메일 목록
 	@Override
-	public List<Mail> selectMail(SqlSession sqlSession) {
-		List<Mail>  mList = sqlSession.selectList("MailMapper.selectMail");
+	public List<Mail> selectMail(SqlSession sqlSession, Mail mail, PageInfo pi) {
+		int limit = pi.getDocLimit();
+		int currentPage = pi.getCurrentPage();
+		int offset = (currentPage - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<Mail>  mList = sqlSession.selectList("MailMapper.selectMail", mail, rowBounds);
 		return mList;
 	}
 
 	@Override
-	public List<MailRec> selectRecMail(SqlSession sqlSession) {
-		List<MailRec>  mRecList = sqlSession.selectList("MailMapper.selectRecMail");
+	public List<Mail> selectRecMail(SqlSession sqlSession, Mail mail, PageInfo pi) {
+		int limit = pi.getDocLimit();
+		int currentPage = pi.getCurrentPage();
+		int offset = (currentPage - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<Mail>  mRecList = sqlSession.selectList("MailMapper.selectRecMail", mail, rowBounds);
 		return mRecList;
 	}
 
 	@Override
-	public List<Mail> selectMyMail(SqlSession sqlSession) {
-		List<Mail>  mMyList = sqlSession.selectList("MailMapper.selectMyMail");
+	public List<Mail> selectMyMail(SqlSession sqlSession, Mail mail, PageInfo pi) {
+		int limit = pi.getDocLimit();
+		int currentPage = pi.getCurrentPage();
+		int offset = (currentPage - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<Mail>  mMyList = sqlSession.selectList("MailMapper.selectMyMail", mail, rowBounds);
 		return mMyList;
 	}
 
 	@Override
-	public List<MailFile> selectFileMail(SqlSession sqlSession) {
-		List<MailFile>  mFileList = sqlSession.selectList("MailMapper.selectFileMail");
+	public List<Mail> selectFileMail(SqlSession sqlSession, Mail mail, PageInfo pi) {
+		int limit = pi.getDocLimit();
+		int currentPage = pi.getCurrentPage();
+		int offset = (currentPage - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<Mail>  mFileList = sqlSession.selectList("MailMapper.selectFileMail", mail, rowBounds);
 		return mFileList;
 	}
+
+	@Override
+	public int selectMailCount(SqlSession sqlSession, Mail mail) {
+		int totalmCount = sqlSession.selectOne("MailMapper.selectMailCount", mail);
+		return totalmCount;
+	}
+
+	@Override
+	public int selectMailRecCount(SqlSession sqlSession, Mail mail) {
+		int totalmRecCount = sqlSession.selectOne("MailMapper.selectMailRecCount", mail);
+		return totalmRecCount;
+	}
+
+	@Override
+	public int selectMailMyCount(SqlSession sqlSession, Mail mail) {
+		int totalmMyCount = sqlSession.selectOne("MailMapper.selectMailMyCount", mail);
+		return totalmMyCount;
+	}
+
+	@Override
+	public int selectMailFileCount(SqlSession sqlSession, Mail mail) {
+		int totalmFileCount = sqlSession.selectOne("MailMapper.selectMailFileCount", mail);
+		return totalmFileCount;
+	}
+
+	@Override
+	public int selectSearchListCount(SqlSession sqlSession, Search search) {
+		int totalmCount = sqlSession.selectOne("MailMapper.selectSearchCount", search);
+		return totalmCount;
+	}
+	@Override
+	public int selectSearchListRecCount(SqlSession sqlSession, Search search) {
+		int totalmRecCount = sqlSession.selectOne("MailMapper.selectSearchRecCount", search);
+		return totalmRecCount;
+	}
+
+	@Override
+	public int selectSearchListMyCount(SqlSession sqlSession, Search search) {
+		int totalmMyCount = sqlSession.selectOne("MailMapper.selectSearchMyCount", search);
+		return totalmMyCount;
+	}
+
+	@Override
+	public int selectSearchListFileCount(SqlSession sqlSession, Search search) {
+		int totalmFileCount = sqlSession.selectOne("MailMapper.selectSearchFileCount", search);
+		return totalmFileCount;
+	}
+
+	
+
+	
 
 	
 

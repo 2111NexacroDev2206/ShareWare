@@ -225,13 +225,10 @@ border-bottom: 1px solid lightgray;
 					<td><a href="${mDetail}">${mail.mailSubject }</a></td>
 					<td width="150px;"><fmt:formatDate
 							value="${mail.mailFromDate }" pattern="yyyy/MM/dd/HH:mm:ss" /></td>
-
 				</tr>
 			</c:forEach>
 		</table>
-		
-
-
+		<jsp:include page="mailPaging.jsp"></jsp:include>
 	</div>
 	</form>
 </body>
