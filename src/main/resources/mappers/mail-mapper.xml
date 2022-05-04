@@ -195,13 +195,18 @@
 			SELECT * FROM 
 			(SELECT * FROM 
             (SELECT MAIL_NO, I_STATUS, READ_TYPE, F_STATUS, MAIL_SENDER, MAIL_SUBJECT, MAIL_FROM_DATE, MEM_NUM
-			FROM MAIL WHERE MAIL_TYPE = 'T' AND MEM_NUM = #{memNum})
+			FROM MAIL WHERE MAIL_TYPE = 'T' AND MAIL.MEM_NUM = #{memNum})
 			JOIN MAIL_REC USING(MAIL_NO))
 			JOIN MEMBER ON (MEM_NUM = MEMBER_NUM)
             WHERE MAIL_RECEIVER = #{mailReceiver} OR MAIL_SENDER = #{mailSender}
 		</select>
 		<select id="selectTemListCount" resultType="_int">
-			SELECT COUNT(*) FROM MAIL WHERE MEM_NUM = #{memNum}
+			 SELECT COUNT(*) FROM MAIL 
+			JOIN MAIL_REC USING (MAIL_NO) 
+			JOIN MEMBER ON (MEM_NUM = MEMBER_NUM)
+			WHERE MAIL_TYPE ='T' AND MAIL.MEM_NUM = #{memNum}
+            AND (MAIL_RECEIVER = #{mailReceiver}
+            OR MAIL_SENDER = #{mailSender})
 		</select>
 		<delete id="deleteChkMail">
 			DELETE FROM MAIL WHERE MAIL_NO = #{values}

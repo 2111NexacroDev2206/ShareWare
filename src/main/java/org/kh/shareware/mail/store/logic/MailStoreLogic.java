@@ -99,7 +99,7 @@ public class MailStoreLogic implements MailStore{
 		int currentPage = pi.getCurrentPage();
 		int offset = (currentPage - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		List<Mail>  tList = sqlSession.selectList("MailMapper.selectTemMail", rowBounds);
+		List<Mail>  tList = sqlSession.selectList("MailMapper.selectTemMail", mail, rowBounds);
 		return tList;
 	}
 	

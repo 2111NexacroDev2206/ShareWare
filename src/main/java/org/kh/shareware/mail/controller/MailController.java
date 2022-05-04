@@ -253,15 +253,16 @@ public class MailController {
 			int totalCount = mService.getTemMailCount(mail);
 			PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
 			List<Mail> tList = mService.printTemMail(mail, pi);
-			mv.addObject("pi", pi);
+			
 			if(!tList.isEmpty()) {
 				mv.addObject("tList", tList);
 				mv.setViewName("mail/mailTemList");
-				
+				mv.addObject("pi", pi);
 			} else {
 				mv.addObject("msg", "임시 저장 조회 실패");
 				mv.setViewName("common/errorPage");
 			}
+			
 		} catch (Exception e) {
 			mv.addObject("msg", e.toString());
 			mv.setViewName("common/errorPage");

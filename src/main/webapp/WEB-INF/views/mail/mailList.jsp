@@ -71,11 +71,13 @@ border-bottom: 1px solid lightgray;
 }
 </style>
 </head>
-
+<jsp:include page="../common/menuBar.jsp"></jsp:include>
+	
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<jsp:include page="../mail/mailMenu.jsp"></jsp:include>
 <body>
-	<jsp:include page="../common/menuBar.jsp"></jsp:include>
+	
 	<script type="text/javascript">
 		$(function() {
 			$("#allCheck").click(function() {
@@ -86,19 +88,6 @@ border-bottom: 1px solid lightgray;
 			});			
 			
 		});
-		/* $(function() {
-			var chkObj = document.getElementsByName("RowCheck");
-			var rowCnt = chkObj.length;
-	
-			
-			$("input[name='RowCheck']").click(function() {
-				if ($("input[name='RowCheck']:checked").length == rowCnt) {
-					$("input[name='allCheck']")[0].checked = true;
-				} else {
-					$("input[name='allCheck']")[0].checked = false;
-				}
-			});
-		}); */
 		function deleteValue() {
 	
 			var valueArr = new Array();
@@ -108,7 +97,6 @@ border-bottom: 1px solid lightgray;
 					valueArr.push(list[i].value);
 				}
 			}
-	
 			if (valueArr.length == 0) {
 				alert("선택된 메일이 없습니다.")
 			} else {
@@ -142,34 +130,6 @@ border-bottom: 1px solid lightgray;
 			}
 		}
 	</script>
-	
-		<div class="s-menu">
-			<div class="s-menu-title">
-				<p>메일
-				<i class="fa-solid fa-pen-to-square fa-lg"></i>
-			</div>
-			<div>
-			 	&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" onclick="location.href= 'WriteView.sw';" style="width:90px; height: 35px;">메일쓰기</button>
-				&nbsp;&nbsp;<button type="submit" onclick="location.href= 'WriteView.sw';" style="width: 90px; height: 35px;">내게쓰기</button>
-			</div>
-			<div>
-				<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}" id="read"><a href="#"><small>안읽음</small></a></div>
-				<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}" id="bmk"><a href="#"><small>중요</small></a></div>
-				<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}" id="file"><a href="/mail/FmailListView.sw"><small>첨부</small></a></div>
-			</div>
-			<div>
-				<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}"><a href="/mail/SmailListView.sw">받은 메일함</a></div>
-				<div class="s-list-item ${listCondition eq 'approval' ? 'active' : ''}"><a href="/mail/RmailListView.sw">보낸 메일함</a></div>
-				<div class="s-list-item ${listCondition eq 'reference' ? 'active' : ''}"><a href="/mail/MmailListView.sw">내게 쓴 메일함</a></div>
-				<div class="s-list-item ${listCondition eq 'reference' ? 'active' : ''}"><a href="">보낸 승인 메일함</a></div>
-				<div class="s-list-item ${listCondition eq 'reference' ? 'active' : ''}"><a href="">즐겨찾는 그룹</a></div>
-				<div class="s-list-item ${listCondition eq 'temporary' ? 'active' : ''}"><a href="/mail/mailTemListView.sw">임시 저장함</a></div>
-
-			</div>
-		</div>
-		
-	
-	
 	<div id="mailRList">
 	<button type="submit" onclick="deleteValue();">삭제하기</button>
 	<form action="/mail/${mailCategory}mailSearch.sw" method="get">
