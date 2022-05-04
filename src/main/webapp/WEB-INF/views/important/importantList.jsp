@@ -5,13 +5,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8"> 
+<meta charset="UTF-8">
 <title>중요공지 목록</title>
 </head>
 <body>
-<div>
+<jsp:include page="../project/projectMainMenu.jsp"></jsp:include>
+	<div class="s-container">
 	<h2>중요공지</h2>
-		<a herf="">+공지작성</a>
+		<a href="/project/importantWriteView.sw?projectNo=${projectNo }">+공지작성</a>
 		<table border="1">
 			<thead>
 				<tr>
@@ -24,9 +25,10 @@
 			<tbody>
 			<c:forEach items="${iList }" var="important" varStatus="status">
 				<tr>
-					<td>${fn:length(dList ) - status.count + 1}</td>
-					<c:url var="iDetail" value="/project/importantDetailsw?projecNo=${project.projectNo} ">
+					<td>${fn:length(iList ) - status.count + 1}</td>
+					<c:url var="iDetail" value="/project/importantDetail.sw">
 						<c:param name="importantNo" value="${important.importantNo }"></c:param>
+						<c:param name="projectNo" value="${projectNo }"></c:param>
 					</c:url>
 					<td><a href="${iDetail }">${important.importantTitle }</a></td>
 					<td>${important.importantDate }</td>

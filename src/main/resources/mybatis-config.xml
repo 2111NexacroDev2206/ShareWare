@@ -39,6 +39,6 @@
 		<mapper resource="mappers/calendar-mapper.xml"/>
 		<mapper resource="mappers/mail-mapper.xml"/>
 		<mapper resource="mappers/project-mapper.xml"/>	
-		<mapper resource="mappers/inotice-mapper.xml"/>	
+		<mapper resource="mappers/important-mapper.xml"/>	
 	</mappers>
 </configuration>

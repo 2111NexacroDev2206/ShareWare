@@ -9,7 +9,7 @@ import org.kh.shareware.report.store.DailyStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service()
 public class DailyServiceImpl implements DailyService{
 
 	@Autowired
