@@ -6,3 +6,7 @@
 .DS_Store
 /bin/
 /target/
+auploadFiles/
+duploadFiles/
+wuploadFiles/
+loadFile/

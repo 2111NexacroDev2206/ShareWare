@@ -1,6 +1,8 @@
 
 package org.kh.shareware.calendar.service.logic;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.calendar.domain.CalSch;
 import org.kh.shareware.calendar.service.CalendarService;
@@ -23,6 +25,10 @@ public class CalendarServiceImpl implements CalendarService{
 	public int registerSchedule(CalSch calSch) {
 		int result = cStore.insertSchedule(calSch, sqlSession);
 		return result;
+	}@Override
+	public List<CalSch> printAllSchedule() {
+		List<CalSch> sList = cStore.selectAllSchedule(sqlSession);
+		return sList;
 	}
 
 }

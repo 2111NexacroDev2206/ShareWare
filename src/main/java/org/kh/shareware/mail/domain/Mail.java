@@ -22,14 +22,20 @@ public class Mail {
 	private char resHour;
 	private char resMin;
 	private String memNum;
-	
+	private String mailReceiver;
+	private String mailReferee;
+	private String mailFileName;
+	private String mailFileRename;
+	private String mailFilePath;
+
 	
 	public Mail() {}
 
 
 	public Mail(int mailNo, String mailType, String mailSubject, String mailContent, int mailCount, String mailSender,
 			String mailFromAddr, int rStatus, int iStatus, int readType, int fStatus, Date mailFromDate,
-			Date mailToDate, Date aDate, String rejReason, Date resDate, char resHour, char resMin, String memNum) {
+			Date mailToDate, Date aDate, String rejReason, Date resDate, char resHour, char resMin, String memNum,
+			String mailReceiver, String mailReferee, String mailFileName, String mailFileRename, String mailFilePath) {
 		super();
 		this.mailNo = mailNo;
 		this.mailType = mailType;
@@ -50,6 +56,11 @@ public class Mail {
 		this.resHour = resHour;
 		this.resMin = resMin;
 		this.memNum = memNum;
+		this.mailReceiver = mailReceiver;
+		this.mailReferee = mailReferee;
+		this.mailFileName = mailFileName;
+		this.mailFileRename = mailFileRename;
+		this.mailFilePath = mailFilePath;
 	}
 
 
@@ -243,6 +254,56 @@ public class Mail {
 	}
 
 
+	public String getMailReceiver() {
+		return mailReceiver;
+	}
+
+
+	public void setMailReceiver(String mailReceiver) {
+		this.mailReceiver = mailReceiver;
+	}
+
+
+	public String getMailReferee() {
+		return mailReferee;
+	}
+
+
+	public void setMailReferee(String mailReferee) {
+		this.mailReferee = mailReferee;
+	}
+
+
+	public String getMailFileName() {
+		return mailFileName;
+	}
+
+
+	public void setMailFileName(String mailFileName) {
+		this.mailFileName = mailFileName;
+	}
+
+
+	public String getMailFileRename() {
+		return mailFileRename;
+	}
+
+
+	public void setMailFileRename(String mailFileRename) {
+		this.mailFileRename = mailFileRename;
+	}
+
+
+	public String getMailFilePath() {
+		return mailFilePath;
+	}
+
+
+	public void setMailFilePath(String mailFilePath) {
+		this.mailFilePath = mailFilePath;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Mail [mailNo=" + mailNo + ", mailType=" + mailType + ", mailSubject=" + mailSubject + ", mailContent="
@@ -250,7 +311,15 @@ public class Mail {
 				+ mailFromAddr + ", rStatus=" + rStatus + ", iStatus=" + iStatus + ", readType=" + readType
 				+ ", fStatus=" + fStatus + ", mailFromDate=" + mailFromDate + ", mailToDate=" + mailToDate + ", aDate="
 				+ aDate + ", rejReason=" + rejReason + ", resDate=" + resDate + ", resHour=" + resHour + ", resMin="
-				+ resMin + ", memNum=" + memNum + "]";
+				+ resMin + ", memNum=" + memNum + ", mailReceiver=" + mailReceiver + ", mailReferee=" + mailReferee
+				+ ", mailFileName=" + mailFileName + ", mailFileRename=" + mailFileRename + ", mailFilePath="
+				+ mailFilePath + "]";
 	}
+	
+
+	
+
+	
+
 
 }

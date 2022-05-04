@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>휴가신청서</title>
+<title>중요공지 상세페이지</title>
 </head>
 <body>
 

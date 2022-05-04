@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="MailMapper">
+	
+	<resultMap type="Mail" id="mailResultMap">
+		<id property="mailNo" column="MAIL_NO"/>
+		<result property="mailType" column="MAIL_TYPE"/>
+		<result property="mailSubject" column="MAIL_SUBJECT"/>
+		<result property="mailContent" column="MAIL_CONTENT"/>
+		<result property="mailCount" column="MAIL_COUNT"/>
+		<result property="mailSender" column="MAIL_SENDER"/>
+		<result property="mailFromAddr" column="MAIL_FROM_ADDR"/>
+		<result property="rStatus" column="R_STATUS"/>
+		<result property="iStatus" column="I_STATUS"/>
+		<result property="readType" column="READ_TYPE"/>
+		<result property="fStatus" column="F_STATUS"/>
+		<result property="mailFromDate" column="MAIL_FROM_DATE"/>
+		<result property="mailToDate" column="MAIL_TO_DATE"/>
+		<result property="aStatus" column="A_STATUS"/>
+		<result property="aDate" column="A_DATE"/>
+		<result property="rejReason" column="REJ_REASON"/>
+		<result property="resDate" column="RES_DATE"/>
+		<result property="resHour" column="RES_HOUR"/>
+		<result property="resMin" column="RES_MIN"/>
+		<result property="memNum" column="MEM_NUM"/>
+		<result property="mailReceiver" column="MAIL_RECEIVER"/>
+		<result property="mailReferee" column="MAIL_REFEREE"/>
+		<result property="mailFileName" column="MAIL_FILE_NAME"/>
+		<result property="mailFileRename" column="MAIL_FILE_RENAME"/>
+		<result property="mailFilePath" column="MAIL_FILE_PATH"/>
+	</resultMap>
+	
+	<resultMap type="MailRec" id="mailRecResultMap">
+		<id property="mailNo" column="MAIL_NO"/>	
+		<result property="mailReceiver" column="MAIL_RECEIVER"/>
+		<result property="recNo" column="REC_NO"/>
+		<result property="mailToAddr" column="MAIL_TO_ADDR"/>	
+	</resultMap> 
+	
+	<resultMap type="MailRef" id="mailRefResultMap">
+		<id property="mailNo" column="MAIL_NO"/>	
+		<result property="mailReferee" column="MAIL_REFEREE"/>
+		<result property="refNo" column="REF_NO"/>
+		<result property="mailToAddr" column="MAIL_TO_ADDR"/>	
+	</resultMap> 
+	
+	<resultMap type="MailFile" id="mailFileResultMap">
+		<id property="mailFileNo" column="MAIL_FILE_NO"/>	
+		<result property="mailNo" column="MAIL_NO"/>
+		<result property="mailFileName" column="MAIL_FILE_NAME"/>
+		<result property="mailFileRename" column="MAIL_FILE_RENAME"/>
+		<result property="mailFilePath" column="MAIL_FILE_PATH"/>	
+		<result property="memNum" column="MEM_NUM"/>		
+	</resultMap> 
+	
+	<resultMap type="MailBmk" id="maiBmkResultMap">
+		<id property="bmkNo" column="BMK_NO"/>	
+		<result property="mailNo" column="MAIL_NO"/>
+		<result property="bmkSubject" column="BMK_SUBJECT"/>
+		<result property="bmkName" column="BMK_NAME"/>	
+		<result property="bmkAddr" column="BMK_ADDR"/>	
+		<result property="bmkName" column="BMK_NAME"/>	
+		<result property="memNum" column="MEM_NUM"/>	
+	</resultMap> 
+	
+	<!-- <resultMap type="MailAll" id="mailAllResultMap">
+		<collection property="Mail" resultMap ="mailResultMap"/>
+		<collection property="MailRec" resultMap ="mailRecResultMap"/>
+		<collection property="MailRef" resultMap ="mailRefResultMap"/>
+		<collection property="MailFile" resultMap ="mailFileResultMap"/>
+	</resultMap> -->
+	
+		<insert id="insertMail">
+		 	INSERT INTO MAIL(MAIL_NO, MAIL_TYPE, MAIL_SUBJECT, MAIL_CONTENT, MAIL_SENDER, MAIL_FROM_DATE, MEM_NUM) 
+			VALUES(SEQ_MAIL_NO.NEXTVAL, 'S', #{mailSubject}, #{mailContent}, '111', DEFAULT, #{memNum}) 
+		</insert>
+		<insert id="insertMailRec">
+			INSERT INTO MAIL_REC(MAIL_NO, MAIL_RECEIVER, REC_NO) VALUES(SEQ_MAIL_NO.CURRVAL, #{mailReceiver}, SEQ_REC_NO.NEXTVAL) 
+		</insert>
+		<insert id="insertMailRef">
+			INSERT INTO MAIL_REF(MAIL_NO, MAIL_REFEREE, REF_NO) VALUES(SEQ_MAIL_NO.CURRVAL, #{mailReferee}, SEQ_REF_NO.NEXTVAL)
+		</insert>
+		<insert id="insertMailFile">
+			INSERT INTO MAIL_FILE(MAIL_FILE_NO, MAIL_NO, MAIL_FILE_NAME, MAIL_FILE_RENAME, MAIL_FILE_PATH, MEM_NUM)
+			VALUES(	SEQ_MAIL_FILE_NO.NEXTVAL, SEQ_MAIL_NO.CURRVAL, #{mailFileName}, #{mailFileRename}, #{mailFilePath}, #{memNum}) 
+		</insert>
+		
+		<insert id="insertTemMail">
+			INSERT INTO MAIL(MAIL_NO, MAIL_TYPE, MAIL_SUBJECT, MAIL_CONTENT, MAIL_SENDER, MAIL_FROM_DATE, MEM_NUM) 
+			VALUES(SEQ_MAIL_NO.NEXTVAL, 'T', #{mailSubject}, #{mailContent}, 'admin', DEFAULT, #{memNum}) 
+		</insert>
+		<insert id="insertTemMailRec">
+			INSERT INTO MAIL_REC(MAIL_NO, MAIL_RECEIVER, REC_NO) VALUES(SEQ_MAIL_NO.CURRVAL, #{mailReceiver}, SEQ_REC_NO.NEXTVAL) 
+		</insert>
+		<insert id="insertTemMailRef">
+			INSERT INTO MAIL_REF(MAIL_NO, MAIL_REFEREE, REF_NO) VALUES(SEQ_MAIL_NO.CURRVAL, #{mailReferee}, SEQ_REF_NO.NEXTVAL)
+		</insert>
+		<insert id="insertTemMailFile">
+			INSERT INTO MAIL_FILE(MAIL_FILE_NO, MAIL_NO, MAIL_FILE_NAME, MAIL_FILE_RENAME, MAIL_FILE_PATH, MEM_NUM)
+			VALUES(	SEQ_MAIL_FILE_NO.NEXTVAL, SEQ_MAIL_NO.CURRVAL, #{mailFileName}, #{mailFileRename}, #{mailFilePath}, #{memNum})
+		</insert>
+		<update id="updateTemMail">
+			UPDATE MAIL SET  MAIL_SUBJECT = #{mailSubject}, MAIL_CONTENT = #{mailContent}, MAIL_SENDER = #{mailSender}, MAIL_FROM_DATE = DEFAULT WHERE MAIL_NO = #{mailNo} 
+		</update>
+		<update id="updateTemMailRec">
+			UPDATE MAIL_REC SET MAIL_RECEIVER = #{mailReceiver} WHERE MAIL_NO = #{mailNo}
+		</update>
+		<update id="updateTemMailRef">
+			UPDATE MAIL_REF SET MAIL_REFEREE = #{mailReferee} WHERE MAIL_NO = #{mailNo}
+		</update>
+		<update id="updateTemMailFile">
+			UPDATE MAIL_FILE SET MAIL_FILE_NAME = #{mailFileName}, MAIL_FILE_RENAME = #{mailFileRename}, MAIL_FILE_PATH = #{mailFilePath} WHERE MAIL_NO = #{mailNo}
+		</update> 
+		<!-- 보낸 메일-->
+		<select id="selectMail" resultMap="mailResultMap">
+			SELECT MAIL_NO, I_STATUS, READ_TYPE, F_STATUS, MAIL_SENDER, MAIL_SUBJECT, MAIL_FROM_DATE
+			 FROM MAIL WHERE MAIL_TYPE = 'S' AND MAIL_SENDER = 'admin' ORDER BY MAIL_NO DESC
+		</select>
+		<!-- 받은 메일 -->
+		<select id="selectRecMail" resultMap="mailResultMap">
+			SELECT * FROM
+			(SELECT MAIL_NO, I_STATUS, READ_TYPE, F_STATUS, MAIL_SENDER, MAIL_SUBJECT, MAIL_FROM_DATE
+			 FROM MAIL WHERE MAIL_TYPE = 'S'AND MAIL_SENDER != 'admin')
+			JOIN MAIL_REC USING(MAIL_NO)
+			WHERE MAIL_RECEIVER = 'admin'
+		</select>
+		<select id="selectMyMail" resultMap="mailResultMap">
+			SELECT * FROM
+			(SELECT MAIL_NO, I_STATUS, READ_TYPE, F_STATUS, MAIL_SENDER, MAIL_SUBJECT, MAIL_FROM_DATE
+			 FROM MAIL WHERE MAIL_TYPE = 'S')
+			JOIN MAIL_REC USING(MAIL_NO)
+			WHERE MAIL_RECEIVER = 'admin' AND MAIL_SENDER = 'admin'
+		</select>
+		<select id="selectFileMail" resultMap="mailResultMap">
+			SELECT * FROM          
+			(SELECT * FROM
+			(SELECT MAIL_NO, I_STATUS, READ_TYPE, F_STATUS, MAIL_SENDER, MAIL_SUBJECT, MAIL_FROM_DATE
+			 FROM MAIL)
+			JOIN MAIL_FILE USING(MAIL_NO))
+            JOIN MAIL_REC USING(MAIL_NO)
+			WHERE MAIL_RECEIVER = 'admin' OR MAIL_SENDER = 'admin'
+		</select>
+		<select id="selectTemMail" resultMap="mailResultMap">
+			SELECT M.MAIL_NO,  M.I_STATUS, M.READ_TYPE, M.F_STATUS, M.MAIL_SENDER, M.MAIL_SUBJECT, M.MAIL_FROM_DATE, R.MAIL_RECEIVER FROM MAIL M JOIN MAIL_REC R ON(M.MAIL_NO = R.MAIL_NO) WHERE M.MAIL_TYPE = 'T' ORDER BY M.MAIL_NO DESC
+		</select>
+		<delete id="deleteChkMail">
+			DELETE FROM MAIL WHERE MAIL_NO = #{values}
+		</delete>
+		<delete id="deleteChkMailRec">
+			DELETE FROM MAIL_REC WHERE MAIL_NO = #{values}
+		</delete>
+		<delete id="deleteChkMailRef">
+			DELETE FROM MAIL_REF WHERE MAIL_NO = #{values}
+		</delete>
+		<delete id="deleteChkMailFile">
+			DELETE FROM MAIL_FILE WHERE MAIL_NO = #{values}
+		</delete>
+		<delete id="deleteMail">
+			DELETE FROM MAIL WHERE MAIL_NO = #{mailNo}
+		</delete>
+		<delete id="deleteMailRec">
+			DELETE FROM MAIL_REC WHERE MAIL_NO = #{mailNo}
+		</delete>
+		<delete id="deleteMailRef">
+			DELETE FROM MAIL_REF WHERE MAIL_NO = #{mailNo}
+		</delete>
+		<delete id="deleteMailFile">
+			DELETE FROM MAIL_FILE WHERE MAIL_NO = #{mailNo}
+		</delete>
+		<select id="selectOneMail"  resultMap="mailResultMap">
+				SELECT MAIL_NO, MAIL_SENDER, MAIL_SUBJECT, MAIL_CONTENT
+						FROM MAIL 
+			            WHERE MAIL_NO = #{mailNo} AND MAIL_TYPE = 'S'
+		</select>
+		<select id="selectOneMailRec" resultMap="mailRecResultMap">
+				SELECT MAIL_NO, MAIL_RECEIVER
+				FROM MAIL_REC
+				WHERE MAIL_NO = #{mailNo}
+		</select>
+		<select id="selectOneMailRef" resultMap="mailRefResultMap">
+			SELECT MAIL_NO, MAIL_REFEREE
+				FROM MAIL_REF
+				WHERE MAIL_NO = #{mailNo}
+		</select>
+		<select id="selectOneMailFile" resultMap="mailFileResultMap">
+			SELECT MAIL_NO, MAIL_FILE_NAME, MAIL_FILE_RENAME, MAIL_FILE_PATH
+				FROM MAIL_FILE
+				WHERE MAIL_NO = #{mailNo}
+		</select>		
+		<select id="selectOneTemMail"  resultMap="mailResultMap">
+				SELECT MAIL_NO, MAIL_SENDER, MAIL_SUBJECT, MAIL_CONTENT
+				FROM MAIL 
+			    WHERE MAIL_NO = #{mailNo} AND MAIL_TYPE = 'T'
+		</select>
+		<select id="selectOneTemMailRec" resultMap="mailRecResultMap">
+				SELECT MAIL_NO, MAIL_RECEIVER
+				FROM MAIL_REC
+				WHERE MAIL_NO = #{mailNo}
+		</select>
+		<select id="selectOneTemMailRef" resultMap="mailRefResultMap">
+				SELECT MAIL_NO, MAIL_REFEREE
+				FROM MAIL_REF
+				WHERE MAIL_NO = #{mailNo}
+		</select>
+		<select id="selectOneTemMailFile" resultMap="mailFileResultMap">
+				SELECT MAIL_NO, MAIL_FILE_NAME, MAIL_FILE_RENAME, MAIL_FILE_PATH
+				FROM MAIL_FILE
+				WHERE MAIL_NO = #{mailNo}
+		</select>		
+		 <select id="selectSearchList" resultMap="mailResultMap">
+			SELECT * FROM MAIL 
+			<if test="searchCondition.toString() == 'sender'">
+				WHERE MAIL_SENDER LIKE '%' || #{searchValue} || '%'
+			</if>
+			<if test="searchCondition.toString() == 'subject'">
+				WHERE MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
+			</if>
+			<if test="searchCondition.toString() == 'content'">
+				WHERE MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
+			</if>
+			<if test="searchCondition.toString() == 'all'">
+				WHERE MAIL_SENDER LIKE '%' || #{searchValue} || '%'
+				OR MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
+				OR MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
+			</if>
+			ORDER BY MAIL_NO DESC
+		</select> 
+		<select id="selectSearchRecList" resultMap="mailResultMap">
+			SELECT * FROM MAIL JOIN MAIL_REC USING(MAIL_NO)
+			<if test="searchCondition.toString() == 'receiver'">
+				WHERE MAIL_RECEIVER LIKE '%' || #{searchValue} || '%'
+			</if>
+			<if test="searchCondition.toString() == 'subject'">
+				WHERE MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
+			</if>
+			<if test="searchCondition.toString() == 'content'">
+				WHERE MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
+			</if>
+			<if test="searchCondition.toString() == 'all'">
+				WHERE MAIL_RECEIVER LIKE '%' || #{searchValue} || '%'
+				OR MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
+				OR MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
+			</if>
+			ORDER BY MAIL_NO DESC
+		</select>
+		<select id="selectSearchMyList" resultMap="mailResultMap">
+			SELECT * FROM MAIL JOIN MAIL_REC USING(MAIL_NO)
+			<if test="searchCondition.toString() == 'subject'">
+				WHERE MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
+			</if>
+			<if test="searchCondition.toString() == 'content'">
+				WHERE MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
+			</if>
+			<if test="searchCondition.toString() == 'all'">
+				WHERE MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
+				OR MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
+			</if>
+			ORDER BY MAIL_NO DESC
+		</select>
+		<select id="selectSearchFileList" resultMap="mailResultMap">
+			SELECT * FROM MAIL JOIN MAIL_REC USING(MAIL_NO) JOIN MAIL_FILE USING(MAIL_NO)
+			<if test="searchCondition.toString() == 'subject'">
+				WHERE MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
+			</if>
+			<if test="searchCondition.toString() == 'fileName'">
+				WHERE MAIL_FILE_NAME LIKE '%' || #{searchValue} || '%'
+			</if>
+			<if test="searchCondition.toString() == 'all'">
+				WHERE MAIL_SUBJECT LIKE '%' || #{searchValue} || '%'
+				OR MAIL_FILE_NAME LIKE '%' || #{searchValue} || '%'
+			</if>
+			ORDER BY MAIL_NO DESC
+		</select> 
+		
+	</mapper>
+	
+		

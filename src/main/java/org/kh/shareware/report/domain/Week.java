@@ -1,31 +1,29 @@
 package org.kh.shareware.report.domain;
 
+import java.sql.Clob;
+
 public class Week {
 	private int wrNo;
 	private String memNum;
 	private String wrTitle;
 	private String wrWriter;
-	private String wrTerm;
 	private String wrDate;
 	private String wrContent;
-	private String wrNote;
 	private String fileName;
 	private String filePath;
 	private String fileReName;
 	
 	public Week() {}
 
-	public Week(int wrNo, String memNum, String wrTitle, String wrWriter, String wrTerm, String wrDate,
-			String wrContent, String wrNote, String fileName, String filePath, String fileReName) {
+	public Week(int wrNo, String memNum, String wrTitle, String wrWriter, String wrDate, String wrContent,
+			String fileName, String filePath, String fileReName) {
 		super();
 		this.wrNo = wrNo;
 		this.memNum = memNum;
 		this.wrTitle = wrTitle;
 		this.wrWriter = wrWriter;
-		this.wrTerm = wrTerm;
 		this.wrDate = wrDate;
 		this.wrContent = wrContent;
-		this.wrNote = wrNote;
 		this.fileName = fileName;
 		this.filePath = filePath;
 		this.fileReName = fileReName;
@@ -63,14 +61,6 @@ public class Week {
 		this.wrWriter = wrWriter;
 	}
 
-	public String getWrTerm() {
-		return wrTerm;
-	}
-
-	public void setWrTerm(String wrTerm) {
-		this.wrTerm = wrTerm;
-	}
-
 	public String getWrDate() {
 		return wrDate;
 	}
@@ -85,14 +75,6 @@ public class Week {
 
 	public void setWrContent(String wrContent) {
 		this.wrContent = wrContent;
-	}
-
-	public String getWrNote() {
-		return wrNote;
-	}
-
-	public void setWrNote(String wrNote) {
-		this.wrNote = wrNote;
 	}
 
 	public String getFileName() {
@@ -122,9 +104,11 @@ public class Week {
 	@Override
 	public String toString() {
 		return "Week [wrNo=" + wrNo + ", memNum=" + memNum + ", wrTitle=" + wrTitle + ", wrWriter=" + wrWriter
-				+ ", wrTerm=" + wrTerm + ", wrDate=" + wrDate + ", wrContent=" + wrContent + ", wrNote=" + wrNote
-				+ ", fileName=" + fileName + ", filePath=" + filePath + ", fileReName=" + fileReName + "]";
+				+ ", wrDate=" + wrDate + ", wrContent=" + wrContent + ", fileName=" + fileName + ", filePath="
+				+ filePath + ", fileReName=" + fileReName + "]";
 	}
+
 	
+
 	
 }

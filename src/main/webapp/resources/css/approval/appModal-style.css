@@ -50,6 +50,13 @@
 		margin-right: 5px;
 		text-align: center;
 	}
+	.s-selForm { /* 문서 양식 선택 */
+		height: 40px;
+		width: 100%;
+		border-radius: 4px;
+		border: solid 1px rgb(190, 190, 190);
+		padding-left: 5px;
+	}
 	.s-input {
 		display: flex;
 		height: 33px;
@@ -80,8 +87,20 @@
 		height:150px;
 	}
 	#m-list-table {
-		margin-left: 10px;
+		margin: 10px;
 		font-size: 14px;
+		border-collapse: collapse;
+		cursor:pointer;
+	}
+	.tr:hover{
+		background-color : rgba(117, 144, 194, 0.25);
+	}
+	.m-select {
+		margin-top: 10px;
+		font-size: 14px;
+	}
+	.s-header {
+		font-weight: bold;
 	}
 	.m-footer {
 		width:100%;

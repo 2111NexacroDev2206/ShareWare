@@ -4,12 +4,12 @@ public class AppForm {
 	private int formNo;
 	private String formName;
 	private String formContent;
-	public int getFormNo() {
-		return formNo;
-	}
 	
 	public AppForm() {}
 	
+	public int getFormNo() {
+		return formNo;
+	}
 	public void setFormNo(int formNo) {
 		this.formNo = formNo;
 	}

@@ -5,6 +5,8 @@ public class MailRec {
 	private String mailReceiver;
 	private int recNo;
 	private String mailToAddr;
+	
+	public MailRec(){}
 	public MailRec(int mailNo, String mailReceiver, int recNo, String mailToAddr) {
 		super();
 		this.mailNo = mailNo;

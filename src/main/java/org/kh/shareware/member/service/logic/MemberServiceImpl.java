@@ -65,5 +65,8 @@ public class MemberServiceImpl implements MemberService{
 		return mList;
 	}
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/heads/master
 }

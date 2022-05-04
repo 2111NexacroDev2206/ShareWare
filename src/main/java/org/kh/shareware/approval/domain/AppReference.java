@@ -2,8 +2,13 @@ package org.kh.shareware.approval.domain;
 
 public class AppReference {
 	private int refNo;
-	private String docNo;
+	private int docNo;
 	private String memNum;
+	private String memberName;
+	private String division;
+	private String rank;
+	private String refStatus;
+	private String docStatus;
 	
 	public AppReference() {}
 
@@ -15,11 +20,11 @@ public class AppReference {
 		this.refNo = refNo;
 	}
 
-	public String getDocNo() {
+	public int getDocNo() {
 		return docNo;
 	}
 
-	public void setDocNo(String docNo) {
+	public void setDocNo(int docNo) {
 		this.docNo = docNo;
 	}
 
@@ -31,9 +36,51 @@ public class AppReference {
 		this.memNum = memNum;
 	}
 
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+
+	public String getDivision() {
+		return division;
+	}
+
+	public void setDivision(String division) {
+		this.division = division;
+	}
+
+	public String getRank() {
+		return rank;
+	}
+
+	public void setRank(String rank) {
+		this.rank = rank;
+	}
+
+	public String getRefStatus() {
+		return refStatus;
+	}
+
+	public void setRefStatus(String refStatus) {
+		this.refStatus = refStatus;
+	}
+
+	public String getDocStatus() {
+		return docStatus;
+	}
+
+	public void setDocStatus(String docStatus) {
+		this.docStatus = docStatus;
+	}
+
 	@Override
 	public String toString() {
-		return "AppReference [refNo=" + refNo + ", docNo=" + docNo + ", memNum=" + memNum + "]";
+		return "AppReference [refNo=" + refNo + ", docNo=" + docNo + ", memNum=" + memNum + ", memberName=" + memberName
+				+ ", division=" + division + ", rank=" + rank + ", refStatus=" + refStatus + ", docStatus=" + docStatus
+				+ "]";
 	}
-	
+
 }

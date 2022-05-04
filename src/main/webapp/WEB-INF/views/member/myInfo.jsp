@@ -7,13 +7,6 @@
 <title>기본 정보 조회</title>
 </head>
 <body>
-		<!-- 
-		<form method="post" action="upload" enctype="multipart/form-data">
-	         <label>파일:</label>
-	         <input multiple="multiple" type="file" name="file1">
-        </form>
-         -->
-        
 	<div class="">
 		<form action="/member/myInfo.sw" method="post">
 			<table border="1">

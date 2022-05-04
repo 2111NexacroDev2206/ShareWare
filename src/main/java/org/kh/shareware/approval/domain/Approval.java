@@ -2,12 +2,16 @@ package org.kh.shareware.approval.domain;
 
 public class Approval {
 	private int appNo;
-	private String docNo;
+	private int docNo;
 	private String memNum;
+	private String memberName;
+	private String division;
+	private String rank;
 	private int appLevel;
 	private String appDate;
 	private String appStatus;
 	private String rejReason;
+	private String docStatus;
 	
 	public Approval() {}
 
@@ -19,11 +23,11 @@ public class Approval {
 		this.appNo = appNo;
 	}
 
-	public String getDocNo() {
+	public int getDocNo() {
 		return docNo;
 	}
 
-	public void setDocNo(String docNo) {
+	public void setDocNo(int docNo) {
 		this.docNo = docNo;
 	}
 
@@ -33,6 +37,30 @@ public class Approval {
 
 	public void setMemNum(String memNum) {
 		this.memNum = memNum;
+	}
+
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+
+	public String getDivision() {
+		return division;
+	}
+
+	public void setDivision(String division) {
+		this.division = division;
+	}
+
+	public String getRank() {
+		return rank;
+	}
+
+	public void setRank(String rank) {
+		this.rank = rank;
 	}
 
 	public int getAppLevel() {
@@ -67,10 +95,19 @@ public class Approval {
 		this.rejReason = rejReason;
 	}
 
+	public String getDocStatus() {
+		return docStatus;
+	}
+
+	public void setDocStatus(String docStatus) {
+		this.docStatus = docStatus;
+	}
+
 	@Override
 	public String toString() {
-		return "Approval [appNo=" + appNo + ", docNo=" + docNo + ", memNum=" + memNum + ", appLevel=" + appLevel
-				+ ", appDate=" + appDate + ", appStatus=" + appStatus + ", rejReason=" + rejReason + "]";
+		return "Approval [appNo=" + appNo + ", docNo=" + docNo + ", memNum=" + memNum + ", memberName=" + memberName
+				+ ", division=" + division + ", rank=" + rank + ", appLevel=" + appLevel + ", appDate=" + appDate
+				+ ", appStatus=" + appStatus + ", rejReason=" + rejReason + ", docStatus=" + docStatus + "]";
 	}
-	
+
 }

@@ -6,9 +6,10 @@ import org.kh.shareware.report.domain.Daily;
 
 public interface DailyService {
 	public int registerDaily(Daily daily);  // 일일 업무 등록
-	public List<Daily> printAllDaily();  	//일일 업무 목록
+	public List<Daily> printAllDaily(String memNum);  	//일일 업무 목록
 	public Daily printOneByNo(int drNo);	//일일 업무 상세	
 	public int removeDaily(int drNo);		//일일 업무 삭제 
 	public int modifyDaily(Daily daily); 	// 일일 업무 수정페이지
+	public int removeFileInfo(Integer drNo);  //파일 삭제 
 
 }

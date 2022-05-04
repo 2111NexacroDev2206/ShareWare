@@ -18,8 +18,8 @@ public class DailyStoreLogic implements DailyStore{
 	}
 	//일일 업무 목록
 	@Override
-	public List<Daily> selectAllDaily(SqlSession sqlSession) {
-		List<Daily> dList = sqlSession.selectList("DailyMapper.selectAllDaily");
+	public List<Daily> selectAllDaily(SqlSession sqlSession, String memNum) {
+		List<Daily> dList = sqlSession.selectList("DailyMapper.selectAllDaily", memNum);
 		return dList;
 	}
 	//일일 업무 상세 
@@ -38,6 +38,12 @@ public class DailyStoreLogic implements DailyStore{
 	@Override
 	public int updateDaily(SqlSession sqlSession, Daily daily) {
 		int result = sqlSession.update("DailyMapper.updateDaily", daily);
+		return result;
+	}
+	//파일삭제
+	@Override
+	public int deleteFileInfo(SqlSession sqlSession, Integer drNo) {
+		int result = sqlSession.update("DailyMapper.updateFileInfo", drNo);
 		return result;
 	}
 	

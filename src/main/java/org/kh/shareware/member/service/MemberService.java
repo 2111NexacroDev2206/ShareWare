@@ -3,7 +3,10 @@ package org.kh.shareware.member.service;
 import java.util.List;
 
 import org.kh.shareware.common.Search;
+<<<<<<< HEAD
 import org.kh.shareware.member.domain.Division;
+=======
+>>>>>>> refs/heads/master
 import org.kh.shareware.member.domain.Member;
 import org.kh.shareware.member.common.PageInfo;
 

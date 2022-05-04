@@ -8,12 +8,49 @@
  		<result  property="memNum"        column="MEM_NUM"/>
  		<result  property="wrTitle"       column="WR_TITLE"/>
  		<result  property="wrWriter"      column="WR_WRITER"/>
- 		<result  property="wrTerm"        column="WR_TERM"/>
  		<result  property="wrDate"     column="WR_DATE"/>
  		<result  property="wrContent"  column="WR_CONTENT"/>
- 		<result  property="wrNote"        column="WR_NOTE"/>
  		<result  property="fileName"      column="FILE_NAME"/>
  		<result  property="filePath"      column="FILE_PATH"/>
  		<result  property="fileReName"    column="FILE_RENAME"/>
  	</resultMap>
+ 	
+ 	<select id="selectAllWeek" resultMap="weekResultMap">
+ 		SELECT * FROM WEEK_REPORT WHERE MEM_NUM = #{memNum} ORDER BY WR_DATE DESC,  WR_NO DESC
+ 	</select>
+ 	<select id="selectOneWeek" resultMap="weekResultMap">
+ 		SELECT WR_NO, MEM_NUM, WR_TITLE, WR_WRITER, WR_DATE, WR_CONTENT, FILE_NAME, FILE_PATH, FILE_RENAME FROM WEEK_REPORT WHERE WR_NO = #{wrNo }
+ 	</select>
+ 	<insert id="insertWeek">
+ 		INSERT INTO WEEK_REPORT VALUES(
+ 			SEQ_WEEK_NO.NEXTVAL,
+ 			#{memNum},
+ 			#{wrTitle },
+ 			#{wrWriter },
+ 			#{wrDate },
+ 			#{wrContent },
+ 			#{fileName},
+ 			#{filePath},
+ 			#{fileReName}
+ 		)
+ 	</insert>
+ 	<delete id="deleteWeek">
+ 		DELETE FROM WEEK_REPORT WHERE WR_NO = #{wrNo}
+ 	</delete>
+ 	<update id="updateWeek">
+	 	UPDATE WEEK_REPORT 
+	 		SET WR_TITLE = #{wrTitle}
+	 		   ,WR_CONTENT = #{wrContent}
+	 		   ,FILE_NAME = #{fileName}
+	 		   ,FILE_PATH = #{filePath}
+	 		   ,FILE_RENAME = #{fileReName}
+	 		WHERE WR_NO = #{wrNo}
+ 	</update>
+ 	<update id="updateFileInfo">
+ 		UPDATE WEEK_REPORT
+ 		SET FILE_NAME = NULL
+ 			,FILE_PATH = NULL
+ 			,FILE_RENAME = NULL
+ 		WHERE WR_NO = #{wrNo}
+ 	</update>
 </mapper>

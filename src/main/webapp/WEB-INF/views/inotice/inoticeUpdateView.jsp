@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>지출결의서</title>
+<title>중요공지 수정화면</title>
 </head>
 <body>
 

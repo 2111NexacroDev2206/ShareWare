@@ -25,8 +25,8 @@ public class DailyServiceImpl implements DailyService{
 	}
 	//일일 업무 목록
 	@Override
-	public List<Daily> printAllDaily() {
-		List<Daily> dList = dStore.selectAllDaily(sqlSession);
+	public List<Daily> printAllDaily(String memNum) {
+		List<Daily> dList = dStore.selectAllDaily(sqlSession, memNum);
 		return dList;
 	}
 	//일일 업무 상세
@@ -41,10 +41,16 @@ public class DailyServiceImpl implements DailyService{
 		int result = dStore.deleteDaily(sqlSession, drNo);
 		return result;
 	}
-	//일일 업무 수정 페이지
+	//일일 업무 수정 
 	@Override
 	public int modifyDaily(Daily daily) {
 		int result = dStore.updateDaily(sqlSession, daily);
+		return result;
+	}
+	//첨부파일 삭제
+	@Override
+	public int removeFileInfo(Integer drNo) {
+		int result = dStore.deleteFileInfo(sqlSession, drNo);
 		return result;
 	}
 

@@ -7,130 +7,163 @@ public class CalSch {
 	private String memNum;
 	private String calNo;
 	private String schName;
-	private String calName;
 	private Date schStartDate;
-	private char schStartHour;
-	private char schStartMin;
+	private String schStartTime;
 	private Date schEndDate;
-	private char schEndHour;
-	private char schEndMin;
+	private String schEndTime;
 	private String schContent;
-	private Date schWriDate;
-	private Date schModDate;
+	private String alStatus;
 	
 	
 	
 	public CalSch() {}
-	public CalSch(int schNo, String memNum, String calNo, String schName, String calName, Date schStartDate,
-			char schStartHour, char schStartMin, Date schEndDate, char schEndHour, char schEndMin, String schContent,
-			Date schWriDate, Date schModDate) {
+	public CalSch(int schNo, String memNum, String calNo, String schName, Date schStartDate, String schStartTime,
+			Date schEndDate, String schEndTime, String schContent, String alStatus) {
 		super();
 		this.schNo = schNo;
 		this.memNum = memNum;
 		this.calNo = calNo;
 		this.schName = schName;
-		this.calName = calName;
 		this.schStartDate = schStartDate;
-		this.schStartHour = schStartHour;
-		this.schStartMin = schStartMin;
+		this.schStartTime = schStartTime;
 		this.schEndDate = schEndDate;
-		this.schEndHour = schEndHour;
-		this.schEndMin = schEndMin;
+		this.schEndTime = schEndTime;
 		this.schContent = schContent;
-		this.schWriDate = schWriDate;
-		this.schModDate = schModDate;
+		this.alStatus = alStatus;
 	}
+
+
+
 	public int getSchNo() {
 		return schNo;
 	}
+
+
+
 	public void setSchNo(int schNo) {
 		this.schNo = schNo;
 	}
+
+
+
 	public String getMemNum() {
 		return memNum;
 	}
+
+
+
 	public void setMemNum(String memNum) {
 		this.memNum = memNum;
 	}
+
+
+
 	public String getCalNo() {
 		return calNo;
 	}
+
+
+
 	public void setCalNo(String calNo) {
 		this.calNo = calNo;
 	}
+
+
+
 	public String getSchName() {
 		return schName;
 	}
+
+
+
 	public void setSchName(String schName) {
 		this.schName = schName;
 	}
-	public String getCalName() {
-		return calName;
-	}
-	public void setCalName(String calName) {
-		this.calName = calName;
-	}
+
+
+
 	public Date getSchStartDate() {
 		return schStartDate;
 	}
+
+
+
 	public void setSchStartDate(Date schStartDate) {
 		this.schStartDate = schStartDate;
 	}
-	public char getSchStartHour() {
-		return schStartHour;
+
+
+
+	public String getSchStartTime() {
+		return schStartTime;
 	}
-	public void setSchStartHour(char schStartHour) {
-		this.schStartHour = schStartHour;
+
+
+
+	public void setSchStartTime(String schStartTime) {
+		this.schStartTime = schStartTime;
 	}
-	public char getSchStartMin() {
-		return schStartMin;
-	}
-	public void setSchStartMin(char schStartMin) {
-		this.schStartMin = schStartMin;
-	}
+
+
+
 	public Date getSchEndDate() {
 		return schEndDate;
 	}
+
+
+
 	public void setSchEndDate(Date schEndDate) {
 		this.schEndDate = schEndDate;
 	}
-	public char getSchEndHour() {
-		return schEndHour;
+
+
+
+	public String getSchEndTime() {
+		return schEndTime;
 	}
-	public void setSchEndHour(char schEndHour) {
-		this.schEndHour = schEndHour;
+
+
+
+	public void setSchEndTime(String schEndTime) {
+		this.schEndTime = schEndTime;
 	}
-	public char getSchEndMin() {
-		return schEndMin;
-	}
-	public void setSchEndMin(char schEndMin) {
-		this.schEndMin = schEndMin;
-	}
+
+
+
 	public String getSchContent() {
 		return schContent;
 	}
+
+
+
 	public void setSchContent(String schContent) {
 		this.schContent = schContent;
 	}
-	public Date getSchWriDate() {
-		return schWriDate;
+
+
+
+	public String getAlStatus() {
+		return alStatus;
 	}
-	public void setSchWriDate(Date schWriDate) {
-		this.schWriDate = schWriDate;
+
+
+
+	public void setAlStatus(String alStatus) {
+		this.alStatus = alStatus;
 	}
-	public Date getSchModDate() {
-		return schModDate;
-	}
-	public void setSchModDate(Date schModDate) {
-		this.schModDate = schModDate;
-	}
+
+
+
 	@Override
 	public String toString() {
 		return "CalSch [schNo=" + schNo + ", memNum=" + memNum + ", calNo=" + calNo + ", schName=" + schName
-				+ ", calName=" + calName + ", schStartDate=" + schStartDate + ", schStartHour=" + schStartHour
-				+ ", schStartMin=" + schStartMin + ", schEndDate=" + schEndDate + ", schEndHour=" + schEndHour
-				+ ", schEndMin=" + schEndMin + ", schContent=" + schContent + ", schWriDate=" + schWriDate
-				+ ", schModDate=" + schModDate + "]";
+				+ ", schStartDate=" + schStartDate + ", schStartTime=" + schStartTime + ", schEndDate=" + schEndDate
+				+ ", schEndTime=" + schEndTime + ", schContent=" + schContent + ", alStatus=" + alStatus + "]";
 	}
+
+
+
+	
+	
 	
 }
