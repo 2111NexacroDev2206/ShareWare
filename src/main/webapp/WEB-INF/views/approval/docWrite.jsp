@@ -32,17 +32,18 @@
 	 			$("#left-leave").val(totalLeave);
 	 		},
 	 		error : function() {
-	 			totalLeave = breakTotal;
-	 			$("#left-leave").val(totalLeave);
+	 			console.log("잔여 연차 조회 실패");
 	 		}
 	 	})
 	    function leaveStartDate(e) { // 휴가 시작일 값 날짜화
 	        leaveStart = new Date(e.target.value);
 	        calLeaveDate();
+	        chkLeave();
 	    }
 	    function leaveEndDate(e) { // 휴가 종료일 값 날짜화
 	        leaveEnd = new Date(e.target.value);
 	        calLeaveDate();
+	        chkLeave();
 	    }
 	    function calLeaveDate() { // 휴가 날짜 차이 계산(연차, 반차인 경우에만)
 	        if($("#leaveType").val() == "반차") { // 반차인 경우
@@ -51,6 +52,8 @@
 	            if(leaveStart !== 0 && leaveEnd !== 0){
 	                var dateDiff = leaveEnd.getTime() - leaveStart.getTime();
 	                leaveDay = Math.abs(dateDiff / (1000 * 3600 * 24) + 1);
+	            }else {
+	            	leaveDay = 0;
 	            }
 	        }
 	        setLeaveDay(leaveDay);
@@ -63,7 +66,6 @@
 	            leaveDay = 0.5;
 	            $("#leaveTime").css("display", "inline-flex"); // 오전/오후 보이기
 	            $(":radio[name='leaveTime'][value='오전']").prop("checked", true); // 휴가 시간 라디오 버튼 오전 자동으로 체크
-	            document.getElementById("startDate").valueAsDate = new Date(); // 휴가 시작일에 현재 날짜 넣기
 	            $("#endDate").css("display", "none"); // 휴가 종료일 숨기기
 	            $("#tilde").css("display", "none"); // 휴가 시작일과 종료일 사이 '~' 숨기기
 	            setLeaveDay(leaveDay);
@@ -90,6 +92,17 @@
 	    function setLeaveDay(leaveDay) { // 휴가 일수 표시 및 value 값 넣기
 	        $("#s-leaveDay").text(leaveDay);
 	        $("#i-leaveDay").val(leaveDay);
+	    }
+	    function chkLeave(){ // 신청 연차가 잔여 연차보다 클 경우 alert창 띄우고 종료일 초기화
+		    if(leaveDay > totalLeave) { 
+		    	if($("#leaveType").val() == "연차" || $("#leaveType").val() == "반차"){
+		    		alert("신청 연차 수가 잔여 연차 수를 초과했습니다.");
+		    		$("#endDate").val("");
+		    		leaveDay = 0;
+		    	}
+		    	setLeaveDay(leaveDay);
+		        viewLeaveDay(leaveDay);
+		    }
 	    }
 	};
 </script>

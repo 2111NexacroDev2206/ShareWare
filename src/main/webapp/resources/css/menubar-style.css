@@ -1,5 +1,5 @@
 @charset "UTF-8";
-body, div, h1, textarea, input, button, a, p {
+body, div, h1, h2, textarea, input, button, a, p {
     margin: 0;
     padding: 0;
 }
@@ -78,7 +78,7 @@ html, body {
 	float: left;
 }
 .header-right{
-	margin-right: 30px;
+	margin-right: 35px;
 	display: inline-block;
 	float: right;
 }
@@ -126,11 +126,13 @@ html, body {
 	color: rgb(65, 93, 145);
 }
 .container{
+	margin: 0 65px;
 	position: absolute;
 	left: 220px;
 	top: 75px;
 }
 .s-container{
+	margin: 0 65px;
 	position: absolute;
 	left: 440px;
 	top: 75px;

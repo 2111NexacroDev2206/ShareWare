@@ -11,6 +11,7 @@ public class Approval {
 	private String appDate;
 	private String appStatus;
 	private String rejReason;
+	private String docStatus;
 	
 	public Approval() {}
 
@@ -94,11 +95,19 @@ public class Approval {
 		this.rejReason = rejReason;
 	}
 
+	public String getDocStatus() {
+		return docStatus;
+	}
+
+	public void setDocStatus(String docStatus) {
+		this.docStatus = docStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "Approval [appNo=" + appNo + ", docNo=" + docNo + ", memNum=" + memNum + ", memberName=" + memberName
 				+ ", division=" + division + ", rank=" + rank + ", appLevel=" + appLevel + ", appDate=" + appDate
-				+ ", appStatus=" + appStatus + ", rejReason=" + rejReason + "]";
+				+ ", appStatus=" + appStatus + ", rejReason=" + rejReason + ", docStatus=" + docStatus + "]";
 	}
 
 }

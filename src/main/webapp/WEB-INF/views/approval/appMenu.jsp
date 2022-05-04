@@ -13,10 +13,10 @@
 			<p>전자결재
 			<i class="fa-solid fa-pen-to-square fa-lg"></i>
 		</div>
-		<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}"><a href="/approval/draftListView.sw">기안 문서함</a></div>
-		<div class="s-list-item ${listCondition eq 'approval' ? 'active' : ''}"><a href="">결재 문서함</a></div>
-		<div class="s-list-item ${listCondition eq 'reference' ? 'active' : ''}"><a href="">참조 문서함</a></div>
-		<div class="s-list-item ${listCondition eq 'temporary' ? 'active' : ''}"><a href="">임시 저장함</a></div>
+		<div class="s-list-item ${listCondition eq 'draft' || listCondition eq 'rej' ? 'active' : ''}"><a href="/approval/draftListView.sw">기안 문서함</a></div>
+		<div class="s-list-item ${listCondition eq 'app' ? 'active' : ''}"><a href="/approval/appListView.sw">결재 문서함</a></div>
+		<div class="s-list-item ${listCondition eq 'ref' ? 'active' : ''}"><a href="/approval/refListView.sw">참조 문서함</a></div>
+		<div class="s-list-item ${listCondition eq 'tem' ? 'active' : ''}"><a href="/approval/temListView.sw">임시 저장함</a></div>
 	</div>
 </body>
 </html>
