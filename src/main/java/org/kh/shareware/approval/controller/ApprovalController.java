@@ -215,7 +215,7 @@ public class ApprovalController {
 						if(i == 0) {
 							app.setAppStatus("대기"); // 첫 번째 결재자는 대기
 						}else {
-							app.setAppStatus("요청"); // 두 번째 결재자부터는 요청
+							app.setAppStatus("예정"); // 두 번째 결재자부터는 예정
 						}
 					}else if(parameter.equals("Temporary")) {
 						app.setAppStatus("임시");
@@ -233,7 +233,7 @@ public class ApprovalController {
 							if(i == 0) {
 								app.setAppStatus("대기"); // 첫 번째 결재자는 대기
 							}else {
-								app.setAppStatus("요청"); // 두 번째 결재자부터는 요청
+								app.setAppStatus("예정"); // 두 번째 결재자부터는 예정
 							}
 						}else if(parameter.equals("RejTem")) { // 임시 저장이면
 							app.setAppStatus("임시");
@@ -600,9 +600,9 @@ public class ApprovalController {
 			int aResult = 0; // 결재자 상태 변경 결과 변수 선언
 			int dResult = 0; // 문서 상태 변경 결과 변수 선언
 			if(parameter.equals("app")) { // 결재 승인
-				List<Approval> aList = aService.printAllAppStatus(docNo); // 문서 번호에 해당하는 결재자 중에 요청이 있는지 확인
+				List<Approval> aList = aService.printAllAppStatus(docNo); // 문서 번호에 해당하는 결재자 중에 예정이 있는지 확인
 				if(!aList.isEmpty()) {
-					aService.modifyAppNext(aList.get(0).getAppNo()); // 다음 결재자 상태 변경(요청->대기)
+					aService.modifyAppNext(aList.get(0).getAppNo()); // 다음 결재자 상태 변경(예정->대기)
 					app.setAppStatus("완료");
 					app.setDocStatus("진행");
 				}else {

@@ -68,10 +68,10 @@
 	border: 1px;
 	color: white;
 }
-.status-1 { /* 기안 대기 */
+.status-1 { /* 기안 대기, 결재 대기 */
 	background-color: #a6c76c;
 }
-.status-2 { /* 진행, 결재 대기 */
+.status-2 { /* 진행, 결재 진행 */
 	background-color: rgb(117, 144, 194);
 }
 .status-3 { /* 완료 */
@@ -80,7 +80,7 @@
 .status-4 { /* 반려 */
 	background-color: #ff616b;
 }
-.status-5 { /* 임시 */
+.status-5 { /* 임시, 결재 예정 */
 	background-color: rgb(161, 128, 177);
 }
 .paging {
