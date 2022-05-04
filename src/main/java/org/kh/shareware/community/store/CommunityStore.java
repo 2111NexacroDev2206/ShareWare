@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.community.domain.Community;
 import org.kh.shareware.community.domain.CommunityVote;
 import org.kh.shareware.community.domain.CommunityVoteSelect;
+import org.kh.shareware.community.domain.Search;
 
 public interface CommunityStore {
 	
@@ -29,6 +30,9 @@ public interface CommunityStore {
 	int updateCountCVote(SqlSession sqlsession, Map<String, Object> map);
 	int removeCVoteMember(SqlSession sqlsession, Integer comNo);
 	void updateCommunityVote(SqlSession sqlsession, CommunityVote communityVote);
+	
+	//검색
+	List<Search> selectSearchCommunity(SqlSession sqlsession, Search search);
 	
 	
 

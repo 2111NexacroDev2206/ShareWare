@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.community.domain.Community;
 import org.kh.shareware.community.domain.CommunityVote;
 import org.kh.shareware.community.domain.CommunityVoteSelect;
+import org.kh.shareware.community.domain.Search;
 import org.kh.shareware.community.service.CommunityService;
 import org.kh.shareware.community.store.CommunityStore;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,6 +116,13 @@ public class CommunityServiceImpl implements CommunityService{
 	public void modifyCommunityVote(CommunityVote communityVote) {
 		cStore.updateCommunityVote(sqlsession,communityVote);
 		
+	}
+
+	//검색
+	@Override
+	public List<Search> printSearchCommunity(Search search) {
+		List<Search> csList = cStore.selectSearchCommunity(sqlsession, search);
+		return csList;
 	}
 
 

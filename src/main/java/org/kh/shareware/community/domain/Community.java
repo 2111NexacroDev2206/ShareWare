@@ -2,6 +2,8 @@ package org.kh.shareware.community.domain;
 
 import java.sql.Date;
 
+import org.kh.shareware.member.domain.Member;
+
 public class Community {
 private int comNo;
 private String memberNum;
@@ -14,6 +16,16 @@ private String comImgRename;
 private String comImgPath;
 private String comDelete;
 private int comVoteNo;
+
+private Member member;
+
+public Member getMember() {
+	return member;
+}
+
+public void setMember(Member member) {
+	this.member = member;
+}
 
 public Community() {}
 

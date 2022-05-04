@@ -15,8 +15,30 @@
 		<result property="comImgPath" column="COM_IMG_PATH"/>
 		<result property="comDelete" column="COM_DELETE"/>
 		<result property="comVoteNo" column="COM_VOTE_NO"/>
+		<collection property="member" resultMap="memberResultMap"/>
 	</resultMap>
 	
+		<resultMap type="Member" id="memberResultMap">
+  		<id property="memberNum" column="MEMBER_NUM"/>
+  		<result property="memberName" column="MEMBER_NAME"/>
+  		<result property="division" column="DIV_NAME"/>
+  		<result property="rank" column="RANK"/>
+  		<result property="address" column="ADDRESS"/>
+  		<result property="phone" column="PHONE"/>
+  		<result property="mail" column="MAIL"/>
+  		<result property="hireDate" column="HIRE_DATE"/>
+  		<result property="retireDate" column="RETIRE_DATE"/>
+  		<result property="birth" column="BIRTH"/>
+  		<result property="account" column="ACCOUNT"/>
+  		<result property="bank" column="BANK"/>
+  		<result property="password" column="PASSWORD"/>
+  		<result property="gender" column="GENDER"/>
+  		<result property="photo" column="PHOTO"/>
+  		<result property="breakTotal" column="BREAK_TOTAL"/>
+  	</resultMap>
+	
+	
+  	
 <insert id="insertCommnuity">
 	INSERT INTO COMMUNITY VALUES(SEQ_COM_NO.NEXTVAL ,#{memberNum } ,DEFAULT ,#{comTitle },#{comContent }, DEFAULT, #{comImgName}, #{comImgRename}, #{comImgPath},NULL,NULL)
 </insert>
@@ -30,11 +52,11 @@
 </update>
 
 <select id="listCommnuity" resultMap="CommunityResultMap">
-	SELECT * FROM COMMUNITY ORDER BY COM_DATE DESC
+	SELECT * FROM COMMUNITY JOIN MEMBER ON COMMUNITY.MEMBER_NUM = MEMBER.MEMBER_NUM ORDER BY COM_DATE DESC
 </select>
 
 <select id="detailOneByNo" resultMap="CommunityResultMap">
-	SELECT * FROM COMMUNITY WHERE COM_NO = #{comNo}
+	SELECT * FROM COMMUNITY JOIN MEMBER ON COMMUNITY.MEMBER_NUM = MEMBER.MEMBER_NUM WHERE COM_NO = #{comNo}
 </select>
 <delete id="deleltCommunity">
 	DELETE FROM COMMUNITY WHERE COM_NO = #{comNo }
@@ -44,6 +66,25 @@
 	UPDATE COMMUNITY SET COM_VIEW = COM_VIEW+1 WHERE COM_NO = #{comNo}
 </update>
 
+<select id="searchCommunity" resultMap="CommunityResultMap">
+
+ 	SELECT * FROM COMMUNITY JOIN MEMBER ON COMMUNITY.MEMBER_NUM = MEMBER.MEMBER_NUM
+	<if test ="searchCondition.toString()=='writer'">
+		WHERE MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='title'">
+		WHERE COM_TITLE LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='contents'">
+		WHERE COM_CONTENT LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='all'">
+		WHERE MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
+		OR COM_TITLE LIKE '%'||#{searchValue} ||'%'
+		OR COM_CONTENT LIKE '%'||#{searchValue} ||'%'
+	</if>
+		ORDER BY COM_DATE DESC
+	</select>
 
 <resultMap type="CommunityVote" id="CommunityVoteResultMap">
 		<id property="comVoteNo" column="COM_VOTE_NO"/>

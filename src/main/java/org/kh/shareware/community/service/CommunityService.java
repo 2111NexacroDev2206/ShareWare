@@ -6,6 +6,7 @@ import java.util.Map;
 import org.kh.shareware.community.domain.Community;
 import org.kh.shareware.community.domain.CommunityVote;
 import org.kh.shareware.community.domain.CommunityVoteSelect;
+import org.kh.shareware.community.domain.Search;
 
 public interface CommunityService {
 
@@ -30,6 +31,9 @@ public interface CommunityService {
 	int removeCVoteMember(Integer comNo);
 	int modifyCommunity(Community community);
 	void modifyCommunityVote(CommunityVote communityVote);
+	
+	//검색
+	List<Search> printSearchCommunity(Search search);
 	
 	
 	

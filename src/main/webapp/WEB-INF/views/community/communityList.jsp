@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -13,7 +14,7 @@
 <button onclick="location.href='/community/WriteView.sw'">글 작성</button>
 <!-- <a href="/community/WriteView.sw">게시글 작성</a> -->
 <br>
-<form>
+
 	<table align="center" border="1">
 	<tr>
 		<th>번호</th>
@@ -29,21 +30,39 @@
 						<c:param name="comNo" value="${community.comNo }"></c:param>
 					</c:url>
 				<td><a href ="${cDetail}">${community.comTitle }</a></td>
-				<td>${community.memberNum }</td>
+				<td>${community.member.memberName }</td>
 				<td>${community.comDate }</td>
 				<td>${community.comView }</td>		
 			</tr>
 		</c:forEach>
 	</table>
-	<select name="search">
-		<option value="">선택</option>
-		<option value="">작성자</option>
-		<option value="">제목</option>
+	<form action="/community/search.sw" method="get" name="searchForm">
+	<select name="searchCondition">
+		<option value="all">전체</option>
+		<option value="writer">작성자</option>
+		<option value="title">제목</option>
+		<option value="contents">내용</option>
+		
 	</select>
-	<input type="text" id="searchBox">
+	<input type="text" onkeypress="JavaScript:press(this.search)" name="searchValue">
+	<button type="submit">검색</button>
+	</form>
 
-</form>
 
+<script>
+
+	function search(f){
+		if(f.keyCode == 13){ //javascript에서는 13이 enter키를 의미함 
+		searchForm.submit(); //formname에 사용자가 지정한 form의 name입력 
+		}
+	}
 	
-</body>
-</html>
+
+
+
+	</script>
+
+
+	</body>
+	</html>
+

@@ -19,7 +19,7 @@
 		<button type="button" id="delete">삭제</button>
 	</c:if>
 	
-	<span>글쓴이 : ${community.memberNum }</span>
+	<span>글쓴이 : ${community.member.memberName }</span>
 	<span>작성일 : ${community.comDate}</span>
 	<div dorder="1">${community.comTitle}</div>
 	<div dorder="1">${community.comContent}

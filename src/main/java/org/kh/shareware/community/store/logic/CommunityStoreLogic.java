@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.community.domain.Community;
 import org.kh.shareware.community.domain.CommunityVote;
 import org.kh.shareware.community.domain.CommunityVoteSelect;
+import org.kh.shareware.community.domain.Search;
 import org.kh.shareware.community.store.CommunityStore;
 import org.springframework.stereotype.Repository;
 
@@ -110,6 +111,13 @@ public class CommunityStoreLogic implements CommunityStore {
 	public void updateCommunityVote(SqlSession sqlsession, CommunityVote communityVote) {
 		sqlsession.update("CommnuityMapper.uqdateCommunityVote", communityVote);
 		
+	}
+
+	//검색
+	@Override
+	public List<Search> selectSearchCommunity(SqlSession sqlsession, Search search) {
+		List<Search> scList = sqlsession.selectList("CommnuityMapper.searchCommunity", search);
+		return scList;
 	}
 
 	

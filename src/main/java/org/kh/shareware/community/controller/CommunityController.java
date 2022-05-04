@@ -10,7 +10,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+
 import org.kh.shareware.community.domain.Community;
+import org.kh.shareware.community.domain.Search;
 import org.kh.shareware.community.domain.CommunityVote;
 import org.kh.shareware.community.domain.CommunityVoteSelect;
 import org.kh.shareware.community.service.CommunityService;
@@ -332,7 +334,25 @@ public class CommunityController {
 			}
 			return "fail";
 		}
-		
+	
+	//검색
+	@RequestMapping(value="/community/search.sw", method=RequestMethod.GET)
+	public ModelAndView noticeSearchList(
+			  ModelAndView mv
+			, @ModelAttribute Search search) {
+		try {
+			List<Search> searchList = cService.printSearchCommunity(search);
+			if(!searchList.isEmpty()) {
+				
+				mv.addObject("cList", searchList);
+				mv.setViewName("community/communityList");
+			}
+		}catch(Exception e) {
+			mv.addObject("msg", e.toString());
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
+	}
 		
 	public HashMap<String, String> saveFile(MultipartFile file, HttpServletRequest request) {
 		String filePath = "";
