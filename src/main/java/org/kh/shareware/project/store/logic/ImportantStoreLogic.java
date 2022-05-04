@@ -30,6 +30,38 @@ public class ImportantStoreLogic implements ImportantStore {
 		int result = sqlSession.insert("ImportantMapper.insertImportant", important );
 		return result;
 	}
+	
+	//중요공지 수정
+	@Override
+	public int updateImportant(SqlSession sqlSession, Important important) {
+		int result = sqlSession.update("ImportantMapper.updateImportant", important);
+		return result;
+	}
+	//중요공지 삭제 
+	@Override
+	public int deleteImportant(SqlSession sqlSession, int importantNo) {
+		int result = sqlSession.delete("ImportantMapper.deleteImportant", importantNo);
+		return result;
+	}
+	//첨부파일 삭제
+	@Override
+	public int deleteFileInfo(SqlSession sqlSession, Integer importantNo) {
+		int result = sqlSession.delete("ImportantMapper.deleteFileInfo" , importantNo);
+		return result;
+	}
+	//페이징
+	@Override
+	public int selectListCount(SqlSession sqlSession) {
+		int totalCount = sqlSession.selectOne("ImportantMapper.selectListCount");
+		return totalCount;
+	}
+	//조회수
+	@Override
+	public int updateCount(SqlSession sqlSession, Integer importantNo) {
+		int result = sqlSession.update("ImportantMapper.updateCount", importantNo);
+		return result;
+	}
+
 
 	
 }

@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>중요공지 상세 페이지</title>
+<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
 	<jsp:include page="../project/projectMainMenu.jsp"></jsp:include>
@@ -29,14 +30,27 @@
 				</a></td>
 			</tr>
 			<tr>
-				<td colspan="4">
-					<textarea name="" id="" >
-                   		  ${important.importantContent }
-                     </textarea>
-				</td>
+				<td colspan="4">${important.importantContent }</td>
 			</tr>
 		</table>
+		<c:if test="${loginUser.memberNum eq important.memNum}">
+			<input type="button" id="btn-modify" onclick="location.href='/project/importantModifyView.sw?importantNo=${important.importantNo}&projectNo=${projectNo }'" value="수정">
+			<input type="button" id="btn-delete" onclick="delPop();" value="삭제">
+		</c:if>
 		<input type="button" onclick="location.href='/project/importantList.sw?projectNo=${important.projectNo}'" value="목록">
 	</div>
 </body>
+<script>
+	function delPop(){
+		var truefalse = confirm("삭제하시겠습니까?");
+		if(truefalse) {
+		location.href="/project/importantDelete.sw?importantNo=${important.importantNo}&projectNo=${projectNo}";
+		}
+	}
+	// 글 작성자만 수정, 삭제 버튼 보이게 하기
+	/* if("${loginUser.memberNum}" != "${important.memNum}") {
+		$("#btn-modify").css("display", "none");
+		$("#btn-delete").css("display", "none");
+	} */
+</script>
 </html>

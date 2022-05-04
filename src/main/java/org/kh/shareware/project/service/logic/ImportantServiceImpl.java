@@ -30,11 +30,39 @@ public class ImportantServiceImpl implements ImportantService{
 		Important important = iStore.selectOneByNo(sqlSession, importantNo);
 		return important;
 	}
-	
 	//중요공지 등록 
 	@Override
 	public int registerImportant(Important important) {
 		int result = iStore.insertImport(sqlSession, important);
+		return result;
+	}
+	//중요공지 수정 
+	@Override
+	public int modifyImportant(Important important) {
+		int result = iStore.updateImportant(sqlSession, important);
+		return result;
+	}
+	//중요공지 삭제
+	@Override
+	public int removeImportant(int importantNo) {
+		int result = iStore.deleteImportant(sqlSession, importantNo);
+		return result;
+	}
+	//첨부파일 삭제
+	@Override
+	public int removeFileInfo(Integer importantNo) {
+		int result = iStore.deleteFileInfo(sqlSession, importantNo);
+		return result;
+	}
+	//페이징
+	@Override
+	public int getListCount() {
+		int totalCount = iStore.selectListCount(sqlSession);
+		return totalCount;
+	}
+	@Override
+	public int updateCount(Integer importantNo) {
+		int result = iStore.updateCount(sqlSession, importantNo);
 		return result;
 	}
 
