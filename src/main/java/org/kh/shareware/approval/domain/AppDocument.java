@@ -17,6 +17,7 @@ public class AppDocument {
 	private float leaveDay;
 	private float leaveLeft;
 	private float leaveApply;
+	private String appStatus;
 	
 	public AppDocument() {}
 
@@ -148,13 +149,21 @@ public class AppDocument {
 		this.leaveApply = leaveApply;
 	}
 
+	public String getAppStatus() {
+		return appStatus;
+	}
+
+	public void setAppStatus(String appStatus) {
+		this.appStatus = appStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "AppDocument [docNo=" + docNo + ", memNum=" + memNum + ", memName=" + memName + ", formNo=" + formNo
 				+ ", formName=" + formName + ", docTitle=" + docTitle + ", docContent=" + docContent + ", docStatus="
 				+ docStatus + ", docDate=" + docDate + ", leaveType=" + leaveType + ", leaveStart=" + leaveStart
 				+ ", leaveEnd=" + leaveEnd + ", leaveTime=" + leaveTime + ", leaveDay=" + leaveDay + ", leaveLeft="
-				+ leaveLeft + ", leaveApply=" + leaveApply + "]";
+				+ leaveLeft + ", leaveApply=" + leaveApply + ", appStatus=" + appStatus + "]";
 	}
 
 }
