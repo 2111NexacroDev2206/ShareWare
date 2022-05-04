@@ -61,6 +61,7 @@ public class ProjectController {
 				if(project != null) {
 					mv.addObject("pList", pList);
 					mv.addObject("project",project );
+					mv.addObject("projectNo",projectNo );
 					mv.setViewName("project/projectDetail");
 				}else {
 					mv.addObject("msg", "프로젝트 조회 실패");
@@ -153,6 +154,7 @@ public class ProjectController {
 			Project project = service.printOneProject(projectNo);
 			if(project != null) {
 				mv.addObject("project",project );
+				mv.addObject("projectNo", projectNo);
 				mv.setViewName("project/projectMain");
 			}else {
 				mv.addObject("msg", "프로젝트 조회 실패");
