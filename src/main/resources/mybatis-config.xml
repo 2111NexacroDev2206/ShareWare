@@ -8,31 +8,31 @@
 		<setting name="jdbcTypeForNull" value="NULL"/> <!-- 만약에 null 데이터가 전달되었으면 빈칸이 아닌 NULL로 인식하도록 설정 -->
 	</settings>
 	<typeAliases>
-		<typeAlias type="org.kh.shareware.report.domain.Daily" 	 		alias="Daily"/>
-		<typeAlias type="org.kh.shareware.report.domain.Week" 	 		alias="Week"/>
-		<typeAlias type="org.kh.shareware.member.domain.Member" 		alias="Member"/>
-		<typeAlias type="org.kh.shareware.member.domain.Division" 		alias="Division"/>
-		<typeAlias type="org.kh.shareware.community.domain.Community" 	alias="Community"/>
-		<typeAlias type="org.kh.shareware.community.domain.CommunityVote" 	alias="CommunityVote"/>
+		<typeAlias type="org.kh.shareware.report.domain.Daily" 	 					alias="Daily"/>
+		<typeAlias type="org.kh.shareware.report.domain.Week" 	 					alias="Week"/>
+		<typeAlias type="org.kh.shareware.member.domain.Member" 					alias="Member"/>
+		<typeAlias type="org.kh.shareware.member.domain.Division" 					alias="Division"/>
+		<typeAlias type="org.kh.shareware.community.domain.Community" 				alias="Community"/>
+		<typeAlias type="org.kh.shareware.community.domain.CommunityVote" 			alias="CommunityVote"/>
 		<typeAlias type="org.kh.shareware.community.domain.CommunityVoteSelect" 	alias="CommunityVoteSelect"/>
-		<typeAlias type="org.kh.shareware.calendar.domain.CalSch" 		alias="CalSch"/>
-		<typeAlias type="org.kh.shareware.calendar.domain.Calendar" 	alias="Calendar"/>
-		<typeAlias type="org.kh.shareware.calendar.domain.CalBmk" 		alias="CalBmk"/>
-		<typeAlias type="org.kh.shareware.calendar.domain.CalMem" 		alias="CalMem"/>
-		<typeAlias type="org.kh.shareware.attendance.domain.Attendance" alias="Attendance"/>
-		<typeAlias type="org.kh.shareware.attendance.domain.Stats" 		alias="Stats"/>
-		<typeAlias type="org.kh.shareware.approval.domain.AppForm" 		alias="AppForm"/>
-		<typeAlias type="org.kh.shareware.approval.domain.AppDocument" 	alias="AppDocument"/>
-		<typeAlias type="org.kh.shareware.approval.domain.Approval" 	alias="Approval"/>
-		<typeAlias type="org.kh.shareware.approval.domain.AppReference" alias="AppReference"/>
-		<typeAlias type="org.kh.shareware.approval.domain.AppFile" 		alias="AppFile"/>
-		<typeAlias type="org.kh.shareware.mail.domain.Mail" alias="Mail"/>
-		<typeAlias type="org.kh.shareware.mail.domain.MailRef" alias="MailRef"/>
-		<typeAlias type="org.kh.shareware.mail.domain.MailRec" alias="MailRec"/>
-		<typeAlias type="org.kh.shareware.mail.domain.MailBmk" alias="MailBmk"/>
-		<typeAlias type="org.kh.shareware.mail.domain.MailFile" alias="MailFile"/>
-		<typeAlias type="org.kh.shareware.project.domain.Project" 		alias="Project"/>
-		<typeAlias type="org.kh.shareware.project.domain.Participant" 	alias="Participant"/>
+		<typeAlias type="org.kh.shareware.calendar.domain.CalSch" 					alias="CalSch"/>
+		<typeAlias type="org.kh.shareware.calendar.domain.Calendar" 				alias="Calendar"/>
+		<typeAlias type="org.kh.shareware.calendar.domain.CalBmk" 					alias="CalBmk"/>
+		<typeAlias type="org.kh.shareware.calendar.domain.CalMem" 					alias="CalMem"/>
+		<typeAlias type="org.kh.shareware.attendance.domain.Attendance" 			alias="Attendance"/>
+		<typeAlias type="org.kh.shareware.attendance.domain.Stats" 					alias="Stats"/>
+		<typeAlias type="org.kh.shareware.approval.domain.AppForm" 					alias="AppForm"/>
+		<typeAlias type="org.kh.shareware.approval.domain.AppDocument" 				alias="AppDocument"/>
+		<typeAlias type="org.kh.shareware.approval.domain.Approval" 				alias="Approval"/>
+		<typeAlias type="org.kh.shareware.approval.domain.AppReference" 			alias="AppReference"/>
+		<typeAlias type="org.kh.shareware.approval.domain.AppFile" 					alias="AppFile"/>
+		<typeAlias type="org.kh.shareware.mail.domain.Mail" 						alias="Mail"/>
+		<typeAlias type="org.kh.shareware.mail.domain.MailRef"						alias="MailRef"/>
+		<typeAlias type="org.kh.shareware.mail.domain.MailRec" 						alias="MailRec"/>
+		<typeAlias type="org.kh.shareware.mail.domain.MailBmk" 						alias="MailBmk"/>
+		<typeAlias type="org.kh.shareware.mail.domain.MailFile" 					alias="MailFile"/>
+		<typeAlias type="org.kh.shareware.project.domain.Project" 					alias="Project"/>
+		<typeAlias type="org.kh.shareware.project.domain.Participant" 				alias="Participant"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/daily-mapper.xml"/>
