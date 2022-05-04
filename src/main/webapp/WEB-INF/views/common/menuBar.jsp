@@ -28,7 +28,7 @@
         <div class="list-item ${myCondition eq 'approval' ? 'active' : ''}"><a href="/approval/draftListView.sw">전자결재</a></div>
         <div class="list-item ${myCondition eq 'chat' ? 'active' : ''}"><a href="">채팅</a></div>
         <div class="list-item ${myCondition eq 'calendar' ? 'active' : ''}"><a href="/calendar/schListView.sw">일정</a></div>
-        <div class="list-item ${myCondition eq 'mail' ? 'active' : ''}"><a href="/mail/{param}mailListView.sw">메일</a></div>
+        <div class="list-item ${myCondition eq 'mail' ? 'active' : ''}"><a href="/mail/SmailListView.sw">메일</a></div>
     </div>
     <div class="header">
    		<div class="header-right">
