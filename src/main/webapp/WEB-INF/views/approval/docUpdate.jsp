@@ -20,7 +20,7 @@
 		<h1 id="h-title">${appDoc.formName }</h1>
 		<form id="form" action="/approval/updateDoc.sw" method="post" enctype="multipart/form-data" onsubmit="return nullChk()">
 			<input type="hidden" name="formNo" value="${appDoc.formNo }" readonly>
-			<input type="hidden" id="num-app" name="appMemNum" readonly>
+			<input type="hidden" id="num-app" name="appMemNum" value="appMemNum" readonly>
 			<input type="hidden" id="num-ref" name="refMemNum" value="refMemNum" readonly>
 			<table id="table">
 				<tr class="tr-s">
@@ -221,6 +221,9 @@
 			if($("#td-title").val() == "") {
 				alert("제목을 입력해주세요.");
 				$("#td-title").focus();
+				return false;
+			}else if($("#num-app").val() == "") {
+				alert("결재자를 선택해주세요.");
 				return false;
 			}
 		}

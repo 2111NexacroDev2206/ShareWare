@@ -204,7 +204,7 @@ public class ApprovalController {
 			int rResult = 0; // 참조자 등록 결과 변수 선언
 			int fResult = 0; // 파일 첨부 등록 결과 변수 선언
 			// 결재자
-			if(!appMemNum.equals("") || parameter.equals("Temporary") || parameter.equals("Doc")) {
+			if(!appMemNum.equals("appMemNum") || parameter.equals("Temporary") || parameter.equals("Doc")) {
 				String[] appArray = appMemNum.split(","); // 배열에 결재자 넣기
 				for(int i = 0; i < appArray.length; i++) {
 					app.setDocNo(0);
@@ -464,7 +464,7 @@ public class ApprovalController {
 			int rResult = 0; // 참조자 등록 결과 변수 선언
 			int fResult = 0; // 파일 첨부 등록 결과 변수 선언
 			// 결재자
-			if(!appMemNum.equals("")) {
+			if(!appMemNum.equals("appMemNum")) {
 				aService.removeApp(appDoc.getDocNo());
 				String[] appArray = appMemNum.split(","); // 배열에 결재자 넣기
 				for(int i = 0; i < appArray.length; i++) {
