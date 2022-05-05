@@ -464,24 +464,39 @@ public class ApprovalController {
 			int rResult = 0; // 참조자 등록 결과 변수 선언
 			int fResult = 0; // 파일 첨부 등록 결과 변수 선언
 			// 결재자
-			if(!appMemNum.equals("appMemNum")) {
+			if(!appMemNum.equals("appMemNum")) { // 결재자 바꾼 경우
 				aService.removeApp(appDoc.getDocNo());
 				String[] appArray = appMemNum.split(","); // 배열에 결재자 넣기
 				for(int i = 0; i < appArray.length; i++) {
 					app.setDocNo(appDoc.getDocNo());
 					app.setMemNum(appArray[i]); // 결재자 사원번호
 					app.setAppLevel(i+1); // 결재자 순번
-					if(parameter.equals("Doc")) {
-						app.setAppStatus("대기");
-					}else if(parameter.equals("Temporary")) {
+					if(parameter.equals("Doc")) { // 결재 요청한 경우
+						if(i == 0) {
+							app.setAppStatus("대기"); // 첫 번째 결재자는 대기
+						}else {
+							app.setAppStatus("예정"); // 두 번째 결재자부터는 예정
+						}
+					}else if(parameter.equals("Temporary")) { // 임시 저장한 경우
 						app.setAppStatus("임시");
 					}
 					aResult = aService.registerApp(app); // 결재자 등록
 				}
-			}else {
-				if(parameter.equals("Doc")) {
-					app.setAppStatus("대기");
-					aService.modifyApp(app); // 결재자 상태 변경(임시->대기)
+			}else { // 결재자 바꾸지 않은 경우
+				if(parameter.equals("Doc")) { // 결재 요청 한 경우(임시 저장하면 결재자 상태 바꿀 필요 없음)
+					List<Approval> aList = aService.printAllApp(appDoc.getDocNo());
+					if(!aList.isEmpty()) {
+						for(int i = 0; i < aList.size(); i++) {
+							app.setMemNum(aList.get(i).getMemNum());
+							app.setAppLevel(aList.get(i).getAppLevel());
+							if(i == 0) {
+								app.setAppStatus("대기"); // 첫 번째 결재자는 대기
+							}else {
+								app.setAppStatus("예정"); // 두 번째 결재자부터는 예정
+							}
+							aService.modifyApp(app); // 결재자 상태 변경(임시->대기/예정)
+						}
+					}
 				}
 				aResult = 1;
 			}

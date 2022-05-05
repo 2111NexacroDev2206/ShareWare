@@ -208,8 +208,8 @@
 	<delete id="deleteRef"><!-- 참조자 삭제 -->
 		DELETE FROM APP_REF WHERE DOC_NO = #{docNo}
 	</delete>
-	<update id="updateApp"><!-- 결재자 상태 변경(임시->대기) -->
-		UPDATE APPROVAL SET APP_STATUS = #{appStatus } WHERE DOC_NO = #{docNo}
+	<update id="updateApp"><!-- 결재자 상태 변경(임시->대기/예정) -->
+		UPDATE APPROVAL SET APP_STATUS = #{appStatus } WHERE DOC_NO = #{docNo} AND MEM_NUM = #{memNum} AND APP_LEVEL = #{appLevel}
 	</update>
 	<update id="updateRef"><!-- 참조자 상태 변경(임시->참조) -->
 		UPDATE APP_REF SET REF_STATUS = #{refStatus } WHERE DOC_NO = #{docNo}

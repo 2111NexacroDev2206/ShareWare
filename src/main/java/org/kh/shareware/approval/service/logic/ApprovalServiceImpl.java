@@ -139,7 +139,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 	}
 
 	@Override
-	public int modifyApp(Approval app) { // 결재자 상태 변경(임시->대기)
+	public int modifyApp(Approval app) { // 결재자 상태 변경(임시->대기/예정)
 		int result = aStore.updateApp(sqlSession, app);
 		return result;
 	}

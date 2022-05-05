@@ -282,7 +282,7 @@
 		 		data : { "memberNum" : memberNum },
 		 		success : function(leaveLeft) {
 		 			totalLeave = leaveLeft;
-		 			$("#left-leave").val(totalLeave);
+		 			$("#left-leave").val(totalLeave - leaveDay); // 잔여 연차 조회해서 휴가 일수 빼기
 		 		},
 		 		error : function() {
 		 			console.log("잔여 연차 조회 실패");

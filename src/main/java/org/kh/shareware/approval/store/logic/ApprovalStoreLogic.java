@@ -140,7 +140,7 @@ public class ApprovalStoreLogic implements ApprovalStore{
 	}
 
 	@Override
-	public int updateApp(SqlSession sqlSession, Approval app) { // 결재자 상태 변경(임시->대기)
+	public int updateApp(SqlSession sqlSession, Approval app) { // 결재자 상태 변경(임시->대기/예정)
 		int result = sqlSession.update("ApprovalMapper.updateApp", app);
 		return result;
 	}
