@@ -178,7 +178,7 @@ public class ApprovalController {
 		return mv;
 	}
 	
-	// 결재 요청, 임시 저장
+	// 결재 요청, 임시 저장, 반려 문서 재상신, 반려 문서 임시 저장
 	@RequestMapping(value = "/approval/save{param}.sw", method = RequestMethod.POST)
 	public ModelAndView docRegister(ModelAndView mv
 			, @ModelAttribute AppDocument appDoc
@@ -270,8 +270,8 @@ public class ApprovalController {
 						}else {
 							ref.setRefStatus("임시");
 						}
-					}
 						rResult = aService.registerRef(ref); // 참조자 등록
+					}
 				}
 			}else { // 기안 문서 결재 요청/임시 저장
 				if(!refMemNum.isEmpty()) { // 참조자가 있는 경우에만
@@ -284,8 +284,8 @@ public class ApprovalController {
 						}else {
 							ref.setRefStatus("임시");
 						}
-					}
 						rResult = aService.registerRef(ref); // 참조자 등록
+					}
 				}else {
 					rResult = 1;
 				}
