@@ -1,7 +1,6 @@
 package org.kh.shareware.approval.controller;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -244,7 +243,7 @@ public class ApprovalController {
 			}
 			// 참조자
 			if(parameter.equals("RejDoc") || parameter.equals("RejTem")) { // 반려 문서 재상신인 경우
-				if(refMemNum.isEmpty()) { // 참조자가 비어 있다면
+				if(refMemNum.equals("refMemNum")) { // 기존에 참조자 여부에 관계 없이 참조자를 수정하지 않은 경우
 					List<AppReference> rList = aService.printAllRef(appDoc.getDocNo()); // 참조자 조회
 					if(!rList.isEmpty()) {
 						for(int i = 0; i < rList.size(); i++) {
@@ -260,7 +259,7 @@ public class ApprovalController {
 					}else {
 						rResult = 1;
 					}
-				}else { // 참조자가 비어있지 않는다면
+				}else if(!refMemNum.equals("refMemNum") && !refMemNum.equals("")) { // 참조자를 새로 선택한 경우
 					String[] refArray = refMemNum.split(","); // 배열에 참조자 넣기
 					for(int i = 0; i < refArray.length; i++) {
 						ref.setDocNo(0);
@@ -272,6 +271,8 @@ public class ApprovalController {
 						}
 						rResult = aService.registerRef(ref); // 참조자 등록
 					}
+				}else if(refMemNum.equals("")) { // 기존에 참조자가 여부에 관계없이 참조자 선택에서 아무도 선택하지 않은 경우
+					rResult = 1; // 참조자 등록하지 않음
 				}
 			}else { // 기안 문서 결재 요청/임시 저장
 				if(!refMemNum.isEmpty()) { // 참조자가 있는 경우에만
@@ -485,7 +486,7 @@ public class ApprovalController {
 				aResult = 1;
 			}
 			// 참조자
-			if(!refMemNum.equals("")) {
+			if(!refMemNum.equals("refMemNum") && !refMemNum.equals("")) { // 참조자를 새로 선택한 경우
 				List<AppReference> rList = aService.printAllRef(appDoc.getDocNo()); // 참조자 조회
 				if(!rList.isEmpty()) {
 					aService.removeRef(appDoc.getDocNo());
@@ -501,10 +502,16 @@ public class ApprovalController {
 					}
 					rResult = aService.registerRef(ref); // 참조자 등록
 				}
-			}else {
+			}else if(refMemNum.equals("refMemNum")){ // 기존에 참조자 여부에 관계 없이 참조자를 수정하지 않은 경우
 				if(parameter.equals("Doc")) {
 					ref.setRefStatus("참조");
 					aService.modifyRef(ref); // 참조자 상태 변경(임시->참조)
+				}
+				rResult = 1;
+			}else if(refMemNum.equals("")) { // 기존에 참조자가 여부에 관계 없이 참조자 선택에서 아무도 선택하지 않은 경우
+				List<AppReference> rList = aService.printAllRef(appDoc.getDocNo()); // 참조자 조회
+				if(!rList.isEmpty()) {
+					aService.removeRef(appDoc.getDocNo());
 				}
 				rResult = 1;
 			}

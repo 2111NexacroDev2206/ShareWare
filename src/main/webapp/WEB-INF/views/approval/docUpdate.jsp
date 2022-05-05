@@ -21,7 +21,7 @@
 		<form id="form" action="/approval/updateDoc.sw" method="post" enctype="multipart/form-data" onsubmit="return nullChk()">
 			<input type="hidden" name="formNo" value="${appDoc.formNo }" readonly>
 			<input type="hidden" id="num-app" name="appMemNum" readonly>
-			<input type="hidden" id="num-ref" name="refMemNum" readonly>
+			<input type="hidden" id="num-ref" name="refMemNum" value="refMemNum" readonly>
 			<table id="table">
 				<tr class="tr-s">
 					<td class="td-1" rowspan="2">문서번호</td>
