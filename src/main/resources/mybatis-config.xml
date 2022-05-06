@@ -21,6 +21,7 @@
 		<typeAlias type="org.kh.shareware.calendar.domain.CalMem" 		alias="CalMem"/>
 		<typeAlias type="org.kh.shareware.attendance.domain.Attendance" alias="Attendance"/>
 		<typeAlias type="org.kh.shareware.attendance.domain.Stats" 		alias="Stats"/>
+		<typeAlias type="org.kh.shareware.leave.domain.Leave" 			alias="Leave"/>
 		<typeAlias type="org.kh.shareware.approval.domain.AppForm" 		alias="AppForm"/>
 		<typeAlias type="org.kh.shareware.approval.domain.AppDocument" 	alias="AppDocument"/>
 		<typeAlias type="org.kh.shareware.approval.domain.Approval" 	alias="Approval"/>
@@ -33,6 +34,7 @@
 		<typeAlias type="org.kh.shareware.mail.domain.MailFile" alias="MailFile"/>
 		<typeAlias type="org.kh.shareware.project.domain.Project" 		alias="Project"/>
 		<typeAlias type="org.kh.shareware.project.domain.Participant" 	alias="Participant"/>
+		
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/daily-mapper.xml"/>
@@ -45,5 +47,6 @@
 		<mapper resource="mappers/calendar-mapper.xml"/>
 		<mapper resource="mappers/mail-mapper.xml"/>
 		<mapper resource="mappers/project-mapper.xml"/>	
+		<mapper resource="mappers/leave-mapper.xml"/>
 	</mappers>
 </configuration>
