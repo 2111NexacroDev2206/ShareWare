@@ -38,8 +38,13 @@ public class ProjectController {
 		String memberNum = ((Member)session.getAttribute("loginUser")).getMemberNum();
 		try {
 			List<Project> pList = service.printAllProject(memberNum);
-				mv.addObject("pList", pList);
-				mv.setViewName("project/projectList");
+			for(Project pOne : pList) {
+				String reDate = pOne.getpEndDate().replace("-", "");
+				pOne.setpEndDate(reDate);
+				pList.set(pList.indexOf(pOne), pOne);
+			}
+			mv.addObject("pList", pList);
+			mv.setViewName("project/projectList");
 		}catch(Exception e) {
 			mv.addObject("msg", e.toString());
 			mv.setViewName("common/errorPage");
@@ -175,13 +180,14 @@ public class ProjectController {
 		return "project/newProject";
 	}
 	
-	//프로젝트 생성 등록
+	//프로젝트 등록
 	@RequestMapping(value="/project/projectRegister.sw", method=RequestMethod.POST)
 	public ModelAndView projectRegister(ModelAndView mv
 			,@ModelAttribute Project project
 			,HttpServletRequest request
 			,@ModelAttribute Participant participant
-			,@RequestParam(value="memNum") String memNum){ // 정은진,권지혜,김아름
+			,@RequestParam(value="memNum") String memNum
+			){ // 정은진,권지혜,김아름
 		int result = service.registerProject(project);
 		// 참여자 등록
 		int pResult = 0;
@@ -201,4 +207,24 @@ public class ProjectController {
 		}
 		return mv;
 	}
+	
+//	// 프로젝트 종료
+//	@RequestMapping(value="/project/projectModifyEndStatus.sw")
+//	public ModelAndView projectModifyEndStatus(
+//			ModelAndView mv
+//			,@RequestParam(value= "projectNo") int projectNo) {
+//		try {
+//			int result = service.modifyEndStatus(projectNo);
+//			if(result > 0) {
+//				mv.setViewName("redirect:/project/projectList.sw");
+//			}else {
+//				mv.addObject("msg", "프로젝트 종료 실패");
+//				mv.setViewName("common/errorPage");
+//			}
+//		}catch(Exception e){
+//			mv.addObject("msg", e.toString());
+//			mv.setViewName("common/errorPage");
+//		}
+//		return mv;
+//		}
 }

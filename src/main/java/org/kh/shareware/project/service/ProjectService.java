@@ -18,6 +18,7 @@ public interface ProjectService {
 	public int removeProject(int projectNo);	//프로젝트 삭제
 	public int removeParticipant(Participant participant); // 참여자 삭제
 	public List<Member> printAllParticipant(int projectNo);// 참여자 목록
+//	public int modifyEndStatus(int projectNo);  //프로젝트 종료 버튼
 
 	
 

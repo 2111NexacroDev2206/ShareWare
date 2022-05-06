@@ -18,5 +18,6 @@ public interface ProjectStore {
 	public int deleteProject(int projectNo, SqlSession sqlSession);		//프로젝트 삭제
 	public int deleteParticipant(Participant participant, SqlSession sqlSession); //참여자 삭제
 	public List<Member> selectAllParticipant(SqlSession sqlSession, int projectNo);// 참여자 목록
+//	public int updateEndStatus(SqlSession sqlSession, int projectNo); //프로젝트 종료
 
 }

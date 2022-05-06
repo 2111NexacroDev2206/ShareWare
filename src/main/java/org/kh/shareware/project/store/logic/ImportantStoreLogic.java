@@ -2,7 +2,9 @@ package org.kh.shareware.project.store.logic;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+import org.kh.shareware.project.common.PageInfo;
 import org.kh.shareware.project.domain.Important;
 import org.kh.shareware.project.store.ImportantStore;
 import org.springframework.stereotype.Repository;
@@ -10,13 +12,22 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ImportantStoreLogic implements ImportantStore {
 
+	//페이징
+	@Override
+	public int selectListCount(SqlSession sqlSession, Integer projectNo) {
+		int totalCount = sqlSession.selectOne("ImportantMapper.selectListCount", projectNo);
+		return totalCount;
+	}
 	//중요공지 목록
 	@Override
-	public List<Important> selectAllImportant(SqlSession sqlSession, Integer projectNo) {
-		List<Important> iList = sqlSession.selectList("ImportantMapper.selectAllImportant", projectNo);
+	public List<Important> selectAllImportant(SqlSession sqlSession, Integer projectNo, PageInfo pi) {
+		int limit = pi.getImpLimit();
+		int currentPage = pi.getCurrentPage();
+		int offset = (currentPage - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<Important> iList = sqlSession.selectList("ImportantMapper.selectAllImportant", projectNo, rowBounds);
 		return iList;
 	}
-	
 	//중요공지 상세 
 	@Override
 	public Important selectOneByNo(SqlSession sqlSession, Integer importantNo) {
@@ -49,12 +60,7 @@ public class ImportantStoreLogic implements ImportantStore {
 		int result = sqlSession.delete("ImportantMapper.deleteFileInfo" , importantNo);
 		return result;
 	}
-	//페이징
-	@Override
-	public int selectListCount(SqlSession sqlSession) {
-		int totalCount = sqlSession.selectOne("ImportantMapper.selectListCount");
-		return totalCount;
-	}
+
 	//조회수
 	@Override
 	public int updateCount(SqlSession sqlSession, Integer importantNo) {

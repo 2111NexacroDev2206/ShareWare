@@ -17,7 +17,7 @@
   		<result property="fileReName"		column="FILE_RENAME"/>
   	</resultMap>
   	<select id="selectListCount" resultType="_int">
-  		SELECT COUNT(*) FROM IMPORTANT
+  		SELECT COUNT(*) FROM IMPORTANT WHERE PROJECT_NO = #{projectNo}
   	</select>
   	<update id="updateCount">
   		UPDATE IMPORTANT SET IMPORTANT_COUNT = IMPORTANT_COUNT+1 WHERE IMPORTANT_NO = #{importantNo}

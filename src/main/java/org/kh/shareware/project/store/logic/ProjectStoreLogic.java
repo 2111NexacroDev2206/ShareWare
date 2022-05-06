@@ -66,7 +66,13 @@ public class ProjectStoreLogic implements ProjectStore {
 		int result = sqlSession.delete("ProjectMapper.deleteParticipant", participant);
 		return result;
 	}
-	
+//	//프로젝트 종료
+//	@Override
+//	public int updateEndStatus(SqlSession sqlSession, int projectNo) {
+//		int result = sqlSession.update("ProjectMapper.updateEndStatus", projectNo);
+//		return result;
+//	}
+//	
 
 
 }
