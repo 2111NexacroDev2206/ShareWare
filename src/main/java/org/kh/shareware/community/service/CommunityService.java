@@ -44,6 +44,8 @@ public interface CommunityService {
 	int deleteReply(Reply reply);
 	//댓글 전체 삭제
 	void removeReplyAll(Integer comNo);
+	//댓글 수정
+	int modifyReply(Reply reply);
 	
 	
 	

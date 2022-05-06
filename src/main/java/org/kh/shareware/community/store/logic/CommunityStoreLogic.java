@@ -145,6 +145,13 @@ public class CommunityStoreLogic implements CommunityStore {
 		int result = sqlsession.delete("CommnuityMapper.deleteAllReply", comNo);
 		return result;
 	}
+	
+	//댓글 수정
+	@Override
+	public int updateReply(SqlSession sqlsession, Reply reply) {
+		int result = sqlsession.update("CommnuityMapper.updateReply", reply);
+		return result;
+	}
 
 	
 

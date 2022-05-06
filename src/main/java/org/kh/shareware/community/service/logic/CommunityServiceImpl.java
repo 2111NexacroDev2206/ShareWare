@@ -151,6 +151,13 @@ public class CommunityServiceImpl implements CommunityService{
 
 	}
 
+	//댓글 수정
+	@Override
+	public int modifyReply(Reply reply) {
+		int result = cStore.updateReply(sqlsession, reply);
+		return result;
+	}
+
 
 
 }

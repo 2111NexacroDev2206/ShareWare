@@ -379,6 +379,22 @@ public class CommunityController {
 			return "fail";
 		}
 	
+	//댓글 수정
+		@ResponseBody
+		@RequestMapping(value="/community/modifyReply.sw", method=RequestMethod.POST)
+			public String modifyReply (
+				@ModelAttribute Reply Reply) {
+						
+				int result = cService.modifyReply(Reply);
+			
+				if(result >0) {
+					return "success";
+				}
+				return "fail";
+			}
+	
+	
+	
 	//댓글 삭제
 		@ResponseBody
 		@RequestMapping(value="/community/deleteReply.sw", method=RequestMethod.GET)

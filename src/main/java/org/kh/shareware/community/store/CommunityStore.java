@@ -42,6 +42,8 @@ public interface CommunityStore {
 	int deleteReply(SqlSession sqlsession, Reply reply);
 	//댓글 전체삭제
 	int deleteAllReply(SqlSession sqlsession, Integer comNo);
+	//댓글 수정
+	int updateReply(SqlSession sqlsession, Reply reply);
 	
 	
 

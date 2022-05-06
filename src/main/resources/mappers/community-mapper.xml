@@ -167,6 +167,10 @@
 		INSERT INTO REPLY VALUES(SEQ_REPLY_NO.NEXTVAL, #{comNo }, #{memberNum }, DEFAULT, #{replyContent})
 	</insert>
 	
+	<update id="updateReply">
+		UPDATE REPLY SET REPLY_CONTENT = #{replyContent} WHERE COM_NO = #{comNo } AND REPLY_NO =#{replyNo}
+	</update>
+	
 	<delete id="deleteReply">
 		DELETE FROM REPLY WHERE COM_NO = #{comNo } AND REPLY_NO =#{replyNo}
 	</delete>

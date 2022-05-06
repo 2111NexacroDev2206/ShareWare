@@ -361,7 +361,7 @@
 		var $tr = $(obj).parent().parent();//버튼의 부모의 부모 선택
 		$tr.html("");
 		var $tdModify = $("<td colspan='3'>");
-		var $tdModifyBtn = $("<td width='120'>").append("<button onclick='modReply("+comNo+","+replyNo+");'>수정</button>")//this를 넘겨줌
+		var $tdModifyBtn = $("<td width='120'>").append("<button onclick='modifyReply("+comNo+","+replyNo+");'>수정</button>")//this를 넘겨줌
 											.append("<button onclick='getCommunityReply();'>취소</button>");
 		
 		$tdModify.append("<input type='text' size='50' value='"+replyContent+"' id='modifyData'>"); //td에 input 추가+적혀있던 덧글 넣기
@@ -370,6 +370,30 @@
 		$(obj).parent().parent().after($tr)
 		
 	}
+	
+	//댓글 수정
+	function modifyReply(comNo, replyNo){
+			var replyContent = $("#modifyData").val(); //id로 가져오는 값
+			$.ajax({
+				url:"/community/modifyReply.sw",
+				type:"post",
+				data:{"comNo":comNo
+					,"replyNo": replyNo
+					,"replyContent" : replyContent}
+				,success: function(data){
+					if(data == "success"){
+						getCommunityReply();
+					}else{
+						alert("댓글 수정 실패");
+					}
+					
+				},
+				error : function(){
+					alert("Ajax 통신 실패!!");
+				}
+			})
+		}
+	
 	
 		//댓글 삭제기능
 		function removeReply(comNo, replyNo) { // 위에서 function을 소환할 때 받기
