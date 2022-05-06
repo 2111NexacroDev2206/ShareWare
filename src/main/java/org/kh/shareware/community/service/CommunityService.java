@@ -40,7 +40,10 @@ public interface CommunityService {
 	List<Reply> printAllCommunityReply(int comNo);
 	//등록
 	int registerReply(Reply reply);
+	//자신이 쓴 댓글 삭제
 	int deleteReply(Reply reply);
+	//댓글 전체 삭제
+	void removeReplyAll(Integer comNo);
 	
 	
 	

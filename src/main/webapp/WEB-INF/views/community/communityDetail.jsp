@@ -16,7 +16,7 @@
 			<c:param name="comNo" value="${community.comNo }"></c:param>
 		</c:url>
 		<input type="button" id="upload" onclick="location.href='${update}'" value="수정"/>
-		<button type="button" id="delete">삭제</button>
+		<button type="button" id="delete" onclick="deleteCommunity(replyCount)">삭제</button>
 	</c:if>
 	
 	<span>글쓴이 : ${community.member.memberName }</span>
@@ -128,8 +128,10 @@
 	
 </body>
 <script>
+	var replyCount =0;
 	getCommunityReply();
-
+	
+	
 	$("#select1").on("click", function(){
 		alert("1번 버튼 실행");
 		var select = 1;
@@ -189,17 +191,19 @@
 	
 	
 	//글 삭제
-	$("#delete").on("click", function(){
+	function deleteCommunity(replyCount){
 		var comNo = "${community.comNo}";
 		var comVoteNo = "${communityVote.comVoteNo}";
 		var cSelect = "${cVoteSelect.cSelect}";
+		var replyNo = "${replyNo}";
 		
-		$.ajax({
+			$.ajax({
 			url: "/community/deleteCommunity.sw",
 			type: "GET",
 			data: {"comNo": comNo
 				,"comVoteNo":comVoteNo
-				,"cSelect":cSelect},
+				,"cSelect":cSelect
+				,"replyCount":replyCount},
 			success : function(data) {
 				if(data == "success") {
 					location.href = '/community/list.sw';
@@ -211,7 +215,9 @@
 				alert("ajax 통신 오류! 관리자에게 문의해주세요.");
 			}
 		})
-	});
+		
+	};
+	
 
 
 	//투표 종료
@@ -234,7 +240,6 @@
 		})
 	});
 
-	
 //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ덧글ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 //덧글 보기(삭제, 수정, 등록시에 바로 동작)
 	function getCommunityReply(){
@@ -245,6 +250,7 @@
 			data : { "comNo" : comNo },
 			dataType : "json",
 			success : function(data) {
+				replyCount = 1;
 				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ댓글 갯수 알려 주기ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 				var count = data.length; //댓글의 갯수를 알 수 있음
 				var $replyDiv = $("#replyDiv");//기존 div
@@ -278,11 +284,11 @@
 					var $rWriter  = $("<td width='100'>").text(data[i].member.memberName);
 					var $rReplyDate  = $("<td width='100'>").text(data[i].replyDate);
 					if(loginUser==User){
-						var $btnArea 	 = $("<td width='80'>")
+						var $btnArea 	 = $("<td width='120'>")
 						.append("<a href='javascript:void(0)' onclick='modReplyView(this,"+data[i].comNo+","+data[i].replyNo+",\""+data[i].replyContent+"\");'>수정</a> ")//this를 넘겨줌
 						.append("<a href='javascript:void(0)' onclick='removeReply("+data[i].comNo+","+data[i].replyNo+");'>삭제</a>");
 					}else{
-						var $btnArea 	 = $("<td width='80'>")
+						var $btnArea 	 = $("<td width='120'>")
 					}
 					
 
@@ -296,6 +302,7 @@
 				}
 			}, 
 			error   : function() {//기본값을 넣지 않고 동적으로 처리하기
+				replyCount = 0;
 				var $replyDiv = $("#replyDiv");//기존 div
 				$replyDiv.html("");//기존 div안에 있는 html 태그를 전부 지우기
 				var $divCountReply = $("<div>");//div 만들기
@@ -347,6 +354,21 @@
 			},
 			complete : function() {}
 		});
+	}
+	
+	//댓글 수정 보기
+	function modReplyView(obj, comNo, replyNo, replyContent) { // 위에서 function을 소환할 때 받기
+		var $tr = $(obj).parent().parent();//버튼의 부모의 부모 선택
+		$tr.html("");
+		var $tdModify = $("<td colspan='3'>");
+		var $tdModifyBtn = $("<td width='120'>").append("<button onclick='modReply("+comNo+","+replyNo+");'>수정</button>")//this를 넘겨줌
+											.append("<button onclick='getCommunityReply();'>취소</button>");
+		
+		$tdModify.append("<input type='text' size='50' value='"+replyContent+"' id='modifyData'>"); //td에 input 추가+적혀있던 덧글 넣기
+		$tr.append($tdModify);
+		$tr.append($tdModifyBtn);
+		$(obj).parent().parent().after($tr)
+		
 	}
 	
 		//댓글 삭제기능

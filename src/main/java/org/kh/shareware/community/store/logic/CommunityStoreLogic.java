@@ -140,6 +140,12 @@ public class CommunityStoreLogic implements CommunityStore {
 		return result;
 	}
 
+	@Override
+	public int deleteAllReply(SqlSession sqlsession, Integer comNo) {
+		int result = sqlsession.delete("CommnuityMapper.deleteAllReply", comNo);
+		return result;
+	}
+
 	
 
 

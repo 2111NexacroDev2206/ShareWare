@@ -170,5 +170,9 @@
 	<delete id="deleteReply">
 		DELETE FROM REPLY WHERE COM_NO = #{comNo } AND REPLY_NO =#{replyNo}
 	</delete>
+	
+	<delete id="deleteAllReply">
+		DELETE FROM REPLY WHERE COM_NO = #{comNo }
+	</delete>
 
 </mapper>

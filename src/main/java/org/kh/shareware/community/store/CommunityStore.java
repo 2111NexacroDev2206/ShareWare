@@ -36,8 +36,12 @@ public interface CommunityStore {
 	List<Search> selectSearchCommunity(SqlSession sqlsession, Search search);
 	//댓글
 	List<Reply> selectCommunityReply(SqlSession sqlsession, int comNo);
+	//댓글 등록
 	int insertReply(SqlSession sqlsession, Reply reply);
+	//자신이쓴 댓글만 삭제
 	int deleteReply(SqlSession sqlsession, Reply reply);
+	//댓글 전체삭제
+	int deleteAllReply(SqlSession sqlsession, Integer comNo);
 	
 	
 

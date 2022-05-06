@@ -138,11 +138,17 @@ public class CommunityServiceImpl implements CommunityService{
 		int result = cStore.insertReply(sqlsession, reply);
 		return result;
 	}
-	//댓글 삭제
+	//자신이 쓴 댓글 삭제
 	@Override
 	public int deleteReply(Reply reply) {
 		int result = cStore.deleteReply(sqlsession, reply);
 		return result;
+	}
+	//전채 댓글 삭제
+	@Override
+	public void removeReplyAll(Integer comNo) {
+		cStore.deleteAllReply(sqlsession, comNo);
+
 	}
 
 

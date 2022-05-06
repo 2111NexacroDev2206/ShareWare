@@ -259,14 +259,19 @@ public class CommunityController {
 	public String removeCommunity(
 		@RequestParam("comNo") Integer comNo
 		,@RequestParam("comVoteNo") Integer comVoteNo
-		,@RequestParam("cSelect") Integer cSelect) {
-		
+		,@RequestParam("cSelect") Integer cSelect
+		,@RequestParam("replyCount") Integer replyCount) {
+
+		if(replyCount == 1) {
+			cService.removeReplyAll(comNo);
+		}
 		if(comVoteNo != null) {
 			if(cSelect!= null) {
 				cService.removeCVoteMember(comNo);
 			}
 			cService.removeCommunityVote(comNo);
 		}
+	
 		
 		int result =cService.removeCommunity(comNo);
 		if(result >0) {
