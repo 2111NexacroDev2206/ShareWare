@@ -82,6 +82,7 @@ public class ApprovalController {
 			pi = Pagination.getPageInfo(currentPage, totalCount);
 			dList = aService.printAllAppDoc(app, pi);
 		}
+		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("dList", dList);
 		model.addAttribute("pi", pi);
 		model.addAttribute("type", parameter);
