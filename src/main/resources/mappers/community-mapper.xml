@@ -150,5 +150,25 @@
 	DELETE FROM C_VOTE_MEMBER WHERE COM_NO = #{comNo }
 </delete>
 
+<resultMap type="Reply" id="CommunityReplyResultMap">
+		<id property="replyNo" column="REPLY_NO"/>
+		<result property="comNo" column="COM_NO"/>
+		<result property="memberNum" column="MEMBER_NUM"/>
+		<result property="replyDate" column="REPLY_DATE"/>
+		<result property="replyContent" column="REPLY_CONTENT"/>
+		<collection property="member" resultMap="memberResultMap"/>
+	</resultMap>
+	
+	<select id="selectReplyList" resultMap="CommunityReplyResultMap">
+		SELECT * FROM REPLY JOIN MEMBER ON REPLY.MEMBER_NUM = MEMBER.MEMBER_NUM WHERE COM_NO =#{comNo } ORDER BY REPLY_DATE ASC
+	</select>
+	
+	<insert id="insertReply">
+		INSERT INTO REPLY VALUES(SEQ_REPLY_NO.NEXTVAL, #{comNo }, #{memberNum }, DEFAULT, #{replyContent})
+	</insert>
+	
+	<delete id="deleteReply">
+		DELETE FROM REPLY WHERE COM_NO = #{comNo } AND REPLY_NO =#{replyNo}
+	</delete>
 
 </mapper>

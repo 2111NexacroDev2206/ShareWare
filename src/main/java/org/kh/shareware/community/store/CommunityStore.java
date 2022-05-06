@@ -7,12 +7,13 @@ import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.community.domain.Community;
 import org.kh.shareware.community.domain.CommunityVote;
 import org.kh.shareware.community.domain.CommunityVoteSelect;
+import org.kh.shareware.community.domain.Reply;
 import org.kh.shareware.community.domain.Search;
 
 public interface CommunityStore {
 	
 	//자유게시판 글작성
-	int resisterCommunity(SqlSession sqlsession, Community community);
+	int registerCommunity(SqlSession sqlsession, Community community);
 	int selectComNo(SqlSession sqlsession);
 	//자유게시판 리스트 보기
 	List<Community> SelectAllCommunity(SqlSession sqlsession);
@@ -33,6 +34,10 @@ public interface CommunityStore {
 	
 	//검색
 	List<Search> selectSearchCommunity(SqlSession sqlsession, Search search);
+	//댓글
+	List<Reply> selectCommunityReply(SqlSession sqlsession, int comNo);
+	int insertReply(SqlSession sqlsession, Reply reply);
+	int deleteReply(SqlSession sqlsession, Reply reply);
 	
 	
 

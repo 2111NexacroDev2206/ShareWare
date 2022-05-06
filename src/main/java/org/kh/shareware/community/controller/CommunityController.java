@@ -8,13 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 
 import org.kh.shareware.community.domain.Community;
 import org.kh.shareware.community.domain.Search;
 import org.kh.shareware.community.domain.CommunityVote;
 import org.kh.shareware.community.domain.CommunityVoteSelect;
+import org.kh.shareware.community.domain.Reply;
 import org.kh.shareware.community.service.CommunityService;
 import org.kh.shareware.member.domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 @Controller
@@ -45,7 +49,7 @@ public class CommunityController {
 	//글작성
 	@ResponseBody
 	@RequestMapping(value="/community/register.sw", method=RequestMethod.POST)
-	public String resisterCommunity(Model Model
+	public String registerCommunity(Model Model
 			,HttpServletRequest request //session 에 저장 된 아이디를 가져와야함
 			,@RequestParam(value="uploadFile", required=false) MultipartFile comImgName
 			,@RequestParam("comContent")String comContent // @RequestParam으로 값을 가져와서 세팅해줘야함
@@ -83,7 +87,7 @@ public class CommunityController {
 				}
 			}
 			
-			int result = cService.resisterCommunity(community);
+			int result = cService.registerCommunity(community);
 			
 			if(!cVoteText1.equals("")) {
 				//글 번호를 가져오는 select 로직을 가셔와서 사용
@@ -316,7 +320,6 @@ public class CommunityController {
 					}
 					return "fail";
 				}
-			
 	
 	//투표 삭제
 	@ResponseBody
@@ -327,13 +330,63 @@ public class CommunityController {
 				if(cSelect!= null) {
 					cService.removeCVoteMember(comNo);
 				}
-				int Result = cService.removeCommunityVote(comNo);
+				int result = cService.removeCommunityVote(comNo);
 			
-			if(Result >0) {
+			if(result >0) {
 				return "success";
 			}
 			return "fail";
 		}
+	
+	//댓글 리스트 출력
+	@RequestMapping(value="/community/replyList.sw", method=RequestMethod.GET)
+	public void listReply(
+				@RequestParam("comNo") int  comNo
+				,HttpServletResponse response) throws Exception{
+		
+		List<Reply> cReplyList = cService.printAllCommunityReply(comNo);
+		if(!cReplyList.isEmpty()) {
+			// 성공했을 때
+			//Gson gson = new Gson();
+			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			gson.toJson(cReplyList, response.getWriter()); // List를 json로 바꿈
+		}
+	}
+	
+	//댓글 등록
+	@ResponseBody
+	@RequestMapping(value="/community/replyAdd.sw", method=RequestMethod.POST)
+		public String registerReply (
+			HttpServletRequest request
+			,@ModelAttribute Reply Reply) {
+		
+			HttpSession session = request.getSession();
+			String memberNum = "";
+			Member member = (Member)session.getAttribute("loginUser");
+				memberNum = member.getMemberNum();
+				Reply.setMemberNum(memberNum);
+					
+			int result = cService.registerReply(Reply);
+		
+			if(result >0) {
+				return "success";
+			}
+			return "fail";
+		}
+	
+	//댓글 삭제
+		@ResponseBody
+		@RequestMapping(value="/community/deleteReply.sw", method=RequestMethod.GET)
+			public String deleteReply (
+				@ModelAttribute Reply Reply) {
+			
+				int result = cService.deleteReply(Reply);
+			
+				if(result >0) {
+					return "success";
+				}
+				return "fail";
+			}
 	
 	//검색
 	@RequestMapping(value="/community/search.sw", method=RequestMethod.GET)
@@ -341,12 +394,12 @@ public class CommunityController {
 			  ModelAndView mv
 			, @ModelAttribute Search search) {
 		try {
+
 			List<Search> searchList = cService.printSearchCommunity(search);
-			if(!searchList.isEmpty()) {
 				
-				mv.addObject("cList", searchList);
-				mv.setViewName("community/communityList");
-			}
+			mv.addObject("cList", searchList);
+			mv.setViewName("community/communityList");
+			
 		}catch(Exception e) {
 			mv.addObject("msg", e.toString());
 			mv.setViewName("common/errorPage");

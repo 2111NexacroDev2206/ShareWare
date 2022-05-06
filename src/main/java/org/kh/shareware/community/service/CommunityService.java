@@ -6,11 +6,12 @@ import java.util.Map;
 import org.kh.shareware.community.domain.Community;
 import org.kh.shareware.community.domain.CommunityVote;
 import org.kh.shareware.community.domain.CommunityVoteSelect;
+import org.kh.shareware.community.domain.Reply;
 import org.kh.shareware.community.domain.Search;
 
 public interface CommunityService {
 
-	int resisterCommunity(Community community);
+	int registerCommunity(Community community);
 	int searchComNo();
 	List<Community> listCommunity();
 	Community detailCommunity(Integer comNo);
@@ -34,6 +35,12 @@ public interface CommunityService {
 	
 	//검색
 	List<Search> printSearchCommunity(Search search);
+	//덧글
+	//리스트 보기
+	List<Reply> printAllCommunityReply(int comNo);
+	//등록
+	int registerReply(Reply reply);
+	int deleteReply(Reply reply);
 	
 	
 	

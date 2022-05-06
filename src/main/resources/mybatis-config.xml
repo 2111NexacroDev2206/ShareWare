@@ -14,6 +14,7 @@
 		<typeAlias type="org.kh.shareware.community.domain.Community" 	alias="Community"/>
 		<typeAlias type="org.kh.shareware.community.domain.CommunityVote" 	alias="CommunityVote"/>
 		<typeAlias type="org.kh.shareware.community.domain.CommunityVoteSelect" 	alias="CommunityVoteSelect"/>
+		<typeAlias type="org.kh.shareware.community.domain.Reply" 		alias="Reply"/>
 		<typeAlias type="org.kh.shareware.calendar.domain.CalSch" 		alias="CalSch"/>
 		<typeAlias type="org.kh.shareware.calendar.domain.Calendar" 	alias="Calendar"/>
 		<typeAlias type="org.kh.shareware.calendar.domain.CalBmk" 		alias="CalBmk"/>

@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,18 +24,24 @@
 		<th>작성일</th>
 		<th>조회수</th>
 	</tr>
-		<c:forEach items="${cList }" var="community">
-			<tr>
-				<td>${community.comNo} </td>
-					<c:url var="cDetail" value="/community/detail.sw">
-						<c:param name="comNo" value="${community.comNo }"></c:param>
-					</c:url>
-				<td><a href ="${cDetail}">${community.comTitle }</a></td>
-				<td>${community.member.memberName }</td>
-				<td>${community.comDate }</td>
-				<td>${community.comView }</td>		
-			</tr>
-		</c:forEach>
+			<c:if test ="${fn:length(cList) eq 0}"> <!-- list의 길이를 구해서 길이가 0이면 해당 문구를 출력 -->
+				<tr>
+					<td colspan = "5">검색 정보가 없습니다.</td>
+				</tr>
+			</c:if>
+			<c:forEach items="${cList }" var="community">
+					<tr>
+						<td>${community.comNo} </td>
+							<c:url var="cDetail" value="/community/detail.sw">
+								<c:param name="comNo" value="${community.comNo }"></c:param>
+							</c:url>
+						<td><a href ="${cDetail}">${community.comTitle }</a></td>
+						<td>${community.member.memberName }</td>
+						<td>${community.comDate }</td>
+						<td>${community.comView }</td>		
+					</tr>
+			</c:forEach>
+		
 	</table>
 	<form action="/community/search.sw" method="get" name="searchForm">
 	<select name="searchCondition">

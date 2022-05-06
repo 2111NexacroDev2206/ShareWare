@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.community.domain.Community;
 import org.kh.shareware.community.domain.CommunityVote;
 import org.kh.shareware.community.domain.CommunityVoteSelect;
+import org.kh.shareware.community.domain.Reply;
 import org.kh.shareware.community.domain.Search;
 import org.kh.shareware.community.service.CommunityService;
 import org.kh.shareware.community.store.CommunityStore;
@@ -27,8 +28,8 @@ public class CommunityServiceImpl implements CommunityService{
 	}
 	
 	@Override
-	public int resisterCommunity(Community community) {
-		int result = cStore.resisterCommunity(sqlsession, community);
+	public int registerCommunity(Community community) {
+		int result = cStore.registerCommunity(sqlsession, community);
 		return result;
 	}
 
@@ -123,6 +124,25 @@ public class CommunityServiceImpl implements CommunityService{
 	public List<Search> printSearchCommunity(Search search) {
 		List<Search> csList = cStore.selectSearchCommunity(sqlsession, search);
 		return csList;
+	}
+
+	@Override
+	public List<Reply> printAllCommunityReply(int comNo) {
+		List<Reply> cReplyList = cStore.selectCommunityReply(sqlsession, comNo);
+		return cReplyList;
+	}
+	
+	//댓글등록
+	@Override
+	public int registerReply(Reply reply) {
+		int result = cStore.insertReply(sqlsession, reply);
+		return result;
+	}
+	//댓글 삭제
+	@Override
+	public int deleteReply(Reply reply) {
+		int result = cStore.deleteReply(sqlsession, reply);
+		return result;
 	}
 
 

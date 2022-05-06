@@ -7,15 +7,17 @@ import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.community.domain.Community;
 import org.kh.shareware.community.domain.CommunityVote;
 import org.kh.shareware.community.domain.CommunityVoteSelect;
+import org.kh.shareware.community.domain.Reply;
 import org.kh.shareware.community.domain.Search;
 import org.kh.shareware.community.store.CommunityStore;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class CommunityStoreLogic implements CommunityStore {
-
+	
+	//글등록
 	@Override
-	public int resisterCommunity(SqlSession sqlsession, Community community) {
+	public int registerCommunity(SqlSession sqlsession, Community community) {
 		int result = sqlsession.insert("CommnuityMapper.insertCommnuity",community);
 		return result;
 	}
@@ -118,6 +120,24 @@ public class CommunityStoreLogic implements CommunityStore {
 	public List<Search> selectSearchCommunity(SqlSession sqlsession, Search search) {
 		List<Search> scList = sqlsession.selectList("CommnuityMapper.searchCommunity", search);
 		return scList;
+	}
+	//덧글 출력
+	@Override
+	public List<Reply> selectCommunityReply(SqlSession sqlsession, int comNo) {
+		List<Reply> cReplyList =sqlsession.selectList("CommnuityMapper.selectReplyList",comNo);
+		return cReplyList;
+	}
+	//덧글 등록
+	@Override
+	public int insertReply(SqlSession sqlsession, Reply reply) {
+		int result = sqlsession.insert("CommnuityMapper.insertReply", reply);
+		return result;
+	}
+
+	@Override
+	public int deleteReply(SqlSession sqlsession, Reply reply) {
+		int result = sqlsession.delete("CommnuityMapper.deleteReply", reply);
+		return result;
 	}
 
 	
