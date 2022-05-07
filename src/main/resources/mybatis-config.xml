@@ -34,6 +34,7 @@
 		<typeAlias type="org.kh.shareware.project.domain.Project" 					alias="Project"/>
 		<typeAlias type="org.kh.shareware.project.domain.Participant" 				alias="Participant"/>
 		<typeAlias type="org.kh.shareware.project.domain.Important" 				alias="Important"/>
+		<typeAlias type="org.kh.shareware.alarm.domain.Alarm" 						alias="Alarm"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/daily-mapper.xml"/>
@@ -46,5 +47,6 @@
 		<mapper resource="mappers/mail-mapper.xml"/>
 		<mapper resource="mappers/project-mapper.xml"/>	
 		<mapper resource="mappers/important-mapper.xml"/>	
+		<mapper resource="mappers/alarm-mapper.xml"/>	
 	</mappers>
 </configuration>

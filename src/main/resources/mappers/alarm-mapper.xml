@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AlarmMapper">
+	<select id="selectOneMemName" resultType="string"><!-- 사원 이름 조회 -->
+		SELECT MEMBER_NAME FROM MEMBER WHERE MEMBER_NUM = #{memNum}
+	</select>
+	<select id="selectOneFormName" resultType="string"><!-- 양식 이름 조회 -->
+		SELECT FORM_NAME FROM APP_FORM WHERE FORM_NO = #{formNo}
+	</select>
+	<select id="selectOneDocNo" resultType="_int"><!-- 문서 번호 -->
+		SELECT MAX(DOC_NO) FROM APP_DOC WHERE MEM_NUM = #{memNum}
+	</select>
+	<insert id="insertAlarm"><!-- 알림 등록 -->
+		INSERT INTO ALARM VALUES(SEQ_ALARM.NEXTVAL, #{memNum} , #{kind}, #{alarmContent}, DEFAULT, DEFAULT)
+	</insert>
+</mapper>

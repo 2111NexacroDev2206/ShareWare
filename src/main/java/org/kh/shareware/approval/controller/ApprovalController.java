@@ -10,6 +10,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.kh.shareware.alarm.domain.Alarm;
+import org.kh.shareware.alarm.service.AlarmService;
 import org.kh.shareware.approval.domain.AppDocument;
 import org.kh.shareware.approval.domain.AppFile;
 import org.kh.shareware.approval.domain.AppForm;
@@ -39,6 +41,9 @@ public class ApprovalController {
 	
 	@Autowired
 	private ApprovalService aService;
+	
+	@Autowired
+	private AlarmService alService;
 	
 	// 문서함으로 이동(기안/결재/참조/임시)
 	@RequestMapping(value = "/approval/{param}ListView.sw")
@@ -214,6 +219,7 @@ public class ApprovalController {
 					if(!parameter.equals("Temporary")) {
 						if(i == 0) {
 							app.setAppStatus("대기"); // 첫 번째 결재자는 대기
+							alarmRegister(app.getMemNum(), appDoc.getMemNum(), appDoc.getFormNo()); // 알림 등록
 						}else {
 							app.setAppStatus("예정"); // 두 번째 결재자부터는 예정
 						}
@@ -232,6 +238,7 @@ public class ApprovalController {
 						if(!parameter.equals("RejTem")) { // 임시 저장이 아니면
 							if(i == 0) {
 								app.setAppStatus("대기"); // 첫 번째 결재자는 대기
+								alarmRegister(app.getMemNum(), appDoc.getMemNum(), appDoc.getFormNo()); // 알림 등록
 							}else {
 								app.setAppStatus("예정"); // 두 번째 결재자부터는 예정
 							}
@@ -656,5 +663,18 @@ public class ApprovalController {
 			mv.setViewName("common/errorPage");
 		}
 		return mv;
+	}
+	
+	// 알림 등록
+	public void alarmRegister(String appMemNum, String docMemNum, int docFormNo) {
+		// [결재 요청]
+		Alarm alarm = new Alarm();
+		alarm.setKind("<span class='al-app'>[결재 요청]</span>");
+		alarm.setMemNum(appMemNum);
+		String memName = alService.printName(docMemNum); // 기안서를 올린 사람의 이름
+		String formName = alService.printForm(docFormNo); // 양식 이름
+		int docNo = alService.printDocNo(docMemNum); // 문서 번호
+		alarm.setAlarmContent("<span class='al-content'><strong>" + memName + "</strong>님이 올린 <a href='/approval/detail.sw?docNo=" + docNo + "&type=app&docStatus=대기'>'" + formName + "'</a> 문서의 결재 차례가 되었습니다.</span>");
+		alService.registerAlarm(alarm); // 알림 등록
 	}
 }
