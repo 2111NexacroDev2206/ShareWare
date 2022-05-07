@@ -669,12 +669,13 @@ public class ApprovalController {
 	public void alarmRegister(String appMemNum, String docMemNum, int docFormNo) {
 		// [결재 요청]
 		Alarm alarm = new Alarm();
-		alarm.setKind("<span class='al-app'>[결재 요청]</span>");
+		alarm.setKind("<span class='al-kind app'>[결재 요청]</span>");
 		alarm.setMemNum(appMemNum);
 		String memName = alService.printName(docMemNum); // 기안서를 올린 사람의 이름
 		String formName = alService.printForm(docFormNo); // 양식 이름
 		int docNo = alService.printDocNo(docMemNum); // 문서 번호
-		alarm.setAlarmContent("<span class='al-content'><strong>" + memName + "</strong>님이 올린 <a href='/approval/detail.sw?docNo=" + docNo + "&type=app&docStatus=대기'>'" + formName + "'</a> 문서의 결재 차례가 되었습니다.</span>");
+		alarm.setAlarmUrl("/approval/detail.sw?docNo=" + docNo + "&type=app&docStatus=대기");
+		alarm.setAlarmContent("<span class='al-content'><strong>" + memName + "</strong>님이 올린 <strong>'" + formName + "'</strong> 문서의 결재 차례가 되었습니다.</span>");
 		alService.registerAlarm(alarm); // 알림 등록
 	}
 }

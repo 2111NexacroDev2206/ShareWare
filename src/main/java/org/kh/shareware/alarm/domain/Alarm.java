@@ -1,14 +1,13 @@
 package org.kh.shareware.alarm.domain;
 
-import java.sql.Date;
-
 public class Alarm {
 	private int alarmNo;
 	private String memNum;
 	private String kind;
 	private String alarmContent;
-	private Date alarmDate;
+	private String alarmDate;
 	private String alarmStatus;
+	private String alarmUrl;
 	
 	public Alarm() {}
 
@@ -44,11 +43,11 @@ public class Alarm {
 		this.alarmContent = alarmContent;
 	}
 
-	public Date getAlarmDate() {
+	public String getAlarmDate() {
 		return alarmDate;
 	}
 
-	public void setAlarmDate(Date alarmDate) {
+	public void setAlarmDate(String alarmDate) {
 		this.alarmDate = alarmDate;
 	}
 
@@ -60,10 +59,18 @@ public class Alarm {
 		this.alarmStatus = alarmStatus;
 	}
 
+	public String getAlarmUrl() {
+		return alarmUrl;
+	}
+
+	public void setAlarmUrl(String alarmUrl) {
+		this.alarmUrl = alarmUrl;
+	}
+
 	@Override
 	public String toString() {
 		return "Alarm [alarmNo=" + alarmNo + ", memNum=" + memNum + ", kind=" + kind + ", alarmContent=" + alarmContent
-				+ ", alarmDate=" + alarmDate + ", alarmStatus=" + alarmStatus + "]";
+				+ ", alarmDate=" + alarmDate + ", alarmStatus=" + alarmStatus + ", alarmUrl=" + alarmUrl + "]";
 	}
-	
+
 }

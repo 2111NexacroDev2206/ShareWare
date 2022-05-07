@@ -32,17 +32,34 @@
     </div>
     <div class="header">
    		<div class="header-right">
-	    	<span class="material-icons"style="font-size:45px;">
-				mail_outline
-			</span>
-	    	<span class="material-icons" style="font-size:45px;">
-				notifications_none
-			</span>
-			<span class="material-icons" style="font-size:45px;">
-				account_circle
-			</span>
-			<a class="user">${loginUser.memberName } 님</a>
+   			<button id="btn-mail">
+		    	<span class="material-icons" style="font-size:45px;">
+					mail_outline
+				</span>
+			</button>
+			<button id="btn-alarm">
+		    	<span class="material-icons" style="font-size:45px;">
+					notifications_none
+				</span>
+			</button>
+			<button id="btn-info">
+				<span class="material-icons" style="font-size:45px;">
+					account_circle
+				</span>
+				<span class="user">${loginUser.memberName } 님</span>
+			</button>
 		</div>
     </div>
+    <jsp:include page="../alarm/alarmModal.jsp"></jsp:include>
 </body>
+<script>
+	// 알림 버튼
+	$("#btn-alarm").click(function() {
+		if($("#alarm-modal").css("display") === "none" ) {
+			$("#alarm-modal").show();
+		}else {
+			$("#alarm-modal").hide();
+		}
+	})
+</script>
 </html>

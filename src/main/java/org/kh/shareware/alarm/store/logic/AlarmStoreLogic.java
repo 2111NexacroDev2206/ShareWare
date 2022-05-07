@@ -1,5 +1,7 @@
 package org.kh.shareware.alarm.store.logic;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.alarm.domain.Alarm;
 import org.kh.shareware.alarm.store.AlarmStore;
@@ -30,6 +32,12 @@ public class AlarmStoreLogic implements AlarmStore{
 	public int insertAlarm(SqlSession sqlSession, Alarm alarm) { // 알림 등록
 		int result = sqlSession.insert("AlarmMapper.insertAlarm", alarm);
 		return result;
+	}
+
+	@Override
+	public List<Alarm> selectAllAlarm(SqlSession sqlSession, String memNum) { // 알림 목록 조회
+		List<Alarm> aList = sqlSession.selectList("AlarmMapper.selectListAlarm", memNum);
+		return aList;
 	}
 
 }

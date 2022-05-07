@@ -1,5 +1,7 @@
 package org.kh.shareware.alarm.service.logic;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.alarm.domain.Alarm;
 import org.kh.shareware.alarm.service.AlarmService;
@@ -38,6 +40,12 @@ public class AlarmServiceImpl implements AlarmService{
 	public int registerAlarm(Alarm alarm) { // 알림 등록
 		int result = alStore.insertAlarm(sqlSession, alarm);
 		return result;
+	}
+
+	@Override
+	public List<Alarm> printAllAlarm(String memNum) { // 알림 목록 조회
+		List<Alarm> aList = alStore.selectAllAlarm(sqlSession, memNum);
+		return aList;
 	}
 
 }

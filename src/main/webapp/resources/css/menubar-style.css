@@ -87,6 +87,11 @@ html, body {
 	padding-top: 15px;
 	float: left;
 }
+.header-right button {
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
 .user {
 	margin-left: 10px;
 	line-height: 45px;
