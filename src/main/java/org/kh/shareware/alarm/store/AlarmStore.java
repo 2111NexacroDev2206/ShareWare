@@ -12,5 +12,7 @@ public interface AlarmStore {
 	public int selectOneDocNo(SqlSession sqlSession, String memNum); // 문서 번호
 	public int insertAlarm(SqlSession sqlSession, Alarm alarm); // 알림 등록
 	public List<Alarm> selectAllAlarm(SqlSession sqlSession, String memNum); // 알림 목록 조회
+	public int updateAlarm(SqlSession sqlSession, int alarmNo); // 알림 읽음 처리
+	public int updateAllAlarm(SqlSession sqlSession, String memNum); // 알림 모두 읽음 처리
 
 }

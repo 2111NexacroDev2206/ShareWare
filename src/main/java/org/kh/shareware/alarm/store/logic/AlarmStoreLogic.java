@@ -40,4 +40,16 @@ public class AlarmStoreLogic implements AlarmStore{
 		return aList;
 	}
 
+	@Override
+	public int updateAlarm(SqlSession sqlSession, int alarmNo) { // 알림 읽음 처리
+		int result = sqlSession.update("AlarmMapper.updateAlarm", alarmNo);
+		return result;
+	}
+
+	@Override
+	public int updateAllAlarm(SqlSession sqlSession, String memNum) { // 알림 모두 읽음 처리
+		int result = sqlSession.update("AlarmMapper.updateAllAlarm", memNum);
+		return result;
+	}
+
 }

@@ -19,12 +19,35 @@ public class AlarmController{
 	@Autowired
 	private AlarmService alService;
 	
+	// 알림 목록 조회
 	@ResponseBody
 	@RequestMapping(value = "/alarm/listView.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
-	public String alarmListView(@RequestParam(value="memNum") String memNum) {
+	public String alarmListView(@RequestParam("memNum") String memNum) {
 		List<Alarm> aList = alService.printAllAlarm(memNum);
 		if(!aList.isEmpty()) {
 			return new Gson().toJson(aList);
+		}
+		return null;
+	}
+	
+	// 알림 읽음 처리
+	@ResponseBody
+	@RequestMapping(value = "/alarm/read.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+	public String alarmRead(@RequestParam("alarmNo") int alarmNo) {
+		int result = alService.modifyAlarm(alarmNo);
+		if(result > 0) {
+			return new Gson().toJson(result);
+		}
+		return null;
+	}
+	
+	// 알림 모두 읽음 처리
+	@ResponseBody
+	@RequestMapping(value = "/alarm/allRead.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+	public String alarmAllRead(@RequestParam("memNum") String memNum) {
+		int result = alService.modifyAllAlarm(memNum);
+		if(result > 0) {
+			return new Gson().toJson(result);
 		}
 		return null;
 	}

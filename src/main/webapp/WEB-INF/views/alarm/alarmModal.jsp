@@ -12,42 +12,78 @@
 <div class="alarm" id="alarm-modal">
 	<div class="al-header">
 		<span>알림</span>
-		<span class="material-icons">
-			done_all
-		</span>
+		<button id="allRead" title="모두 읽음 처리">
+			<span class="material-icons">
+				done_all
+			</span>
+		</button>
 	</div>
 	<div class="al-body" id="alarmBody">
-		<a href="home.sw" class="al-list" id="al-read">
-			<span class="al-kind app">[결재 완료]</span> <span class="al-content"><strong>박부장</strong>님이 올린 <strong>'휴가 신청서'</strong> 문서가 결재 완료되었습니다.</span><br>
-			<span class="al-date">2022-04-08 15:33:13</span>
-		</a>
 	</div>
 </div>
 <script>
 	var memNum = "${loginUser.memberNum}";
-	$.ajax({ // 알림 목록 조회
-		url : "/alarm/listView.sw",
-		type : "get",
-		data : { "memNum" : memNum },
-		success : function(aList) {
-			alarmList(aList);
-		},
-		error : function() {
-			alert("알림 목록 조회 실패");
-		}
-	})
+	
+	// 자동 실행 함수
+	$(function(){
+		alarmListView(); // 알림 목록 조회 실행
+	});
+	
+	// 알림 목록 조회
+	function alarmListView() {
+		$.ajax({
+			url : "/alarm/listView.sw",
+			type : "get",
+			data : { "memNum" : memNum },
+			success : function(aList) {
+				alarmList(aList);
+			},
+			error : function() {
+				alert("알림 목록 조회 실패");
+			}
+		})
+	}
 	
 	// 알림 목록 div에 넣기
 	function alarmList(aList) {
 		$("#alarmBody").html(""); // 목록 div 초기화
 		var div = "";
 		$.each(aList, function(i) {
-			div += '<a href="' + aList[i].alarmUrl + '" class="al-list" id="al-read">'
+			div += '<a href="#" class="al-list" onclick="alarmClick(' + aList[i].alarmUrl + ', ' + aList[i].alarmNo + ');">'
 			+ aList[i].kind + ' ' + aList[i].alarmContent + '<br>'
 			+ '<span class="al-date">' + aList[i].alarmDate + '</span></a>'
 		});
 		$("#alarmBody").append(div);
 	}
+	
+	// 알림 클릭 시
+	function alarmClick(url, no) {
+		$.ajax({
+			url : "/alarm/read.sw",
+			type : "get",
+			data : { "alarmNo" : no },
+			success : function(result) {
+				location.href = url;
+			},
+			error : function() {
+				alert("알림 읽음 처리 실패");
+			}
+		})
+	}
+	
+	$("#allRead").click(function() {
+		$.ajax({
+			url : "/alarm/allRead.sw",
+			type : "get",
+			data : { "memNum" : memNum },
+			success : function(result) {
+				alarmList();
+			},
+			error : function() {
+				alert("알림 모두 읽음 처리 실패");
+			}
+		})
+	})
 </script>
 </body>
 </html>

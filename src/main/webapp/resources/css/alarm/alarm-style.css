@@ -18,8 +18,11 @@
 .al-header span:not(.material-icons){ /* 상단 알림 텍스트 */
 	font-size: 17px;
 }
-.al-header .material-icons { /* 모두 읽음 처리 버튼 */
+#allRead { /* 모두 읽음 처리 버튼 */
+	background-color: transparent;
+	border: none;
 	float: right;
+	cursor: pointer;
 }
 .al-body { /* 알림 목록 전체 */
 	border-top: solid 1px rgba(224, 224, 224); 

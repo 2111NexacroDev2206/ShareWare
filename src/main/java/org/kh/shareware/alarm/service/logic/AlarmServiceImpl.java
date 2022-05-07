@@ -48,4 +48,16 @@ public class AlarmServiceImpl implements AlarmService{
 		return aList;
 	}
 
+	@Override
+	public int modifyAlarm(int alarmNo) { // 알림 읽음 처리
+		int result = alStore.updateAlarm(sqlSession, alarmNo);
+		return result;
+	}
+
+	@Override
+	public int modifyAllAlarm(String memNum) { // 알림 모두 읽음 처리
+		int result = alStore.updateAllAlarm(sqlSession, memNum);
+		return result;
+	}
+
 }
