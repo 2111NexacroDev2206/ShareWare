@@ -51,4 +51,12 @@ public class AlarmController{
 		}
 		return null;
 	}
+	
+	// 알림 카운트 조회
+	@ResponseBody
+	@RequestMapping(value = "/alarm/count.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+	public String alarmCount(@RequestParam("memNum") String memNum) {
+		int count = alService.getListCount(memNum);
+		return new Gson().toJson(count);
+	}
 }

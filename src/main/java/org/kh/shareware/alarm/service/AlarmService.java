@@ -13,5 +13,6 @@ public interface AlarmService {
 	public List<Alarm> printAllAlarm(String memNum); // 알림 목록 조회
 	public int modifyAlarm(int alarmNo); // 알림 읽음 처리
 	public int modifyAllAlarm(String memNum); // 알림 모두 읽음 처리
+	public int getListCount(String memNum); // 알림 카운트
 
 }

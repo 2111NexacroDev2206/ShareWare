@@ -52,4 +52,10 @@ public class AlarmStoreLogic implements AlarmStore{
 		return result;
 	}
 
+	@Override
+	public int selectOneList(SqlSession sqlSession, String memNum) { // 알림 카운트
+		int count = sqlSession.selectOne("AlarmMapper.selectOneCount", memNum);
+		return count;
+	}
+
 }

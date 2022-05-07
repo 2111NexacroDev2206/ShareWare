@@ -41,6 +41,7 @@
 		    	<span class="material-icons" style="font-size:45px;">
 					notifications_none
 				</span>
+				<div id="alarm-count"></div>
 			</button>
 			<button id="btn-info">
 				<span class="material-icons" style="font-size:45px;">

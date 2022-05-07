@@ -56,7 +56,7 @@
 		$("#alarmBody").append(div);
 	}
 	
-	// 알림 클릭 시
+	// 알림 클릭 시 읽음 처리
 	function alarmClick(url, no) {
 		$.ajax({
 			url : "/alarm/read.sw",
@@ -71,6 +71,7 @@
 		})
 	}
 	
+	// 알림 모두 읽음 처리
 	$("#allRead").click(function() {
 		$.ajax({
 			url : "/alarm/allRead.sw",
@@ -83,6 +84,22 @@
 				alert("알림 모두 읽음 처리 실패");
 			}
 		})
+	})
+	
+	// 알림 카운트
+	$.ajax({
+		url : "/alarm/count.sw",
+		type: "get",
+		data : { "memNum" : memNum },
+		success : function(count) {
+			if(count > 0) {
+				$("#alarm-count").text(count);
+				$("#alarm-count").css("display", "inline-flex");
+			}
+		},
+		error : function() {
+			alert("알림 카운트 조회 실패");
+		}
 	})
 </script>
 </body>

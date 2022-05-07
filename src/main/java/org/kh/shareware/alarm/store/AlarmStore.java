@@ -14,5 +14,6 @@ public interface AlarmStore {
 	public List<Alarm> selectAllAlarm(SqlSession sqlSession, String memNum); // 알림 목록 조회
 	public int updateAlarm(SqlSession sqlSession, int alarmNo); // 알림 읽음 처리
 	public int updateAllAlarm(SqlSession sqlSession, String memNum); // 알림 모두 읽음 처리
+	public int selectOneList(SqlSession sqlSession, String memNum); // 알림 카운트
 
 }

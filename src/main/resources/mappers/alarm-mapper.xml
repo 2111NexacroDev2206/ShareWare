@@ -33,4 +33,7 @@
 	<update id="updateAllAlarm">
 		UPDATE ALARM SET ALARM_STATUS = 'Y' WHERE MEM_NUM = #{memNum}
 	</update>
+	<select id="selectOneCount" resultType="_int">
+		SELECT COUNT(*) FROM ALARM WHERE MEM_NUM = #{memNum} AND ALARM_STATUS = 'N'
+	</select>
 </mapper>

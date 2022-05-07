@@ -1,5 +1,18 @@
 @charset "UTF-8";
-.alarm {
+#btn-alarm { /* 알림 버튼 영역 */
+	position: relative;
+}
+#alarm-count { /* 알림 카운트 */
+	display: none;
+	position: absolute;
+	background-color: red;
+	top: 15px;
+	margin-left: -20px;
+	color: white;
+	border-radius: 15px;
+	padding: 4px 7.5px;
+}
+.alarm { /* 알림 영역 */
 	position: absolute;
 	top: 75px;
 	right: 0;

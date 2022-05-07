@@ -60,4 +60,10 @@ public class AlarmServiceImpl implements AlarmService{
 		return result;
 	}
 
+	@Override
+	public int getListCount(String memNum) { // 알림 카운트
+		int count = alStore.selectOneList(sqlSession, memNum);
+		return count;
+	}
+
 }
