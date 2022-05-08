@@ -162,24 +162,23 @@
 				</c:if>
 				<button type="button" id="fileDel" class="file-del" onclick="fileDelBtn()">X</button>
 			</div>
-			<div class="div-btn2">
-				<input type="button" value="결재 요청" onclick="docSave()" class="i-left">
-				<div class="div-btn-right">
-					<c:if test="${type == 'tem' }">
+			<c:if test="${type == 'tem' }">
+				<div class="div-btn2">
+					<input type="button" value="결재 요청" onclick="docSave()" class="i-left">
+					<div class="div-btn-right">
 						<input type="button" value="임시 저장" onclick="temSave()">
-					</c:if>
-					<c:if test="${type == 'rej' }">
-						<input type="button" value="임시 저장" onclick="rejTemSave()">
-					</c:if>
-					<input type="button" id="btn-cancel" value="삭제">
-					<c:if test="${type == 'tem' }">
+						<input type="button" id="btn-cancel" value="삭제">
 						<input type="button" value="취소" onclick="location.href='/approval/temListView.sw'">
-					</c:if>
-					<c:if test="${type == 'rej' }">
-						<input type="button" value="취소" onclick="location.href='/approval/draftListView.sw'">
-					</c:if>
+					</div>
 				</div>
-			</div>
+			</c:if>
+			<c:if test="${type == 'rej' }">
+				<div class="div-btn">
+					<input type="button" value="결재 요청" onclick="docSave()" class="i-left">
+					<input type="button" value="임시 저장" onclick="rejTemSave()">
+					<input type="button" value="취소" onclick="location.href='/approval/draftListView.sw'">
+				</div>
+			</c:if>
 		</form>
 	</div>
 	<jsp:include page="appModal.jsp"></jsp:include> <!-- 결재자/참조자 선택 모달 -->
