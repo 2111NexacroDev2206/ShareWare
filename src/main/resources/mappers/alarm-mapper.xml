@@ -24,6 +24,9 @@
 	<select id="selectOneCount" resultType="_int"><!-- 알림 카운트 -->
 		SELECT COUNT(*) FROM ALARM WHERE MEM_NUM = #{memNum} AND ALARM_STATUS = 'N'
 	</select>
+	<insert id="insertAlarm"><!-- 알림 등록 -->
+		INSERT INTO ALARM VALUES(SEQ_ALARM.NEXTVAL, #{memNum}, #{kind}, #{alarmContent}, DEFAULT, DEFAULT, #{alarmUrl})
+	</insert>
 	<!-- 전자결재 -->
 	<select id="selectOneDocNo" resultType="_int"><!-- 문서 번호 -->
 		SELECT MAX(DOC_NO) FROM APP_DOC WHERE MEM_NUM = #{memNum}
@@ -34,9 +37,6 @@
 	<select id="selectOneFormName" resultType="string"><!-- 양식 이름 조회 -->
 		SELECT FORM_NAME FROM APP_DOC JOIN APP_FORM USING(FORM_NO) WHERE DOC_NO = #{docNo}
 	</select>
-	<insert id="insertAlarm"><!-- 알림 등록 -->
-		INSERT INTO ALARM VALUES(SEQ_ALARM.NEXTVAL, #{memNum}, #{kind}, #{alarmContent}, DEFAULT, DEFAULT, #{alarmUrl})
-	</insert>
 	<select id="selectOneNum" resultType="string"><!-- 기안자 사원번호 조회 -->
 		SELECT MEM_NUM FROM APP_DOC WHERE DOC_NO = #{docNo}
 	</select>

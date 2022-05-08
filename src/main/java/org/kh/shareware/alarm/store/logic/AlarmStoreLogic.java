@@ -34,6 +34,12 @@ public class AlarmStoreLogic implements AlarmStore{
 		return count;
 	}
 	
+	@Override
+	public int insertAlarm(SqlSession sqlSession, Alarm alarm) { // 알림 등록
+		int result = sqlSession.insert("AlarmMapper.insertAlarm", alarm);
+		return result;
+	}
+	
 	// 전자결재
 	@Override
 	public int selectOneDocNo(SqlSession sqlSession, String memNum) { // 문서 번호
@@ -51,12 +57,6 @@ public class AlarmStoreLogic implements AlarmStore{
 	public String selectOneForm(SqlSession sqlSession, int docNo) { // 양식 이름 조회
 		String formName = sqlSession.selectOne("AlarmMapper.selectOneFormName", docNo);
 		return formName;
-	}
-
-	@Override
-	public int insertAlarm(SqlSession sqlSession, Alarm alarm) { // 알림 등록
-		int result = sqlSession.insert("AlarmMapper.insertAlarm", alarm);
-		return result;
 	}
 
 	@Override

@@ -42,6 +42,12 @@ public class AlarmServiceImpl implements AlarmService{
 		return count;
 	}
 	
+	@Override
+	public int registerAlarm(Alarm alarm) { // 알림 등록
+		int result = alStore.insertAlarm(sqlSession, alarm);
+		return result;
+	}
+	
 	// 전자결재
 	@Override
 	public int printDocNo(String memNum) { // 문서 번호
@@ -59,12 +65,6 @@ public class AlarmServiceImpl implements AlarmService{
 	public String printForm(int docNo) { // 양식 이름 조회
 		String formName = alStore.selectOneForm(sqlSession, docNo);
 		return formName;
-	}
-
-	@Override
-	public int registerAlarm(Alarm alarm) { // 알림 등록
-		int result = alStore.insertAlarm(sqlSession, alarm);
-		return result;
 	}
 
 	@Override

@@ -9,11 +9,11 @@ public interface AlarmService {
 	public int modifyAlarm(int alarmNo); // 알림 읽음 처리
 	public int modifyAllAlarm(String memNum); // 알림 모두 읽음 처리
 	public int getListCount(String memNum); // 알림 카운트
+	public int registerAlarm(Alarm alarm); // 알림 등록
 	// 전자결재
 	public int printDocNo(String memNum); // 문서 번호
 	public String printName(int docNo); // 기안자 이름 조회
 	public String printForm(int docNo); // 양식 이름 조회
-	public int registerAlarm(Alarm alarm); // 알림 등록
 	public String printNum(int docNo); // 기안자 사원번호 조회
 	public String printAppName(String appMemNum); // 반려자 이름 조회
 
