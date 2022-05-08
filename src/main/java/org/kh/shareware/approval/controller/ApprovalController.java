@@ -219,7 +219,7 @@ public class ApprovalController {
 					if(!parameter.equals("Temporary")) {
 						if(i == 0) {
 							app.setAppStatus("대기"); // 첫 번째 결재자는 대기
-							alarmRegister(app.getMemNum(), appDoc.getMemNum(), appDoc.getFormNo(), 0); // 알림 등록
+							alarmRegister(app.getMemNum(), appDoc.getMemNum(), 0, "요청"); // 알림 등록(첫 번째 결재자에게 결재 요청)
 						}else {
 							app.setAppStatus("예정"); // 두 번째 결재자부터는 예정
 						}
@@ -238,7 +238,7 @@ public class ApprovalController {
 						if(!parameter.equals("RejTem")) { // 임시 저장이 아니면
 							if(i == 0) {
 								app.setAppStatus("대기"); // 첫 번째 결재자는 대기
-								alarmRegister(app.getMemNum(), appDoc.getMemNum(), appDoc.getFormNo(), 0); // 알림 등록
+								alarmRegister(app.getMemNum(), appDoc.getMemNum(), 0, "요청"); // 알림 등록(첫 번째 결재자에게 결재 요청)
 							}else {
 								app.setAppStatus("예정"); // 두 번째 결재자부터는 예정
 							}
@@ -482,7 +482,7 @@ public class ApprovalController {
 					if(parameter.equals("Doc")) { // 결재 요청한 경우
 						if(i == 0) {
 							app.setAppStatus("대기"); // 첫 번째 결재자는 대기
-							alarmRegister(app.getMemNum(), appDoc.getMemNum(), appDoc.getFormNo(), appDoc.getDocNo()); // 알림 등록
+							alarmRegister(app.getMemNum(), appDoc.getMemNum(), appDoc.getDocNo(), "요청"); // 알림 등록(첫 번째 결재자에게 결재 요청)
 						}else {
 							app.setAppStatus("예정"); // 두 번째 결재자부터는 예정
 						}
@@ -500,7 +500,7 @@ public class ApprovalController {
 							app.setAppLevel(aList.get(i).getAppLevel());
 							if(i == 0) {
 								app.setAppStatus("대기"); // 첫 번째 결재자는 대기
-								alarmRegister(app.getMemNum(), appDoc.getMemNum(), appDoc.getFormNo(), appDoc.getDocNo()); // 알림 등록
+								alarmRegister(app.getMemNum(), appDoc.getMemNum(), appDoc.getDocNo(), "요청"); // 알림 등록(첫 번째 결재자에게 결재 요청)
 							}else {
 								app.setAppStatus("예정"); // 두 번째 결재자부터는 예정
 							}
@@ -635,16 +635,19 @@ public class ApprovalController {
 				List<Approval> aList = aService.printAllAppStatus(docNo); // 문서 번호에 해당하는 결재자 중에 예정이 있는지 확인
 				if(!aList.isEmpty()) {
 					aService.modifyAppNext(aList.get(0).getAppNo()); // 다음 결재자 상태 변경(예정->대기)
+					alarmRegister(aList.get(0).getMemNum(), null, docNo, "요청"); // 알림 등록(다음 결재자에게 결재 요청)
 					app.setAppStatus("완료");
 					app.setDocStatus("진행");
 				}else {
 					app.setAppStatus("완료");
 					app.setDocStatus("완료");
+					alarmRegister(null, null, docNo, "완료"); // 알림 등록(기안자에게 결재 완료)
 				}
 			}else if(parameter.equals("ref")) { // 결재 반려
 				app.setRejReason(rejReason);
 				app.setAppStatus("반려");
 				app.setDocStatus("반려");
+				alarmRegister(app.getMemNum(), null, docNo, "반려"); // 알림 등록(기안자에게 결재 반려)
 			}
 			aResult = aService.modifyAppStatus(app); // 결재자 상태 변경
 			dResult = aService.modifyDocStatus(app); // 문서 상태 변경
@@ -668,18 +671,35 @@ public class ApprovalController {
 	}
 	
 	// 알림 등록
-	public void alarmRegister(String appMemNum, String docMemNum, int docFormNo, int docNo) {
-		// [결재 요청]
+	public void alarmRegister(String appMemNum, String docMemNum, int docNo, String type) {
 		Alarm alarm = new Alarm();
-		alarm.setKind("<span class='al-kind app'>[결재 요청]</span>");
-		alarm.setMemNum(appMemNum);
-		String memName = alService.printName(docMemNum); // 기안서를 올린 사람의 이름
-		String formName = alService.printForm(docFormNo); // 양식 이름
-		if(docNo == 0) { // 문서 번호가 없는 경우
-			docNo = alService.printDocNo(docMemNum); // 문서 번호
+		if(type.equals("요청")) { // [결재 요청]
+			if(docNo == 0) { // 문서 번호가 없는 경우
+				docNo = alService.printDocNo(docMemNum); // 문서 번호
+			}
+			String memName = alService.printName(docNo); // 기안서를 올린 사람의 이름
+			String formName = alService.printForm(docNo); // 양식 이름
+			alarm.setKind("<span class='al-kind app'>[결재 요청]</span>");
+			alarm.setMemNum(appMemNum); // 결재자에게 알림
+			alarm.setAlarmUrl("'/approval/detail.sw?docNo=" + docNo + "&type=app&docStatus=대기'");
+			alarm.setAlarmContent("<span class='al-content'><strong>" + memName + "</strong>님이 올린 <strong>'" + formName + "'</strong> 문서의 결재 차례가 되었습니다.</span>");
+		}else if(type.equals("완료")) { // [결재 완료]
+			String memNum = alService.printNum(docNo); // 기안서를 올린 사람의 사원번호
+			String memName = alService.printName(docNo); // 기안서를 올린 사람의 이름
+			String formName = alService.printForm(docNo); // 양식 이름
+			alarm.setKind("<span class='al-kind app'>[결재 완료]</span>");
+			alarm.setMemNum(memNum); // 기안자에게 알림
+			alarm.setAlarmUrl("'/approval/detail.sw?docNo=" + docNo + "&type=draft&docStatus=완료'");
+			alarm.setAlarmContent("<span class='al-content'><strong>" + memName + "</strong>님이 올린 <strong>'" + formName + "'</strong> 문서가 결재 완료되었습니다.</span>");
+		}else if(type.equals("반려")) { // [결재 반려]
+			String memNum = alService.printNum(docNo); // 기안서를 올린 사람의 사원번호
+			String memName = alService.printAppName(appMemNum); // 반려한 사람의 이름
+			String formName = alService.printForm(docNo); // 양식 이름
+			alarm.setKind("<span class='al-kind app'>[결재 반려]</span>");
+			alarm.setMemNum(memNum); // 기안자에게 알림
+			alarm.setAlarmUrl("'/approval/detail.sw?docNo=" + docNo + "&type=draft&docStatus=반려'");
+			alarm.setAlarmContent("<span class='al-content'><strong>" + memName + "</strong>님이 <strong>'" + formName + "'</strong> 문서를 반려하였습니다.</span>");
 		}
-		alarm.setAlarmUrl("'/approval/detail.sw?docNo=" + docNo + "&type=app&docStatus=대기'");
-		alarm.setAlarmContent("<span class='al-content'><strong>" + memName + "</strong>님이 올린 <strong>'" + formName + "'</strong> 문서의 결재 차례가 되었습니다.</span>");
 		alService.registerAlarm(alarm); // 알림 등록
 	}
 }

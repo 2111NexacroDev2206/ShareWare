@@ -19,21 +19,46 @@ public class AlarmServiceImpl implements AlarmService{
 	private SqlSession sqlSession;
 	
 	@Override
-	public String printName(String memNum) { // 사원 이름 조회
-		String memName = alStore.selectOneName(sqlSession, memNum);
-		return memName;
-	}
-
-	@Override
-	public String printForm(int formNo) { // 양식 이름 조회
-		String formName = alStore.selectOneForm(sqlSession, formNo);
-		return formName;
+	public List<Alarm> printAllAlarm(String memNum) { // 알림 목록 조회
+		List<Alarm> aList = alStore.selectAllAlarm(sqlSession, memNum);
+		return aList;
 	}
 	
+	@Override
+	public int modifyAlarm(int alarmNo) { // 알림 읽음 처리
+		int result = alStore.updateAlarm(sqlSession, alarmNo);
+		return result;
+	}
+	
+	@Override
+	public int modifyAllAlarm(String memNum) { // 알림 모두 읽음 처리
+		int result = alStore.updateAllAlarm(sqlSession, memNum);
+		return result;
+	}
+	
+	@Override
+	public int getListCount(String memNum) { // 알림 카운트
+		int count = alStore.selectOneList(sqlSession, memNum);
+		return count;
+	}
+	
+	// 전자결재
 	@Override
 	public int printDocNo(String memNum) { // 문서 번호
 		int docNo = alStore.selectOneDocNo(sqlSession, memNum);
 		return docNo;
+	}
+	
+	@Override
+	public String printName(int docNo) { // 기안자 이름 조회
+		String memName = alStore.selectOneName(sqlSession, docNo);
+		return memName;
+	}
+
+	@Override
+	public String printForm(int docNo) { // 양식 이름 조회
+		String formName = alStore.selectOneForm(sqlSession, docNo);
+		return formName;
 	}
 
 	@Override
@@ -43,27 +68,15 @@ public class AlarmServiceImpl implements AlarmService{
 	}
 
 	@Override
-	public List<Alarm> printAllAlarm(String memNum) { // 알림 목록 조회
-		List<Alarm> aList = alStore.selectAllAlarm(sqlSession, memNum);
-		return aList;
+	public String printNum(int docNo) { // 기안자 사원번호 조회
+		String memNum = alStore.selectOneNum(sqlSession, docNo);
+		return memNum;
 	}
 
 	@Override
-	public int modifyAlarm(int alarmNo) { // 알림 읽음 처리
-		int result = alStore.updateAlarm(sqlSession, alarmNo);
-		return result;
-	}
-
-	@Override
-	public int modifyAllAlarm(String memNum) { // 알림 모두 읽음 처리
-		int result = alStore.updateAllAlarm(sqlSession, memNum);
-		return result;
-	}
-
-	@Override
-	public int getListCount(String memNum) { // 알림 카운트
-		int count = alStore.selectOneList(sqlSession, memNum);
-		return count;
+	public String printAppName(String appMemNum) { // 반려자 이름 조회
+		String appName = alStore.selectOneAppName(sqlSession, appMemNum);
+		return appName;
 	}
 
 }
