@@ -140,10 +140,10 @@
 			</table>
 			<div class="div-span">
 				<span class="s-text">파일 첨부</span>
-				<c:if test="${appFile.fileName == null }">
-					<label for="ex_file" id="file-label">파일 선택</label>
-				</c:if>
 				<c:if test="${type == 'tem' }">
+					<c:if test="${appFile.fileName == null }">
+						<label for="ex_file" id="file-label">파일 선택</label>
+					</c:if>
 					<input id="ex_file" type="file" name="reloadFile" onchange="fileSelect(this.value)">
 					<span id="fileName" class="file-name">
 						<c:if test="${appFile.fileName != null }">
@@ -156,6 +156,7 @@
 					<button type="button" id="btn-delete" class="file-del2" onclick="deleteFile('${appFile.filePath}',${appFile.docNo} );">X</button>
 				</c:if>
 				<c:if test="${type == 'rej' }">
+					<label for="ex_file" id="file-label">파일 선택</label>
 					<span id="fileName" class="file-name">선택된 파일이 없습니다.</span>
 	                <input id="ex_file" type="file" name="uploadFile" onchange="fileSelect(this.value)">
 				</c:if>
@@ -171,7 +172,12 @@
 						<input type="button" value="임시 저장" onclick="rejTemSave()">
 					</c:if>
 					<input type="button" id="btn-cancel" value="삭제">
-					<input type="button" value="취소" onclick="location.href='/approval/temListView.sw'">
+					<c:if test="${type == 'tem' }">
+						<input type="button" value="취소" onclick="location.href='/approval/temListView.sw'">
+					</c:if>
+					<c:if test="${type == 'rej' }">
+						<input type="button" value="취소" onclick="location.href='/approval/draftListView.sw'">
+					</c:if>
 				</div>
 			</div>
 		</form>
@@ -183,7 +189,7 @@
 			$("#form").attr("action", "/approval/saveRejDoc.sw");
 		}
 		
-		// 선택한 파일 없으면 버튼 숨기기
+		// 선택한 파일 없으면 파일 없애는 버튼 숨기기
 		function fileSelect(value) {
 			if($("#ex_file").val() == "") { 
 				$("#fileDel").css("display", "none");
