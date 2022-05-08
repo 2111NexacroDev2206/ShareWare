@@ -13,7 +13,7 @@
 	padding: 4px 7.5px;
 }
 .alarm { /* 알림 영역 */
-	position: absolute;
+	position: fixed;
 	top: 75px;
 	right: 0;
 	padding: 10px;
