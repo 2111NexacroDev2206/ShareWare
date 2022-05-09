@@ -18,6 +18,10 @@ public interface MemberStore {
 	//주소록
 	public List<Member> selectAll(SqlSession sqlSession, PageInfo pi);
 	public int selectListCount(SqlSession sqlSession);
+	//주소록 검색
+	public List<Member> selectAllSearch(SqlSession sqlSession, PageInfo pi);
+	public int selectListCountSearch(SqlSession sqlSession);
+	
 	//조직도
 	public List<Division> selectOrganization(SqlSession sqlSession);
 	

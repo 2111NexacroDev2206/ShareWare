@@ -27,14 +27,14 @@ public class MemberServiceImpl implements MemberService{
 		return memberOne;
 	}
 	
-	//마이페이지
+//마이페이지
 	@Override
 	public Member printOneById(String memberNum) {
 		Member memberOne = mStore.selectOneById(sqlSession, memberNum);
 		return memberOne;
 	}
 
-	//주소록
+//주소록
 	@Override
 	public List<Member> printAll(PageInfo pi) {
 		List<Member> mList = mStore.selectAll(sqlSession, pi);
@@ -45,6 +45,19 @@ public class MemberServiceImpl implements MemberService{
 		int totalCount = mStore.selectListCount(sqlSession);
 		return totalCount;
 	}
+//주소록 검색
+	@Override
+	public List<Member> printAllSearch(PageInfo pi) {
+		List<Member> mList = mStore.selectAllSearch(sqlSession, pi);
+		return mList;
+	}
+//검색 페이징
+	@Override
+	public int getListCountSearch() {
+		int totalCount = mStore.selectListCountSearch(sqlSession);
+		return totalCount;
+	}
+	
 	//조직도
 	@Override
 	public List<Division> printOrganization() {
@@ -65,8 +78,4 @@ public class MemberServiceImpl implements MemberService{
 		return mList;
 	}
 
-<<<<<<< HEAD
-
-=======
->>>>>>> refs/heads/master
 }
