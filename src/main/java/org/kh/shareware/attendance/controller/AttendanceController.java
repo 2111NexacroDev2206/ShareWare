@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -105,7 +106,8 @@ public class AttendanceController {
 	public String attListViewEmp(
 			Model model
 			, HttpSession session
-			, @RequestParam(value="page", required=false) Integer page) {
+			, @RequestParam(value="page", required=false) Integer page
+			, @RequestParam(value="date", required=false) String date) {
 		int currentPage = (page != null) ? page : 1;
 		Member value = (Member) session.getAttribute("loginUser");
 		String memNum = value.getMemberNum();
@@ -117,7 +119,7 @@ public class AttendanceController {
 			model.addAttribute("sList", sList); //통계
 			model.addAttribute("aList", aList);
 			model.addAttribute("pi", pi);
-		}
+		}		
 		return "attendance/attListViewEmp";
 	}
 	
@@ -137,8 +139,27 @@ public class AttendanceController {
 //		
 //		return mav;
 //	}
-			
+	
+	@PostMapping("/attendance/searchDate.sw")
+	public String searchDate(String date, HttpSession session, Model model) {			
 		
-	
-	
+		int currentPage = 1;
+		Member value = (Member) session.getAttribute("loginUser");
+		String memNum = value.getMemberNum()+date;  //A02022-06
+		
+		int totalCount = aService.getListCount(memNum);
+		PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
+		List<Attendance> aList = aService.printAll(pi, memNum);
+		List<Stats> sList = aService.printStats(memNum); //통계
+		if(!aList.isEmpty()) {
+			model.addAttribute("sList", sList); //통계
+			model.addAttribute("aList", aList);
+			model.addAttribute("pi", pi);
+		}	
+		 				
+		
+		//return "redirect:/attendance/attListViewEmp.sw";
+		return "attendance/attListViewEmp";
+	}
+				
 }
