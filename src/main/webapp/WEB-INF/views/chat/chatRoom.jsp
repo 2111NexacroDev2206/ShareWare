@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +21,14 @@
 				<button class="chatRoom-button" onclick="chatRoomBtn();">채팅방 생성</button>
 			</div>
 			<div class="chatRoom-list">
-				
+				<c:forEach items="${rList }" var="chatRoom">
+					<div class="chatRoom-one">
+						<span class="chatRoomType">${chatRoom.chatRoomType }</span>
+						<span class="chatRoomTitle">${chatRoom.chatRoomTitle }</span>
+						<span class="chatContent">${chatRoom.chatContent }</span>
+						<span class="chatDate">${chatRoom.chatDate }</span>
+					</div>
+				</c:forEach>
 			</div>
 		</div>
 	</div>

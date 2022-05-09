@@ -3,6 +3,7 @@ package org.kh.shareware.chat.service.logic;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.kh.shareware.chat.domain.ChatContent;
 import org.kh.shareware.chat.domain.ChatMember;
 import org.kh.shareware.chat.domain.ChatRoom;
 import org.kh.shareware.chat.service.ChatService;
@@ -38,9 +39,21 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public int modifyChatTitle(String chatTitle) { // 채팅방 제목 바꾸기
-		int result = cStore.updateChatTitle(sqlSession, chatTitle);
+	public int registerChatContent(ChatContent chatContent) { // 채팅 등록
+		int result = cStore.insertChatContent(sqlSession, chatContent);
 		return result;
+	}
+
+	@Override
+	public List<ChatRoom> printAllChatRoom(String memberNum) { // 채팅방 목록 조회
+		List<ChatRoom> rList = cStore.selectAllChatRoom(sqlSession, memberNum);
+		return rList;
+	}
+
+	@Override
+	public ChatContent printChatContent(int chatRoomNo) { // 마지막 대화 내용과 날짜 가져오기
+		ChatContent chatContent = cStore.selectChatContent(sqlSession, chatRoomNo);
+		return chatContent;
 	}
 	
 }

@@ -141,22 +141,25 @@
 	}
 	// 채팅방/사용자 등록
 	function appSelView() {
-		var ref = []; // 사용자 담을 배열 선언
-		Arr.forEach(function(el, i){
-			ref[i] = el.memberNum;
-		});
-		$.ajax({
-			url : "/chat/registerChatRoom.sw",
-			type : "get",
-			traditional: true,
-			data : { "chatMember" : ref },
-			success : function(result) {
-				alert(result);
-			},
-			error : function() {
-				alert("채팅방 생성 실패");
-			}
-		});
+		var chatRoomTitle = prompt("채팅방 제목을 입력하세요");
+		if(chatRoomTitle != null) {
+			var ref = []; // 사용자 담을 배열 선언
+			Arr.forEach(function(el, i){
+				ref[i] = el.memberNum;
+			});
+			$.ajax({
+				url : "/chat/registerChatRoom.sw",
+				type : "get",
+				traditional: true,
+				data : { "chatMember" : ref, "chatRoomTitle" : chatRoomTitle },
+				success : function(result) {
+					alert(result);
+				},
+				error : function() {
+					alert("채팅방 생성 실패");
+				}
+			});
+		}
 	}
 </script>
 </html>

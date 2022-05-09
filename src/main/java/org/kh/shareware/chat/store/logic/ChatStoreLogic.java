@@ -3,6 +3,7 @@ package org.kh.shareware.chat.store.logic;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.kh.shareware.chat.domain.ChatContent;
 import org.kh.shareware.chat.domain.ChatMember;
 import org.kh.shareware.chat.domain.ChatRoom;
 import org.kh.shareware.chat.store.ChatStore;
@@ -30,9 +31,21 @@ public class ChatStoreLogic implements ChatStore {
 	}
 
 	@Override
-	public int updateChatTitle(SqlSession sqlSession, String chatTitle) { // 채팅방 제목 바꾸기
-		int result = sqlSession.update("ChatMapper.updateChatTitle", chatTitle);
+	public int insertChatContent(SqlSession sqlSession, ChatContent chatContent) { // 채팅 등록
+		int result = sqlSession.insert("ChatMapper.insertChatContent", chatContent);
 		return result;
+	}
+
+	@Override
+	public List<ChatRoom> selectAllChatRoom(SqlSession sqlSession, String memberNum) { // 채팅방 목록 조회
+		List<ChatRoom> rList = sqlSession.selectList("ChatMapper.selectListChatRoom", memberNum);
+		return rList;
+	}
+
+	@Override
+	public ChatContent selectChatContent(SqlSession sqlSession, int chatRoomNo) { // 마지막 대화 내용과 날짜 가져오기
+		ChatContent chatContent = sqlSession.selectOne("ChatMapper.selectOneChatContent", chatRoomNo);
+		return chatContent;
 	}
 
 }

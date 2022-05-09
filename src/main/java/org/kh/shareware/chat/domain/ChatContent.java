@@ -1,11 +1,14 @@
 package org.kh.shareware.chat.domain;
 
+import java.sql.Date;
+
 public class ChatContent {
 	private int chatContentNo;
 	private int chatRoomNo;
 	private String chatContent;
 	private String memNum;
-	private String chatDate;
+	private Date chatDate;
+	private int chatType;
 	
 	public ChatContent() {}
 
@@ -41,18 +44,26 @@ public class ChatContent {
 		this.memNum = memNum;
 	}
 
-	public String getChatDate() {
+	public Date getChatDate() {
 		return chatDate;
 	}
 
-	public void setChatDate(String chatDate) {
+	public void setChatDate(Date chatDate) {
 		this.chatDate = chatDate;
+	}
+
+	public int getChatType() {
+		return chatType;
+	}
+
+	public void setChatType(int chatType) {
+		this.chatType = chatType;
 	}
 
 	@Override
 	public String toString() {
 		return "ChatContent [chatContentNo=" + chatContentNo + ", chatRoomNo=" + chatRoomNo + ", chatContent="
-				+ chatContent + ", memNum=" + memNum + ", chatDate=" + chatDate + "]";
+				+ chatContent + ", memNum=" + memNum + ", chatDate=" + chatDate + ", chatType=" + chatType + "]";
 	}
 	
 }
