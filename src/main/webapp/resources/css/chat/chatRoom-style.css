@@ -1,0 +1,36 @@
+@charset "UTF-8";
+.chatRoom { /* 채팅방 영역 */
+	width: 650px;
+	height: 700px;
+	margin: 0 460px;
+}
+.chatRoom-header { /* 채팅방 목록 헤더 */
+	width: 100%;
+	height: 50px;
+}
+.chatRoom-title { /* 채팅방 목록 텍스트 */
+	float: left;
+	font-size: 22px;
+	font-weight: bold;
+	line-height: 50px;
+	vertical-align: middle;
+}
+.chatRoom-button { /* 채팅방 생성 버튼 */
+	display: inline-block;
+	width: 120px;
+	height: 50px;
+	background-color: white;
+	border: 1px solid rgb(51, 51, 51);
+	border-radius: 4px;
+	font-size: 15px;
+	float: right;
+	cursor: pointer;
+}
+.chatRoom-list { /* 채팅방 목록 */
+	border: 1px solid rgb(51, 51, 51);
+	border-radius: 4px;
+	width: 100%;
+	margin-top: 15px;
+	height: 635px;
+	overflow-y: auto;
+}

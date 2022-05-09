@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>결재자 선택</title>
+<title>사용자 초대</title>
 <link href="/resources/css/approval/appModal-style.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 </head>
@@ -43,30 +43,19 @@
 	</div>
 </body>
 <script>
-	var varType; // 결재자/참조자 구분 넣을 변수 선언
-	var appArr = new Array(); // 선택한 결재자 담을 배열 선언
-	var refArr = new Array(); // 선택한 결재자 담을 배열 선언
-	var appArrText = new Array(); // 화면에 보여줄 결재자 리스트 배열 선언
-	var refArrText = new Array(); // 화면에 보여줄 참조자 리스트 배열 선언
-	// 결재자/참조자 선택 모달
-	function appBtn(type) {
-		varType = type; // 변수에 type 넣어주기
-		if(type == "app") {
-			$("#header").html("결재자 선택");
-			$("#s-text").html("결재자");
-			$("#s-list").html(appArrText.join("<br>"));
-		}else if(type == "ref"){
-			$("#header").html("참조자 선택");
-			$("#s-text").html("참조자");
-			$("#s-list").html(refArrText.join("<br>"));
-		}
+	var Arr = new Array(); // 선택한 사용자 담을 배열 선언
+	var arrText = new Array(); // 화면에 보여줄 텍스트 배열 선언
+	// 사용자 선택 모달
+	function chatRoomBtn() {
+		$("#header").html("사용자 초대");
+		$("#s-text").html("사용자");
 		$("#appSelModal").css('display', 'flex').hide().fadeIn();
 		$.ajax({
 			url : "/modal/member/list.sw",
 			type : "get",
 			success : function(mList) {
 				$("#s-value").val(""); // 검색 입력창 지우기
-				appList(mList, type);
+				appList(mList);
 			},
 			error : function() {
 				alert("사원 목록 조회 실패");
@@ -84,16 +73,16 @@
 	    $("#appSelModal").fadeOut();
 	}
 	
-	// 결재자/참조자 선택 사원 검색
+	// 사원 검색
 	$("#btn-search").click(function() {
 		var searchCondition = $("#s-condition").val();
-		var searchValue = $("#s-value").val();
+		var searchValue = $("#s-value").val(); 
 		$.ajax({
 			url : "/modal/member/search.sw",
 			type : "get",
 			data : { "searchCondition" : searchCondition,  "searchValue" : searchValue },
 			success : function(mList) {
-				appList(mList, varType);
+				appList(mList);
 			},
 			error : function() {
 				alert("사원 목록 검색 실패");
@@ -102,7 +91,7 @@
 	});
 	
 	// 사원 목록 불러오기
-	function appList(mList, type) {
+	function appList(mList) {
 		$("#m-list-table").html(""); // 테이블 값 지우기
 		var tr;
 		$.each(mList, function(i) {
@@ -112,11 +101,11 @@
 			+ '</td><td>' + mList[i].rank + '</td></tr>';
 		});
 		$("#m-list-table").append(tr);
-		appSelect(type); // 결재자/참조자 선택
+		appSelect(); // 사용자 선택
 	}
 	
-	// 결재자/참조자 선택
-	function appSelect(type) {
+	// 사용자 선택
+	function appSelect() {
 		$("#m-list-table tr").click(function(){
 			var trArr = new Object(); // 한 행의 배열을 담을 객체 선언
 			var tdArr = new Array(); // 배열 선언(사원번호, 부서, 이름, 직급)
@@ -137,61 +126,37 @@
 			trArr.rank = td.eq(3).text();
 			
 			// 객체에 데이터가 있는지 여부 판단
-			if(type == "app") { // 결재자
-				var checkedArrIdx = _.findIndex(appArr, { memberNum : trArr.memberNum }); // 동일한 값 인덱스 찾기
-				appArrText = []; // 배열 비우기
-				if(checkedArrIdx > -1) {
-					_.remove(appArr, { memberNum : trArr.memberNum }); // 동일한 값 지우기
-				}else {
-					if(appArr.length < 3) { // 선택한 결재자 수가 3보다 작으면
-						appArr.push(trArr); // 객체를 배열에 담기
-					}else {
-						alert("결재자는 3명까지만 선택할 수 있습니다.");
-					}
-				}
-				appArr.forEach(function(el, index) {
-					appArrText.push(el.division +" "+ el.memberName +" "+ el.rank);
-				});
-				$("#s-list").html(appArrText.join("<br>")); // 개행해서 s-list 영역에 출력
-			}else if(type == "ref") { // 참조자
-				var checkedArrIdx = _.findIndex(refArr, { memberNum : trArr.memberNum }); // 동일한 값 인덱스 찾기
-				refArrText = []; // 배열 비우기
-				if(checkedArrIdx > -1) {
-					_.remove(refArr, { memberNum : trArr.memberNum }); // 동일한 값 지우기
-				}else {
-					refArr.push(trArr);
-				}
-				refArr.forEach(function(el, index) {
-					refArrText.push(el.division +" "+ el.memberName +" "+ el.rank);
-				});
-				$("#s-list").html(refArrText.join("<br>")); // 개행해서 s-list 영역에 출력
+			var checkedArrIdx = _.findIndex(Arr, { memberNum : trArr.memberNum }); // 동일한 값 인덱스 찾기
+			arrText = []; // 배열 비우기
+			if(checkedArrIdx > -1) {
+				_.remove(Arr, { memberNum : trArr.memberNum }); // 동일한 값 지우기
+			}else {
+				Arr.push(trArr);
 			}
+			Arr.forEach(function(el, index) {
+				arrText.push(el.division +" "+ el.memberName +" "+ el.rank);
+			});
+			$("#s-list").html(arrText.join("<br>")); // 개행해서 s-list 영역에 출력
 		});
 	}
-	
-	// 선택한 결재자/참조자 문서 작성 페이지에 표시
+	// 채팅방/사용자 등록
 	function appSelView() {
-		if(varType == "app") {
-			for(var i = 0; i < 3; i++) { // 전에 입력한 값이 있을 경우 대비 초기화
-				$("#r-app" + i).text("");
-				$("#name-app" + i).text("");
-				$("#num-app" + i).val("");
+		var ref = []; // 사용자 담을 배열 선언
+		Arr.forEach(function(el, i){
+			ref[i] = el.memberNum;
+		});
+		$.ajax({
+			url : "/chat/registerChatRoom.sw",
+			type : "get",
+			traditional: true,
+			data : { "chatMember" : ref },
+			success : function(result) {
+				alert(result);
+			},
+			error : function() {
+				alert("채팅방 생성 실패");
 			}
-			var app = []; // 결재자 담을 배열 선언
-			appArr.forEach(function(el, i){
-				$("#r-app" + i).text(el.rank);
-				$("#name-app" + i).text(el.memberName);
-				app[i] = el.memberNum;
-			});
-			$("#num-app").val(app);
-		}else if(varType == "ref"){
-			$("#ref-list").text(refArrText.join(", "));
-			var ref = []; // 참조자 담을 배열 선언
-			refArr.forEach(function(el, i){
-				ref[i] = el.memberNum;
-			})
-			$("#num-ref").val(ref);
-		}
+		});
 	}
 </script>
 </html>
