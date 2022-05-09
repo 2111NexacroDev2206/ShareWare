@@ -8,7 +8,7 @@ import org.kh.shareware.alarm.store.AlarmStore;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class AlarmStoreLogic implements AlarmStore{
+public class AlarmStoreLogic implements AlarmStore {
 	
 	@Override
 	public List<Alarm> selectAllAlarm(SqlSession sqlSession, String memNum) { // 알림 목록 조회
