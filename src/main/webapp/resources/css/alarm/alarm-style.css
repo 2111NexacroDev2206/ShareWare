@@ -1,0 +1,68 @@
+@charset "UTF-8";
+#btn-alarm { /* 알림 버튼 영역 */
+	position: relative;
+}
+#alarm-count { /* 알림 카운트 */
+	display: none;
+	position: absolute;
+	background-color: red;
+	top: 15px;
+	margin-left: -20px;
+	color: white;
+	border-radius: 15px;
+	padding: 4px 7.5px;
+}
+.alarm { /* 알림 영역 */
+	position: fixed;
+	top: 75px;
+	right: 0;
+	padding: 10px;
+	width: 300px;
+	height: 525px;
+	overflow: auto;
+	box-shadow: 1px 1px 10px 0 rgb(51, 51, 51);
+	z-index: 2;
+	display: none;
+	background-color: white;
+}
+.al-header { /* 알림 모달 헤더 */
+	margin: 13px;
+}
+.al-header span:not(.material-icons){ /* 상단 알림 텍스트 */
+	font-size: 17px;
+}
+#allRead { /* 모두 읽음 처리 버튼 */
+	background-color: transparent;
+	border: none;
+	float: right;
+	cursor: pointer;
+}
+.al-body { /* 알림 목록 전체 */
+	border-top: solid 1px rgba(224, 224, 224); 
+	margin: 13px;
+}
+.al-list { /* 알림 목록 개별 */
+	display: block;
+	padding: 7px 0;
+	border-bottom: solid 1px rgba(224, 224, 224); 
+	font-size: 13px;
+	text-decoration: none;
+}
+.al-list:hover {
+	background-color: rgb(145, 168, 210, 0.1);
+}
+.al-kind.app { /* 알림 종류 - 전자결재 */
+	color: rgb(52, 152, 219);
+}
+.al-kind.cal { /* 알림 종류 - 일정 */
+	color: rgb(155, 89, 182);
+}
+.al-kind.notice { /* 알림 종류 - 공지 */
+	color: rgb(192, 57, 43);
+}
+.al-content { /* 알림 내용 */
+	color: black;
+}
+.al-date { /* 알림 날짜 */
+	color: rgb(127, 127, 127);
+}

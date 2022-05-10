@@ -35,6 +35,10 @@
 		<typeAlias type="org.kh.shareware.project.domain.Participant" 				alias="Participant"/>
 		<typeAlias type="org.kh.shareware.project.domain.Important" 				alias="Important"/>
 		<typeAlias type="org.kh.shareware.project.domain.Work" 						alias="Work"/>
+		<typeAlias type="org.kh.shareware.alarm.domain.Alarm" 						alias="Alarm"/>
+		<typeAlias type="org.kh.shareware.chat.domain.ChatRoom" 					alias="ChatRoom"/>
+		<typeAlias type="org.kh.shareware.chat.domain.ChatContent" 					alias="ChatContent"/>
+		<typeAlias type="org.kh.shareware.chat.domain.ChatMember" 					alias="ChatMember"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/daily-mapper.xml"/>
@@ -48,5 +52,7 @@
 		<mapper resource="mappers/project-mapper.xml"/>	
 		<mapper resource="mappers/important-mapper.xml"/>	
 		<mapper resource="mappers/work-mapper.xml"/>	
+		<mapper resource="mappers/alarm-mapper.xml"/>	
+		<mapper resource="mappers/chat-mapper.xml"/>	
 	</mappers>
 </configuration>

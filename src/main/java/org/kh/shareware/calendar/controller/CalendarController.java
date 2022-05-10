@@ -57,7 +57,7 @@ public class CalendarController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/calendar/schListView.sw", method = RequestMethod.GET)
+	@RequestMapping(value="/calendar/schListView.sw", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
 	public ModelAndView scheduleList(ModelAndView mv
 			) {
 		

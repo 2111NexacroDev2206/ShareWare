@@ -32,7 +32,7 @@ public interface ApprovalStore {
 	public int updateDoc(SqlSession sqlSession, AppDocument appDoc); // 임시 저장 수정(문서)
 	public int deleteApp(SqlSession sqlSession, int docNo); // 결재자 삭제
 	public int deleteRef(SqlSession sqlSession, int docNo); // 참조자 삭제
-	public int updateApp(SqlSession sqlSession, Approval app); // 결재자 상태 변경(임시->대기)
+	public int updateApp(SqlSession sqlSession, Approval app); // 결재자 상태 변경(임시->대기/예정)
 	public int updateRef(SqlSession sqlSession, AppReference ref); // 참조자 상태 변경(임시->참조)
 	public int deleteFile(SqlSession sqlSession, int docNo); // 파일 삭제
 	public List<AppDocument> selectAllRefDoc(SqlSession sqlSession, AppReference ref, PageInfo pi); // 참조 문서함 문서 조회

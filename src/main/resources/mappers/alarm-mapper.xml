@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AlarmMapper">
+	<resultMap type="Alarm" id="alarmResultMap">
+		<id property="alarmNo" column="ALARM_NO"/>
+		<result property="memNum" column="MEM_NUM"/>
+		<result property="kind" column="KIND"/>
+		<result property="alarmContent" column="ALARM_CONTENT"/>
+		<result property="alarmDate" column="ALARM_DATE"/>
+		<result property="alarmStatus" column="ALARM_STATUS"/>
+		<result property="alarmUrl" column="ALARM_URL"/>
+	</resultMap>
+	<select id="selectListAlarm" resultMap="alarmResultMap"><!-- 알림 목록 조회 -->
+		SELECT * FROM ALARM WHERE MEM_NUM = #{memNum} AND ALARM_STATUS = 'N' ORDER BY ALARM_NO DESC
+	</select>
+	<update id="updateAlarm"><!-- 알림 읽음 처리 -->
+		UPDATE ALARM SET ALARM_STATUS = 'Y' WHERE ALARM_NO = #{alarmNo}
+	</update>
+	<update id="updateAllAlarm"><!-- 알림 모두 읽음 처리 -->
+		UPDATE ALARM SET ALARM_STATUS = 'Y' WHERE MEM_NUM = #{memNum}
+	</update>
+	<select id="selectOneCount" resultType="_int"><!-- 알림 카운트 -->
+		SELECT COUNT(*) FROM ALARM WHERE MEM_NUM = #{memNum} AND ALARM_STATUS = 'N'
+	</select>
+	<insert id="insertAlarm"><!-- 알림 등록 -->
+		INSERT INTO ALARM VALUES(SEQ_ALARM.NEXTVAL, #{memNum}, #{kind}, #{alarmContent}, DEFAULT, DEFAULT, #{alarmUrl})
+	</insert>
+	<!-- 전자결재 -->
+	<select id="selectOneDocNo" resultType="_int"><!-- 문서 번호 -->
+		SELECT MAX(DOC_NO) FROM APP_DOC WHERE MEM_NUM = #{memNum}
+	</select>
+	<select id="selectOneMemName" resultType="string"><!-- 기안자 이름 조회 -->
+		SELECT MEMBER_NAME FROM APP_DOC JOIN MEMBER ON MEMBER_NUM = MEM_NUM WHERE DOC_NO = #{docNo}
+	</select>
+	<select id="selectOneFormName" resultType="string"><!-- 양식 이름 조회 -->
+		SELECT FORM_NAME FROM APP_DOC JOIN APP_FORM USING(FORM_NO) WHERE DOC_NO = #{docNo}
+	</select>
+	<select id="selectOneNum" resultType="string"><!-- 기안자 사원번호 조회 -->
+		SELECT MEM_NUM FROM APP_DOC WHERE DOC_NO = #{docNo}
+	</select>
+	<select id="selectOneAppName" resultType="string"><!-- 반려자 이름 조회 -->
+		SELECT MEMBER_NAME FROM MEMBER WHERE MEMBER_NUM = #{appMemNum}
+	</select>
+</mapper>

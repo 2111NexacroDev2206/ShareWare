@@ -26,23 +26,41 @@
         <div class="list-item ${myCondition eq 'board' ? 'active' : ''}"><a href="/community/list.sw">게시판</a></div>
         <div class="list-item ${myCondition eq 'meetingRoom' ? 'active' : ''}"><a href="">회의실 예약</a></div>
         <div class="list-item ${myCondition eq 'approval' ? 'active' : ''}"><a href="/approval/draftListView.sw">전자결재</a></div>
-        <div class="list-item ${myCondition eq 'chat' ? 'active' : ''}"><a href="">채팅</a></div>
+        <div class="list-item ${myCondition eq 'chat' ? 'active' : ''}"><a href="/chat/chatListView.sw">채팅</a></div>
         <div class="list-item ${myCondition eq 'calendar' ? 'active' : ''}"><a href="/calendar/schListView.sw">일정</a></div>
         <div class="list-item ${myCondition eq 'mail' ? 'active' : ''}"><a href="/mail/SmailListView.sw">메일</a></div>
     </div>
     <div class="header">
    		<div class="header-right">
-	    	<span class="material-icons"style="font-size:45px;">
-				mail_outline
-			</span>
-	    	<span class="material-icons" style="font-size:45px;">
-				notifications_none
-			</span>
-			<span class="material-icons" style="font-size:45px;">
-				account_circle
-			</span>
-			<a class="user">${loginUser.memberName } 님</a>
+   			<button id="btn-mail">
+		    	<span class="material-icons" style="font-size:45px;">
+					mail_outline
+				</span>
+			</button>
+			<button id="btn-alarm">
+		    	<span class="material-icons" style="font-size:45px;">
+					notifications_none
+				</span>
+				<div id="alarm-count"></div>
+			</button>
+			<button id="btn-info">
+				<span class="material-icons" style="font-size:45px;">
+					account_circle
+				</span>
+				<span class="user">${loginUser.memberName } 님</span>
+			</button>
 		</div>
     </div>
+    <jsp:include page="../alarm/alarmModal.jsp"></jsp:include>
 </body>
+<script>
+	// 알림 버튼
+	$("#btn-alarm").click(function() {
+		if($("#alarm-modal").css("display") === "none" ) {
+			$("#alarm-modal").show();
+		}else {
+			$("#alarm-modal").hide();
+		}
+	})
+</script>
 </html>

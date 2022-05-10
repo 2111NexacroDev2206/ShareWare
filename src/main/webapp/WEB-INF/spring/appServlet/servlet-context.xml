@@ -26,13 +26,4 @@
 	
 	<context:component-scan base-package="org.kh.shareware" />
 	
-	<!-- 알림 -->
-	<beans:bean id="alarmHandler" class="org.kh.shareware.alarm.handler.AlarmHandler" />
-		<websocket:handlers>
-		    <websocket:mapping handler="alarmHandler" path="/alarm" />
-		    <websocket:handshake-interceptors>
-		        <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
-		    </websocket:handshake-interceptors>
-	        <websocket:sockjs/>
-		</websocket:handlers>
 </beans:beans>
