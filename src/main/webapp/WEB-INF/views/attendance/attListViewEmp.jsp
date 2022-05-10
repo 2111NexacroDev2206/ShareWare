@@ -38,7 +38,7 @@
 	<!-- 검색일<input type="text" id="searchDate">  -->
 	<form action="/attendance/searchDate.sw" method="post">
     	<div>
-	      <input type="date" value="Sysdate">
+	      <input type="month" value="Sysdate" name="date">
 	      <input type="submit" value="검색">
     	</div>
     

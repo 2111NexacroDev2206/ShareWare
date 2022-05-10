@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="LeaveMapper">
+	<resultMap type="Leave" id="leaveResultMap">
+		<id property="leaveTotal" column="LEAVE_TOTAL" />
+		<result property="leaveUse" column="LEAVE_USE" />
+		<result property="leaveRemain" column="LEAVE_REMAIN" />
+	</resultMap>
+
+
+<!-- 총연차 -->
+	<select id="selectLeaveTotal" resultType="_float">
+		SELECT BREAK_TOTAL FROM MEMBER WHERE MEMBER_NUM = #{memNum}
+	</select>
+<!-- 사용연차 -->
+	<select id="selectLeaveUse" resultType="_float">
+		SELECT SUM(LEAVE_APPLY) FROM APP_DOC WHERE MEM_NUM = #{memNum} AND FORM_NO = 3 AND LEAVE_TYPE IN('연차', '반차') AND SUBSTR(DOC_DATE, 1, 4) = TO_CHAR(SYSDATE, 'YYYY') AND DOC_STATUS = '완료' GROUP BY MEM_NUM
+	</select>
+
+</mapper>

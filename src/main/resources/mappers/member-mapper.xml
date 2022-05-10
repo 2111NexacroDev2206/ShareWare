@@ -42,21 +42,53 @@
 	
 <!-- 주소록 -->
 	<select id="selectAllList" resultMap="memberResultMap">
-		SELECT * FROM MEMBER 
+		SELECT * FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE
 	</select>
 	<select id="selectListCount" resultType="_int"> 
 		SELECT COUNT(*) FROM MEMBER
 	</select>
+<!-- 주소록 검색 페이징-->
+	<select id="selectListCountSearch" resultType="_int"> 
+		SELECT COUNT(*) FROM MEMBER 
+	</select>
+
+<!-- 조직도 -->
+	<select id="selectOrganization" resultMap="divisionResultMap">
+		SELECT DIV_NAME
+		     , DIV_CODE
+		     , PARENT_DIV_CODE
+		     , CASE WHEN DIV_CODE = 'admin' THEN 2
+                    ELSE DIV_LEVEL
+                END DIV_LEVEL 
+		  FROM ( SELECT DIV_CODE
+		              , DIV_NAME
+		              , DIV_LEVEL
+		              , PARENT_DIV_CODE 
+		           FROM DIVISION 
+		           
+		           UNION
+		            
+		           SELECT MEMBER_NUM
+		                , MEMBER_NAME
+		                , 3 "DIV_LEVEL"
+		                , DIVISION 
+		             FROM MEMBER
+		        ) START WITH DIV_LEVEL = 1 
+		     CONNECT BY PRIOR DIV_CODE = PARENT_DIV_CODE
+	</select>
+	
 	
 	<select id="selectAllMember" resultMap="memberResultMap">
 		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE
 	</select>
 	
-<!-- 주소록 검색 -->
 	<select id="selectMemberSearch" resultMap="memberResultMap">
 		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE
 		<if test="searchCondition.toString() == 'division'">
 			WHERE DIV_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'rankName'">
+			WHERE RANK_NAME LIKE '%' || #{searchValue} || '%'
 		</if>
 		<if test="searchCondition.toString() == 'memberName'">
 			WHERE MEMBER_NAME LIKE '%' || #{searchValue} || '%'
@@ -65,11 +97,12 @@
 			WHERE DIV_NAME LIKE '%' || #{searchValue} || '%'
 			OR MEMBER_NAME LIKE '%' || #{searchValue} || '%'
 		</if>
+		<if test="searchCondition.toString() == 'all2'">
+			WHERE DIV_NAME LIKE '%' || #{searchValue} || '%'
+			OR MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+			OR RANK_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
 	</select>
 	
-<!-- 조직도 -->
-	<select id="selectOrganization" resultMap="divisionResultMap">
-		SELECT DIV_NAME, DIV_CODE, PARENT_DIV_CODE, DIV_LEVEL FROM (SELECT DIV_CODE, DIV_NAME, DIV_LEVEL, PARENT_DIV_CODE FROM DIVISION UNION SELECT MEMBER_NUM, MEMBER_NAME, 3 "DIV_LEVEL", DIVISION FROM MEMBER) START WITH DIV_LEVEL = 1 CONNECT BY PRIOR DIV_CODE=PARENT_DIV_CODE
-	</select>
 	
   </mapper>

@@ -9,14 +9,16 @@ public class PageInfo {
 	private int endNavi;	
 	private int totalCount;  
 	private int maxPage;	
-	private String searchKeyword;
-	private String searchType;
+	private boolean prev;  		
+	private boolean next;
+	private String searchCondition;
+	private String searchValue;
+	private String type;
 	
 	public PageInfo() {}
 
-
 	public PageInfo(int currentPage, int memberLimit, int naviLimit, int startNavi, int endNavi, int totalCount,
-			int maxPage) {
+			int maxPage, boolean prev, boolean next, String searchCondition, String searchValue, String type) {
 		super();
 		this.currentPage = currentPage;
 		this.memberLimit = memberLimit;
@@ -25,116 +27,118 @@ public class PageInfo {
 		this.endNavi = endNavi;
 		this.totalCount = totalCount;
 		this.maxPage = maxPage;
-		this.searchKeyword = searchKeyword;
-		this.searchType = searchType;
+		this.prev = prev;
+		this.next = next;
+		this.searchCondition = searchCondition;
+		this.searchValue = searchValue;
+		this.type = type;
 	}
-
-
-
-	
 
 	public int getCurrentPage() {
 		return currentPage;
 	}
 
-
 	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
 	}
-
 
 	public int getMemberLimit() {
 		return memberLimit;
 	}
 
-
 	public void setMemberLimit(int memberLimit) {
 		this.memberLimit = memberLimit;
 	}
-
 
 	public int getNaviLimit() {
 		return naviLimit;
 	}
 
-
 	public void setNaviLimit(int naviLimit) {
 		this.naviLimit = naviLimit;
 	}
-
 
 	public int getStartNavi() {
 		return startNavi;
 	}
 
-
 	public void setStartNavi(int startNavi) {
 		this.startNavi = startNavi;
 	}
-
 
 	public int getEndNavi() {
 		return endNavi;
 	}
 
-
 	public void setEndNavi(int endNavi) {
 		this.endNavi = endNavi;
 	}
-
 
 	public int getTotalCount() {
 		return totalCount;
 	}
 
-
 	public void setTotalCount(int totalCount) {
 		this.totalCount = totalCount;
 	}
-
 
 	public int getMaxPage() {
 		return maxPage;
 	}
 
-
 	public void setMaxPage(int maxPage) {
 		this.maxPage = maxPage;
 	}
 
-
-	public String getSearchKeyword() {
-		return searchKeyword;
+	public boolean isPrev() {
+		return prev;
 	}
 
-
-	public void setSearchKeyword(String searchKeyword) {
-		this.searchKeyword = searchKeyword;
+	public void setPrev(boolean prev) {
+		this.prev = prev;
 	}
 
-
-	public String getSearchType() {
-		return searchType;
+	public boolean isNext() {
+		return next;
 	}
 
-
-	public void setSearchType(String searchType) {
-		this.searchType = searchType;
+	public void setNext(boolean next) {
+		this.next = next;
 	}
 
+	public String getSearchCondition() {
+		return searchCondition;
+	}
+
+	public void setSearchCondition(String searchCondition) {
+		this.searchCondition = searchCondition;
+	}
+
+	public String getSearchValue() {
+		return searchValue;
+	}
+
+	public void setSearchValue(String searchValue) {
+		this.searchValue = searchValue;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
 	@Override
 	public String toString() {
-		return "PageInfo [currentPage=" + currentPage + ", qnaLimit=" + memberLimit + ", naviLimit=" + naviLimit
+		return "PageInfo [currentPage=" + currentPage + ", memberLimit=" + memberLimit + ", naviLimit=" + naviLimit
 				+ ", startNavi=" + startNavi + ", endNavi=" + endNavi + ", totalCount=" + totalCount + ", maxPage="
-				+ maxPage + "]";
+				+ maxPage + ", prev=" + prev + ", next=" + next + ", searchCondition=" + searchCondition
+				+ ", searchValue=" + searchValue + ", type=" + type + "]";
 	}
 
-
 	
-	
-
-
 	
 
 }

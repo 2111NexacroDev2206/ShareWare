@@ -89,6 +89,44 @@ public class MemberController {
 			return "common/errorPage";
 		}
 	}
+	//주소록 검색
+	@RequestMapping(value="/member/searchList.sw", method=RequestMethod.GET)
+	public String searchListView(
+			Model model
+			, HttpSession session
+			, @RequestParam(value="page", required=false) Integer page
+			, @RequestParam(value="searchCondition", required=false) String searchCondition
+			, @RequestParam(value="searchValue", required=false) String searchValue) {
+		int currentPage = (page != null) ? page : 1;
+		int totalCount = mService.getListCount();
+		//int totalCount = mService.getListCountSearch(); //검색 페이징
+		PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
+		pi.setSearchCondition(searchCondition);
+		pi.setSearchValue(searchValue);
+		List<Member> mList = mService.printAllSearch(pi);
+		if(!mList.isEmpty()) {
+			model.addAttribute("mList", mList);
+			model.addAttribute("pi", pi);
+			return "member/addressView";
+		}else {
+			model.addAttribute("msg", "주소록 검색 실패");
+			return "common/errorPage";
+		}
+	}
+	
+	//조직도
+	@RequestMapping(value="/member/organizationView.sw", method=RequestMethod.GET)
+	public String organizationView(Model model){
+		List<Division> oList = mService.printOrganization();
+		if(!oList.isEmpty()) {
+			model.addAttribute("oList", oList);
+			return "/member/organizationView";
+		}else {
+			model.addAttribute("msg", "조직도 조회 실패");
+			return "common/errorPage";
+		}
+		
+	}
 	
 	// 사원 목록(전자결재 결재자, 참조자 선택 모달창)
 	@ResponseBody
@@ -112,17 +150,4 @@ public class MemberController {
 		return null;
 	}
 	
-	//조직도
-	@RequestMapping(value="/member/organizationView.sw", method=RequestMethod.GET)
-	public String organizationView(Model model){
-			List<Division> oList = mService.printOrganization();
-			if(!oList.isEmpty()) {
-				model.addAttribute("oList", oList);
-				return "/member/organizationView";
-			}else {
-				model.addAttribute("msg", "조직도 조회 실패");
-				return "common/errorPage";
-			}
-	
-	}
 }

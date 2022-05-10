@@ -45,6 +45,18 @@ public class MemberServiceImpl implements MemberService{
 		int totalCount = mStore.selectListCount(sqlSession);
 		return totalCount;
 	}
+	//주소록 검색
+	@Override
+	public List<Member> printAllSearch(PageInfo pi) {
+		List<Member> mList = mStore.selectAllSearch(sqlSession, pi);
+		return mList;
+	}
+	//검색 페이징
+	@Override
+	public int getListCountSearch() {
+		int totalCount = mStore.selectListCountSearch(sqlSession);
+		return totalCount;
+	}
 	//조직도
 	@Override
 	public List<Division> printOrganization() {

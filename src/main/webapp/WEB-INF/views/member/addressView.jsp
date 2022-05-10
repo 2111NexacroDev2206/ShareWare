@@ -11,12 +11,13 @@
 		<form action="/member/searchList.sw" align="center" method="get" id="searchList">
 			<input type="hidden" name="currentPage" value="1">
 			<input type="hidden" name="memberLimit" value="10">
-				<select class="form-control" name="searchType"   style="width:60px;height:40px; align:center" >
+				<select class="form-control" name="searchCondition"   style="width:60px;height:40px; align:center" >
+					<option value="all2">전체</option>
 					<option value="division">부서</option>
 					<option value="rank">직급</option>
 					<option value="memberName">이름</option>
 				</select>
-			<input type="text" name="searchKeyword">
+			<input type="text" name="searchValue">
 			<input type="submit" value="검색">
 		</form>
 		
@@ -47,7 +48,7 @@
 		<div id="page">
 			[<<]
 			<c:forEach var="p" begin="${pi.startNavi }" end="${pi.endNavi }">
-				<c:url var="pagination" value="/qna/list.mayfly">
+				<c:url var="pagination" value="/member/address.sw">
 					<c:param name="page" value="${p}"></c:param>
 				</c:url>
 				<a href="${pagination }">${p }</a>&nbsp;
