@@ -57,6 +57,9 @@
 		</div>
 	</div>
 	<script>
+		// 채팅 목록 스크롤 바 하단으로 위치 {
+		$(".chat-body").scrollTop($(".chat-body")[0].scrollHeight);
+		
 		// 엔터키 누르면 메세지 전송
 		$("#textInput").keyup(function (e) {
 			e.preventDefault();

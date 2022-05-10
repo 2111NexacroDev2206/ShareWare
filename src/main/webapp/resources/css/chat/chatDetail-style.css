@@ -42,13 +42,24 @@ body { /* 채팅 영역 */
 }
 .chat-body { /* 채팅 목록 */
 	position: absolute;
-	width: calc(100% - 30px);
-	min-width: 470px;
+	width: calc(100% - 50px);
+	min-width: 450px;
 	top: 76px;
-	height: auto;
+	height: calc(100% - 161px);
 	min-height: 538px;
 	margin: 10px 0;
-	overflow: auto;
+	overflow-y: scroll;
+	padding: 0 10px;
+}
+.chat-body::-webkit-scrollbar {
+    width: 10px;  /* 스크롤바의 너비 */
+}
+.chat-body::-webkit-scrollbar-thumb {
+    height: 30%; /* 스크롤바의 길이 */
+    background: rgb(214, 214, 214); /* 스크롤바의 색상 */
+}
+.chat-body::-webkit-scrollbar-track {
+    background: transparent;  /*스크롤바 뒷 배경 색상*/
 }
 .chat-notice { /* 공지 */
 	text-align: center;
