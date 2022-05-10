@@ -55,5 +55,11 @@ public class ChatServiceImpl implements ChatService {
 		ChatContent chatContent = cStore.selectChatContent(sqlSession, chatRoomNo);
 		return chatContent;
 	}
+
+	@Override
+	public List<ChatContent> printAllChat(int chatRoomNo) { // 채팅 목록
+		List<ChatContent> cList = cStore.selectAllChatRoom(sqlSession, chatRoomNo);
+		return cList;
+	}
 	
 }

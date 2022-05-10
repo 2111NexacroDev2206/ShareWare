@@ -1,12 +1,15 @@
 package org.kh.shareware.chat.domain;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class ChatContent {
 	private int chatContentNo;
 	private int chatRoomNo;
 	private String chatContent;
 	private String memNum;
+	private String divName;
+	private String memName;
+	private String rankName;
 	private Date chatDate;
 	private int chatType;
 	
@@ -44,6 +47,30 @@ public class ChatContent {
 		this.memNum = memNum;
 	}
 
+	public String getDivName() {
+		return divName;
+	}
+
+	public void setDivName(String divName) {
+		this.divName = divName;
+	}
+
+	public String getMemName() {
+		return memName;
+	}
+
+	public void setMemName(String memName) {
+		this.memName = memName;
+	}
+
+	public String getRankName() {
+		return rankName;
+	}
+
+	public void setRankName(String rankName) {
+		this.rankName = rankName;
+	}
+
 	public Date getChatDate() {
 		return chatDate;
 	}
@@ -63,7 +90,8 @@ public class ChatContent {
 	@Override
 	public String toString() {
 		return "ChatContent [chatContentNo=" + chatContentNo + ", chatRoomNo=" + chatRoomNo + ", chatContent="
-				+ chatContent + ", memNum=" + memNum + ", chatDate=" + chatDate + ", chatType=" + chatType + "]";
+				+ chatContent + ", memNum=" + memNum + ", divName=" + divName + ", memName=" + memName + ", rankName="
+				+ rankName + ", chatDate=" + chatDate + ", chatType=" + chatType + "]";
 	}
 	
 }

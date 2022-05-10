@@ -14,5 +14,6 @@ public interface ChatService {
 	public int registerChatContent(ChatContent chatContent); // 채팅 등록
 	public List<ChatRoom> printAllChatRoom(String memberNum); // 채팅방 목록 조회
 	public ChatContent printChatContent(int chatRoomNo); // 마지막 대화 내용과 날짜 가져오기
+	public List<ChatContent> printAllChat(int chatRoomNo); // 채팅 목록
 
 }

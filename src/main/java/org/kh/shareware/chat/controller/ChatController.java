@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 
@@ -39,8 +40,9 @@ public class ChatController {
 		if(!rList.isEmpty()) {
 			for(int i = 0; i < rList.size(); i++) {
 				ChatContent chatContent = cService.printChatContent(rList.get(i).getChatRoomNo()); // 마지막 대화 내용과 날짜 가져오기
-				rList.get(i).setChatContent(chatContent.getChatContent());
-				rList.get(i).setChatDate(chatContent.getChatDate());
+				rList.get(i).setChatContent(chatContent.getChatContent()); // 마지막 대화 내용 넣어주기
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd a K:mm"); // 2022-05-10 오후 5:30
+				rList.get(i).setChatDate(sf.format(chatContent.getChatDate())); // 마지막 대화 날짜 넣어주기
 			}
 		}
 		model.addAttribute("rList", rList);
@@ -106,5 +108,29 @@ public class ChatController {
 		}else {
 			return new Gson().toJson("채팅방 생성 실패");
 		}
+	}
+	
+	// 채팅 상세
+	@RequestMapping(value = "/chat/detail.sw")
+	public ModelAndView chatView(ModelAndView mv
+			, @RequestParam("chatRoomNo") int chatRoomNo
+			, @RequestParam("chatRoomTitle") String chatRoomTitle
+			, @RequestParam("chatRoomType") int chatRoomType) {
+		try {
+			List<ChatContent> cList = cService.printAllChat(chatRoomNo);
+			if(!cList.isEmpty()) {
+				mv.addObject("cList", cList);
+				mv.addObject("chatRoomTitle", chatRoomTitle);
+				mv.addObject("chatRoomType", chatRoomType);
+				mv.setViewName("chat/chatDetail");
+			}else {
+				mv.addObject("msg", "채팅 목록 조회 실패");
+				mv.setViewName("common/errorPage");
+			}
+		}catch(Exception e) {
+			mv.addObject("msg", e.toString());
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
 	}
 }

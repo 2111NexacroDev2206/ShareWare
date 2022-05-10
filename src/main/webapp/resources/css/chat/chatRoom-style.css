@@ -34,3 +34,50 @@
 	height: 635px;
 	overflow-y: auto;
 }
+.chatRoom-one { /* 채팅방 개별 */
+	height: 50px;
+	padding: 15px 10px 15px 20px;
+	display: flex;
+	cursor: pointer;
+}
+.chatRoom-one:hover {
+	background-color: rgb(145, 168, 210, 0.1);
+}
+.chatRoomType { /* 채팅방 종류 */
+	height: 100%;
+	display: inline-flex;
+	margin-right: 10px;
+}
+.chatRoomType .material-icons { /* 채팅방 종류 아이콘 */
+	font-size: 50px;
+}
+.chatRoomContent { /* 채팅방 제목, 채팅방 내용 영역 */
+	height: 100%;
+	width: 445px;
+	margin-right: 10px;
+}
+.chatRoomContent span { /* 채팅방 제목, 채팅방 내용 */
+	width: 100%;
+	height: 50%;
+	display: block;
+	font-size: 15px;
+}
+.chatRoomTitle { /* 채팅방 제목 */
+	font-weight: bold;
+}
+.chatRoomContent strong { /* 채팅방 내용에 있는 strong */
+	font-weight: normal;
+}
+.chatContent { /* 채팅방 내용 */
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.chatDate { /* 채팅 날짜 */
+	text-align: right;
+	width: 80px;
+	font-size: 14px;
+	color: rgb(100, 100, 100);
+	vertical-align: middle;
+	line-height: 25px;
+}

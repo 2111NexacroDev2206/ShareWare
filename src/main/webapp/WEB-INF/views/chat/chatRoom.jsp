@@ -22,10 +22,23 @@
 			</div>
 			<div class="chatRoom-list">
 				<c:forEach items="${rList }" var="chatRoom">
-					<div class="chatRoom-one">
-						<span class="chatRoomType">${chatRoom.chatRoomType }</span>
-						<span class="chatRoomTitle">${chatRoom.chatRoomTitle }</span>
-						<span class="chatContent">${chatRoom.chatContent }</span>
+					<div class="chatRoom-one" onclick="chatPop(${chatRoom.chatRoomNo}, '${chatRoom.chatRoomTitle}', ${chatRoom.chatRoomType})">
+						<span class="chatRoomType">
+							<c:if test="${chatRoom.chatRoomType == 0}"><!-- 1:1 채팅방 -->
+								<span class="material-icons">
+									account_circle
+								</span>
+							</c:if>
+							<c:if test="${chatRoom.chatRoomType == 1}"><!-- 1:N 채팅방 -->
+								<span class="material-icons">
+									supervised_user_circle
+								</span>
+							</c:if>
+						</span>
+						<span class="chatRoomContent">
+							<span class="chatRoomTitle">${chatRoom.chatRoomTitle }</span>
+							<span class="chatContent">${chatRoom.chatContent }</span>
+						</span>
 						<span class="chatDate">${chatRoom.chatDate }</span>
 					</div>
 				</c:forEach>
@@ -33,5 +46,13 @@
 		</div>
 	</div>
 	<jsp:include page="chatModal.jsp"></jsp:include> <!-- 사용자 초대 모달 -->
+	<script>
+		// 채팅 팝업
+		function chatPop(chatRoomNo, chatRoomTitle, chatRoomType) {
+			var url = "detail.sw?chatRoomNo=" + chatRoomNo + "&chatRoomTitle=" + chatRoomTitle + "&chatRoomType=" + chatRoomType;
+			var options = "width = 500px, height = 700px";
+		    window.open(url, "", options); // 팝업 이름을 "" 빈값으로 둬야 다른 채팅창을 눌러도 새창으로 열림
+		}
+	</script>
 </body>
 </html>

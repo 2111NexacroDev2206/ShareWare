@@ -100,7 +100,7 @@
 	                <tr>
 	                    <td class="td-1">휴가사유</td>
 	                    <td colspan="7" id="td-leave-reason">
-	                    	<textarea cols="50" rows="10" name="docContent" style="white-space: pre;"></textarea>
+	                    	<textarea name="docContent" style="white-space: pre;"></textarea>
                     	</td>
 	                </tr>
 				</c:if>
