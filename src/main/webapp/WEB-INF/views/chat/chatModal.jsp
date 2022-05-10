@@ -73,6 +73,15 @@
 	    $("#appSelModal").fadeOut();
 	}
 	
+	// 검색 내용 입력 후 엔터 눌러도 검색되도록 처리
+	$("#s-value").keyup(function (e) {
+		e.preventDefault();
+		var code = e.keyCode ? e.keyCode : e.which;
+		if(code == 13) { // 엔터키면
+			$("#btn-search").click();
+		}
+	})
+	
 	// 사원 검색
 	$("#btn-search").click(function() {
 		var searchCondition = $("#s-condition").val();
@@ -139,6 +148,7 @@
 			$("#s-list").html(arrText.join("<br>")); // 개행해서 s-list 영역에 출력
 		});
 	}
+	
 	// 채팅방/사용자 등록
 	function appSelView() {
 		var chatRoomTitle = prompt("채팅방 제목을 입력하세요");
