@@ -79,6 +79,7 @@
 			data : { "memNum" : memNum },
 			success : function(result) {
 				alarmList();
+				$("#alarm-count").hide();
 			},
 			error : function() {
 				alert("알림 모두 읽음 처리 실패");
