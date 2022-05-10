@@ -13,7 +13,7 @@
   		<result property="projectContent"	column="PROJECT_CONTENT"/>
   	</resultMap>
   	<select id="selectAllProject" resultMap="projectResultMap">
-  		SELECT DISTINCT PROJECT_NO, PROJECT_TITLE, MEMBER_NAME, P_START_DATE, P_END_DATE, P_STATUS, PROJECT_CONTENT FROM PROJECT JOIN PARTICIPANT USING(PROJECT_NO) JOIN MEMBER ON PROJECT_MADE = MEMBER_NUM WHERE PROJECT_MADE= #{memNum} OR MEM_NUM = #{memNum} ORDER BY PROJECT_NO DESC 
+  		SELECT DISTINCT PROJECT_NO, PROJECT_TITLE, MEMBER_NAME, P_START_DATE, P_END_DATE, P_STATUS, PROJECT_CONTENT FROM PROJECT JOIN PARTICIPANT USING(PROJECT_NO) JOIN MEMBER ON PROJECT_MADE = MEMBER_NUM WHERE PROJECT_MADE= #{memNum} OR MEM_NUM = #{memNum} ORDER BY P_STATUS DESC, PROJECT_NO DESC 
   	</select>
   	<select id="selectOneProject" resultMap="projectResultMap" >
   		 SELECT * FROM PROJECT WHERE PROJECT_NO = #{projectNo}
@@ -64,7 +64,12 @@
   		 	,PROJECT_CONTENT = #{projectContent}
   		 WHERE PROJECT_NO = #{projectNo}
   	</update>
-
+<!-- 	<update id="updateEndStatus">
+		UPDATE PROJECT 
+		SET P_STATUS = 'N'
+		WHERE PROJECT_NO = #{projectNo}
+	</update> -->
+	
   	<delete id="deleteProject">
   		DELETE FROM PROJECT WHERE PROJECT_NO = #{projectNo}
   	</delete>

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.kh.shareware.member.domain.Member;
+import org.kh.shareware.project.common.PageInfo;
+import org.kh.shareware.project.common.Pagination;
 import org.kh.shareware.report.domain.Daily;
 import org.kh.shareware.report.domain.Week;
 import org.kh.shareware.report.service.DailyService;
@@ -33,12 +35,19 @@ public class WeekController {
 	//주간 업무 목록
 	@RequestMapping(value="/report/weekList.sw", method = RequestMethod.GET)
 	public ModelAndView weekListView(ModelAndView mv
-			, HttpServletRequest request) {
+			, HttpServletRequest request
+			,@RequestParam(value="page", required=false) Integer page) {
+			
 		HttpSession session = request.getSession();
 		String memNum = ((Member)(session.getAttribute("loginUser"))).getMemberNum();
+		int currentPage = (page != null) ? page : 1;
+		int totalCount = service.getListCount(memNum);
+		PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
 		try {
-			List<Week> wList = service.printAllWeek(memNum);
+			List<Week> wList = service.printAllWeek(memNum, pi);
 			mv.addObject("wList", wList);
+			mv.addObject("pi", pi);
+			mv.addObject("currentPage", currentPage);
 			mv.setViewName("report/weekList");
 		}catch(Exception e) {
 			mv.addObject("msg", e.toString());

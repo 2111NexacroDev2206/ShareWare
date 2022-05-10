@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.kh.shareware.project.common.PageInfo;
+import org.kh.shareware.project.common.Pagination;
 import org.kh.shareware.project.domain.Important;
 import org.kh.shareware.project.service.ImportantService;
 import org.kh.shareware.report.domain.Daily;
@@ -29,26 +31,30 @@ public class ImportantController {
 	
 	//중요공지 목록
 	@RequestMapping(value="/project/importantList.sw", method = RequestMethod.GET)
-	public ModelAndView importantListView(ModelAndView mv
-			,@RequestParam(value="projectNo", required=false) Integer projectNo ) {
-		int totalCount = service.getListCount();
+	public String importantListView(Model model
+			,@RequestParam(value="projectNo", required=false) Integer projectNo 
+			,@RequestParam(value="page", required=false) Integer page) {
+		int currentPage = (page != null) ? page : 1;
+		int totalCount = service.getListCount(projectNo);
+		PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
 		try {
-			 List<Important> iList = service.printAllImportant(projectNo);
-			 	mv.addObject("projectNo", projectNo);
-				mv.addObject("iList", iList);
-				mv.setViewName("important/importantList");
+			 List<Important> iList = service.printAllImportant(projectNo, pi);
+				 model.addAttribute("projectNo", projectNo);
+				 model.addAttribute("pi", pi);
+				 model.addAttribute("iList", iList);
+				 model.addAttribute("currentPage", currentPage);
+				return("important/importantList");
 		}catch(Exception e){
-			mv.addObject("msg", e.toString());
-			mv.setViewName("common/errorPage");
+			model.addAttribute("msg", "게시글 전체조회 실패");
+			return("common/errorPage");
 		}
-		return mv;
 	}
 	//중요공지 상세 페이지 
 	@RequestMapping(value="/project/importantDetail.sw", method = RequestMethod.GET )
 		public ModelAndView importantDetail(
 				ModelAndView mv
 				,@RequestParam(value = "importantNo" , required = false) Integer importantNo
-				,@RequestParam(value="projectNo", required=false) Integer projectNo) {
+				,@RequestParam(value = "projectNo", required=false) Integer projectNo) {
 		try {
 			service.updateCount(importantNo);
 			Important important = service.printOneByNo(importantNo);

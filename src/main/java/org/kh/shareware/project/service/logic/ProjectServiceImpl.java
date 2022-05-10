@@ -74,6 +74,12 @@ public class ProjectServiceImpl implements ProjectService{
 		List<Member>  pList = pStore.selectAllParticipant(sqlSession , projectNo);
 		return pList;
 	}
+//	//프로젝트 종료
+//	@Override
+//	public int modifyEndStatus(int projectNo) {
+//		int result = pStore.updateEndStatus(sqlSession, projectNo);
+//		return result;
+//	}
 
 
 

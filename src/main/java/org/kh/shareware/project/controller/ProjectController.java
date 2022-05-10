@@ -8,9 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.kh.shareware.member.domain.Member;
+import org.kh.shareware.project.domain.Important;
 import org.kh.shareware.project.domain.Participant;
 import org.kh.shareware.project.domain.Project;
+import org.kh.shareware.project.domain.Work;
+import org.kh.shareware.project.service.ImportantService;
 import org.kh.shareware.project.service.ProjectService;
+import org.kh.shareware.project.service.WorkService;
 import org.kh.shareware.report.domain.Daily;
 import org.kh.shareware.report.domain.Week;
 import org.kh.shareware.report.service.WeekService;
@@ -30,6 +34,13 @@ public class ProjectController {
 	@Autowired
 	private ProjectService service;
 	
+	@Autowired
+	private WorkService wService;
+	
+	@Autowired
+	private ImportantService iService;
+	
+	
 	//프로젝트 목록
 	@RequestMapping(value="/project/projectList.sw" , method = RequestMethod.GET)
 	public ModelAndView projectListView(ModelAndView mv
@@ -38,8 +49,13 @@ public class ProjectController {
 		String memberNum = ((Member)session.getAttribute("loginUser")).getMemberNum();
 		try {
 			List<Project> pList = service.printAllProject(memberNum);
-				mv.addObject("pList", pList);
-				mv.setViewName("project/projectList");
+			for(Project pOne : pList) {
+				String reDate = pOne.getpEndDate().replace("-", "");
+				pOne.setpEndDate(reDate);
+				pList.set(pList.indexOf(pOne), pOne);
+			}
+			mv.addObject("pList", pList);
+			mv.setViewName("project/projectList");
 		}catch(Exception e) {
 			mv.addObject("msg", e.toString());
 			mv.setViewName("common/errorPage");
@@ -152,9 +168,13 @@ public class ProjectController {
 				,@RequestParam("projectNo") int projectNo) {
 		try {
 			Project project = service.printOneProject(projectNo);
+			List<Work> wList = wService.printAllWork(projectNo);
+			List<Important> iList = iService.printAllImportant(projectNo);
 			if(project != null) {
 				mv.addObject("project",project );
 				mv.addObject("projectNo", projectNo);
+				mv.addObject("wList", wList);
+				mv.addObject("iList", iList);
 				mv.setViewName("project/projectMain");
 			}else {
 				mv.addObject("msg", "프로젝트 조회 실패");
@@ -175,13 +195,14 @@ public class ProjectController {
 		return "project/newProject";
 	}
 	
-	//프로젝트 생성 등록
+	//프로젝트 등록
 	@RequestMapping(value="/project/projectRegister.sw", method=RequestMethod.POST)
 	public ModelAndView projectRegister(ModelAndView mv
 			,@ModelAttribute Project project
 			,HttpServletRequest request
 			,@ModelAttribute Participant participant
-			,@RequestParam(value="memNum") String memNum){ // 정은진,권지혜,김아름
+			,@RequestParam(value="memNum") String memNum
+			){ // 정은진,권지혜,김아름
 		int result = service.registerProject(project);
 		// 참여자 등록
 		int pResult = 0;
@@ -201,4 +222,24 @@ public class ProjectController {
 		}
 		return mv;
 	}
+	
+//	// 프로젝트 종료
+//	@RequestMapping(value="/project/projectModifyEndStatus.sw")
+//	public ModelAndView projectModifyEndStatus(
+//			ModelAndView mv
+//			,@RequestParam(value= "projectNo") int projectNo) {
+//		try {
+//			int result = service.modifyEndStatus(projectNo);
+//			if(result > 0) {
+//				mv.setViewName("redirect:/project/projectList.sw");
+//			}else {
+//				mv.addObject("msg", "프로젝트 종료 실패");
+//				mv.setViewName("common/errorPage");
+//			}
+//		}catch(Exception e){
+//			mv.addObject("msg", e.toString());
+//			mv.setViewName("common/errorPage");
+//		}
+//		return mv;
+//		}
 }

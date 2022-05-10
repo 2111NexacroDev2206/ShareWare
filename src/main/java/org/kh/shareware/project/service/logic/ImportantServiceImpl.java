@@ -3,6 +3,7 @@ package org.kh.shareware.project.service.logic;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.kh.shareware.project.common.PageInfo;
 import org.kh.shareware.project.domain.Important;
 import org.kh.shareware.project.service.ImportantService;
 import org.kh.shareware.project.store.ImportantStore;
@@ -18,6 +19,18 @@ public class ImportantServiceImpl implements ImportantService{
 	@Autowired
 	private ImportantStore iStore;
 	
+	//페이징
+	@Override
+	public int getListCount(Integer projectNo) {
+		int totalCount = iStore.selectListCount(sqlSession, projectNo);
+		return totalCount;
+	}
+	//중요공지 목록
+	@Override
+	public List<Important> printAllImportant(Integer projectNo , PageInfo pi) {
+		List<Important> iList = iStore.selectAllImportant(sqlSession, projectNo, pi);
+		return iList;
+	}
 	//중요공지 목록
 	@Override
 	public List<Important> printAllImportant(Integer projectNo) {
@@ -54,16 +67,12 @@ public class ImportantServiceImpl implements ImportantService{
 		int result = iStore.deleteFileInfo(sqlSession, importantNo);
 		return result;
 	}
-	//페이징
-	@Override
-	public int getListCount() {
-		int totalCount = iStore.selectListCount(sqlSession);
-		return totalCount;
-	}
+	//조회수
 	@Override
 	public int updateCount(Integer importantNo) {
 		int result = iStore.updateCount(sqlSession, importantNo);
 		return result;
 	}
+	
 
 }
