@@ -47,7 +47,7 @@
 			<tbody>
 			<c:forEach items="${iList }" var="important" varStatus="status">
 				<tr>
-					<td>${pi.totalCount - (pi.currentPage - 1)*pi.impLimit - status.index}</td>
+					<td>${pi.totalCount - (pi.currentPage - 1)*pi.docLimit - status.index}</td>
 					<c:url var="iDetail" value="/project/importantDetail.sw">
 						<c:param name="importantNo" value="${important.importantNo }"></c:param>
 						<c:param name="projectNo" value="${projectNo }"></c:param>

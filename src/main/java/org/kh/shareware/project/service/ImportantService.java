@@ -9,6 +9,7 @@ public interface ImportantService {
 	
 	public int getListCount(Integer projectNo); //페이징
 	public List<Important> printAllImportant(Integer projectNo, PageInfo pi);//중요공지 목록
+	public List<Important> printAllImportant(Integer projectNo);//중요공지 목록
 	public Important printOneByNo(Integer importantNo); //중요공지 상세 
 	public int registerImportant(Important important); //중요공지 등록
 	public int modifyImportant(Important important); //중요공지 수정 

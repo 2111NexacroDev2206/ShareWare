@@ -25,6 +25,9 @@
   	<select id="selectAllImportant" resultMap="importantResultMap">
 		SELECT * FROM IMPORTANT WHERE PROJECT_NO = #{projectNo} ORDER BY IMPORTANT_NO DESC
   	</select>
+  	 <select id="selectImportant" resultMap="importantResultMap">
+  		SELECT * FROM IMPORTANT WHERE PROJECT_NO = #{projectNo} AND ROWNUM <![CDATA[ < ]]> 5 ORDER BY IMPORTANT_NO DESC 
+  </select>
   	<select id="selectOneImportant" resultMap="importantResultMap">
   		SELECT * FROM IMPORTANT WHERE IMPORTANT_NO = #{importantNo}
   	</select>

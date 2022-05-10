@@ -5,13 +5,13 @@ public class Pagination {
 	public static PageInfo getPageInfo(int currentPage, int totalCount) {
 		PageInfo pi = null;
 		
-		int impLimit = 10;
+		int docLimit = 10;
 		int naviLimit = 5;
 		int maxPage;
 		int startNavi;
 		int endNavi;
 		boolean prev, next;
-		maxPage = (int)((double)totalCount/impLimit + 0.9);
+		maxPage = (int)((double)totalCount/docLimit + 0.9);
 		startNavi = (((int)((double)currentPage/naviLimit+0.9))-1)*naviLimit +1;
 		endNavi = startNavi + naviLimit -1;
 		prev = startNavi > 1;
@@ -20,7 +20,7 @@ public class Pagination {
 			endNavi = maxPage;
 			
 		}
-		pi = new PageInfo(currentPage, impLimit, naviLimit, startNavi, endNavi, totalCount, maxPage, prev, next);
+		pi = new PageInfo(currentPage, docLimit, naviLimit, startNavi, endNavi, totalCount, maxPage, prev, next);
 		return pi;
 	}
 }

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="WorkMapper">
+  <resultMap type="Work" id="workResultMap">
+	<id 	property="workNo"		column="WORK_NO"/>
+ 	<result property="projectNo"		column="PROJECT_NO"/>
+ 	<result property="memNum"		column="MEM_NUM"/>
+ 	<result property="workWriter"		column="WORK_WRITER"/>
+ 	<result property="workTitle"		column="WORK_TITLE"/>
+ 	<result property="workContent"		column="WORK_CONTENT"/>
+ 	<result property="workDate"		column="WORK_DATE"/>
+ 	<result property="workCount"		column="WORK_COUNT"/>
+ 	<result property="fileName"		column="FILE_NAME"/>
+ 	<result property="filePath"		column="FILE_PATH"/>
+ 	<result property="fileReName"		column="FILE_RENAME"/>
+  </resultMap>
+  
+  <select id="selectListCount" resultType="_int">
+  		SELECT COUNT(*) FROM WORK WHERE PROJECT_NO = #{projectNo}
+  </select>
+   <select id="selectAllWork" resultMap="workResultMap">
+  		SELECT * FROM WORK WHERE PROJECT_NO = #{projectNo}
+  		<if test="status.toString() == 'myList'">
+  			AND MEM_NUM = #{memNum}
+  		</if>
+  		ORDER BY WORK_NO DESC
+  </select>
+   <select id="selectWork" resultMap="workResultMap">
+  		SELECT * FROM WORK WHERE PROJECT_NO = #{projectNo} AND ROWNUM <![CDATA[ < ]]> 5 ORDER BY WORK_NO DESC 
+  </select>
+  <select id="selectOneWork"  resultMap="workResultMap" >
+  		SELECT * FROM WORK WHERE WORK_NO = #{workNo}
+  </select>
+  <insert id="insertWork">
+  	INSERT INTO WORK VALUES(
+                 SEQ_WORK_NO.NEXTVAL,
+                 #{projectNo},
+                 #{memNum},
+                 #{workWriter},
+                 #{workTitle},
+                 #{workContent},
+                 #{workDate},
+                 0,
+                 #{fileName},
+                 #{filePath},
+                 #{fileReName})
+  </insert>
+  
+  <update id="updateWork">
+  	UPDATE WORK 
+  	SET  WORK_TITLE =  #{workTitle} 
+  		,WORK_CONTENT = #{workContent}
+  		,FILE_NAME = #{fileName}
+  		,FILE_PATH = #{filePath}
+  		,FILE_RENAME = #{fileReName}
+  	WHERE WORK_NO = #{workNo}
+  </update>
+  
+  <update id="deleteFileInfo">
+  		UPDATE WORK
+  		SET  FILE_NAME = NULL
+  			,FILE_PATH = NULL
+  			,FILE_RENAME = NULL
+  		WHERE WORK_NO = #{workNo}
+  	</update>
+  	
+  <delete id="deleteWork">
+  	DELETE FROM WORK WHERE WORK_NO = #{workNo}
+  </delete>
+</mapper>

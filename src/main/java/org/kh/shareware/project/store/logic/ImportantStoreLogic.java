@@ -21,11 +21,17 @@ public class ImportantStoreLogic implements ImportantStore {
 	//중요공지 목록
 	@Override
 	public List<Important> selectAllImportant(SqlSession sqlSession, Integer projectNo, PageInfo pi) {
-		int limit = pi.getImpLimit();
+		int limit = pi.getDocLimit();
 		int currentPage = pi.getCurrentPage();
 		int offset = (currentPage - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		List<Important> iList = sqlSession.selectList("ImportantMapper.selectAllImportant", projectNo, rowBounds);
+		return iList;
+	}
+	//중요공지 목록
+	@Override
+	public List<Important> selectAllImportant(SqlSession sqlSession, Integer projectNo) {
+		List<Important> iList = sqlSession.selectList("ImportantMapper.selectImportant", projectNo);
 		return iList;
 	}
 	//중요공지 상세 

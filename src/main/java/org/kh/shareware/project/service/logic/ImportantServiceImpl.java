@@ -31,6 +31,12 @@ public class ImportantServiceImpl implements ImportantService{
 		List<Important> iList = iStore.selectAllImportant(sqlSession, projectNo, pi);
 		return iList;
 	}
+	//중요공지 목록
+	@Override
+	public List<Important> printAllImportant(Integer projectNo) {
+		List<Important> iList = iStore.selectAllImportant(sqlSession, projectNo);
+		return iList;
+	}
 	//중요공지 상세
 	@Override
 	public Important printOneByNo(Integer importantNo) {
@@ -67,5 +73,6 @@ public class ImportantServiceImpl implements ImportantService{
 		int result = iStore.updateCount(sqlSession, importantNo);
 		return result;
 	}
+	
 
 }

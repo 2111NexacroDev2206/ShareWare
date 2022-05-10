@@ -3,7 +3,7 @@ package org.kh.shareware.project.common;
 public class PageInfo {
 	// 페이지 네비를 만들기 위해 필요한 변수
 			private int currentPage; 	// 현재 페이지
-			private int impLimit; 		// 한 페이지당 게시글 개수
+			private int docLimit; 		// 한 페이지당 게시글 개수
 			private int naviLimit; 		// 한 페이지당 pageNavi 개수
 			private int startNavi; 		// pageNavi 시작값
 			private int endNavi; 		// pageNavi 끝값
@@ -14,11 +14,11 @@ public class PageInfo {
 			
 			public PageInfo() {}
 
-			public PageInfo(int currentPage, int impLimit, int naviLimit, int startNavi, int endNavi, int totalCount,
+			public PageInfo(int currentPage, int docLimit, int naviLimit, int startNavi, int endNavi, int totalCount,
 					int maxPage, boolean prev, boolean next) {
 				super();
 				this.currentPage = currentPage;
-				this.impLimit = impLimit;
+				this.docLimit = docLimit;
 				this.naviLimit = naviLimit;
 				this.startNavi = startNavi;
 				this.endNavi = endNavi;
@@ -36,12 +36,12 @@ public class PageInfo {
 				this.currentPage = currentPage;
 			}
 
-			public int getImpLimit() {
-				return impLimit;
+			public int getDocLimit() {
+				return docLimit;
 			}
 
-			public void setImpLimit(int impLimit) {
-				this.impLimit = impLimit;
+			public void setDocLimit(int docLimit) {
+				this.docLimit = docLimit;
 			}
 
 			public int getNaviLimit() {
@@ -102,9 +102,11 @@ public class PageInfo {
 
 			@Override
 			public String toString() {
-				return "PageInfo [currentPage=" + currentPage + ", impLimit=" + impLimit + ", naviLimit=" + naviLimit
+				return "PageInfo [currentPage=" + currentPage + ", docLimit=" + docLimit + ", naviLimit=" + naviLimit
 						+ ", startNavi=" + startNavi + ", endNavi=" + endNavi + ", totalCount=" + totalCount
 						+ ", maxPage=" + maxPage + ", prev=" + prev + ", next=" + next + "]";
 			}
+
+		
 			
 }

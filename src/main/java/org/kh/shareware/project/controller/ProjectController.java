@@ -8,9 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.kh.shareware.member.domain.Member;
+import org.kh.shareware.project.domain.Important;
 import org.kh.shareware.project.domain.Participant;
 import org.kh.shareware.project.domain.Project;
+import org.kh.shareware.project.domain.Work;
+import org.kh.shareware.project.service.ImportantService;
 import org.kh.shareware.project.service.ProjectService;
+import org.kh.shareware.project.service.WorkService;
 import org.kh.shareware.report.domain.Daily;
 import org.kh.shareware.report.domain.Week;
 import org.kh.shareware.report.service.WeekService;
@@ -29,6 +33,13 @@ public class ProjectController {
 	
 	@Autowired
 	private ProjectService service;
+	
+	@Autowired
+	private WorkService wService;
+	
+	@Autowired
+	private ImportantService iService;
+	
 	
 	//프로젝트 목록
 	@RequestMapping(value="/project/projectList.sw" , method = RequestMethod.GET)
@@ -157,9 +168,13 @@ public class ProjectController {
 				,@RequestParam("projectNo") int projectNo) {
 		try {
 			Project project = service.printOneProject(projectNo);
+			List<Work> wList = wService.printAllWork(projectNo);
+			List<Important> iList = iService.printAllImportant(projectNo);
 			if(project != null) {
 				mv.addObject("project",project );
 				mv.addObject("projectNo", projectNo);
+				mv.addObject("wList", wList);
+				mv.addObject("iList", iList);
 				mv.setViewName("project/projectMain");
 			}else {
 				mv.addObject("msg", "프로젝트 조회 실패");

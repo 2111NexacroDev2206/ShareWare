@@ -10,6 +10,7 @@ public interface ImportantStore {
 
 	public int selectListCount(SqlSession sqlSession, Integer projectNo);	//페이징
 	public List<Important> selectAllImportant(SqlSession sqlSession, Integer projectNo, PageInfo pi); //중요공지 목록
+	public List<Important> selectAllImportant(SqlSession sqlSession, Integer projectNo); //중요공지 목록
 	public Important selectOneByNo(SqlSession sqlSession, Integer importantNo); //중요공지 상세
 	public int insertImport(SqlSession sqlSession, Important important); //중요공지 등록
 	public int updateImportant(SqlSession sqlSession, Important important); //중요공지 수정 

@@ -54,7 +54,7 @@ public class ImportantController {
 		public ModelAndView importantDetail(
 				ModelAndView mv
 				,@RequestParam(value = "importantNo" , required = false) Integer importantNo
-				,@RequestParam(value="projectNo", required=false) Integer projectNo) {
+				,@RequestParam(value = "projectNo", required=false) Integer projectNo) {
 		try {
 			service.updateCount(importantNo);
 			Important important = service.printOneByNo(importantNo);
