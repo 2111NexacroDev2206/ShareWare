@@ -3,6 +3,7 @@ package org.kh.shareware.community.service;
 import java.util.List;
 import java.util.Map;
 
+import org.kh.shareware.common.PageInfo;
 import org.kh.shareware.community.domain.Community;
 import org.kh.shareware.community.domain.CommunityVote;
 import org.kh.shareware.community.domain.CommunityVoteSelect;
@@ -13,7 +14,9 @@ public interface CommunityService {
 
 	int registerCommunity(Community community);
 	int searchComNo();
-	List<Community> listCommunity();
+	//전체 게시물의 갯수
+	int getListCount();
+	List<Community> listCommunity(PageInfo pi);
 	Community detailCommunity(Integer comNo);
 	int removeCommunity(int comNo);
 	int viewCountCommunity(Integer comNo);
@@ -46,6 +49,8 @@ public interface CommunityService {
 	void removeReplyAll(Integer comNo);
 	//댓글 수정
 	int modifyReply(Reply reply);
+
+	
 	
 	
 	

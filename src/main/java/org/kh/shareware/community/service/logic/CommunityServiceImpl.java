@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.kh.shareware.common.PageInfo;
 import org.kh.shareware.community.domain.Community;
 import org.kh.shareware.community.domain.CommunityVote;
 import org.kh.shareware.community.domain.CommunityVoteSelect;
@@ -32,10 +33,17 @@ public class CommunityServiceImpl implements CommunityService{
 		int result = cStore.registerCommunity(sqlsession, community);
 		return result;
 	}
-
+	
+	//전체 게시물의 개수
 	@Override
-	public List<Community> listCommunity() {
-		List<Community> cList = cStore.SelectAllCommunity(sqlsession);
+	public int getListCount() {
+		int result = cStore.selectClistCount(sqlsession);
+		return result;
+	}
+	
+	@Override
+	public List<Community> listCommunity(PageInfo pi) {
+		List<Community> cList = cStore.selectAllCommunity(sqlsession, pi);
 		return cList;
 	}
 	
@@ -106,6 +114,7 @@ public class CommunityServiceImpl implements CommunityService{
 		return result;
 	}
 
+
 	@Override
 	public int removeCVoteMember(Integer comNo) {
 		int result =cStore.removeCVoteMember(sqlsession, comNo);
@@ -157,7 +166,7 @@ public class CommunityServiceImpl implements CommunityService{
 		int result = cStore.updateReply(sqlsession, reply);
 		return result;
 	}
-
-
+	
+	
 
 }

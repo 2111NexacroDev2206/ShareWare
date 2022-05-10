@@ -51,6 +51,10 @@
 	UPDATE COMMUNITY SET COM_TITLE=#{comTitle }, COM_CONTENT=#{comContent }, COM_IMG_NAME=#{comImgName}, COM_IMG_RENAME=#{comImgRename}, COM_IMG_PATH=#{comImgPath}, COM_VOTE_NO=#{comVoteNo}  WHERE COM_NO = #{comNo}
 </update>
 
+<select id="selectClistCount" resultType="_int">
+	SELECT COUNT(*) FROM COMMUNITY
+</select>
+
 <select id="listCommnuity" resultMap="CommunityResultMap">
 	SELECT * FROM COMMUNITY JOIN MEMBER ON COMMUNITY.MEMBER_NUM = MEMBER.MEMBER_NUM ORDER BY COM_DATE DESC
 </select>
@@ -102,8 +106,8 @@
 		<result property="cVoteSelect3" column="C_VOTE_SELECT3"/>
 		<result property="cVoteSelect4" column="C_VOTE_SELECT4"/>
 		<result property="cVoteState" column="C_VOTE_STATE"/>
+		<collection property="cVoteSelect" resultMap="CommunityVoteSelectResultMap"/>
 	</resultMap>
-
 
 
 <insert id="insertCommnuityVote">

@@ -29,6 +29,7 @@
 		<typeAlias type="org.kh.shareware.mail.domain.MailRec" alias="MailRec"/>
 		<typeAlias type="org.kh.shareware.mail.domain.MailBmk" alias="MailBmk"/>
 		<typeAlias type="org.kh.shareware.mail.domain.MailFile" alias="MailFile"/>
+		<typeAlias type="org.kh.shareware.meetingRoom.domain.MeetingRoom" alias="MeetingRoom"/>
 		<typeAlias type="org.kh.shareware.project.domain.Project" 		alias="Project"/>
 		<typeAlias type="org.kh.shareware.project.domain.Participant" 	alias="Participant"/>
 	</typeAliases>
@@ -40,6 +41,7 @@
 		<mapper resource="mappers/community-mapper.xml"/>
 		<mapper resource="mappers/calendar-mapper.xml"/>
 		<mapper resource="mappers/mail-mapper.xml"/>
+		<mapper resource="mappers/meetingRoom-mapper.xml"/>
 		<mapper resource="mappers/project-mapper.xml"/>	
 	</mappers>
 </configuration>

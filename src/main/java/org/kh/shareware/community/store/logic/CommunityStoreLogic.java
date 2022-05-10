@@ -3,7 +3,9 @@ package org.kh.shareware.community.store.logic;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+import org.kh.shareware.common.PageInfo;
 import org.kh.shareware.community.domain.Community;
 import org.kh.shareware.community.domain.CommunityVote;
 import org.kh.shareware.community.domain.CommunityVoteSelect;
@@ -28,10 +30,20 @@ public class CommunityStoreLogic implements CommunityStore {
 		int result =sqlsession.selectOne("CommnuityMapper.selectComNo");
 		return result;
 	}
+	//전체 게시물의 개수
+	@Override
+	public int selectClistCount(SqlSession sqlsession) {
+		int totalCount =sqlsession.selectOne("CommnuityMapper.selectClistCount");
+		return totalCount;
+	}
 
 	@Override
-	public List<Community> SelectAllCommunity(SqlSession sqlsession) {
-		List<Community> cList = sqlsession.selectList("CommnuityMapper.listCommnuity");
+	public List<Community> selectAllCommunity(SqlSession sqlsession, PageInfo pi) {
+		int limit = pi.getDocLimit();
+		int currentPage = pi.getCurrentPage();
+		int offset = (currentPage - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<Community> cList = sqlsession.selectList("CommnuityMapper.listCommnuity", pi, rowBounds);
 		return cList;
 	}
 	
@@ -96,7 +108,7 @@ public class CommunityStoreLogic implements CommunityStore {
 		int result = sqlsession.insert("CommnuityMapper.insertCVoteSelect",cVoteSelect);
 		return result;
 	}
-
+	
 	@Override
 	public int updateCountCVote(SqlSession sqlsession, Map<String, Object> map) {
 		int result = sqlsession.update("CommnuityMapper.updateCountCVote", map);
@@ -154,9 +166,4 @@ public class CommunityStoreLogic implements CommunityStore {
 	}
 
 	
-
-
-
-	
-
 }

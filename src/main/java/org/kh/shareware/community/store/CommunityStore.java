@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.kh.shareware.common.PageInfo;
 import org.kh.shareware.community.domain.Community;
 import org.kh.shareware.community.domain.CommunityVote;
 import org.kh.shareware.community.domain.CommunityVoteSelect;
@@ -15,8 +16,10 @@ public interface CommunityStore {
 	//자유게시판 글작성
 	int registerCommunity(SqlSession sqlsession, Community community);
 	int selectComNo(SqlSession sqlsession);
+	//전체 게시글의 개수
+	int selectClistCount(SqlSession sqlsession);
 	//자유게시판 리스트 보기
-	List<Community> SelectAllCommunity(SqlSession sqlsession);
+	List<Community> selectAllCommunity(SqlSession sqlsession, PageInfo pi);
 	//자유게시판 상세보기
 	Community detailCommunity(SqlSession sqlsession, Integer comNo);
 	int updateCommunity(SqlSession sqlsession, Community community);
@@ -44,6 +47,8 @@ public interface CommunityStore {
 	int deleteAllReply(SqlSession sqlsession, Integer comNo);
 	//댓글 수정
 	int updateReply(SqlSession sqlsession, Reply reply);
+	
+	
 	
 	
 

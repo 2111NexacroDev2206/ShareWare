@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+import org.kh.shareware.common.PageInfo;
+import org.kh.shareware.common.Pagination;
 import org.kh.shareware.community.domain.Community;
 import org.kh.shareware.community.domain.Search;
 import org.kh.shareware.community.domain.CommunityVote;
@@ -114,10 +117,17 @@ public class CommunityController {
 		//리스트 페이지 보기
 		@RequestMapping(value="/community/list.sw", method=RequestMethod.GET)
 		public String CommunityListView(
-				Model model) {
-			List<Community> cList = cService.listCommunity();
+				Model model
+				,@RequestParam(value="page", required=false) Integer page) {
+			
+			int currentPage = (page != null) ? page : 1;
+			//DB에서 전체 게시물의 갯수
+			int totalCount = cService.getListCount();
+			PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
+			List<Community> cList = cService.listCommunity(pi);
 			if(cList != null) {
 				model.addAttribute("cList", cList);
+				model.addAttribute("pi", pi);
 				return "community/communityList";
 			}else {
 				model.addAttribute("msg", "리스트 출력 실패");
@@ -139,15 +149,10 @@ public class CommunityController {
 		
 		//게시글 번호로 검색
 		Community community = cService.detailCommunity(comNo);
-		//투표 번호 검색
-		CommunityVote communityVote = cService.detailCommunityVote(comNo);
-		//사용자 번호로 사용자 투표테이블 가져오기
-		CommunityVoteSelect cVoteSelect = cService.viewCommunityVote(comNo);
+
 		
 		if(community != null) {
 			model.addAttribute("community",community);
-			model.addAttribute("communityVote",communityVote);
-			model.addAttribute("cVoteSelect",cVoteSelect);
 			return "community/communityDetail";
 		}else {
 			model.addAttribute("msg", "게시글 상세보기 실패");
@@ -309,8 +314,43 @@ public class CommunityController {
 			}
 			return "fail";
 		}
+	
+	//투표 보기
+	@ResponseBody
+	@RequestMapping(value="/community/viewCommunityVote.sw", method=RequestMethod.GET)
+		public void viewCommunityVote(
+		@RequestParam("comNo") int  comNo
+		,HttpServletResponse response) throws Exception{{
+							
+		//투표 검색				
+		CommunityVote Result = cService.detailCommunityVote(comNo);
+		//투표한 사람 검색
+		CommunityVoteSelect mResult = cService.viewCommunityVote(comNo);
+		
+		if(Result != null) {
+			if(mResult == null) {
+				CommunityVoteSelect cSelect = new CommunityVoteSelect();
+				cSelect.setcSelectTrue(0);
+				HashMap<Object, Object> map = new HashMap<>();
+				map.put("communityVote",Result);
+				map.put("cVoteSelect",cSelect);
+				Gson gson = new Gson();
+				gson.toJson(map, response.getWriter());
+				
+				}else {
+					// 성공했을 때
+					HashMap<Object, Object> map = new HashMap<>();
+					map.put("communityVote",Result);
+					map.put("cVoteSelect",mResult);
+					Gson gson = new Gson();
+					gson.toJson(map, response.getWriter());
+				}	
+		}
+			
+		}
+	}
 
-//	//투표 종료
+	//투표 종료
 	@ResponseBody
 	@RequestMapping(value="/community/endVoteCommunity.sw", method=RequestMethod.GET)
 			public String andVoteCommunity(
@@ -325,6 +365,7 @@ public class CommunityController {
 					}
 					return "fail";
 				}
+
 	
 	//투표 삭제
 	@ResponseBody

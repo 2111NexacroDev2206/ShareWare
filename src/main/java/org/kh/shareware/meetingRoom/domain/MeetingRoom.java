@@ -1,6 +1,11 @@
 package org.kh.shareware.meetingRoom.domain;
 
+
+
 import java.sql.Date;
+
+import org.kh.shareware.member.domain.Member;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class MeetingRoom {
 private String memberNum;
@@ -8,6 +13,16 @@ private String meetingNo;
 private Date meetingDate;
 private int meetingTime;
 private String meetingReservation;
+
+private Member member;
+
+public Member getMember() {
+	return member;
+}
+
+public void setMember(Member member) {
+	this.member = member;
+}
 
 public MeetingRoom() {}
 
