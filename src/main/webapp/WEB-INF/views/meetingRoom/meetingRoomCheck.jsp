@@ -7,6 +7,8 @@
 <title>회의실 예약 확인</title>
 </head>
 <body>
-	<jsp:include page="../common/menuBar.jsp"></jsp:include>
+	
+	<script>
+	</script>
 </body>
 </html>
