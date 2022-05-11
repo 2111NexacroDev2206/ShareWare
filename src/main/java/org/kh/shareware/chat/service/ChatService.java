@@ -16,9 +16,12 @@ public interface ChatService {
 	public ChatContent printChatContent(int chatRoomNo); // 마지막 대화 내용과 날짜 가져오기
 	public List<ChatContent> printAllChat(int chatRoomNo); // 채팅 목록
 	public int printChatMemberCount(int chatRoomNo); // 채팅 인원수 조회
+	public int printChatRoomType(int chatRoomNo); // 채팅방 종류 조회
 	public int modifyStatusChatMember(ChatMember chatMember); // 채팅방 나가기
 	public ChatMember printChatMember(ChatMember chatMember); // 채팅방 사용자 조회
 	public int fineContentDate(ChatContent chatContent); // 날짜 공지 찾기
 	public int inviteChatMember(ChatMember member); // 사용자 추가 초대
+	public int modifyStatusChatRoom(ChatRoom chatRoom); // 채팅방 종류 변경
+	public int removeChatRoom(int chatRoomNo); // 채팅방 삭제
 
 }

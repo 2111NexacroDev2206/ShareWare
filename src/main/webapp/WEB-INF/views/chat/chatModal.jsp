@@ -163,8 +163,7 @@
 				traditional: true,
 				data : { "chatMember" : ref, "chatRoomTitle" : chatRoomTitle },
 				success : function(result) {
-					window.location.reload();
-					$(".chatRoom-one").first().click();
+					window.location.reload(); // 창 리로드
 				},
 				error : function() {
 					alert("채팅방 생성 실패");

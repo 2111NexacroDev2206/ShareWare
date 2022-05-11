@@ -69,6 +69,12 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
+	public int printChatRoomType(int chatRoomNo) { // 채팅방 종류 조회
+		int type = cStore.selectOneChatRoomType(sqlSession, chatRoomNo);
+		return type;
+	}
+	
+	@Override
 	public int modifyStatusChatMember(ChatMember chatMember) { // 채팅방 나가기
 		int result = cStore.updateStatusChatMember(sqlSession, chatMember);
 		return result;
@@ -89,6 +95,18 @@ public class ChatServiceImpl implements ChatService {
 	@Override
 	public int inviteChatMember(ChatMember member) { // 사용자 추가 초대
 		int result = cStore.insertInviteChatMember(sqlSession, member);
+		return result;
+	}
+
+	@Override
+	public int modifyStatusChatRoom(ChatRoom chatRoom) { // 채팅방 종류 변경
+		int result = cStore.updateStatusChatRoom(sqlSession, chatRoom);
+		return result;
+	}
+
+	@Override
+	public int removeChatRoom(int chatRoomNo) { // 채팅방 삭제
+		int result = cStore.deleteChatRoom(sqlSession, chatRoomNo);
 		return result;
 	}
 	

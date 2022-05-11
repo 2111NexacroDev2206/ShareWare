@@ -59,6 +59,12 @@ public class ChatStoreLogic implements ChatStore {
 		int count = sqlSession.selectOne("ChatMapper.selectOneChatMemberCount", chatRoomNo);
 		return count;
 	}
+	
+	@Override
+	public int selectOneChatRoomType(SqlSession sqlSession, int chatRoomNo) { // 채팅방 종류 조회
+		int type = sqlSession.selectOne("ChatMapper.selectOneChatRoomType", chatRoomNo);
+		return type;
+	}
 
 	@Override
 	public int updateStatusChatMember(SqlSession sqlSession, ChatMember chatMember) { // 채팅방 나가기
@@ -81,6 +87,18 @@ public class ChatStoreLogic implements ChatStore {
 	@Override
 	public int insertInviteChatMember(SqlSession sqlSession, ChatMember member) { // 사용자 추가 초대
 		int result = sqlSession.insert("ChatMapper.insertInviteChatMember", member);
+		return result;
+	}
+
+	@Override
+	public int updateStatusChatRoom(SqlSession sqlSession, ChatRoom chatRoom) { // 채팅방 종류 변경
+		int result = sqlSession.update("ChatMapper.updateStatusChatRoom", chatRoom);
+		return result;
+	}
+
+	@Override
+	public int deleteChatRoom(SqlSession sqlSession, int chatRoomNo) { // 채팅방 삭제
+		int result = sqlSession.delete("ChatMapper.deleteChatRoom", chatRoomNo);
 		return result;
 	}
 

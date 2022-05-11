@@ -113,12 +113,12 @@ public class ChatController {
 	@RequestMapping(value = "/chat/detail.sw")
 	public ModelAndView chatView(ModelAndView mv
 			, @RequestParam("chatRoomNo") int chatRoomNo
-			, @RequestParam("chatRoomTitle") String chatRoomTitle
-			, @RequestParam("chatRoomType") int chatRoomType) {
+			, @RequestParam("chatRoomTitle") String chatRoomTitle) {
 		try {
 			List<ChatContent> cList = cService.printAllChat(chatRoomNo); // 채팅 목록 조회
 			if(!cList.isEmpty()) {
 				int chatHeadCount = cService.printChatMemberCount(chatRoomNo); // 채팅 인원수 조회
+				int chatRoomType = cService.printChatRoomType(chatRoomNo); // 채팅방 종류 조회
 				mv.addObject("cList", cList);
 				mv.addObject("chatRoomNo", chatRoomNo);
 				mv.addObject("chatRoomTitle", chatRoomTitle);
@@ -158,6 +158,15 @@ public class ChatController {
 			}
 			chatContent.setChatContent("<strong>" + chatMember.getDivName() + " " + chatMember.getMemName() + " " + chatMember.getRankName() + "</strong>님이 나갔습니다.");
 			cService.registerChatContent(chatContent); // 채팅방 나갔다는 공지 등록
+			int chatMemberCount = cService.printChatMemberCount(chatRoomNo);
+			if(chatMemberCount <= 2 && chatMemberCount > 0) { // 남은 인원수가 1~2명인 경우
+				ChatRoom chatRoom = new ChatRoom();
+				chatRoom.setChatRoomNo(chatRoomNo);
+				chatRoom.setChatRoomType(0);
+				cService.modifyStatusChatRoom(chatRoom); // 1:1방으로 변경
+			}else if(chatMemberCount == 0) { // 남은 인원수가 한 명도 없으면
+				cService.removeChatRoom(chatRoomNo); // 채팅방 삭제
+			}
 			return new Gson().toJson(result);
 		}
 		return null;
@@ -180,6 +189,10 @@ public class ChatController {
 			chatMemberArr[i] = member.getDivName() + " " + member.getMemName() + " " + member.getRankName();
 		}
 		if(result > 0) {
+			ChatRoom chatRoom = new ChatRoom();
+			chatRoom.setChatRoomNo(chatRoomNo);
+			chatRoom.setChatRoomType(1);
+			cService.modifyStatusChatRoom(chatRoom); // 1:N방으로 변경
 			ChatContent chatContent = new ChatContent();
 			// 채팅방 생성 날짜 공지 등록
 			chatContent.setChatType(1); // 공지
