@@ -67,7 +67,7 @@
 	</div>
 	<jsp:include page="chatInviteAddModal.jsp"></jsp:include> <!-- 사용자 추가 초대 모달 -->
 	<script>
-		// 채팅 목록 스크롤 바 하단으로 위치 {
+		// 채팅 목록 스크롤 바 하단으로 위치
 		$(".chat-body").scrollTop($(".chat-body")[0].scrollHeight);
 		
 		// 더보기 누르면 더보기 영역 보이기
@@ -94,7 +94,7 @@
 				}
 			})
 		}
-		
+
 		// 엔터키 누르면 메세지 전송
 		$("#textInput").keyup(function (e) {
 			e.preventDefault();
