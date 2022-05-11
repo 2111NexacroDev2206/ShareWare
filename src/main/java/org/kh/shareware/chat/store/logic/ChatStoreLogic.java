@@ -53,5 +53,35 @@ public class ChatStoreLogic implements ChatStore {
 		List<ChatContent> cList = sqlSession.selectList("ChatMapper.selectListChat", chatRoomNo);
 		return cList;
 	}
+	
+	@Override
+	public int selectOneChatMemberCount(SqlSession sqlSession, int chatRoomNo) { // 채팅 인원수 조회
+		int count = sqlSession.selectOne("ChatMapper.selectOneChatMemberCount", chatRoomNo);
+		return count;
+	}
+
+	@Override
+	public int updateStatusChatMember(SqlSession sqlSession, ChatMember chatMember) { // 채팅방 나가기
+		int result = sqlSession.update("ChatMapper.updateStatusChatMember", chatMember);
+		return result;
+	}
+
+	@Override
+	public ChatMember selectOneChatMember(SqlSession sqlSession, ChatMember chatMember) { // 채팅방 사용자 조회
+		ChatMember member = sqlSession.selectOne("ChatMapper.selectOneChatMember", chatMember);
+		return member;
+	}
+
+	@Override
+	public int selectOneContentDate(SqlSession sqlSession, ChatContent chatContent) { // 날짜 공지 찾기
+		int fineCount = sqlSession.selectOne("ChatMapper.selectOneContentDate", chatContent);
+		return fineCount;
+	}
+
+	@Override
+	public int insertInviteChatMember(SqlSession sqlSession, ChatMember member) { // 사용자 추가 초대
+		int result = sqlSession.insert("ChatMapper.insertInviteChatMember", member);
+		return result;
+	}
 
 }

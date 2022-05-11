@@ -35,10 +35,15 @@
 								</span>
 							</c:if>
 						</span>
-						<span class="chatRoomContent">
-							<span class="chatRoomTitle">${chatRoom.chatRoomTitle }</span>
+						<div class="chatRoomContent">
+							<div class="chat-title-count">
+								<div class="chatRoomTitle">
+									<p>${chatRoom.chatRoomTitle }
+								</div>
+								<div class="chatHeadCount">${chatRoom.headCount }</div>
+							</div>
 							<span class="chatContent">${chatRoom.chatContent }</span>
-						</span>
+						</div>
 						<span class="chatDate">${chatRoom.chatDate }</span>
 					</div>
 				</c:forEach>

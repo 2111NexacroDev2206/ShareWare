@@ -77,32 +77,54 @@
 		     CONNECT BY PRIOR DIV_CODE = PARENT_DIV_CODE
 	</select>
 	
-	
+	<!-- 사원 조회 모달 -->
 	<select id="selectAllMember" resultMap="memberResultMap">
-		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE
+		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE MEMBER_NUM != #{memberNum}
 	</select>
 	
+	<!-- 사원 조회 모달 검색 -->
 	<select id="selectMemberSearch" resultMap="memberResultMap">
-		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE
+		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE MEMBER_NUM != #{memberNum}
 		<if test="searchCondition.toString() == 'division'">
-			WHERE DIV_NAME LIKE '%' || #{searchValue} || '%'
+			AND DIV_NAME LIKE '%' || #{searchValue} || '%'
 		</if>
 		<if test="searchCondition.toString() == 'rankName'">
-			WHERE RANK_NAME LIKE '%' || #{searchValue} || '%'
+			AND RANK_NAME LIKE '%' || #{searchValue} || '%'
 		</if>
 		<if test="searchCondition.toString() == 'memberName'">
-			WHERE MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+			AND MEMBER_NAME LIKE '%' || #{searchValue} || '%'
 		</if>
 		<if test="searchCondition.toString() == 'all'">
-			WHERE DIV_NAME LIKE '%' || #{searchValue} || '%'
-			OR MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+			AND (DIV_NAME LIKE '%' || #{searchValue} || '%'
+			OR MEMBER_NAME LIKE '%' || #{searchValue} || '%')
 		</if>
 		<if test="searchCondition.toString() == 'all2'">
-			WHERE DIV_NAME LIKE '%' || #{searchValue} || '%'
+			AND (DIV_NAME LIKE '%' || #{searchValue} || '%'
 			OR MEMBER_NAME LIKE '%' || #{searchValue} || '%'
-			OR RANK_NAME LIKE '%' || #{searchValue} || '%'
+			OR RANK_NAME LIKE '%' || #{searchValue} || '%')
 		</if>
 	</select>
 	
+	<!-- 채팅 사용자 추가 초대 모달 -->
+	<select id="selectListChatMember" resultMap="memberResultMap">
+		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE MEMBER_NUM NOT IN (SELECT MEM_NUM FROM CHAT_MEMBER WHERE CHAT_ROOM_NO = #{chatRoomNo})
+	</select>
 	
+	<!-- 채팅 사용자 추가 초대 모달 검색 -->
+	<select id="selectListChatMemberSearch" resultMap="memberResultMap">
+		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE MEMBER_NUM NOT IN (SELECT MEM_NUM FROM CHAT_MEMBER WHERE CHAT_ROOM_NO = #{chatRoomNo})
+		<if test="searchCondition.toString() == 'division'">
+			AND DIV_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'rankName'">
+			AND RANK_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'memberName'">
+			AND MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'all'">
+			AND (DIV_NAME LIKE '%' || #{searchValue} || '%'
+			OR MEMBER_NAME LIKE '%' || #{searchValue} || '%')
+		</if>
+	</select>
   </mapper>

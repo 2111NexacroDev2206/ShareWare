@@ -7,6 +7,7 @@
 <title>사용자 초대</title>
 <link href="/resources/css/approval/appModal-style.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+<script src="https://kit.fontawesome.com/c7853f4d26.js" crossorigin="anonymous"></script>
 </head>
 <body>
 	<div class="m-appSel-wrap" id="appSelModal">
@@ -41,18 +42,18 @@
 			</div>
 		</div>
 	</div>
-</body>
 <script>
 	var Arr = new Array(); // 선택한 사용자 담을 배열 선언
 	var arrText = new Array(); // 화면에 보여줄 텍스트 배열 선언
 	// 사용자 선택 모달
-	function chatRoomBtn() {
+	function invite(chatRoomNo, memNum) {
 		$("#header").html("사용자 초대");
 		$("#s-text").html("사용자");
 		$("#appSelModal").css('display', 'flex').hide().fadeIn();
 		$.ajax({
-			url : "/modal/member/list.sw",
+			url : "/modal/chat/inviteMember/list.sw",
 			type : "get",
+			data : { "chatRoomNo" : chatRoomNo },
 			success : function(mList) {
 				$("#s-value").val(""); // 검색 입력창 지우기
 				appList(mList);
@@ -83,13 +84,14 @@
 	})
 	
 	// 사원 검색
+	var chatRoomNo = "${chatRoomNo}";
 	$("#btn-search").click(function() {
 		var searchCondition = $("#s-condition").val();
-		var searchValue = $("#s-value").val(); 
+		var searchValue = $("#s-value").val();
 		$.ajax({
-			url : "/modal/member/search.sw",
+			url : "/modal/chat/inviteMember/search.sw",
 			type : "get",
-			data : { "searchCondition" : searchCondition,  "searchValue" : searchValue },
+			data : { "searchCondition" : searchCondition,  "searchValue" : searchValue, "chatRoomNo" : chatRoomNo },
 			success : function(mList) {
 				appList(mList);
 			},
@@ -149,28 +151,26 @@
 		});
 	}
 	
-	// 채팅방/사용자 등록
+	// 사용자 등록
 	function appSelView() {
-		var chatRoomTitle = prompt("채팅방 제목을 입력하세요");
-		if(chatRoomTitle != null) {
-			var ref = []; // 사용자 담을 배열 선언
-			Arr.forEach(function(el, i){
-				ref[i] = el.memberNum;
-			});
-			$.ajax({
-				url : "/chat/registerChatRoom.sw",
-				type : "get",
-				traditional: true,
-				data : { "chatMember" : ref, "chatRoomTitle" : chatRoomTitle },
-				success : function(result) {
-					window.location.reload();
-					$(".chatRoom-one").first().click();
-				},
-				error : function() {
-					alert("채팅방 생성 실패");
-				}
-			});
-		}
-	}
+		var ref = []; // 사용자 담을 배열 선언
+		Arr.forEach(function(el, i){
+			ref[i] = el.memberNum;
+		});
+		$.ajax({
+			url : "/chat/registerChatMember.sw",
+			type : "get",
+			traditional: true,
+			data : { "chatMember" : ref, "chatRoomNo" : chatRoomNo },
+			success : function(result) {
+				opener.parent.location.reload();
+				window.location.reload();
+			},
+			error : function() {
+				alert("사용자 초대 실패");
+			}
+		});
+}
 </script>
+</body>
 </html>

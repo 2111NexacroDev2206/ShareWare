@@ -28,12 +28,21 @@
 					</span>
 				</c:if>
 			</span>
-			<span class="chatRoomTitle">${chatRoomTitle }</span>
+			<div class="chat-title-count">
+				<div class="chatRoomTitle">
+					<p>${chatRoomTitle }
+				</div>
+				<div class="chatHeadCount">(${chatHeadCount })</div>
+			</div>
 			<button class="more-btn">
 				<span class="material-icons">
 					more_horiz
 				</span>
 			</button>
+			<div class="more">
+				<button onclick="invite(${chatRoomNo})">초대</button>
+				<button onclick="chatOut(${chatRoomNo}, '${loginUser.memberNum}')">나가기</button>
+			</div>
 		</div>
 		<div class="chat-body">
 			<c:forEach items="${cList}" var="chat">
@@ -56,9 +65,35 @@
 			<button onclick="textSend('${loginUser.memberNum}')">전송</button>
 		</div>
 	</div>
+	<jsp:include page="chatInviteAddModal.jsp"></jsp:include> <!-- 사용자 추가 초대 모달 -->
 	<script>
 		// 채팅 목록 스크롤 바 하단으로 위치 {
 		$(".chat-body").scrollTop($(".chat-body")[0].scrollHeight);
+		
+		// 더보기 누르면 더보기 영역 보이기
+		$(".more-btn").click(function() {
+			if($(".more").css("display") === "none") {
+				$(".more").show();
+			}else {
+				$(".more").hide();
+			}
+		});
+		
+		// 더보기 나가기
+		function chatOut(chatRoomNo, memNum) {
+			$.ajax({
+				url : "/chat/out.sw",
+				type : "get",
+				data : { "chatRoomNo" : chatRoomNo, "memNum" : memNum },
+				success : function(result) {
+					opener.parent.location.reload();
+					window.close();
+				},
+				error : function() {
+					alert("채팅방 나가기 실패");
+				}
+			})
+		}
 		
 		// 엔터키 누르면 메세지 전송
 		$("#textInput").keyup(function (e) {

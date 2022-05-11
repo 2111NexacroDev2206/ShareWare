@@ -62,4 +62,34 @@ public class ChatServiceImpl implements ChatService {
 		return cList;
 	}
 	
+	@Override
+	public int printChatMemberCount(int chatRoomNo) { // 채팅 인원수 조회
+		int count = cStore.selectOneChatMemberCount(sqlSession, chatRoomNo);
+		return count;
+	}
+
+	@Override
+	public int modifyStatusChatMember(ChatMember chatMember) { // 채팅방 나가기
+		int result = cStore.updateStatusChatMember(sqlSession, chatMember);
+		return result;
+	}
+
+	@Override
+	public ChatMember printChatMember(ChatMember chatMember) { // 채팅방 사용자 조회
+		ChatMember member = cStore.selectOneChatMember(sqlSession, chatMember);
+		return member;
+	}
+
+	@Override
+	public int fineContentDate(ChatContent chatContent) { // 날짜 공지 찾기
+		int fineCount = cStore.selectOneContentDate(sqlSession, chatContent);
+		return fineCount;
+	}
+
+	@Override
+	public int inviteChatMember(ChatMember member) { // 사용자 추가 초대
+		int result = cStore.insertInviteChatMember(sqlSession, member);
+		return result;
+	}
+	
 }

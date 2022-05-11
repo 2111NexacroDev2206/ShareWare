@@ -56,14 +56,32 @@
 	width: 445px;
 	margin-right: 10px;
 }
-.chatRoomContent span { /* 채팅방 제목, 채팅방 내용 */
+.chatRoomContent span, .chatRoomContent div:not(.chatRoomTitle, .chatHeadCount) { /* 채팅방 제목, 채팅방 내용 */
 	width: 100%;
 	height: 50%;
 	display: block;
 	font-size: 15px;
+	line-height: 25px;
+	vertical-align: middle;
+}
+.chat-title-count { /* 목록 내용 상단(제목, 인원수) */
+	display: flex;
+	width: 100%;
 }
 .chatRoomTitle { /* 채팅방 제목 */
+	display: inline-flex;
+	max-width: 90%;
+	height: 100%;
 	font-weight: bold;
+}
+.chatRoomTitle p { /* 채팅방 제목 텍스트 */
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.chatHeadCount { /* 채팅방 인원수 */
+	display: inline-flex;
+	color: rgb(94, 94, 94);
 }
 .chatRoomContent strong { /* 채팅방 내용에 있는 strong */
 	font-weight: normal;

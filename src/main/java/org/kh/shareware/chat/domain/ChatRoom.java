@@ -6,6 +6,7 @@ public class ChatRoom {
 	private int chatRoomType;
 	private String chatContent;
 	private String chatDate;
+	private int headCount;
 	
 	public ChatRoom() {}
 
@@ -49,10 +50,19 @@ public class ChatRoom {
 		this.chatDate = chatDate;
 	}
 
+	public int getHeadCount() {
+		return headCount;
+	}
+
+	public void setHeadCount(int headCount) {
+		this.headCount = headCount;
+	}
+
 	@Override
 	public String toString() {
 		return "ChatRoom [chatRoomNo=" + chatRoomNo + ", chatRoomTitle=" + chatRoomTitle + ", chatRoomType="
-				+ chatRoomType + ", chatContent=" + chatContent + ", chatDate=" + chatDate + "]";
+				+ chatRoomType + ", chatContent=" + chatContent + ", chatDate=" + chatDate + ", headCount=" + headCount
+				+ "]";
 	}
 	
 }

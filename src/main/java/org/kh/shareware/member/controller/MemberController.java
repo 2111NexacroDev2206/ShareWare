@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.kh.shareware.chat.domain.ChatMember;
 import org.kh.shareware.common.Search;
 import org.kh.shareware.member.common.PageInfo;
 import org.kh.shareware.member.common.Pagination;
@@ -131,8 +132,10 @@ public class MemberController {
 	// 사원 목록(전자결재 결재자, 참조자 선택 모달창)
 	@ResponseBody
 	@RequestMapping(value = "/modal/member/list.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
-	public String modalMemberList(Model model) {
-		List<Member> mList = mService.modalPrintAll();
+	public String modalMemberList(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
+		List<Member> mList = mService.modalPrintAll(member.getMemberNum());
 		if(!mList.isEmpty()) {
 			return new Gson().toJson(mList);
 		}
@@ -142,7 +145,10 @@ public class MemberController {
 	// 사원 목록 검색(전자결재 결재자, 참조자 선택 모달창)
 	@ResponseBody
 	@RequestMapping(value = "/modal/member/search.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
-	public String modalMemberSearch(Model model, @ModelAttribute Search search) {
+	public String modalMemberSearch(@ModelAttribute Search search, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
+		search.setMemberNum(member.getMemberNum());
 		List<Member> mList = mService.modalPrintSearch(search);
 		if(!mList.isEmpty()) {
 			return new Gson().toJson(mList);
@@ -150,4 +156,25 @@ public class MemberController {
 		return null;
 	}
 	
+	// 채팅 사용자 추가 초대 모달
+	@ResponseBody
+	@RequestMapping(value = "/modal/chat/inviteMember/list.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+	public String modalChatInviteMemberList(@RequestParam("chatRoomNo") int chatRoomNo) {
+		List<Member> mList = mService.modalChatInvitePrint(chatRoomNo);
+		if(!mList.isEmpty()) {
+			return new Gson().toJson(mList);
+		}
+		return null;
+	}
+	
+	// 채팅 사용자 추가 초대 모달 검색
+	@ResponseBody
+	@RequestMapping(value = "/modal/chat/inviteMember/search.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+	public String modalChatInviteMemberSearch(@ModelAttribute Search search) {
+		List<Member> mList = mService.modalChatInviteSearch(search);
+		if(!mList.isEmpty()) {
+			return new Gson().toJson(mList);
+		}
+		return null;
+	}
 }

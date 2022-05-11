@@ -63,16 +63,32 @@ public class MemberServiceImpl implements MemberService{
 		List<Division>oList = mStore.selectOrganization(sqlSession);
 		return oList;
 	}
-
+	
+	// 사원 조회 모달
 	@Override
-	public List<Member> modalPrintAll() {
-		List<Member> mList = mStore.selectAllMember(sqlSession);
+	public List<Member> modalPrintAll(String memberNum) {
+		List<Member> mList = mStore.selectAllMember(sqlSession, memberNum);
 		return mList;
 	}
-
+	
+	// 사원 조회 모달 검색
 	@Override
 	public List<Member> modalPrintSearch(Search search) {
 		List<Member> mList = mStore.selectMemberSearch(sqlSession, search);
+		return mList;
+	}
+	
+	// 채팅 사용자 추가 초대 모달
+	@Override
+	public List<Member> modalChatInvitePrint(int chatRoomNo) {
+		List<Member> mList = mStore.selectAllChatMember(sqlSession, chatRoomNo);
+		return mList;
+	}
+	
+	// 채팅 사용자 추가 초대 모달 검색
+	@Override
+	public List<Member> modalChatInviteSearch(Search search) {
+		List<Member> mList = mStore.selectAllChatMemberSearch(sqlSession, search);
 		return mList;
 	}
 

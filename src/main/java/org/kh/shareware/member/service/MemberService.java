@@ -20,6 +20,9 @@ public interface MemberService {
 	public List<Member> printAllSearch(PageInfo pi); 
 	public int getListCountSearch(); //검색 페이징
 	
-	public List<Member> modalPrintAll();
+	// 사원 조회 모달
+	public List<Member> modalPrintAll(String memberNum);
 	public List<Member> modalPrintSearch(Search search);
+	public List<Member> modalChatInvitePrint(int chatRoomNo);
+	public List<Member> modalChatInviteSearch(Search search);
 }

@@ -70,7 +70,7 @@ public class ChatController {
 			for(int i = 0; i < chatMember.length; i++) {
 				mResult = cService.registerChatMember(chatMember[i]); // 채팅방 사용자 등록
 			}
-			if(mResult > 0) { // 채팅방 생성자 등록 성공 시
+			if(mResult > 0) { // 채팅방 생성자/사용자 등록 성공 시
 				List<ChatMember> mList = cService.printAllMember(); // 채팅방 사용자 목록 조회
 				String[] chatMemberArr = new String[mList.size()]; // 채팅방 사용자 목록을 담을 배열 선언
 				if(!mList.isEmpty()) {
@@ -81,6 +81,7 @@ public class ChatController {
 				ChatContent chatContent = new ChatContent();
 				// 채팅방 생성 날짜 공지 등록
 				chatContent.setChatType(1); // 공지
+				chatContent.setChatRoomNo(0); // 채팅방 번호 0으로 설정
 				Date nowTime = new Date(); // 현재 날짜 가져오기
 				SimpleDateFormat sf = new SimpleDateFormat("yyyy년 M월 d일 E요일");
 				chatContent.setChatContent("- " + sf.format(nowTime) + " -"); // 채팅방 생성 날짜
@@ -99,7 +100,6 @@ public class ChatController {
 				}
 				chatContent.setChatContent("<strong>" + chatMemberArr[0] + "</strong>님이 " + inviteMember); // 채팅방 사용자 초대 내용
 				cService.registerChatContent(chatContent); // 채팅 등록(채팅방 사용자 초대 공지)
-				chatContent.setChatContent("");
 				return new Gson().toJson("채팅방 사용자 초대 성공");
 			}else {
 				return new Gson().toJson("채팅방 사용자 초대 실패");
@@ -116,11 +116,14 @@ public class ChatController {
 			, @RequestParam("chatRoomTitle") String chatRoomTitle
 			, @RequestParam("chatRoomType") int chatRoomType) {
 		try {
-			List<ChatContent> cList = cService.printAllChat(chatRoomNo);
+			List<ChatContent> cList = cService.printAllChat(chatRoomNo); // 채팅 목록 조회
 			if(!cList.isEmpty()) {
+				int chatHeadCount = cService.printChatMemberCount(chatRoomNo); // 채팅 인원수 조회
 				mv.addObject("cList", cList);
+				mv.addObject("chatRoomNo", chatRoomNo);
 				mv.addObject("chatRoomTitle", chatRoomTitle);
 				mv.addObject("chatRoomType", chatRoomType);
+				mv.addObject("chatHeadCount", chatHeadCount);
 				mv.setViewName("chat/chatDetail");
 			}else {
 				mv.addObject("msg", "채팅 목록 조회 실패");
@@ -131,5 +134,84 @@ public class ChatController {
 			mv.setViewName("common/errorPage");
 		}
 		return mv;
+	}
+	
+	// 채팅 나가기
+	@ResponseBody
+	@RequestMapping(value = "/chat/out.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+	public String chatOut(@RequestParam("chatRoomNo") int chatRoomNo, @RequestParam("memNum") String memNum) {
+		ChatMember chatMember = new ChatMember();
+		chatMember.setChatRoomNo(chatRoomNo);
+		chatMember.setMemNum(memNum);
+		int result = cService.modifyStatusChatMember(chatMember);
+		if(result > 0) {
+			ChatContent chatContent = new ChatContent();
+			chatMember = cService.printChatMember(chatMember); // 나가는 사용자 정보 조회
+			chatContent.setChatRoomNo(chatRoomNo);
+			chatContent.setChatType(1);
+			Date nowTime = new Date(); // 현재 날짜 가져오기
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy년 M월 d일 E요일");
+			chatContent.setChatContent("- " + sf.format(nowTime) + " -"); // 채팅방 나간 날짜
+			int fineCount = cService.fineContentDate(chatContent); // 해당 날짜 공지가 있었는지 찾기
+			if(fineCount == 0) { // 해당 날짜 공지가 없었다면
+				cService.registerChatContent(chatContent); // 채팅방 나간 날짜 공지 등록
+			}
+			chatContent.setChatContent("<strong>" + chatMember.getDivName() + " " + chatMember.getMemName() + " " + chatMember.getRankName() + "</strong>님이 나갔습니다.");
+			cService.registerChatContent(chatContent); // 채팅방 나갔다는 공지 등록
+			return new Gson().toJson(result);
+		}
+		return null;
+	}
+	
+	// 사용자 추가 초대
+	@ResponseBody
+	@RequestMapping(value = "/chat/registerChatMember.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+	public String chatInviteAdd(HttpServletRequest request
+			, @RequestParam("chatRoomNo") int chatRoomNo
+			, @RequestParam("chatMember") String[] chatMember) {
+		ChatMember member = new ChatMember();
+		member.setChatRoomNo(chatRoomNo);
+		int result = 0; // 사용자 추가 초대 결과 변수 선언
+		String[] chatMemberArr = new String[chatMember.length];
+		for(int i = 0; i < chatMember.length; i++) {
+			member.setMemNum(chatMember[i]);
+			result = cService.inviteChatMember(member); // 사용자 추가 등록
+			member = cService.printChatMember(member);
+			chatMemberArr[i] = member.getDivName() + " " + member.getMemName() + " " + member.getRankName();
+		}
+		if(result > 0) {
+			ChatContent chatContent = new ChatContent();
+			// 채팅방 생성 날짜 공지 등록
+			chatContent.setChatType(1); // 공지
+			chatContent.setChatRoomNo(chatRoomNo);
+			Date nowTime = new Date(); // 현재 날짜 가져오기
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy년 M월 d일 E요일");
+			chatContent.setChatContent("- " + sf.format(nowTime) + " -"); // 채팅방 생성 날짜
+			int fineCount = cService.fineContentDate(chatContent); // 해당 날짜 공지가 있었는지 찾기
+			if(fineCount == 0) { // 해당 날짜 공지가 없었다면
+				cService.registerChatContent(chatContent); // 채팅 등록(사용자 추가 초대 날짜 공지)
+			}
+			// 채팅방 사용자 초대 공지 등록
+			String inviteMember = ""; // 초대한 사용자 문자열 변수 선언
+			for(int k = 0; k < chatMemberArr.length; k++) {
+				if(k < chatMemberArr.length - 1) { // 마지막 사용자 전 사용자일 경우
+					inviteMember += "<strong>" + chatMemberArr[k] + "</strong>님, ";
+				}else if(k == chatMemberArr.length - 1) { // 마지막 사용자일 경우
+					inviteMember += "<strong>" + chatMemberArr[k] + "</strong>님을 초대했습니다.";
+				}
+			}
+			HttpSession session = request.getSession();
+			Member sessionMember = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
+			ChatMember loginMember = new ChatMember(); // 로그인 유저 넣을 객체
+			loginMember.setChatRoomNo(chatRoomNo);
+			loginMember.setMemNum(sessionMember.getMemberNum());
+			loginMember = cService.printChatMember(loginMember); // 로그인 유저 정보 조회
+			String inviter = loginMember.getDivName() + " " + loginMember.getMemName() + " " + loginMember.getRankName();
+			chatContent.setChatContent("<strong>" + inviter + "</strong>님이 " + inviteMember); // 채팅방 사용자 초대 내용
+			cService.registerChatContent(chatContent); // 채팅 등록(채팅방 사용자 초대 공지)
+			return new Gson().toJson("채팅방 사용자 초대 성공");
+		}else {
+			return new Gson().toJson("채팅방 사용자 초대 실패");
+		}
 	}
 }
