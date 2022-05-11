@@ -100,29 +100,24 @@ public class ChatController {
 				}
 				chatContent.setChatContent("<strong>" + chatMemberArr[0] + "</strong>님이 " + inviteMember); // 채팅방 사용자 초대 내용
 				cService.registerChatContent(chatContent); // 채팅 등록(채팅방 사용자 초대 공지)
-				return new Gson().toJson("채팅방 사용자 초대 성공");
-			}else {
-				return new Gson().toJson("채팅방 사용자 초대 실패");
+				int chatRoomNo = cService.printChatRoomNo(); // 채팅방 번호 불러오기
+				return new Gson().toJson(chatRoomNo);
 			}
-		}else {
-			return new Gson().toJson("채팅방 생성 실패");
 		}
+		return null;
 	}
 	
 	// 채팅 상세
 	@RequestMapping(value = "/chat/detail.sw")
-	public ModelAndView chatView(ModelAndView mv
-			, @RequestParam("chatRoomNo") int chatRoomNo
-			, @RequestParam("chatRoomTitle") String chatRoomTitle) {
+	public ModelAndView chatView(ModelAndView mv, @RequestParam("chatRoomNo") int chatRoomNo) {
 		try {
 			List<ChatContent> cList = cService.printAllChat(chatRoomNo); // 채팅 목록 조회
 			if(!cList.isEmpty()) {
 				int chatHeadCount = cService.printChatMemberCount(chatRoomNo); // 채팅 인원수 조회
-				int chatRoomType = cService.printChatRoomType(chatRoomNo); // 채팅방 종류 조회
+				ChatRoom chatRoom = cService.printChatRoom(chatRoomNo); // 채팅방 정보 조회
 				mv.addObject("cList", cList);
 				mv.addObject("chatRoomNo", chatRoomNo);
-				mv.addObject("chatRoomTitle", chatRoomTitle);
-				mv.addObject("chatRoomType", chatRoomType);
+				mv.addObject("chatRoom", chatRoom);
 				mv.addObject("chatHeadCount", chatHeadCount);
 				mv.setViewName("chat/chatDetail");
 			}else {

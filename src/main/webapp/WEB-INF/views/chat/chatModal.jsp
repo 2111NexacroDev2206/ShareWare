@@ -162,8 +162,9 @@
 				type : "get",
 				traditional: true,
 				data : { "chatMember" : ref, "chatRoomTitle" : chatRoomTitle },
-				success : function(result) {
+				success : function(chatRoomNo) {
 					window.location.reload(); // 창 리로드
+					chatPop(chatRoomNo);
 				},
 				error : function() {
 					alert("채팅방 생성 실패");

@@ -17,12 +17,12 @@
 	<div class="chatting">
 		<div class="chat-header">
 			<span class="chatRoomType">
-				<c:if test="${chatRoomType == 0}"><!-- 1:1 채팅방 -->
+				<c:if test="${chatRoom.chatRoomType == 0}"><!-- 1:1 채팅방 -->
 					<span class="material-icons">
 						account_circle
 					</span>
 				</c:if>
-				<c:if test="${chatRoomType == 1}"><!-- 1:N 채팅방 -->
+				<c:if test="${chatRoom.chatRoomType == 1}"><!-- 1:N 채팅방 -->
 					<span class="material-icons">
 						supervised_user_circle
 					</span>
@@ -30,7 +30,7 @@
 			</span>
 			<div class="chat-title-count">
 				<div class="chatRoomTitle">
-					<p>${chatRoomTitle }
+					<p>${chatRoom.chatRoomTitle }
 				</div>
 				<div class="chatHeadCount">(${chatHeadCount })</div>
 			</div>

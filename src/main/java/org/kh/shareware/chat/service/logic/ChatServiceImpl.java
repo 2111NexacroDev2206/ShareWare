@@ -43,6 +43,12 @@ public class ChatServiceImpl implements ChatService {
 		int result = cStore.insertChatContent(sqlSession, chatContent);
 		return result;
 	}
+	
+	@Override
+	public int printChatRoomNo() { // 채팅방 번호 불러오기
+		int chatRoomNo = cStore.selectOneChatRoomNo(sqlSession);
+		return chatRoomNo;
+	}
 
 	@Override
 	public List<ChatRoom> printAllChatRoom(String memberNum) { // 채팅방 목록 조회
@@ -67,11 +73,11 @@ public class ChatServiceImpl implements ChatService {
 		int count = cStore.selectOneChatMemberCount(sqlSession, chatRoomNo);
 		return count;
 	}
-
+	
 	@Override
-	public int printChatRoomType(int chatRoomNo) { // 채팅방 종류 조회
-		int type = cStore.selectOneChatRoomType(sqlSession, chatRoomNo);
-		return type;
+	public ChatRoom printChatRoom(int chatRoomNo) { // 채팅방 정보 조회
+		ChatRoom chatRoom = cStore.selectOneChatRoom(sqlSession, chatRoomNo);
+		return chatRoom;
 	}
 	
 	@Override

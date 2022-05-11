@@ -56,6 +56,9 @@
 		</if>
 		, #{chatContent}, #{memNum}, DEFAULT, #{chatType})
 	</insert>
+	<select id="selectOnechatRoomNo" resultType="_int"><!-- 채팅방 번호 불러오기 -->
+		SELECT MAX(CHAT_ROOM_NO) FROM CHAT_ROOM
+	</select>
 	<select id="selectListChatRoom" resultMap="chatRoomResultMap"><!-- 채팅방 목록 조회 -->
 		SELECT DISTINCT CHAT_ROOM_NO, CHAT_ROOM_TITLE, CHAT_ROOM_TYPE
 		, (SELECT COUNT(*) FROM CHAT_MEMBER WHERE CHAT_MEMBER.CHAT_ROOM_NO = CHAT_ROOM.CHAT_ROOM_NO AND MEM_STATUS = 0) AS HEAD_COUNT
@@ -73,8 +76,8 @@
 	<select id="selectOneChatMemberCount" resultType="_int"><!-- 채팅방 인원수 조회 -->
 		SELECT COUNT(*) FROM CHAT_MEMBER WHERE CHAT_ROOM_NO = #{chatRoomNo} AND MEM_STATUS = 0
 	</select>
-	<select id="selectOneChatRoomType" resultType="_int"><!-- 채팅방 종류 조회 -->
-		SELECT CHAT_ROOM_TYPE FROM CHAT_ROOM WHERE CHAT_ROOM_NO = #{chatRoomNo}
+	<select id="selectOneChatRoom" resultMap="chatRoomResultMap"><!-- 채팅방 정보 조회 -->
+		SELECT * FROM CHAT_ROOM WHERE CHAT_ROOM_NO = #{chatRoomNo}
 	</select>
 	<update id="updateStatusChatMember"><!-- 채팅방 나가기 -->
 		UPDATE CHAT_MEMBER SET MEM_STATUS = 1 WHERE CHAT_ROOM_NO = #{chatRoomNo} AND MEM_NUM = #{memNum}

@@ -22,7 +22,7 @@
 			</div>
 			<div class="chatRoom-list">
 				<c:forEach items="${rList }" var="chatRoom">
-					<div class="chatRoom-one" onclick="chatPop(${chatRoom.chatRoomNo}, '${chatRoom.chatRoomTitle}')">
+					<div class="chatRoom-one" onclick="chatPop(${chatRoom.chatRoomNo})">
 						<span class="chatRoomType">
 							<c:if test="${chatRoom.chatRoomType == 0}"><!-- 1:1 채팅방 -->
 								<span class="material-icons">
@@ -53,8 +53,8 @@
 	<jsp:include page="chatModal.jsp"></jsp:include> <!-- 사용자 초대 모달 -->
 	<script>
 		// 채팅 팝업
-		function chatPop(chatRoomNo, chatRoomTitle) {
-			var url = "detail.sw?chatRoomNo=" + chatRoomNo + "&chatRoomTitle=" + chatRoomTitle;
+		function chatPop(chatRoomNo) {
+			var url = "detail.sw?chatRoomNo=" + chatRoomNo;
 			var options = "width = 500px, height = 700px";
 		    window.open(url, "", options); // 팝업 이름을 "" 빈값으로 둬야 다른 채팅창을 눌러도 새창으로 열림
 		}
