@@ -9,11 +9,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.kh.shareware.member.domain.Member;
+import org.kh.shareware.community.domain.Reply;
 import org.kh.shareware.meetingRoom.domain.MeetingRoom;
 import org.kh.shareware.meetingRoom.service.MeetingRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -84,10 +87,53 @@ public class MeetingRoomController {
 		}
 		
 		
+		
 		//예약 확인 페이지 보기
-		@RequestMapping(value="/meetionRoom/meetingRoomCheckView.sw", method=RequestMethod.GET)
-		public String roomCheckView() {
-			return "meetingRoom/meetingRoomCheck";
+		@RequestMapping(value="/meetionRoom/roomResevationList.sw", method=RequestMethod.GET)
+		public String roomCheckView(
+				Model model
+				,HttpServletRequest request //세션에 로그인 되어있는 아이디로 검색
+				) {
+			
+				HttpSession session = request.getSession();
+				String memberNum = "";
+				Member member = (Member)session.getAttribute("loginUser");
+					memberNum = member.getMemberNum();
+				
+			List<MeetingRoom> mList = mService.reservationList(memberNum);
+			if(mList != null) {
+				model.addAttribute("mList", mList);
+				return "meetingRoom/meetingRoomCheck";
+			}else {
+				model.addAttribute("msg", "리스트 출력 실패");
+				return "common/errorPage";
+			}	
 		}
-
+		
+		//예약 취소 
+		@ResponseBody
+		@RequestMapping(value="/meetingRoom/roomReset.sw", method=RequestMethod.GET)
+		public String roomReset(
+				@RequestParam("meetingDate") String meetingDate
+				,@RequestParam("meetingTime") String meetingTime
+				,@RequestParam("meetingNo") String meetingNo
+				,@RequestParam("memberNum") String memberNum
+				) {
+					
+				MeetingRoom meetingRoom = new MeetingRoom();
+				meetingRoom.setMeetingDate(Date.valueOf(meetingDate));
+				meetingRoom.setMeetingNo(meetingNo);
+				meetingRoom.setMeetingTime(Integer.parseInt(meetingTime));
+				meetingRoom.setMemberNum(memberNum);
+						
+				int result = mService.modifyRoom(meetingRoom);
+						
+				if(result > 0) {
+					return "success";
+				}else{
+					return "fail";	
+				}
+			}
+		
 }
+

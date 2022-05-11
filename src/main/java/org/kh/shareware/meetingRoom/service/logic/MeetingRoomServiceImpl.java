@@ -28,4 +28,16 @@ public class MeetingRoomServiceImpl implements MeetingRoomService{
 		return mList;
 	}
 
+	@Override
+	public List<MeetingRoom> reservationList(String memberNum) {
+		List<MeetingRoom> mList = mStore.selectListReservation(sqlsession, memberNum);
+		return mList;
+	}
+
+	@Override
+	public int modifyRoom(MeetingRoom meetingRoom) {
+		int result = mStore.updateRoom(sqlsession, meetingRoom);
+		return result;
+	}
+
 }

@@ -17,11 +17,11 @@
 						</div>
 						<div>
 							회의실 : <select id="room">
-								<option value="room1" selected>1 회의실</option>
-								<option value="room2">2 회의실</option>
-								<option value="room3">3 회의실</option>
-								<option value="room4">4 회의실</option>
-								<option value="room5">5 회의실</option>
+								<option value="1 회의실" selected>1 회의실</option>
+								<option value="2 회의실">2 회의실</option>
+								<option value="3 회의실">3 회의실</option>
+								<option value="4 회의실">4 회의실</option>
+								<option value="5 회의실">5 회의실</option>
 							</select>
 						</div>
 						<div>
@@ -80,46 +80,42 @@
 				  mm='0'+mm
 				}
 		};
-		
-		
-		
-		//input에 변화가 있을 때 마다 
-		//예약된 방과 시간을 조회해 예약이 잡혀있으면 선택이 불가
-		function roomRDateChage(){
-			
-		}
 			
 		//날짜가 바뀌면 room 선택 값 초기화
 		$("#roomRDate").on("input",function(){
-			console.log("날짜가 바꼈당");
-			$("#room").val("room1").prop("selected", true);
+			$("#room").val("1 회의실").prop("selected", true);
 			$("#time").val("a").prop("selected", true);
 		});
 		
+		//예약
 		$("#rButton").on("click",function(){
 			var meetingDate = $("#roomRDate").val();
 			var meetingNo = $("#room").val();
 			var meetingTime = $("#time").val();
-			 jQuery.ajax({
+			if(meetingTime == 'a'){
+				alert("예약시간을 정해주세요.");	
+			}else{jQuery.ajax({
 	             url : "/meetionRoom/reservation.sw"
-	           , type : "GET"
-	           , data : {"meetingDate" : meetingDate
-	        	   		, "meetingNo" : meetingNo
-	        	   		, "meetingTime" : meetingTime}
-	           , success:function(data){
-	        	   if(data == "success"){
-	        		   location.href = '/meetionRoom/meetingRoomCheckView.sw';
-	           }else{
-	        	   alert("등록 실패!");
-	        	   }
-	        },error : function() {
-				alert("ajax 통신 오류! 관리자에게 문의해주세요.");
+	  	           , type : "GET"
+	  	           , data : {"meetingDate" : meetingDate
+	  	        	   		, "meetingNo" : meetingNo
+	  	        	   		, "meetingTime" : meetingTime}
+	  	           , success:function(data){
+	  	        	   if(data == "success"){
+	  	        		   location.href = '/meetionRoom/roomResevationList.sw';
+	  	           }else{
+	  	        	   alert("등록 실패!");
+	  	        	   }
+	  	        },error : function() {
+	  				alert("ajax 통신 오류! 관리자에게 문의해주세요.");
+	  			}
+	  		})
+				
 			}
-		})
 		});
 		
 		
-
+		//예약 되어있는 회의실 조회
 		$("#room").change(function(){
 			roomChangeTime();
 		});

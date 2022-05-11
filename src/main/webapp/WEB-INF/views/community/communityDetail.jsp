@@ -397,7 +397,7 @@
 		var $tr = $(obj).parent().parent();//버튼의 부모의 부모 선택
 		$tr.html("");
 		var $tdModify = $("<td colspan='3'>");
-		var $tdModifyBtn = $("<td width='120'>").append("<button onclick='modifyReply("+comNo+","+replyNo+");'>수정</button>")//this를 넘겨줌
+		var $tdModifyBtn = $("<td width='120'>").append("<button onclick='modifyReply("+comNo+","+replyNo+");'>수정</button>")
 											.append("<button onclick='getCommunityReply();'>취소</button>");
 		
 		$tdModify.append("<input type='text' size='50' value='"+replyContent+"' id='modifyData'>"); //td에 input 추가+적혀있던 덧글 넣기
