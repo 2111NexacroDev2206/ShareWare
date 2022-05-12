@@ -30,6 +30,7 @@
 	<select id="selectAllList" resultMap="leaveListResultMap">
 		SELECT LEAVE_TYPE
 			 ,LEAVE_START
+			 ,LEAVE_END
 			 ,LEAVE_DAY 
 		FROM APP_DOC 
 		WHERE MEM_NUM || SUBSTR(DOC_DATE,0,4) LIKE #{memNum} || '%'

@@ -78,19 +78,19 @@ public class LeaveController {
 	public String searchDate(String date, HttpSession session, Model model) {			
 		
 		Member value = (Member) session.getAttribute("loginUser");
-		String memNum = value.getMemberNum()+date;  //A02022-06
+		String memNum = value.getMemberNum();  //A02022
 		float tLeaveCount = lService.printLeaveTotal(memNum);
 		float uLeaveCount = lService.printLeaveUse(memNum);
 		float rLeaveCount = tLeaveCount - uLeaveCount;
-		List<LeaveList> lList = lService.printAll(memNum);
+		List<LeaveList> lList = lService.printAll(memNum+date);
+		model.addAttribute("tLeaveCount",tLeaveCount); //총연차
+		model.addAttribute("uLeaveCount",uLeaveCount); //사용연차
+		model.addAttribute("rLeaveCount",rLeaveCount); //사용연차
 		if(!lList.isEmpty()) {
-			model.addAttribute("tLeaveCount",tLeaveCount); //총연차
-			model.addAttribute("uLeaveCount",uLeaveCount); //사용연차
-			model.addAttribute("rLeaveCount",rLeaveCount); //사용연차
 			model.addAttribute("lList", lList);
 			model.addAttribute("listCondition", "leave");
 		}	
-		return "leave/leaveListView";
+		return "attendance/leaveListView";
 	}
 	
 }
