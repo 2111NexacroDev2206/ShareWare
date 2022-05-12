@@ -1,0 +1,68 @@
+@charset "UTF-8";
+
+#h-title {
+	margin: 30px ;
+	text-align: center;
+}
+.d-table{
+ 	margin: 0 50px 30px 50px;
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+#table td {
+	border: 1px solid black;
+	font-size: 14.5px;
+}
+.t-title {
+	text-align: center;
+	background-color: rgb(240, 240, 240);
+	width: 150px;
+	letter-spacing: 5px;
+}
+.t-1{
+	text-align: center;
+	width: 200px;
+	letter-spacing: 5px;
+	text-indent: 5px;
+}
+.t-div{
+	text-align: center;
+	background-color: rgb(240, 240, 240);
+	width: 150px;
+	letter-spacing: 5px;
+}
+.t-date{
+	text-align: center;
+	background-color: rgb(240, 240, 240);
+	width: 150px;
+	letter-spacing: 5px;
+}
+.t-writer{
+	text-align: center;
+	background-color: rgb(240, 240, 240);
+	width: 150px;
+	letter-spacing: 5px;
+}
+.td-content {
+	text-align: center;
+	background-color: rgb(240, 240, 240);
+	letter-spacing: 50px;
+	text-indent: 50px;
+}
+
+.div-btn, .div-btn2 { /* 버튼 영역 */
+	margin: 30px 50px 50px 50px;
+}
+.div-btn {
+	float: right;
+}
+.div-btn input, .div-btn2 input:not(.i-left) {
+	width: 120px;
+	height: 50px;
+	background-color: white;
+	border: 1px solid rgb(51, 51, 51);
+	border-radius: 4px;
+	font-size: 14.5px;
+	cursor: pointer;
+	margin-left: 15px;
+}

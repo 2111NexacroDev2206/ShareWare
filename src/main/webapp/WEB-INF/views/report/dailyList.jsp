@@ -7,41 +7,21 @@
 <head>
 <meta charset="UTF-8">
 <title>일일 업무 목록</title>
-<style>
-	.paging {
-		display: inline-flex;
-		height: 40px;
-		width: 840px;
-		margin-left: 253px;
-		justify-content: center;
-	}
-	.page-btn {
-		width: 40px;
-		height: 40px;
-		border: none;
-		background-color: transparent;
-		font-size: 14px;
-		margin: 0 5px;
-		cursor: pointer;
-	}
-	.page-btn:hover, .page-btn.active {
-		border: 1px solid rgb(51, 51, 51);
-		border-radius: 4px;
-	}
-</style>
+<link href="/resources/css/report/daily-style.css" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="reportMenu.jsp"></jsp:include>
 	<div class="s-container">
-		<h1>일일 업무목록</h1>
-			<a href="/report/dailyWriteView.sw">+일지작성</a>
-		<table align="center" width="" border="1">
+		<h2 id="h-title">일일 업무목록</h2>
+			<button id="app-btn" onclick="location.href='/report/dailyWriteView.sw'">일지작성</button>
+		<br><br>
+		<table class="t-List">
 			<thead>
 				<tr>
-					<th>번호</th>
-					<th>제목</th>
-					<th>작성일</th>
-					<th>작성자</th>
+					<th class="th-1">번호</th>
+					<th class="th-3">제목</th>
+					<th class="th-2">작성일</th>
+					<th class="th-2">작성자</th>
 				</tr>
 			</thead>
 			<tbody>

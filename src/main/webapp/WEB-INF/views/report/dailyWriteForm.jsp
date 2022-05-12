@@ -6,31 +6,35 @@
 <head>
 <meta charset="UTF-8">
 <title>일일 업무 작성 </title>
+<link href="/resources/css/report/form.css" rel="stylesheet">
+<link href="/resources/css/menubar-style.css" rel="stylesheet">
 <script src="https://cdn.ckeditor.com/4.18.0/standard/ckeditor.js"></script>
 </head>
 <body>
 <jsp:include page="reportMenu.jsp"></jsp:include>
 	<div class="s-container">
-		<h3 align="center"> 일 일 업 무 일 지</h3>
+		<h3 id="h-title"> 일 일 업 무 일 지</h3>
 		<form action="/report/dailyRegister.sw" method="post" enctype="multipart/form-data">
-		<table border="1">
+		<table id="d-table">
 			<tr> 
-				<td>제목</td>
-				<td><input type="text" name="drTitle" ></td>
-				<td>부서명</td>
+				<td class="t-title">제목</td>
+				<td colspan ="2" class="t-1"><input type="text" name="drTitle" ></td>
+				<td></td>
+				<td class="t-div">부서명</td>
 				<td>${loginUser.division }</td>
 			</tr>
 			<tr> 
-				<td>작성일</td>
-				<td><input value="${nowTime }" name="drDate"></td>
-				<td>작성자</td>
+				<td class="t-date">작성일</td>
+				<td colspan ="2"><input value="${nowTime }" name="drDate"></td>
+				<td></td>
+				<td class="t-writer">작성자</td>
 				<td><input type="hidden" value="${loginUser.memberName} "name="drWriter">${loginUser.memberName}</td>
 				<input type="hidden" value="${loginUser.memberNum}" name="memNum">
 			</tr>
 			<tr>
-			<td colspan="4">
-				<textarea name="drContent" id="t-content">
-				<table align="center" border="1" cellpadding="1" cellspacing="1" style="width:500px">
+			<td colspan="6">
+				<textarea name="drContent" class="t-content" >
+				<table align="center"  border="1" cellpadding="1" cellspacing="1" style="width:500px">
 						<tbody>
 							<tr>
 								<td style="text-align:center"><strong>업 무 내 용&nbsp;</strong></td>
@@ -53,9 +57,11 @@
 			</td>
 			</tr>
 		</table>
-		<p>파일첨부 <input type="file" name="uploadFile"> 
-		<input type="reset" value="취소">
-		<input type="submit" value="등록">
+		<div>
+			<p>파일첨부 <input type="file" name="uploadFile"> 
+			<input type="reset" value="취소">
+			<input type="submit" value="등록">
+		</div>
 	</form>
 	</div>
 	<script>

@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.member.domain.Member;
 import org.kh.shareware.project.domain.Participant;
 import org.kh.shareware.project.domain.Project;
+import org.kh.shareware.project.domain.WorkChart;
 import org.kh.shareware.project.store.ProjectStore;
 import org.springframework.stereotype.Repository;
 
@@ -26,8 +27,8 @@ public class ProjectStoreLogic implements ProjectStore {
 	}
 	//프로젝트 목록
 	@Override
-	public List<Project> selectAllProject(String memberNum, SqlSession sqlSession) {
-		List<Project> pList = sqlSession.selectList("ProjectMapper.selectAllProject",memberNum);
+	public List<Project> selectAllProject(Project project, SqlSession sqlSession) {
+		List<Project> pList = sqlSession.selectList("ProjectMapper.selectAllProject", project);
 		return pList;
 	}
 	//프로젝트 메인
@@ -66,13 +67,30 @@ public class ProjectStoreLogic implements ProjectStore {
 		int result = sqlSession.delete("ProjectMapper.deleteParticipant", participant);
 		return result;
 	}
-//	//프로젝트 종료
-//	@Override
-//	public int updateEndStatus(SqlSession sqlSession, int projectNo) {
-//		int result = sqlSession.update("ProjectMapper.updateEndStatus", projectNo);
-//		return result;
-//	}
-//	
+	//진행률 입력
+	@Override
+	public int insertChart(SqlSession sqlSession, WorkChart workChart) {
+		int result = sqlSession.insert("ProjectMapper.insertChart", workChart);
+		return result;
+	}
+	// 업무 진행률 조회(개인)
+	@Override
+	public int printChart(SqlSession sqlSession, WorkChart workChart) {
+		int chart = sqlSession.selectOne("ProjectMapper.selectOneChart", workChart);
+		return chart;
+	}
+	// 업무 진행률 수정(개인)
+	@Override
+	public int updateChart(SqlSession sqlSession, WorkChart workChart) {
+		int result = sqlSession.update("ProjectMapper.updateChart", workChart );
+		return result;
+	}
+	//진행률 전체조회
+	@Override
+	public List<WorkChart> selectListChart(SqlSession sqlSession, int projectNo) {
+		List<WorkChart> cList = sqlSession.selectList("ProjectMapper.selectListChart" , projectNo);
+		return cList;
+	}
 
 
 }

@@ -34,10 +34,10 @@ public class WeekController {
 	
 	//주간 업무 목록
 	@RequestMapping(value="/report/weekList.sw", method = RequestMethod.GET)
-	public ModelAndView weekListView(ModelAndView mv
+	public ModelAndView weekListView(Model model, ModelAndView mv
 			, HttpServletRequest request
 			,@RequestParam(value="page", required=false) Integer page) {
-			
+		model.addAttribute("listCondition", "weekList");
 		HttpSession session = request.getSession();
 		String memNum = ((Member)(session.getAttribute("loginUser"))).getMemberNum();
 		int currentPage = (page != null) ? page : 1;
@@ -58,7 +58,8 @@ public class WeekController {
 	}
 	//주간 업무 등록 화면 
 		@RequestMapping(value="/report/weekWriteView.sw")
-		public String weekWriteView(Model model) {
+		public String weekWriteView(Model model
+				,HttpServletRequest request) {
 			Date nowTime = new Date();
 		    SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 		    model.addAttribute("nowTime", sf.format(nowTime));
@@ -72,6 +73,7 @@ public class WeekController {
 				,@RequestParam(value="uploadFile", required=false) MultipartFile uploadFile
 				,HttpServletRequest request
 				,Model model){
+			model.addAttribute("listCondition", "weekWrite");
 			try {
 				if(uploadFile != null && !uploadFile.getOriginalFilename().equals("")) {
 					HashMap<String, String> fileMap = saveFile(uploadFile, request); // 업로드한 파일 저장하고 경로 리턴

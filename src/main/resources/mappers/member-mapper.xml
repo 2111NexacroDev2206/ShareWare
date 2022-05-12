@@ -32,7 +32,7 @@
 
 <!-- 로그인 -->  	
   	<select id="selectLoginMember"  parameterType="Member" resultMap="memberResultMap">
-  		SELECT * FROM MEMBER WHERE MEMBER_NUM=#{memberNum} AND PASSWORD=#{password}
+  		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME, ADDRESS, PHONE, MAIL, HIRE_DATE, RETIRE_DATE, BIRTH, ACCOUNT, BANK, PASSWORD, GENDER, PHOTO, BREAK_TOTAL FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE MEMBER_NUM=#{memberNum} AND PASSWORD=#{password}
   	</select>
   	
 <!-- 마이페이지 -->
