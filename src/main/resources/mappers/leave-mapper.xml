@@ -10,6 +10,12 @@
 		<result property="leaveRemain" column="LEAVE_REMAIN" />
 	</resultMap>
 
+	<resultMap type="LeaveList" id="leaveListResultMap">
+		<id property="leaveType" column="LEAVE_TYPE" />
+		<result property="leaveStart" column="LEAVE_START" />
+		<result property="leaveEnd" column="LEAVE_END" />
+		<result property="leaveDay" column="LEAVE_DAY" />
+	</resultMap>
 
 <!-- 총연차 -->
 	<select id="selectLeaveTotal" resultType="_float">
@@ -18,6 +24,17 @@
 <!-- 사용연차 -->
 	<select id="selectLeaveUse" resultType="_float">
 		SELECT SUM(LEAVE_APPLY) FROM APP_DOC WHERE MEM_NUM = #{memNum} AND FORM_NO = 3 AND LEAVE_TYPE IN('연차', '반차') AND SUBSTR(DOC_DATE, 1, 4) = TO_CHAR(SYSDATE, 'YYYY') AND DOC_STATUS = '완료' GROUP BY MEM_NUM
+	</select>
+
+<!-- 연차리스트 -->
+	<select id="selectAllList" resultMap="leaveListResultMap">
+		SELECT LEAVE_TYPE
+			 ,LEAVE_START
+			 ,LEAVE_DAY 
+		FROM APP_DOC 
+		WHERE MEM_NUM || SUBSTR(DOC_DATE,0,4) LIKE #{memNum} || '%'
+			AND LEAVE_TYPE IS NOT NULL 
+		ORDER BY DOC_NO DESC
 	</select>
 
 </mapper>
