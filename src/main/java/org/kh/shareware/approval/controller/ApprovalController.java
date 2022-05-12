@@ -643,7 +643,7 @@ public class ApprovalController {
 					app.setDocStatus("완료");
 					alarmRegister(null, null, docNo, "완료"); // 알림 등록(기안자에게 결재 완료)
 				}
-			}else if(parameter.equals("ref")) { // 결재 반려
+			}else if(parameter.equals("rej")) { // 결재 반려
 				app.setRejReason(rejReason);
 				app.setAppStatus("반려");
 				app.setDocStatus("반려");
@@ -657,7 +657,7 @@ public class ApprovalController {
 			}else {
 				if(parameter.equals("app")) {
 					mv.addObject("msg", "승인 실패");
-				}else if(parameter.equals("ref")) {
+				}else if(parameter.equals("rej")) {
 					mv.addObject("msg", "반려 실패");
 				}
 				mv.addObject("loc", "/approval/detail.sw?docNo=" + docNo + "&type=" + type + "&docStatus=대기");
