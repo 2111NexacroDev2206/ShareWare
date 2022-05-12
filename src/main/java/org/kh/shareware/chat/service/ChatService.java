@@ -10,7 +10,7 @@ public interface ChatService {
 
 	public int registerChatRoom(ChatRoom chatRoom); // 채팅방 생성
 	public int registerChatMember(String memberNum); // 채팅방 사용자 등록
-	public List<ChatMember> printAllMember(); // 채팅방 사용자 목록 조회
+	public List<ChatMember> printAllMember(ChatRoom chatRoom); // 채팅방 사용자 목록 조회
 	public int registerChatContent(ChatContent chatContent); // 채팅 등록
 	public int printChatRoomNo(); // 채팅방 번호 불러오기
 	public List<ChatRoom> printAllChatRoom(String memberNum); // 채팅방 목록 조회

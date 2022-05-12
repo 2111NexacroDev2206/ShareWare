@@ -15,6 +15,7 @@ import org.kh.shareware.member.domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @Controller
 public class ChatController {
@@ -71,7 +73,8 @@ public class ChatController {
 				mResult = cService.registerChatMember(chatMember[i]); // 채팅방 사용자 등록
 			}
 			if(mResult > 0) { // 채팅방 생성자/사용자 등록 성공 시
-				List<ChatMember> mList = cService.printAllMember(); // 채팅방 사용자 목록 조회
+				chatRoom.setChatRoomNo(0); // 채팅방 번호 0으로 설정
+				List<ChatMember> mList = cService.printAllMember(chatRoom); // 채팅방 사용자 목록 조회
 				String[] chatMemberArr = new String[mList.size()]; // 채팅방 사용자 목록을 담을 배열 선언
 				if(!mList.isEmpty()) {
 					for(int j = 0; j < mList.size(); j++) {
@@ -110,24 +113,8 @@ public class ChatController {
 	// 채팅 상세
 	@RequestMapping(value = "/chat/detail.sw")
 	public ModelAndView chatView(ModelAndView mv, @RequestParam("chatRoomNo") int chatRoomNo) {
-		try {
-			List<ChatContent> cList = cService.printAllChat(chatRoomNo); // 채팅 목록 조회
-			if(!cList.isEmpty()) {
-				int chatHeadCount = cService.printChatMemberCount(chatRoomNo); // 채팅 인원수 조회
-				ChatRoom chatRoom = cService.printChatRoom(chatRoomNo); // 채팅방 정보 조회
-				mv.addObject("cList", cList);
-				mv.addObject("chatRoomNo", chatRoomNo);
-				mv.addObject("chatRoom", chatRoom);
-				mv.addObject("chatHeadCount", chatHeadCount);
-				mv.setViewName("chat/chatDetail");
-			}else {
-				mv.addObject("msg", "채팅 목록 조회 실패");
-				mv.setViewName("common/errorPage");
-			}
-		}catch(Exception e) {
-			mv.addObject("msg", e.toString());
-			mv.setViewName("common/errorPage");
-		}
+		mv.addObject("chatRoomNo", chatRoomNo);
+		mv.setViewName("chat/chatDetail");
 		return mv;
 	}
 	
@@ -221,5 +208,71 @@ public class ChatController {
 		}else {
 			return new Gson().toJson("채팅방 사용자 초대 실패");
 		}
+	}
+	
+	// 메세지 전송
+	@ResponseBody
+	@RequestMapping(value = "/chat/send.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+	public String chatSend(@ModelAttribute ChatContent chatContent) {
+		ChatContent chatNotice = new ChatContent(); // 날짜 공지 넣을 객체
+		Date nowTime = new Date(); // 현재 날짜 가져오기
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy년 M월 d일 E요일");
+		chatNotice.setChatContent("- " + sf.format(nowTime) + " -"); // 채팅방 생성 날짜
+		chatNotice.setChatRoomNo(chatContent.getChatRoomNo());
+		chatNotice.setChatType(1); // 공지
+		int fineCount = cService.fineContentDate(chatNotice); // 해당 날짜 공지가 있었는지 찾기
+		if(fineCount == 0) { // 해당 날짜 공지가 없었다면
+			cService.registerChatContent(chatNotice); // 채팅 등록(사용자 추가 초대 날짜 공지)
+		}
+		int result = cService.registerChatContent(chatContent);
+		if(result > 0) {
+			return new Gson().toJson(result);
+		}else {
+			return null;
+		}
+	}
+	
+	// Ajax 채팅 상세(채팅 목록)
+	@ResponseBody
+	@RequestMapping(value = "/chat/content.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+	public String chatContentAjax(@RequestParam("chatRoomNo") int chatRoomNo) {
+		List<ChatContent> cList = cService.printAllChat(chatRoomNo); // 채팅 목록 조회
+		for(int i = 0; i < cList.size(); i++) {
+			SimpleDateFormat sf = new SimpleDateFormat("a K:mm"); // 오후 5:30
+			cList.get(i).setChatDateFormat(sf.format(cList.get(i).getChatDate())); // Date -> String(새로운 포멧 형태로 변환)
+		}
+		return new Gson().toJson(cList);
+	}
+	
+	// Ajax 채팅 상세(채팅방 정보)
+	@ResponseBody
+	@RequestMapping(value = "/chat/chatRoom.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+	public String chatRoomAjax(@RequestParam("chatRoomNo") int chatRoomNo) {
+		ChatRoom chatRoom = cService.printChatRoom(chatRoomNo); // 채팅방 정보 조회
+		return new Gson().toJson(chatRoom);
+	}
+	
+	// Ajax 채팅 상세(채팅 인원수)
+	@ResponseBody
+	@RequestMapping(value = "/chat/headCount.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+	public String headCountAjax(@RequestParam("chatRoomNo") int chatRoomNo) {
+		int chatHeadCount = cService.printChatMemberCount(chatRoomNo); // 채팅 인원수 조회
+		return new Gson().toJson(chatHeadCount);
+	}
+	
+	// 채팅방 사용자 목록 조회
+	@ResponseBody
+	@RequestMapping(value = "/chat/member.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+	public String chatMember(@RequestParam("chatRoomNo") int chatRoomNo) {
+		ChatRoom chatRoom = new ChatRoom();
+		chatRoom.setChatRoomNo(chatRoomNo);
+		List<ChatMember> mList = cService.printAllMember(chatRoom); // 채팅방 사용자 목록 조회
+		String[] chatMemberArr = new String[mList.size()]; // 채팅방 사용자 목록을 담을 배열 선언
+		if(!mList.isEmpty()) {
+			for(int j = 0; j < mList.size(); j++) {
+				chatMemberArr[j] = mList.get(j).getDivName() + " " + mList.get(j).getMemName() + " " + mList.get(j).getRankName();
+			}
+		}
+		return new Gson().toJson(chatMemberArr);
 	}
 }

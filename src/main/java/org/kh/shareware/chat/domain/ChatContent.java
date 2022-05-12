@@ -11,6 +11,7 @@ public class ChatContent {
 	private String memName;
 	private String rankName;
 	private Date chatDate;
+	private String chatDateFormat;
 	private int chatType;
 	
 	public ChatContent() {}
@@ -79,6 +80,14 @@ public class ChatContent {
 		this.chatDate = chatDate;
 	}
 
+	public String getChatDateFormat() {
+		return chatDateFormat;
+	}
+
+	public void setChatDateFormat(String chatDateFormat) {
+		this.chatDateFormat = chatDateFormat;
+	}
+
 	public int getChatType() {
 		return chatType;
 	}
@@ -91,7 +100,8 @@ public class ChatContent {
 	public String toString() {
 		return "ChatContent [chatContentNo=" + chatContentNo + ", chatRoomNo=" + chatRoomNo + ", chatContent="
 				+ chatContent + ", memNum=" + memNum + ", divName=" + divName + ", memName=" + memName + ", rankName="
-				+ rankName + ", chatDate=" + chatDate + ", chatType=" + chatType + "]";
+				+ rankName + ", chatDate=" + chatDate + ", chatDateFormat=" + chatDateFormat + ", chatType=" + chatType
+				+ "]";
 	}
 	
 }

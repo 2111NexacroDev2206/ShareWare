@@ -33,8 +33,8 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public List<ChatMember> printAllMember() { // 채팅방 사용자 목록 조회
-		List<ChatMember> mList = cStore.selectListMember(sqlSession);
+	public List<ChatMember> printAllMember(ChatRoom chatRoom) { // 채팅방 사용자 목록 조회
+		List<ChatMember> mList = cStore.selectListMember(sqlSession, chatRoom);
 		return mList;
 	}
 

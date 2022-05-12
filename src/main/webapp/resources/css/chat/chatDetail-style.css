@@ -108,6 +108,32 @@ p {
 	color: rgb(68, 95, 145);
 	margin: 5px 0;
 }
+.chat-member { /* 채팅방 상대 사원 정보 */
+	font-size: 15px;
+	font-weight: bold;
+}
+.content-date { /* 채팅 내용과 날짜 */
+	width: 100%;
+}
+.chat-content { /* 채팅 내용 */
+	background: rgb(219, 226, 239);
+	border-radius: 4px;
+	font-size: 15px;
+	display: inline-block;
+	padding: 13px;
+	margin: 2px 0;
+}
+.chat-date { /* 채팅 날짜 */
+	display: inline-block;
+	font-size: 12px;
+	margin: 0 7px;
+}
+.content-date.me { /* 내가 쓴 채팅 내용과 날짜 */
+	text-align: right;
+}
+.chat-content.me { /* 내가 쓴 채팅 내용 */
+	background: rgb(237, 237, 237);
+}
 .chat-footer { /* 채팅 푸터 */
 	width: calc(100% - 30px);
 	min-width: 470px;
@@ -142,4 +168,11 @@ p {
 	font-size: 15px;
 	cursor: pointer;
 	float: right;
+}
+/* tooltip 개행 */
+.ui-tooltip {
+    white-space: pre-line;
+}
+.ui-tooltip-content {
+    white-space: pre-line;
 }

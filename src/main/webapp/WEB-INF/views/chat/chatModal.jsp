@@ -164,7 +164,7 @@
 				data : { "chatMember" : ref, "chatRoomTitle" : chatRoomTitle },
 				success : function(chatRoomNo) {
 					window.location.reload(); // 창 리로드
-					chatPop(chatRoomNo);
+					chatPop(chatRoomNo); // 생성한 채팅방 팝업으로 띄워주기
 				},
 				error : function() {
 					alert("채팅방 생성 실패");

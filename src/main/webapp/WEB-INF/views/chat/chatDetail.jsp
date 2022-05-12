@@ -30,7 +30,7 @@
 			</span>
 			<div class="chat-title-count">
 				<div class="chatRoomTitle">
-					<p>${chatRoom.chatRoomTitle }
+					<p id="p-title">${chatRoom.chatRoomTitle }
 				</div>
 				<div class="chatHeadCount">(${chatHeadCount })</div>
 			</div>
@@ -45,30 +45,15 @@
 			</div>
 		</div>
 		<div class="chat-body">
-			<c:forEach items="${cList}" var="chat">
-				<c:if test="${chat.chatType == 1}"><!-- 공지 -->
-					<div class="chat-notice">${chat.chatContent }</div>
-				</c:if>
-				<c:if test="${chat.chatType == 0}"><!-- 일반 -->
-					<c:if test="${chat.memNum eq loginUser.memberNum}">
-						<div class="chat-member">${chat.divName } ${chat.memName } ${chat.rankName }</div>
-						<div class="chat-content">${chat.chatContent }</div>
-					</c:if>
-					<c:if test="${chat.memNum ne loginUser.memberNum}">
-						<div class="chat-content me">${chat.chatContent }</div>
-					</c:if>
-				</c:if>
-			</c:forEach>
 		</div>
 		<div class="chat-footer">
 			<div><textarea id="textInput" style="white-space: pre;"></textarea></div>
-			<button onclick="textSend('${loginUser.memberNum}')">전송</button>
+			<button onclick="textSend(${chatRoomNo}, '${loginUser.memberNum}')">전송</button>
 		</div>
 	</div>
 	<jsp:include page="chatInviteAddModal.jsp"></jsp:include> <!-- 사용자 추가 초대 모달 -->
 	<script>
-		// 채팅 목록 스크롤 바 하단으로 위치
-		$(".chat-body").scrollTop($(".chat-body")[0].scrollHeight);
+		var intervalChat = setInterval(chatList, 100, "${chatRoomNo}"); // 채팅방 상세 함수 0.5초 주기로 실행
 		
 		// 더보기 누르면 더보기 영역 보이기
 		$(".more-btn").click(function() {
@@ -103,16 +88,110 @@
 				if(e.shiftKey === true) {
 					return false // shift 키가 눌러진 상태에서는 개행해서 입력 가능
 				}else {
-					textSend("${loginUser.memberNum}");
+					textSend("${chatRoomNo}", "${loginUser.memberNum}");
 				}
 			}
 		})
 	
 		// 메세지 전송
-		function textSend(memNum) {
+		function textSend(chatRoomNo, memNum) {
 			var text = $("#textInput").val();
 			$("#textInput").val(""); // 메세지 입력창 초기화
-			alert(memNum + text);
+			$.ajax({
+				url : "/chat/send.sw",
+				type : "get",
+				data : { "chatRoomNo" : chatRoomNo, "memNum" : memNum, "chatContent" : text },
+				success : function(result) {
+					chatList(chatRoomNo); // 채팅 상세 조회
+				},
+				error : function() {
+					alert("메세지 전송 실패");
+				}
+			})
+		}
+		
+		// 채팅 상세(채팅 목록, 채팅방 정보, 인원수)
+		function chatList(chatRoomNo) {
+			chatMember(); // 채팅방 사용자 목록 조회
+			// 채팅 목록
+			$.ajax({
+				url : "/chat/content.sw",
+				type : "get",
+				data : { "chatRoomNo" : chatRoomNo },
+				success : function(cList) {
+					chatContentView(cList); // 채팅 목록 화면에 보여주기
+					$(".chat-body").scrollTop($(".chat-body")[0].scrollHeight); // 채팅 목록 스크롤 바 하단으로 위치
+				},
+				error : function() {
+					alert("채팅 목록 조회 실패");
+				}
+			})
+			
+			// 채팅방 정보
+			$.ajax({
+				url : "/chat/chatRoom.sw",
+				type : "get",
+				data : { "chatRoomNo" : chatRoomNo },
+				success : function(chatRoom) {
+					$("#p-title").text(chatRoom.chatRoomTitle);
+				},
+				error : function() {
+					alert("채팅방 정보 조회 실패");
+				}
+			})
+			
+			// 인원수
+			$.ajax({
+				url : "/chat/headCount.sw",
+				type : "get",
+				data : { "chatRoomNo" : chatRoomNo },
+				success : function(chatHeadCount) {
+					$(".chatHeadCount").text("(" + chatHeadCount + ")");
+				},
+				error : function() {
+					alert("인원수 조회 실패");
+				}
+			})
+		}
+		
+		// 채팅 목록 화면에 보여주기
+		function chatContentView(cList) {
+			$(".chat-body").html(""); // 채팅 목록 초기화
+			var memberNum = "${loginUser.memberNum}";
+			var content = "";
+			$.each(cList, function(i) {
+				if(cList[i].chatType == 1){ // 공지
+					content += '<div class="chat-notice">' + cList[i].chatContent + '</div>';
+				}else{ // 일반
+					if(cList[i].memNum !== memberNum){
+						if(cList[i].divName != null) {
+							content += '<div class="chat-member">' + cList[i].divName + ' ' + cList[i].memName + ' ' + cList[i].rankName + '</div>';
+						}
+						content += '<div class="content-date"><div class="chat-content">' + cList[i].chatContent + '</div>';
+						content += '<div class="chat-date">' + cList[i].chatDateFormat + '</div></div>';
+					}else {
+						content += '<div class="content-date me"><div class="chat-date me">' + cList[i].chatDateFormat + '</div>';
+						content += '<div class="chat-content me">' + cList[i].chatContent + '</div></div>';
+					}
+				}
+			});
+			$(".chat-body").append(content);
+		}
+		
+		// 채팅방 사용자 목록 조회
+		function chatMember() {
+			$.ajax({
+				url : "/chat/member.sw",
+				type : "get",
+				data : { "chatRoomNo" : "${chatRoomNo}" },
+				success : function(memberArr) {
+					var member = memberArr.join("\n"); // 사용자 사이에 개행 추가
+					$(".chatHeadCount").attr("title", member); // 인원수에 마우스 가져다 대면 채팅방 사용자 목록 툴팁으로 보여주기
+				},
+				error : function() {
+					alert("채팅방 사용자 목록 조회 실패");
+				}
+			})
 		}
 	</script>
 </body>

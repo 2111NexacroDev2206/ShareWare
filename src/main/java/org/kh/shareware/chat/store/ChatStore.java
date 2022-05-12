@@ -11,7 +11,7 @@ public interface ChatStore {
 
 	public int insertChatRoom(SqlSession sqlSession, ChatRoom chatRoom); // 채팅방 생성
 	public int insertChatMember(SqlSession sqlSession, String memberNum); // 채팅방 사용자 등록
-	public List<ChatMember> selectListMember(SqlSession sqlSession); // 채팅방 사용자 목록 조회
+	public List<ChatMember> selectListMember(SqlSession sqlSession, ChatRoom chatRoom); // 채팅방 사용자 목록 조회
 	public int insertChatContent(SqlSession sqlSession, ChatContent chatContent); // 채팅 등록
 	public int selectOneChatRoomNo(SqlSession sqlSession); // 채팅방 번호 불러오기
 	public List<ChatRoom> selectAllChatRoom(SqlSession sqlSession, String memberNum); // 채팅방 목록 조회
