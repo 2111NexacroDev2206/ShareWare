@@ -14,6 +14,10 @@
 <head>
 <meta charset="UTF-8">
 <title>근태관리</title>
+	<style type="text/css">
+	.button {width: 250px;}
+	.button {border-radius: 5px;}
+	</style>
 
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>  
@@ -21,19 +25,21 @@
 	
 </head>
 <body>
+<jsp:include page="appMenu.jsp"></jsp:include> <!-- 메뉴 + 소메뉴 -->
+	
+	<div class="s-container">
+	<h2 id="h-title">근태관리</h2><br>
 	<%= sf.format(nowTime) %><br>
 	
-	
-	<form action="/attendance/registerAtt.sw" method="post">
-		<div id="">
+	<div>
+		<form action="/attendance/registerAtt.sw" method="post">
 			<input type="submit" id="button1" value="출근">
-		</div> <br>
-	</form>
-	<form action="/attendance/modifyAtt.sw" method="post">
-		<div id="">
+		</form>
+		<form action="/attendance/modifyAtt.sw" method="post">
 			<input type="submit" id="button2" value="퇴근">
-		</div> <br>
-	</form>		
+			 <br>
+		</form>		
+	</div>
 	
 	<!-- 검색일<input type="text" id="searchDate">  -->
 	<form action="/attendance/searchDate.sw" method="post">
@@ -66,11 +72,11 @@
 		<div>
 			<table border="1">
 				<tr>
-					<th>날짜</th>
-					<th>출근시간</th>
-					<th>퇴근시간</th>
-					<th>근무시간</th>
-					<th>근무상태</th>
+					<th class="th-1">날짜</th>
+					<th class="th-1">출근시간</th>
+					<th class="th-1">퇴근시간</th>
+					<th class="th-1">무시간</th>
+					<th class="th-1">근무상태</th>
 				</tr>
 				<c:forEach items="${aList }" var="attendance">
 				<c:if test="${sessionScope.memNum eq member.memNum }">
@@ -95,7 +101,7 @@
 				</c:forEach>
 			</div>
 		</div>
-
+</div>
 	
 </body>
 </html>
