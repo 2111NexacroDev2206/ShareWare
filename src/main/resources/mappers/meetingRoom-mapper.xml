@@ -44,6 +44,6 @@
   	</select>
   	
   	<update id="updateRoomCancle">
-		UPDATE MEETING_ROOM SET MR_RESERVATION = 0 WHERE MEMBER_NUM = #{memberNum} AND MR_DATE =#{meetingDate} AND MR_TIME = #{meetingTime} MR_NO = #{meetingNo}
+		UPDATE MEETING_ROOM SET MR_RESERVATION = 0 WHERE MEMBER_NUM = #{memberNum} AND MR_DATE =#{meetingDate} AND MR_TIME = #{meetingTime} AND MR_NO = #{meetingNo}
 	</update>
 </mapper>

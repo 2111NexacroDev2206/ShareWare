@@ -13,7 +13,7 @@
 		<result property="fileName" column="FILE_NAME"/>
 		<result property="fileRename" column="FILE_RENAME"/>
 		<result property="filePath" column="FILE_PATH"/>
-		<result property="fileDelete" column="FILE_PATH"/>
+		<result property="fileDelete" column="FILE_DELETE"/>
 		<collection property="member" resultMap="memberResultMap"/>
 	</resultMap>
 	
@@ -39,4 +39,22 @@
   	<insert id="insertFile">
   		INSERT INTO FILE_BOARD VALUES(SEQ_FILEBOARD_NO.NEXTVAL ,#{memberNum } ,DEFAULT ,#{fileBoardTitle },#{fileBoaedContent }, DEFAULT, #{fileName}, #{fileRename}, #{filePath},NULL)
   	</insert>
+	<select id="selectClistCount" resultType="_int">
+		SELECT COUNT(*) FROM FILE_BOARD
+	</select>
+	<select id="listFile" resultMap="FileBoardResultMap">
+		SELECT * FROM FILE_BOARD JOIN MEMBER ON FILE_BOARD.MEMBER_NUM = MEMBER.MEMBER_NUM ORDER BY FILE_BOARD_DATE DESC
+	</select>
+	<select id="selectOneFile" resultMap="FileBoardResultMap">
+		SELECT * FROM FILE_BOARD JOIN MEMBER ON FILE_BOARD.MEMBER_NUM = MEMBER.MEMBER_NUM WHERE FILE_BOARD_NO =#{fileBoardNo}
+	</select>
+	<update id="fileViewCount">
+		UPDATE FILE_BOARD SET FILE_BOARD_VIEW = FILE_BOARD_VIEW+1 WHERE FILE_BOARD_NO =#{fileBoardNo}
+	</update>
+	<update id="updateFile">
+		UPDATE FILE_BOARD SET FILE_BOARD_TITLE=#{fileBoardTitle},FILE_BOARD_CONTENT=#{fileBoaedContent}, FILE_NAME=#{fileName}, FILE_RENAME=#{fileRename}, FILE_PATH=#{filePath} WHERE FILE_BOARD_NO =#{fileBoardNo}
+	</update>
+  	<delete id="deleteFile">
+		DELETE FILE_BOARD WHERE FILE_BOARD_NO = #{fileBoardNo}
+  	</delete>
 </mapper>

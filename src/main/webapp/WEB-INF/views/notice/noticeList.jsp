@@ -5,8 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <title>공지사항 리스트</title>
+<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-	<jsp:include page="../common/menuBar.jsp"></jsp:include>
+	
 </body>
 </html>

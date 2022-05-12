@@ -126,7 +126,7 @@
 		
 		var $buttonDiv = $("<div id=\"buttonDiv\">")
 										.append("<button type=\"button\" id=\"return\" onclick='modalDisplayNone();'>확인</button>")
-										.append("<button onclick='cancleRoom("+meetingTime+","+meetingNo+","+meetingDate+");'>수정</button>");
+										.append("<button onclick='cancleRoom(\""+meetingTime+"\",\""+meetingNo+"\",\""+meetingDate+"\");'>수정</button>");
 		
 	$informationDiv.append($informationList);
 	$detailDiv.append($detailList);
@@ -137,7 +137,9 @@
 	
 
 	function cancleRoom(meetingTime,meetingNo,meetingDate){
-		var memberNum = "{$loginUser.memberNum}";
+		var memberNum = "${loginUser.memberNum}";
+		alert(memberNum);
+		alert(meetingTime);
 		
 		$.ajax({
 			url  : "/meetingRoom/roomReset.sw",
@@ -145,7 +147,7 @@
 			data : { "meetingDate" : meetingDate
 					,"meetingTime" : meetingTime
 					,"meetingNo" : meetingNo
-					,"memberNum" : memberNum},//받은 파라미터 값은 사용하기
+					,"memberNum" : memberNum}, //받은 파라미터 값은 사용하기
 			success : function(data) {//컨트롤러에서 데이터를 받아옴
 				if(data == "success") {//데이터 값이 success면 성공
 					alert("성공");

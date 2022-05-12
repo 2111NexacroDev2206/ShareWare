@@ -22,7 +22,7 @@
 		</tr>
 		<tr>
 			<td>첨부파일</td>
-			<td><input type="file" id="fileIn"></td>
+			<td><input type="file" id="fileName" ></td>
 		</tr>
 		<tr>
 			<td>
@@ -33,16 +33,21 @@
 	</table>
 	</form>
 	<script>
+	
+
+	const fileInput = $("#fileName")[0];
+	
 	 $("#fileInsert").on("click", function(){
 		 var fileTitle = $("#fileTitle").val();
-		var fileContent = $("#fileContent").val();
-		const fileInput = $("#fileIn")[0];
-		
-		if(uploadFile =! null){
-			 const formData = new FormData();
-			  formData.append("uploadFile", fileInput.files[0]);
+		 var fileContent = $("#fileContent").val();
+		 
+		if(fileInput.files.length == 0){
+			alert("파일을 등록해주세요!");
+		}else{
+			const formData = new FormData();
+			  formData.append("uploadFile", fileInput.files[0]); //컨트롤러에서 받을 때  "upload File"
 			   formData.append("fileTitle", fileTitle);
-			   formData.append("fileContent", fileContent.trim());
+			   formData.append("fileContent", fileContent);
 			   
 			  jQuery.ajax({
 		             url : "/fileBoard/register.sw"
@@ -52,7 +57,7 @@
 		           , data : formData
 		           , success:function(data){
 		        	   if(data == "success"){
-		        		   alert("등록 완료!");
+		        		   location.href = '/fileBoard/list.sw';
 		           }else{
 		        	   alert("등록 실패!");
 		        	   }
@@ -60,10 +65,8 @@
 					alert("ajax 통신 오류! 관리자에게 문의해주세요.");
 				}
 			})
-		}else{
-			alert("파일을 등록해주세요!");
 		}
-		
+			 
 	});
 	
 	</script>

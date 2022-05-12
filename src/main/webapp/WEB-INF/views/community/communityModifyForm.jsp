@@ -11,9 +11,6 @@
 <body>
 
 <h1>수정 페이지</h1>
-
-	
-		
 	
 	<span>작성일 : ${community.comDate}</span>
 	<form action="/community/update.sw" method="POST" enctype="multipart/form-data" id="updateForm">  

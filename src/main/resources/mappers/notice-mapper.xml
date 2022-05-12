@@ -1,1 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MeetingNotice">
+	<resultMap type="Notice" id="NoticeResultMap">
+		<id property="noticeNo" column="NOTICE_NO"/>
+		<result property="memberNum" column="MEMBER_NUM"/>
+		<result property="noticeDate" column="NOTICE_DATE"/>
+		<result property="noticeTitle" column="NOTICE_TITLE"/>
+		<result property="noticeContent" column="NOTICE_CONTENT"/>
+		<result property="noticeView" column="NOTICE_VIEW"/>
+		<result property="noticeImgName" column="NOTICE_IMG_NAME"/>
+		<result property="noticeImgRemane" column="NOTICE_IMG_RENAME"/>
+		<result property="noticeImgPath" column="NOTICE_IMG_PATH"/>
+		<result property="noticeDelete" column="NOTICE_DELETE"/>
+		<result property="noticeVoteno" column="NOTICE_VOTE_NO"/>
+	</resultMap>
+	
+	<resultMap type="NoticeVote" id="NoticeVoteResultMap">
+		<id property="noticeVoteNo" column="NOTICE_VOTE_NO"/>
+		<result property="noticeNo" column="NOTICE_NO"/>
+		<result property="nVoteSc1" column="N_VOTE_SC1"/>
+		<result property="nVoteSc2" column="N_VOTE_SC2"/>
+		<result property="nVoteSc3" column="N_VOTE_SC3"/>
+		<result property="nVoteSc4" column="N_VOTE_SC4"/>
+		<result property="nVoteText1" column="N_VOTE_S_TEXT1"/>
+		<result property="nVoteText2" column="N_VOTE_S_TEXT2"/>
+		<result property="nVoteText3" column="N_VOTE_S_TEXT3"/>
+		<result property="nVoteText4" column="N_VOTE_S_TEXT4"/>
+		<result property="nVoteSelect1" column="N_VOTE_SELECT1"/>
+		<result property="nVoteSelect2" column="N_VOTE_SELECT2"/>
+		<result property="nVoteSelect3" column="N_VOTE_SELECT3"/>
+		<result property="nVoteSelect4" column="N_VOTE_SELECT4"/>
+		<result property="nVoteState" column="N_VOTE_STATE"/>
+	</resultMap>
+	<resultMap type="NoticeVoteSelect" id="NoticeVoteSelectResultMap">
+		<result property="notiveVoteNo" column="NOTICE_VOTE_NO"/>
+		<result property="noticeNo" column="NOTICE_NO"/>
+		<result property="memberNum" column="MEMBER_NUM"/>
+		<result property="nSelectTrue" column="N_SELECT_TRUE"/>
+		<result property="nSelect" column="N_SELECT"/>
+	</resultMap>
+</mapper>
