@@ -185,7 +185,13 @@ public class ChatController {
 			ChatRoom chatRoom = new ChatRoom();
 			chatRoom.setChatRoomNo(chatRoomNo);
 			chatRoom.setChatRoomType(1);
-			cService.modifyStatusChatRoom(chatRoom); // 1:N방으로 변경
+			int chatMemberCount = cService.printChatMemberCount(chatRoomNo);
+			if(chatMemberCount > 2) { // 남은 인원수가 1~2명인 경우
+				cService.modifyStatusChatRoom(chatRoom); // 1:N방으로 변경
+			}else {
+				chatRoom.setChatRoomType(0);
+				cService.modifyStatusChatRoom(chatRoom); // 1:1방으로 변경
+			}
 			ChatContent chatContent = new ChatContent();
 			// 채팅방 생성 날짜 공지 등록
 			chatContent.setChatType(1); // 공지
