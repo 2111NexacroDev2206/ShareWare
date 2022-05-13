@@ -22,6 +22,7 @@
 		<typeAlias type="org.kh.shareware.attendance.domain.Attendance" 			alias="Attendance"/>
 		<typeAlias type="org.kh.shareware.attendance.domain.Stats" 					alias="Stats"/>
 		<typeAlias type="org.kh.shareware.leave.domain.Leave" 						alias="Leave"/>
+		<typeAlias type="org.kh.shareware.leave.domain.LeaveList" 					alias="LeaveList"/>
 		<typeAlias type="org.kh.shareware.approval.domain.AppForm" 					alias="AppForm"/>
 		<typeAlias type="org.kh.shareware.approval.domain.AppDocument" 				alias="AppDocument"/>
 		<typeAlias type="org.kh.shareware.approval.domain.Approval" 				alias="Approval"/>

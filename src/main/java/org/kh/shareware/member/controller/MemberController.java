@@ -126,6 +126,19 @@ public class MemberController {
 			model.addAttribute("msg", "조직도 조회 실패");
 			return "common/errorPage";
 		}
+	}
+	
+	//조직도 json 데이터
+	@ResponseBody
+	@RequestMapping(value="/member/organizationData.sw", method=RequestMethod.GET)
+	public String organizationJsonData(){
+		List<Division> oList = mService.printOrganization();
+		if(!oList.isEmpty()) {
+			Gson gson = new Gson();
+			return gson.toJson(oList); // [ {}, {}, .. ]
+		}else {
+			return null;
+		}
 		
 	}
 	

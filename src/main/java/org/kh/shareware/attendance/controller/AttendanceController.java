@@ -119,27 +119,13 @@ public class AttendanceController {
 			model.addAttribute("sList", sList); //통계
 			model.addAttribute("aList", aList);
 			model.addAttribute("pi", pi);
+			model.addAttribute("listCondition", "attendance");
 		}		
 		return "attendance/attListViewEmp";
 	}
 	
 
 	//날짜 검색 (연도/월)
-//	@RequestMapping(value="/attendance/searchDate.sw")
-//	public ModelAndView searchDate(HttpServletRequest request ,ModelAndView mav) {
-//		String colName =  request.getParameter("colName");
-//		String serchWord = request.getParameter("searchWord");
-//		
-//		HashMap<String,String> paraMap = new HashMap<String,String>();
-//		paraMap.put("colName", colName);
-//		paraMap.put("colName", serchWord);
-//		
-//		List<Attendance>aList = aService.searchDate();
-//		mav.addObject("aList", aList);
-//		
-//		return mav;
-//	}
-	
 	@PostMapping("/attendance/searchDate.sw")
 	public String searchDate(String date, HttpSession session, Model model) {			
 		
@@ -156,8 +142,6 @@ public class AttendanceController {
 			model.addAttribute("aList", aList);
 			model.addAttribute("pi", pi);
 		}	
-		 				
-		
 		//return "redirect:/attendance/attListViewEmp.sw";
 		return "attendance/attListViewEmp";
 	}

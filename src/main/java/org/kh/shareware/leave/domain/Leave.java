@@ -1,11 +1,20 @@
 package org.kh.shareware.leave.domain;
 
 public class Leave {
+	private int leaveNo;
 	private float leaveTotal;
 	private float leaveUse;
 	private float leaveRemain;
 	
 	public Leave() {}
+
+	public int getLeaveNo() {
+		return leaveNo;
+	}
+
+	public void setLeaveNo(int leaveNo) {
+		this.leaveNo = leaveNo;
+	}
 
 	public float getLeaveTotal() {
 		return leaveTotal;
@@ -33,7 +42,9 @@ public class Leave {
 
 	@Override
 	public String toString() {
-		return "Leave [leaveTotal=" + leaveTotal + ", leaveUse=" + leaveUse + ", leaveRemain=" + leaveRemain + "]";
+		return "Leave [leaveNo=" + leaveNo + ", leaveTotal=" + leaveTotal + ", leaveUse=" + leaveUse + ", leaveRemain="
+				+ leaveRemain + "]";
 	}
 
+	
 }

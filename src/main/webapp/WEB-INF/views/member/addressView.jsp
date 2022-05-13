@@ -8,6 +8,10 @@
 <title>주소록</title>
 </head>
 <body>
+<jsp:include page="../common/menuBar.jsp"></jsp:include>
+
+<div class="s-container">
+	<h2 id="h-title">주소록</h2><br>
 		<form action="/member/searchList.sw" align="center" method="get" id="searchList">
 			<input type="hidden" name="currentPage" value="1">
 			<input type="hidden" name="memberLimit" value="10">
@@ -58,6 +62,6 @@
 		
 		
 	</div>
-			
+</div>			
 </body>
 </html>

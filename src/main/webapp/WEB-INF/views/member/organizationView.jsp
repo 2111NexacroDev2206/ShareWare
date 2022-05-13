@@ -8,87 +8,76 @@
 <head>
 <meta charset="UTF-8">
 <title>조직도</title>
-<link rel="stykesheet" href="css/jquery.treeview.css"/>
-<link rel="stykesheet" href="css/screen.css"/>
-<script type="lib/jquery.js"type="text/javascript"></script>
-<script type="lib/jquery.cookie.js"type="text/javascript"></script>
-<script type="lib/jquery.treeview.js"type="text/javascript"></script>
-<script type="text/javascript">
-	$(function(){
-		$("#tree").treeview({
-		collapsed:true,
-		animated:"medium",
-		control:"#sidetreecontrol",
-		persist:"location"
-		});
-	})
-</script>
+<link rel="stylesheet" href="../../../resources/css/jquery.treeview.css"/>
+<link rel="stylesheet" href="../../../resources/css/screen.css"/>
+
 </head>
 <body>
+<jsp:include page="../common/menuBar.jsp"></jsp:include>
+<script type="text/javascript" src="../../../resources/js/jquery.treeview.js"></script>
+<script type="text/javascript" src="../../../resources/js/jquery.cookie.js"></script>
 
-	<div>
-		<div class="treeheader">
-		</div>
-		
-		<div id="sidetreecontrol">
-			<a href="#">전체닫기</a>|<a href="#">전체열기</a>
-		</div>
-		<ul id="tree">
-		<c:forEach items="${oList }" var="division">
-			<c:if test="${division.divLevel eq 1 }">
-				<strong>${division.divName }</strong>
-			</c:if>
-			<c:if test="${division.divLevel eq 2 }">
-			<ul>
-				<li>
-					<a href="#">${division.divName }</a>
-				</li>
-			</ul>
-			</c:if>
-			<c:if test="${division.divLevel eq 3}">
-			<ul>
-				<li style="list-style:none;">
-					<ul>
-						<li><a href="#">${division.divName }</a></li>
-					</ul>
-				</li>
-			</ul>
+	<div class="s-container">
+		<h2 id="h-title">조직도</h2><br>
+			<ul id="orgList">
 			
-			</c:if>
-		</c:forEach>
-		</ul>
+			</ul>
 	</div>
-<!-- <ul id="tree"> -->
-<!-- 	<li> -->
-<!-- 		<strong>첫번째 메뉴</strong> -->
-<!-- 		<ul> -->
-<!-- 			<li><a href="#">서브메뉴</a></li> -->
-<!-- 		</ul> -->
-<!-- 		</li> -->
-<!-- 	<li> -->
-<!-- 	<strong>두번째 메뉴</strong> -->
-<!-- 	<ul> -->
-<!-- 		<li><a href="#">첫번째 서브메뉴</a></li> -->
-<!-- 	</ul> -->
-<!-- 	<ul> -->
-<!-- 		<li> -->
-<!-- 			<a href="#">두번째 서브메뉴</a> -->
-<!-- 			<ul> -->
-<!-- 				<li><a href="#">서브메뉴 속 첫번째 서브메뉴</a></li> -->
-<!-- 			</ul> -->
-<!-- 		</li> -->
-<!-- 	</ul> -->
-<!-- 	</li> -->
-<!-- </ul> -->
-
-	<%-- <form action="/member/organizationView.sw" method="get">
-		<c:forEach items="${oList }" var="division">
-			<c:if test="${sessionScope.memNum eq member.memNum }">
-				<tr>
-					<td>${division.divName }</td>
-				</tr>
-			</c:if>
-		</c:forEach>
-	</form> --%>
+	
+	<!-- 스크립트 -->
+	<script>
+		/* 닫기이벤트 */
+		//close id를 클릭했을떄
+		$('#close').click(function(){			
+			//객체 접근(document style)
+			document.getElementById('tree').style.display = 'none';			
+		});
+		
+		/* 열기이벤트 */
+		//open id를 클릭했을떄
+		$('#open').click(function(){			
+			//객체 접근(document style)
+			document.getElementById('tree').style.display = 'block';			
+		});
+		
+		/* 부서명클릭시 이벤트 */
+		$('#deptName').click(function(){
+			alert("test");
+		});
+	
+			
+		$(function() {
+			$.ajax({
+				type : "GET",
+				url : "<c:url value='/member/organizationData.sw'/>",
+				contentType : "application/json",
+				dataType : "json",
+				success : function(data) {
+					data.forEach(function(e,i) {
+						var divCode = e.divCode;
+						var divName = e.divName;
+						var divLevel = e.divLevel;
+						var parentDivCd = e.parentDivCode;
+						var $orgUl = $("#orgList");
+						var $li = "<li id='"+divCode+"'><a href='#'>"+divName+"</a></li>";
+						if(divLevel == 1) {
+							$orgUl.append($li);
+						}else{
+							$li = "<ul>" + $li + "</ul>";
+							$("#"+parentDivCd).append($li);
+						}
+					});
+					$("#orgList").treeview({
+						persist : "location",
+						collapsed : true,
+						unique : true
+					});
+				},
+				error : function() {
+					alert("ajax 통신 실패!!");
+				}
+			});
+		});
+	</script>
 </body>
 </html>
