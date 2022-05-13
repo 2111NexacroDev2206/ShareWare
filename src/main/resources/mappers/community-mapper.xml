@@ -59,16 +59,36 @@
 	SELECT * FROM COMMUNITY JOIN MEMBER ON COMMUNITY.MEMBER_NUM = MEMBER.MEMBER_NUM ORDER BY COM_DATE DESC
 </select>
 
-<select id="detailOneByNo" resultMap="CommunityResultMap">
+<select id="selectOneCommunity" resultMap="CommunityResultMap">
 	SELECT * FROM COMMUNITY JOIN MEMBER ON COMMUNITY.MEMBER_NUM = MEMBER.MEMBER_NUM WHERE COM_NO = #{comNo}
 </select>
+
 <delete id="deleltCommunity">
 	DELETE FROM COMMUNITY WHERE COM_NO = #{comNo }
 </delete>
 
-<update id="viewCount">
+<update id="countViewCommunity">
 	UPDATE COMMUNITY SET COM_VIEW = COM_VIEW+1 WHERE COM_NO = #{comNo}
 </update>
+
+<select id="selectSearchCount" resultType="_int">
+
+ 	SELECT COUNT(*) FROM COMMUNITY JOIN MEMBER ON COMMUNITY.MEMBER_NUM = MEMBER.MEMBER_NUM
+	<if test ="searchCondition.toString()=='writer'">
+		WHERE MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='title'">
+		WHERE COM_TITLE LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='contents'">
+		WHERE COM_CONTENT LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='all'">
+		WHERE MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
+		OR COM_TITLE LIKE '%'||#{searchValue} ||'%'
+		OR COM_CONTENT LIKE '%'||#{searchValue} ||'%'
+	</if>
+	</select>
 
 <select id="searchCommunity" resultMap="CommunityResultMap">
 

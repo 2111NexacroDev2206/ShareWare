@@ -25,6 +25,7 @@
 		<typeAlias type="org.kh.shareware.approval.domain.AppReference" alias="AppReference"/>
 		<typeAlias type="org.kh.shareware.approval.domain.AppFile" 		alias="AppFile"/>
 		<typeAlias type="org.kh.shareware.fileBoard.domain.FileBoard" 	alias="FileBoard"/>
+		<typeAlias type="org.kh.shareware.notice.domain.Notice" alias="Notice"/>	
 		<typeAlias type="org.kh.shareware.mail.domain.Mail" alias="Mail"/>
 		<typeAlias type="org.kh.shareware.mail.domain.MailRef" alias="MailRef"/>
 		<typeAlias type="org.kh.shareware.mail.domain.MailRec" alias="MailRec"/>
@@ -39,6 +40,7 @@
 		<mapper resource="mappers/week-mapper.xml"/>
 		<mapper resource="mappers/approval-mapper.xml"/>
 		<mapper resource="mappers/member-mapper.xml"/>
+		<mapper resource="mappers/notice-mapper.xml"/>
 		<mapper resource="mappers/community-mapper.xml"/>
 		<mapper resource="mappers/calendar-mapper.xml"/>
 		<mapper resource="mappers/fileBoard-mapper.xml"/>

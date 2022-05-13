@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="MeetingNotice">
+<mapper namespace="NoticeMapper">
 	<resultMap type="Notice" id="NoticeResultMap">
 		<id property="noticeNo" column="NOTICE_NO"/>
 		<result property="memberNum" column="MEMBER_NUM"/>
@@ -15,30 +15,79 @@
 		<result property="noticeImgPath" column="NOTICE_IMG_PATH"/>
 		<result property="noticeDelete" column="NOTICE_DELETE"/>
 		<result property="noticeVoteno" column="NOTICE_VOTE_NO"/>
+		<collection property="member" resultMap="memberResultMap"/>
 	</resultMap>
 	
-	<resultMap type="NoticeVote" id="NoticeVoteResultMap">
-		<id property="noticeVoteNo" column="NOTICE_VOTE_NO"/>
-		<result property="noticeNo" column="NOTICE_NO"/>
-		<result property="nVoteSc1" column="N_VOTE_SC1"/>
-		<result property="nVoteSc2" column="N_VOTE_SC2"/>
-		<result property="nVoteSc3" column="N_VOTE_SC3"/>
-		<result property="nVoteSc4" column="N_VOTE_SC4"/>
-		<result property="nVoteText1" column="N_VOTE_S_TEXT1"/>
-		<result property="nVoteText2" column="N_VOTE_S_TEXT2"/>
-		<result property="nVoteText3" column="N_VOTE_S_TEXT3"/>
-		<result property="nVoteText4" column="N_VOTE_S_TEXT4"/>
-		<result property="nVoteSelect1" column="N_VOTE_SELECT1"/>
-		<result property="nVoteSelect2" column="N_VOTE_SELECT2"/>
-		<result property="nVoteSelect3" column="N_VOTE_SELECT3"/>
-		<result property="nVoteSelect4" column="N_VOTE_SELECT4"/>
-		<result property="nVoteState" column="N_VOTE_STATE"/>
-	</resultMap>
-	<resultMap type="NoticeVoteSelect" id="NoticeVoteSelectResultMap">
-		<result property="notiveVoteNo" column="NOTICE_VOTE_NO"/>
-		<result property="noticeNo" column="NOTICE_NO"/>
-		<result property="memberNum" column="MEMBER_NUM"/>
-		<result property="nSelectTrue" column="N_SELECT_TRUE"/>
-		<result property="nSelect" column="N_SELECT"/>
-	</resultMap>
+	<resultMap type="Member" id="memberResultMap">
+  		<id property="memberNum" column="MEMBER_NUM"/>
+  		<result property="memberName" column="MEMBER_NAME"/>
+  		<result property="division" column="DIV_NAME"/>
+  		<result property="rank" column="RANK"/>
+  		<result property="address" column="ADDRESS"/>
+  		<result property="phone" column="PHONE"/>
+  		<result property="mail" column="MAIL"/>
+  		<result property="hireDate" column="HIRE_DATE"/>
+  		<result property="retireDate" column="RETIRE_DATE"/>
+  		<result property="birth" column="BIRTH"/>
+  		<result property="account" column="ACCOUNT"/>
+  		<result property="bank" column="BANK"/>
+  		<result property="password" column="PASSWORD"/>
+  		<result property="gender" column="GENDER"/>
+  		<result property="photo" column="PHOTO"/>
+  		<result property="breakTotal" column="BREAK_TOTAL"/>
+  	</resultMap>
+  	
+  	<update id="countViewNotice">
+	UPDATE NOTICE SET NOTICE_VIEW = NOTICE_VIEW+1 WHERE NOTICE_NO = #{noticeNo}
+	</update>
+
+	<select id="selectClistCount" resultType="_int">
+		SELECT COUNT(*) FROM NOTICE
+	</select>
+	
+	<select id="selectOneNotice" resultMap="NoticeResultMap">
+		SELECT * FROM NOTICE JOIN MEMBER ON NOTICE.MEMBER_NUM = MEMBER.MEMBER_NUM WHERE NOTICE_NO = #{noticeNo}
+	</select>
+	
+	<select id="noticeList" resultMap="NoticeResultMap">
+		SELECT * FROM NOTICE JOIN MEMBER ON NOTICE.MEMBER_NUM = MEMBER.MEMBER_NUM ORDER BY NOTICE_DATE DESC
+	</select>
+	
+	<select id="selectNoticeSearchCount" resultType="_int">
+		SELECT COUNT(*) FROM NOTICE JOIN MEMBER ON NOTICE.MEMBER_NUM = MEMBER.MEMBER_NUM
+	<if test ="searchCondition.toString()=='writer'">
+		WHERE MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='title'">
+		WHERE NOTICE_TITLE LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='contents'">
+		WHERE NOTICE_CONTENT LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='all'">
+		WHERE MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
+		OR NOTICE_TITLE LIKE '%'||#{searchValue} ||'%'
+		OR NOTICE_CONTENT LIKE '%'||#{searchValue} ||'%'
+	</if>
+	</select>
+	
+	<select id="searchNotice" resultMap="NoticeResultMap">
+		SELECT * FROM NOTICE JOIN MEMBER ON NOTICE.MEMBER_NUM = MEMBER.MEMBER_NUM
+	<if test ="searchCondition.toString()=='writer'">
+		WHERE MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='title'">
+		WHERE NOTICE_TITLE LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='contents'">
+		WHERE NOTICE_CONTENT LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='all'">
+		WHERE MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
+		OR NOTICE_TITLE LIKE '%'||#{searchValue} ||'%'
+		OR NOTICE_CONTENT LIKE '%'||#{searchValue} ||'%'
+	</if>
+		ORDER BY NOTICE_DATE DESC
+	</select>
+	
 </mapper>

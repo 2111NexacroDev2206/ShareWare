@@ -4,11 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.kh.shareware.common.PageInfo;
+import org.kh.shareware.common.Search;
 import org.kh.shareware.community.domain.Community;
 import org.kh.shareware.community.domain.CommunityVote;
 import org.kh.shareware.community.domain.CommunityVoteSelect;
 import org.kh.shareware.community.domain.Reply;
-import org.kh.shareware.community.domain.Search;
+
 
 public interface CommunityService {
 
@@ -19,7 +20,7 @@ public interface CommunityService {
 	List<Community> listCommunity(PageInfo pi);
 	Community detailCommunity(Integer comNo);
 	int removeCommunity(int comNo);
-	int viewCountCommunity(Integer comNo);
+	int countViewCommunity(Integer comNo);
 	
 	
 	
@@ -36,8 +37,10 @@ public interface CommunityService {
 	int modifyCommunity(Community community);
 	void modifyCommunityVote(CommunityVote communityVote);
 	
+	//글 검색 개수
+	int getSearchCount(Search search);
 	//검색
-	List<Search> printSearchCommunity(Search search);
+	List<Search> printSearchCommunity(Search search, PageInfo pi);
 	//덧글
 	//리스트 보기
 	List<Reply> printAllCommunityReply(int comNo);
@@ -49,6 +52,8 @@ public interface CommunityService {
 	void removeReplyAll(Integer comNo);
 	//댓글 수정
 	int modifyReply(Reply reply);
+	
+	
 
 	
 	

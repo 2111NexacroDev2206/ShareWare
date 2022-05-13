@@ -6,11 +6,11 @@ import java.util.Map;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.common.PageInfo;
+import org.kh.shareware.common.Search;
 import org.kh.shareware.community.domain.Community;
 import org.kh.shareware.community.domain.CommunityVote;
 import org.kh.shareware.community.domain.CommunityVoteSelect;
 import org.kh.shareware.community.domain.Reply;
-import org.kh.shareware.community.domain.Search;
 import org.kh.shareware.community.store.CommunityStore;
 import org.springframework.stereotype.Repository;
 
@@ -49,8 +49,8 @@ public class CommunityStoreLogic implements CommunityStore {
 	
 	//상세보기
 	@Override
-	public Community detailCommunity(SqlSession sqlsession, Integer comNo) {
-		Community community = sqlsession.selectOne("CommnuityMapper.detailOneByNo", comNo);
+	public Community selectOneCommunity(SqlSession sqlsession, Integer comNo) {
+		Community community = sqlsession.selectOne("CommnuityMapper.selectOneCommunity", comNo);
 		return community;
 	}
 	//수정
@@ -68,8 +68,8 @@ public class CommunityStoreLogic implements CommunityStore {
 	}
 
 	@Override
-	public int viewCountCommunity(SqlSession sqlsession, Integer comNo) {
-		int result = sqlsession.update("CommnuityMapper.viewCount", comNo);
+	public int countViewCommunity(SqlSession sqlsession, Integer comNo) {
+		int result = sqlsession.update("CommnuityMapper.countViewCommunity", comNo);
 		return result;
 	}
 
@@ -126,12 +126,23 @@ public class CommunityStoreLogic implements CommunityStore {
 		sqlsession.update("CommnuityMapper.uqdateCommunityVote", communityVote);
 		
 	}
+	
+	//전체 검색 된 글 개수
+	@Override
+	public int selectSearchCount(SqlSession sqlsession, Search search) {
+		int result = sqlsession.selectOne("CommnuityMapper.selectSearchCount",search);
+		return result;
+	}
 
 	//검색
 	@Override
-	public List<Search> selectSearchCommunity(SqlSession sqlsession, Search search) {
-		List<Search> scList = sqlsession.selectList("CommnuityMapper.searchCommunity", search);
-		return scList;
+	public List<Search> selectSearchCommunity(SqlSession sqlsession, Search search, PageInfo pi) {
+		int limit = pi.getDocLimit();
+		int currentPage = pi.getCurrentPage();
+		int offset = (currentPage - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<Search> cList = sqlsession.selectList("CommnuityMapper.searchCommunity",search, rowBounds);
+		return cList;
 	}
 	//덧글 출력
 	@Override
@@ -164,6 +175,5 @@ public class CommunityStoreLogic implements CommunityStore {
 		int result = sqlsession.update("CommnuityMapper.updateReply", reply);
 		return result;
 	}
-
 	
 }

@@ -42,24 +42,8 @@
 					</tr>
 			</c:forEach>
 	</table>
-		<table>
-			<tr align="center" height="20">
-			<td colspan="6">
-				 <c:if test="${pi.prev == true }">
-        				<a href='<c:url value="/community/list.sw?page=${pi.startNavi-1 }"/>'>이전</a>
-	    		</c:if>
-
-				<c:forEach var="p" begin="${pi.startNavi }" end="${pi.endNavi }">
-					<c:url var="pagination" value="/community/list.sw">
-						<c:param name="page" value="${p }"></c:param>
-					</c:url>
-					<a href="${pagination }">${p }</a>&nbsp;
-				</c:forEach>
-				 <c:if test="${pi.next == true}">
-        			<a href='<c:url value="/community/list.sw?page=${pi.endNavi+1 }"/>'>다음</a>
-	    		</c:if>
-			</td>
-		</table>
+		
+	<jsp:include page="communityPaging.jsp"></jsp:include>
 	<form action="/community/search.sw" method="get" name="searchForm">
 	<select name="searchCondition">
 		<option value="all">전체</option>
@@ -81,8 +65,6 @@
 		}
 	}
 	
-
-
 
 	</script>
 

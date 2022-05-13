@@ -11,11 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONObject;
 import org.kh.shareware.common.PageInfo;
 import org.kh.shareware.common.Pagination;
+import org.kh.shareware.common.Search;
 import org.kh.shareware.community.domain.Community;
-import org.kh.shareware.community.domain.Search;
 import org.kh.shareware.community.domain.CommunityVote;
 import org.kh.shareware.community.domain.CommunityVoteSelect;
 import org.kh.shareware.community.domain.Reply;
@@ -144,7 +143,7 @@ public class CommunityController {
 			,HttpServletRequest request
 			,@RequestParam("comNo") Integer comNo) {
 		//조회수 증가
-		cService.viewCountCommunity(comNo);
+		cService.countViewCommunity(comNo);
 	
 		
 		//게시글 번호로 검색
@@ -453,13 +452,24 @@ public class CommunityController {
 	//검색
 	@RequestMapping(value="/community/search.sw", method=RequestMethod.GET)
 	public ModelAndView noticeSearchList(
-			  ModelAndView mv
-			, @ModelAttribute Search search) {
+			ModelAndView mv
+			, @ModelAttribute Search search
+			, HttpServletRequest request
+			,@RequestParam(value="page", required=false) Integer page) {//form으로 보냄
 		try {
-
-			List<Search> searchList = cService.printSearchCommunity(search);
+			HttpSession session = request.getSession();//세션에서 로그인 된 아이디를 가져옴->검색을 했는지 안했는지를 판별
+			search.setMemberNum(((Member)session.getAttribute("loginUser")).getMemberNum());
+			int currentPage = (page != null) ? page : 1;
+			PageInfo pi = null;
+			int totalCount = cService.getSearchCount(search);
+			pi = Pagination.getPageInfo(currentPage, totalCount);
+			
+			
+			List<Search> cList = cService.printSearchCommunity(search, pi);
 				
-			mv.addObject("cList", searchList);
+			mv.addObject("cList", cList);
+			mv.addObject("search", search);
+			mv.addObject("pi", pi);
 			mv.setViewName("community/communityList");
 			
 		}catch(Exception e) {

@@ -15,7 +15,7 @@
 		<c:url var="update" value="/community/modifyView.sw">
 			<c:param name="comNo" value="${community.comNo }"></c:param>
 		</c:url>
-		<input type="button" id="upload" onclick="location.href='${update}'" value="수정"/>
+		<input type="button" id="upload" onclick="location.href='${update}'" value="수정"/> <!-- 변수 update value comNo을 가지고  /community/modifyView.sw실행-->
 		<button type="button" id="delete" onclick="deleteCommunity(replyCount)">삭제</button>
 	</c:if>
 	

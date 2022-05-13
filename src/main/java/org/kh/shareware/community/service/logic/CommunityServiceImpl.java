@@ -5,11 +5,11 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.common.PageInfo;
+import org.kh.shareware.common.Search;
 import org.kh.shareware.community.domain.Community;
 import org.kh.shareware.community.domain.CommunityVote;
 import org.kh.shareware.community.domain.CommunityVoteSelect;
 import org.kh.shareware.community.domain.Reply;
-import org.kh.shareware.community.domain.Search;
 import org.kh.shareware.community.service.CommunityService;
 import org.kh.shareware.community.store.CommunityStore;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +56,7 @@ public class CommunityServiceImpl implements CommunityService{
 
 	@Override
 	public Community detailCommunity(Integer comNo) {
-		Community community = cStore.detailCommunity(sqlsession, comNo);
+		Community community = cStore.selectOneCommunity(sqlsession, comNo);
 		return community;
 	}
 
@@ -67,8 +67,8 @@ public class CommunityServiceImpl implements CommunityService{
 	}
 
 	@Override
-	public int viewCountCommunity(Integer comNo) {
-		int result = cStore.viewCountCommunity(sqlsession, comNo);
+	public int countViewCommunity(Integer comNo) {
+		int result = cStore.countViewCommunity(sqlsession, comNo);
 		return result;
 	}
 
@@ -127,12 +127,18 @@ public class CommunityServiceImpl implements CommunityService{
 		cStore.updateCommunityVote(sqlsession,communityVote);
 		
 	}
+	//글검색 개수
+	@Override
+	public int getSearchCount(Search search) {
+		int result = cStore.selectSearchCount(sqlsession, search);
+		return result;
+	}
 
 	//검색
 	@Override
-	public List<Search> printSearchCommunity(Search search) {
-		List<Search> csList = cStore.selectSearchCommunity(sqlsession, search);
-		return csList;
+	public List<Search> printSearchCommunity(Search search, PageInfo pi) {
+		List<Search> cList = cStore.selectSearchCommunity(sqlsession, search, pi);
+		return cList;
 	}
 
 	@Override
@@ -165,8 +171,7 @@ public class CommunityServiceImpl implements CommunityService{
 	public int modifyReply(Reply reply) {
 		int result = cStore.updateReply(sqlsession, reply);
 		return result;
-	}
-	
+	}	
 	
 
 }

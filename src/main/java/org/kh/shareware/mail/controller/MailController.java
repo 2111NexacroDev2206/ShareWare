@@ -14,7 +14,6 @@ import org.kh.shareware.mail.domain.MailRec;
 import org.kh.shareware.mail.domain.MailRef;
 import org.kh.shareware.mail.domain.MailSearch;
 import org.kh.shareware.mail.service.MailService;
-import org.kh.shareware.notice.domain.Search;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
