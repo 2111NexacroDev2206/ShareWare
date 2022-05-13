@@ -55,7 +55,7 @@ public class ChatStoreLogic implements ChatStore {
 	}
 
 	@Override
-	public List<ChatContent> selectAllChatRoom(SqlSession sqlSession, int chatRoomNo) { // 채팅 목록
+	public List<ChatContent> selectAllChat(SqlSession sqlSession, int chatRoomNo) { // 채팅 목록
 		List<ChatContent> cList = sqlSession.selectList("ChatMapper.selectListChat", chatRoomNo);
 		return cList;
 	}

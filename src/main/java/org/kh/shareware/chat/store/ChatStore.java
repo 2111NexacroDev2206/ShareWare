@@ -16,7 +16,7 @@ public interface ChatStore {
 	public int selectOneChatRoomNo(SqlSession sqlSession); // 채팅방 번호 불러오기
 	public List<ChatRoom> selectAllChatRoom(SqlSession sqlSession, String memberNum); // 채팅방 목록 조회
 	public ChatContent selectChatContent(SqlSession sqlSession, int chatRoomNo); // 마지막 대화 내용과 날짜 가져오기
-	public List<ChatContent> selectAllChatRoom(SqlSession sqlSession, int chatRoomNo); // 채팅 목록
+	public List<ChatContent> selectAllChat(SqlSession sqlSession, int chatRoomNo); // 채팅 목록
 	public int selectOneChatMemberCount(SqlSession sqlSession, int chatRoomNo); // 채팅 인원수 조회
 	public ChatRoom selectOneChatRoom(SqlSession sqlSession, int chatRoomNo); // 채팅방 정보 조회
 	public int updateStatusChatMember(SqlSession sqlSession, ChatMember chatMember); // 채팅방 나가기
