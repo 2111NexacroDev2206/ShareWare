@@ -16,16 +16,16 @@
 		<h2 id="h-title"> 일 일 업 무 일 지</h2>
 		<table class="d-table">
 			<tr> 
-				<td class="t-title">제목</td>
-				<td class="t-1">${daily.drTitle }</td>
-				<td class ="t-div" >부서명</td>
-				<td>${loginUser.division }</td>
+				<td id="t-title">제목</td>
+				<td id="t-inTitle">${daily.drTitle }</td>
+				<td id="t-div" >부서명</td>
+				<td id="t-inDiv">${loginUser.division }</td>
 			</tr>
 			<tr>
-				<td>작성일</td>
-				<td>${daily.drDate }</td>
-				<td>작성자</td>
-				<td>${daily.drWriter }</td>
+				<td id="t-date">작성일</td>
+				<td id="t-inDate">${daily.drDate }</td>
+				<td id="t-writer">작성자</td>
+				<td id="t-inWriter">${daily.drWriter }</td>
 			</tr>
 			<tr>
                  <td colspan="4">
@@ -49,7 +49,7 @@
 
 //일일업무일지 내용	
 	CKEDITOR.replace( 'drContent', {
-		height: 500,
+		height: 800,
 		removePlugins: "exportpdf"
 	 } );
 	function delPop(){

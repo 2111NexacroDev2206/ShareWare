@@ -7,7 +7,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.kh.shareware.common.Search;
 import org.kh.shareware.member.domain.Member;
+import org.kh.shareware.project.common.PageInfo;
+import org.kh.shareware.project.common.Pagination;
 import org.kh.shareware.project.domain.Important;
 import org.kh.shareware.project.domain.Participant;
 import org.kh.shareware.project.domain.Project;
@@ -47,21 +50,27 @@ public class ProjectController {
 	public ModelAndView projectListView(ModelAndView mv
 			,HttpServletRequest request
 			,@RequestParam(value="pStatus", required=false) String pStatus
+			,@RequestParam(value="page", required=false) Integer page
 			,@ModelAttribute Project project) {
 		HttpSession session = request.getSession();
 		String memberNum = ((Member)session.getAttribute("loginUser")).getMemberNum();
+		int currentPage = (page != null) ? page : 1;
 		try {
 			project.setProjectMade(memberNum);
 			if(pStatus == null) { // 전체보기
 				pStatus = "A";
 			}
 			project.setpStatus(pStatus);
-			List<Project> pList = service.printAllProject(project);
+			int totalCount = service.getListCount(project);
+			PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
+			List<Project> pList = service.printAllProject(project, pi);
 			for(Project pOne : pList) {
 				String reDate = pOne.getpEndDate().replace("-", "");
 				pOne.setpEndDate(reDate);
 				pList.set(pList.indexOf(pOne), pOne);
 			}
+			mv.addObject("currentPage", currentPage);
+			mv.addObject("pi", pi);
 			mv.addObject("pList", pList);
 			mv.addObject("pStatus", pStatus);
 			mv.setViewName("project/projectList");
@@ -73,6 +82,38 @@ public class ProjectController {
 		
 	}
 	
+	//프로젝트 검색 (제목만)
+	@RequestMapping(value="/project/projectSearch.sw")
+	public ModelAndView searchList(Model model, ModelAndView mv
+			, @ModelAttribute Search search
+			, HttpServletRequest request
+			, @RequestParam(value="page", required = false) Integer page
+			, @RequestParam(value="pStatus", required=false) String pStatus) {
+			try {
+				HttpSession session = request.getSession();
+				search.setMemberNum(((Member)session.getAttribute("loginUser")).getMemberNum()); //
+				if(pStatus == null) { // 전체보기
+					pStatus = "A";
+				}
+				search.setType(pStatus);
+				int currentPage = (page != null) ? page : 1;
+				int totalCount = service.getSearchCount(search);
+				PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
+				List<Project> pList = service.printSearch(search, pi);
+				mv.addObject("currentPage", currentPage);
+				mv.addObject("pi", pi);
+				mv.addObject("pList", pList);
+				mv.addObject("pStatus", pStatus);
+				mv.setViewName("project/projectList");
+			}catch(Exception e) {
+				mv.addObject("msg", e.toString());
+				mv.setViewName("common/errorPage");
+			}
+
+		
+		return mv;
+		
+	}
 	//프로젝트 정보(상세)
 		@RequestMapping(value="/project/detail.sw", method=RequestMethod.GET)
 		public ModelAndView projectDetailVeiw(

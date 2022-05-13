@@ -25,6 +25,31 @@
   		</if>
   		ORDER BY P_STATUS DESC, PROJECT_NO DESC 
   	</select>
+  	<select id="selectOneCount" resultType="_int">
+  		SELECT COUNT(DISTINCT PROJECT_NO) FROM PROJECT JOIN PARTICIPANT USING(PROJECT_NO) JOIN MEMBER ON PROJECT_MADE = MEMBER_NUM WHERE (PROJECT_MADE= #{projectMade} OR MEM_NUM = #{projectMade})
+  		<if test="pStatus != 'A'.toString()">
+  			AND P_STATUS = #{pStatus}
+  		</if>
+  	</select>
+  	<select id="selectOneSearchCount" resultType="_int">
+  		SELECT COUNT(DISTINCT PROJECT_NO) FROM PROJECT JOIN PARTICIPANT USING(PROJECT_NO) JOIN MEMBER ON PROJECT_MADE = MEMBER_NUM WHERE (PROJECT_MADE= #{memberNum} OR MEM_NUM = #{memberNum})
+  		<if test="type != 'A'.toString()">
+  			AND P_STATUS = #{type}
+  		</if>
+  		<if test="searchCondition.toString() == 'docTitle'">
+  			AND PROJECT_TITLE LIKE '%' || #{searchValue} || '%'
+  		</if>
+  	</select>
+  	<select id="selectSearchProject" resultMap="projectResultMap">
+  		SELECT DISTINCT PROJECT_NO, PROJECT_TITLE, MEMBER_NAME, P_START_DATE, P_END_DATE, P_STATUS, PROJECT_CONTENT FROM PROJECT JOIN PARTICIPANT USING(PROJECT_NO) JOIN MEMBER ON PROJECT_MADE = MEMBER_NUM WHERE (PROJECT_MADE= #{memberNum} OR MEM_NUM = #{memberNum})
+		<if test="type != 'A'.toString()">
+  			AND P_STATUS = #{type}
+  		</if>
+		<if test="searchCondition.toString() == 'docTitle'">
+  			AND PROJECT_TITLE LIKE '%' || #{searchValue} || '%'
+  		</if>
+  		ORDER BY P_STATUS DESC, PROJECT_NO DESC 
+  	</select>
   	<select id="selectOneProject" resultMap="projectResultMap" >
   		 SELECT PROJECT_NO, PROJECT_TITLE, MEMBER_NAME, P_START_DATE, P_END_DATE, P_STATUS, PROJECT_CONTENT FROM PROJECT JOIN MEMBER ON PROJECT_MADE = MEMBER_NUM WHERE PROJECT_NO = #{projectNo}
   	</select>

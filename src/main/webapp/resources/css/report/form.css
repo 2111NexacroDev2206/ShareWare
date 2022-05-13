@@ -5,56 +5,69 @@
 	text-align: center;
 }
 .d-table{
- 	margin: 0 50px 30px 50px;
+/*  	margin: 0 50px 30px 50px; */
 	border: 1px solid black;
 	border-collapse: collapse;
 }
-#table td {
+.d-table td {
 	border: 1px solid black;
 	font-size: 14.5px;
 }
-.t-title {
+#t-title{
 	text-align: center;
-	background-color: rgb(240, 240, 240);
-	width: 150px;
-	letter-spacing: 5px;
+    width: 280px;
+    height: 40px;
+    border: 1px solid;
+    letter-spacing: 5px;
+    background-color: rgb(240, 240, 240);
 }
-.t-1{
+#t-inTitle{
 	text-align: center;
-	width: 200px;
+	width: 400px;
 	letter-spacing: 5px;
 	text-indent: 5px;
 }
-.t-div{
+#t-div{
 	text-align: center;
+	width: 280px;
+	letter-spacing: 5px;
+	text-indent: 5px;
 	background-color: rgb(240, 240, 240);
-	width: 150px;
+}
+#t-inDiv{
+	text-align: center;
+	width: 120px;
 	letter-spacing: 5px;
 }
-.t-date{
+#t-date{
 	text-align: center;
-	background-color: rgb(240, 240, 240);
-	width: 150px;
+    width: 150px;
+    height: 40px;
+    border: 1px solid;
+    letter-spacing: 5px;
+    background-color: rgb(240, 240, 240);
+}
+/* #t-inDate{
+	text-align: center;
+} */
+#t-writer{
+	text-align: center;
+    height: 40px;
+    border: 1px solid;
+    letter-spacing: 5px;
+    background-color: rgb(240, 240, 240);
+}
+#t-inWriter {
+	text-align: center;
+	width: 400px;
 	letter-spacing: 5px;
-}
-.t-writer{
-	text-align: center;
-	background-color: rgb(240, 240, 240);
-	width: 150px;
-	letter-spacing: 5px;
-}
-.td-content {
-	text-align: center;
-	background-color: rgb(240, 240, 240);
-	letter-spacing: 50px;
-	text-indent: 50px;
-}
-
-.div-btn, .div-btn2 { /* 버튼 영역 */
-	margin: 30px 50px 50px 50px;
+	text-indent: 5px;
 }
 .div-btn {
 	float: right;
+}
+#trCont{
+	height: 750px;
 }
 .div-btn input, .div-btn2 input:not(.i-left) {
 	width: 120px;

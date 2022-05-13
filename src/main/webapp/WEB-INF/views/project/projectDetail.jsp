@@ -43,8 +43,8 @@
 					</tr>
 					<tr>
 						<td colspan="2" align="left">
-							<input type="button" onclick="location.href='/project/projectModifyView.sw?projectNo=${project.projectNo }'" value="수정">
-							<input type="button" onclick="location.href='/project/main.sw?projectNo=${project.projectNo }'" value="취소">
+								<input type="button" onclick="location.href='/project/projectModifyView.sw?projectNo=${project.projectNo }'" value="수정">
+								<input type="button" onclick="location.href='/project/main.sw?projectNo=${project.projectNo }'" value="취소">
 						</td>
 					</tr>
 				</table>

@@ -14,33 +14,7 @@
 <jsp:include page="projectMainMenu.jsp"></jsp:include>
 		<div class="s-container">
 		<div>
-			<table border="1">
-		<thead>
-			<tr>
-				<th>번호</th>
-				<th>제목</th>
-				<th>작성일</th>
-				<th>작성자</th>
-			</tr>
-			</thead>
-			<tbody>
-			<c:forEach items="${wList }" var="work" varStatus="status">
-				<tr>
-					<td>${pi.totalCount - (pi.currentPage - 1)*pi.docLimit - status.index}</td>
-					<c:url var="wDetail" value="/project/workDetail.sw">
-						<c:param name="workNo" value="${work.workNo }"></c:param>
-						<c:param name="projectNo" value="${projectNo }"></c:param>
-					</c:url>
-					<td><a href="${wDetail }">${work.workTitle }</a></td>
-					<td>${work.workDate }</td>
-					<td>${work.workWriter }</td>
-				</tr>
-			</c:forEach>
-			</tbody>
-	</table>
-		</div>
-		<br><br>
-		<div>
+		<button onclick="location.href='/project/importantList.sw?projectNo=${projectNo}'">더보기</button>
 		<table border="1">
 			<thead>
 				<tr>
@@ -65,6 +39,34 @@
 			</c:forEach>
 			</tbody>
 		</table>
+		</div>
+		<br><br>
+		<button onclick="location.href='/project/workList.sw?projectNo=${projectNo}'">더보기</button>
+		<div>
+			<table border="1">
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th>제목</th>
+				<th>작성일</th>
+				<th>작성자</th>
+			</tr>
+			</thead>
+			<tbody>
+			<c:forEach items="${wList }" var="work" varStatus="status">
+				<tr>
+					<td>${pi.totalCount - (pi.currentPage - 1)*pi.docLimit - status.index}</td>
+					<c:url var="wDetail" value="/project/workDetail.sw">
+						<c:param name="workNo" value="${work.workNo }"></c:param>
+						<c:param name="projectNo" value="${projectNo }"></c:param>
+					</c:url>
+					<td><a href="${wDetail }">${work.workTitle }</a></td>
+					<td>${work.workDate }</td>
+					<td>${work.workWriter }</td>
+				</tr>
+			</c:forEach>
+			</tbody>
+	</table>
 		</div>
 		<div>
 		<button onclick="chart()">입력</button>
@@ -103,8 +105,8 @@
 		      datasets: [{
 		          label: '진행현황',
 		          data: [<c:forEach items="${cList }" var="workChart">${workChart.wpRate },</c:forEach>],
-		          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-		          borderColor: 'rgba(255, 99, 132, 1)',
+		          backgroundColor: 'rgba(117, 144, 194, 0.38)',
+		          borderColor: 'rgb(47, 71, 117)',
 		          borderWidth: 1
 		      }]
 		  },
