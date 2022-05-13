@@ -73,7 +73,7 @@ public class ChatStoreLogic implements ChatStore {
 	}
 
 	@Override
-	public int updateStatusChatMember(SqlSession sqlSession, ChatMember chatMember) { // 채팅방 나가기
+	public int updateStatusChatMember(SqlSession sqlSession, ChatMember chatMember) { // 사용자 상태 변경
 		int result = sqlSession.update("ChatMapper.updateStatusChatMember", chatMember);
 		return result;
 	}

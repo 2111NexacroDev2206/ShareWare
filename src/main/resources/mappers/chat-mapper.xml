@@ -84,7 +84,7 @@
 		SELECT * FROM (SELECT * FROM CHAT_CONTENT WHERE CHAT_ROOM_NO = #{chatRoomNo} ORDER BY CHAT_CONTENT_NO DESC) WHERE ROWNUM = 1
 	</select>
 	<select id="selectListChat" resultMap="chatContentResultMap"><!-- 채팅 목록 -->
-		SELECT DISTINCT CHAT_CONTENT_NO, CHAT_CONTENT.CHAT_ROOM_NO AS CHAT_ROOM_NO, CHAT_CONTENT, MEM_NUM, DIV_NAME, MEM_NAME, RANK_NAME, CHAT_DATE, CHAT_TYPE FROM CHAT_CONTENT LEFT JOIN CHAT_MEMBER USING(MEM_NUM) WHERE CHAT_CONTENT.CHAT_ROOM_NO = #{chatRoomNo} ORDER BY CHAT_CONTENT_NO
+		SELECT DISTINCT CHAT_CONTENT_NO, CHAT_CONTENT.CHAT_ROOM_NO, CHAT_CONTENT, CHAT_MEMBER.MEM_NUM, DIV_NAME, MEM_NAME, RANK_NAME, CHAT_DATE, CHAT_TYPE FROM CHAT_CONTENT LEFT JOIN CHAT_MEMBER ON CHAT_CONTENT.MEM_NUM = CHAT_MEMBER.MEM_NUM AND CHAT_CONTENT.CHAT_ROOM_NO = CHAT_MEMBER.CHAT_ROOM_NO WHERE CHAT_CONTENT.CHAT_ROOM_NO = #{chatRoomNo} ORDER BY CHAT_CONTENT_NO
 	</select>
 	<select id="selectOneChatMemberCount" resultType="_int"><!-- 채팅방 인원수 조회 -->
 		SELECT COUNT(*) FROM CHAT_MEMBER WHERE CHAT_ROOM_NO = #{chatRoomNo} AND MEM_STATUS = 0
@@ -92,8 +92,8 @@
 	<select id="selectOneChatRoom" resultMap="chatRoomResultMap"><!-- 채팅방 정보 조회 -->
 		SELECT * FROM CHAT_ROOM WHERE CHAT_ROOM_NO = #{chatRoomNo}
 	</select>
-	<update id="updateStatusChatMember"><!-- 채팅방 나가기 -->
-		UPDATE CHAT_MEMBER SET MEM_STATUS = 1 WHERE CHAT_ROOM_NO = #{chatRoomNo} AND MEM_NUM = #{memNum}
+	<update id="updateStatusChatMember"><!-- 사용자 상태 변경 -->
+		UPDATE CHAT_MEMBER SET MEM_STATUS = #{memStatus} WHERE CHAT_ROOM_NO = #{chatRoomNo} AND MEM_NUM = #{memNum}
 	</update>
 	<update id="updateChatTitle"><!-- 채팅방 제목 변경 -->
 		UPDATE CHAT_ROOM SET CHAT_ROOM_TITLE = #{chatRoomTitle} WHERE CHAT_ROOM_NO = #{chatRoomNo}

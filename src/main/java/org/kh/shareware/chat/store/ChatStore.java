@@ -19,7 +19,7 @@ public interface ChatStore {
 	public List<ChatContent> selectAllChat(SqlSession sqlSession, int chatRoomNo); // 채팅 목록
 	public int selectOneChatMemberCount(SqlSession sqlSession, int chatRoomNo); // 채팅 인원수 조회
 	public ChatRoom selectOneChatRoom(SqlSession sqlSession, int chatRoomNo); // 채팅방 정보 조회
-	public int updateStatusChatMember(SqlSession sqlSession, ChatMember chatMember); // 채팅방 나가기
+	public int updateStatusChatMember(SqlSession sqlSession, ChatMember chatMember); // 사용자 상태 변경
 	public int updateChatTitle(SqlSession sqlSession, ChatRoom chatRoom); // 채팅방 제목 변경
 	public ChatMember selectOneChatMember(SqlSession sqlSession, ChatMember chatMember); // 채팅방 사용자 조회
 	public int selectOneContentDate(SqlSession sqlSession, ChatContent chatContent); // 날짜 공지 찾기

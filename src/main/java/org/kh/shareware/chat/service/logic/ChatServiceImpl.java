@@ -81,7 +81,7 @@ public class ChatServiceImpl implements ChatService {
 	}
 	
 	@Override
-	public int modifyStatusChatMember(ChatMember chatMember) { // 채팅방 나가기
+	public int modifyStatusChatMember(ChatMember chatMember) { // 사용자 상태 변경
 		int result = cStore.updateStatusChatMember(sqlSession, chatMember);
 		return result;
 	}

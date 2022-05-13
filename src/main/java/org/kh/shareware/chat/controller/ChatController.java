@@ -125,7 +125,8 @@ public class ChatController {
 		ChatMember chatMember = new ChatMember();
 		chatMember.setChatRoomNo(chatRoomNo);
 		chatMember.setMemNum(memNum);
-		int result = cService.modifyStatusChatMember(chatMember);
+		chatMember.setMemStatus(1);
+		int result = cService.modifyStatusChatMember(chatMember); // 사용자 상태 변경
 		if(result > 0) {
 			ChatContent chatContent = new ChatContent();
 			chatMember = cService.printChatMember(chatMember); // 나가는 사용자 정보 조회
@@ -177,8 +178,15 @@ public class ChatController {
 		String[] chatMemberArr = new String[chatMember.length];
 		for(int i = 0; i < chatMember.length; i++) {
 			member.setMemNum(chatMember[i]);
-			result = cService.inviteChatMember(member); // 사용자 추가 등록
-			member = cService.printChatMember(member);
+			ChatMember inviteMember = cService.printChatMember(member);
+			if(inviteMember == null) { // 사용자가 채팅방에 초대된 적이 없으면
+				result = cService.inviteChatMember(member); // 사용자 추가 등록
+				member = cService.printChatMember(member);
+			}else { // 사용자가 채팅방에 초대된 적이 있으면
+				member = inviteMember;
+				member.setMemStatus(0);
+				result = cService.modifyStatusChatMember(member); // 사용자 상태 변경
+			}
 			chatMemberArr[i] = member.getDivName() + " " + member.getMemName() + " " + member.getRankName();
 		}
 		if(result > 0) {
