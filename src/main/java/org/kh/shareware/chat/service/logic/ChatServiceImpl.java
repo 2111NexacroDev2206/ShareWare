@@ -85,6 +85,12 @@ public class ChatServiceImpl implements ChatService {
 		int result = cStore.updateStatusChatMember(sqlSession, chatMember);
 		return result;
 	}
+	
+	@Override
+	public int modifyChatTitle(ChatRoom chatRoom) { // 채팅방 제목 변경
+		int result = cStore.updateChatTitle(sqlSession, chatRoom);
+		return result;
+	}
 
 	@Override
 	public ChatMember printChatMember(ChatMember chatMember) { // 채팅방 사용자 조회
@@ -115,5 +121,5 @@ public class ChatServiceImpl implements ChatService {
 		int result = cStore.deleteChatRoom(sqlSession, chatRoomNo);
 		return result;
 	}
-	
+
 }

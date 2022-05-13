@@ -41,6 +41,7 @@
 			</button>
 			<div class="more">
 				<button onclick="invite(${chatRoomNo})">초대</button>
+				<button onclick="titleChange(${chatRoomNo})">제목 변경</button>
 				<button onclick="chatOut(${chatRoomNo}, '${loginUser.memberNum}')">나가기</button>
 			</div>
 		</div>
@@ -77,6 +78,25 @@
 				$(".more").hide();
 			}
 		});
+		
+		// 더보기 제목 변경
+		function titleChange(chatRoomNo) {
+			var chatRoomTitle = prompt("채팅방 제목을 입력하세요");
+			if(chatRoomTitle != null) {
+				$.ajax({
+					url : "/chat/titleChange.sw",
+					type : "get",
+					data : { "chatRoomNo" : chatRoomNo, "chatRoomTitle" : chatRoomTitle },
+					success : function(result) {
+						$("#p-title").text(chatRoomTitle);
+						opener.parent.location.reload();
+					},
+					error : function() {
+						alert("채팅방 제목 변경 실패");
+					}
+				})
+			}
+		}
 		
 		// 더보기 나가기
 		function chatOut(chatRoomNo, memNum) {

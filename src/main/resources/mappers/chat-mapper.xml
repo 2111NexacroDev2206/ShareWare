@@ -95,6 +95,9 @@
 	<update id="updateStatusChatMember"><!-- 채팅방 나가기 -->
 		UPDATE CHAT_MEMBER SET MEM_STATUS = 1 WHERE CHAT_ROOM_NO = #{chatRoomNo} AND MEM_NUM = #{memNum}
 	</update>
+	<update id="updateChatTitle"><!-- 채팅방 제목 변경 -->
+		UPDATE CHAT_ROOM SET CHAT_ROOM_TITLE = #{chatRoomTitle} WHERE CHAT_ROOM_NO = #{chatRoomNo}
+	</update>
 	<select id="selectOneChatMember" resultMap="chatMemberResultMap"><!-- 채팅방 사용자 조회 -->
 		SELECT * FROM CHAT_MEMBER WHERE CHAT_ROOM_NO = #{chatRoomNo} AND MEM_NUM = #{memNum}
 	</select>

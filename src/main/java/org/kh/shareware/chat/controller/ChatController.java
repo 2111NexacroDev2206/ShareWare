@@ -154,6 +154,17 @@ public class ChatController {
 		return null;
 	}
 	
+	// 채팅방 제목 변경
+	@ResponseBody
+	@RequestMapping(value = "/chat/titleChange.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+	public String chatTitleModify(@ModelAttribute ChatRoom chatRoom) {
+		int result = cService.modifyChatTitle(chatRoom);
+		if(result > 0) {
+			return new Gson().toJson(result);
+		}
+		return null;
+	}
+	
 	// 사용자 추가 초대
 	@ResponseBody
 	@RequestMapping(value = "/chat/registerChatMember.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")

@@ -77,6 +77,12 @@ public class ChatStoreLogic implements ChatStore {
 		int result = sqlSession.update("ChatMapper.updateStatusChatMember", chatMember);
 		return result;
 	}
+	
+	@Override
+	public int updateChatTitle(SqlSession sqlSession, ChatRoom chatRoom) { // 채팅방 제목 변경
+		int result = sqlSession.update("ChatMapper.updateChatTitle", chatRoom);
+		return result;
+	}
 
 	@Override
 	public ChatMember selectOneChatMember(SqlSession sqlSession, ChatMember chatMember) { // 채팅방 사용자 조회
