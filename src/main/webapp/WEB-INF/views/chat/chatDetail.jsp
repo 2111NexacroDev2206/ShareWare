@@ -55,8 +55,9 @@
 	<script>
 		var intervalChat = setInterval(chatList, 500, "${chatRoomNo}"); // 채팅방 상세 함수 0.1초 주기로 실행
 		$(".chat-body").scroll(function() {
+			console.log($(".chat-body")[0].scrollHeight - $(".chat-body").scrollTop());
 			clearInterval(intervalChat); // 스크롤을 움직이면 인터벌 중지
-			if($(".chat-body")[0].scrollHeight - $(".chat-body").scrollTop() > 538) { // 스크롤이 하단있지 않으면 인터벌 중지
+			if($(".chat-body")[0].scrollHeight - $(".chat-body").scrollTop() != 538) { // 스크롤이 하단있지 않으면 인터벌 중지
 				clearInterval(intervalChat);
 			}else {
 				intervalChat = setInterval(chatList, 500, "${chatRoomNo}"); // 스크롤이 하단에 있으면 인터벌 실행
@@ -116,7 +117,6 @@
 				data : { "chatRoomNo" : chatRoomNo, "memNum" : memNum, "chatContent" : text },
 				success : function(result) {
 					chatList(chatRoomNo); // 채팅 상세 조회
-					intervalChat = setInterval(chatList, 100, "${chatRoomNo}"); // 인터벌 재실행
 				},
 				error : function() {
 					alert("메세지 전송 실패");
