@@ -152,6 +152,7 @@
 	}
 
 	
+	//글 등록
 	  $("#comInsert").on("click", function(){
 		    
 			var comTitle = $("#comTitle").val();

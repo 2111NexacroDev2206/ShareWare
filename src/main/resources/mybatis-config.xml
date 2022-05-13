@@ -15,6 +15,9 @@
 		<typeAlias type="org.kh.shareware.community.domain.Community" 				alias="Community"/>
 		<typeAlias type="org.kh.shareware.community.domain.CommunityVote" 			alias="CommunityVote"/>
 		<typeAlias type="org.kh.shareware.community.domain.CommunityVoteSelect" 	alias="CommunityVoteSelect"/>
+		<typeAlias type="org.kh.shareware.community.domain.Reply" 					alias="Reply"/>
+		<typeAlias type="org.kh.shareware.fileBoard.domain.FileBoard" 				alias="FileBoard"/>
+		<typeAlias type="org.kh.shareware.meetingRoom.domain.MeetingRoom" 			alias="MeetingRoom"/>
 		<typeAlias type="org.kh.shareware.calendar.domain.CalSch" 					alias="CalSch"/>
 		<typeAlias type="org.kh.shareware.calendar.domain.Calendar" 				alias="Calendar"/>
 		<typeAlias type="org.kh.shareware.calendar.domain.CalBmk" 					alias="CalBmk"/>
@@ -48,6 +51,8 @@
 		<mapper resource="mappers/approval-mapper.xml"/>
 		<mapper resource="mappers/member-mapper.xml"/>
 		<mapper resource="mappers/community-mapper.xml"/>
+		<mapper resource="mappers/fileBoard-mapper.xml"/>
+		<mapper resource="mappers/meetingRoom-mapper.xml"/>
 		<mapper resource="mappers/calendar-mapper.xml"/>
 		<mapper resource="mappers/attendance-mapper.xml"/>
 		<mapper resource="mappers/mail-mapper.xml"/>

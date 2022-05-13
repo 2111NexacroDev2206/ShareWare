@@ -2,6 +2,8 @@ package org.kh.shareware.community.domain;
 
 import java.sql.Date;
 
+import org.kh.shareware.member.domain.Member;
+
 public class Community {
 private int comNo;
 private String memberNum;
@@ -12,13 +14,23 @@ private int comView;
 private String comImgName;
 private String comImgRename;
 private String comImgPath;
-private String somDelete;
+private String comDelete;
 private int comVoteNo;
+
+private Member member;
+
+public Member getMember() {
+	return member;
+}
+
+public void setMember(Member member) {
+	this.member = member;
+}
 
 public Community() {}
 
 public Community(int comNo, String memberNum, Date comDate, String comTitle, String comContent, int comView,
-		String comImgName, String comImgRename, String comImgPath, String somDelete, int comVoteNo) {
+		String comImgName, String comImgRename, String comImgPath, String comDelete, int comVoteNo) {
 	super();
 	this.comNo = comNo;
 	this.memberNum = memberNum;
@@ -29,7 +41,7 @@ public Community(int comNo, String memberNum, Date comDate, String comTitle, Str
 	this.comImgName = comImgName;
 	this.comImgRename = comImgRename;
 	this.comImgPath = comImgPath;
-	this.somDelete = somDelete;
+	this.comDelete = comDelete;
 	this.comVoteNo = comVoteNo;
 }
 
@@ -105,12 +117,12 @@ public void setComImgPath(String comImgPath) {
 	this.comImgPath = comImgPath;
 }
 
-public String getSomDelete() {
-	return somDelete;
+public String getComDelete() {
+	return comDelete;
 }
 
-public void setSomDelete(String somDelete) {
-	this.somDelete = somDelete;
+public void setComDelete(String comDelete) {
+	this.comDelete = comDelete;
 }
 
 public int getComVoteNo() {
@@ -125,7 +137,7 @@ public void setComVoteNo(int comVoteNo) {
 public String toString() {
 	return "Community [comNo=" + comNo + ", memberNum=" + memberNum + ", comDate=" + comDate + ", comTitle=" + comTitle
 			+ ", comContent=" + comContent + ", comView=" + comView + ", comImgName=" + comImgName + ", comImgRename="
-			+ comImgRename + ", comImgPath=" + comImgPath + ", somDelete=" + somDelete + ", comVoteNo=" + comVoteNo
+			+ comImgRename + ", comImgPath=" + comImgPath + ", comDelete=" + comDelete + ", comVoteNo=" + comVoteNo
 			+ "]";
 };
 
