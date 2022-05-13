@@ -64,6 +64,12 @@ public class MemberServiceImpl implements MemberService{
 		List<Division>oList = mStore.selectOrganization(sqlSession);
 		return oList;
 	}
+	//사원정보
+	@Override
+	public List<Member> printOrgInfo() {
+		List<Member> mList = mStore.selectOrgInfo(sqlSession);
+		return mList;
+	}
 
 	
 	@Override

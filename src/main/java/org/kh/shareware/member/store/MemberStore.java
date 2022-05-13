@@ -24,6 +24,9 @@ public interface MemberStore {
 	
 	//조직도
 	public List<Division> selectOrganization(SqlSession sqlSession);
+	//조직도 사원정보
+	public List<Member> selectOrgInfo(SqlSession sqlSession);
+
 	
 	public List<Member> selectAllMember(SqlSession session);
 	public List<Member> selectMemberSearch(SqlSession session, Search search);

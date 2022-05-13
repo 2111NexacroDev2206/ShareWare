@@ -35,6 +35,13 @@ public class MemberStoreLogic implements MemberStore{
 		= sqlSession.selectList("MemberMapper.selectOrganization");
 		return oList;
 	}
+	//조직도 사원정보
+	@Override
+	public List<Member> selectOrgInfo(SqlSession sqlSession) {
+		List<Member> mList 
+		= sqlSession.selectList("MemberMapper.selectAllList");
+		return mList;
+	}
 
 	//주소록
 	@Override

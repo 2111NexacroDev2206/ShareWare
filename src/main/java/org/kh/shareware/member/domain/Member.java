@@ -190,5 +190,7 @@ public class Member {
 				+ ", password=" + password + ", gender=" + gender + ", photo=" + photo + ", breakTotal=" + breakTotal
 				+ ", mStatus=" + mStatus + "]";
 	}
+
+	
 	
 }

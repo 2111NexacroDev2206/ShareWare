@@ -126,7 +126,6 @@ public class MemberController {
 			return "common/errorPage";
 		}
 	}
-	
 	//조직도 json 데이터
 	@ResponseBody
 	@RequestMapping(value="/member/organizationData.sw", method=RequestMethod.GET)
@@ -138,7 +137,20 @@ public class MemberController {
 		}else {
 			return null;
 		}
-		
+	}
+	//조직도 사원정보
+	@RequestMapping(value="/member/organizationInfo.sw", method=RequestMethod.GET)
+	public String organizationInfo(
+			Model model
+			, @RequestParam("memNum") String memNum) {
+		Member mOne = mService.printOneById(memNum);
+		if(mOne != null) {
+			model.addAttribute("mOne", mOne);
+			return "/member/organizationView";
+		}else {
+			model.addAttribute("msg", "사원정보 조회 실패");
+			return "common/errorPage";
+		}
 	}
 	
 	// 사원 목록(전자결재 결재자, 참조자 선택 모달창)
