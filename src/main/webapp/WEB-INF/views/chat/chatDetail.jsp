@@ -53,7 +53,20 @@
 	</div>
 	<jsp:include page="chatInviteAddModal.jsp"></jsp:include> <!-- 사용자 추가 초대 모달 -->
 	<script>
-		var intervalChat = setInterval(chatList, 100, "${chatRoomNo}"); // 채팅방 상세 함수 0.5초 주기로 실행
+		var intervalChat = setInterval(chatList, 500, "${chatRoomNo}"); // 채팅방 상세 함수 0.1초 주기로 실행
+		$(".chat-body").scroll(function() {
+			clearInterval(intervalChat); // 스크롤을 움직이면 인터벌 중지
+			if($(".chat-body")[0].scrollHeight - $(".chat-body").scrollTop() > 538) { // 스크롤이 하단있지 않으면 인터벌 중지
+				clearInterval(intervalChat);
+			}else {
+				intervalChat = setInterval(chatList, 500, "${chatRoomNo}"); // 스크롤이 하단에 있으면 인터벌 실행
+			}
+		})
+		
+		// 창을 끄면 채팅창 새로고침
+		$(window).bind("beforeunload", function() {
+			opener.parent.location.reload();
+		});
 		
 		// 더보기 누르면 더보기 영역 보이기
 		$(".more-btn").click(function() {
@@ -103,6 +116,7 @@
 				data : { "chatRoomNo" : chatRoomNo, "memNum" : memNum, "chatContent" : text },
 				success : function(result) {
 					chatList(chatRoomNo); // 채팅 상세 조회
+					intervalChat = setInterval(chatList, 100, "${chatRoomNo}"); // 인터벌 재실행
 				},
 				error : function() {
 					alert("메세지 전송 실패");
@@ -124,6 +138,7 @@
 				},
 				error : function() {
 					alert("채팅 목록 조회 실패");
+					clearInterval(intervalChat);
 				}
 			})
 			
@@ -137,6 +152,7 @@
 				},
 				error : function() {
 					alert("채팅방 정보 조회 실패");
+					clearInterval(intervalChat);
 				}
 			})
 			
@@ -150,6 +166,7 @@
 				},
 				error : function() {
 					alert("인원수 조회 실패");
+					clearInterval(intervalChat);
 				}
 			})
 		}
