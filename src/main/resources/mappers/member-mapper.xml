@@ -6,8 +6,8 @@
   	<resultMap type="Member" id="memberResultMap">
   		<id property="memberNum" column="MEMBER_NUM"/>
   		<result property="memberName" column="MEMBER_NAME"/>
-  		<result property="division" column="DIV_NAME"/>
-  		<result property="rank" column="RANK_NAME"/>
+  		<result property="division" column="DIVISION"/>
+  		<result property="rank" column="RANK"/>
   		<result property="address" column="ADDRESS"/>
   		<result property="phone" column="PHONE"/>
   		<result property="mail" column="MAIL"/>
@@ -37,7 +37,16 @@
   	
 <!-- 마이페이지 -->
   	<select id="selectOneById" resultMap="memberResultMap">
-		SELECT * FROM MEMBER WHERE MEMBER_NUM= #{memberNum} 
+		SELECT 
+		MEMBER_NUM,
+		MEMBER_NAME,
+		DIV_NAME "DIVISION",
+		RANK_NAME "RANK",
+		ADDRESS,PHONE,MAIL,
+		HIRE_DATE,RETIRE_DATE,BIRTH,ACCOUNT,BANK,GENDER,PHOTO 
+		FROM MEMBER 
+		JOIN DIVISION ON DIVISION = DIV_CODE 
+		JOIN RANK ON RANK = RANK_CODE WHERE MEMBER_NUM= #{memberNum} 
 	</select>
 	
 <!-- 주소록 -->

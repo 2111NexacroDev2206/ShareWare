@@ -25,6 +25,9 @@ public interface MemberStore {
 	
 	//조직도
 	public List<Division> selectOrganization(SqlSession sqlSession);
+	//조직도 사원정보
+	public List<Member> selectOrgInfo(SqlSession sqlSession);
+
 	
 	// 사원 조회 모달
 	public List<Member> selectAllMember(SqlSession sqlSession, String memberNum);

@@ -15,6 +15,7 @@ public interface MemberService {
 	public List<Member> printAll(PageInfo pi); //주소록
 	public int getListCount(); //페이징
 	public List<Division> printOrganization(); //조직도
+	public List<Member> printOrgInfo(); //조직도 사원정보
 	
 	//주소록 검색
 	public List<Member> printAllSearch(PageInfo pi); 
