@@ -52,6 +52,7 @@ public class WeekStoreLogic implements WeekStore{
 		int result = sqlSession.delete("WeekMapper.deleteWeek", wrNo);
 		return result;
 	}
+	//첨부파일 삭제
 	@Override
 	public int deleteFileInfo(SqlSession sqlSession, Integer wrNo) {
 		int result = sqlSession.update("WeekMapper.updateFileInfo" , wrNo);

@@ -3,9 +3,12 @@ package org.kh.shareware.project.service.logic;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.kh.shareware.common.Search;
 import org.kh.shareware.member.domain.Member;
+import org.kh.shareware.project.common.PageInfo;
 import org.kh.shareware.project.domain.Participant;
 import org.kh.shareware.project.domain.Project;
+import org.kh.shareware.project.domain.WorkChart;
 import org.kh.shareware.project.service.ProjectService;
 import org.kh.shareware.project.store.ProjectStore;
 import org.kh.shareware.report.domain.Daily;
@@ -34,8 +37,8 @@ public class ProjectServiceImpl implements ProjectService{
 	}
 	//프로젝트 목록
 	@Override
-	public List<Project> printAllProject(String memberNum) {
-		List<Project> pList = pStore.selectAllProject(memberNum, sqlSession );
+	public List<Project> printAllProject(Project project , PageInfo pi) {
+		List<Project> pList = pStore.selectAllProject(project, pi, sqlSession);
 		return pList;
 	}
 	//프로젝트 메인페이지로
@@ -74,12 +77,48 @@ public class ProjectServiceImpl implements ProjectService{
 		List<Member>  pList = pStore.selectAllParticipant(sqlSession , projectNo);
 		return pList;
 	}
-//	//프로젝트 종료
-//	@Override
-//	public int modifyEndStatus(int projectNo) {
-//		int result = pStore.updateEndStatus(sqlSession, projectNo);
-//		return result;
-//	}
+	//진행률 등록 
+	@Override
+	public int registerChart(WorkChart workChart) {
+		int result = pStore.insertChart(sqlSession, workChart);
+		return result;
+	}
+	// 업무 진행률 조회(개인)
+	@Override
+	public int printChart(WorkChart workChart) {
+		int chart = pStore.printChart(sqlSession, workChart);
+		return chart;
+	}
+	// 업무 진행률 수정(개인)
+	@Override
+	public int modifyChart(WorkChart workChart) {
+		int result= pStore.updateChart(sqlSession, workChart);
+		return result;
+	}
+	//진행률 전체조회
+	@Override
+	public List<WorkChart> printAllChart(int projectNo) {
+		List<WorkChart> cList = pStore.selectListChart(sqlSession, projectNo);
+		return cList;
+	}
+	//페이징
+	@Override
+	public int getListCount(Project project) {
+		int totalCount = pStore.selectListCount(sqlSession, project);
+		return totalCount;
+	}
+	//검색 페이징
+	@Override
+	public int getSearchCount(Search search) {
+		int totalCount = pStore.selectListSearchCount(sqlSession, search);
+		return totalCount;
+	}
+	//프로젝트 검색
+	@Override
+	public List<Project> printSearch(Search search, PageInfo pi) {
+		List<Project> pList = pStore.selectListSearch(sqlSession, search, pi);
+		return pList;
+	}
 
 
 

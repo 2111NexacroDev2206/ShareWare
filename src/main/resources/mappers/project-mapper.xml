@@ -12,14 +12,49 @@
   		<result property="pStatus"			column="P_STATUS"/>
   		<result property="projectContent"	column="PROJECT_CONTENT"/>
   	</resultMap>
+  	<resultMap type="WorkChart" id="workChartResultMap">
+  		<result property="projectNo"		column="PROJECT_NO"/>
+  		<result property="memNum"			column="MEM_NUM"/>
+  		<result property="projectWriter"	column="PROJECT_WRITER"/>
+  		<result property="wpRate"			column="WP_RATE"/>
+  	</resultMap>
   	<select id="selectAllProject" resultMap="projectResultMap">
-  		SELECT DISTINCT PROJECT_NO, PROJECT_TITLE, MEMBER_NAME, P_START_DATE, P_END_DATE, P_STATUS, PROJECT_CONTENT FROM PROJECT JOIN PARTICIPANT USING(PROJECT_NO) JOIN MEMBER ON PROJECT_MADE = MEMBER_NUM WHERE PROJECT_MADE= #{memNum} OR MEM_NUM = #{memNum} ORDER BY P_STATUS DESC, PROJECT_NO DESC 
+  		SELECT DISTINCT PROJECT_NO, PROJECT_TITLE, MEMBER_NAME, P_START_DATE, P_END_DATE, P_STATUS, PROJECT_CONTENT FROM PROJECT JOIN PARTICIPANT USING(PROJECT_NO) JOIN MEMBER ON PROJECT_MADE = MEMBER_NUM WHERE (PROJECT_MADE= #{projectMade} OR MEM_NUM = #{projectMade})
+  		<if test="pStatus != 'A'.toString()">
+  			AND P_STATUS = #{pStatus}
+  		</if>
+  		ORDER BY P_STATUS DESC, PROJECT_NO DESC 
+  	</select>
+  	<select id="selectOneCount" resultType="_int">
+  		SELECT COUNT(DISTINCT PROJECT_NO) FROM PROJECT JOIN PARTICIPANT USING(PROJECT_NO) JOIN MEMBER ON PROJECT_MADE = MEMBER_NUM WHERE (PROJECT_MADE= #{projectMade} OR MEM_NUM = #{projectMade})
+  		<if test="pStatus != 'A'.toString()">
+  			AND P_STATUS = #{pStatus}
+  		</if>
+  	</select>
+  	<select id="selectOneSearchCount" resultType="_int">
+  		SELECT COUNT(DISTINCT PROJECT_NO) FROM PROJECT JOIN PARTICIPANT USING(PROJECT_NO) JOIN MEMBER ON PROJECT_MADE = MEMBER_NUM WHERE (PROJECT_MADE= #{memberNum} OR MEM_NUM = #{memberNum})
+  		<if test="type != 'A'.toString()">
+  			AND P_STATUS = #{type}
+  		</if>
+  		<if test="searchCondition.toString() == 'docTitle'">
+  			AND PROJECT_TITLE LIKE '%' || #{searchValue} || '%'
+  		</if>
+  	</select>
+  	<select id="selectSearchProject" resultMap="projectResultMap">
+  		SELECT DISTINCT PROJECT_NO, PROJECT_TITLE, MEMBER_NAME, P_START_DATE, P_END_DATE, P_STATUS, PROJECT_CONTENT FROM PROJECT JOIN PARTICIPANT USING(PROJECT_NO) JOIN MEMBER ON PROJECT_MADE = MEMBER_NUM WHERE (PROJECT_MADE= #{memberNum} OR MEM_NUM = #{memberNum})
+		<if test="type != 'A'.toString()">
+  			AND P_STATUS = #{type}
+  		</if>
+		<if test="searchCondition.toString() == 'docTitle'">
+  			AND PROJECT_TITLE LIKE '%' || #{searchValue} || '%'
+  		</if>
+  		ORDER BY P_STATUS DESC, PROJECT_NO DESC 
   	</select>
   	<select id="selectOneProject" resultMap="projectResultMap" >
-  		 SELECT * FROM PROJECT WHERE PROJECT_NO = #{projectNo}
+  		 SELECT PROJECT_NO, PROJECT_TITLE, MEMBER_NAME, P_START_DATE, P_END_DATE, P_STATUS, PROJECT_CONTENT FROM PROJECT JOIN MEMBER ON PROJECT_MADE = MEMBER_NUM WHERE PROJECT_NO = #{projectNo}
   	</select>
   	<select id="selectOneProjectDetail" resultMap="projectResultMap" >
-  		SELECT * FROM PROJECT WHERE PROJECT_NO = #{projectNo}
+  		SELECT PROJECT_NO, PROJECT_TITLE, MEMBER_NAME, P_START_DATE, P_END_DATE, P_STATUS, PROJECT_CONTENT FROM PROJECT JOIN MEMBER ON PROJECT_MADE = MEMBER_NUM WHERE PROJECT_NO = #{projectNo}
   	</select>
   	<resultMap type="Member" id="memberResultMap">
   		<id property="memberNum" column="MEMBER_NUM"/>
@@ -40,7 +75,7 @@
   		<result property="breakTotal" column="BREAK_TOTAL"/>
   	</resultMap>
   	<select id="selectAllParticipant" resultMap="memberResultMap">
-  		SELECT MEMBER_NUM, DIVISION, RANK, MEMBER_NAME FROM MEMBER JOIN PARTICIPANT ON MEM_NUM = MEMBER_NUM WHERE PROJECT_NO = #{projectNo }
+  		SELECT MEMBER_NUM, DIV_NAME AS DIVISION, RANK_NAME AS RANK, MEMBER_NAME FROM MEMBER JOIN PARTICIPANT ON MEM_NUM = MEMBER_NUM JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE PROJECT_NO = #{projectNo }
   	</select>
   	<insert id="insertProject">
   		INSERT INTO PROJECT VALUES(
@@ -56,6 +91,27 @@
   	<insert id="insertParticipant">
   		INSERT INTO PARTICIPANT VALUES(#{memberNum}, SEQ_PROJECT_NO.CURRVAL)
   	</insert>
+  	
+  	<select id="selectOneChart" resultType="_int">
+  		SELECT COUNT(*) FROM WORK_CHART WHERE PROJECT_NO = #{projectNo} AND MEM_NUM = #{memNum}
+  	</select>
+  	<select id="selectListChart" resultMap="workChartResultMap">
+  	 	SELECT * FROM WORK_CHART WHERE PROJECT_NO = #{projectNo}
+  	</select>
+  	<insert id="insertChart">
+  		INSERT INTO WORK_CHART VALUES(
+  			#{projectNo},
+  			#{memNum},
+  			#{projectWriter},
+  			#{wpRate}
+  		)
+  	</insert>
+  	<update id="updateChart">
+  		UPDATE WORK_CHART
+  		SET WP_RATE = #{wpRate} 
+  		WHERE PROJECT_NO = #{projectNo} AND MEM_NUM = #{memNum}
+  	</update>
+  	
   	<update id="updateProject">
   		UPDATE PROJECT
   		SET  PROJECT_TITLE = #{projectTitle}
@@ -64,12 +120,7 @@
   		 	,PROJECT_CONTENT = #{projectContent}
   		 WHERE PROJECT_NO = #{projectNo}
   	</update>
-<!-- 	<update id="updateEndStatus">
-		UPDATE PROJECT 
-		SET P_STATUS = 'N'
-		WHERE PROJECT_NO = #{projectNo}
-	</update> -->
-	
+  	
   	<delete id="deleteProject">
   		DELETE FROM PROJECT WHERE PROJECT_NO = #{projectNo}
   	</delete>

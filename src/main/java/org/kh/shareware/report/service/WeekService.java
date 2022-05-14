@@ -14,6 +14,5 @@ public interface WeekService {
 	public int removeWeek(int wrNo);	//주간업무 삭제
 	public int modifyWeek(Week week); // 주간업무 수정 
 	public int removeFileInfo(Integer wrNo);  // 첨부파일 삭제
-	
 
 }

@@ -7,34 +7,14 @@
 <head>
 <meta charset="UTF-8">
 <title>주간 업무 목록</title>
-<style>
-	.paging {
-		display: inline-flex;
-		height: 40px;
-		width: 840px;
-		margin-left: 253px;
-		justify-content: center;
-	}
-	.page-btn {
-		width: 40px;
-		height: 40px;
-		border: none;
-		background-color: transparent;
-		font-size: 14px;
-		margin: 0 5px;
-		cursor: pointer;
-	}
-	.page-btn:hover, .page-btn.active {
-		border: 1px solid rgb(51, 51, 51);
-		border-radius: 4px;
-	}
-</style>
+<link href="/resources/css/report/week-style.css" rel="stylesheet">
+
 </head>
 <body>
 <jsp:include page="reportMenu.jsp"></jsp:include>
 	<div class="s-container">
-		<h1>주간 업무목록</h1>
-			<a href="/report/weekWriteView.sw">+일지작성</a>
+		<h2 id="h-title">주간 업무목록</h2>
+			<button id="app-btn" onclick="location.href='/report/weekWriteView.sw'">일지작성</button> 
 		<table align="center" width="" border="1">
 			<thead>
 				<tr>
