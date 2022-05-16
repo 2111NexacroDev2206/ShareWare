@@ -52,6 +52,10 @@
 		</div>
     </div>
     <jsp:include page="../alarm/alarmModal.jsp"></jsp:include>
+    <div id="profile-menu">
+    	<button onclick="location.href='/member/myInfo.sw'">기본 정보 조회</button>
+    	<button onclick="location.href='/member/logout.sw'">로그아웃</button>
+    </div>
 </body>
 <script>
 	// 알림 버튼
@@ -60,6 +64,15 @@
 			$("#alarm-modal").show();
 		}else {
 			$("#alarm-modal").hide();
+		}
+	})
+	
+	// 프로필 메뉴
+	$("#btn-info").click(function() {
+		if($("#profile-menu").css("display") === "none" ) {
+			$("#profile-menu").show();
+		}else {
+			$("#profile-menu").hide();
 		}
 	})
 </script>

@@ -58,7 +58,7 @@ public class MemberController {
 		HttpSession session = request.getSession();
 		if(session != null) {
 			session.invalidate();
-			return "redirect:/home.sw";
+			return "common/login";
 		}else {
 			request.setAttribute("msg", "로그아웃 실패!");
 			return "common/errorPage";
