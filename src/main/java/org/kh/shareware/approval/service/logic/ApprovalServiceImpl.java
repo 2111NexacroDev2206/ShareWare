@@ -139,7 +139,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 	}
 
 	@Override
-	public int modifyApp(Approval app) { // 결재자 상태 변경(임시->대기)
+	public int modifyApp(Approval app) { // 결재자 상태 변경(임시->대기/예정)
 		int result = aStore.updateApp(sqlSession, app);
 		return result;
 	}
@@ -202,6 +202,30 @@ public class ApprovalServiceImpl implements ApprovalService{
 	public int getSearchAppCount(Search search) { // 결재 문서함 검색 페이징
 		int totalCount = aStore.selectSearchAppCount(sqlSession, search);
 		return totalCount;
+	}
+
+	@Override
+	public int modifyAppStatus(Approval app) { // 결재 승인/반려(결재자 상태 변경)
+		int result = aStore.updateAppStatus(sqlSession, app);
+		return result;
+	}
+
+	@Override
+	public int modifyDocStatus(Approval app) { // 결재 승인/반려(문서 상태 변경)
+		int result = aStore.updateDocStatus(sqlSession, app);
+		return result;
+	}
+
+	@Override
+	public List<Approval> printAllAppStatus(int docNo) { // 다음 차례 결재자 확인
+		List<Approval> aList = aStore.selectAllAppStatus(sqlSession, docNo);
+		return aList;
+	}
+
+	@Override
+	public int modifyAppNext(int appNo) { // 다음 결재자 상태 변경(요청->대기)
+		int result = aStore.updateAppNext(sqlSession, appNo);
+		return result;
 	}
 
 }

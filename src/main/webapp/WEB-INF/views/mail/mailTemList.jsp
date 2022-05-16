@@ -76,6 +76,7 @@ border-bottom: 1px solid lightgray;
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <body>
 	<jsp:include page="../common/menuBar.jsp"></jsp:include>
+	<jsp:include page="../mail/mailMenu.jsp"></jsp:include>
 	<script type="text/javascript">
 		$(function() {
 			$("#allCheck").click(function() {
@@ -134,64 +135,9 @@ border-bottom: 1px solid lightgray;
 			}
 		}
 	</script>
+	
 	<form action="/mail/mailTemListView.sw" method="post">
-	<div class="s-menu">
-		<div class="s-menu-title">
-			<p>
-				메일 <i class="fa-solid fa-pen-to-square fa-lg"></i>
-		</div>
-		<div>
-			&nbsp;&nbsp;&nbsp;&nbsp;
-			<button type="submit"
-				onclick="javascript: form.action='/mail/WriteView.sw'"
-				style="width: 90px; height: 35px;">메일쓰기</button>
-			&nbsp;&nbsp;
-			<button type="submit"
-				onclick="javascript: form.action='/mail/WriteMyView.sw'"
-				style="width: 90px; height: 35px;">내게쓰기</button>
-		</div>
-		<div>
-			<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}"
-				id="read">
-				<a href="#"><small>안읽음</small></a>
-			</div>
-			<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}"
-				id="bmk">
-				<a href="#"><small>중요</small></a>
-			</div>
-			<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}"
-				id="file">
-				<a href="#"><small>첨부</small></a>
-			</div>
-		</div>
-		<div>
-			<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}">
-				<a href="">받은 메일함</a>
-			</div>
-			<div
-				class="s-list-item ${listCondition eq 'approval' ? 'active' : ''}">
-				<a href="">보낸 메일함</a>
-			</div>
-			<div
-				class="s-list-item ${listCondition eq 'reference' ? 'active' : ''}">
-				<a href="">내게 쓴 메일함</a>
-			</div>
-			<div
-				class="s-list-item ${listCondition eq 'reference' ? 'active' : ''}">
-				<a href="">보낸 승인 메일함</a>
-			</div>
-			<div
-				class="s-list-item ${listCondition eq 'reference' ? 'active' : ''}">
-				<a href="">즐겨찾는 그룹</a>
-			</div>
-
-			<div
-				class="s-list-item ${listCondition eq 'temporary' ? 'active' : ''}">
-				<a href="mailTemListView.sw">임시 저장함</a>
-			</div>
-
-		</div>
-	</div>
+	
 	<!-- <form action="/mail/mailRListView.sw" method="post"></form> -->
 	<div id="mailRList">
 		<input type="hidden" name="mailReceiver"
@@ -225,13 +171,10 @@ border-bottom: 1px solid lightgray;
 					<td><a href="${mDetail}">${mail.mailSubject }</a></td>
 					<td width="150px;"><fmt:formatDate
 							value="${mail.mailFromDate }" pattern="yyyy/MM/dd/HH:mm:ss" /></td>
-
 				</tr>
 			</c:forEach>
 		</table>
-		
-
-
+		<jsp:include page="mailPaging.jsp"></jsp:include>
 	</div>
 	</form>
 </body>

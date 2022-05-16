@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="AttendanceMapper">
+  	<resultMap type="Attendance" id="attendanceResultMap">
+  		<id property="attNo" column="ATT_NO"/>
+  		<result property="attDate" column="ATT_DATE"/>
+  		<result property="attStrTime" column="ATT_STR_TIME"/>
+  		<result property="attFinTime" column="ATT_FIN_TIME"/>
+  		<result property="attTotalTime" column="ATT_TOTAL_TIME"/>
+  		<result property="attStatus" column="ATT_STATUS"/>
+  		<result property="memNum" column="MEM_NUM"/>
+  	</resultMap>
+  	
+  		<resultMap type="Stats" id="statsResultMap">
+  			<id property="attStatus" column="ATT_STATUS"/>
+	  		<result property="attCount" column="ATT_COUNT"/>
+	  		<result property="memNum" column="MEM_NUM"/>
+  		</resultMap>
+  
+  	<!-- 출근 등록 -->
+  	<update id="insertAttendance">           
+        UPDATE ATTENDANCE SET ATT_STR_TIME = TO_CHAR(SYSDATE, 'HH24:MI:SS'), ATT_STATUS = #{attStatus } WHERE  ATT_NO = (SELECT MAX(ATT_NO) FROM ATTENDANCE WHERE MEM_NUM = #{memNum})
+  	</update>
+  	
+  	<!-- 퇴근 등록 / 총근무시간 -->
+  	<update id="updateAttendance">           
+        UPDATE ATTENDANCE SET ATT_FIN_TIME = TO_CHAR(SYSDATE, 'HH24:MI:SS'),ATT_TOTAL_TIME = (SELECT ROUND((TO_DATE(TO_CHAR(SYSDATE, 'HH24:MI:SS'),'HH24:MI:SS') - TO_DATE(ATT_STR_TIME, 'HH24:MI:SS'))*24,2) FROM ATTENDANCE WHERE ATT_NO = (SELECT MAX(ATT_NO) FROM ATTENDANCE WHERE MEM_NUM = #{memNum})) WHERE  ATT_NO = (SELECT MAX(ATT_NO) FROM ATTENDANCE WHERE MEM_NUM = #{memNum}) 
+  	</update>
+  	
+  	<!-- 리스트 -->
+  	<select id="selectAllList" resultMap="attendanceResultMap">
+  		SELECT ATT_NO
+             , TO_CHAR(ATT_DATE,'YYYY-MM-DD') AS ATT_DATE
+             , ATT_STR_TIME
+             , ATT_FIN_TIME
+             , ATT_TOTAL_TIME
+             , ATT_STATUS
+             , MEM_NUM 
+  		  FROM ATTENDANCE 
+  		 WHERE MEM_NUM || TO_CHAR(ATT_DATE,'YYYY-MM') LIKE #{memNum} || '%'
+  		 ORDER BY ATT_DATE DESC
+  	</select>
+  	<select id="selectListCount" resultType="_int"> 
+		SELECT COUNT(*) 
+		  FROM ATTENDANCE 
+		 WHERE MEM_NUM || TO_CHAR(ATT_DATE,'YYYY-MM') LIKE #{memNum} || '%'
+	</select>
+	
+	<!-- 통계 -->
+  	<select id="selectStats" resultMap="statsResultMap">
+  			SELECT ATT_STATUS
+                 , ATT_COUNT
+                 , MEM_NUM
+              FROM (
+              SELECT NVL(MAX(ATT_STATUS),'지각') AS ATT_STATUS
+                   , NVL(MAX(COUNT(ATT_STATUS)),0) AS ATT_COUNT
+                   , NVL(MAX(MEM_NUM),#{memNum}) AS MEM_NUM                                  
+                FROM ATTENDANCE
+               WHERE MEM_NUM || TO_CHAR(ATT_DATE,'YYYY-MM') LIKE #{memNum} || '%' 
+                 AND ATT_STATUS = '지각'
+            GROUP BY ATT_STATUS
+                   , MEM_NUM
+                   UNION
+                   SELECT NVL(MAX(ATT_STATUS),'조퇴') AS ATT_STATUS
+                   , NVL(MAX(COUNT(ATT_STATUS)),0) AS ATT_COUNT
+                   , NVL(MAX(MEM_NUM),#{memNum}) AS MEM_NUM                            
+                FROM ATTENDANCE
+               WHERE MEM_NUM || TO_CHAR(ATT_DATE,'YYYY-MM') LIKE #{memNum} || '%' 
+                 AND ATT_STATUS = '조퇴'
+            GROUP BY ATT_STATUS
+                   , MEM_NUM
+                   UNION
+              SELECT NVL(MAX(ATT_STATUS),'출근') AS ATT_STATUS
+                   , NVL(MAX(COUNT(ATT_STATUS)),0) AS ATT_COUNT
+                   , NVL(MAX(MEM_NUM),#{memNum}) AS MEM_NUM                            
+                FROM ATTENDANCE
+               WHERE MEM_NUM || TO_CHAR(ATT_DATE,'YYYY-MM') LIKE #{memNum} || '%'
+                 AND ATT_STATUS = '출근'
+            GROUP BY ATT_STATUS
+                   , MEM_NUM
+                   )
+             ORDER BY CASE WHEN ATT_STATUS='지각' THEN 1
+                           WHEN ATT_STATUS='조퇴' THEN 2
+                           WHEN ATT_STATUS='출근' THEN 3 END
+  	</select>
+  	
+	<select id="selectAttendanceSearch" resultMap="attendanceResultMap">
+	</select>
+  </mapper>

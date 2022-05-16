@@ -18,31 +18,62 @@
         <p class="share">Share
         <p class="ware">Ware
         <div class="list-item ${myCondition eq 'home' ? 'active' : ''}"><a href="/home.sw">홈</a></div>
-        <div class="list-item ${myCondition eq 'project' ? 'active' : ''}"><a href="">프로젝트 관리</a></div>
-        <div class="list-item ${myCondition eq 'report' ? 'active' : ''}"><a href="">업무일지</a></div>
-        <div class="list-item ${myCondition eq 'attendance' ? 'active' : ''}"><a href="">근태 관리</a></div>
-        <div class="list-item ${myCondition eq 'organization' ? 'active' : ''}"><a href="">조직도</a></div>
-        <div class="list-item ${myCondition eq 'member' ? 'active' : ''}"><a href="">주소록</a></div>
-        <div class="list-item ${myCondition eq 'community' ? 'active' : ''}"><a href="/community/list.sw">게시판</a></div>
+        <div class="list-item ${myCondition eq 'project' ? 'active' : ''}"><a href="/project/projectList.sw">프로젝트 관리</a></div>
+        <div class="list-item ${myCondition eq 'report' ? 'active' : ''}"><a href="/report/dailyList.sw">업무일지</a></div>
+        <div class="list-item ${myCondition eq 'attendance' ? 'active' : ''}"><a href="/attendance/attListViewEmp.sw">근태 관리</a></div>
+        <div class="list-item ${myCondition eq 'organization' ? 'active' : ''}"><a href="/member/organizationView.sw">조직도</a></div>
+        <div class="list-item ${myCondition eq 'member' ? 'active' : ''}"><a href="/member/address.sw">주소록</a></div>
+        <div class="list-item ${myCondition eq 'board' ? 'active' : ''}"><a href="/community/list.sw">게시판</a></div>
         <div class="list-item ${myCondition eq 'meetingRoom' ? 'active' : ''}"><a href="/meetionRoom/meetingRoomReservationView.sw">회의실 예약</a></div>
         <div class="list-item ${myCondition eq 'approval' ? 'active' : ''}"><a href="/approval/draftListView.sw">전자결재</a></div>
-        <div class="list-item ${myCondition eq 'chat' ? 'active' : ''}"><a href="">채팅</a></div>
-        <div class="list-item ${myCondition eq 'calendar' ? 'active' : ''}"><a href="">일정</a></div>
-        <div class="list-item ${myCondition eq 'mail' ? 'active' : ''}"><a href="">메일</a></div>
+        <div class="list-item ${myCondition eq 'chat' ? 'active' : ''}"><a href="/chat/chatListView.sw">채팅</a></div>
+        <div class="list-item ${myCondition eq 'calendar' ? 'active' : ''}"><a href="/calendar/schListView.sw">일정</a></div>
+        <div class="list-item ${myCondition eq 'mail' ? 'active' : ''}"><a href="/mail/SmailListView.sw">메일</a></div>
     </div>
     <div class="header">
    		<div class="header-right">
-	    	<span class="material-icons"style="font-size:45px;">
-				mail_outline
-			</span>
-	    	<span class="material-icons" style="font-size:45px;">
-				notifications_none
-			</span>
-			<span class="material-icons" style="font-size:45px;">
-				account_circle
-			</span>
-			<a class="user">${loginUser.memberName } 님</a>
+   			<button id="btn-mail">
+		    	<span class="material-icons" style="font-size:45px;">
+					mail_outline
+				</span>
+			</button>
+			<button id="btn-alarm">
+		    	<span class="material-icons" style="font-size:45px;">
+					notifications_none
+				</span>
+				<div id="alarm-count"></div>
+			</button>
+			<button id="btn-info">
+				<span class="material-icons" style="font-size:45px;">
+					account_circle
+				</span>
+				<span class="user">${loginUser.memberName } 님</span>
+			</button>
 		</div>
     </div>
+    <jsp:include page="../alarm/alarmModal.jsp"></jsp:include>
+    <div id="profile-menu">
+    	<button onclick="location.href='/member/myInfo.sw'">기본 정보 조회</button>
+    	<button onclick="location.href='/member/logout.sw'">로그아웃</button>
+    </div>
 </body>
+<script>
+	// 알림 버튼
+	$("#btn-alarm").click(function() {
+		if($("#alarm-modal").css("display") === "none" ) {
+			$("#alarm-modal").show();
+		}else {
+			$("#alarm-modal").hide();
+		}
+	})
+	
+	// 프로필 메뉴
+	$("#btn-info").click(function() {
+		if($("#profile-menu").css("display") === "none" ) {
+			$("#profile-menu").show();
+		}else {
+			$("#profile-menu").hide();
+		}
+	})
+</script>
 </html>

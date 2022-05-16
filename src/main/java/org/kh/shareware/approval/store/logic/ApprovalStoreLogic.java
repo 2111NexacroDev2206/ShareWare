@@ -140,7 +140,7 @@ public class ApprovalStoreLogic implements ApprovalStore{
 	}
 
 	@Override
-	public int updateApp(SqlSession sqlSession, Approval app) { // 결재자 상태 변경(임시->대기)
+	public int updateApp(SqlSession sqlSession, Approval app) { // 결재자 상태 변경(임시->대기/예정)
 		int result = sqlSession.update("ApprovalMapper.updateApp", app);
 		return result;
 	}
@@ -219,6 +219,30 @@ public class ApprovalStoreLogic implements ApprovalStore{
 	public int selectSearchAppCount(SqlSession sqlSession, Search search) { // 결재 문서함 검색 페이징
 		int totalCount = sqlSession.selectOne("ApprovalMapper.selectOneSearchAppCount", search);
 		return totalCount;
+	}
+
+	@Override
+	public int updateAppStatus(SqlSession sqlSession, Approval app) { // 결재 승인/반려(결재자 상태 변경)
+		int result = sqlSession.update("ApprovalMapper.updateAppStatus", app);
+		return result;
+	}
+
+	@Override
+	public int updateDocStatus(SqlSession sqlSession, Approval app) { // 결재 승인/반려(문서 상태 변경)
+		int result = sqlSession.update("ApprovalMapper.updateDocStatus", app);
+		return result;
+	}
+
+	@Override
+	public List<Approval> selectAllAppStatus(SqlSession sqlSession, int docNo) { // 다음 차례 결재자 확인
+		List<Approval> aList = sqlSession.selectList("ApprovalMapper.selectListAppStatus", docNo);
+		return aList;
+	}
+
+	@Override
+	public int updateAppNext(SqlSession sqlSession, int appNo) { // 다음 결재자 상태 변경(요청->대기)
+		int result = sqlSession.update("ApprovalMapper.updateAppNext", appNo);
+		return result;
 	}
 
 }

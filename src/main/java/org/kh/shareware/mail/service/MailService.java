@@ -2,11 +2,13 @@ package org.kh.shareware.mail.service;
 
 import java.util.List;
 
+import org.kh.shareware.common.PageInfo;
+import org.kh.shareware.common.Search;
 import org.kh.shareware.mail.domain.Mail;
 import org.kh.shareware.mail.domain.MailFile;
 import org.kh.shareware.mail.domain.MailRec;
 import org.kh.shareware.mail.domain.MailRef;
-import org.kh.shareware.mail.domain.MailSearch;
+
 
 public interface MailService {
 
@@ -30,16 +32,18 @@ public interface MailService {
 	public int registerTemMailMyFile(MailFile mailFile);
 	
 	//메일함 목록
-	public List<Mail> printMail();
+	public List<Mail> printMail(Mail mail, PageInfo pi);
 	
-	public List<MailRec> printMailRec();
+	public List<Mail> printMailRec(Mail mail, PageInfo pi);
 
-	public List<Mail> printMailMy();
+	public List<Mail> printMailMy(Mail mail, PageInfo pi);
 
-	public List<MailFile> printMailFile();
+	public List<Mail> printMailFile(Mail mail, PageInfo pi);
 	
 	//임시 보관함 목록
-	public List<Mail> printTemMail();
+	public List<Mail> printTemMail(Mail mail, PageInfo pi);
+	
+	public int getTemMailCount(Mail mail);
 
 	//목록에서 체크한 메일 삭제
 	public int removeChkMail( int values);
@@ -83,13 +87,31 @@ public interface MailService {
 	public int removeMailFile(int mailNo);
 	
 	//메일 검색 목록
-	public List<Mail> printSearchMail(MailSearch mailSearch);
+	public List<Mail> printSearchMail(Search search, PageInfo pi);
 
-	public List<MailRec> printSearchMailRec(MailSearch mailSearch);
+	public List<Mail> printSearchMailRec(Search search, PageInfo pi);
 
-	public List<MailFile> printSearchMailFile(MailSearch mailSearch);
+	public List<Mail> printSearchMailFile(Search search, PageInfo pi);
 
-	public List<Mail> printSearchMailMy(MailSearch mailSearch);
+	public List<Mail> printSearchMailMy(Search search, PageInfo pi);
+
+	public int getMailCount(Mail mail);
+
+	public int getMailRecCount(Mail mail);
+
+	public int getMailMyCount(Mail mail);
+
+	public int getMailFileCount(Mail mail);
+	
+	public int getSearchMailCount(Search search);
+
+	public int getSearchMailRecCount(Search search);
+
+	public int getSearchMailMyCount(Search search);
+
+	public int getSearchMailFileCount(Search search);
+
+	
 
 	
 	

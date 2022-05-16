@@ -26,7 +26,7 @@
 		</tr>
 		<tr> 
 			<td>작성자</td>
-			<td>${week.wrWriter }	</td>
+			<td>${week.wrWriter }</td>
 		</tr>
 			<tr>
                   <td colspan="4">

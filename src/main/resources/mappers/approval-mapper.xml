@@ -25,6 +25,7 @@
 		<result property="leaveDay" column="LEAVE_DAY"/>
 		<result property="leaveLeft" column="LEAVE_LEFT"/>
 		<result property="leaveApply" column="LEAVE_APPLY"/>
+		<result property="appStatus" column="APP_STATUS"/>
 	</resultMap>
 	<resultMap type="Approval" id="approvalResultMap">
 		<id property="appNo" column="APP_NO"/>
@@ -32,11 +33,12 @@
 		<result property="memNum" column="MEM_NUM"/>
 		<result property="memberName" column="MEMBER_NAME"/>
 		<result property="division" column="DIV_NAME"/>
-		<result property="rank" column="RANK"/>
+		<result property="rank" column="RANK_NAME"/>
 		<result property="appLevel" column="APP_LEVEL"/>
 		<result property="appDate" column="APP_DATE"/>
 		<result property="appStatus" column="APP_STATUS"/>
 		<result property="rejReason" column="REJ_REASON"/>
+		<result property="docStatus" column="DOC_STATUS"/>
 	</resultMap>
 	<resultMap type="AppReference" id="appRefResultMap">
 		<id property="refNo" column="REF_NO"/>
@@ -44,7 +46,7 @@
 		<result property="memNum" column="MEM_NUM"/>
 		<result property="memberName" column="MEMBER_NAME"/>
 		<result property="division" column="DIV_NAME"/>
-		<result property="rank" column="RANK"/>
+		<result property="rank" column="RANK_NAME"/>
 		<result property="refStatus" column="REF_STATUS"/>
 	</resultMap>
 	<resultMap type="AppFile" id="appFileResultMap">
@@ -173,13 +175,13 @@
 		</if>
 	</select>
 	<select id="selectOneDoc" resultMap="appDocResultMap"><!-- 문서함 상세 조회 -->
-		SELECT DOC_NO, MEM_NUM, MEMBER_NAME, FORM_NAME, DOC_TITLE, DOC_CONTENT, DOC_STATUS, DOC_DATE, LEAVE_TYPE, LEAVE_START, LEAVE_END, LEAVE_TIME, LEAVE_DAY, LEAVE_LEFT, LEAVE_APPLY FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO JOIN MEMBER ON MEM_NUM = MEMBER_NUM WHERE DOC_NO = #{docNo}
+		SELECT DOC_NO, MEM_NUM, MEMBER_NAME, APP_DOC.FORM_NO, FORM_NAME, DOC_TITLE, DOC_CONTENT, DOC_STATUS, DOC_DATE, LEAVE_TYPE, LEAVE_START, LEAVE_END, LEAVE_TIME, LEAVE_DAY, LEAVE_LEFT, LEAVE_APPLY FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO JOIN MEMBER ON MEM_NUM = MEMBER_NUM WHERE DOC_NO = #{docNo}
 	</select>
 	<select id="selectListApp" resultMap="approvalResultMap"><!-- 문서함 상세 조회(결재자) -->
-		SELECT APP_NO, DOC_NO, MEM_NUM, MEMBER_NAME, DIV_NAME, RANK, APP_LEVEL, APP_DATE, APP_STATUS, REJ_REASON FROM APPROVAL JOIN MEMBER ON MEMBER_NUM = MEM_NUM JOIN DIVISION ON DIVISION = DIV_CODE WHERE DOC_NO = #{docNo} ORDER BY APP_LEVEL
+		SELECT APP_NO, DOC_NO, MEM_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME, APP_LEVEL, APP_DATE, APP_STATUS, REJ_REASON FROM APPROVAL JOIN MEMBER ON MEMBER_NUM = MEM_NUM JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE DOC_NO = #{docNo} ORDER BY APP_LEVEL
 	</select>
-	<select id="selectListRef" resultMap="appRefResultMap"><!-- 문서함 상세 조회(결재자) -->
-		SELECT REF_NO, DOC_NO, MEM_NUM, MEMBER_NAME, DIV_NAME, RANK, REF_STATUS FROM APP_REF JOIN MEMBER ON MEMBER_NUM = MEM_NUM JOIN DIVISION ON DIVISION = DIV_CODE WHERE DOC_NO = #{docNo} ORDER BY REF_NO
+	<select id="selectListRef" resultMap="appRefResultMap"><!-- 문서함 상세 조회(참조자) -->
+		SELECT REF_NO, DOC_NO, MEM_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME, REF_STATUS FROM APP_REF JOIN MEMBER ON MEMBER_NUM = MEM_NUM JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE DOC_NO = #{docNo} ORDER BY REF_NO
 	</select>
 	<delete id="deleteDoc"><!-- 상신 취소 -->
 		DELETE FROM APP_DOC WHERE DOC_NO = #{docNo}
@@ -206,8 +208,8 @@
 	<delete id="deleteRef"><!-- 참조자 삭제 -->
 		DELETE FROM APP_REF WHERE DOC_NO = #{docNo}
 	</delete>
-	<update id="updateApp"><!-- 결재자 상태 변경(임시->대기) -->
-		UPDATE APPROVAL SET APP_STATUS = #{appStatus } WHERE DOC_NO = #{docNo}
+	<update id="updateApp"><!-- 결재자 상태 변경(임시->대기/예정) -->
+		UPDATE APPROVAL SET APP_STATUS = #{appStatus } WHERE DOC_NO = #{docNo} AND MEM_NUM = #{memNum} AND APP_LEVEL = #{appLevel}
 	</update>
 	<update id="updateRef"><!-- 참조자 상태 변경(임시->참조) -->
 		UPDATE APP_REF SET REF_STATUS = #{refStatus } WHERE DOC_NO = #{docNo}
@@ -274,20 +276,32 @@
 	</select>
 	<!-- 결재 문서함 -->
 	<select id="selectListAppDoc" resultMap="appDocResultMap"><!-- 결재 문서함 문서 조회 -->
-		SELECT DOC_NO, DOC_DATE, FORM_NAME, DOC_TITLE, MEMBER_NAME, APP_STATUS AS DOC_STATUS FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO JOIN APPROVAL USING(DOC_NO) JOIN MEMBER ON MEMBER_NUM = APP_DOC.MEM_NUM WHERE APPROVAL.MEM_NUM = #{memNum}
-		<if test="docStatus.toString() != '전체'">
+		SELECT DOC_NO, DOC_DATE, FORM_NAME, DOC_TITLE, MEMBER_NAME, APP_STATUS, DOC_STATUS FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO JOIN APPROVAL USING(DOC_NO) JOIN MEMBER ON MEMBER_NUM = APP_DOC.MEM_NUM WHERE APPROVAL.MEM_NUM = #{memNum}
+		<if test="docStatus.toString() == '대기'">
 			AND APP_STATUS = '${docStatus}'
 		</if>
+		<if test="docStatus.toString() == '예정' or docStatus.toString() == '완료'">
+			AND APP_STATUS = '${docStatus}' AND DOC_STATUS != '반려'
+		</if>
+		<if test="docStatus.toString() == '완료'">
+			AND APP_STATUS = '${docStatus}' AND DOC_STATUS = '${docStatus}'
+		</if>
+		<if test="docStatus.toString() == '진행'">
+			AND APP_STATUS = '완료' AND DOC_STATUS = '${docStatus}'
+		</if>
+		<if test="docStatus.toString() == '반려'">
+			AND DOC_STATUS = '${docStatus}'
+		</if>
 		<if test="docStatus.toString() == '전체'">
-			AND APP_STATUS != '임시' AND APP_STATUS != '요청'
+			AND APP_STATUS != '임시'
 		</if>
 		ORDER BY DOC_NO DESC
 	</select>
 	<select id="selectOneListCountApp" resultType="_int"><!-- 결재 문서함 페이징 -->
-		SELECT COUNT(*) FROM APPROVAL WHERE MEM_NUM = #{memNum} AND APP_STATUS != '임시' AND APP_STATUS != '요청'
+		SELECT COUNT(*) FROM APPROVAL WHERE MEM_NUM = #{memNum} AND APP_STATUS != '임시'
 	</select>
 	<select id="selectListAppSearch" resultMap="appDocResultMap"><!-- 결재 문서함 검색 -->
-		SELECT DOC_NO, DOC_DATE, FORM_NAME, DOC_TITLE, MEMBER_NAME, APP_STATUS AS DOC_STATUS FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO JOIN APPROVAL USING(DOC_NO) JOIN MEMBER ON MEMBER_NUM = APP_DOC.MEM_NUM WHERE APPROVAL.MEM_NUM = #{memberNum} AND APP_STATUS != '임시' AND APP_STATUS != '요청'
+		SELECT DOC_NO, DOC_DATE, FORM_NAME, DOC_TITLE, MEMBER_NAME, APP_STATUS, DOC_STATUS FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO JOIN APPROVAL USING(DOC_NO) JOIN MEMBER ON MEMBER_NUM = APP_DOC.MEM_NUM WHERE APPROVAL.MEM_NUM = #{memberNum} AND APP_STATUS != '임시'
 		<if test="searchCondition.toString() == 'docDate'">
 			AND DOC_DATE LIKE '%' || #{searchValue} || '%'
 		</if>
@@ -309,7 +323,7 @@
 		ORDER BY DOC_NO DESC
 	</select>
 	<select id="selectOneSearchAppCount" resultType="_int"><!-- 결재 문서함 검색 페이징 -->
-		SELECT COUNT(*) FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO JOIN APPROVAL USING(DOC_NO) JOIN MEMBER ON MEMBER_NUM = APP_DOC.MEM_NUM WHERE APPROVAL.MEM_NUM = #{memberNum} AND APP_STATUS != '임시' AND APP_STATUS != '요청'
+		SELECT COUNT(*) FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO JOIN APPROVAL USING(DOC_NO) JOIN MEMBER ON MEMBER_NUM = APP_DOC.MEM_NUM WHERE APPROVAL.MEM_NUM = #{memberNum} AND APP_STATUS != '임시'
 		<if test="searchCondition.toString() == 'docDate'">
 			AND DOC_DATE LIKE '%' || #{searchValue} || '%'
 		</if>
@@ -329,4 +343,20 @@
 			OR DOC_TITLE LIKE '%' || #{searchValue} || '%')
 		</if>
 	</select>
+	<update id="updateAppStatus"><!-- 결재 승인/반려(결재자 상태 변경) -->
+		UPDATE APPROVAL SET APP_STATUS = #{appStatus}, APP_DATE = #{appDate}
+		<if test="rejReason != null">
+			, REJ_REASON = #{rejReason}
+		</if>
+		WHERE DOC_NO = #{docNo} AND MEM_NUM = #{memNum}
+	</update>
+	<update id="updateDocStatus"><!-- 결재 승인/반려(문서 상태 변경) -->
+		UPDATE APP_DOC SET DOC_STATUS = #{docStatus} WHERE DOC_NO = #{docNo}
+	</update>
+	<select id="selectListAppStatus" resultMap="approvalResultMap"><!-- 다음 차례 결재자 확인 -->
+		SELECT * FROM APPROVAL WHERE DOC_NO = #{docNo} AND APP_STATUS = '예정' ORDER BY APP_LEVEL
+	</select>
+	<update id="updateAppNext"><!-- 다음 결재자 상태 변경(예정->대기) -->
+		UPDATE APPROVAL SET APP_STATUS = '대기' WHERE APP_NO = #{appNo}
+	</update>
 </mapper>

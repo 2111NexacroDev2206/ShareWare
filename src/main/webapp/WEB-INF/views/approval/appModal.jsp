@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>결재자 선택</title>
-<link href="/resources/css/appModal-style.css" rel="stylesheet">
+<link href="/resources/css/approval/appModal-style.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 </head>
 <body>
@@ -84,6 +84,15 @@
 	    $("#appSelModal").fadeOut();
 	}
 	
+	// 검색 내용 입력 후 엔터 눌러도 검색되도록 처리
+	$("#s-value").keyup(function (e) {
+		e.preventDefault();
+		var code = e.keyCode ? e.keyCode : e.which;
+		if(code == 13) { // 엔터키면
+			$("#btn-search").click();
+		}
+	})
+	
 	// 결재자/참조자 선택 사원 검색
 	$("#btn-search").click(function() {
 		var searchCondition = $("#s-condition").val();
@@ -116,7 +125,6 @@
 	}
 	
 	// 결재자/참조자 선택
-	
 	function appSelect(type) {
 		$("#m-list-table tr").click(function(){
 			var trArr = new Object(); // 한 행의 배열을 담을 객체 선언
@@ -169,17 +177,18 @@
 			}
 		});
 	}
+	
 	// 선택한 결재자/참조자 문서 작성 페이지에 표시
 	function appSelView() {
 		if(varType == "app") {
 			for(var i = 0; i < 3; i++) { // 전에 입력한 값이 있을 경우 대비 초기화
-				$("#d-app" + i).text("");
+				$("#r-app" + i).text("");
 				$("#name-app" + i).text("");
 				$("#num-app" + i).val("");
 			}
 			var app = []; // 결재자 담을 배열 선언
 			appArr.forEach(function(el, i){
-				$("#d-app" + i).text(el.division);
+				$("#r-app" + i).text(el.rank);
 				$("#name-app" + i).text(el.memberName);
 				app[i] = el.memberNum;
 			});

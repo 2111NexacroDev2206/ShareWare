@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ImportantMapper">
+	<resultMap type="Important" id="importantResultMap">
+  		<id 	property="importantNo"		column="IMPORTANT_NO"/>
+  		<result property="projectNo"		column="PROJECT_NO"/>
+  		<result property="memNum"			column="MEM_NUM"/>
+  		<result property="importantWriter"	column="IMPORTANT_WRITER"/>
+  		<result property="importantTitle"		column="IMPORTANT_TITLE"/>
+  		<result property="importantContent"	column="IMPORTANT_CONTENT"/>
+  		<result property="importantDate"		column="IMPORTANT_DATE"/>
+  		<result property="importantCount"		column="IMPORTANT_COUNT"/>
+  		<result property="fileName"			column="FILE_NAME"/>
+  		<result property="filePath"			column="FILE_PATH"/>
+  		<result property="fileReName"		column="FILE_RENAME"/>
+  	</resultMap>
+  	<select id="selectListCount" resultType="_int">
+  		SELECT COUNT(*) FROM IMPORTANT WHERE PROJECT_NO = #{projectNo}
+  	</select>
+  	<update id="updateCount">
+  		UPDATE IMPORTANT SET IMPORTANT_COUNT = IMPORTANT_COUNT+1 WHERE IMPORTANT_NO = #{importantNo}
+  	</update>
+  	<select id="selectAllImportant" resultMap="importantResultMap">
+		SELECT * FROM IMPORTANT WHERE PROJECT_NO = #{projectNo} ORDER BY IMPORTANT_NO DESC
+  	</select>
+  	 <select id="selectImportant" resultMap="importantResultMap">
+  		SELECT * FROM IMPORTANT WHERE PROJECT_NO = #{projectNo} AND ROWNUM <![CDATA[ < ]]> 5 ORDER BY IMPORTANT_NO DESC 
+  </select>
+  	<select id="selectOneImportant" resultMap="importantResultMap">
+  		SELECT * FROM IMPORTANT WHERE IMPORTANT_NO = #{importantNo}
+  	</select>
+  	
+  	<insert id="insertImportant">
+  		INSERT INTO IMPORTANT VALUES(
+                 SEQ_IMPORTANT_NO.NEXTVAL,
+                 #{projectNo},
+                 #{memNum},
+                 #{importantWriter},
+                 #{importantTitle},
+                 #{importantContent},
+                 #{importantDate},
+                 0,
+                 #{fileName},
+                 #{filePath},
+                 #{fileReName})
+  	</insert>
+  	
+  	<update id="updateImportant">
+  		UPDATE IMPORTANT
+  		SET  IMPORTANT_TITLE = #{importantTitle}
+  			,IMPORTANT_CONTENT = #{importantContent}
+  			,FILE_NAME = #{fileName}
+  			,FILE_PATH = #{filePath}
+  			,FILE_RENAME = #{fileReName}
+  		WHERE IMPORTANT_NO = #{importantNo}
+  	</update>
+  	
+  	<delete id="deleteImportant">
+  		DELETE FROM IMPORTANT WHERE IMPORTANT_NO = #{importantNo}	
+  	</delete>
+  	
+  	<update id="deleteFileInfo">
+  		UPDATE IMPORTANT
+  		SET  FILE_NAME = NULL
+  			,FILE_PATH = NULL
+  			,FILE_RENAME = NULL
+  		WHERE IMPORTANT_NO = #{importantNo}
+  	</update>
+  	</mapper>

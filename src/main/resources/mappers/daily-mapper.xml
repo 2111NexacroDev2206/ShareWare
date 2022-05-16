@@ -15,6 +15,9 @@
  		<result  property="fileReName"    column="FILE_RENAME"/>
  	</resultMap>
  	
+ 	<select id="selectListCount" resultType="_int">
+  		SELECT COUNT(*) FROM DAILY_REPORT WHERE MEM_NUM = #{memNum}
+  	</select>
  	<select id="selectAllDaily" resultMap="dailyResultMap">
  		SELECT * FROM DAILY_REPORT WHERE MEM_NUM = #{memNum} ORDER BY DR_DATE DESC, DR_NO DESC
  	</select>

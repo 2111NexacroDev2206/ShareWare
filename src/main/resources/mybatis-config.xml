@@ -8,44 +8,62 @@
 		<setting name="jdbcTypeForNull" value="NULL"/> <!-- 만약에 null 데이터가 전달되었으면 빈칸이 아닌 NULL로 인식하도록 설정 -->
 	</settings>
 	<typeAliases>
-		<typeAlias type="org.kh.shareware.report.domain.Daily" 	 		alias="Daily"/>
-		<typeAlias type="org.kh.shareware.report.domain.Week" 	 		alias="Week"/>
-		<typeAlias type="org.kh.shareware.member.domain.Member" 		alias="Member"/>
-		<typeAlias type="org.kh.shareware.community.domain.Community" 	alias="Community"/>
-		<typeAlias type="org.kh.shareware.community.domain.CommunityVote" 	alias="CommunityVote"/>
+		<typeAlias type="org.kh.shareware.report.domain.Daily" 	 					alias="Daily"/>
+		<typeAlias type="org.kh.shareware.report.domain.Week" 	 					alias="Week"/>
+		<typeAlias type="org.kh.shareware.member.domain.Member" 					alias="Member"/>
+		<typeAlias type="org.kh.shareware.member.domain.Division" 					alias="Division"/>
+		<typeAlias type="org.kh.shareware.community.domain.Community" 				alias="Community"/>
+		<typeAlias type="org.kh.shareware.community.domain.CommunityVote" 			alias="CommunityVote"/>
 		<typeAlias type="org.kh.shareware.community.domain.CommunityVoteSelect" 	alias="CommunityVoteSelect"/>
-		<typeAlias type="org.kh.shareware.community.domain.Reply" 		alias="Reply"/>
-		<typeAlias type="org.kh.shareware.calendar.domain.CalSch" 		alias="CalSch"/>
-		<typeAlias type="org.kh.shareware.calendar.domain.Calendar" 	alias="Calendar"/>
-		<typeAlias type="org.kh.shareware.calendar.domain.CalBmk" 		alias="CalBmk"/>
-		<typeAlias type="org.kh.shareware.calendar.domain.CalMem" 		alias="CalMem"/>
-		<typeAlias type="org.kh.shareware.approval.domain.AppForm" 		alias="AppForm"/>
-		<typeAlias type="org.kh.shareware.approval.domain.AppDocument" 	alias="AppDocument"/>
-		<typeAlias type="org.kh.shareware.approval.domain.Approval" 	alias="Approval"/>
-		<typeAlias type="org.kh.shareware.approval.domain.AppReference" alias="AppReference"/>
-		<typeAlias type="org.kh.shareware.approval.domain.AppFile" 		alias="AppFile"/>
-		<typeAlias type="org.kh.shareware.fileBoard.domain.FileBoard" 	alias="FileBoard"/>
-		<typeAlias type="org.kh.shareware.notice.domain.Notice" alias="Notice"/>	
-		<typeAlias type="org.kh.shareware.mail.domain.Mail" alias="Mail"/>
-		<typeAlias type="org.kh.shareware.mail.domain.MailRef" alias="MailRef"/>
-		<typeAlias type="org.kh.shareware.mail.domain.MailRec" alias="MailRec"/>
-		<typeAlias type="org.kh.shareware.mail.domain.MailBmk" alias="MailBmk"/>
-		<typeAlias type="org.kh.shareware.mail.domain.MailFile" alias="MailFile"/>
-		<typeAlias type="org.kh.shareware.meetingRoom.domain.MeetingRoom" alias="MeetingRoom"/>
-		<typeAlias type="org.kh.shareware.project.domain.Project" 		alias="Project"/>
-		<typeAlias type="org.kh.shareware.project.domain.Participant" 	alias="Participant"/>
+		<typeAlias type="org.kh.shareware.community.domain.Reply" 					alias="Reply"/>
+		<typeAlias type="org.kh.shareware.fileBoard.domain.FileBoard" 				alias="FileBoard"/>
+		<typeAlias type="org.kh.shareware.meetingRoom.domain.MeetingRoom" 			alias="MeetingRoom"/>
+		<typeAlias type="org.kh.shareware.notice.domain.Notice" 					alias="Notice"/>	
+		<typeAlias type="org.kh.shareware.calendar.domain.CalSch" 					alias="CalSch"/>
+		<typeAlias type="org.kh.shareware.calendar.domain.Calendar" 				alias="Calendar"/>
+		<typeAlias type="org.kh.shareware.calendar.domain.CalBmk" 					alias="CalBmk"/>
+		<typeAlias type="org.kh.shareware.calendar.domain.CalMem" 					alias="CalMem"/>
+		<typeAlias type="org.kh.shareware.attendance.domain.Attendance" 			alias="Attendance"/>
+		<typeAlias type="org.kh.shareware.attendance.domain.Stats" 					alias="Stats"/>
+		<typeAlias type="org.kh.shareware.leave.domain.Leave" 						alias="Leave"/>
+		<typeAlias type="org.kh.shareware.leave.domain.LeaveList" 					alias="LeaveList"/>
+		<typeAlias type="org.kh.shareware.approval.domain.AppForm" 					alias="AppForm"/>
+		<typeAlias type="org.kh.shareware.approval.domain.AppDocument" 				alias="AppDocument"/>
+		<typeAlias type="org.kh.shareware.approval.domain.Approval" 				alias="Approval"/>
+		<typeAlias type="org.kh.shareware.approval.domain.AppReference" 			alias="AppReference"/>
+		<typeAlias type="org.kh.shareware.approval.domain.AppFile" 					alias="AppFile"/>
+		<typeAlias type="org.kh.shareware.mail.domain.Mail" 						alias="Mail"/>
+		<typeAlias type="org.kh.shareware.mail.domain.MailRef"						alias="MailRef"/>
+		<typeAlias type="org.kh.shareware.mail.domain.MailRec" 						alias="MailRec"/>
+		<typeAlias type="org.kh.shareware.mail.domain.MailBmk" 						alias="MailBmk"/>
+		<typeAlias type="org.kh.shareware.mail.domain.MailFile" 					alias="MailFile"/>
+		<typeAlias type="org.kh.shareware.project.domain.Project" 					alias="Project"/>
+		<typeAlias type="org.kh.shareware.project.domain.Participant" 				alias="Participant"/>
+		<typeAlias type="org.kh.shareware.project.domain.Important" 				alias="Important"/>
+		<typeAlias type="org.kh.shareware.project.domain.Work" 						alias="Work"/>
+		<typeAlias type="org.kh.shareware.project.domain.WorkChart" 				alias="WorkChart"/>
+		<typeAlias type="org.kh.shareware.alarm.domain.Alarm" 						alias="Alarm"/>
+		<typeAlias type="org.kh.shareware.chat.domain.ChatRoom" 					alias="ChatRoom"/>
+		<typeAlias type="org.kh.shareware.chat.domain.ChatContent" 					alias="ChatContent"/>
+		<typeAlias type="org.kh.shareware.chat.domain.ChatMember" 					alias="ChatMember"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/daily-mapper.xml"/>
 		<mapper resource="mappers/week-mapper.xml"/>
 		<mapper resource="mappers/approval-mapper.xml"/>
 		<mapper resource="mappers/member-mapper.xml"/>
-		<mapper resource="mappers/notice-mapper.xml"/>
 		<mapper resource="mappers/community-mapper.xml"/>
-		<mapper resource="mappers/calendar-mapper.xml"/>
 		<mapper resource="mappers/fileBoard-mapper.xml"/>
-		<mapper resource="mappers/mail-mapper.xml"/>
 		<mapper resource="mappers/meetingRoom-mapper.xml"/>
+		<mapper resource="mappers/notice-mapper.xml"/>
+		<mapper resource="mappers/calendar-mapper.xml"/>
+		<mapper resource="mappers/attendance-mapper.xml"/>
+		<mapper resource="mappers/mail-mapper.xml"/>
 		<mapper resource="mappers/project-mapper.xml"/>	
+		<mapper resource="mappers/important-mapper.xml"/>	
+		<mapper resource="mappers/work-mapper.xml"/>	
+		<mapper resource="mappers/alarm-mapper.xml"/>	
+		<mapper resource="mappers/chat-mapper.xml"/>	
+		<mapper resource="mappers/leave-mapper.xml"/>
 	</mappers>
 </configuration>

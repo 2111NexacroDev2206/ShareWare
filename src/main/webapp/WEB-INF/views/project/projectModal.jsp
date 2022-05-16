@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>참여자 선택</title>
-<link href="/resources/css/appModal-style.css" rel="stylesheet">
+<link href="/resources/css/approval/appModal-style.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 </head>
 <body>
@@ -72,6 +72,15 @@
 	function modalClose(){
 	    $("#appSelModal").fadeOut();
 	}
+	
+	// 검색 내용 입력 후 엔터 눌러도 검색되도록 처리
+	$("#s-value").keyup(function (e) {
+		e.preventDefault();
+		var code = e.keyCode ? e.keyCode : e.which;
+		if(code == 13) { // 엔터키면
+			$("#btn-search").click();
+		}
+	})
 	
 	// 참여자 선택 사원 검색
 	$("#btn-search").click(function() {

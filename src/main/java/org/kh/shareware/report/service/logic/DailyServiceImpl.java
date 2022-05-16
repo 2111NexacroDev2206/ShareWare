@@ -3,13 +3,14 @@ package org.kh.shareware.report.service.logic;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.kh.shareware.project.common.PageInfo;
 import org.kh.shareware.report.domain.Daily;
 import org.kh.shareware.report.service.DailyService;
 import org.kh.shareware.report.store.DailyStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service()
 public class DailyServiceImpl implements DailyService{
 
 	@Autowired
@@ -18,6 +19,12 @@ public class DailyServiceImpl implements DailyService{
 	@Autowired
 	private DailyStore dStore;
 
+	//페이징
+	@Override
+	public int getListCount(String memNum) {
+		int totalCount = dStore.selectListCount(sqlSession, memNum);
+		return totalCount;
+	}
 	//일일 업무 등록 
 	public int registerDaily(Daily daily) {
 		int result = dStore.insertDaily(daily, sqlSession);
@@ -25,8 +32,8 @@ public class DailyServiceImpl implements DailyService{
 	}
 	//일일 업무 목록
 	@Override
-	public List<Daily> printAllDaily(String memNum) {
-		List<Daily> dList = dStore.selectAllDaily(sqlSession, memNum);
+	public List<Daily> printAllDaily(String memNum ,PageInfo pi) {
+		List<Daily> dList = dStore.selectAllDaily(sqlSession, memNum , pi);
 		return dList;
 	}
 	//일일 업무 상세
@@ -53,5 +60,7 @@ public class DailyServiceImpl implements DailyService{
 		int result = dStore.deleteFileInfo(sqlSession, drNo);
 		return result;
 	}
+
+
 
 }

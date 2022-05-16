@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.common.Search;
 import org.kh.shareware.member.common.PageInfo;
+import org.kh.shareware.member.domain.Division;
 import org.kh.shareware.member.domain.Member;
 import org.kh.shareware.member.service.MemberService;
 import org.kh.shareware.member.store.MemberStore;
@@ -44,16 +45,55 @@ public class MemberServiceImpl implements MemberService{
 		int totalCount = mStore.selectListCount(sqlSession);
 		return totalCount;
 	}
-
+	//주소록 검색
 	@Override
-	public List<Member> modalPrintAll() {
-		List<Member> mList = mStore.selectAllMember(sqlSession);
+	public List<Member> printAllSearch(PageInfo pi) {
+		List<Member> mList = mStore.selectAllSearch(sqlSession, pi);
 		return mList;
 	}
-
+	//검색 페이징
+	@Override
+	public int getListCountSearch() {
+		int totalCount = mStore.selectListCountSearch(sqlSession);
+		return totalCount;
+	}
+	//조직도
+	@Override
+	public List<Division> printOrganization() {
+		List<Division>oList = mStore.selectOrganization(sqlSession);
+		return oList;
+	}
+	//사원정보
+	@Override
+	public List<Member> printOrgInfo() {
+		List<Member> mList = mStore.selectOrgInfo(sqlSession);
+		return mList;
+	}
+	// 사원 조회 모달
+	@Override
+	public List<Member> modalPrintAll(String memberNum) {
+		List<Member> mList = mStore.selectAllMember(sqlSession, memberNum);
+		return mList;
+	}
+	
+	// 사원 조회 모달 검색
 	@Override
 	public List<Member> modalPrintSearch(Search search) {
 		List<Member> mList = mStore.selectMemberSearch(sqlSession, search);
+		return mList;
+	}
+	
+	// 채팅 사용자 추가 초대 모달
+	@Override
+	public List<Member> modalChatInvitePrint(int chatRoomNo) {
+		List<Member> mList = mStore.selectAllChatMember(sqlSession, chatRoomNo);
+		return mList;
+	}
+	
+	// 채팅 사용자 추가 초대 모달 검색
+	@Override
+	public List<Member> modalChatInviteSearch(Search search) {
+		List<Member> mList = mStore.selectAllChatMemberSearch(sqlSession, search);
 		return mList;
 	}
 

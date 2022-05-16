@@ -3,11 +3,12 @@ package org.kh.shareware.mail.service.logic;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.kh.shareware.common.PageInfo;
+import org.kh.shareware.common.Search;
 import org.kh.shareware.mail.domain.Mail;
 import org.kh.shareware.mail.domain.MailFile;
 import org.kh.shareware.mail.domain.MailRec;
 import org.kh.shareware.mail.domain.MailRef;
-import org.kh.shareware.mail.domain.MailSearch;
 import org.kh.shareware.mail.service.MailService;
 import org.kh.shareware.mail.store.MailStore;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,9 +117,15 @@ public class MailServiceImpl implements MailService{
 
 
 	@Override
-	public List<Mail> printTemMail() {
-		List<Mail> tList = mStore.selectTemMail(sqlSession);
+	public List<Mail> printTemMail(Mail mail, PageInfo pi) {
+		List<Mail> tList = mStore.selectTemMail(sqlSession, mail, pi);
 		return tList;
+	}
+	
+	@Override
+	public int getTemMailCount(Mail mail) {
+		int totalCount = mStore.selectTemListCount(sqlSession, mail);
+		return totalCount;
 	}
 
 
@@ -207,60 +214,119 @@ public class MailServiceImpl implements MailService{
 
 
 	@Override
-	public List<Mail> printSearchMail(MailSearch mailSearch) {
-		List<Mail> searchList = mStore.selectSearchMail(sqlSession, mailSearch);
+	public List<Mail> printSearchMail(Search search, PageInfo pi) {
+		List<Mail> searchList = mStore.selectSearchMail(sqlSession, search, pi);
 		return searchList;
 	}
 
 
 	@Override
-	public List<MailRec> printSearchMailRec(MailSearch mailSearch) {
-		List<MailRec> searchRecList = mStore.selectSearchRecMail(sqlSession, mailSearch);
+	public List<Mail> printSearchMailRec(Search search, PageInfo pi) {
+		List<Mail> searchRecList = mStore.selectSearchRecMail(sqlSession, search, pi);
 		return searchRecList;
 	}
 
 
 	@Override
-	public List<Mail> printSearchMailMy(MailSearch mailSearch) {
-		List<Mail> searchMyList = mStore.selectSearchMyMail(sqlSession, mailSearch);
+	public List<Mail> printSearchMailMy(Search search, PageInfo pi) {
+		List<Mail> searchMyList = mStore.selectSearchMyMail(sqlSession, search, pi);
 		return searchMyList;
 	}
 
 
 	@Override
-	public List<MailFile> printSearchMailFile(MailSearch mailSearch) {
-		List<MailFile> searchFileList = mStore.selectSearchFileMail(sqlSession, mailSearch);
+	public List<Mail> printSearchMailFile(Search search, PageInfo pi) {
+		List<Mail> searchFileList = mStore.selectSearchFileMail(sqlSession, search, pi);
 		return searchFileList;
 	}
 
 
 	@Override
-	public List<Mail> printMail() {
-		List<Mail> mList = mStore.selectMail(sqlSession);
+	public List<Mail> printMail(Mail mail, PageInfo pi) {
+		List<Mail> mList = mStore.selectMail(sqlSession, mail, pi);
 		return mList;
 	}
 
 
 	@Override
-	public List<MailRec> printMailRec() {
-		List<MailRec> mRecList = mStore.selectRecMail(sqlSession);
+	public List<Mail> printMailRec(Mail mail, PageInfo pi) {
+		List<Mail> mRecList = mStore.selectRecMail(sqlSession, mail, pi);
 		return mRecList;
 	}
 
 
 	@Override
-	public List<Mail> printMailMy() {
-		List<Mail> mMyList = mStore.selectMyMail(sqlSession);
+	public List<Mail> printMailMy(Mail mail, PageInfo pi) {
+		List<Mail> mMyList = mStore.selectMyMail(sqlSession, mail, pi);
 		return mMyList;
 	}
 
 
 	@Override
-	public List<MailFile> printMailFile() {
-		List<MailFile> mFileList = mStore.selectFileMail(sqlSession);
+	public List<Mail> printMailFile(Mail mail, PageInfo pi) {
+		List<Mail> mFileList = mStore.selectFileMail(sqlSession, mail, pi);
 		return mFileList;
 	}
 
+
+	@Override
+	public int getMailCount(Mail mail) {
+		int totalmCount = mStore.selectMailCount(sqlSession, mail);
+		return totalmCount;
+	}
+
+
+	@Override
+	public int getMailRecCount(Mail mail) {
+		int totalmRecCount = mStore.selectMailRecCount(sqlSession, mail);
+		return totalmRecCount;
+	}
+
+
+	@Override
+	public int getMailMyCount(Mail mail) {
+		int totalmMyCount = mStore.selectMailMyCount(sqlSession, mail);
+		return totalmMyCount;
+	}
+
+
+	@Override
+	public int getMailFileCount(Mail mail) {
+		int totalmFileCount = mStore.selectMailFileCount(sqlSession, mail);
+		return totalmFileCount;
+	}
+
+	@Override
+	public int getSearchMailCount(Search search) { //메일함 검색 페이징
+		int totalmCount = mStore.selectSearchListCount(sqlSession, search);
+		return totalmCount;
+	}
+
+	@Override
+	public int getSearchMailRecCount(Search search) {
+		int totalmRecCount = mStore.selectSearchListRecCount(sqlSession, search);
+		return totalmRecCount;
+	}
+
+
+	@Override
+	public int getSearchMailMyCount(Search search) {
+		int totalmMyCount = mStore.selectSearchListMyCount(sqlSession, search);
+		return totalmMyCount;
+	}
+
+
+	@Override
+	public int getSearchMailFileCount(Search search) {
+		int totalmFileCount = mStore.selectSearchListFileCount(sqlSession, search);
+		return totalmFileCount;
+	}
+
+
+	
+
+
+	
 
 	
 	

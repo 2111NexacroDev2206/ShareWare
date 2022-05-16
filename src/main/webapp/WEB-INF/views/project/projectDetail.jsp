@@ -27,7 +27,7 @@
 					</tr>
 					<tr>
 						<td>프로젝트 관리자</td>
-						<td>${loginUser.memberName }<input type="hidden" value="${loginUser.memberNum }" name="projectMade" readonly></td>
+						<td>${project.projectMade }</td>
 					</tr>
 					<tr>
 						<td>프로젝트 참여자</td>
@@ -43,7 +43,8 @@
 					</tr>
 					<tr>
 						<td colspan="2" align="left">
-							<input type="button" onclick="location.href='/project/projectModifyView.sw?projectNo=${project.projectNo }'" value="수정">
+								<input type="button" onclick="location.href='/project/projectModifyView.sw?projectNo=${project.projectNo }'" value="수정">
+								<input type="button" onclick="location.href='/project/main.sw?projectNo=${project.projectNo }'" value="취소">
 						</td>
 					</tr>
 				</table>

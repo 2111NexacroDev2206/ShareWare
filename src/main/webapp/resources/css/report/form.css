@@ -1,0 +1,81 @@
+@charset "UTF-8";
+
+#h-title {
+	margin: 30px ;
+	text-align: center;
+}
+.d-table{
+/*  	margin: 0 50px 30px 50px; */
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+.d-table td {
+	border: 1px solid black;
+	font-size: 14.5px;
+}
+#t-title{
+	text-align: center;
+    width: 280px;
+    height: 40px;
+    border: 1px solid;
+    letter-spacing: 5px;
+    background-color: rgb(240, 240, 240);
+}
+#t-inTitle{
+	text-align: center;
+	width: 400px;
+	letter-spacing: 5px;
+	text-indent: 5px;
+}
+#t-div{
+	text-align: center;
+	width: 280px;
+	letter-spacing: 5px;
+	text-indent: 5px;
+	background-color: rgb(240, 240, 240);
+}
+#t-inDiv{
+	text-align: center;
+	width: 120px;
+	letter-spacing: 5px;
+}
+#t-date{
+	text-align: center;
+    width: 150px;
+    height: 40px;
+    border: 1px solid;
+    letter-spacing: 5px;
+    background-color: rgb(240, 240, 240);
+}
+/* #t-inDate{
+	text-align: center;
+} */
+#t-writer{
+	text-align: center;
+    height: 40px;
+    border: 1px solid;
+    letter-spacing: 5px;
+    background-color: rgb(240, 240, 240);
+}
+#t-inWriter {
+	text-align: center;
+	width: 400px;
+	letter-spacing: 5px;
+	text-indent: 5px;
+}
+.div-btn {
+	float: right;
+}
+#trCont{
+	height: 750px;
+}
+.div-btn input, .div-btn2 input:not(.i-left) {
+	width: 120px;
+	height: 50px;
+	background-color: white;
+	border: 1px solid rgb(51, 51, 51);
+	border-radius: 4px;
+	font-size: 14.5px;
+	cursor: pointer;
+	margin-left: 15px;
+}

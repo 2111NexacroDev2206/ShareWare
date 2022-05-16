@@ -41,6 +41,12 @@
 	        	list : "목록"
 	        	
 	        },
+	        eventLimit: true,
+	        eventLimitText: "more",
+	        eventLimitClick: "popover",
+	        editable: false,
+	        droppable: false,
+	        dayPopoverFormat: { year: 'numeric', month: 'long', day: 'numeric' },
 	     // 이벤트명 : function(){} : 각 날짜에 대한 이벤트를 통해 처리할 내용.. 
 	     select: function(arg) {  var title = ('입력할 일정:'); 
 	     // title 값이 있을때, 화면에 calendar.addEvent() json형식으로 일정을 추가
@@ -226,23 +232,115 @@
                     }
 	        },
 	    // 데이터를 불러오는 곳(json 형태이며 여러 개면 json array)
-	       events: function(info, successCallback, failureCallback) {
+	       /*  events: function(info, successCallback, failureCallback) {
 	    	   $.ajax({
 	    		   url : "/calendar/schListView.sw",
 	    	   	   type : 'GET',
 	    	   		dataType : 'json',
 	    	   		data : {
+	    	   			
 	    	   			"schStartDate" : moment(info.schStartDateStr).format('YYYY-MM-DD'),
 	    	   			"schEndDate" : moment(info.schEndDateStr).format('YYYY-MM-DD')
 	    	   		},
 	    	   success : function(data) {
 	    		   successCallback(data);
 	    	   }
-	    	   	   
+	    	   
 	    	   })
 	    	   
 	    	   
-	       }
+	       }  */
+	        events:function(info, successCallback, failureCallback){
+	            $.ajax({
+	                   url: '/calendar/schListView.sw',
+	                   dataType: 'json',
+	                   success: 
+	                       function(result) {
+	 
+	                           var events = [];
+	                          
+	                           if(result!=null){
+	                               
+	                                   $.each(result, function(index, element) {
+	                                   var enddate=element.enddate;
+	                                    if(enddate==null){
+	                                        enddate=element.startdate;
+	                                    }
+	                                    
+	                                    var startdate=moment(element.startdate).format('YYYY-MM-DD');
+	                                    var enddate=moment(enddate).format('YYYY-MM-DD');
+	                                    var realmname = element.realmname;
+	                                    
+	                                    // realmname (분야) 분야별로 color 설정
+	                                    if (realmname == "기타"){
+	                                        events.push({
+	                                               title: element.title,
+	                                               start: startdate,
+	                                               end: enddate,
+	                                                  url: "${pageContext.request.contextPath }/detail.do?seq="+element.seq,
+	                                                  color:"#6937a1"                                                   
+	                                            }); //.push()
+	                                    }
+	                                                                        
+	                                    else if (realmname == "무용"){
+	                                        events.push({
+	                                               title: element.title,
+	                                               start: startdate,
+	                                               end: enddate,
+	                                                  url: "${pageContext.request.contextPath }/detail.do?seq="+element.seq,
+	                                                  color:"#f7e600"                                                   
+	                                            }); //.push()
+	                                    }
+	                                    
+	                                    else if (realmname == "미술"){
+	                                        events.push({
+	                                               title: element.title,
+	                                               start: startdate,
+	                                               end: enddate,
+	                                                  url: "${pageContext.request.contextPath }/detail.do?seq="+element.seq,
+	                                                  color:"#2a67b7"                                                   
+	                                            }); //.push()
+	                                    }
+	                                    
+	                                    else if (realmname == "연극"){
+	                                        events.push({
+	                                               title: element.title,
+	                                               start: startdate,
+	                                               end: enddate,
+	                                                  url: "${pageContext.request.contextPath }/detail.do?seq="+element.seq,
+	                                                  color:"#008d62"                                                   
+	                                            }); //.push()
+	                                    }
+	                                    
+	                                    else if (realmname == "음악"){
+	                                        events.push({
+	                                               title: element.title,
+	                                               start: startdate,
+	                                               end: enddate,
+	                                                  url: "${pageContext.request.contextPath }/detail.do?seq="+element.seq,
+	                                                  color:"#6937a1"                                                   
+	                                            }); //.push()
+	                                    }
+	                                    
+	                                    else{
+	                                        events.push({
+	                                               title: element.title,
+	                                               start: startdate,
+	                                               end: enddate,
+	                                                  url: "${pageContext.request.contextPath }/detail.do?seq="+element.seq,
+	                                                  color:"#ff3399"                                                   
+	                                            }); //.push()
+	                                    }
+	                                    
+	                               }); //.each()
+	                               
+	                               console.log(events);
+	                               
+	                           }//if end                           
+	                           successCallback(events);                               
+	                       }//success: function end                          
+	            }); //ajax end
+	        }//events:function end
 	   /*  function successCallback(data){
 	    	
 	    } */

@@ -7,26 +7,27 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-
+import javax.servlet.http.HttpSession;
+import org.kh.shareware.common.PageInfo;
+import org.kh.shareware.common.Pagination;
+import org.kh.shareware.common.Search;
 import org.kh.shareware.mail.domain.Mail;
 import org.kh.shareware.mail.domain.MailFile;
 import org.kh.shareware.mail.domain.MailRec;
 import org.kh.shareware.mail.domain.MailRef;
-import org.kh.shareware.mail.domain.MailSearch;
 import org.kh.shareware.mail.service.MailService;
+import org.kh.shareware.member.domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.ParameterizableViewController;
+
 
 @Controller
 public class MailController {
@@ -52,29 +53,31 @@ public class MailController {
 			,HttpServletRequest request) {
 		
 		try {
-		
+			HttpSession session = request.getSession();
+			Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
+			mail.setMemNum(member.getMemberNum());
 			if(uploadFile != null && !uploadFile.getOriginalFilename().equals("")) {
 				HashMap <String, String>  fileMap = saveFile(uploadFile, request);
 				String filePath = fileMap.get("filePath");
 				String fileRename = fileMap.get("fileName");
-			
-				if(filePath !=null && !filePath.equals("")) {
+				 
+				
+				if(filePath != null && !filePath.equals("")) {
 					mailFile.setMailFileName(uploadFile.getOriginalFilename());
 					mailFile.setMailFileRename(fileRename);
 					mailFile.setMailFilePath(filePath);
+					mail.setfStatus("1");
 				}
 			
 			}
 			int mResult = mService.registerMail(mail);
 			int recResult = mService.registerMailRec(mailRec);
 			int refResult = mService.registerMailRef(mailRef);
-			int fResult;
-			if(uploadFile != null) {
-				 fResult = mService.registerMailFile(mailFile);
-			}
-			if(mResult > 0 && recResult>0 && refResult>0) {
+			int fResult = mService.registerMailFile(mailFile);
+			
+			if(mResult > 0 && recResult>0 && refResult>0 ) {
 				mv.addObject("msg", "등록 성공");
-				mv.setViewName("redirect:/mail/RmailListView.sw");
+				mv.setViewName("/mail/mailDetail");
 			} else {
 				mv.addObject("msg", "메일 발신 실패");
 				mv.setViewName("common/errorPage");
@@ -132,7 +135,9 @@ public class MailController {
 		,HttpServletRequest request) {
 	
 	try {
-	
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
+		mail.setMemNum(member.getMemberNum());
 		if(uploadFile != null && !uploadFile.getOriginalFilename().equals("")) {
 			HashMap <String, String>  fileMap = saveFile(uploadFile, request);
 			String filePath = fileMap.get("filePath");
@@ -172,34 +177,56 @@ public class MailController {
 	// 메일 리스트 조회
 	@RequestMapping( value="/mail/{param}mailListView.sw", method= RequestMethod.GET )
 	public ModelAndView mailListView(ModelAndView mv
-		, @PathVariable("param") String mailCategory) {
+		, @PathVariable("param") String mailCategory
+		, HttpServletRequest request
+		, @RequestParam(value="page", required = false) Integer page
+		,@ModelAttribute Mail mail
+		) {
 		
 		try {
+			HttpSession session = request.getSession();
+			Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
+			mail.setMemNum(member.getMemberNum());
+			mail.setMailReceiver(member.getMail());
+			mail.setMailSender(member.getMail());
+			int currentPage = (page != null) ? page : 1;
+			int totalmCount = mService.getMailCount(mail);
+			int totalmRecCount = mService.getMailRecCount(mail);
+			int totalmMyCount = mService.getMailMyCount(mail);
+			int totalmFileCount = mService.getMailFileCount(mail);
+			PageInfo pi = null;
+			
+			 
 			List<Mail> mList = null;
-			List<MailRec> mRecList = null;
+			List<Mail> mRecList = null;
 			List<Mail> mMyList = null;
-			List<MailFile> mFileList = null;
+			List<Mail> mFileList = null;
 			String viewName = "mail/mailList";
+			
+			
 			// 보낸 편지함일 때
 			if(mailCategory.equals("R")) {
-				mList = mService.printMail();
+				pi = Pagination.getPageInfo(currentPage, totalmCount);
+				mList = mService.printMail(mail, pi);
 				mv.addObject("mList", mList);
 			//받은 편지함일 때
 			}else if(mailCategory.equals("S")) {
-				mRecList = mService.printMailRec();
+				 pi = Pagination.getPageInfo(currentPage, totalmRecCount);
+				mRecList = mService.printMailRec(mail, pi);
 				mv.addObject("mList", mRecList);
 			//내게 쓴 편지함 일 때
 			}else if(mailCategory.equals("M")){
-				mMyList = mService.printMailMy();
+				pi = Pagination.getPageInfo(currentPage, totalmMyCount);
+				mMyList = mService.printMailMy(mail, pi);
 				mv.addObject("mList", mMyList);
-			// 파일 편지함일 때
+			//파일 편지함일 때
 			} else if (mailCategory.equals("F")){
-				mFileList = mService.printMailFile();
+				pi = Pagination.getPageInfo(currentPage, totalmFileCount);
+				mFileList = mService.printMailFile(mail, pi);
 				mv.addObject("mList", mFileList);
-			}else {
-				mv.addObject("msg", "받은 메일 조회 실패");
-				viewName = "common/errorPage";
 			}
+			mv.addObject("pi", pi);
+			mv.addObject("mailCategory", mailCategory);
 			mv.setViewName(viewName);
 		} catch (Exception e) {
 			mv.addObject("msg", e.toString());
@@ -212,18 +239,30 @@ public class MailController {
 	
 	//임시저장 목록 조회
 	@RequestMapping( value="/mail/mailTemListView.sw", method= {RequestMethod.GET ,RequestMethod.POST})
-	public ModelAndView mailTemListView(ModelAndView mv) {
+	public ModelAndView mailTemListView(ModelAndView mv
+			, HttpServletRequest request
+			, @RequestParam(value="page", required = false) Integer page
+			,@ModelAttribute Mail mail) {
 		try {
-			List<Mail> tList = mService.printTemMail();
+			HttpSession session = request.getSession();
+			Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
+			mail.setMemNum(member.getMemberNum());
+			mail.setMailReceiver(member.getMail());
+			mail.setMailSender(member.getMail());
+			int currentPage = (page != null) ? page : 1;
+			int totalCount = mService.getTemMailCount(mail);
+			PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
+			List<Mail> tList = mService.printTemMail(mail, pi);
 			
 			if(!tList.isEmpty()) {
 				mv.addObject("tList", tList);
 				mv.setViewName("mail/mailTemList");
-				
+				mv.addObject("pi", pi);
 			} else {
-				mv.addObject("msg", "받은 메일 조회 실패");
+				mv.addObject("msg", "임시 저장 조회 실패");
 				mv.setViewName("common/errorPage");
 			}
+			
 		} catch (Exception e) {
 			mv.addObject("msg", e.toString());
 			mv.setViewName("common/errorPage");
@@ -235,35 +274,59 @@ public class MailController {
 	@RequestMapping( value="/mail/{param}mailSearch.sw", method = RequestMethod.GET)
 	public ModelAndView mailSearchList(
 			ModelAndView mv
-			,@ModelAttribute MailSearch mailSearch
-			,@PathVariable("param") String mailCategory) {
+			,@ModelAttribute Search search
+			,@PathVariable("param") String mailCategory
+			, HttpServletRequest request
+			, @RequestParam(value="page", required = false) Integer page
+			, @ModelAttribute Mail mail) {
 		
 		try {
 			List<Mail> searchList= null;
-			List<MailRec> searchRecList = null;
+			List<Mail> searchRecList = null;
 			List<Mail> searchMyList = null;
-			List<MailFile> searchFileList = null;
-			String viewName = "mail/mailList";
+			List<Mail> searchFileList = null;
+			HttpSession session = request.getSession();
+			Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기 // 세션 값에서 사원번호 가져오기
+			search.setMemberNum(((Member)session.getAttribute("loginUser")).getMemberNum());
+			mail.setMailReceiver(member.getMail());
+			mail.setMailSender(member.getMail());
+			int currentPage = (page != null) ? page : 1;
+			int totalmCount = mService.getSearchMailCount(search);
+			int totalmRecCount = mService.getSearchMailRecCount(search);
+			int totalMyCount = mService.getSearchMailMyCount(search);
+			int totalmFileCount = mService.getSearchMailFileCount(search);
+			PageInfo pi = null;
 			if(mailCategory.equals("R")) {
-				searchList = mService.printSearchMail(mailSearch);
+				pi = Pagination.getPageInfo(currentPage, totalmCount);
+				mv.addObject("search", search);
+				searchList = mService.printSearchMail(search,pi);
 				mv.addObject("mList", searchList);
-			} else if(mailCategory.equals("S")) {
-				searchRecList = mService.printSearchMailRec(mailSearch);
+			} else if(mailCategory.equals("S")) {               
+				pi = Pagination.getPageInfo(currentPage, totalmRecCount);
+				mv.addObject("search", search);
+				searchRecList = mService.printSearchMailRec(search,pi);
 				mv.addObject("mList", searchRecList);
 			} else if(mailCategory.equals("M")) {
-				searchMyList = mService.printSearchMailMy(mailSearch);
+				pi = Pagination.getPageInfo(currentPage, totalMyCount);
+				mv.addObject("search", search);
+				searchMyList = mService.printSearchMailMy(search,pi);
 				mv.addObject("mList", searchMyList);
 			} else if(mailCategory.equals("F")) {
-				searchFileList = mService.printSearchMailFile(mailSearch);
+				pi = Pagination.getPageInfo(currentPage, totalmFileCount);
+				mv.addObject("search", search);
+				searchFileList = mService.printSearchMailFile(search,pi);
 				mv.addObject("mList", searchFileList);
 			} else {
-				mv.addObject("msg", "받은 메일 조회 실패");
-				viewName = "common/errorPage";
+				mv.addObject("msg", "검색 실패");
+//				mv.addObject("loc", "/approval/draftListView.sw");
+				mv.setViewName("common/msg");
 			}
-				mv.setViewName(viewName);
+				mv.addObject("pi", pi);
+				mv.addObject("mailCategory", mailCategory);
+				mv.setViewName( "mail/mailList");
 			
 		} catch (Exception e) {
-			mv.addObject("mList", e.toString());
+			mv.addObject("msg", e.toString());
 			mv.setViewName("common/errorPage");
 		}
 		
@@ -427,9 +490,9 @@ public class MailController {
 			try {
 				
 				int mResult = 0;
-				int mRecResult =0;
-				int mRefResult =0;
-				int mFileResult =0;
+				int mRecResult = 0;
+				int mRefResult = 0;
+				int mFileResult = 0;
 				for(int i = 0; i<values.length; i++) {
 					
 					  mResult = mService.removeChkMail(Integer.parseInt(values[i]));
@@ -461,7 +524,7 @@ public class MailController {
 		public String mailDelete(
 				Model model
 				, @RequestParam("mailNo") int mailNo
-				) {
+				 ) {
 			
 			try {
 				
@@ -470,8 +533,7 @@ public class MailController {
 				int mRefResult = mService.removeMailRef(mailNo);
 				int mFileResult = mService.removeMailFile(mailNo);
 				if(mResult > 0 && mRecResult>0 && mRefResult>0 && mFileResult>0) {
-					
-					return "redirect:/mail/mailRListView.sw";
+					return "mail/RmailList";
 				} else {
 					model.addAttribute("msg", "메일 삭제 실패");
 					return "common/errorPage";
@@ -480,6 +542,7 @@ public class MailController {
 				model.addAttribute("msg", e.toString());
 				return "common/errorPage";
 			}
+			
 			
 			
 		}
