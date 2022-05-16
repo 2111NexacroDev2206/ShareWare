@@ -61,18 +61,20 @@
 					</table>
 						
 					<jsp:include page="communityPaging.jsp"></jsp:include>
-					<form action="/community/search.sw" method="get" name="searchForm">
-					<select name="searchCondition">
-						<option value="all">전체</option>
-						<option value="writer">작성자</option>
-						<option value="title">제목</option>
-						<option value="contents">내용</option>
-					</select>
-					<div id="searchBtn">
-						<input type="text" onkeypress="JavaScript:press(this.search)" name="searchValue">
-						<button type="submit">검색</button>
+					<div class="l-search">
+						<form action="/community/search.sw" method="get" name="searchForm">
+							<select name="searchCondition" class="l-search" style="text-align: left; width: 80px;">
+								<option value="all">전체</option>
+								<option value="writer">작성자</option>
+								<option value="title">제목</option>
+								<option value="contents">내용</option>
+							</select>
+								<div id="searchBtn" class="l-input">
+									<input type="text" onkeypress="JavaScript:press(this.search)" name="searchValue" class="l-text">
+									<input type="submit" id="btn-search" class="i-search" value="&#xf002;">
+								</div>
+						</form>
 					</div>
-					</form>
 				</div>
 			</div>
 		</div>

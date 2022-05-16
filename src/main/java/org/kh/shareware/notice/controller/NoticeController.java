@@ -40,6 +40,7 @@ public class NoticeController {
 			model.addAttribute("nList", nList);
 			model.addAttribute("pi", pi);
 			model.addAttribute("listCondition", "notice");
+			model.addAttribute("myCondition", "board");
 			return "notice/noticeList";
 		}else {
 			model.addAttribute("msg", "리스트 출력 실패");
@@ -62,6 +63,7 @@ public class NoticeController {
 
 			
 			if(notice != null) {
+				model.addAttribute("myCondition", "board");
 				model.addAttribute("notice",notice);
 				return "notice/noticeDetail";
 			}else {

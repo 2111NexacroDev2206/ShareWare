@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.kh.shareware.member.domain.Member;
+import org.kh.shareware.common.PageInfo;
+import org.kh.shareware.common.Pagination;
 import org.kh.shareware.community.domain.Reply;
 import org.kh.shareware.meetingRoom.domain.MeetingRoom;
 import org.kh.shareware.meetingRoom.service.MeetingRoomService;
@@ -36,6 +38,7 @@ public class MeetingRoomController {
 		public String roomReservationView(Model model) {
 			
 			model.addAttribute("listCondition", "meetingRoom");
+			model.addAttribute("myCondition", "meetingRoom");
 			return "meetingRoom/meetingRoomReservation";
 		}
 		
@@ -95,16 +98,22 @@ public class MeetingRoomController {
 		public String roomCheckView(
 				Model model
 				,HttpServletRequest request //세션에 로그인 되어있는 아이디로 검색
-				) {
+				,@RequestParam(value="page", required=false) Integer page) {
 			
 				HttpSession session = request.getSession();
 				String memberNum = "";
 				Member member = (Member)session.getAttribute("loginUser");
 					memberNum = member.getMemberNum();
-				
-			List<MeetingRoom> mList = mService.reservationList(memberNum);
+			
+			int currentPage = (page != null) ? page : 1;
+			int totalCount = mService.getListCount(memberNum);
+			PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
+					
+			List<MeetingRoom> mList = mService.reservationList(pi,memberNum);
 			if(mList != null) {
 				model.addAttribute("mList", mList);
+				model.addAttribute("pi", pi);
+				model.addAttribute("myCondition", "meetingRoom");
 				model.addAttribute("listCondition", "roomCheck");
 				return "meetingRoom/meetingRoomCheck";
 			}else {

@@ -2,7 +2,9 @@ package org.kh.shareware.meetingRoom.store.logic;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+import org.kh.shareware.common.PageInfo;
 import org.kh.shareware.meetingRoom.domain.MeetingRoom;
 import org.kh.shareware.meetingRoom.store.MeetingRoomStore;
 import org.springframework.stereotype.Repository;
@@ -24,8 +26,12 @@ public class MeetingRoomStoreLogic implements MeetingRoomStore{
 	
 	//회원 개인 예약 확인
 	@Override
-	public List<MeetingRoom> selectListReservation(SqlSession sqlsession, String memberNum) {
-		List<MeetingRoom> mList = sqlsession.selectList("MeetingRoomMapper.selectListReservation", memberNum);
+	public List<MeetingRoom> selectListReservation(SqlSession sqlsession, PageInfo pi, String memberNum) {
+		int limit = pi.getDocLimit();
+		int currentPage = pi.getCurrentPage();
+		int offset = (currentPage - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<MeetingRoom> mList = sqlsession.selectList("MeetingRoomMapper.selectListReservation",memberNum,rowBounds);
 		return mList;
 	}
 	//회의실 예약취소
@@ -33,6 +39,12 @@ public class MeetingRoomStoreLogic implements MeetingRoomStore{
 	public int updateRoom(SqlSession sqlsession, MeetingRoom meetingRoom) {
 		int result = sqlsession.update("MeetingRoomMapper.updateRoomCancle", meetingRoom);
 		return result;
+	}
+
+	@Override
+	public int selectClistCount(SqlSession sqlsession, String memberNum) {
+		int totalCount =sqlsession.selectOne("MeetingRoomMapper.selectClistCount", memberNum);
+		return totalCount;
 	}
 
 }
