@@ -89,6 +89,7 @@ public class FileBoardController {
 		if(fList != null) {
 			model.addAttribute("fList", fList);
 			model.addAttribute("pi", pi);
+			model.addAttribute("listCondition", "fileBoard");
 			return "fileBoard/fileBoardList";
 		}else {
 			model.addAttribute("msg", "리스트 출력 실패");

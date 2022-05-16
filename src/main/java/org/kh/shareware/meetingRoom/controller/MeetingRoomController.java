@@ -33,7 +33,9 @@ public class MeetingRoomController {
 	
 	//예약 페이지 보기
 		@RequestMapping(value="/meetionRoom/meetingRoomReservationView.sw", method=RequestMethod.GET)
-		public String roomReservationView() {
+		public String roomReservationView(Model model) {
+			
+			model.addAttribute("listCondition", "meetingRoom");
 			return "meetingRoom/meetingRoomReservation";
 		}
 		
@@ -103,6 +105,7 @@ public class MeetingRoomController {
 			List<MeetingRoom> mList = mService.reservationList(memberNum);
 			if(mList != null) {
 				model.addAttribute("mList", mList);
+				model.addAttribute("listCondition", "roomCheck");
 				return "meetingRoom/meetingRoomCheck";
 			}else {
 				model.addAttribute("msg", "리스트 출력 실패");

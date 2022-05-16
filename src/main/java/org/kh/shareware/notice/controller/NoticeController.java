@@ -39,6 +39,7 @@ public class NoticeController {
 		if(nList != null) {
 			model.addAttribute("nList", nList);
 			model.addAttribute("pi", pi);
+			model.addAttribute("listCondition", "notice");
 			return "notice/noticeList";
 		}else {
 			model.addAttribute("msg", "리스트 출력 실패");

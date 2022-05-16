@@ -127,6 +127,7 @@ public class CommunityController {
 			if(cList != null) {
 				model.addAttribute("cList", cList);
 				model.addAttribute("pi", pi);
+				model.addAttribute("listCondition", "community");
 				return "community/communityList";
 			}else {
 				model.addAttribute("msg", "리스트 출력 실패");

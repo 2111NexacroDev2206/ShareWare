@@ -23,8 +23,8 @@
         <div class="list-item ${myCondition eq 'attendance' ? 'active' : ''}"><a href="">근태 관리</a></div>
         <div class="list-item ${myCondition eq 'organization' ? 'active' : ''}"><a href="">조직도</a></div>
         <div class="list-item ${myCondition eq 'member' ? 'active' : ''}"><a href="">주소록</a></div>
-        <div class="list-item ${myCondition eq 'board' ? 'active' : ''}"><a href="">게시판</a></div>
-        <div class="list-item ${myCondition eq 'meetingRoom' ? 'active' : ''}"><a href="">회의실 예약</a></div>
+        <div class="list-item ${myCondition eq 'community' ? 'active' : ''}"><a href="/community/list.sw">게시판</a></div>
+        <div class="list-item ${myCondition eq 'meetingRoom' ? 'active' : ''}"><a href="/meetionRoom/meetingRoomReservationView.sw">회의실 예약</a></div>
         <div class="list-item ${myCondition eq 'approval' ? 'active' : ''}"><a href="/approval/draftListView.sw">전자결재</a></div>
         <div class="list-item ${myCondition eq 'chat' ? 'active' : ''}"><a href="">채팅</a></div>
         <div class="list-item ${myCondition eq 'calendar' ? 'active' : ''}"><a href="">일정</a></div>

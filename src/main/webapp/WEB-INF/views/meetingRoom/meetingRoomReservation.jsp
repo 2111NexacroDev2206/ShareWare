@@ -9,38 +9,49 @@
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-	<form action="/meetionRoom/reservation.sw" method="GET" id="roomForm">
-			<div id = "formDiv">
-				<div id="rDiv">
-						<div>
-						날짜 : <input type=date id="roomRDate">
+<jsp:include page="../common/menuBar.jsp"></jsp:include>
+	<div class="s-menu">
+		<div class="s-menu-title">
+			<p>회의실
+				<i class="fa-solid fa-pen-to-square fa-lg"></i>
+		</div>
+			<div class="s-list-item ${listCondition eq 'meetingRoom' ? 'active' : ''}"><a href="/meetionRoom/meetingRoomReservationView.sw">회의실 예약</a></div>
+			<div class="s-list-item ${listCondition eq 'roomCheck' ? 'active' : ''}"><a href="/meetionRoom/roomResevationList.sw">회의실 예약 확인</a></div>
+		</div>
+		<div id="coreDiv">
+			<form action="/meetionRoom/reservation.sw" method="GET" id="roomForm">
+					<div id = "formDiv">
+						<div id="rDiv">
+								<div>
+								날짜 : <input type=date id="roomRDate">
+								</div>
+								<div>
+									회의실 : <select id="room">
+										<option value="1 회의실" selected>1 회의실</option>
+										<option value="2 회의실">2 회의실</option>
+										<option value="3 회의실">3 회의실</option>
+										<option value="4 회의실">4 회의실</option>
+										<option value="5 회의실">5 회의실</option>
+									</select>
+								</div>
+								<div>
+									시간 : <select id="time">
+										<option value="a">=== 선택 ===</option>
+										<option value="1"  id="time1">10:00~12:00</option>
+										<option value="2"  id="time2">13:00~15:00</option>
+										<option value="3"  id="time3">15:00~17:00</option>
+										<option value="4"  id="time4">17:00~19:00</option>
+										<option value="5"  id="time5">19:00~21:00</option>
+									</select>
+								</div>
+							</div>
+						<div id = "bDiv">
+							<button type="button" id="rButton">예약</button>
 						</div>
-						<div>
-							회의실 : <select id="room">
-								<option value="1 회의실" selected>1 회의실</option>
-								<option value="2 회의실">2 회의실</option>
-								<option value="3 회의실">3 회의실</option>
-								<option value="4 회의실">4 회의실</option>
-								<option value="5 회의실">5 회의실</option>
-							</select>
-						</div>
-						<div>
-							시간 : <select id="time">
-								<option value="a">=== 선택 ===</option>
-								<option value="1"  id="time1">10:00~12:00</option>
-								<option value="2"  id="time2">13:00~15:00</option>
-								<option value="3"  id="time3">15:00~17:00</option>
-								<option value="4"  id="time4">17:00~19:00</option>
-								<option value="5"  id="time5">19:00~21:00</option>
-							</select>
-						</div>
+						
 					</div>
-				<div id = "bDiv">
-					<button type="button" id="rButton">예약</button>
-				</div>
-				
-			</div>
-	</form>
+			</form>
+		</div>
 	<script>
 	
 		var date = document.getElementById('roomRDate');

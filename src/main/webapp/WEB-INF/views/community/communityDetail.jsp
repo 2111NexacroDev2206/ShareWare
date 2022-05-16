@@ -7,47 +7,55 @@
 <meta charset="UTF-8">
 <title>자유게시판 상세보기</title>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+<jsp:include page="../common/menuBar.jsp"></jsp:include>
+<link rel="stylesheet" href="../../../resources/css/community/communityDetail-style.css">
 </head>
 <body>
-	<h1>자유게시판 상세보기</h1>
-	<form action="/community/modifyView.sw" method="GET" enctype="multipart/form-data" id="upDateForm">
-	<c:if test="${loginUser.memberNum == community.memberNum}">
-		<c:url var="update" value="/community/modifyView.sw">
-			<c:param name="comNo" value="${community.comNo }"></c:param>
-		</c:url>
-		<input type="button" id="upload" onclick="location.href='${update}'" value="수정"/> <!-- 변수 update value comNo을 가지고  /community/modifyView.sw실행-->
-		<button type="button" id="delete" onclick="deleteCommunity(replyCount)">삭제</button>
-	</c:if>
-	
-	<span>글쓴이 : ${community.member.memberName }</span>
-	<span>작성일 : ${community.comDate}</span>
-	<div dorder="1">${community.comTitle}</div>
-	<div dorder="1">${community.comContent}
-				
-		<c:if test="${community.comImgName != null}">
-			<img src = "../../../resources/loadFile/${community.comImgRename}" alt="${community.comImgName}">
-		</c:if>
-				
-					<div id="vote-body-div">
-					</div>
+	<div id="coreDiv">
+		<div id="marging">
+		</div>
+		<div id="position">
+			<div id="contents">
+				<form action="/community/modifyView.sw" method="GET" enctype="multipart/form-data" id="upDateForm">
+							<div class="WriteDiv">작성자 : ${community.member.memberName }</div>
+							<div class="dateDiv">작성일 : ${community.comDate}</div>
+							<c:if test="${loginUser.memberNum == community.memberNum}">
+								<div class="optionBtnDiv">
+								<c:url var="update" value="/community/modifyView.sw">
+									<c:param name="comNo" value="${community.comNo }"></c:param>
+								</c:url>
+								<button type="button" id="upload" onclick="location.href='${update}'">수정</button> <!-- 변수 update value comNo을 가지고  /community/modifyView.sw실행-->
+								<button type="button" id="delete" onclick="deleteCommunity(replyCount)">삭제</button>
+								</div>
+							</c:if>
+							<div id="community-TileDiv">${community.comTitle}</div>
+							<div id="community-ContentDiv">${community.comContent}
+									
+							<c:if test="${community.comImgName != null}">
+								<img src = "../../../resources/loadFile/${community.comImgRename}" alt="${community.comImgName}">
+							</c:if>
+									
+										<div id="vote-body-div">
+										</div>
+						</div>
+						</form>
+						<div id="replyDiv">
+						<!-- 댓글 작성-->
+						</div>
+						<div id="replyListDiv">
+							<table width="500" id="listTable" class="type04">
+							<!-- 출력 -->
+								<tbody>
+									<tr>
+									</tr>
+									<tr>
+									</tr>
+								</tbody>
+							</table>
+				</div>
+			</div>
+		</div>
 	</div>
-	</form>
-	<div id="replyDiv">
-	<!-- 댓글 작성-->
-	</div>
-	<div id="replyListDiv">
-		<table width="500" id="listTable">
-		<!-- 출력 -->
-			<tbody>
-				<tr>
-				</tr>
-				<tr>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	
-</body>
 <script>
 	var replyCount =0;
 	getCommunityReply();
@@ -131,21 +139,21 @@
 					if(cSelectTrue == 1 || cVoteState ==2 || writer == loginUser ){ //투표에 참가했거나 아니면 투표가 종료 되었을 경우 투표 결과를 보여줌 아니면? 글쓴사람과 로그인한 사람이 같은 경우
 						var $voteBodyDiv = $("#vote-body-div");
 						$voteBodyDiv.html("");//vote-body-div안에있는 내용지우기
-						var $voteBox1 = $("<div id=\"voteBox1-div\">");
-						var $voteText1 = $("<div id=\"voteTextBox1-div\">").text(data.communityVote.cVoteText1);
-						var $voteSelect1 = $("<div id=\"voteSelect1-div\">").text(data.communityVote.cVoteSelect1+"표");
-						var $voteBox2 = $("<div id=\"voteBox2-div\">");
-						var $voteText2 = $("<div id=\"voteTextBox2-div\">").text(data.communityVote.cVoteText2);
-						var $voteSelect2 = $("<div id=\"voteSelect2-div\">").text(data.communityVote.cVoteSelect2+"표");
+						var $voteBox1 = $("<div id=\"voteBox1-div\" class=\"voteBox\">");
+						var $voteText1 = $("<div id=\"voteTextBox1-div\" class=\"voteTextBox\">").text(data.communityVote.cVoteText1);
+						var $voteSelect1 = $("<div id=\"voteSelect1-div\"class=\"voteSelect\">").text(data.communityVote.cVoteSelect1+"표");
+						var $voteBox2 = $("<div id=\"voteBox2-div\" class=\"voteBox\">");
+						var $voteText2 = $("<div id=\"voteTextBox2-div\" class=\"voteTextBox\">").text(data.communityVote.cVoteText2);
+						var $voteSelect2 = $("<div id=\"voteSelect2-div\"class=\"voteSelect\">").text(data.communityVote.cVoteSelect2+"표");
 						if(vote3 != null){
-							var $voteBox3 = $("<div id=\"voteBox3-div\">");
-							var $voteText3 = $("<div id=\"voteTextBox3-div\">").text(data.communityVote.cVoteText3);
-							var $voteSelect3 = $("<div id=\"voteSelect3-div\">").text(data.communityVote.cVoteSelect3+"표");
+							var $voteBox3 = $("<div id=\"voteBox3-div\" class=\"voteBox\">");
+							var $voteText3 = $("<div id=\"voteTextBox3-div\" class=\"voteTextBox\">").text(data.communityVote.cVoteText3);
+							var $voteSelect3 = $("<div id=\"voteSelect3-div\"class=\"voteSelect\">").text(data.communityVote.cVoteSelect3+"표");
 						}
 						if(vote4 != null){
-							var $voteBox4 = $("<div id=\"voteBox4-div\">");
-							var $voteText4 = $("<div id=\"voteTextBox4-div\">").text(data.communityVote.cVoteText4);
-							var $voteSelect4 = $("<div id=\"voteSelect4-div\">").text(data.communityVote.cVoteSelect4+"표");
+							var $voteBox4 = $("<div id=\"voteBox4-div\" class=\"voteBox\">");
+							var $voteText4 = $("<div id=\"voteTextBox4-div\" class=\"voteTextBox\">").text(data.communityVote.cVoteText4);
+							var $voteSelect4 = $("<div id=\"voteSelect4-div\" class=\"voteSelect\">").text(data.communityVote.cVoteSelect4+"표");
 						}
 						if(writer == loginUser && cVoteState != 2){
 							var $voteEndDiv = $("<div id=\"voteEndDiv\">");
@@ -177,21 +185,21 @@
 						}else{
 							var $voteBodyDiv = $("#vote-body-div");
 							$voteBodyDiv.html("");//vote-body-div안에있는 내용지우기
-							var $voteBox1 = $("<div id=\"voteBox1-div\">");
-							var $voteText1 = $("<div id=\"voteTextBox1-div\">").text(data.communityVote.cVoteText1);
-							var $voteSelect1 = $("<button type=\"button\" id=\"selectBtn1\" onclick='select1("+comVoteNo+")'>투표</button>");
-							var $voteBox2 = $("<div id=\"voteBox2-div\">");
-							var $voteText2 = $("<div id=\"voteTextBox2-div\">").text(data.communityVote.cVoteText2);
-							var $voteSelect2 = $("<button type=\"button\" id=\"selectBtn2\" onclick='select2("+comVoteNo+")'>투표</button>");
+							var $voteBox1 = $("<div id=\"voteBox1-div\" class=\"voteBox\">");
+							var $voteText1 = $("<div id=\"voteTextBox1-div\" class=\"voteTextBox\">").text(data.communityVote.cVoteText1);
+							var $voteSelect1 = $("<button type=\"button\" id=\"selectBtn1\" class=\"voteSelectBtn\"onclick='select1("+comVoteNo+")'>투표</button>");
+							var $voteBox2 = $("<div id=\"voteBox2-div\" class=\"voteBox\" >");
+							var $voteText2 = $("<div id=\"voteTextBox2-div\" class=\"voteTextBox\">").text(data.communityVote.cVoteText2);
+							var $voteSelect2 = $("<button type=\"button\" id=\"selectBtn2\" class=\"voteSelectBtn\" onclick='select2("+comVoteNo+")'>투표</button>");
 							if(vote3 != null){
-								var $voteBox3 = $("<div id=\"voteBox3-div\">");
-								var $voteText3 = $("<div id=\"voteTextBox3-div\">").text(data.communityVote.cVoteText3);
-								var $voteSelect3 = $("<button type=\"button\" id=\"selectBtn3\" onclick='select3("+comVoteNo+")'>투표</button>");
+								var $voteBox3 = $("<div id=\"voteBox3-div\" class=\"voteBox\">");
+								var $voteText3 = $("<div id=\"voteTextBox3-div\" class=\"voteTextBox\">").text(data.communityVote.cVoteText3);
+								var $voteSelect3 = $("<button type=\"button\" id=\"selectBtn3\" class=\"voteSelectBtn\" onclick='select3("+comVoteNo+")'>투표</button>");
 							}
 							if(vote4 != null){
-								var $voteBox4 = $("<div id=\"voteBox4-div\">");
-								var $voteText4 = $("<div id=\"voteTextBox4-div\">").text(data.communityVote.cVoteText4);
-								var $voteSelect4 = $("<button type=\"button\" id=\"selectBtn4\" onclick='select4("+comVoteNo+")'>투표</button>");
+								var $voteBox4 = $("<div id=\"voteBox4-div\" class=\"voteBox\">");
+								var $voteText4 = $("<div id=\"voteTextBox4-div\" class=\"voteTextBox\">").text(data.communityVote.cVoteText4);
+								var $voteSelect4 = $("<button type=\"button\" id=\"selectBtn4\" class=\"voteSelectBtn\" onclick='select4("+comVoteNo+")'>투표</button>");
 							}
 								
 								$voteBox1.append($voteText1);
@@ -316,11 +324,11 @@
 					var User = data[i].memberNum;
 					
 					var $tr = $("<tr>");
-					var $rContent = $("<td>").text(data[i].replyContent);
-					var $rWriter  = $("<td width='100'>").text(data[i].member.memberName);
-					var $rReplyDate  = $("<td width='100'>").text(data[i].replyDate);
+					var $rContent = $("<td class=\"contentTd\">").text(data[i].replyContent);
+					var $rWriter  = $("<td width='100' class=\"defualtTd\">").text(data[i].member.memberName);
+					var $rReplyDate  = $("<td width='100' class=\"defualtTd\">").text(data[i].replyDate);
 					if(loginUser==User){
-						var $btnArea 	 = $("<td width='120'>")
+						var $btnArea 	 = $("<td width='120' class=\"defualtTd\">")
 						.append("<a href='javascript:void(0)' onclick='modReplyView(this,"+data[i].comNo+","+data[i].replyNo+",\""+data[i].replyContent+"\");'>수정</a> ")//this를 넘겨줌
 						.append("<a href='javascript:void(0)' onclick='removeReply("+data[i].comNo+","+data[i].replyNo+");'>삭제</a>");
 					}else{
@@ -466,4 +474,5 @@
 
 	
 </script>
+</body>
 </html>

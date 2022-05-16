@@ -10,57 +10,69 @@
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-
-	<div id="modal">
-		날짜 :
-		시간 : 
-		회의실 : 
-		<div id="img">
+<jsp:include page="../common/menuBar.jsp"></jsp:include>
+	<div class="s-menu">
+		<div class="s-menu-title">
+			<p>회의실
+				<i class="fa-solid fa-pen-to-square fa-lg"></i>
 		</div>
-		<div id="detail">
-		</div>
-		<div id="buttonDiv">
-			<button type="button" id="returnBtn">확인</button>
-			<button type="button" id="resetBtn">예약취소</button>
-		</div>
+		<div class="s-list-item ${listCondition eq 'meetingRoom' ? 'active' : ''}"><a href="/meetionRoom/meetingRoomReservationView.sw">회의실 예약</a></div>
+		<div class="s-list-item ${listCondition eq 'roomCheck' ? 'active' : ''}"><a href="/meetionRoom/roomResevationList.sw">회의실 예약 확인</a></div>
 	</div>
-
-<table align="center" border="1">
-	<tr>
-		<th width="300">예약 날짜</th>
-		<th>시간</th>
-		<th>회의실</th>
-		<th></th>
-	</tr>
-			<c:if test ="${fn:length(mList) eq 0}"> <!-- list의 길이를 구해서 길이가 0이면 해당 문구를 출력 -->
-				<tr>
-					<td colspan = "5">예약 정보가 없습니다.</td>
-				</tr>
-			</c:if>
-			<c:forEach items="${mList }" var="meetingRoom">
-				
-					<tr>
-						<td>${meetingRoom.meetingDate} </td>
-						<c:if test = "${meetingRoom.meetingTime  == 1}">
-						<td>10:00~12:00</td>
-						</c:if>
-						<c:if test = "${meetingRoom.meetingTime  == 2}">
-						<td>13:00~15:00</td>
-						</c:if>
-						<c:if test = "${meetingRoom.meetingTime  == 3}">
-						<td>15:00~17:00</td>
-						</c:if>
-						<c:if test = "${meetingRoom.meetingTime  == 4}">
-						<td>17:00~19:00</td>
-						</c:if>
-						<c:if test = "${meetingRoom.meetingTime  == 5}">
-						<td>19:00~21:00</td>
-						</c:if>
-						<td>${meetingRoom.meetingNo }</td>
-						<td><button type="button" id="popup_open_btn" onclick="datailRoom('${meetingRoom.meetingTime}','${meetingRoom.meetingNo }','${meetingRoom.meetingDate}');">확인</button></td>		
-					</tr>
-			</c:forEach>
-	</table>
+	<div id="coreDiv">
+			
+		
+			<div id="modal">
+				날짜 :
+				시간 : 
+				회의실 : 
+				<div id="img">
+				</div>
+				<div id="detail">
+				</div>
+				<div id="buttonDiv">
+					<button type="button" id="returnBtn">확인</button>
+					<button type="button" id="resetBtn">예약취소</button>
+				</div>
+			</div>
+		
+		<table align="center" border="1">
+			<tr>
+				<th width="300">예약 날짜</th>
+				<th>시간</th>
+				<th>회의실</th>
+				<th></th>
+			</tr>
+					<c:if test ="${fn:length(mList) eq 0}"> <!-- list의 길이를 구해서 길이가 0이면 해당 문구를 출력 -->
+						<tr>
+							<td colspan = "5">예약 정보가 없습니다.</td>
+						</tr>
+					</c:if>
+					<c:forEach items="${mList }" var="meetingRoom">
+						
+							<tr>
+								<td>${meetingRoom.meetingDate} </td>
+								<c:if test = "${meetingRoom.meetingTime  == 1}">
+								<td>10:00~12:00</td>
+								</c:if>
+								<c:if test = "${meetingRoom.meetingTime  == 2}">
+								<td>13:00~15:00</td>
+								</c:if>
+								<c:if test = "${meetingRoom.meetingTime  == 3}">
+								<td>15:00~17:00</td>
+								</c:if>
+								<c:if test = "${meetingRoom.meetingTime  == 4}">
+								<td>17:00~19:00</td>
+								</c:if>
+								<c:if test = "${meetingRoom.meetingTime  == 5}">
+								<td>19:00~21:00</td>
+								</c:if>
+								<td>${meetingRoom.meetingNo }</td>
+								<td><button type="button" id="popup_open_btn" onclick="datailRoom('${meetingRoom.meetingTime}','${meetingRoom.meetingNo }','${meetingRoom.meetingDate}');">확인</button></td>		
+							</tr>
+					</c:forEach>
+			</table>
+	</div>
 <script>
 	modalDisplayNone()
 
