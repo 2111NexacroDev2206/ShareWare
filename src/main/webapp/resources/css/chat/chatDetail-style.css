@@ -74,12 +74,17 @@ p {
 }
 .more button { /* 초대, 나가기 버튼 */
 	background: transparent;
-	display: block;
 	border: none;
 	font-size: 17px;
-	margin: 3px 0;
+	padding: 3px;
 	font-weight: bold;
 	cursor: pointer;
+	width: 100%;
+	text-align: left;
+}
+.more button:hover {
+	background-color: rgba(100, 100, 100, 0.1);
+	border-radius: 2px;
 }
 .chat-body { /* 채팅 목록 */
 	position: fixed;

@@ -49,6 +49,13 @@ public class AttendanceStoreLogic implements AttendanceStore{
 		= sqlSession.selectList("AttendanceMapper.selectStats", memNum);
 	return sList;
 	}
+	
+	// 홈 - 근태 관리
+	@Override
+	public Attendance selectOneAtt(SqlSession sqlSession, String memberNum) {
+		Attendance attendance = sqlSession.selectOne("AttendanceMapper.selectOneAtt", memberNum);
+		return attendance;
+	}
 
 
 }

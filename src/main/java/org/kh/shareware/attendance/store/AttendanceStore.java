@@ -19,5 +19,8 @@ public interface AttendanceStore {
 	
 	//통계
 	public List<Stats> selectStats(SqlSession sqlSession, String memNum);
+	
+	// 홈 - 근태 관리
+	public Attendance selectOneAtt(SqlSession sqlSession, String memberNum);
 
 }

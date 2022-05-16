@@ -245,4 +245,22 @@ public class ApprovalStoreLogic implements ApprovalStore{
 		return result;
 	}
 
+	@Override
+	public int selectOneAppCount(SqlSession sqlSession, String memberNum) { // 홈 - 결재 대기 문서
+		int appCount = sqlSession.selectOne("ApprovalMapper.selectOneAppCount", memberNum);
+		return appCount;
+	}
+
+	@Override
+	public int selectOneDraftCount(SqlSession sqlSession, String memberNum) { // 홈 - 결재 진행 문서
+		int draftCount = sqlSession.selectOne("ApprovalMapper.selectOneDraftCount", memberNum);
+		return draftCount;
+	}
+
+	@Override
+	public int selectOneExpCount(SqlSession sqlSession, String memberNum) { // 홈 - 결재 진행 문서
+		int expCount = sqlSession.selectOne("ApprovalMapper.selectOneExpCount", memberNum);
+		return expCount;
+	}
+
 }
