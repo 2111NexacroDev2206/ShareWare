@@ -84,7 +84,7 @@ html, body {
 }
 .user { /* 사용자 */
 	margin-left: 10px;
-	line-height: 45px;
+	line-height: 48px;
 	padding-top: 15px;
 	height: 45px;
 	font-size: 18px;
@@ -156,7 +156,10 @@ html, body {
 	border: none;
 	width: 100%;
 	cursor: pointer;
-	font-size: 15px;
+	font-size: 17px;
 	font-weight: bold;
-	margin: 5px 0;
+	padding: 5px 0;
+}
+#profile-menu button:hover {
+	background-color: rgba(100, 100, 100, 0.1);
 }

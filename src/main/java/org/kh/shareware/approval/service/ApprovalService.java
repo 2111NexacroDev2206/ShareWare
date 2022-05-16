@@ -46,5 +46,8 @@ public interface ApprovalService {
 	public int modifyDocStatus(Approval app); // 결재 승인/반려(문서 상태 변경)
 	public List<Approval> printAllAppStatus(int docNo); // 다음 차례 결재자 확인
 	public int modifyAppNext(int appNo); // 다음 결재자 상태 변경(요청->대기)
+	public int homeAppCount(String memberNum); // 홈 - 결재 대기 문서
+	public int homeDraftCount(String memberNum); // 홈 - 결재 진행 문서
+	public int homeExpCount(String memberNum); // 홈 - 결재 예정 문서
 
 }

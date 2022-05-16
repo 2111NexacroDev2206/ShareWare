@@ -21,7 +21,8 @@ public interface AttendanceService {
 	
 	//근태리스트 재설정
 	//void searchAttendanceList(String date);
-
-
-
+	
+	// 홈 - 근태 관리
+	public Attendance homeAttTime(String memberNum);
+	
 }

@@ -228,4 +228,22 @@ public class ApprovalServiceImpl implements ApprovalService{
 		return result;
 	}
 
+	@Override
+	public int homeAppCount(String memberNum) { // 홈 - 결재 대기 문서
+		int appCount = aStore.selectOneAppCount(sqlSession, memberNum);
+		return appCount;
+	}
+
+	@Override
+	public int homeDraftCount(String memberNum) { // 홈 - 결재 진행 문서
+		int draftCount = aStore.selectOneDraftCount(sqlSession, memberNum);
+		return draftCount;
+	}
+
+	@Override
+	public int homeExpCount(String memberNum) { // 홈 - 결재 예정 문서
+		int expCount = aStore.selectOneExpCount(sqlSession, memberNum);
+		return expCount;
+	}
+
 }

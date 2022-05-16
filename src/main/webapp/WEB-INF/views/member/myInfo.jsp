@@ -16,7 +16,7 @@
 		</div>
 		<table class="t-info">
 			<tr>
-				<td rowspan="5"><img src="${loginUser.photo }" alt="사진"></td>
+				<td rowspan="5"><img src="../../resources/profile/kwonjihye.png" alt="사진"></td>
 				<td class="td-left">사원번호</td>
 				<td colspan="2">
 					${loginUser.memberNum }
