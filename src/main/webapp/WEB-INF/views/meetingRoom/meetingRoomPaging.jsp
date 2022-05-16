@@ -5,37 +5,37 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>페이징</title>
+<title>Insert title here</title>
 </head>
 <body>
-	<div class="paging"> <!-- 일반 리스트 페이징 -->
+<div class="paging"> <!-- 일반 리스트 페이징 -->
 		<c:if test="${search.memberNum == null }"> <!-- 검색 하지 않았으면 -->
 				<c:if test="${pi.prev == true}">
-					<a href='<c:url value="/community/list.sw?page=${pi.startNavi-1 }"/>'><button class="page-btn">＜</button></a>
+					<a href='<c:url value="/meetionRoom/roomResevationList.sw?page=${pi.startNavi-1 }"/>'><button class="page-btn">＜</button></a>
 				</c:if>
 				<c:forEach var="p" begin="${pi.startNavi }" end="${pi.endNavi }">
-					<c:url var="pagination" value="/community/list.sw">
+					<c:url var="pagination" value="/meetionRoom/roomResevationList.sw">
 						<c:param name="page" value="${p }"></c:param>
 					</c:url>
 					<a href="${pagination }"><button class="page-btn ${p eq currentPage ? 'active' : '' }">${p }</button></a>&nbsp;								
 				</c:forEach>
 				<c:if test="${pi.next == true && pi.endNavi > 0}">
-					<a href='<c:url value="/community/list.sw?page=${pi.endNavi+1 }"/>'><button class="page-btn">＞</button></a>
+					<a href='<c:url value="/meetionRoom/roomResevationList.sw?page=${pi.endNavi+1 }"/>'><button class="page-btn">＞</button></a>
 				</c:if>
 		</c:if>
 		<!-- 검색 했을 경우 -->
 		<c:if test="${search.memberNum != null }">
 				<c:if test="${pi.prev == true}">
-					<a href='<c:url value="/community/search.sw?page=${pi.startNavi-1 }&searchCondition=${search.searchCondition }&searchValue=${search.searchValue }"/>'><button class="page-btn">＜</button></a>
+					<a href='<c:url value="/meetionRoom/roomResevationList.sw?page=${pi.startNavi-1 }&searchCondition=${search.searchCondition }&searchValue=${search.searchValue }"/>'><button class="page-btn">＜</button></a>
 				</c:if>
 				<c:forEach var="p" begin="${pi.startNavi }" end="${pi.endNavi }">
-					<c:url var="pagination" value="/community/search.sw?searchCondition=${search.searchCondition }&searchValue=${search.searchValue }">
+					<c:url var="pagination" value="/meetionRoom/roomResevationList.sw?searchCondition=${search.searchCondition }&searchValue=${search.searchValue }">
 						<c:param name="page" value="${p }"></c:param>
 					</c:url>
 					<a href="${pagination }"><button class="page-btn ${p eq currentPage ? 'active' : '' }">${p }</button></a>&nbsp;								
 				</c:forEach>
 				<c:if test="${pi.next == true && pi.endNavi > 0}">
-					<a href='<c:url value="/community/search.sw?page=${pi.endNavi+1 }&searchCondition=${search.searchCondition }&searchValue=${search.searchValue }"/>'><button class="page-btn">＞</button></a>
+					<a href='<c:url value="/meetionRoom/roomResevationList.sw?page=${pi.endNavi+1 }&searchCondition=${search.searchCondition }&searchValue=${search.searchValue }"/>'><button class="page-btn">＞</button></a>
 				</c:if>
 		</c:if>
 	</div>	

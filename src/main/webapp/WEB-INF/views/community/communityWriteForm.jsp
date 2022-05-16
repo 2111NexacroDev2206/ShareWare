@@ -11,6 +11,15 @@
 </head>
 <body>
 <jsp:include page="../common/menuBar.jsp"></jsp:include>
+	<div class="s-menu">
+		<div class="s-menu-title">
+			<p>자유게시판
+				<i class="fa-solid fa-pen-to-square fa-lg"></i>
+		</div>
+		<div class="s-list-item ${listCondition eq 'community' ? 'active' : ''}"><a href="/community/list.sw?docStatus=전체">자유게시판</a></div>
+		<div class="s-list-item ${listCondition eq 'notice' ? 'active' : ''}"><a href="/notice/list.sw?docStatus=전체">공지게시판</a></div>
+		<div class="s-list-item ${listCondition eq 'fileBoard' ? 'active' : ''}"><a href="/fileBoard/list.sw?docStatus=전체">자료실</a></div>
+	</div>
 <div id="coreDiv">
 	<div id="marging">
 	</div>
@@ -159,14 +168,13 @@
 	  $("#comInsert").on("click", function(){
 		    
 			var comTitle = $("#comTitle").val();
-			var comContent = $("#comContent").val();
+			var comContent = $('#comContent').val();
 			var cVoteText1 = $("#vote-input1").val();
 			var cVoteText2 = $("#vote-input2").val();
 			var cVoteText3 = $("#vote-input3").val();
 			var cVoteText4 = $("#vote-input4").val();
 			var insertTrue = 1; //0이면 ajax 동작 x 1이면 동작 되게
-			
-			console.log(comContent);
+
 			
 			 const formData = new FormData();
 			  formData.append("uploadFile", imageInput.files[0]);

@@ -3,6 +3,7 @@ package org.kh.shareware.meetingRoom.service.logic;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.kh.shareware.common.PageInfo;
 import org.kh.shareware.meetingRoom.domain.MeetingRoom;
 import org.kh.shareware.meetingRoom.service.MeetingRoomService;
 import org.kh.shareware.meetingRoom.store.MeetingRoomStore;
@@ -29,14 +30,20 @@ public class MeetingRoomServiceImpl implements MeetingRoomService{
 	}
 
 	@Override
-	public List<MeetingRoom> reservationList(String memberNum) {
-		List<MeetingRoom> mList = mStore.selectListReservation(sqlsession, memberNum);
+	public List<MeetingRoom> reservationList(PageInfo pi,String memberNum) {
+		List<MeetingRoom> mList = mStore.selectListReservation(sqlsession, pi, memberNum);
 		return mList;
 	}
 
 	@Override
 	public int modifyRoom(MeetingRoom meetingRoom) {
 		int result = mStore.updateRoom(sqlsession, meetingRoom);
+		return result;
+	}
+
+	@Override
+	public int getListCount(String memberNum) {
+		int result = mStore.selectClistCount(sqlsession, memberNum);
 		return result;
 	}
 

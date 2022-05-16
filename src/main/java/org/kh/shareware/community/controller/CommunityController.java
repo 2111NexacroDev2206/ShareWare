@@ -43,7 +43,8 @@ public class CommunityController {
 	
 //글작성 페이지 보기
 	@RequestMapping(value="/community/WriteView.sw", method=RequestMethod.GET)
-	public String CommunityWriteView() {
+	public String CommunityWriteView(Model model) {
+		model.addAttribute("myCondition", "board");
 		return "community/communityWriteForm";
 	}
 	
@@ -127,6 +128,7 @@ public class CommunityController {
 			if(cList != null) {
 				model.addAttribute("cList", cList);
 				model.addAttribute("pi", pi);
+				model.addAttribute("myCondition", "board");
 				model.addAttribute("listCondition", "community");
 				return "community/communityList";
 			}else {
@@ -152,6 +154,7 @@ public class CommunityController {
 
 		
 		if(community != null) {
+			model.addAttribute("myCondition", "board");
 			model.addAttribute("community",community);
 			return "community/communityDetail";
 		}else {
@@ -177,6 +180,7 @@ public class CommunityController {
 		CommunityVoteSelect cVoteSelect = cService.viewCommunityVote(comNo);
 		
 		if(community != null) {
+			model.addAttribute("myCondition", "board");
 			model.addAttribute("community",community);
 			model.addAttribute("communityVote",communityVote);
 			model.addAttribute("cVoteSelect",cVoteSelect);

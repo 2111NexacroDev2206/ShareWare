@@ -89,6 +89,7 @@ public class FileBoardController {
 		if(fList != null) {
 			model.addAttribute("fList", fList);
 			model.addAttribute("pi", pi);
+			model.addAttribute("myCondition", "board");
 			model.addAttribute("listCondition", "fileBoard");
 			return "fileBoard/fileBoardList";
 		}else {
@@ -112,6 +113,7 @@ public class FileBoardController {
 
 			
 			if(fileBoard != null) {
+				model.addAttribute("myCondition", "board");
 				model.addAttribute("fileBoard",fileBoard);
 				return "fileBoard/fileBoardDetail";
 			}else {
@@ -130,6 +132,7 @@ public class FileBoardController {
 			FileBoard fileBoard = fService.detailFileBoard(fileBoardNo);
 			
 			if(fileBoard != null) {
+				model.addAttribute("myCondition", "board");
 				model.addAttribute("fileBoard",fileBoard);
 				return "fileBoard/fileBoardModifyForm";
 			}else {

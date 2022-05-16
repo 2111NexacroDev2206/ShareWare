@@ -52,27 +52,9 @@
 									</tr>
 							</c:forEach>
 					</table>
-					<table>
-							<tr align="center" height="20">
-							<td colspan="6">
-								<c:if test="${pi.prev == true }">
-										<a href='<c:url value="/fileBoard/list.sw?page=${pi.startNavi-1 }"/>'>이전</a>
-								</c:if>
-				
-								<c:forEach var="p" begin="${pi.startNavi }" end="${pi.endNavi }">
-									<c:url var="pagination" value="/fileBoard/list.sw">
-										<c:param name="page" value="${p }"></c:param>
-									</c:url>
-									<a href="${pagination }">${p }</a>&nbsp;
-								</c:forEach>
-								<c:if test="${pi.next == true}">
-									<a href='<c:url value="/fileBoard/list.sw?page=${pi.endNavi+1 }"/>'>다음</a>
-								</c:if>
-							</td>
-						</table>
-					</div>
-				</div>
+					<jsp:include page="fileBoardPagin.jsp"></jsp:include>
 			</div>
+	</div>
 </div>
 <script>
 </script>

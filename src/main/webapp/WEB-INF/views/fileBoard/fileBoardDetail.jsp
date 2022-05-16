@@ -7,10 +7,19 @@
 <meta charset="UTF-8">
 <title>자료실 상세보기</title>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
-<jsp:include page="../common/menuBar.jsp"></jsp:include>
 <link rel="stylesheet" href="../../../resources/css/fileBoaed/fileBoaedDetail.css">
 </head>
 <body>
+<jsp:include page="../common/menuBar.jsp"></jsp:include>
+	<div class="s-menu">
+		<div class="s-menu-title">
+			<p>자유게시판
+				<i class="fa-solid fa-pen-to-square fa-lg"></i>
+		</div>
+		<div class="s-list-item ${listCondition eq 'community' ? 'active' : ''}"><a href="/community/list.sw?docStatus=전체">자유게시판</a></div>
+		<div class="s-list-item ${listCondition eq 'notice' ? 'active' : ''}"><a href="/notice/list.sw?docStatus=전체">공지게시판</a></div>
+		<div class="s-list-item ${listCondition eq 'fileBoard' ? 'active' : ''}"><a href="/fileBoard/list.sw?docStatus=전체">자료실</a></div>
+	</div>
 	<div id="coreDiv">
 		<div id="marging">
 		</div>
@@ -33,6 +42,8 @@
 				<div id="file-downloadDiv"><a href="../../../resources/loadFile/${fileBoard.fileRename}" download="${fileBoard.fileName}">${fileBoard.fileName}</a></div>
 				</form>
 			</div>
+		</div>
+	</div>
 <script>
 
 function deletefileBoard(){
