@@ -11,11 +11,10 @@
 <link rel="stylesheet" href="../../../resources/css/fileBoaed/fileBoaedList-style.css">
 </head>
 <body>
-<h1>게시글 목록(임시)</h1>
 <jsp:include page="../common/menuBar.jsp"></jsp:include>
 	<div class="s-menu">
 		<div class="s-menu-title">
-			<p>자유게시판
+			<p>자료실
 				<i class="fa-solid fa-pen-to-square fa-lg"></i>
 		</div>
 		<div class="s-list-item ${listCondition eq 'community' ? 'active' : ''}"><a href="/community/list.sw?docStatus=전체">자유게시판</a></div>

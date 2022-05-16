@@ -18,7 +18,6 @@
 			<div id="contents">
 				<form action="/community/modifyView.sw" method="GET" enctype="multipart/form-data" id="upDateForm">
 							<div class="WriteDiv">작성자 : ${community.member.memberName }</div>
-							<div class="dateDiv">작성일 : ${community.comDate}</div>
 							<c:if test="${loginUser.memberNum == community.memberNum}">
 								<div class="optionBtnDiv">
 								<c:url var="update" value="/community/modifyView.sw">
@@ -28,6 +27,8 @@
 								<button type="button" id="delete" onclick="deleteCommunity(replyCount)">삭제</button>
 								</div>
 							</c:if>
+							<div class="dateDiv">작성일 : ${community.comDate}</div>
+							
 							<div id="community-TileDiv">${community.comTitle}</div>
 							<div id="community-ContentDiv">${community.comContent}
 									
@@ -135,7 +136,10 @@
 					var vote4 = data.communityVote.cVoteText4;
 					var cSelectTrue = data.cVoteSelect.cSelectTrue; //투표 참가 여부
 					var cVoteState = data.communityVote.cVoteState; //투표 상태 상태가 0 수정가능 1수정불가 2투표 종료
-				
+					var cVoteSelect = data.cVoteSelect.cSelect;
+					
+					console.log(cVoteSelect);
+					
 					if(cSelectTrue == 1 || cVoteState ==2 || writer == loginUser ){ //투표에 참가했거나 아니면 투표가 종료 되었을 경우 투표 결과를 보여줌 아니면? 글쓴사람과 로그인한 사람이 같은 경우
 						var $voteBodyDiv = $("#vote-body-div");
 						$voteBodyDiv.html("");//vote-body-div안에있는 내용지우기
@@ -180,6 +184,28 @@
 							if(writer == loginUser && cVoteState != 2){
 								$voteEndDiv.append($voteEndButton);
 								$voteBodyDiv.append($voteEndDiv);
+							}
+							if(writer == loginUser){
+								$("#voteSelect1-div").css("background","white");
+								$("#voteSelect1-div").css("color","black");
+								$("#voteSelect2-div").css("background","white");
+								$("#voteSelect2-div").css("color","black");
+								$("#voteSelect3-div").css("background","white");
+								$("#voteSelect3-div").css("color","black");
+								$("#voteSelect4-div").css("background","white");
+								$("#voteSelect4-div").css("color","black");
+							}else if(cVoteSelect == 1 ){
+								$("#voteSelect1-div").css("background","RGB(147, 169, 209)");
+								$("#voteSelect1-div").css("color","white");
+							}else if(cVoteSelect == 2 ){
+								$("#voteSelect2-div").css("background","RGB(147, 169, 209)");
+								$("#voteSelect2-div").css("color","white");
+							}else if(cVoteSelect == 3 ){
+								$("#voteSelect3-div").css("background","RGB(147, 169, 209)");
+								$("#voteSelect3-div").css("color","white");
+							}else if(cVoteSelect == 4 ){
+								$("#voteSelect4-div").css("background","RGB(147, 169, 209)");
+								$("#voteSelect4-div").css("color","white");
 							}
 						
 						}else{

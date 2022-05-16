@@ -267,15 +267,10 @@ public class CommunityController {
 		,@RequestParam("cSelect") Integer cSelect
 		,@RequestParam("replyCount") Integer replyCount) {
 
-		if(replyCount == 1) {
+	
 			cService.removeReplyAll(comNo);
-		}
-		if(comVoteNo != null) {
-			if(cSelect!= null) {
-				cService.removeCVoteMember(comNo);
-			}
+			cService.removeCVoteMember(comNo);
 			cService.removeCommunityVote(comNo);
-		}
 	
 		
 		int result =cService.removeCommunity(comNo);

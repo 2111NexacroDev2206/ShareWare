@@ -40,21 +40,25 @@ a {
 
 
 .WriteDiv{
-    height: 32px;
+    height: 20px;
     width: 880px;
     float: left;
 }
-.dateDiv{
-  height: 32px;
-  width: 150px;
-  float: left;
-}
 
-.optionBtnDiv{
-  height: 32px;
-  width: 200px;
+
+.dateDiv{
+  height: 20px;
+  width: 150px;
   float: right;
 }
+
+
+.optionBtnDiv{
+    height: 32px;
+    width: 168px;
+    float: right;
+  }
+
 
 .optionBtnDiv #upload{
     margin-left: 3px;

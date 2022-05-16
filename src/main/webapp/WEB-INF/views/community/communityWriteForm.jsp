@@ -6,66 +6,64 @@
 <meta charset="UTF-8">
 <title>자유게시판 글쓰기</title>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+<link rel="stylesheet" href="../../../resources/css/community/communityWriteForm.css">
+<script src="https://cdn.ckeditor.com/4.18.0/full-all/ckeditor.js"></script>
 </head>
 <body>
-	<h1>게시글 등록 페이지(임시)</h1>
-<form action="/community/register.sw" method="POST" enctype="multipart/form-data" id="uploadForm">  
-	<table border="1">
-		<tr>
-			<td>제목</td>
-			<td><input type="text" size="50" id="comTitle"></td>
-			
-		</tr>
-		<tr>
-			<td>본문</td>
-			<td>
- 				<!-- <div contentEditable="true" id="comContent" style="height:500px;">  -->
-				<textarea id="comContent" rows="" cols=""></textarea>
+<jsp:include page="../common/menuBar.jsp"></jsp:include>
+<div id="coreDiv">
+	<div id="marging">
+	</div>
+	<div id="position">
+		<div id="contents">
+			<form action="/community/register.sw" method="POST" enctype="multipart/form-data" id="uploadForm">  
+							
+				<div class="optionBtnDiv">
+					<button type="button" id="comInsert">등록</button>
+					<button type="button" id="cancle" onclick="location.href='/community/list.sw'">취소</button>
+				</div>
+				<div id="community-TileDiv">
+					<input type="text" size="50" id="comTitle">
+				</div>
+				<div id="community-ContentDiv">
+					<!-- <div contentEditable="true" id="comContent" style="height:500px;">  -->
+						<textarea id="comContent" name="content" rows="" cols=""></textarea>
+						<div>
+							<img id ="img" />
+						</div>
+						<div id="vote-body-div">
+							<div id="vote-textbox-div">
+								<div id="vote-textbox1-div">
+									<input id="vote-input1" type="text">
+								</div>
+								<div id="vote-textbox2-div">
+									<input id="vote-input2" type="text">	
+								</div>
+								<div id="vote-textbox3-div">
+									<input id="vote-input3" type="text">
+									<button type="button" id="btn-delete1">-</button>
+								</div>
+								<div id="vote-textbox4-div">
+									<input id="vote-input4" type="text">
+									<button type="button" id="btn-delete2">-</button>
+								</div>
+							</div>
+								<div id="button-box">
+									<button type="button" id="voteInputAdd">+</button>
+								</div>
+							</div>
+					</div>		
 					<div>
-						<img id ="img" />
+						첨부파일<input type="file" accept=".jpg,.pdf,.bmp,.png,.jpeg" id="comImgName" onchange="loadImg(this);" >
 					</div>
+						<!--onchange="loadImg(this)주기->function loadImg(obj)받기-->
 					
-				<div id="vote-body-div">
-					<div id="vote-textbox-div">
-						<div id="vote-textbox1-div">
-							<input id="vote-input1" type="text">
-						</div>
-						<div id="vote-textbox2-div">
-							<input id="vote-input2" type="text">	
-						</div>
-						<div id="vote-textbox3-div">
-							<input id="vote-input3" type="text">
-							<button type="button" id="btn-delete1">-</button>
-						</div>
-						<div id="vote-textbox4-div">
-							<input id="vote-input4" type="text">
-							<button type="button" id="btn-delete2">-</button>
-						</div>
-					</div>
-						<div id="button-box">
 							<button type="button" id="voteDelete">삭제</button>
-							<button type="button" id="voteInsert">등록</button>
-							<button type="button" id="voteInputAdd">+</button>
-						</div>
-					</div>
-				<!--</div>  -->
-				
-			</td>
-		</tr>
-		<tr>
-			<td>첨부파일</td>
-			<td><input type="file" accept=".jpg,.pdf,.bmp,.png,.jpeg" id="comImgName" onchange="loadImg(this);" ></td>
-			<!--onchange="loadImg(this)주기->function loadImg(obj)받기-->
-		</tr>
-		<tr>
-			<td>
-				<button type="button" id="comInsert">등록</button>
-				<button>취소</button>
-				<button type="button" id="comVoteInsert">투표등록</button>
-			</td>
-		</tr>
-	</table>
-	</form>
+							<button type="button" id="comVoteInsert">투표등록</button>
+				</form>
+			</div>
+	</div>
+</div>
 	
 	<script>
 	
@@ -78,6 +76,11 @@
 	const voteBodyDiv =document.getElementById('vote-body-div');
 	
 	
+	// CKEditor
+		CKEDITOR.replace( 'content', {
+				height: 350,
+				removePlugins: "exportpdf"
+			} );
 
 	$("#comVoteInsert").on("click",function(){
 
@@ -152,18 +155,18 @@
 	}
 
 	
-	//글 등록
+	//글 등록comInsert
 	  $("#comInsert").on("click", function(){
 		    
 			var comTitle = $("#comTitle").val();
 			var comContent = $("#comContent").val();
-	
 			var cVoteText1 = $("#vote-input1").val();
 			var cVoteText2 = $("#vote-input2").val();
 			var cVoteText3 = $("#vote-input3").val();
 			var cVoteText4 = $("#vote-input4").val();
 			var insertTrue = 1; //0이면 ajax 동작 x 1이면 동작 되게
 			
+			console.log(comContent);
 			
 			 const formData = new FormData();
 			  formData.append("uploadFile", imageInput.files[0]);
@@ -205,10 +208,6 @@
 			
 		});
 			
-			
-
-
-
 			 
 	</script>
 </body>
