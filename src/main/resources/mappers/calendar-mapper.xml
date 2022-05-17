@@ -17,7 +17,7 @@
 		<result property="schColor" column="SCH_COLOR"/>
 	</resultMap>
 	<insert id="insertSchedule">
-		INSERT INTO CAL_SCH VALUES(SEQ_SCH_NO.NEXTVAL, #{memNum}, #{calNo}, #{schName}, #{schStartDate}, #{schStartTime}, #{schEndDate}, #{schEndTime}, #{schContent}, #{alStatus} #schColor) 
+		INSERT INTO CAL_SCH VALUES(SEQ_SCH_NO.NEXTVAL, #{memNum}, #{calNo}, #{schName}, #{schStartDate}, #{schStartTime}, #{schEndDate}, #{schEndTime}, #{schContent}, #{alStatus}, #{schColor}) 
 	</insert>
 	
 	<select id="selectAllSchedule" resultMap="calSchResultMap">

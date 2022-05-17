@@ -48,6 +48,7 @@ public class MailController {
 			, HttpServletRequest request
 			,@ModelAttribute Mail mail
 			, @ModelAttribute MailBmk mailBmk) {
+		
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
 		mail.setMemNum(member.getMemberNum());
@@ -499,6 +500,8 @@ public class MailController {
 		
 		) {
 		try {
+			mv.addObject("myCondition", "approval");
+			mv.addObject("listCondition", mailCategory);
 			HttpSession session = request.getSession();
 			Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
 			mail.setMemNum(member.getMemberNum());
