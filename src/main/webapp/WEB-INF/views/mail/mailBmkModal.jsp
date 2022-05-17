@@ -8,10 +8,12 @@
 <link href="/resources/css/approval/appModal-style.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 <style type="text/css">
+	#appSel {
+		max-width: 400px;
+	}
 	.s-input {
 		width: 89%;
 		float: left;
-		margin-right: 5%;
 	}
 	.s-text {
 		width: 100%;
@@ -21,35 +23,22 @@
 		 width: 100%;
 		 
 	}
-	.button{
-		margin-bottom: 5%;
-		height:35px;
-		width: 10%;
-	}
-	.m-footer {
-	margin-left: 10%;
-	}
-	#header {
-		margin-left: 10%;
-		
-	}
 	.g-text {
-		isplay: flex;
+		display: inline-flex;
 		height: 30px;
-		width: 198px;
+		width: 249px;
 		border-radius: 4px;
 		border: solid 1px rgb(190, 190, 190);
 	}
-	
 </style>
 </head>
 <body>
    <div class="m-appSel-wrap" id="appSelModal">
-		<div class="m-appSel">
+		<div class="m-appSel" id="appSel">
 			<div class="m-header">
 				<span class="m-header-title" id="header"></span>
 			</div>
-			<div class="m-body">
+			<div class="m-body" style="width: 300px;">
 				<div class="m-tit" >
 					<strong id="g-text"></strong> &nbsp;&nbsp;<input type="text" id="bmkSubject" name="bmkSubject" class="g-text">
 				</div>
@@ -66,7 +55,7 @@
 					</div>
 				</div>
 				<div class="m-list">
-					<table id="m-list-table">
+					<table id="m-list-table" style="width: 280px;">
 					</table>
 				</div>
 				<div class="m-select">

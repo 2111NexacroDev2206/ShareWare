@@ -6,40 +6,30 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-	.m-appSel3 {
-		    margin-right:5%;
-		    padding-bottom: 2%;
-		     padding-right: 3%;
+	#m-appSel3 {
+		max-width: 400px;
 	}
-	.m-body3 {
-			height: 60%;
-		    width: 80%;
-	}
-	
-	.m-list3{
+	#m-list3 {
 		height: 35%;
-		 width: 100%;
-		 
+		width: 100%;
+		
 	}
 	#m-list-table3 {
 		margin: 10px;
 		font-size: 14px;
 		border-collapse: collapse;
 		cursor:pointer;
-	}
-	#header3 {
-		margin-left: 10%;
-		
+		width: 280px;
 	}
 </style>
 </head>
 <body>
 		<div class="m-appSel-wrap" id="appSelModal3">
-		<div class="m-appSel">
+		<div class="m-appSel" id="m-appSel3">
 			<div class="m-header">
 				<span class="m-header-title" id="header3"></span>
 			</div>
-			<div class="m-body">
+			<div class="m-body" style="width:300px;">
 				<div class="m-search">
 					<select class="s-select" id="s-condition" name="searchCondition">
 						<option value="all">전체</option>
@@ -51,7 +41,7 @@
 						<input type="button" id="btn-search" class="i-search" value="&#xf002;">
 					</div>
 				</div>
-				<div class="m-list3">
+				<div class="m-list" id="m-list3">
 					<table id="m-list-table3">
 					</table>
 				</div>

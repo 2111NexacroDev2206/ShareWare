@@ -109,12 +109,12 @@
 		<div id="mailRegister">
 		<input type="hidden" name="mailSender" value="${loginUser.mail }">
 			<div>
-				<div><strong id="write">받는사람</strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="text" size="130"  style= "height: 30px; color: blue;" id="mailRec"  name="mailReceiver"  value="${loginUser.mail }"> &nbsp;<button type="button" class="btn-mail" style="width:80px" onclick="participant2();"><i class="fa-regular fa-address-book"></i>&nbsp;주소록</button>&nbsp;<button type="button" class="btn-mail" style="width: 110px;" onclick="bmk();"><i class="fa-solid fa-at"></i>&nbsp;즐겨찾는 그룹</button></div>
+				<div><strong id="write">받는사람</strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="text" size="130"  style= "height: 30px; color: blue;" id="mailRec"  name="mailReceiver"  value="${loginUser.mail }"> &nbsp;<button type="button" class="btn-mail" style="width:80px" onclick="participant2();"><i class="fa-regular fa-address-book"></i>&nbsp;주소록</button>&nbsp;<button type="button" class="btn-mail" style="width: 130px;" onclick="bmk();"><i class="fa-solid fa-at"></i>&nbsp;즐겨찾는 그룹</button></div>
 				<!-- <p id="mailReceiver"> -->
 			</div>
 			<br>
 			<div>
-				<div><strong id="write">참조인</strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="text" size="130" style= "height: 30px"id="mailReferee" name="mailReferee">&nbsp;&nbsp;<button type="button"style="width:80px" class="btn-mail" onclick="participant3();"><i class="fa-regular fa-address-book"></i>&nbsp;주소록</button>&nbsp;<button type="button" class="btn-mail" style="width: 110px;" onclick="bmk();"><i class="fa-solid fa-at"></i>&nbsp;즐겨찾는 그룹</button></div>
+				<div><strong id="write">참조인</strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="text" size="130" style= "height: 30px"id="mailReferee" name="mailReferee">&nbsp;&nbsp;<button type="button"style="width:80px" class="btn-mail" onclick="participant3();"><i class="fa-regular fa-address-book"></i>&nbsp;주소록</button>&nbsp;<button type="button" class="btn-mail" style="width: 130px;" onclick="bmk();"><i class="fa-solid fa-at"></i>&nbsp;즐겨찾는 그룹</button></div>
 			</div>
 			<br>
 			<div>

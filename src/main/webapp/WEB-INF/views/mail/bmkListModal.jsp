@@ -11,7 +11,6 @@
 	.s-input {
 		width: 89%;
 		float: left;
-		margin-right: 5%;
 	}
 	.s-text {
 		width: 100%;
@@ -21,22 +20,10 @@
 		 width: 100%;
 		 
 	}
-	.button{
-		margin-bottom: 5%;
-		height:35px;
-		width: 10%;
-	}
-	.m-footer {
-	margin-left: 10%;
-	}
-	#header {
-		margin-left: 10%;
-		
-	}
 	.g-text {
-		isplay: flex;
+		display: inline-flex;
 		height: 30px;
-		width: 198px;
+		width: 249px;
 		border-radius: 4px;
 		border: solid 1px rgb(190, 190, 190);
 	}

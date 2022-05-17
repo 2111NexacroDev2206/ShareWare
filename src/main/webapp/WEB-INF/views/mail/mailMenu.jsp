@@ -127,10 +127,10 @@ padding-top: 15px;
 			
 			<div>
 			<div class="mailList">
-				<div class="m-list-item ${listCondition eq 'S' || listCondition eq 'rej' ? 'active' : ''}"><a href="/mail/SmailListView.sw"><i class="fa-solid fa-inbox"></i>&nbsp;받은 메일함</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="color: green;">${totalmRecCount}</strong></div><br>
-				<div class="m-list-item"><a href="/mail/RmailListView.sw"><i class="fa-solid fa-paper-plane"></i>&nbsp;보낸 메일함</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="color: green;">${totalmCount}</strong></div><br>
-				<div class="m-list-item "><a href="/mail/MmailListView.sw"><i class="fa-solid fa-file-lines"></i>&nbsp;내게 쓴 메일함</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="color: green;">${totalmMyCount}</strong></div><br>
-				<div class="m-list-item" ><a href="/mail/mailAppListView.sw"><i class="fa-solid fa-circle-check"></i>&nbsp;보낸 승인 메일함</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="color: green;">${totalAppCount}</strong></div>
+				<div class="m-list-item ${listCondition eq 'S' || listCondition eq 'rej' ? 'active' : ''}"><a href="/mail/SmailListView.sw"><i class="fa-solid fa-inbox"></i>&nbsp;받은 메일함</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="color: green;">${totalmRecCount}</strong></div><br>
+				<div class="m-list-item"><a href="/mail/RmailListView.sw"><i class="fa-solid fa-paper-plane"></i>&nbsp;보낸 메일함</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="color: green;">${totalmCount}</strong></div><br>
+				<div class="m-list-item "><a href="/mail/MmailListView.sw"><i class="fa-solid fa-file-lines"></i>&nbsp;내게 쓴 메일함</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="color: green;">${totalmMyCount}</strong></div><br>
+				<div class="m-list-item" ><a href="/mail/mailAppListView.sw"><i class="fa-solid fa-circle-check"></i>&nbsp;보낸 승인 메일함</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="color: green;">${totalAppCount}</strong></div>
 			</div>	
 			<div class="mailBmkList">
 			
@@ -145,7 +145,7 @@ padding-top: 15px;
 					</div>
 			</div>
 			<div class="mailTemList">
-				<div class="m-list-item"><a href="/mail/mailTemListView.sw"><i class="fa-solid fa-folder-open"></i>&nbsp;임시 저장함</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="color: green;">${totalCount}</strong></div>
+				<div class="m-list-item"><a href="/mail/mailTemListView.sw"><i class="fa-solid fa-folder-open"></i>&nbsp;임시 저장함</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="color: green;">${totalCount}</strong></div>
 			</div>
 			</div>	
 			<jsp:include page="mailBmkModal.jsp"></jsp:include>
