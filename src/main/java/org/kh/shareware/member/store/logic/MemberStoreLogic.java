@@ -88,14 +88,14 @@ public class MemberStoreLogic implements MemberStore{
 	// 사원 조회 모달
 	@Override
 	public List<Member> selectAllMember(SqlSession sqlSession, String memberNum) {
-		List<Member> mList = sqlSession.selectList("MemberMapper.selectAllMember", memberNum);
+		List<Member> mList = sqlSession.selectList("MemberMapper.selectAllModalMember", memberNum);
 		return mList;
 	}
 	
 	// 사원 조회 모달 검색
 	@Override
 	public List<Member> selectMemberSearch(SqlSession sqlSession, Search search) {
-		List<Member> mList = sqlSession.selectList("MemberMapper.selectMemberSearch", search);
+		List<Member> mList = sqlSession.selectList("MemberMapper.selectModalMemberSearch", search);
 		return mList;
 	}
 	

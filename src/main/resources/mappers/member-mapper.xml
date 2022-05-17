@@ -101,12 +101,12 @@
 	</select>
 	
 	<!-- 사원 조회 모달 -->
-	<select id="selectAllMember" resultMap="memberResultMap">
-		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE MEMBER_NUM != #{memberNum}
+	<select id="selectAllModalMember" resultMap="memberResultMap">
+		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME, MAIL FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE MEMBER_NUM != #{memberNum}
 	</select>
 	
 	<!-- 사원 조회 모달 검색 -->
-	<select id="selectMemberSearch" resultMap="memberResultMap">
+	<select id="selectModalMemberSearch" resultMap="memberResultMap">
 		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE MEMBER_NUM != #{memberNum}
 		<if test="searchCondition.toString() == 'division'">
 			AND DIV_NAME LIKE '%' || #{searchValue} || '%'
