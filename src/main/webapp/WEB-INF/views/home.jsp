@@ -8,6 +8,8 @@
 <title>ShareWare</title>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <link href="/resources/css/home-style.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.css">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.js"></script>
 </head>
 <body>
 	<jsp:include page="./common/menuBar.jsp"></jsp:include>
@@ -41,7 +43,7 @@
 			</div>
 		</div>
 		<div class="c-center">
-			<div class="calendar box-t">
+			<div class="calendar" id="calendar">
 			</div>
 			<div class="calendar-detail box-t">
 			</div>
@@ -134,5 +136,14 @@
 			}
 		})
 	});
+	
+	// 캘린더
+	document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth'
+        });
+        calendar.render();
+      });
 </script>
 </html>

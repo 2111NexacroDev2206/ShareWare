@@ -103,12 +103,12 @@
 }
 .calendar { /* 일정 */
 	width: calc(100% - 2px);
-	height: 400px;
+	height: 500px;
 	margin-bottom: 30px;
 }
 .calendar-detail { /* 일정 목록 */
 	width: calc(100% - 2px);
-	height: 300px;
+	height: 200px;
 }
 .notice { /* 공지사항 */
 	width: 100%;
