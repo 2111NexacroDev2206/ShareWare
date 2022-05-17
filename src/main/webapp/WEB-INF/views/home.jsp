@@ -54,7 +54,7 @@
 						<c:url var="nDetail" value="/notice/detail.sw">
 							<c:param name="noticeNo" value="${notice.noticeNo }"/>
 						</c:url>
-						<li><a href="${nDetail }">${notice.noticeTitle }</a></li>
+						<li><a href="${nDetail }"><span>${notice.noticeTitle }</span></a></li>
 					</c:forEach>
 				</ul>
 			</div>

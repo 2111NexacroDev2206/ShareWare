@@ -92,6 +92,6 @@
 	
 	<!-- 홈 - 공지사항 -->
 	<select id="selectListHomeNotice" resultMap="NoticeResultMap">
-		SELECT * FROM NOTICE WHERE ROWNUM <![CDATA[<]]> 6
+		SELECT * FROM NOTICE WHERE ROWNUM <![CDATA[<]]> 6 ORDER BY NOTICE_NO DESC
 	</select>
 </mapper>
