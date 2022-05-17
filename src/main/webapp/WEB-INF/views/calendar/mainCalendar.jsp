@@ -24,7 +24,8 @@
 
 <script>
 	  function schWrite(){ // 버튼 클릭 시 이벤트 추가
-       	
+		  $('#exampleModalLabel').text('일정 작성');
+			$('#addCalendar').text('등록');
           $("#calendarModal").modal("show"); // modal 나타내기
         
              $(function(){
@@ -131,21 +132,21 @@
 	        droppable: false,
 	        selectable: true,
 	   		dayMaxEvents: true,
-	     	select: function(arg) {  var title = ('입력할 일정:'); 
+	     	select: function(arg) {  var title = (' '); 
 	     // title 값이 있을때, 화면에 calendar.addEvent() json형식으로 일정을 추가
 			     if (title) { 
 			    	 calendar.addEvent({ 
 			    	 title: title, start: arg.start,
 			    	 end: arg.end, 
 			    	 allDay: arg.allDay, 
-			    	 backgroundColor:"${schColor}", textColor:"blue" }) 
+			    	 backgroundColor:"${calSch.schColor}", textColor:" " }) 
 			     }
 		     	 calendar.unselect() 
 	     	}, 
      		eventClick: function(arg) { // 있는 일정 클릭시, console.log("#등록된 일정 클릭#"); 
-   				if (confirm('Are you sure you want to delete this event?')) { 
-     				arg.event.remove() 
-     			} 
+   				$("#calendarModal").modal("show");
+   				$('#exampleModalLabel').text('일정 상세');
+     			$('#addCalendar').text('수정');
      		},
        		editable : true, //수정가능
         	selectable: true, // 달력일자 선택 가능, 드래그
@@ -174,6 +175,8 @@
  */
 	
 	        eventAdd:function() {
+	        	$('#exampleModalLabel').text('일정 작성');
+     			$('#addCalendar').text('등록');
 	        	 $("#calendarModal").modal("show");
 	        	
 	        	/*  $("#schModal").css('display', 'flex').hide().fadeIn();   */
@@ -206,7 +209,7 @@
                       }else{
                       	alStatus = "n";
                       }
-                      var schColor = $(".colors").val("backColor");
+                      var schColor = $(".selected").css("backgroundColor");
                       $.ajax({
                 		  url: "/calendar/schRegister.sw",
                 		  type: "post",
@@ -277,7 +280,7 @@
 	   let defaultColor = $('.colors span:first-of-type').css('background-color');
 	   $('input[name="scheduleColor"]').val('defaultColor');
 	}
-       
+     
             
            
     </script>
@@ -307,27 +310,33 @@ input[type="checkbox"] {
 			        }
 			         */
 #schStartDate {
-	width: 30%;
+	width: 150px;
 	float: left;
 }
 
 #schStartTime {
-	width: 30%;
+	width: 150px;
+	float: left;
 }
 
 #schEndDate {
-	width: 30%;
+	width: 150px;
 	float: left;
 }
 
 #schEndTime {
-	width: 30%;
+	width: 150px;
+	
 }
 
 #calendarModal {
 	display: none;
+	
 }
-
+.modal-content {
+width: 700px;
+	height: 800px;
+}
 #btn-write {
 	display: inline-block;
 	width: 150px;
@@ -339,15 +348,17 @@ input[type="checkbox"] {
 	font-size: 15px;
 	cursor: pointer;
 }
-
+#schName {
+	width: 600px;
+}
 #calendarModal  .colors span.selected {
 	border: 2px solid black;
 }
 
 #calendarModal .colors span {
 	display: inline-block;
-	width: 25px;
-	height: 25px;
+	width: 35px;
+	height: 35px;
 	margin-right: 4px;
 	vertical-align: middle;
 	cursor: pointer;
@@ -359,6 +370,20 @@ input[type="checkbox"] {
 	width: calc(90% - 90px);
 	max-width: 360px;
 	font-size: 0;
+}
+strong {
+ color: rgb(140, 140, 140);
+}
+
+button {
+	display: inline-block;
+	width: 100px;
+	height: 40px;
+	background-color: white;
+	border: 1px solid rgb(51, 51, 51);
+	border-radius: 4px;
+	font-size: 15px;
+	cursor: pointer;
 }
 </style>
 </head>
@@ -404,6 +429,7 @@ input[type="checkbox"] {
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">일정을 입력하세요.</h5>
+					<input type="hidden" name="schNo">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -411,13 +437,14 @@ input[type="checkbox"] {
 				</div>
 				<div class="modal-body">
 					<div class="form-group">
-						<label for="taskId" class="col-form-label">일정 제목</label> <input
-							type="text" class="form-control" id="schName" name="schName">
+						<label for="taskId" class="col-form-label"><strong>일정 제목</strong></label> 
+						<input type="text" class="form-control" id="schName" name="schName" value="${schName }">
 							<br>
 						<input type="hidden" name="schColor">
-						<ul>
-							<li class="li--colors"><label class="mr-20" for="">색
-									선택</label>
+						
+							
+							<strong>색 선택</strong>
+						<br>
 								<div class="colors">
 									<span class="selected" style="background-color: rgb(195, 96, 96);" onclick="color(this);"></span> 
 										<span style="background-color: rgb(212, 137, 100);" onclick="color(this);"></span> 
@@ -428,11 +455,11 @@ input[type="checkbox"] {
 										<span style="background-color: rgb(25, 44, 106);" onclick="color(this);"></span> 
 										<span style="background-color: rgb(82, 38, 109);"  onclick="color(this);"></span>
 
-								</div></li>
-						</ul>
+								</div>
+						
 					</div>
 					<div class="form-group">
-						<label for="taskId" class="col-form-label">시작일</label>
+						<label for="taskId" class="col-form-label"><strong>기간</strong></label>
 						<div>
 							<input type="date" class="form-control" id="schStartDate"
 								name="schStartDate"> <select class="form-control"
@@ -462,7 +489,7 @@ input[type="checkbox"] {
 					</div>
 
 					<div class="form-group">
-						<label for="taskId" class="col-form-label">종료일</label>
+						<label for="taskId" class="col-form-label"></label>
 						<div>
 							<input type="date" class="form-control" id="schEndDate"
 								name="schEndDate"> <select class="form-control"
@@ -491,7 +518,7 @@ input[type="checkbox"] {
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="allDay">종일</label>
+						<label for="allDay"><strong>종일</strong></label>
 						<div class="form-check">
 							<input type="checkbox" class="form-check-input" value="true"
 								name="allDay">
@@ -499,8 +526,8 @@ input[type="checkbox"] {
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="taskId" class="col-form-label">일정 내용</label>
-						<textarea rows="10" cols="50" id="schContent" name="schContent"></textarea>
+						<label for="taskId" class="col-form-label"><strong>일정 내용</strong></label>
+						<textarea rows="8" cols="60" id="schContent" name="schContent"></textarea>
 						<label for="taskId" class="col-form-label">알림 <input
 							type="checkbox" class="form-control" id="input_check"
 							name="alStatus">
