@@ -140,17 +140,21 @@ public class MemberController {
 		}
 	}
 	//조직도 사원정보
+	@ResponseBody
 	@RequestMapping(value="/member/organizationInfo.sw", method=RequestMethod.GET)
 	public String organizationInfo(
 			Model model
 			, @RequestParam("memNum") String memNum) {
 		Member mOne = mService.printOneById(memNum);
 		if(mOne != null) {
-			model.addAttribute("mOne", mOne);
-			return "/member/organizationView";
+			//model.addAttribute("mOne", mOne);
+			//return "/member/organizationView";
+			Gson gson = new Gson();
+			return gson.toJson(mOne);	// {}
 		}else {
-			model.addAttribute("msg", "사원정보 조회 실패");
-			return "common/errorPage";
+			//model.addAttribute("msg", "사원정보 조회 실패");
+			//return "common/errorPage";
+			return null;
 		}
 	}
 	

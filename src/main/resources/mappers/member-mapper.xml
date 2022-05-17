@@ -24,6 +24,7 @@
   	
   	<resultMap type="Division" id="divisionResultMap">
   		<id property="divCode" column="DIV_CODE"/>
+  		<result property="memberNum" column="MEMBER_NUM"/>
   		<result property="divName" column="DIV_NAME"/>
   		<result property="divLevel" column="DIV_LEVEL"/>
   		<result property="parentDivCode" column="PARENT_DIV_CODE"/>

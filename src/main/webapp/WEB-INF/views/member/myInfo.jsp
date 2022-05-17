@@ -5,89 +5,89 @@
 <head>
 <meta charset="UTF-8">
 <title>기본 정보 조회</title>
-<link href="/resources/css/member/myInfo-style.css" rel="stylesheet">
 </head>
 <body>
-	<jsp:include page="../common/menuBar.jsp"></jsp:include>
-	<div class="container">
-		<div class="menu-title">
-			<p>기본 정보 조회
-			<i class="fa-solid fa-address-card"></i>
-		</div>
-		<table class="t-info">
-			<tr>
-				<td rowspan="5"><img src="../../resources/profile/kwonjihye.png" alt="사진"></td>
-				<td class="td-left">사원번호</td>
-				<td colspan="2">
-					${loginUser.memberNum }
-				</td>
-			</tr>
-			<tr>
-				<td class="td-left">이름</td>
-				<td colspan="2">
-					${loginUser.memberName }
-				</td>
-			</tr>
-			<tr>
-				<td class="td-left">부서</td>
-				<td colspan="2">
-					${loginUser.division }
-				</td>
-			</tr>
-			<tr>
-				<td class="td-left">직급</td>
-				<td colspan="2">
-					${loginUser.rank }
-				</td>
-			</tr>
-			<tr>
-				<td class="td-left">주소</td>
-				<td colspan="2">
-					${loginUser.address }
-				</td>
-			</tr>
+<jsp:include page="../common/menuBar.jsp"></jsp:include>
+	<div class="s-container">
+	<h2 id="h-title">정보 조회</h2><br>
+		<form action="/member/myInfo.sw" method="post">
+			<table border="1" align="center">
+				<tr>
+					<td>사원번호</td>
+					<td>
+						<input type="text" name="memberNum" value="${loginUser.memberNum }" readonly>
+					</td>
+				</tr>
+				<tr>
+					<td>이름</td>
+					<td>
+						<input type="text" name="memberName" value="${loginUser.memberName }">
+					</td>
+				</tr>
+				<tr>
+					<td>부서</td>
+					<td>
+						<input type="text" name="division" value="${loginUser.division }" readonly>
+					</td>
+				</tr>
+				<tr>
+					<td>직급</td>
+					<td>
+						<input type="text" name="rank" value="${loginUser.rank }">
+					</td>
+				</tr>
+				<tr>
+					<td>주소</td>
+					<td>
+						<input type="text" name="address" value="${loginUser.address }">
+					</td>
+				</tr>
+				
+				<tr>
+					<td>전화번호</td>
+					<td>
+						<input type="text" name="phone" value="${loginUser.address }">
+					</td>
+					<td>이메일</td>
+					<td>
+						<input type="text" name="mail" value="${loginUser.address }">
+					</td>
+				</tr>
+				<tr>
+					<td>입사일</td>
+					<td>
+						<input type="text" name="hireDate" value="${loginUser.hireDate }">
+					</td>
+					<td>퇴사일</td>
+					<td>
+						<input type="text" name="retireDate" value="${loginUser.retireDate }">
+					</td>
+				</tr>
+				<tr>
+					<td>생년월일</td>
+					<td>
+						<input type="text" name="birth" value="${loginUser.birth }">
+					</td>
+					<td>성별</td>
+					<td>
+						<input type="text" name="gender" value="${loginUser.gender }">
+					</td>
+				</tr>
+				<tr>
+					<td>계좌</td>
+					<td>
+						<input type="text" name="account" value="${loginUser.account }">
+					</td>
+					<td>은행</td>
+					<td>
+						<input type="text" name="bank" value="${loginUser.bank }">
+					</td>
+				</tr>
+			</table>
 			
-			<tr>
-				<td class="td-left">전화번호</td>
-				<td>
-					${loginUser.address }
-				</td>
-				<td class="td-left">이메일</td>
-				<td>
-					${loginUser.address }
-				</td>
-			</tr>
-			<tr>
-				<td class="td-left">입사일</td>
-				<td>
-					${loginUser.hireDate }
-				</td>
-				<td class="td-left">퇴사일</td>
-				<td>
-					${loginUser.retireDate }
-				</td>
-			</tr>
-			<tr>
-				<td class="td-left">생년월일</td>
-				<td>
-					${loginUser.birth }
-				</td>
-				<td class="td-left">성별</td>
-				<td>
-					${loginUser.gender }
-				</td>
-			</tr>
-			<tr>
-				<td class="td-left">계좌</td>
-				<td>
-					${loginUser.account }
-				</td>
-				<td class="td-left">은행</td>
-				<td>
-					${loginUser.bank }
-				</td>
-			</tr>
-		</table>
+		</form>
 	</div>
+	
+	
 </body>
 </html>
