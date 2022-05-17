@@ -106,7 +106,7 @@ function bmk() {
 });
 }
 function bmkList(bList) {
-	debugger;
+	
 	
 	$("#b-list-table").html(""); // 테이블 값 지우기
 	var tr = "";

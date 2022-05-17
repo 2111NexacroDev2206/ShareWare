@@ -11,7 +11,7 @@
 	.m-appSel {
 		    margin-right:5%;
 		    padding-bottom: 2%;
-		     padding-right: 3%;
+		    padding-right: 3%;
 	}
 	.m-body {
 			height: 60%;

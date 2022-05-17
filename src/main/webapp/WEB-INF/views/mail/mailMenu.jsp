@@ -10,7 +10,7 @@
 <title>메일 소메뉴</title>
 <link href="/resources/css/approval/appModal-style.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
 
 <style type="text/css">
 .mailClass {
@@ -95,104 +95,13 @@ border-bottom: 1px solid lightgrey;
 padding-bottom: 30px;
 padding-top: 15px;
 }
-#dropmenu{
-border:none;
-border:0px;
-margin:0px;
-padding:0px;
-font: "sans-serif";
-font-size:18px;
-}
 
-
-#dropmenu ul{
-background: #666;
-height:100px;
-list-style:none;
-margin:0;
-padding:0;
-}
-
-#dropmenu li{
-float:left;
-padding:0px;
-}
-
-#dropmenu li a{
-background: #666;
-color:#fff;
-display:block;
-line-height:100px;
-margin:0px;
-padding:0px 25px;
-text-align:center;
-text-decoration:none;
-}
-
-#dropmenu li a:hover, .dropmenu ul li:hover a{
-background: rgb(31,31,31);
-color:#FFFFFF;
-text-decoration:none;
-}
-
-#dropmenu li ul{
-background: red;
-display:none; 
-height:auto;
-border:0px;
-position:absolute;
-width:200px;
-z-index:200;
-/*top:1em;
-/*left:0;*/
-}
-
-#dropmenu li:hover ul{
-display:block;
-}
-
-#dropmenu li li {
-background: red;
-display:block;
-float:none;
-margin:0px;
-padding:0px;
-width:200px;
-}
-
-#dropmenu li:hover li a{
-background:none;
-}
-
-#dropmenu li ul a{
-display:block;
-height:80px;
-font-size:14px;
-margin:0px;
-padding:0px 10px 0px 15px;
-text-align:left;
-}
-
-#dropmenu li ul a:hover, .dropmenu li ul li:hover a{
-background: rgb(171,171,171);
-border:0px;
-color:#ffffff;
-text-decoration:none;
-}
-
-#dropmenu p{
-clear:left;
-
-
-}
 #subject {
 	overflow:auto;
 	height: 80px;
 	
 }
-#btn-write {
-	si
-}
+
 </style>
 </head>
 <body>
@@ -204,8 +113,8 @@ clear:left;
 			<br>
 			<br>
 			<div id="mailWriteBtn">
-			 	<button type="submit" id="btn-write" onclick="location.href= '/mail/WriteView.sw'" style="width:105px; height: 40px;  color: green; "><strong>메일쓰기</strong></button>
-				&nbsp;&nbsp;<button type="submit" id="btn-write" onclick= "location.href= '/mail/WriteMyView.sw'" style="width: 105px; height: 40px; float:left;  color: green;"><strong>내게쓰기</strong></button>
+			 	<button type="submit" class="btn-mail" id="btn-write" onclick="location.href= '/mail/WriteView.sw'" style="width:105px; height: 40px;  color: green; "><strong>메일쓰기</strong></button>
+				&nbsp;&nbsp;<button type="submit" class="btn-mail"  id="btn-write" onclick= "location.href= '/mail/WriteMyView.sw'" style="width: 105px; height: 40px; float:left;  color: green;"><strong>내게쓰기</strong></button>
 			</div>
 			
 			

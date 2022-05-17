@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
@@ -30,7 +31,7 @@
 		margin-left:500px;
 		
 	}
-	button {
+	.btn-mail {
 	display: inline-block;
 	width: 100px;
 	height: 40px;
@@ -94,11 +95,12 @@
    	 	<div class="mailHeader">
 	   	 	<div class= "mailWriteMenu">
 					<div>
-					<button type="submit" style=" width:110px;" onclick= "javascript: form.action='mailRegister.sw'"><i class="fa-solid fa-paper-plane"></i>&nbsp;<strong>보내기</strong></button>&nbsp;&nbsp;
+					<button type="submit" class="btn-mail style=" width:110px;" onclick= "javascript: form.action='mailRegister.sw'"><i class="fa-solid fa-paper-plane"></i>&nbsp;<strong>보내기</strong></button>&nbsp;&nbsp;
+						
+						<button type="submit" class="btn-mail" onclick= "javascript: form.action='mailTemRegister.sw'"><i class="fa-solid fa-download"></i>&nbsp;<strong>임시 저장</strong></button>
+						<button type="submit" class="btn-mail" onclick= "javascript: form.action='mailAppRegister.sw'"><i class="fa-solid fa-user-check"></i>&nbsp;<strong>승인 메일</strong></button>
+						<button type="button" class="btn-mail">발송 예약</button>
 						<a href="/mail/WriteView.sw"><i class="fa-solid fa-rotate"></i>메일 쓰기</a>&nbsp;&nbsp;
-						<button type="submit" onclick= "javascript: form.action='mailTemRegister.sw'"><i class="fa-solid fa-download"></i>&nbsp;<strong>임시 저장</strong></button>
-						<button type="submit" onclick= "javascript: form.action='mailAppRegister.sw'"><i class="fa-solid fa-user-check"></i>&nbsp;<strong>승인 메일</strong></button>
-						<button type="button">발송 예약</button>
 					</div>
 				</div>
 	    	</div>
@@ -106,12 +108,12 @@
 		<div id="mailRegister">
 		<input type="hidden" name="mailSender" value="${loginUser.mail }">
 			<div>
-				<div><strong id="write">받는사람</strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="text" size="130"  style= "height: 30px; color: blue;" id="mailRec"  name="mailReceiver"  value="${loginUser.mail }"> &nbsp;<button type="button"style="width:80px" onclick="participant2();"><i class="fa-regular fa-address-book"></i>&nbsp;주소록</button>&nbsp;<button type="button" style="width: 110px;" onclick="bmk();"><i class="fa-solid fa-at"></i>&nbsp;즐겨찾는 그룹</button></div>
+				<div><strong id="write">받는사람</strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="text" size="130"  style= "height: 30px; color: blue;" id="mailRec"  name="mailReceiver"  value="${loginUser.mail }"> &nbsp;<button type="button" class="btn-mail" style="width:80px" onclick="participant2();"><i class="fa-regular fa-address-book"></i>&nbsp;주소록</button>&nbsp;<button type="button" class="btn-mail" style="width: 110px;" onclick="bmk();"><i class="fa-solid fa-at"></i>&nbsp;즐겨찾는 그룹</button></div>
 				<!-- <p id="mailReceiver"> -->
 			</div>
 			<br>
 			<div>
-				<div><strong id="write">참조인</strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="text" size="130" style= "height: 30px"id="mailReferee" name="mailReferee">&nbsp;&nbsp;<button type="button"style="width:80px" onclick="participant3();"><i class="fa-regular fa-address-book"></i>&nbsp;주소록</button>&nbsp;<button type="button" style="width: 110px;" onclick="bmk();"><i class="fa-solid fa-at"></i>&nbsp;즐겨찾는 그룹</button></div>
+				<div><strong id="write">참조인</strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="text" size="130" style= "height: 30px"id="mailReferee" name="mailReferee">&nbsp;&nbsp;<button type="button"style="width:80px" class="btn-mail" onclick="participant3();"><i class="fa-regular fa-address-book"></i>&nbsp;주소록</button>&nbsp;<button type="button" class="btn-mail" style="width: 110px;" onclick="bmk();"><i class="fa-solid fa-at"></i>&nbsp;즐겨찾는 그룹</button></div>
 			</div>
 			<br>
 			<div>

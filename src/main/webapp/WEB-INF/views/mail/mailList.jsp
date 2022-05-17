@@ -34,7 +34,7 @@
 	margin-right: 37%;
 }
 
-button {
+.btn-mail {
 	display: inline-block;
 	width: 85px;
 	height: 40px;
@@ -180,7 +180,7 @@ a {
 			
 		});
 		
-		function i	
+		
 
 		function deleteValue() {
 	
@@ -229,7 +229,7 @@ a {
 			<div style="width:1300px ; padding-bottom: 15px; margin-bottom: -20px;">
 				<input style="zoom:1.5; margin-left: 10px; margin-top: 5px; float:left; " name="allCheck" type="checkbox" id="allCheck" />
 			</div>
-	<button type="submit" id="delete" style="margin-left: 15px;" onclick="deleteValue();"><i class="fa-solid fa-trash" style=" color:rgb(190, 190, 190);"></i>&nbsp;삭제하기</button>
+	<button type="submit" class="btn-mail" id="delete" style="margin-left: 15px;" onclick="deleteValue();"><i class="fa-solid fa-trash" style=" color:rgb(190, 190, 190);"></i>&nbsp;삭제하기</button>
 	<form action="/mail/${mailCategory}mailSearch.sw" method="get">
 				<select class= "l-select" id="s-condition" name="searchCondition" style="text-align: left; width:80px; margin-left:15px; ">
 					<option value="all">전체</option>
