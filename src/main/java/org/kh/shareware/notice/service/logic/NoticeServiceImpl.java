@@ -54,5 +54,11 @@ public class NoticeServiceImpl implements NoticeService{
 		Notice notice = nStore.selectOneNotice(sqlsession,noticeNo);
 		return notice;
 	}
+	// 홈 - 공지사항
+	@Override
+	public List<Notice> homeNotice() {
+		List<Notice> nList = nStore.selectAllHomeNotice(sqlsession);
+		return nList;
+	}
 
 }

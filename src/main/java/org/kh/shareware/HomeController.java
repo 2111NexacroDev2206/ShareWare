@@ -1,6 +1,7 @@
 package org.kh.shareware;
 
 import java.time.LocalTime;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -9,6 +10,10 @@ import org.kh.shareware.approval.service.ApprovalService;
 import org.kh.shareware.attendance.domain.Attendance;
 import org.kh.shareware.attendance.service.AttendanceService;
 import org.kh.shareware.member.domain.Member;
+import org.kh.shareware.notice.domain.Notice;
+import org.kh.shareware.notice.service.NoticeService;
+import org.kh.shareware.project.domain.Project;
+import org.kh.shareware.project.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +34,12 @@ public class HomeController {
 	@Autowired
 	private AttendanceService tService;
 	
+	@Autowired
+	private NoticeService nService;
+	
+	@Autowired
+	private ProjectService pService;
+	
 	@RequestMapping(value = "/home.sw", method = RequestMethod.GET)
 	public String home(Model model, HttpServletRequest request) {
 			model.addAttribute("myCondition", "home");
@@ -41,6 +52,12 @@ public class HomeController {
 			model.addAttribute("appCount", appCount);
 			model.addAttribute("draftCount", draftCount);
 			model.addAttribute("expCount", expCount);
+			// 공지사항
+			List<Notice> nList = nService.homeNotice();
+			model.addAttribute("nList", nList);
+			// 프로젝트 관리
+			List<Project> pList = pService.homeProject(member.getMemberNum());
+			model.addAttribute("pList", pList);
 		return "home";
 	}
 	

@@ -90,4 +90,8 @@
 		ORDER BY NOTICE_DATE DESC
 	</select>
 	
+	<!-- 홈 - 공지사항 -->
+	<select id="selectListHomeNotice" resultMap="NoticeResultMap">
+		SELECT * FROM NOTICE WHERE ROWNUM <![CDATA[<]]> 6
+	</select>
 </mapper>

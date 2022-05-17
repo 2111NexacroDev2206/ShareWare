@@ -20,5 +20,7 @@ public interface NoticeService {
 	void countViewNotice(Integer noticeNo);
 	//상세 페이지 보기
 	Notice detailNotice(Integer noticeNo);
+	// 홈 - 공지사항
+	public List<Notice> homeNotice();
 
 }

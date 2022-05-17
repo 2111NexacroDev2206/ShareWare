@@ -49,9 +49,29 @@
 		<div class="c-right">
 			<div class="notice box">
 				<span class="c-title">공지사항</span>
+				<ul>
+					<c:forEach items="${nList }" var="notice">
+						<c:url var="nDetail" value="/notice/detail.sw">
+							<c:param name="noticeNo" value="${notice.noticeNo }"/>
+						</c:url>
+						<li><a href="${nDetail }">${notice.noticeTitle }</a></li>
+					</c:forEach>
+				</ul>
 			</div>
 			<div class="project box">
 				<span class="c-title">프로젝트 관리</span>
+				<div class="p-area">
+					<c:forEach items="${pList }" var="project">
+						<c:url var="pDetail" value="/project/main.sw">
+							<c:param name="projectNo" value="${project.projectNo }"/>
+						</c:url>
+						<button class="p-btn" onclick="location.href='${pDetail}'">
+							<div class="p-title">${project.projectTitle }</div>
+							<div class="p-made">담당자 ${project.projectMade }</div>
+							<div class="p-date">${project.pStartDate } ~ ${project.pEndDate }</div>
+						</button>
+					</c:forEach>
+				</div>
 			</div>
 		</div>
 	</div>

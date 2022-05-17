@@ -20,5 +20,7 @@ public interface NoticeStore {
 	void countViewNotice(SqlSession sqlsession, Integer noticeNo);
 	//상세보기
 	Notice selectOneNotice(SqlSession sqlsession, Integer noticeNo);
+	// 홈 - 공지사항
+	List<Notice> selectAllHomeNotice(SqlSession sqlsession);
 
 }

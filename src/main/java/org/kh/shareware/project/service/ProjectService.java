@@ -27,6 +27,7 @@ public interface ProjectService {
 	public int getListCount(Project project); //페이징
 	public int getSearchCount(Search search); //검색 페이징
 	public List<Project> printSearch(Search search, PageInfo pi); //프로젝트 검색
+	public List<Project> homeProject(String memberNum); // 홈 - 프로젝트 관리
 
 	
 
