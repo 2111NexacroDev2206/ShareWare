@@ -139,3 +139,11 @@ html, body {
 	left: 440px;
 	top: 75px;
 }
+#newProjectbtn{
+	border-color: rgb(145, 168, 210);
+    padding: 15px 30px;
+    border-radius: 5px;
+    background: white;
+    border-color : rgba(224, 224, 224, 0.63);
+    font-size: medium;
+}

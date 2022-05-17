@@ -9,44 +9,42 @@
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
 <title>프로젝트 메인 화면 </title>
+<link href="/resources/css/approval/appList-style.css" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="projectMainMenu.jsp"></jsp:include>
 		<div class="s-container">
+		<br><br>
+		<div class="border">
 		<div>
-		<button onclick="location.href='/project/importantList.sw?projectNo=${projectNo}'">더보기</button>
-		<table border="1">
+		<span>중요공지</span><button onclick="location.href='/project/importantList.sw?projectNo=${projectNo}'">더보기</button>
+		<table>
 			<thead>
 				<tr>
-					<th>번호</th>
 					<th>제목</th>
 					<th>작성일</th>
-					<th>조회수</th>
 				</tr>
 			</thead>
 			<tbody>
 			<c:forEach items="${iList }" var="important" varStatus="status">
 				<tr>
-					<td>${pi.totalCount - (pi.currentPage - 1)*pi.docLimit - status.index}</td>
 					<c:url var="iDetail" value="/project/importantDetail.sw">
 						<c:param name="importantNo" value="${important.importantNo }"></c:param>
 						<c:param name="projectNo" value="${projectNo }"></c:param>
 					</c:url>
 					<td><a href="${iDetail }">${important.importantTitle }</a></td>
 					<td>${important.importantDate }</td>
-					<td>${important.importantCount }</td>
 				</tr>
 			</c:forEach>
 			</tbody>
 		</table>
 		</div>
 		<br><br>
-		<button onclick="location.href='/project/workList.sw?projectNo=${projectNo}'">더보기</button>
+		<span>업무현황</span><button onclick="location.href='/project/workList.sw?projectNo=${projectNo}'">더보기</button>
 		<div>
-			<table border="1">
+			<table>
 		<thead>
 			<tr>
-				<th>번호</th>
 				<th>제목</th>
 				<th>작성일</th>
 				<th>작성자</th>
@@ -55,7 +53,6 @@
 			<tbody>
 			<c:forEach items="${wList }" var="work" varStatus="status">
 				<tr>
-					<td>${pi.totalCount - (pi.currentPage - 1)*pi.docLimit - status.index}</td>
 					<c:url var="wDetail" value="/project/workDetail.sw">
 						<c:param name="workNo" value="${work.workNo }"></c:param>
 						<c:param name="projectNo" value="${projectNo }"></c:param>
@@ -67,6 +64,7 @@
 			</c:forEach>
 			</tbody>
 	</table>
+		</div>
 		</div>
 		<div>
 		<button onclick="chart()">입력</button>

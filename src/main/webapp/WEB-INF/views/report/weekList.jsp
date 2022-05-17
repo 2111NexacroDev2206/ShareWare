@@ -15,12 +15,13 @@
 	<div class="s-container">
 		<h2 id="h-title">주간 업무목록</h2>
 			<button id="app-btn" onclick="location.href='/report/weekWriteView.sw'">일지작성</button> 
-		<table align="center" width="" border="1">
+		<br><br>
+		<table class="t-List">
 			<thead>
 				<tr>
-					<th>번호</th>
-					<th>제목</th>
-					<th>작성자</th>
+					<th class="th-1">번호</th>
+					<th class="th-3">제목</th>
+					<th class="th-2">작성자</th>
 				</tr>
 			</thead>
 			<tbody>

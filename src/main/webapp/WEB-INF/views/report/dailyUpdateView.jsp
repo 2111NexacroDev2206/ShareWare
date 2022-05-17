@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>일일 업무 수정 화면 </title>
-<link href="/resources/css/report/form.css" rel="stylesheet">
+<link href="/resources/css/report/d-form.css" rel="stylesheet">
 <link href="/resources/css/menubar-style.css" rel="stylesheet">
 <script src="https://cdn.ckeditor.com/4.18.0/standard/ckeditor.js"></script>
 </head>
@@ -62,8 +62,5 @@
 	function deleteFileBtn(filePath, drNo){
 		location.href="/report/dailyFileDelete.sw?filePath="+filePath+"&drNo="+drNo;
 	}
-			
-		
-	
 </script>
 </html>
