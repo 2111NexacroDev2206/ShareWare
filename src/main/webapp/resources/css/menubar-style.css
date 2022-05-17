@@ -91,7 +91,6 @@ html, body {
 	float: left;
 	font-weight: bold;
 }
-<<<<<<< HEAD
 .menu-title p{ /* 메뉴 타이틀(소메뉴 없는 경우) */
 	text-align: left;
 	padding-top : 20px;
@@ -101,10 +100,6 @@ html, body {
 }
 .s-menu { /* 소메뉴 */
 	position: fixed;
-=======
-.s-menu {
-	position: fixed !important;
->>>>>>> refs/remotes/origin/jaebin
 	left: 220px;
 	width: 220px;
 	height: 100%;
