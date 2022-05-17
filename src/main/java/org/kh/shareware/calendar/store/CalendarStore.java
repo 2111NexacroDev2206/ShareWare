@@ -12,6 +12,8 @@ public interface CalendarStore {
 
 	public int insertSchedule(CalSch calSch, SqlSession sqlSession);
 
-	public List<CalSch> selectAllSchedule(SqlSession sqlSession);
+	public List<CalSch> selectAllSchedule(CalSch calSch, SqlSession sqlSession);
+
+	public CalSch selectOneSchedule(SqlSession sqlSession, int schNo);
 
 }

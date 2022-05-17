@@ -25,10 +25,16 @@ public class CalendarServiceImpl implements CalendarService{
 	public int registerSchedule(CalSch calSch) {
 		int result = cStore.insertSchedule(calSch, sqlSession);
 		return result;
-	}@Override
-	public List<CalSch> printAllSchedule() {
-		List<CalSch> sList = cStore.selectAllSchedule(sqlSession);
+	}
+	@Override
+	public List<CalSch> printAllSchedule(CalSch calSch) {
+		List<CalSch> sList = cStore.selectAllSchedule(calSch, sqlSession);
 		return sList;
+	}
+	@Override
+	public CalSch printOneSchedule(int schNo) {
+		CalSch calSch = cStore.selectOneSchedule(sqlSession, schNo);
+		return calSch;
 	}
 
 }

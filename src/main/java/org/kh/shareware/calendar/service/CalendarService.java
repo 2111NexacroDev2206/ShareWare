@@ -11,6 +11,8 @@ public interface CalendarService {
 
 	public int registerSchedule(CalSch calSch);
 
-	public List<CalSch> printAllSchedule();
+	public List<CalSch> printAllSchedule(CalSch calSch);
+
+	public CalSch printOneSchedule(int schNo);
 
 }

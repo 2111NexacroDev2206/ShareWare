@@ -14,14 +14,17 @@
 		<result property="schEndTime" column="SCH_END_TIME"/>
 		<result property="schContent" column="SCH_CONTENT"/>
 		<result property="alStatus" column="AL_STATUS"/>
+		<result property="schColor" column="SCH_COLOR"/>
 	</resultMap>
 	<insert id="insertSchedule">
-		INSERT INTO CAL_SCH VALUES(SEQ_SCH_NO.NEXTVAL, #{memNum}, #{calNo}, #{schName}, #{schStartDate}, #{schStartTime}, #{schEndDate}, #{schEndTime}, #{schContent}, #{alStatus}) 
+		INSERT INTO CAL_SCH VALUES(SEQ_SCH_NO.NEXTVAL, #{memNum}, #{calNo}, #{schName}, #{schStartDate}, #{schStartTime}, #{schEndDate}, #{schEndTime}, #{schContent}, #{alStatus} #schColor) 
 	</insert>
 	
 	<select id="selectAllSchedule" resultMap="calSchResultMap">
-		SELECT * FROM CAL_SCH WHERE MEM_NUM = #{memNum} ORDER BY SCH_NO DESC
+		SELECT * FROM CAL_SCH WHERE MEM_NUM = 'admin'
 	</select>
-	
+	<select id="selectOneSchedule" resultMap="calSchResultMap">
+		SELECT * FROM CAL_SCH WHERE MEM_NUM = #{memNum}
+	</select>
 	
 	</mapper>
