@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.common.PageInfo;
 import org.kh.shareware.common.Search;
 import org.kh.shareware.mail.domain.Mail;
+import org.kh.shareware.mail.domain.MailBmk;
 import org.kh.shareware.mail.domain.MailFile;
 import org.kh.shareware.mail.domain.MailRec;
 import org.kh.shareware.mail.domain.MailRef;
@@ -48,6 +49,12 @@ public interface MailStore {
 	public int deleteChkMailFile(SqlSession sqlSession, int values);
 
 	public Mail selectOneMail(SqlSession sqlSession, int mailNo);
+	
+	public List<MailRec> selectOneMailRec(SqlSession sqlSession, int mailNo);
+
+	public List<MailRef> selectOneMailRef(SqlSession sqlSession, int mailNo);
+
+	public List<MailFile> selectOneMailFile(SqlSession sqlSession, int mailNo);
 
 	public List<Mail> selectTemMail(SqlSession sqlSession, Mail mail, PageInfo pi);
 	
@@ -55,12 +62,11 @@ public interface MailStore {
 
 	public Mail selectOneTemMail(SqlSession sqlSession, int mailNo);
 	
-	public MailRec selectOneTemMailRec(SqlSession sqlSession, int mailNo);
+	public List<MailRec> selectOneTemMailRec(SqlSession sqlSession, int mailNo);
 
-	public MailRef selectOneTemMailRef(SqlSession sqlSession, int mailNo);
-
-	public MailFile selectOneTemMailFile(SqlSession sqlSession, int mailNo);
-
+	public List<MailRef> selectOneTemMailRef(SqlSession sqlSession, int mailNo);
+	
+	public List<MailFile> selectOneTemMailFile(SqlSession sqlSession, int mailNo);
 
 	public int deleteMail(SqlSession sqlSession, int mailNo);
 
@@ -78,7 +84,9 @@ public interface MailStore {
 
 	public List<Mail> selectSearchFileMail(SqlSession sqlSession, Search search, PageInfo pi);
 
+	//받은 메일함
 	public List<Mail> selectMail(SqlSession sqlSession, Mail mail, PageInfo pi);
+	public List<MailRec> selectMailRecList(SqlSession sqlSession, MailRec mailRec);
 
 	public List<Mail> selectRecMail(SqlSession sqlSession, Mail mail, PageInfo pi);
 
@@ -101,6 +109,76 @@ public interface MailStore {
 	public int selectSearchListMyCount(SqlSession sqlSession, Search search);
 
 	public int selectSearchListFileCount(SqlSession sqlSession, Search search);
+
+	public int updateICount(SqlSession sqlSession, int mailNo);
+
+	public int insertiMail(Mail mail, SqlSession sqlSession);
+	
+	public int insertiMailRec(Mail mail, SqlSession sqlSession);
+
+	public int insertiMailMy(Mail mail, SqlSession sqlSession);
+
+	public int insertiMailFile(Mail mail, SqlSession sqlSession);
+
+	
+
+	public int insertBmk(SqlSession sqlSession, MailBmk mailBmk);
+
+	
+
+	public int insertAppMail(Mail mail, SqlSession sqlSession);
+
+	public int insertAppMailRec(MailRec mailRec, SqlSession sqlSession);
+
+	public int insertAppMailRef(MailRef mailRef, SqlSession sqlSession);
+
+	public int insertAppMailFile(MailFile mailFile, SqlSession sqlSession);
+
+	public List<Mail> selectAppMail(Mail mail, SqlSession sqlSession);
+
+	public List<Mail> selectSearchTemMail(SqlSession sqlSession, Search search, PageInfo pi);
+
+	public List<Mail> selectSearchAppMail(SqlSession sqlSession, Search search, PageInfo pi);
+
+	public int selectSearchListTemCount(SqlSession sqlSession, Search search);
+
+	public int selectSearchListAppCount(SqlSession sqlSession, Search search);
+
+	public Mail selectOneAppMail(SqlSession sqlSession, int mailNo);
+
+	public List<MailRec> selectOneAppMailRec(SqlSession sqlSession, int mailNo);
+
+	public List<MailRef> selectOneAppMailRef(SqlSession sqlSession, int mailNo);
+
+	public List<MailFile> selectOneAppMailFile(SqlSession sqlSession, int mailNo);
+
+	public int selectAppListCount(SqlSession sqlSession, Mail mail);
+
+	public int selectReadListCount(SqlSession sqlSession, Mail mail);
+
+	public int selectIListCount(SqlSession sqlSession, Mail mail);
+
+	public List<Mail> selectIMail(SqlSession sqlSession, Mail mail, PageInfo pi);
+
+	public Mail selectOneIMail(SqlSession sqlSession, int mailNo);
+
+	public List<MailRec> selectOneIMailRec(SqlSession sqlSession, int mailNo);
+
+	public List<MailRef> selectOneIMailRef(SqlSession sqlSession, int mailNo);
+
+	public List<MailFile> selectOneIMailFile(SqlSession sqlSession, int mailNo);
+
+	public List<MailBmk> selectBmk(SqlSession sqlSession, MailBmk mailBmk);
+
+	public List<MailBmk> selectModalBmk(SqlSession sqlSession, MailBmk mailBmk);
+
+	public int selectReceiverCount(SqlSession sqlSession, Mail mail);
+
+	public int deleteiMail(SqlSession sqlSession, int mailNo);
+
+	
+
+	
 
 	
 

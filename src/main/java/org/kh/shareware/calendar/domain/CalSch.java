@@ -13,12 +13,16 @@ public class CalSch {
 	private String schEndTime;
 	private String schContent;
 	private String alStatus;
+	private String schColor;
 	
 	
 	
 	public CalSch() {}
+
+
+
 	public CalSch(int schNo, String memNum, String calNo, String schName, Date schStartDate, String schStartTime,
-			Date schEndDate, String schEndTime, String schContent, String alStatus) {
+			Date schEndDate, String schEndTime, String schContent, String alStatus, String schColor) {
 		super();
 		this.schNo = schNo;
 		this.memNum = memNum;
@@ -30,6 +34,7 @@ public class CalSch {
 		this.schEndTime = schEndTime;
 		this.schContent = schContent;
 		this.alStatus = alStatus;
+		this.schColor = schColor;
 	}
 
 
@@ -154,15 +159,25 @@ public class CalSch {
 
 
 
-	@Override
-	public String toString() {
-		return "CalSch [schNo=" + schNo + ", memNum=" + memNum + ", calNo=" + calNo + ", schName=" + schName
-				+ ", schStartDate=" + schStartDate + ", schStartTime=" + schStartTime + ", schEndDate=" + schEndDate
-				+ ", schEndTime=" + schEndTime + ", schContent=" + schContent + ", alStatus=" + alStatus + "]";
+	public String getSchColor() {
+		return schColor;
 	}
 
 
 
+	public void setSchColor(String schColor) {
+		this.schColor = schColor;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "CalSch [schNo=" + schNo + ", memNum=" + memNum + ", calNo=" + calNo + ", schName=" + schName
+				+ ", schStartDate=" + schStartDate + ", schStartTime=" + schStartTime + ", schEndDate=" + schEndDate
+				+ ", schEndTime=" + schEndTime + ", schContent=" + schContent + ", alStatus=" + alStatus + ", schColor="
+				+ schColor + "]";
+	}
 	
 	
 	

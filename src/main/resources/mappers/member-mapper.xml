@@ -60,7 +60,20 @@
 	<select id="selectListCountSearch" resultType="_int"> 
 		SELECT COUNT(*) FROM MEMBER 
 	</select>
-
+<!-- 주소록 검색 -->
+	<select id="selectMemberSearch" resultMap="memberResultMap">
+		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME, MAIL FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE
+		<if test="searchCondition.toString() == 'division'">
+			WHERE DIV_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'memberName'">
+			WHERE MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'all'">
+			WHERE DIV_NAME LIKE '%' || #{searchValue} || '%'
+			OR MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+	</select>
 <!-- 조직도 -->
 	<select id="selectOrganization" resultMap="divisionResultMap">
 		SELECT DIV_NAME
