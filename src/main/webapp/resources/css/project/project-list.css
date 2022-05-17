@@ -1,11 +1,12 @@
 @charset "UTF-8";
 #newProjectbtn{
-	border-color: rgb(145, 168, 210);
     padding: 15px 30px;
     border-radius: 5px;
     background: white;
-    border-color : rgba(224, 224, 224, 0.63);
+    border: 1px solid rgb(51, 51, 51);
     font-size: medium;
+    margin: 0 28px;
+    margin-bottom: 13px;
 }
 #h-title {
 	margin-top: 25px;

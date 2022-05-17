@@ -64,11 +64,6 @@ public class ProjectController {
 			int totalCount = service.getListCount(project);
 			PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
 			List<Project> pList = service.printAllProject(project, pi);
-			for(Project pOne : pList) {
-				String reDate = pOne.getpEndDate().replace("-", "");
-				pOne.setpEndDate(reDate);
-				pList.set(pList.indexOf(pOne), pOne);
-			}
 			mv.addObject("currentPage", currentPage);
 			mv.addObject("pi", pi);
 			mv.addObject("pList", pList);

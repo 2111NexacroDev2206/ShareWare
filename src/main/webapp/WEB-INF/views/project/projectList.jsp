@@ -27,10 +27,7 @@
 				 	</tr>
 				 </thead>
 				 <tbody>
-				 <jsp:useBean id="now" class="java.util.Date" />
-				 <fmt:formatDate value="${now}" pattern="yyyyMMdd" var="nowDate" /> 
 				 <c:forEach items="${pList }" var="project" varStatus="status">
-					
 				 	<tr>
 				 		<td>${pi.totalCount - (pi.currentPage - 1)*pi.docLimit - status.index}</td>
 				 		<c:url var="pDetail" value="/project/main.sw">
@@ -40,10 +37,10 @@
 				 		<td>${project.projectMade }</td>
 				 		<td>${project.pStartDate} ~ ${project.pEndDate}</td>
 				 		<td>
-							<c:if test="${project.pEndDate >= nowDate  }">
+							<c:if test="${project.pStatus == 'Y' }">
 				 				<input type="hidden" value="Y" name="pStatus"><span class="status-Y">진행중</span>
 				 			</c:if>
-				 			<c:if test="${project.pEndDate < nowDate  }">
+				 			<c:if test="${project.pStatus == 'N' }">
 							 	<input type="hidden" value="N" name="pStatus" ><span class="status-N">종료</span>
 							</c:if>
 				 		</td>
