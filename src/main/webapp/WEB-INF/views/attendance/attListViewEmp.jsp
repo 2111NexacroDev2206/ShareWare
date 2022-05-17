@@ -14,9 +14,47 @@
 <head>
 <meta charset="UTF-8">
 <title>근태관리</title>
+<link href="/resources/css/approval/appList-style.css" rel="stylesheet">
 	<style type="text/css">
-	.button {width: 250px;}
-	.button {border-radius: 5px;}
+	.stats-List{
+	width: 500px;
+	margin: 20px 0;
+	font-size: 14px;
+	text-align: center;
+	border-collapse: collapse;
+	border-top: 2px solid rgb(200, 200, 200);
+	border-bottom: 2px solid rgb(200, 200, 200);
+	}
+	.stats-List tr {
+		border-top: 1px solid rgb(200, 200, 200);
+		height: 45px;
+	}
+	.stats-List tr:hover {
+		background-color: rgb(250, 250, 250);
+	}
+	.stats-List th {
+		background-color: rgb(240, 240, 240);
+	}
+	.stats-List .th-1 {
+		width: 180px;
+	}
+	.stats-List .th-2 {
+		width: 630px;
+	}
+	.stats-List .th-3 {
+		width: 810px;
+	}
+	.stats-List a {
+		text-decoration: none;
+		color: black;
+		cursor: pointer;
+	}
+	.stats-List span {
+		padding: 5px 10px;
+		border-radius: 4px;
+		border: 1px;
+		color: white;
+	}
 	</style>
 
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
@@ -29,6 +67,7 @@
 	
 	<div class="s-container">
 	<h2 id="h-title">근태관리</h2><br>
+	
 	<%= sf.format(nowTime) %><br>
 	
 	<div>
@@ -50,12 +89,12 @@
     
     	<br>
     	<div>
-			<table border="1">
+			<table class="stats-List">
 				<tr><th>통계</th></tr>
 				<tr>
-					<td>지각</td>
-					<td>조퇴</td>
-					<td>출근</td>
+					<th class="th-1">지각</th>
+					<th class="th-1">조퇴</th>
+					<th class="th-1">출근</th>
 				</tr>
 				<c:if test="${sessionScope.memNum eq member.memNum }">
 				<tr>
@@ -70,7 +109,7 @@
   	<br>
 		
 		<div>
-			<table border="1">
+			<table class="t-List">
 				<tr>
 					<th class="th-1">날짜</th>
 					<th class="th-1">출근시간</th>
@@ -91,7 +130,7 @@
 				</c:forEach>
 			</table>
 			<br>
-			<div id="page">
+			<div id="page" align="center">
 				<c:forEach var="p" begin="${pi.startNavi }"
 					end="${pi.endNavi }">
 					<c:url var="pagination" value="/attendance/attListViewEmp.sw">
