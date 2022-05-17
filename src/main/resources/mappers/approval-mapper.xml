@@ -298,7 +298,25 @@
 		ORDER BY DOC_NO DESC
 	</select>
 	<select id="selectOneListCountApp" resultType="_int"><!-- 결재 문서함 페이징 -->
-		SELECT COUNT(*) FROM APPROVAL WHERE MEM_NUM = #{memNum} AND APP_STATUS != '임시'
+		SELECT COUNT(*) FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO JOIN APPROVAL USING(DOC_NO) JOIN MEMBER ON MEMBER_NUM = APP_DOC.MEM_NUM WHERE APPROVAL.MEM_NUM = #{memNum}
+		<if test="docStatus.toString() == '대기'">
+			AND APP_STATUS = '${docStatus}'
+		</if>
+		<if test="docStatus.toString() == '예정' or docStatus.toString() == '완료'">
+			AND APP_STATUS = '${docStatus}' AND DOC_STATUS != '반려'
+		</if>
+		<if test="docStatus.toString() == '완료'">
+			AND APP_STATUS = '${docStatus}' AND DOC_STATUS = '${docStatus}'
+		</if>
+		<if test="docStatus.toString() == '진행'">
+			AND APP_STATUS = '완료' AND DOC_STATUS = '${docStatus}'
+		</if>
+		<if test="docStatus.toString() == '반려'">
+			AND DOC_STATUS = '${docStatus}'
+		</if>
+		<if test="docStatus.toString() == '전체'">
+			AND APP_STATUS != '임시'
+		</if>
 	</select>
 	<select id="selectListAppSearch" resultMap="appDocResultMap"><!-- 결재 문서함 검색 -->
 		SELECT DOC_NO, DOC_DATE, FORM_NAME, DOC_TITLE, MEMBER_NAME, APP_STATUS, DOC_STATUS FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO JOIN APPROVAL USING(DOC_NO) JOIN MEMBER ON MEMBER_NUM = APP_DOC.MEM_NUM WHERE APPROVAL.MEM_NUM = #{memberNum} AND APP_STATUS != '임시'
@@ -359,4 +377,14 @@
 	<update id="updateAppNext"><!-- 다음 결재자 상태 변경(예정->대기) -->
 		UPDATE APPROVAL SET APP_STATUS = '대기' WHERE APP_NO = #{appNo}
 	</update>
+	<!-- 홈 -->
+	<select id="selectOneAppCount" resultType="_int"><!-- 결재 대기 문서 -->
+		SELECT COUNT(*) FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO JOIN APPROVAL USING(DOC_NO) JOIN MEMBER ON MEMBER_NUM = APP_DOC.MEM_NUM WHERE APPROVAL.MEM_NUM = #{memberNum} AND APP_STATUS = '대기'
+	</select>
+	<select id="selectOneDraftCount" resultType="_int"><!-- 결재 진행 문서 -->
+		SELECT COUNT(*) FROM APP_DOC WHERE MEM_NUM = #{memberNum} AND DOC_STATUS = '진행'
+	</select>
+	<select id="selectOneExpCount" resultType="_int"><!-- 결재 예정 문서 -->
+		SELECT COUNT(*) FROM APP_DOC JOIN APP_FORM ON APP_FORM.FORM_NO = APP_DOC.FORM_NO JOIN APPROVAL USING(DOC_NO) JOIN MEMBER ON MEMBER_NUM = APP_DOC.MEM_NUM WHERE APPROVAL.MEM_NUM = #{memberNum} AND APP_STATUS = '예정' AND DOC_STATUS != '반려'
+	</select>
 </mapper>

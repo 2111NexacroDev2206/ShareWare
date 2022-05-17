@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.common.PageInfo;
 import org.kh.shareware.common.Search;
 import org.kh.shareware.mail.domain.Mail;
+import org.kh.shareware.mail.domain.MailBmk;
 import org.kh.shareware.mail.domain.MailFile;
 import org.kh.shareware.mail.domain.MailRec;
 import org.kh.shareware.mail.domain.MailRef;
@@ -108,14 +109,32 @@ public class MailServiceImpl implements MailService{
 		return result;
 	}
 
-
 	@Override
 	public Mail printOneMail(int mailNo) {
 		Mail mail = mStore.selectOneMail(sqlSession, mailNo);
 		return mail;
 	}
 
+	@Override
+	public List<MailRec> printOneMailRec(int mailNo) {
+		List<MailRec> mailRec = mStore.selectOneMailRec(sqlSession, mailNo);
+		return mailRec;
+	}
+	
 
+
+	@Override
+	public List<MailRef> printOneMailRef(int mailNo) {
+		List<MailRef> mailRef = mStore.selectOneMailRef(sqlSession, mailNo);
+		return mailRef;
+	}
+
+
+	@Override
+	public List<MailFile> printOneMailFile(int mailNo) {
+		List<MailFile> mailFile = mStore.selectOneMailFile(sqlSession, mailNo);
+		return mailFile;
+	}
 	@Override
 	public List<Mail> printTemMail(Mail mail, PageInfo pi) {
 		List<Mail> tList = mStore.selectTemMail(sqlSession, mail, pi);
@@ -136,22 +155,22 @@ public class MailServiceImpl implements MailService{
 	}
 
 	@Override
-	public MailRec printOneTemMailRec(int mailNo) {
-		MailRec mailRec = mStore.selectOneTemMailRec(sqlSession, mailNo);
+	public List<MailRec> printOneTemMailRec(int mailNo) {
+		List<MailRec> mailRec = mStore.selectOneTemMailRec(sqlSession, mailNo);
 		return mailRec;
 	}
 
 
 	@Override
-	public MailRef printOneTemMailRef(int mailNo) {
-		MailRef mailRef = mStore.selectOneTemMailRef(sqlSession, mailNo);
+	public List<MailRef> printOneTemMailRef(int mailNo) {
+		List<MailRef> mailRef = mStore.selectOneTemMailRef(sqlSession, mailNo);
 		return mailRef;
 	}
 
 
 	@Override
-	public MailFile printOneTemMailFile(int mailNo) {
-		MailFile mailFile = mStore.selectOneTemMailFile(sqlSession, mailNo);
+	public List<MailFile> printOneTemMailFile(int mailNo) {
+		List<MailFile> mailFile = mStore.selectOneTemMailFile(sqlSession, mailNo);
 		return mailFile;
 	}
 	
@@ -246,6 +265,11 @@ public class MailServiceImpl implements MailService{
 		List<Mail> mList = mStore.selectMail(sqlSession, mail, pi);
 		return mList;
 	}
+	@Override
+	public List<MailRec> printMailRecList(MailRec mailRec) {
+		List<MailRec> cList = mStore.selectMailRecList(sqlSession, mailRec);
+		return cList;
+	}
 
 
 	@Override
@@ -322,6 +346,233 @@ public class MailServiceImpl implements MailService{
 		return totalmFileCount;
 	}
 
+
+	@Override
+	public int viewCountMail(int mailNo) {
+		int count = mStore.updateICount(sqlSession, mailNo);
+		return count;
+	}
+
+	@Override
+	public int registerMailBmk(MailBmk mailBmk) {
+		int result = mStore.insertBmk(sqlSession, mailBmk);
+		return result;
+	}
+
+
+	@Override
+	public int regiesteriMailRec(Mail mail) {
+		int mRecResult = mStore.insertiMailRec(mail, sqlSession);
+		return mRecResult;
+	}
+
+	@Override
+	public int regiesteriMail(Mail mail ){
+		int mResult = mStore.insertiMail(mail, sqlSession);
+		return mResult;
+		
+	}
+	@Override
+	public int regiesteriMailMy(Mail mail) {
+		int mMyResult = mStore.insertiMailMy(mail, sqlSession);
+		return mMyResult;
+	}
+	@Override
+	public int regiesteriMailFile(Mail mail) {
+		int mFileResult = mStore.insertiMailFile(mail, sqlSession);
+		return mFileResult;
+	}
+
+
+	
+
+
+	@Override
+	public int registerAppMail(Mail mail) {
+		int mResult = mStore.insertAppMail(mail, sqlSession);
+		return mResult;
+	}
+
+
+	@Override
+	public int registerAppMailRec(MailRec mailRec) {
+		int mRecResult = mStore.insertAppMailRec(mailRec, sqlSession);
+		return mRecResult;
+	}
+
+
+	@Override
+	public int registerAppMailRef(MailRef mailRef) {
+		int mRefResult = mStore.insertAppMailRef(mailRef, sqlSession);
+		return mRefResult;
+	}
+
+
+	@Override
+	public int registerAppMailFile(MailFile mailFile) {
+		int mFileResult = mStore.insertAppMailFile(mailFile, sqlSession);
+		return mFileResult;
+	}
+
+
+	@Override
+	public List<Mail> printAppMail(Mail mail, PageInfo pi) {
+		List<Mail> aList = mStore.selectAppMail(mail, sqlSession);
+		return aList;
+	}
+
+
+	@Override
+	public List<Mail> printSearchTemMail(Search search, PageInfo pi) {
+		List<Mail> searchTemList = mStore.selectSearchTemMail(sqlSession, search, pi);
+		return searchTemList;
+	}
+
+
+	@Override
+	public List<Mail> printSearchAppMail(Search search, PageInfo pi) {
+		List<Mail> searchAppList = mStore.selectSearchAppMail(sqlSession, search, pi);
+		return searchAppList;
+	}
+
+
+	@Override
+	public int getSearchTemMailCount(Search search) {
+		int totalTemCount = mStore.selectSearchListTemCount(sqlSession,search );
+		return totalTemCount;
+	}
+
+
+	@Override
+	public int getSearchAppMailCount(Search search) {
+		int totalAppCount = mStore.selectSearchListAppCount(sqlSession,search );
+		return totalAppCount;
+	}
+
+
+	@Override
+	public Mail printOneAppMail(int mailNo) {
+		Mail mail = mStore.selectOneAppMail(sqlSession, mailNo);
+		return mail;
+	}
+
+
+	@Override
+	public List<MailRec> printOneAppMailRec(int mailNo) {
+		List<MailRec> mailRec = mStore.selectOneAppMailRec(sqlSession, mailNo);
+		return mailRec;
+	}
+
+
+	@Override
+	public List<MailRef> printOneAppMailRef(int mailNo) {
+		List<MailRef> mailRef = mStore.selectOneAppMailRef(sqlSession, mailNo);
+		return mailRef;
+	}
+
+
+	@Override
+	public List<MailFile> printOneAppMailFile(int mailNo) {
+		List<MailFile> mailFile = mStore.selectOneAppMailFile(sqlSession, mailNo);
+		return mailFile;
+	}
+
+
+	@Override
+	public int getAppMailCount(Mail mail) {
+		int totalAppCount = mStore.selectAppListCount(sqlSession, mail);
+		return totalAppCount;
+	}
+
+
+	@Override
+	public int getMailReadCount(Mail mail) {
+		int readTypeNCount = mStore.selectReadListCount(sqlSession,mail);
+		return readTypeNCount;
+	}
+
+
+	@Override
+	public int getIMailCount(Mail mail) {
+		int totalICount = mStore.selectIListCount(sqlSession, mail);
+		return totalICount;
+	}
+
+
+	@Override
+	public List<Mail> printIMail(Mail mail, PageInfo pi) {
+		List<Mail> iList = mStore.selectIMail(sqlSession, mail, pi);
+		return iList;
+	}
+
+
+	@Override
+	public Mail printOneIMail(int mailNo) {
+		Mail mail = mStore.selectOneIMail(sqlSession, mailNo);
+		return mail;
+	}
+
+
+	@Override
+	public List<MailRec> printOneIMailRec(int mailNo) {
+		List<MailRec> mailRec = mStore.selectOneIMailRec(sqlSession, mailNo);
+		return mailRec;
+	}
+
+
+	@Override
+	public List<MailRef> printOneIMailRef(int mailNo) {
+		List<MailRef> mailRef = mStore.selectOneIMailRef(sqlSession, mailNo);
+		return mailRef;
+	}
+
+
+	@Override
+	public List<MailFile> printOneIMailFile(int mailNo) {
+		List<MailFile> mailFile = mStore.selectOneIMailFile(sqlSession, mailNo);
+		return mailFile;
+	}
+
+
+	@Override
+	public List<MailBmk> printBmk(MailBmk mailBmk) {
+		List<MailBmk> bList = mStore.selectBmk(sqlSession, mailBmk);
+		return bList;
+	}
+
+
+	@Override
+	public int removeiMail(int mailNo) {
+		int result = mStore.deleteiMail(sqlSession, mailNo);
+		return result;
+	}
+
+
+	
+
+	//모달 즐겨찾는 그룹 목록 
+	@Override
+	public List<MailBmk> printModalBmk(MailBmk mailBmk) {
+		List<MailBmk> bList = mStore.selectModalBmk(sqlSession, mailBmk);
+		return bList;
+	}
+
+
+	@Override
+	public int getReceiverCount(Mail mail) {
+		int cTotalCount = mStore.selectReceiverCount(sqlSession, mail);
+		return cTotalCount;
+	}
+
+
+	
+
+	
+
+
+	
+
+	
 
 	
 

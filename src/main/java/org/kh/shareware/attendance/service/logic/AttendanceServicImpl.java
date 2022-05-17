@@ -50,6 +50,12 @@ public class AttendanceServicImpl implements AttendanceService{
 		List<Stats> sList = aStore.selectStats(sqlSession, memNum);
 		return sList;
 	}
-
+	
+	// 홈 - 근태 관리
+	@Override
+	public Attendance homeAttTime(String memberNum) {
+		Attendance attendance = aStore.selectOneAtt(sqlSession, memberNum);
+		return attendance;
+	}
 
 }

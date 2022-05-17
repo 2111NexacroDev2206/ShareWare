@@ -30,7 +30,7 @@
 		margin-right:37%;
 		
 	}
-	button {
+	.btn-mail {
 		width: 80px;
 		height: 30px;
 		border : 1px lightgray solid;

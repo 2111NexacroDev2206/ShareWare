@@ -34,46 +34,99 @@
 	margin-right: 37%;
 }
 
-button {
+.btn-mail {
+	display: inline-block;
 	width: 80px;
-	height: 30px;
-	border: 1px lightgray solid;
-	background: #ffffff;
+	height: 40px;
+	background-color: white;
+	border: 1px solid rgb(51, 51, 51);
+	border-radius: 4px;
+	font-size: 15px;
+	cursor: pointer;
 }
 
 #rMail {
-	border-bottom: 1px solid lightgray;
-	border-top: 1px solid lightgray;
-	width: 930px;
+	width: 1300px;
+	margin: 20px 0;
+	font-size: 14px;
+	text-align: center;
 	border-collapse: collapse;
-	
-	border-left: none; 
-	border-right: none; 
-	frame:hsides;
-	 rules:cols;
+	border-top: 2px solid rgb(200, 200, 200);
+	border-bottom: 2px solid rgb(200, 200, 200);
 }
-th{
-border-bottom: 1px solid lightgray;
-border-top:1px solid lightgray;
-background: rgb(136, 168, 209);
+#rMail tr {
+	border-top: 1px solid rgb(200, 200, 200);
+	height: 45px;
+}
+#rMail tr:hover {
+background-color: rgb(250, 250, 250);
+}
+#rMail th{
+background-color: rgb(240, 240, 240);
 
 
 }
-td {
-border-top: 1px solid lightgray;
+#rMail td {
+border-top: 1px solid gray;
 border-bottom: 1px solid lightgray;
+}
+#rMail a {
+	text-decoration: none;
+	color: black;
+	cursor: pointer;
 }
 
 #mailRList {
 	float: right;
 	margin-top: 10%;
-	margin-right: 45px;
+	margin-right: 30px;
+	}
+.l-search {
+	display: flex;
+	height:40px;
+	margin-bottom: 10px;
+	float: left;
+	display: inline-block;
+	width: 100px;
+	height: 40px;
+	background-color: white;
+	border: 1px solid rgb(190, 190, 190);
+	border-radius: 4px;
+	font-size: 15px;
+	cursor: pointer;
+}
+.l-search form{
+	display: inline-flex;
+}
+.l-select {
+	height: 40px;
+	width: 80px;
+	border-radius: 4px;
+	border: solid 1px rgb(190, 190, 190);
+	margin-right: 5px;
+	text-align: center;
+	float:left;
+}
+.l-input {
+	display: flex;
+	height: 40px;
+	width: 190px;
+	border-radius: 4px;
+	border: solid 1px rgb(190, 190, 190);
+}
+.l-text {
+	display: inline-flex;
+	width: 137px;
+	border: none;
+}
+#delete {
+	float:left;
+	
 }
 </style>
 </head>
 
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
 <body>
 	<jsp:include page="../common/menuBar.jsp"></jsp:include>
 	<jsp:include page="../mail/mailMenu.jsp"></jsp:include>
@@ -136,24 +189,28 @@ border-bottom: 1px solid lightgray;
 		}
 	</script>
 	
-	<form action="/mail/mailTemListView.sw" method="post">
-	
+
 	<!-- <form action="/mail/mailRListView.sw" method="post"></form> -->
 	<div id="mailRList">
-		<input type="hidden" name="mailReceiver"
-			value="${loginUser.memberName }"> 
-			<%-- <input type="hidden"name="mailNo" value="${mail.mailNo}"> --%>
+		<button type="submit" id="delete" class="btn-mail" onclick="deleteValue();">삭제하기</button>
+		<form action="/mail/TmailSearch.sw" method="get">
+				<select class= "l-select" name="searchCondition"  style="text-align: left; width:80px; margin-left:10px;">
+					<option value="all">전체</option>
+					<option value="receiver">수신인</option>
+					<option value="subject">제목</option>
+					<option value="content">내용</option>
+				</select>
+			<div class="l-input">
+			<input type="text" name="searchValue" class="l-text">
+			<input type="submit" value="검색" class="l-search" >
+			</div>
+	</form> 
 		
-		<!-- <input type="submit" value="삭제하기" class="btn_ckeck_no" onclick="">  -->
-		<button type="submit" onclick="deleteValue();">삭제하기</button>
-		
-		<br>
-		<table id="rMail" border="0">
-
-			<tr>
-				<th colspan="7"><input name="allCheck" type="checkbox" id="allCheck" /></th>
-				
-			</tr>
+			<br>
+			<div style="width:1300px ;background-color: rgb(145, 168, 210); border:1px solid grey; padding-bottom: 15px; margin-bottom: -20px;">
+				<input style="zoom:1.5; margin-left: 5px; margin-top: 5px;" name="allCheck" type="checkbox" id="allCheck" />
+			</div>
+			<table id="rMail" border="0">
 			<c:forEach items="${tList }" var="mail">
 				<tr>
 					 <c:url var="mDetail" value="/mail/mailTemDetailView.sw">
@@ -161,13 +218,18 @@ border-bottom: 1px solid lightgray;
 						</c:url> 
 					<td width="30px;"><input name="RowCheck" type="checkbox"
 						value="${mail.mailNo}" /></td>
-					<td width="30px;">
-					<span > <c:if test="${mail.iStatus eq '0'}"><i class="fa-solid fa-paperclip-vertical"></i></c:if>
-					<c:if test="${mail.iStatus eq '1'}"></c:if></span><c:out value="${mail.iStatus}"/>
+					<td width="30px;"><c:if test="${mail.readType eq '0'}"><i class="fa-regular fa-envelope"></i></c:if>
+					<c:if test="${mail.readType eq '1'}"><i class="fa-solid fa-envelope-open-text"></i></c:if>
 					</td>
-					<td width="30px;">${mail.readType }</td>
-					<td width="30px;">${mail.fStatus }</td>
-					<td width="150px;">${mail.mailSender }</td>
+					<td width="30px;"><c:if test="${mail.fStatus eq '0' }"></c:if>
+					<c:if test="${mail.fStatus eq '1' }"><i class="fa-regular fa-file"></i></c:if>
+					</td>
+					<c:if test="${mail.mailReceiver eq null}">
+					<td width="150px;">(받는이없음)</td>
+					</c:if>
+					<c:if test="${mail.mailReceiver ne null}">
+					<td width="150px;">${mail.mailReceiver }</td>
+					</c:if>
 					<td><a href="${mDetail}">${mail.mailSubject }</a></td>
 					<td width="150px;"><fmt:formatDate
 							value="${mail.mailFromDate }" pattern="yyyy/MM/dd/HH:mm:ss" /></td>
@@ -176,6 +238,6 @@ border-bottom: 1px solid lightgray;
 		</table>
 		<jsp:include page="mailPaging.jsp"></jsp:include>
 	</div>
-	</form>
+	
 </body>
 </html>

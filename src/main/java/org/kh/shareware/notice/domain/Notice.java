@@ -2,6 +2,8 @@ package org.kh.shareware.notice.domain;
 
 import java.sql.Date;
 
+import org.kh.shareware.member.domain.Member;
+
 public class Notice {
 	private int noticeNo;
 	private String memberNum;
@@ -15,6 +17,16 @@ public class Notice {
 	private String noticeDelete;
 	private int noticeVoteno;
 	
+	private Member member;
+	
+	public Member getMember() {
+		return member;
+	}
+
+	public void setMember(Member member) {
+		this.member = member;
+	}
+
 	public Notice() {}
 
 	public Notice(int noticeNo, String memberNum, Date noticeDate, String noticeTitle, String noticeContent,

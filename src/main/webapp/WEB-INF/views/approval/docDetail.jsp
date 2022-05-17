@@ -193,7 +193,7 @@
 			if(rejReason != null) { // 취소 누르면 null 반환하므로 null이 아닌 경우에만 처리
 				var result = confirm("반려하시겠습니까?(반려 사유 : " + rejReason + ")");
 				if(result == true) {
-					location.href = '/approval/refStatus.sw?docNo=${appDoc.docNo}&type=${type}&rejReason=' + rejReason;
+					location.href = '/approval/rejStatus.sw?docNo=${appDoc.docNo}&type=${type}&rejReason=' + rejReason;
 				}
 			}
 		})

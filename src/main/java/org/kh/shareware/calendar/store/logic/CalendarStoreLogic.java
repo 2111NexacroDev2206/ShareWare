@@ -20,9 +20,15 @@ public class CalendarStoreLogic implements CalendarStore{
 	}
 
 	@Override
-	public List<CalSch> selectAllSchedule(SqlSession sqlSession) {
-		List<CalSch> sList = sqlSession.selectList("CalendarMapper.selectAllSchedule");
+	public List<CalSch> selectAllSchedule(CalSch calSch, SqlSession sqlSession) {
+		List<CalSch> sList = sqlSession.selectList("CalendarMapper.selectAllSchedule", calSch);
 		return sList;
+	}
+
+	@Override
+	public CalSch selectOneSchedule(SqlSession sqlSession, int schNo) {
+		CalSch calSch = sqlSession.selectOne("CalendarMapper.selectOneSchedule", schNo);
+		return calSch;
 	}
 
 }

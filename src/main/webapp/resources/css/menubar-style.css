@@ -84,7 +84,7 @@ html, body {
 }
 .user { /* 사용자 */
 	margin-left: 10px;
-	line-height: 45px;
+	line-height: 48px;
 	padding-top: 15px;
 	height: 45px;
 	font-size: 18px;
@@ -139,11 +139,27 @@ html, body {
 	left: 440px;
 	top: 75px;
 }
-#newProjectbtn{
-	border-color: rgb(145, 168, 210);
-    padding: 15px 30px;
-    border-radius: 5px;
-    background: white;
-    border-color : rgba(224, 224, 224, 0.63);
-    font-size: medium;
+#profile-menu { /* 프로필 메뉴 */
+	position: fixed;
+	top: 75px;
+	right: 0;
+	padding: 10px;
+	width: 130px;
+	overflow: auto;
+	box-shadow: 1px 1px 10px 0 rgb(51, 51, 51);
+	z-index: 2;
+	display: none;
+	background-color: white;
+}
+#profile-menu button { /* 프로필 메뉴 버튼 */
+	background-color: transparent;
+	border: none;
+	width: 100%;
+	cursor: pointer;
+	font-size: 17px;
+	font-weight: bold;
+	padding: 5px 0;
+}
+#profile-menu button:hover {
+	background-color: rgba(100, 100, 100, 0.1);
 }

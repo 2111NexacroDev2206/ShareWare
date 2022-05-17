@@ -24,34 +24,37 @@
 	.mailHeader {
 		
 	
-		padding-bottom: 210px;
+		padding-bottom: 170px;
 		border-bottom: 1px lightgray solid;
 	}
 	.mailWriteMenu {
-		float: right;
-		margin-top: 12%;
+		float: left;
+		margin-top: 120px;
+		margin-left: 600px;
 		
 		
 	}
-	button {
-		width: 80px;
-		height: 30px;
-		border : 1px lightgray solid;
-		background: #ffffff;
-		
-			
-	}
-	#delete {
+	.btn-mail {
+	display: inline-block;
+	width: 80px;
+	height: 40px;
+	background-color: white;
+	border: 1px solid rgb(51, 51, 51);
+	border-radius: 4px;
+	font-size: 15px;
+	cursor: pointer;
+}
+	a {
 		margin-left: 400px;
+		text-decoration-line: none;
 		
 	}
 	#mailRegister {
 	
 		
-		margin-top: 1%;
-		margin-left: 30%;
-		padding-bottom: 1%;
-		border-bottom: 1px lightgray solid;
+		padding-bottom: 40px;
+		margin-left: 440px;
+		border-bottom: 2px lightgray solid;
 		
 	}
 	#mFile{
@@ -79,15 +82,22 @@
 	    cursor: pointer;
 	}
 	#mailContent {
-		margin-left: 30%;
+		margin-left: 440px;
 	}
+#receiver {
+	float:left;
+}
 
+.m-detail {
+	margin-right: 40px;
+}
 </style>
 
 
 </head>
 <body>
 	<jsp:include page="../common/menuBar.jsp"></jsp:include>
+	<jsp:include page="../mail/mailMenu.jsp"></jsp:include>
 	<script type="text/javascript">
 		function deleteAll() {
 			$.ajax({
@@ -99,80 +109,74 @@
 				//보내는 변수
 				},
 				success : function(data) {
-					
+						
 						location.replace("/mail/mailListView.sw")//page로 새로고침
 					
 				}
 			});
 		};
 	</script>
-	<form action="/mail/mailDetailView.sw" method="post" enctype="multipart/form-data">
-		<div class="s-menu">
-			<div class="s-menu-title">
-				<p>메일
-				<i class="fa-solid fa-pen-to-square fa-lg"></i>
-			</div>
-			<div>
-			 	&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" onclick= "javascript: form.action='/mail/WriteView.sw'" style="width:90px; height: 35px;">메일쓰기</button>
-				&nbsp;&nbsp;<button type="submit" onclick= "javascript: form.action='/mail/WriteMyView.sw'" style="width: 90px; height: 35px;">내게쓰기</button>
-			</div>
-			<div>
-				<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}" id="read"><a href="#"><small>안읽음</small></a></div>
-				<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}" id="bmk"><a href="#"><small>중요</small></a></div>
-				<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}" id="file"><a href="/mail/FmailListView.sw"><small>첨부</small></a></div>
-			</div>
-			<div>
-				<div class="s-list-item ${listCondition eq 'draft' ? 'active' : ''}"><a href="/mail/SmailListView.sw">받은 메일함</a></div>
-				<div class="s-list-item ${listCondition eq 'approval' ? 'active' : ''}"><a href="/mail/RmailListView.sw">보낸 메일함</a></div>
-				<div class="s-list-item ${listCondition eq 'reference' ? 'active' : ''}"><a href="/mail/MmailListView.sw">내게 쓴 메일함</a></div>
-				<div class="s-list-item ${listCondition eq 'reference' ? 'active' : ''}"><a href="">보낸 승인 메일함</a></div>
-				<div class="s-list-item ${listCondition eq 'reference' ? 'active' : ''}"><a href="">즐겨찾는 그룹</a></div>
-				<div class="s-list-item ${listCondition eq 'temporary' ? 'active' : ''}"><a href="/mail/mailTemListView.sw">임시 저장함</a></div>
-
-			</div>
-		</div>
+	<form action="/mail/mailIDetailView.sw" method="post" enctype="multipart/form-data">
 		<div>
 		
-   	 		<div class="mailHeader">
+   	 			<div class="mailHeader">
 	   	 		<div class= "mailWriteMenu">
-					<div>
 					<c:url var="mDelete" value="/mail/mailDelete.sw">
 					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
 						</c:url> 
-					<button type="submit" id="delete" onclick= "javascript: form.action='/mail/mailListView.sw'"><a href="${mDelete}">메일 삭제</a></button>
-						
-					</div>
+						<div class="m-detail">
+					<button type="submit" id="delete" onclick="javascript: form.action='/mail/mailTemListView.sw'"><a href="${mDelete}">메일 삭제</a></button>
+					<%-- <c:if test="${mailCategory == 'S' }"> --%>
+					<button type="submit"  onclick="javascript: form.action='/mail/mailListView.sw'">목록</button>
+				<%-- 	</c:if> --%>
+					<%-- <c:if test="${mailCategory == 'R' }">
+					<button type="submit"  onclick="javascript: form.action='/mail/RmailListView.sw'">목록</button>
+					</c:if>
+					<c:if test="${mailCategory == 'M' }">
+					<button type="submit"  onclick="javascript: form.action='/mail/MmailListView.sw'">목록</button>
+					</c:if>
+						<c:if test="${mailCategory == 'F' }">
+					<button type="submit"  onclick="javascript: form.action='/mail/FmailListView.sw'">목록</button>
+					</c:if> --%>
+						</div>
 				</div>
 	    	</div>
 		</div>
 		<div>
+	
 			<div id="mailRegister">
 				<div>
 				<input type="hidden" name="mailNo" value="${mail.mailNo}" >
-				<input type="hidden" name="mailSubject" value="${mail.mailSubject}" >
 				
+				<div style="float:right;">
+					<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${mail.mailToDate}</div>
+					</div>
+				</div>
 					<div>
 						<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<h1>&nbsp;&nbsp;&nbsp;&nbsp;<i class="far fa-star"></i>&nbsp;&nbsp;&nbsp;&nbsp;${mail.mailSubject}</h1></div>
+						<h2>&nbsp;&nbsp;&nbsp;&nbsp;<i class="far fa-star"></i>&nbsp;&nbsp;&nbsp;&nbsp;${mail.mailSubject}</h2></div>
 					</div>
 					<br>
 					<div>
-						<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<small>보낸 사람</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${mail.mailSender}</div>
+						<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<strong>보낸 사람</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>${mail.mailSender}</strong></div>
 					</div>
 					<br>
-					<div>
+					<div style="float:left;">&emsp;&emsp;&nbsp;&nbsp;<strong>받는 사람</strong>&ensp;</div>
+						<c:forEach items="${mailRec }" var="mailRec">
+						<div id="receiver">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>${mailRec.mailReceiver}</strong>
+						</div>
+						</c:forEach>
 					
-						<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<small>받는 사람</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${mailRec.mailReceiver}</div>
-						
-					</div>
 					<br>
-					<div>
-						<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<small>참조인</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${mailRef.mailReferee}</div>
-					</div>
+					<br>
+					<div style="float:left;">&emsp;&emsp;&nbsp;&nbsp;<strong>참조인</strong>&ensp;</div>
+						<c:forEach items="${mailRef }" var="mailRef">
+						<div id="receiver">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>${mailRef.mailReferee} </strong>
+						</div>
+						</c:forEach>
 					
 				</div>
 			</div>	
@@ -180,17 +184,20 @@
 			<br>
 			
 		<div id="mailContent">	
-			<div>
-				<div class="filebox"><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<i class="fa-solid fa-paperclip"></i>&nbsp;&nbsp;<b>첨부파일 </b></small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				 <a href="/resources/mUploadFiles/${mailFile.mailFileRename}" download>${mailFile.mailFileName}</a></div>
-			</div>
+			<div class="filebox" style="float:left;">&emsp;&emsp;&nbsp;&nbsp;<i class="fa-solid fa-paperclip"></i>&nbsp;&nbsp;<strong>첨부파일</strong>&ensp;</div>
+			<br>
+							<c:forEach items="${mailFile }" var="mailFile">
+							<div id=""><a href="/resources/mUploadFiles/${mailFile.mailFileRename}"download>${mailFile.mailFileName}</a>
+							</div>
+							</c:forEach>
+			
 			<br>
 			<br>
 			
 				<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${mail.mailContent}</div>
 			</div>	
-		</div>
+			
+	
 		</form>
 </body>
 </html>

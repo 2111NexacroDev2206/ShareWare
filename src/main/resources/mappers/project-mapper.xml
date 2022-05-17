@@ -127,5 +127,8 @@
   	<delete id="deleteParticipant">
   		DELETE FROM PARTICIPANT WHERE PROJECT_NO =  #{projectNo}
   	</delete>
-  	
+  	<!-- 홈 - 프로젝트 관리 -->
+  	<select id="selectListHome" resultMap="projectResultMap">
+  		SELECT DISTINCT(PROJECT_NO), PROJECT_TITLE, MEMBER_NAME, P_START_DATE, P_END_DATE, P_STATUS FROM PROJECT JOIN PARTICIPANT USING(PROJECT_NO) JOIN MEMBER ON PROJECT_MADE = MEMBER_NUM WHERE (PROJECT_MADE = #{memberNum} OR MEM_NUM = #{memberNum}) AND P_STATUS = 'Y' ORDER BY PROJECT_NO DESC
+  	</select>
   </mapper>

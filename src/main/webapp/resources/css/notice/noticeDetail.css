@@ -1,0 +1,108 @@
+@charset "UTF-8";
+
+body, div, h1, textarea, input, button, a, p {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+  }
+
+#coreDiv{
+    width: 100%;
+    background-color:rgb(255, 255, 255);
+}
+
+#marging{
+	width: 220px;
+	height: 100%;
+	float: left;
+}
+
+#position{
+	position: relative;
+	top: 50px;
+	width: 100%;
+	height: 100%;
+}
+
+#contents{
+	position:absolute;
+	margin-top: 100px;
+	margin-left: 520px;
+	margin-right: 120px;
+	margin-bottom: 400px;
+    width: 68%;
+	background-color:rgb(255, 255, 255);
+}
+
+
+.WriteDiv{
+    height: 20px;
+    width: 880px;
+    float: left;
+}
+
+
+.dateDiv{
+  height: 20px;
+  width: 150px;
+  float: right;
+}
+
+
+.optionBtnDiv{
+    height: 32px;
+    width: 168px;
+    float: right;
+  }
+
+
+.optionBtnDiv #upload{
+    margin-left: 3px;
+    margin-right: 3px;
+    width: 80px;
+    height: 32px;
+    border-radius: 5px;
+    border: 1px solid rgb(147, 169, 209);
+    background-color: rgb(147, 169, 209);
+    font-size: 15px;
+    font-weight:bold;
+    float: right;
+    color: white;
+}
+
+.optionBtnDiv #delete{
+    width: 80px;
+    height: 32px;
+    border-radius: 5px;
+    border: 1px solid rgb(147, 169, 209);
+    background-color: rgb(255, 255, 255);
+    font-size: 15px;
+    font-weight:bold;
+    float: right;
+    color: black;
+}
+
+#notice-TileDiv{
+    float: left;
+    border: 1px solid rgb(158, 158, 158);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 25px;
+    width: 100%;
+    padding : 3px 3px 3px 20px;
+}
+
+#notice-ContentDiv{
+    border: 1px solid rgb(158, 158, 158);
+    overflow:hidden;
+    min-height : 500px;
+    height:auto;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 100%;
+    padding : 30px 5px 5px 20px;
+}

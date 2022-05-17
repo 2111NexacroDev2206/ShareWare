@@ -7,19 +7,11 @@
 <title>기본 정보 조회</title>
 </head>
 <body>
-<<<<<<< HEAD
-=======
-		<!-- 
-		<form method="post" action="upload" enctype="multipart/form-data">
-	         <label>파일:</label>
-	         <input multiple="multiple" type="file" name="file1">
-        </form>
-         -->
-        
->>>>>>> refs/remotes/origin/minji
-	<div class="">
+<jsp:include page="../common/menuBar.jsp"></jsp:include>
+	<div class="s-container">
+	<h2 id="h-title">정보 조회</h2><br>
 		<form action="/member/myInfo.sw" method="post">
-			<table border="1">
+			<table border="1" align="center">
 				<tr>
 					<td>사원번호</td>
 					<td>
@@ -48,6 +40,47 @@
 					<td>주소</td>
 					<td>
 						<input type="text" name="address" value="${loginUser.address }">
+					</td>
+				</tr>
+				
+				<tr>
+					<td>전화번호</td>
+					<td>
+						<input type="text" name="phone" value="${loginUser.address }">
+					</td>
+					<td>이메일</td>
+					<td>
+						<input type="text" name="mail" value="${loginUser.address }">
+					</td>
+				</tr>
+				<tr>
+					<td>입사일</td>
+					<td>
+						<input type="text" name="hireDate" value="${loginUser.hireDate }">
+					</td>
+					<td>퇴사일</td>
+					<td>
+						<input type="text" name="retireDate" value="${loginUser.retireDate }">
+					</td>
+				</tr>
+				<tr>
+					<td>생년월일</td>
+					<td>
+						<input type="text" name="birth" value="${loginUser.birth }">
+					</td>
+					<td>성별</td>
+					<td>
+						<input type="text" name="gender" value="${loginUser.gender }">
+					</td>
+				</tr>
+				<tr>
+					<td>계좌</td>
+					<td>
+						<input type="text" name="account" value="${loginUser.account }">
+					</td>
+					<td>은행</td>
+					<td>
+						<input type="text" name="bank" value="${loginUser.bank }">
 					</td>
 				</tr>
 			</table>

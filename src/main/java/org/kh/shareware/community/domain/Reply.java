@@ -2,12 +2,24 @@ package org.kh.shareware.community.domain;
 
 import java.sql.Date;
 
+import org.kh.shareware.member.domain.Member;
+
 public class Reply {
 private int replyNo;
 private int comNo;
 private String memberNum;
 private Date replyDate;
 private String replyContent;
+
+private Member member;
+
+public Member getMember() {
+	return member;
+}
+
+public void setMember(Member member) {
+	this.member = member;
+}
 
 public Reply() {}
 

@@ -6,7 +6,6 @@ public class ChatMember {
 	private String divName;
 	private String memName;
 	private String rankName;
-	private String chatOutDate;
 	private int memStatus;
 	
 	public ChatMember() {}
@@ -51,14 +50,6 @@ public class ChatMember {
 		this.rankName = rankName;
 	}
 
-	public String getChatOutDate() {
-		return chatOutDate;
-	}
-
-	public void setChatOutDate(String chatOutDate) {
-		this.chatOutDate = chatOutDate;
-	}
-
 	public int getMemStatus() {
 		return memStatus;
 	}
@@ -70,8 +61,7 @@ public class ChatMember {
 	@Override
 	public String toString() {
 		return "ChatMember [chatRoomNo=" + chatRoomNo + ", memNum=" + memNum + ", divName=" + divName + ", memName="
-				+ memName + ", rankName=" + rankName + ", chatOutDate=" + chatOutDate + ", memStatus=" + memStatus
-				+ "]";
+				+ memName + ", rankName=" + rankName + ", memStatus=" + memStatus + "]";
 	}
 
 }

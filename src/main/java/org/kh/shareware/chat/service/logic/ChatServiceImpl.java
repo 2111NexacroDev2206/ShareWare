@@ -33,8 +33,8 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public List<ChatMember> printAllMember() { // 채팅방 사용자 목록 조회
-		List<ChatMember> mList = cStore.selectListMember(sqlSession);
+	public List<ChatMember> printAllMember(ChatRoom chatRoom) { // 채팅방 사용자 목록 조회
+		List<ChatMember> mList = cStore.selectListMember(sqlSession, chatRoom);
 		return mList;
 	}
 
@@ -42,6 +42,12 @@ public class ChatServiceImpl implements ChatService {
 	public int registerChatContent(ChatContent chatContent) { // 채팅 등록
 		int result = cStore.insertChatContent(sqlSession, chatContent);
 		return result;
+	}
+	
+	@Override
+	public int printChatRoomNo() { // 채팅방 번호 불러오기
+		int chatRoomNo = cStore.selectOneChatRoomNo(sqlSession);
+		return chatRoomNo;
 	}
 
 	@Override
@@ -55,5 +61,65 @@ public class ChatServiceImpl implements ChatService {
 		ChatContent chatContent = cStore.selectChatContent(sqlSession, chatRoomNo);
 		return chatContent;
 	}
+
+	@Override
+	public List<ChatContent> printAllChat(int chatRoomNo) { // 채팅 목록
+		List<ChatContent> cList = cStore.selectAllChat(sqlSession, chatRoomNo);
+		return cList;
+	}
 	
+	@Override
+	public int printChatMemberCount(int chatRoomNo) { // 채팅 인원수 조회
+		int count = cStore.selectOneChatMemberCount(sqlSession, chatRoomNo);
+		return count;
+	}
+	
+	@Override
+	public ChatRoom printChatRoom(int chatRoomNo) { // 채팅방 정보 조회
+		ChatRoom chatRoom = cStore.selectOneChatRoom(sqlSession, chatRoomNo);
+		return chatRoom;
+	}
+	
+	@Override
+	public int modifyStatusChatMember(ChatMember chatMember) { // 사용자 상태 변경
+		int result = cStore.updateStatusChatMember(sqlSession, chatMember);
+		return result;
+	}
+	
+	@Override
+	public int modifyChatTitle(ChatRoom chatRoom) { // 채팅방 제목 변경
+		int result = cStore.updateChatTitle(sqlSession, chatRoom);
+		return result;
+	}
+
+	@Override
+	public ChatMember printChatMember(ChatMember chatMember) { // 채팅방 사용자 조회
+		ChatMember member = cStore.selectOneChatMember(sqlSession, chatMember);
+		return member;
+	}
+
+	@Override
+	public int fineContentDate(ChatContent chatContent) { // 날짜 공지 찾기
+		int fineCount = cStore.selectOneContentDate(sqlSession, chatContent);
+		return fineCount;
+	}
+
+	@Override
+	public int inviteChatMember(ChatMember member) { // 사용자 추가 초대
+		int result = cStore.insertInviteChatMember(sqlSession, member);
+		return result;
+	}
+
+	@Override
+	public int modifyStatusChatRoom(ChatRoom chatRoom) { // 채팅방 종류 변경
+		int result = cStore.updateStatusChatRoom(sqlSession, chatRoom);
+		return result;
+	}
+
+	@Override
+	public int removeChatRoom(int chatRoomNo) { // 채팅방 삭제
+		int result = cStore.deleteChatRoom(sqlSession, chatRoomNo);
+		return result;
+	}
+
 }

@@ -1,1 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MeetingRoomMapper">
+	<resultMap type="MeetingRoom" id="MeetingRoomResultMap">
+		<result property="memberNum" column="MEMBER_NUM"/>
+		<result property="meetingNo" column="MR_NO"/>
+		<result property="meetingDate" column="MR_DATE"/>
+		<result property="meetingTime" column="MR_TIME"/>
+		<result property="meetingReservation" column="MR_RESERVATION"/>
+		<collection property="member" resultMap="memberResultMap"/>
+	</resultMap>
+	<resultMap type="Member" id="memberResultMap">
+  		<id property="memberNum" column="MEMBER_NUM"/>
+  		<result property="memberName" column="MEMBER_NAME"/>
+  		<result property="division" column="DIV_NAME"/>
+  		<result property="rank" column="RANK"/>
+  		<result property="address" column="ADDRESS"/>
+  		<result property="phone" column="PHONE"/>
+  		<result property="mail" column="MAIL"/>
+  		<result property="hireDate" column="HIRE_DATE"/>
+  		<result property="retireDate" column="RETIRE_DATE"/>
+  		<result property="birth" column="BIRTH"/>
+  		<result property="account" column="ACCOUNT"/>
+  		<result property="bank" column="BANK"/>
+  		<result property="password" column="PASSWORD"/>
+  		<result property="gender" column="GENDER"/>
+  		<result property="photo" column="PHOTO"/>
+  		<result property="breakTotal" column="BREAK_TOTAL"/>
+  	</resultMap>
+  	
+  	<insert id="insertRoom">
+  		INSERT INTO MEETING_ROOM VALUES(#{memberNum},#{meetingNo}, #{meetingDate}, #{meetingTime}, 1)
+  	</insert>
+  	
+  	<select id="selectCheck" resultMap ="MeetingRoomResultMap">
+  		SELECT * FROM MEETING_ROOM WHERE MR_DATE = #{meetingDate} AND MR_NO = #{meetingNo}
+  	</select>
+  	<select id="selectListReservation" resultMap ="MeetingRoomResultMap">
+  	<![CDATA[
+		SELECT * FROM MEETING_ROOM WHERE MEMBER_NUM = #{memberNum} AND TO_DATE(SYSDATE, 'yyyy mm dd') <= TO_DATE(MR_DATE, 'yyyy mm dd') AND MR_RESERVATION = 1 ORDER BY MR_DATE ASC
+		]]>
+  	</select>
+  	
+  	<update id="updateRoomCancle">
+		UPDATE MEETING_ROOM SET MR_RESERVATION = 0 WHERE MEMBER_NUM = #{memberNum} AND MR_DATE =#{meetingDate} AND MR_TIME = #{meetingTime} AND MR_NO = #{meetingNo}
+	</update>
+	<select id="selectClistCount" resultType ="_int">
+	<![CDATA[
+  		SELECT COUNT(*) FROM MEETING_ROOM WHERE MEMBER_NUM = #{memberNum} AND TO_DATE(SYSDATE, 'yyyy mm dd') <= TO_DATE(MR_DATE, 'yyyy mm dd') AND MR_RESERVATION = 1
+  	]]>
+  	</select>
+</mapper>

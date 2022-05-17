@@ -28,5 +28,6 @@ public interface ProjectStore {
 	public int selectListCount(SqlSession sqlSession, Project project); //페이징
 	public int selectListSearchCount(SqlSession sqlSession, Search search); //검색 페이징
 	public List<Project> selectListSearch(SqlSession sqlSession, Search search, PageInfo pi); //프로젝트 검색
+	public List<Project> selectListHomeProject(SqlSession sqlSession, String memberNum); // 홈 - 프로젝트 관리
 
 }

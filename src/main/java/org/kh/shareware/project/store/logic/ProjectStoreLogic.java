@@ -120,6 +120,12 @@ public class ProjectStoreLogic implements ProjectStore {
 		List<Project> pList = sqlSession.selectList("ProjectMapper.selectSearchProject", search, rowBounds);
 		return pList;
 	}
+	// 홈 - 프로젝트 관리
+	@Override
+	public List<Project> selectListHomeProject(SqlSession sqlSession, String memberNum) {
+		List<Project> pList = sqlSession.selectList("ProjectMapper.selectListHome", memberNum);
+		return pList;
+	}
 
 
 }

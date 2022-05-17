@@ -24,7 +24,7 @@
         <div class="list-item ${myCondition eq 'organization' ? 'active' : ''}"><a href="/member/organizationView.sw">조직도</a></div>
         <div class="list-item ${myCondition eq 'member' ? 'active' : ''}"><a href="/member/address.sw">주소록</a></div>
         <div class="list-item ${myCondition eq 'board' ? 'active' : ''}"><a href="/community/list.sw">게시판</a></div>
-        <div class="list-item ${myCondition eq 'meetingRoom' ? 'active' : ''}"><a href="">회의실 예약</a></div>
+        <div class="list-item ${myCondition eq 'meetingRoom' ? 'active' : ''}"><a href="/meetionRoom/meetingRoomReservationView.sw">회의실 예약</a></div>
         <div class="list-item ${myCondition eq 'approval' ? 'active' : ''}"><a href="/approval/draftListView.sw">전자결재</a></div>
         <div class="list-item ${myCondition eq 'chat' ? 'active' : ''}"><a href="/chat/chatListView.sw">채팅</a></div>
         <div class="list-item ${myCondition eq 'calendar' ? 'active' : ''}"><a href="/calendar/schListView.sw">일정</a></div>
@@ -52,6 +52,10 @@
 		</div>
     </div>
     <jsp:include page="../alarm/alarmModal.jsp"></jsp:include>
+    <div id="profile-menu">
+    	<button onclick="location.href='/member/myInfo.sw'">기본 정보 조회</button>
+    	<button onclick="location.href='/member/logout.sw'">로그아웃</button>
+    </div>
 </body>
 <script>
 	// 알림 버튼
@@ -60,6 +64,15 @@
 			$("#alarm-modal").show();
 		}else {
 			$("#alarm-modal").hide();
+		}
+	})
+	
+	// 프로필 메뉴
+	$("#btn-info").click(function() {
+		if($("#profile-menu").css("display") === "none" ) {
+			$("#profile-menu").show();
+		}else {
+			$("#profile-menu").hide();
 		}
 	})
 </script>

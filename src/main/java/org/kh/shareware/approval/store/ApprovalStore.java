@@ -47,5 +47,8 @@ public interface ApprovalStore {
 	public int updateDocStatus(SqlSession sqlSession, Approval app); // 결재 승인/반려(문서 상태 변경)
 	public List<Approval> selectAllAppStatus(SqlSession sqlSession, int docNo); // 다음 차례 결재자 확인
 	public int updateAppNext(SqlSession sqlSession, int appNo); // 다음 결재자 상태 변경(요청->대기)
+	public int selectOneAppCount(SqlSession sqlSession, String memberNum); // 홈 - 결재 대기 문서
+	public int selectOneDraftCount(SqlSession sqlSession, String memberNum); // 홈 - 결재 진행 문서
+	public int selectOneExpCount(SqlSession sqlSession, String memberNum); // 홈 - 결재 예정 문서
 
 }

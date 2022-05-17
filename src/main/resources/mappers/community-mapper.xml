@@ -13,28 +13,102 @@
 		<result property="comImgName" column="COM_IMG_NAME"/>
 		<result property="comImgRename" column="COM_IMG_RENAME"/>
 		<result property="comImgPath" column="COM_IMG_PATH"/>
-		<result property="somDelete" column="COM_DELETE"/>
+		<result property="comDelete" column="COM_DELETE"/>
 		<result property="comVoteNo" column="COM_VOTE_NO"/>
+		<collection property="member" resultMap="memberResultMap"/>
 	</resultMap>
 	
+		<resultMap type="Member" id="memberResultMap">
+  		<id property="memberNum" column="MEMBER_NUM"/>
+  		<result property="memberName" column="MEMBER_NAME"/>
+  		<result property="division" column="DIV_NAME"/>
+  		<result property="rank" column="RANK"/>
+  		<result property="address" column="ADDRESS"/>
+  		<result property="phone" column="PHONE"/>
+  		<result property="mail" column="MAIL"/>
+  		<result property="hireDate" column="HIRE_DATE"/>
+  		<result property="retireDate" column="RETIRE_DATE"/>
+  		<result property="birth" column="BIRTH"/>
+  		<result property="account" column="ACCOUNT"/>
+  		<result property="bank" column="BANK"/>
+  		<result property="password" column="PASSWORD"/>
+  		<result property="gender" column="GENDER"/>
+  		<result property="photo" column="PHOTO"/>
+  		<result property="breakTotal" column="BREAK_TOTAL"/>
+  	</resultMap>
+	
+	
+  	
 <insert id="insertCommnuity">
 	INSERT INTO COMMUNITY VALUES(SEQ_COM_NO.NEXTVAL ,#{memberNum } ,DEFAULT ,#{comTitle },#{comContent }, DEFAULT, #{comImgName}, #{comImgRename}, #{comImgPath},NULL,NULL)
 </insert>
 
+<select id="selectComNo" resultType="_int">
+	SELECT COM_NO FROM(SELECT COM_NO, RANK() OVER(ORDER BY COM_DATE DESC) RANK_NUM  FROM COMMUNITY) WHERE RANK_NUM = 1
+</select>
+
+<update id="updateCommunity">
+	UPDATE COMMUNITY SET COM_TITLE=#{comTitle }, COM_CONTENT=#{comContent }, COM_IMG_NAME=#{comImgName}, COM_IMG_RENAME=#{comImgRename}, COM_IMG_PATH=#{comImgPath}, COM_VOTE_NO=#{comVoteNo}  WHERE COM_NO = #{comNo}
+</update>
+
+<select id="selectClistCount" resultType="_int">
+	SELECT COUNT(*) FROM COMMUNITY
+</select>
+
 <select id="listCommnuity" resultMap="CommunityResultMap">
-	SELECT * FROM COMMUNITY ORDER BY COM_DATE DESC
+	SELECT * FROM COMMUNITY JOIN MEMBER ON COMMUNITY.MEMBER_NUM = MEMBER.MEMBER_NUM ORDER BY COM_DATE DESC
 </select>
-<select id="detailOneByNo" resultMap="CommunityResultMap">
-	SELECT * FROM COMMUNITY WHERE COM_NO = #{comNo}
+
+<select id="selectOneCommunity" resultMap="CommunityResultMap">
+	SELECT * FROM COMMUNITY JOIN MEMBER ON COMMUNITY.MEMBER_NUM = MEMBER.MEMBER_NUM WHERE COM_NO = #{comNo}
 </select>
+
 <delete id="deleltCommunity">
 	DELETE FROM COMMUNITY WHERE COM_NO = #{comNo }
 </delete>
 
-<update id="viewCount">
+<update id="countViewCommunity">
 	UPDATE COMMUNITY SET COM_VIEW = COM_VIEW+1 WHERE COM_NO = #{comNo}
 </update>
 
+<select id="selectSearchCount" resultType="_int">
+
+ 	SELECT COUNT(*) FROM COMMUNITY JOIN MEMBER ON COMMUNITY.MEMBER_NUM = MEMBER.MEMBER_NUM
+	<if test ="searchCondition.toString()=='writer'">
+		WHERE MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='title'">
+		WHERE COM_TITLE LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='contents'">
+		WHERE COM_CONTENT LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='all'">
+		WHERE MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
+		OR COM_TITLE LIKE '%'||#{searchValue} ||'%'
+		OR COM_CONTENT LIKE '%'||#{searchValue} ||'%'
+	</if>
+	</select>
+
+<select id="searchCommunity" resultMap="CommunityResultMap">
+
+ 	SELECT * FROM COMMUNITY JOIN MEMBER ON COMMUNITY.MEMBER_NUM = MEMBER.MEMBER_NUM
+	<if test ="searchCondition.toString()=='writer'">
+		WHERE MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='title'">
+		WHERE COM_TITLE LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='contents'">
+		WHERE COM_CONTENT LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='all'">
+		WHERE MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
+		OR COM_TITLE LIKE '%'||#{searchValue} ||'%'
+		OR COM_CONTENT LIKE '%'||#{searchValue} ||'%'
+	</if>
+		ORDER BY COM_DATE DESC
+	</select>
 
 <resultMap type="CommunityVote" id="CommunityVoteResultMap">
 		<id property="comVoteNo" column="COM_VOTE_NO"/>
@@ -52,17 +126,21 @@
 		<result property="cVoteSelect3" column="C_VOTE_SELECT3"/>
 		<result property="cVoteSelect4" column="C_VOTE_SELECT4"/>
 		<result property="cVoteState" column="C_VOTE_STATE"/>
+		<collection property="cVoteSelect" resultMap="CommunityVoteSelectResultMap"/>
 	</resultMap>
 
 
-
 <insert id="insertCommnuityVote">
-	INSERT INTO C_VOTE VALUES(SEQ_CVOTE_NO.NEXTVAL ,SEQ_COM_NO.CURRVAL, DEFAULT, #{cVoteText1}, DEFAULT, DEFAULT, #{cVoteText2}, DEFAULT, DEFAULT, #{cVoteText3}, DEFAULT, DEFAULT, #{cVoteText4}, DEFAULT, DEFAULT)
+	INSERT INTO C_VOTE VALUES(SEQ_CVOTE_NO.NEXTVAL ,#{comNo}, DEFAULT, #{cVoteText1}, DEFAULT, DEFAULT, #{cVoteText2}, DEFAULT, DEFAULT, #{cVoteText3}, DEFAULT, DEFAULT, #{cVoteText4}, DEFAULT, DEFAULT)
 </insert>
 
 <select id="CommnuityVoteView" resultMap="CommunityVoteResultMap">
 	SELECT * FROM C_VOTE WHERE COM_NO= #{comNo}
 </select>
+
+<update id="uqdateCommunityVote">
+	UPDATE C_VOTE SET C_VOTE_S_TEXT1 = #{cVoteText1}, C_VOTE_S_TEXT2 =#{cVoteText2}, C_VOTE_S_TEXT3 = #{cVoteText3}, C_VOTE_S_TEXT4 =#{cVoteText4} WHERE COM_NO= #{comNo}
+</update>
 
 <delete id="deleteCommnuityVote">
 	DELETE FROM C_VOTE WHERE COM_NO = #{comNo }
@@ -96,5 +174,33 @@
 	DELETE FROM C_VOTE_MEMBER WHERE COM_NO = #{comNo }
 </delete>
 
+<resultMap type="Reply" id="CommunityReplyResultMap">
+		<id property="replyNo" column="REPLY_NO"/>
+		<result property="comNo" column="COM_NO"/>
+		<result property="memberNum" column="MEMBER_NUM"/>
+		<result property="replyDate" column="REPLY_DATE"/>
+		<result property="replyContent" column="REPLY_CONTENT"/>
+		<collection property="member" resultMap="memberResultMap"/>
+	</resultMap>
+	
+	<select id="selectReplyList" resultMap="CommunityReplyResultMap">
+		SELECT * FROM REPLY JOIN MEMBER ON REPLY.MEMBER_NUM = MEMBER.MEMBER_NUM WHERE COM_NO =#{comNo } ORDER BY REPLY_DATE ASC
+	</select>
+	
+	<insert id="insertReply">
+		INSERT INTO REPLY VALUES(SEQ_REPLY_NO.NEXTVAL, #{comNo }, #{memberNum }, DEFAULT, #{replyContent})
+	</insert>
+	
+	<update id="updateReply">
+		UPDATE REPLY SET REPLY_CONTENT = #{replyContent} WHERE COM_NO = #{comNo } AND REPLY_NO =#{replyNo}
+	</update>
+	
+	<delete id="deleteReply">
+		DELETE FROM REPLY WHERE COM_NO = #{comNo } AND REPLY_NO =#{replyNo}
+	</delete>
+	
+	<delete id="deleteAllReply">
+		DELETE FROM REPLY WHERE COM_NO = #{comNo }
+	</delete>
 
 </mapper>

@@ -9,7 +9,6 @@
 		<result property="divName" column="DIV_NAME"/>
 		<result property="memName" column="MEM_NAME"/>
 		<result property="rankName" column="RANK_NAME"/>
-		<result property="chatOutDate" column="CHAT_OUT_DATE"/>
 		<result property="memStatus" column="MEM_STATUS"/>
 	</resultMap>
 	<resultMap type="ChatRoom" id="chatRoomResultMap">
@@ -18,12 +17,16 @@
 		<result property="chatRoomType" column="CHAT_ROOM_TYPE"/>
 		<result property="chatContent" column="CHAT_CONTENT"/>
 		<result property="chatDate" column="CHAT_DATE"/>
+		<result property="headCount" column="HEAD_COUNT"/>
 	</resultMap>
 	<resultMap type="ChatContent" id="chatContentResultMap">
 		<id property="chatContentNo" column="CHAT_CONTENT_NO"/>
 		<result property="chatRoomNo" column="CHAT_ROOM_NO"/>
 		<result property="chatContent" column="CHAT_CONTENT"/>
 		<result property="memNum" column="MEM_NUM"/>
+		<result property="divName" column="DIV_NAME"/>
+		<result property="memName" column="MEM_NAME"/>
+		<result property="rankName" column="RANK_NAME"/>
 		<result property="chatDate" column="CHAT_DATE"/>
 		<result property="chatType" column="CHAT_TYPE"/>
 	</resultMap>
@@ -37,20 +40,84 @@
 			(SELECT DIV_NAME FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE WHERE MEMBER_NUM = #{memberNum}),
 			(SELECT MEMBER_NAME FROM MEMBER WHERE MEMBER_NUM = #{memberNum}),
 			(SELECT RANK_NAME FROM MEMBER JOIN RANK ON RANK = RANK_CODE WHERE MEMBER_NUM = #{memberNum}),
-			NULL,
 			DEFAULT
 		)
 	</insert>
 	<select id="selectListMember" resultMap="chatMemberResultMap"><!-- 채팅방 사용자 목록 조회 -->
-		SELECT * FROM CHAT_MEMBER WHERE CHAT_ROOM_NO = (SELECT MAX(CHAT_ROOM_NO) FROM CHAT_ROOM)
+		SELECT * FROM CHAT_MEMBER WHERE MEM_STATUS = 0
+		<if test="chatRoomNo == 0">
+			AND CHAT_ROOM_NO = (SELECT MAX(CHAT_ROOM_NO) FROM CHAT_ROOM)
+		</if>
+		<if test="chatRoomNo != 0">
+			AND CHAT_ROOM_NO = #{chatRoomNo}
+		</if>
 	</select>
-	<insert id="insertChatContent">
-		INSERT INTO CHAT_CONTENT VALUES(SEQ_CHAT_CONTENT.NEXTVAL, SEQ_CHAT_ROOM.CURRVAL, #{chatContent}, #{memNum}, DEFAULT, #{chatType})
+	<insert id="insertChatContent"><!-- 채팅 등록 -->
+		INSERT INTO CHAT_CONTENT VALUES(SEQ_CHAT_CONTENT.NEXTVAL, 
+		<if test="chatRoomNo == 0">
+			SEQ_CHAT_ROOM.CURRVAL
+		</if>
+		<if test="chatRoomNo != 0">
+			#{chatRoomNo}
+		</if>
+		, #{chatContent}, #{memNum}, DEFAULT, 
+		<if test="chatType == 1">
+			#{chatType}
+		</if>
+		<if test="chatType != 1">
+			DEFAULT
+		</if>
+		)
 	</insert>
+	<select id="selectOnechatRoomNo" resultType="_int"><!-- 채팅방 번호 불러오기 -->
+		SELECT MAX(CHAT_ROOM_NO) FROM CHAT_ROOM
+	</select>
 	<select id="selectListChatRoom" resultMap="chatRoomResultMap"><!-- 채팅방 목록 조회 -->
-		SELECT DISTINCT CHAT_ROOM_NO, CHAT_ROOM_TITLE, CHAT_ROOM_TYPE FROM CHAT_ROOM WHERE CHAT_ROOM_NO IN(SELECT DISTINCT CHAT_ROOM_NO FROM CHAT_MEMBER WHERE MEM_NUM = #{memberNum}) ORDER BY CHAT_ROOM_NO DESC
+		SELECT DISTINCT CHAT_ROOM_NO, CHAT_ROOM_TITLE, CHAT_ROOM_TYPE
+		, (SELECT COUNT(*) FROM CHAT_MEMBER WHERE CHAT_MEMBER.CHAT_ROOM_NO = CHAT_ROOM.CHAT_ROOM_NO AND MEM_STATUS = 0) AS HEAD_COUNT
+		FROM CHAT_ROOM
+		WHERE CHAT_ROOM_NO IN(SELECT DISTINCT CHAT_ROOM_NO FROM CHAT_MEMBER WHERE MEM_NUM = #{memberNum} AND MEM_STATUS = 0)
+		AND (SELECT COUNT(*) FROM CHAT_MEMBER WHERE CHAT_MEMBER.CHAT_ROOM_NO = CHAT_ROOM.CHAT_ROOM_NO AND MEM_STATUS = 0) > 0
+		ORDER BY CHAT_ROOM_NO DESC
 	</select>
 	<select id="selectOneChatContent" resultMap="chatContentResultMap"><!-- 마지막 대화 내용과 날짜 가져오기 -->
 		SELECT * FROM (SELECT * FROM CHAT_CONTENT WHERE CHAT_ROOM_NO = #{chatRoomNo} ORDER BY CHAT_CONTENT_NO DESC) WHERE ROWNUM = 1
 	</select>
+	<select id="selectListChat" resultMap="chatContentResultMap"><!-- 채팅 목록 -->
+		SELECT DISTINCT CHAT_CONTENT_NO, CHAT_CONTENT.CHAT_ROOM_NO, CHAT_CONTENT, CHAT_MEMBER.MEM_NUM, DIV_NAME, MEM_NAME, RANK_NAME, CHAT_DATE, CHAT_TYPE FROM CHAT_CONTENT LEFT JOIN CHAT_MEMBER ON CHAT_CONTENT.MEM_NUM = CHAT_MEMBER.MEM_NUM AND CHAT_CONTENT.CHAT_ROOM_NO = CHAT_MEMBER.CHAT_ROOM_NO WHERE CHAT_CONTENT.CHAT_ROOM_NO = #{chatRoomNo} ORDER BY CHAT_CONTENT_NO
+	</select>
+	<select id="selectOneChatMemberCount" resultType="_int"><!-- 채팅방 인원수 조회 -->
+		SELECT COUNT(*) FROM CHAT_MEMBER WHERE CHAT_ROOM_NO = #{chatRoomNo} AND MEM_STATUS = 0
+	</select>
+	<select id="selectOneChatRoom" resultMap="chatRoomResultMap"><!-- 채팅방 정보 조회 -->
+		SELECT * FROM CHAT_ROOM WHERE CHAT_ROOM_NO = #{chatRoomNo}
+	</select>
+	<update id="updateStatusChatMember"><!-- 사용자 상태 변경 -->
+		UPDATE CHAT_MEMBER SET MEM_STATUS = #{memStatus} WHERE CHAT_ROOM_NO = #{chatRoomNo} AND MEM_NUM = #{memNum}
+	</update>
+	<update id="updateChatTitle"><!-- 채팅방 제목 변경 -->
+		UPDATE CHAT_ROOM SET CHAT_ROOM_TITLE = #{chatRoomTitle} WHERE CHAT_ROOM_NO = #{chatRoomNo}
+	</update>
+	<select id="selectOneChatMember" resultMap="chatMemberResultMap"><!-- 채팅방 사용자 조회 -->
+		SELECT * FROM CHAT_MEMBER WHERE CHAT_ROOM_NO = #{chatRoomNo} AND MEM_NUM = #{memNum}
+	</select>
+	<select id="selectOneContentDate" resultType="_int"><!-- 날짜 공지 찾기 -->
+		SELECT COUNT(*) FROM CHAT_CONTENT WHERE CHAT_ROOM_NO = #{chatRoomNo} AND CHAT_CONTENT = #{chatContent}
+	</select>
+	<insert id="insertInviteChatMember"><!-- 사용자 추가 초대 -->
+		INSERT INTO CHAT_MEMBER VALUES(
+			#{chatRoomNo},
+			#{memNum},
+			(SELECT DIV_NAME FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE WHERE MEMBER_NUM = #{memNum}),
+			(SELECT MEMBER_NAME FROM MEMBER WHERE MEMBER_NUM = #{memNum}),
+			(SELECT RANK_NAME FROM MEMBER JOIN RANK ON RANK = RANK_CODE WHERE MEMBER_NUM = #{memNum}),
+			DEFAULT
+		)
+	</insert>
+	<update id="updateStatusChatRoom"><!-- 채팅방 종류 변경 -->
+		UPDATE CHAT_ROOM SET CHAT_ROOM_TYPE = #{chatRoomType} WHERE CHAT_ROOM_NO = #{chatRoomNo}
+	</update>
+	<delete id="deleteChatRoom"><!-- 채팅방 삭제 -->
+		DELETE FROM CHAT_ROOM WHERE CHAT_ROOM_NO = #{chatRoomNo}
+	</delete>
 </mapper>

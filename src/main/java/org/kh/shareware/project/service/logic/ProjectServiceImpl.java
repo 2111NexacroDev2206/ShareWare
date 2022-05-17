@@ -119,8 +119,11 @@ public class ProjectServiceImpl implements ProjectService{
 		List<Project> pList = pStore.selectListSearch(sqlSession, search, pi);
 		return pList;
 	}
-
-
-
+	// 홈 - 프로젝트 관리
+	@Override
+	public List<Project> homeProject(String memberNum) {
+		List<Project> pList = pStore.selectListHomeProject(sqlSession, memberNum);
+		return pList;
+	}
 
 }

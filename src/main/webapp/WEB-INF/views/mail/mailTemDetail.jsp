@@ -33,7 +33,7 @@
 		margin-right: 5%;
 		
 	}
-	button {
+	.btn-mail {
 		width: 80px;
 		height: 30px;
 		border : 1px lightgray solid;
@@ -78,7 +78,12 @@
 	#mailContent {
 		margin-left: 30%;
 	}
-
+#receiver {
+	float:left;
+}
+a{
+	text-decoration-line: none;
+}
 </style>
 
 
@@ -97,7 +102,7 @@
 					<c:url var="mModify" value="/mail/temModifyView.sw">
 					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
 						</c:url> 
-					<button type="button"><a href="${mModify }">수정하기</a></button>
+					<a href="${mModify }"><button type="button">수정하기</button></a>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -117,6 +122,7 @@
 			<div id="mailRegister">
 				<div>
 				<input type="hidden" name="mailNo" value="${mail.mailNo}" >
+				
 					<div>
 						<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -128,26 +134,28 @@
 						<small>보낸 사람</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${mail.mailSender}</div>
 					</div>
 					<br>
-					<div>
-						<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<small>받는 사람</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${mailRec.mailReceiver}</div>
-					</div>
+					<div style="float:left;">&emsp;&emsp;&nbsp;<strong>받는 사람</strong>&ensp;</div>
+						<c:forEach items="${mailRec }" var="mailRec">
+						<div id="receiver">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${mailRec.mailReceiver} 
+						</div>
+						</c:forEach>
 					<br>
-					<div>
-						<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<small>참조인</small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${mailRef.mailReferee}</div>
-					</div>
+					<div style="float:left;">&emsp;&emsp;&nbsp;&nbsp;<strong>참조인</strong>&ensp;</div>
+						<c:forEach items="${mailRef }" var="mailRef">
+						<div id="receiver">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${mailRef.mailReferee} 
+						</div>
+						</c:forEach>
 				</div>
 			</div>	
 		
 			<br>
 			
 		<div id="mailContent">	
-			<div>
-				<div class="filebox"><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<i class="fa-solid fa-paperclip"></i>&nbsp;&nbsp;<b>첨부파일 </b></small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<a href="../../../resources/nuploadFiles/${mailFile.mailFileRename}" download>${mailFile.mailFileName}</a></div>
-			</div>
+			<div class="filebox" style="float:left;">&emsp;&emsp;&nbsp;&nbsp;<i class="fa-solid fa-paperclip"></i>&nbsp;&nbsp;<strong>첨부파일</strong>&ensp;</div>
+							<c:forEach items="${mailFile }" var="mailFile">
+							<div id=""><a href="/resources/mUploadFiles/${mailFile.mailFileRename}"download>${mailFile.mailFileName}</a>
+							</div>
+							</c:forEach>
 			<br>
 			<br>
 			
