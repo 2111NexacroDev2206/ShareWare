@@ -114,7 +114,7 @@ padding-top: 15px;
 			<br>
 			<div id="mailWriteBtn">
 			 	<button type="submit" class="btn-mail" id="btn-write" onclick="location.href= '/mail/WriteView.sw'" style="width:105px; height: 40px;  color: green; "><strong>메일쓰기</strong></button>
-				&nbsp;&nbsp;<button type="submit" class="btn-mail"  id="btn-write" onclick= "location.href= '/mail/WriteMyView.sw'" style="width: 105px; height: 40px; float:left;  color: green;"><strong>내게쓰기</strong></button>
+				&nbsp;&nbsp;<button type="submit" class="btn-mail" id="btn-write" onclick= "location.href= '/mail/WriteMyView.sw'" style="width: 105px; height: 40px; float:left;  color: green;"><strong>내게쓰기</strong></button>
 			</div>
 			
 			
