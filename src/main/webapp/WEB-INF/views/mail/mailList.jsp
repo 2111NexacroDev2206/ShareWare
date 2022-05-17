@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>메일</title>
 <style type="text/css">
 #bmk {
 	float: left;
@@ -80,15 +80,13 @@ border-bottom: 1px solid lightgray;
 	margin-right: 30px;
 	}
 .l-search {
-	display: flex;
-	height:38px;
-	margin-bottom: 10px;
 	float: left;
 	display: inline-block;
 	width: 100px;
-	height: 40px;
+	height: 37px;
 	background-color: white;
-	border: 2px solid rgb(190, 190, 190);
+	border: none;
+	border-left: 2px solid rgb(190, 190, 190);
 	border-radius: 4px;
 	font-size: 15px;
 	cursor: pointer;

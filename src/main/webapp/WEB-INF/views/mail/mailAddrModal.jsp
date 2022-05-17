@@ -5,17 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style type="text/css">
-	.m-appSel2 {
-		    margin-right:5%;
-		    padding-bottom: 2%;
-		     padding-right: 3%;
-	}
-	.m-body2 {
-			height: 60%;
-		    width: 80%;
-	}
-	
+<style type="text/css">	
 	.m-list2 {
 		height: 35%;
 		 width: 100%;

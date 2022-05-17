@@ -34,7 +34,7 @@
 		
 		
 	}
-	button {
+	.btn-mail {
 	display: inline-block;
 	width: 80px;
 	height: 40px;

@@ -34,7 +34,7 @@
 	margin-right: 37%;
 }
 
-button {
+.btn-mail {
 	display: inline-block;
 	width: 80px;
 	height: 40px;
@@ -217,7 +217,7 @@ border-bottom: 1px solid lightgray;
 	
 	
 	<div id="mailRList">
-		<button type="submit" id="delete" onclick="deleteValue();">삭제하기</button>
+		<button type="submit" id="delete" class="btn-mail" onclick="deleteValue();">삭제하기</button>
 		<form action="/mail/AmailSearch.sw" method="get">
 				<select class= "l-select" name="searchCondition"  style="text-align: left; width:80px; margin-left:10px;">
 					<option value="all">전체</option>

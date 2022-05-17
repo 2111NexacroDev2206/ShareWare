@@ -8,20 +8,6 @@
 <link href="/resources/css/approval/appModal-style.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 <style type="text/css">
-	.m-appSel {
-		    margin-right:5%;
-		    padding-bottom: 2%;
-		     padding-right: 3%;
-	}
-	.m-body {
-			height: 60%;
-		    width: 80%;
-	}
-
-	/* .m-search {
-		height: 60%;
-		    width: 100%;
-	} */
 	.s-input {
 		width: 89%;
 		float: left;

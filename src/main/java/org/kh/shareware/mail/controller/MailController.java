@@ -48,7 +48,7 @@ public class MailController {
 			, HttpServletRequest request
 			,@ModelAttribute Mail mail
 			, @ModelAttribute MailBmk mailBmk) {
-		
+		mv.addObject("myCondition", "mail");
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
 		mail.setMemNum(member.getMemberNum());
@@ -83,6 +83,7 @@ public class MailController {
 			, HttpServletRequest request
 			,@ModelAttribute Mail mail
 			, @ModelAttribute MailBmk mailBmk) {
+		mv.addObject("myCondition", "mail");
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
 		int totalICount = mService.getIMailCount(mail);
@@ -257,7 +258,7 @@ public class MailController {
 				, @ModelAttribute MailBmk mailBmk
 				, HttpServletRequest request
 				) {
-			
+			mv.addObject("myCondition", "mail");
 			HttpSession session = request.getSession();
 			Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
 			mail.setMemNum(member.getMemberNum());
@@ -500,7 +501,7 @@ public class MailController {
 		
 		) {
 		try {
-			mv.addObject("myCondition", "approval");
+			mv.addObject("myCondition", "mail");
 			mv.addObject("listCondition", mailCategory);
 			HttpSession session = request.getSession();
 			Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
@@ -607,6 +608,7 @@ public class MailController {
 			,@ModelAttribute Mail mail
 			, @ModelAttribute MailBmk mailBmk) {
 		try {
+			mv.addObject("myCondition", "mail");
 			HttpSession session = request.getSession();
 			Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
 			mail.setMemNum(member.getMemberNum());
@@ -679,6 +681,7 @@ public class MailController {
 			) {
 		
 		try {
+			mv.addObject("myCondition", "mail");
 			HttpSession session = request.getSession();
 			Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
 			mail.setMemNum(member.getMemberNum());

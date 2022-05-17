@@ -39,6 +39,7 @@
 	border-radius: 4px;
 	font-size: 15px;
 	cursor: pointer;
+	vertical-align: middle;
 }
 	#mailRegister {
 	
