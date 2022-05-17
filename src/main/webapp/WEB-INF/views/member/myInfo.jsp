@@ -7,9 +7,11 @@
 <title>기본 정보 조회</title>
 </head>
 <body>
-	<div class="">
+<jsp:include page="../common/menuBar.jsp"></jsp:include>
+	<div class="s-container">
+	<h2 id="h-title">정보 조회</h2><br>
 		<form action="/member/myInfo.sw" method="post">
-			<table border="1">
+			<table border="1" align="center">
 				<tr>
 					<td>사원번호</td>
 					<td>
