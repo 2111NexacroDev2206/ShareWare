@@ -27,7 +27,7 @@
 					</tr>
 					<tr>
 						<td>프로젝트 관리자</td>
-						<td>{project.projectMade }<input type="hidden" value="${loginUser.memberNum }" name="projectMade" readonly></td>
+						<td>${loginUser.memberName }<input type="hidden" value="${loginUser.memberNum }" name="projectMade" readonly></td>
 					</tr>
 					<tr>
 						<td>프로젝트 참여자</td>

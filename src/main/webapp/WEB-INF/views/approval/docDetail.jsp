@@ -190,9 +190,11 @@
 		})
 		$("#btn-rej").click(function() { // 반려 확인 창
 			var rejReason = prompt("반려 사유를 입력해주세요");
-			var result = confirm("반려하시겠습니까?(반려 사유 : " + rejReason + ")");
-			if(result == true) {
-				location.href = '/approval/refStatus.sw?docNo=${appDoc.docNo}&type=${type}&rejReason=' + rejReason;
+			if(rejReason != null) { // 취소 누르면 null 반환하므로 null이 아닌 경우에만 처리
+				var result = confirm("반려하시겠습니까?(반려 사유 : " + rejReason + ")");
+				if(result == true) {
+					location.href = '/approval/rejStatus.sw?docNo=${appDoc.docNo}&type=${type}&rejReason=' + rejReason;
+				}
 			}
 		})
 	</script>

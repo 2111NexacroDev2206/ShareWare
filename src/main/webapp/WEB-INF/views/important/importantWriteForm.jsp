@@ -12,11 +12,11 @@
 	<div class="s-container">
 		<form action="/project/importantRegister.sw" method="post" enctype="multipart/form-data">
 			<input type="hidden" value="${projectNo }" name="projectNo">
+			<input type="hidden" value="${nowTime }" name="importantDate">
 			<table border="1">
 				<tr>
 					<td>제목</td>
 					<td><input type="text" name="importantTitle"></td>
-					<input type="hidden" value="${nowTime }" name="importantDate">
 				</tr>
 				<tr>
 					<td>작성자</td>

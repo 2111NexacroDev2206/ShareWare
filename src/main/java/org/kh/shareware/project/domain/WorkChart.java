@@ -1,14 +1,14 @@
 package org.kh.shareware.project.domain;
 
-public class WorkPGS {
+public class WorkChart {
 	private int projectNo;
 	private String memNum;
 	private String projectWriter;
 	private int wpRate;
 	
-	public WorkPGS() {}
+	public WorkChart() {}
 
-	public WorkPGS(int projectNo, String memNum, String projectWriter, int wpRate) {
+	public WorkChart(int projectNo, String memNum, String projectWriter, int wpRate) {
 		super();
 		this.projectNo = projectNo;
 		this.memNum = memNum;

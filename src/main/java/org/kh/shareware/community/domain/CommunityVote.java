@@ -17,6 +17,17 @@ private int cVoteSelect3;
 private int cVoteSelect4;
 private int cVoteState;
 
+private CommunityVoteSelect cVoteSelect;
+
+
+public CommunityVoteSelect getcVoteSelect() {
+	return cVoteSelect;
+}
+
+public void setcVoteSelect(CommunityVoteSelect cVoteSelect) {
+	this.cVoteSelect = cVoteSelect;
+}
+
 public CommunityVote() {}
 
 public CommunityVote(int comVoteNo, int comNo, int cVoteSc1, int cVoteSc2, int cVoteSc3, int cVoteSc4,

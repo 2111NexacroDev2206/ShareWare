@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.kh.shareware.member.domain.Member;
+import org.kh.shareware.project.common.PageInfo;
+import org.kh.shareware.project.common.Pagination;
 import org.kh.shareware.report.domain.Daily;
 import org.kh.shareware.report.service.DailyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,14 +34,20 @@ public class DailyController {
 	//일일 업무 목록
 	@RequestMapping(value="/report/dailyList.sw", method = RequestMethod.GET)
 	public ModelAndView dailyListView(Model model, ModelAndView mv
-			, HttpServletRequest request) {
+			, HttpServletRequest request
+			,@RequestParam(value="page", required=false) Integer page) {
 		//model.addAttribute("myCondition", "report");
 		model.addAttribute("listCondition", "dailyList");
 		HttpSession session = request.getSession();
 		String memNum = ((Member)(session.getAttribute("loginUser"))).getMemberNum();
+		int currentPage = (page != null) ? page : 1;
+		int totalCount = service.getListCount(memNum);
+		PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
 		try {
-			List<Daily> dList = service.printAllDaily(memNum);
+			List<Daily> dList = service.printAllDaily(memNum, pi);
 			mv.addObject("dList", dList);
+			model.addAttribute("pi", pi);
+			model.addAttribute("currentPage", currentPage);
 			mv.setViewName("report/dailyList");
 		}catch(Exception e) {
 			mv.addObject("msg", e.toString());

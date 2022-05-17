@@ -5,6 +5,7 @@ public class Search {
 	private String searchCondition;
 	private String searchValue;
 	private String type;
+	private int chatRoomNo;
 	
 	public Search() {}
 
@@ -40,10 +41,18 @@ public class Search {
 		this.type = type;
 	}
 
+	public int getChatRoomNo() {
+		return chatRoomNo;
+	}
+
+	public void setChatRoomNo(int chatRoomNo) {
+		this.chatRoomNo = chatRoomNo;
+	}
+
 	@Override
 	public String toString() {
 		return "Search [memberNum=" + memberNum + ", searchCondition=" + searchCondition + ", searchValue="
-				+ searchValue + ", type=" + type + "]";
+				+ searchValue + ", type=" + type + ", chatRoomNo=" + chatRoomNo + "]";
 	}
 
 }

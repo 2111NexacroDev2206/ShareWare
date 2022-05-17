@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+body, div, h1, textarea, input, button, a, p {
+    margin: 0;
+    padding: 0;
+}
+
+
+#coreDiv {
+	height: 100%;
+	width: 100%;
+}
+#marging{
+	width: 440px;
+	height: 100%;
+	float: left;
+}
+#position{
+	position: relative;
+	top: 75px;
+	width: 100%;
+	height: 100%;
+}
+
+#contents{
+	position:absolute;
+	width: 65%;
+	top: 200;
+	margin-top: 150px;
+	margin-left: 540px;
+	margin-right: 100px;
+	margin-bottom: 400px;
+	background-color:rgb(255, 255, 255);
+}
+
+#rDiv Div {
+    font-size: 20px;
+}

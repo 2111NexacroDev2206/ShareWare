@@ -24,6 +24,7 @@
   	
   	<resultMap type="Division" id="divisionResultMap">
   		<id property="divCode" column="DIV_CODE"/>
+  		<result property="memberNum" column="MEMBER_NUM"/>
   		<result property="divName" column="DIV_NAME"/>
   		<result property="divLevel" column="DIV_LEVEL"/>
   		<result property="parentDivCode" column="PARENT_DIV_CODE"/>
@@ -32,26 +33,34 @@
 
 <!-- 로그인 -->  	
   	<select id="selectLoginMember"  parameterType="Member" resultMap="memberResultMap">
-  		SELECT * FROM MEMBER WHERE MEMBER_NUM=#{memberNum} AND PASSWORD=#{password}
+  		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME, ADDRESS, PHONE, MAIL, HIRE_DATE, RETIRE_DATE, BIRTH, ACCOUNT, BANK, PASSWORD, GENDER, PHOTO, BREAK_TOTAL FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE MEMBER_NUM=#{memberNum} AND PASSWORD=#{password}
   	</select>
   	
 <!-- 마이페이지 -->
   	<select id="selectOneById" resultMap="memberResultMap">
-		SELECT * FROM MEMBER WHERE MEMBER_NUM= #{memberNum} 
+		SELECT 
+		MEMBER_NUM,
+		MEMBER_NAME,
+		DIV_NAME,
+		RANK_NAME,
+		ADDRESS,PHONE,MAIL,
+		HIRE_DATE,RETIRE_DATE,BIRTH,ACCOUNT,BANK,GENDER,PHOTO 
+		FROM MEMBER 
+		JOIN DIVISION ON DIVISION = DIV_CODE 
+		JOIN RANK ON RANK = RANK_CODE WHERE MEMBER_NUM= #{memberNum} 
 	</select>
 	
 <!-- 주소록 -->
 	<select id="selectAllList" resultMap="memberResultMap">
-		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME, MAIL, PHONE FROM MEMBER JOIN DIVISION ON (DIVISION = DIV_CODE) JOIN RANK ON (RANK = RANK_CODE)
+		SELECT * FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE
 	</select>
 	<select id="selectListCount" resultType="_int"> 
 		SELECT COUNT(*) FROM MEMBER
 	</select>
-	
-	<select id="selectAllMember" resultMap="memberResultMap">
-		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME , MAIL FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE
+<!-- 주소록 검색 페이징-->
+	<select id="selectListCountSearch" resultType="_int"> 
+		SELECT COUNT(*) FROM MEMBER 
 	</select>
-	
 <!-- 주소록 검색 -->
 	<select id="selectMemberSearch" resultMap="memberResultMap">
 		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME, MAIL FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE
@@ -66,10 +75,79 @@
 			OR MEMBER_NAME LIKE '%' || #{searchValue} || '%'
 		</if>
 	</select>
-	
 <!-- 조직도 -->
 	<select id="selectOrganization" resultMap="divisionResultMap">
-		SELECT DIV_NAME, DIV_CODE, PARENT_DIV_CODE, DIV_LEVEL FROM (SELECT DIV_CODE, DIV_NAME, DIV_LEVEL, PARENT_DIV_CODE FROM DIVISION UNION SELECT MEMBER_NUM, MEMBER_NAME, 3 "DIV_LEVEL", DIVISION FROM MEMBER) START WITH DIV_LEVEL = 1 CONNECT BY PRIOR DIV_CODE=PARENT_DIV_CODE
+		SELECT DIV_NAME
+		     , DIV_CODE
+		     , PARENT_DIV_CODE
+		     , CASE WHEN DIV_CODE = 'admin' THEN 2
+                    ELSE DIV_LEVEL
+                END DIV_LEVEL 
+		  FROM ( SELECT DIV_CODE
+		              , DIV_NAME
+		              , DIV_LEVEL
+		              , PARENT_DIV_CODE 
+		           FROM DIVISION 
+		           
+		           UNION
+		            
+		           SELECT MEMBER_NUM
+		                , MEMBER_NAME
+		                , 3 "DIV_LEVEL"
+		                , DIVISION 
+		             FROM MEMBER
+		        ) START WITH DIV_LEVEL = 1 
+		     CONNECT BY PRIOR DIV_CODE = PARENT_DIV_CODE
 	</select>
 	
+	<!-- 사원 조회 모달 -->
+	<select id="selectAllModalMember" resultMap="memberResultMap">
+		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME, MAIL FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE MEMBER_NUM != #{memberNum}
+	</select>
+	
+	<!-- 사원 조회 모달 검색 -->
+	<select id="selectModalMemberSearch" resultMap="memberResultMap">
+		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE MEMBER_NUM != #{memberNum}
+		<if test="searchCondition.toString() == 'division'">
+			AND DIV_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'rankName'">
+			AND RANK_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'memberName'">
+			AND MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'all'">
+			AND (DIV_NAME LIKE '%' || #{searchValue} || '%'
+			OR MEMBER_NAME LIKE '%' || #{searchValue} || '%')
+		</if>
+		<if test="searchCondition.toString() == 'all2'">
+			AND (DIV_NAME LIKE '%' || #{searchValue} || '%'
+			OR MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+			OR RANK_NAME LIKE '%' || #{searchValue} || '%')
+		</if>
+	</select>
+	
+	<!-- 채팅 사용자 추가 초대 모달 -->
+	<select id="selectListChatMember" resultMap="memberResultMap">
+		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE MEMBER_NUM NOT IN (SELECT MEM_NUM FROM CHAT_MEMBER WHERE CHAT_ROOM_NO = #{chatRoomNo} AND MEM_STATUS = 0)
+	</select>
+	
+	<!-- 채팅 사용자 추가 초대 모달 검색 -->
+	<select id="selectListChatMemberSearch" resultMap="memberResultMap">
+		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE MEMBER_NUM NOT IN (SELECT MEM_NUM FROM CHAT_MEMBER WHERE CHAT_ROOM_NO = #{chatRoomNo} AND MEM_STATUS = 0)
+		<if test="searchCondition.toString() == 'division'">
+			AND DIV_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'rankName'">
+			AND RANK_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'memberName'">
+			AND MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'all'">
+			AND (DIV_NAME LIKE '%' || #{searchValue} || '%'
+			OR MEMBER_NAME LIKE '%' || #{searchValue} || '%')
+		</if>
+	</select>
   </mapper>

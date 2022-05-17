@@ -1,0 +1,137 @@
+@charset "UTF-8";
+
+body, div, h1, textarea, input, button, a, p {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+  }
+
+#coreDiv {
+	height: 100%;
+	width: 100%;
+}
+#marging{
+	width: 440px;
+	height: 100%;
+	float: left;
+}
+#position{
+	position: relative;
+	top: 75px;
+	width: 100%;
+	height: 100%;
+}
+
+#contents{
+	position:absolute;
+	top: 200;
+	margin-top: 150px;
+	margin-left: 540px;
+	margin-right: 100px;
+	margin-bottom: 400px;
+	background-color:rgb(255, 255, 255);
+}
+
+table {
+    margin-left:auto; 
+    margin-right:auto;
+	border-bottom: 1px solid #ccc;
+	border-right: none;
+	border-left: none;
+	border-collapse: collapse;
+}
+
+table.type04 {
+	border-collapse: collapse;
+	border-spacing: 1px;
+	line-height: 1.5;
+	border-top: 1px solid #ccc;
+	margin : 10px 10px;
+  }
+
+  table.type04 th {
+	width: 150px;
+	padding: 10px;
+	font-weight: bold;
+	vertical-align: top;
+	border-bottom: 1px solid #ccc;
+	background-color: rgb(145, 168, 210);
+  }
+
+  table.type04 td {
+	padding: 10px;
+	vertical-align: top;
+	border-bottom: 1px solid #ccc;
+  }
+
+  .comNoTd{
+	width: 3%;
+  }
+
+  .comTitleTd{
+	width: 65%;
+  }
+
+  .defualtTd{
+	text-align :center;
+  }
+
+  
+ .paging {
+	display: inline-flex;
+	height: 40px;
+	width: 836px;
+	margin-left: 257px;
+	justify-content: center;
+}
+.page-btn {
+	width: 40px;
+	height: 40px;
+	border: none;
+	background-color: transparent;
+	font-size: 14px;
+	margin: 0 5px;
+	cursor: pointer;
+}
+.page-btn:hover, .page-btn.active {
+	border: 1px solid rgb(51, 51, 51);
+	border-radius: 4px;
+}
+ 
+ .l-search {
+	display: flex;
+	height:40px;
+	margin-bottom: 10px;
+	float: right;
+}
+.l-search form{
+	display: inline-flex;
+}
+.l-select {
+	height: 40px;
+	width: 80px;
+	border-radius: 4px;
+	border: solid 1px rgb(190, 190, 190);
+	margin-right: 5px;
+	text-align: center;
+}
+.l-input {
+	display: flex;
+	height: 38px;
+	width: 170px;
+	border-radius: 4px;
+	border: solid 1px rgb(190, 190, 190);
+}
+.l-text {
+	display: inline-flex;
+	width: 137px;
+	border: none;
+}
+.i-search{
+	font-family: fontAwesome;
+	width: 50px;
+}

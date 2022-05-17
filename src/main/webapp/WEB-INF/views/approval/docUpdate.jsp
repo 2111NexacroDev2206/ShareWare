@@ -20,8 +20,8 @@
 		<h1 id="h-title">${appDoc.formName }</h1>
 		<form id="form" action="/approval/updateDoc.sw" method="post" enctype="multipart/form-data" onsubmit="return nullChk()">
 			<input type="hidden" name="formNo" value="${appDoc.formNo }" readonly>
-			<input type="hidden" id="num-app" name="appMemNum" readonly>
-			<input type="hidden" id="num-ref" name="refMemNum" readonly>
+			<input type="hidden" id="num-app" name="appMemNum" value="appMemNum" readonly>
+			<input type="hidden" id="num-ref" name="refMemNum" value="refMemNum" readonly>
 			<table id="table">
 				<tr class="tr-s">
 					<td class="td-1" rowspan="2">문서번호</td>
@@ -123,7 +123,7 @@
 	                <tr>
 	                    <td class="td-1">휴가사유</td>
 	                    <td colspan="7" id="td-leave-reason">
-	                    	<textarea cols="50" rows="10" name="docContent">${appDoc.docContent}</textarea>
+	                    	<textarea name="docContent">${appDoc.docContent}</textarea>
                     	</td>
 	                </tr>
 				</c:if>
@@ -140,10 +140,10 @@
 			</table>
 			<div class="div-span">
 				<span class="s-text">파일 첨부</span>
-				<c:if test="${appFile.fileName == null }">
-					<label for="ex_file" id="file-label">파일 선택</label>
-				</c:if>
 				<c:if test="${type == 'tem' }">
+					<c:if test="${appFile.fileName == null }">
+						<label for="ex_file" id="file-label">파일 선택</label>
+					</c:if>
 					<input id="ex_file" type="file" name="reloadFile" onchange="fileSelect(this.value)">
 					<span id="fileName" class="file-name">
 						<c:if test="${appFile.fileName != null }">
@@ -156,24 +156,29 @@
 					<button type="button" id="btn-delete" class="file-del2" onclick="deleteFile('${appFile.filePath}',${appFile.docNo} );">X</button>
 				</c:if>
 				<c:if test="${type == 'rej' }">
+					<label for="ex_file" id="file-label">파일 선택</label>
 					<span id="fileName" class="file-name">선택된 파일이 없습니다.</span>
 	                <input id="ex_file" type="file" name="uploadFile" onchange="fileSelect(this.value)">
 				</c:if>
 				<button type="button" id="fileDel" class="file-del" onclick="fileDelBtn()">X</button>
 			</div>
-			<div class="div-btn2">
-				<input type="button" value="결재 요청" onclick="docSave()" class="i-left">
-				<div class="div-btn-right">
-					<c:if test="${type == 'tem' }">
+			<c:if test="${type == 'tem' }">
+				<div class="div-btn2">
+					<input type="button" value="결재 요청" onclick="docSave()" class="i-left">
+					<div class="div-btn-right">
 						<input type="button" value="임시 저장" onclick="temSave()">
-					</c:if>
-					<c:if test="${type == 'rej' }">
-						<input type="button" value="임시 저장" onclick="rejTemSave()">
-					</c:if>
-					<input type="button" id="btn-cancel" value="삭제">
-					<input type="button" value="취소" onclick="location.href='/approval/temListView.sw'">
+						<input type="button" id="btn-cancel" value="삭제">
+						<input type="button" value="취소" onclick="location.href='/approval/temListView.sw'">
+					</div>
 				</div>
-			</div>
+			</c:if>
+			<c:if test="${type == 'rej' }">
+				<div class="div-btn">
+					<input type="button" value="결재 요청" onclick="docSave()" class="i-left">
+					<input type="button" value="임시 저장" onclick="rejTemSave()">
+					<input type="button" value="취소" onclick="location.href='/approval/draftListView.sw'">
+				</div>
+			</c:if>
 		</form>
 	</div>
 	<jsp:include page="appModal.jsp"></jsp:include> <!-- 결재자/참조자 선택 모달 -->
@@ -183,7 +188,7 @@
 			$("#form").attr("action", "/approval/saveRejDoc.sw");
 		}
 		
-		// 선택한 파일 없으면 버튼 숨기기
+		// 선택한 파일 없으면 파일 없애는 버튼 숨기기
 		function fileSelect(value) {
 			if($("#ex_file").val() == "") { 
 				$("#fileDel").css("display", "none");
@@ -221,6 +226,9 @@
 			if($("#td-title").val() == "") {
 				alert("제목을 입력해주세요.");
 				$("#td-title").focus();
+				return false;
+			}else if($("#num-app").val() == "") {
+				alert("결재자를 선택해주세요.");
 				return false;
 			}
 		}
@@ -279,7 +287,7 @@
 		 		data : { "memberNum" : memberNum },
 		 		success : function(leaveLeft) {
 		 			totalLeave = leaveLeft;
-		 			$("#left-leave").val(totalLeave);
+		 			$("#left-leave").val(totalLeave - leaveDay); // 잔여 연차 조회해서 휴가 일수 빼기
 		 		},
 		 		error : function() {
 		 			console.log("잔여 연차 조회 실패");

@@ -8,15 +8,6 @@ public class Division {
 	
 	public Division() {}
 
-	public Division(String divCode, String divName, String divLevel, String parentDivCode) {
-		super();
-		this.divCode = divCode;
-		this.divName = divName;
-		this.divLevel = divLevel;
-		this.parentDivCode = parentDivCode;
-	}
-
-
 	public String getDivCode() {
 		return divCode;
 	}
@@ -55,6 +46,4 @@ public class Division {
 				+ parentDivCode + "]";
 	}
 	
-	
-
 }

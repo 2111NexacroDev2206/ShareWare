@@ -1,15 +1,15 @@
 package org.kh.shareware.notice.domain;
 
-public class noticeVoteSelect {
+public class NoticeVoteSelect {
 	private int notiveVoteNo;
 	private int noticeNo;
 	private String memberNum;
 	private int nSelectTrue;
 	private int nSelect;
 	
-	public noticeVoteSelect (){}
+	public NoticeVoteSelect (){}
 
-	public noticeVoteSelect(int notiveVoteNo, int noticeNo, String memberNum, int nSelectTrue, int nSelect) {
+	public NoticeVoteSelect(int notiveVoteNo, int noticeNo, String memberNum, int nSelectTrue, int nSelect) {
 		super();
 		this.notiveVoteNo = notiveVoteNo;
 		this.noticeNo = noticeNo;

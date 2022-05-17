@@ -3,6 +3,7 @@ package org.kh.shareware.report.service.logic;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.kh.shareware.project.common.PageInfo;
 import org.kh.shareware.report.domain.Week;
 import org.kh.shareware.report.service.WeekService;
 import org.kh.shareware.report.store.WeekStore;
@@ -26,8 +27,8 @@ public class WeekServiceImpl implements WeekService {
 	}
 	//주간업무 목록
 	@Override
-	public List<Week> printAllWeek(String memNum) {
-		List<Week> wList = wStore.selectAllWeek(sqlSession ,memNum );
+	public List<Week> printAllWeek(String memNum, PageInfo pi) {
+		List<Week> wList = wStore.selectAllWeek(sqlSession , memNum , pi);
 		return wList;
 	}
 	//주간업무 상세
@@ -54,6 +55,12 @@ public class WeekServiceImpl implements WeekService {
 	public int removeFileInfo(Integer wrNo) {
 		int result = wStore.deleteFileInfo(sqlSession, wrNo);
 		return result;
+	}
+	//페이징
+	@Override
+	public int getListCount(String memNum) {
+		int totalCount = wStore.selectListCount(sqlSession, memNum);
+		return totalCount;
 	}
 
 }

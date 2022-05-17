@@ -84,6 +84,15 @@
 	    $("#appSelModal").fadeOut();
 	}
 	
+	// 검색 내용 입력 후 엔터 눌러도 검색되도록 처리
+	$("#s-value").keyup(function (e) {
+		e.preventDefault();
+		var code = e.keyCode ? e.keyCode : e.which;
+		if(code == 13) { // 엔터키면
+			$("#btn-search").click();
+		}
+	})
+	
 	// 결재자/참조자 선택 사원 검색
 	$("#btn-search").click(function() {
 		var searchCondition = $("#s-condition").val();
@@ -116,7 +125,6 @@
 	}
 	
 	// 결재자/참조자 선택
-	
 	function appSelect(type) {
 		$("#m-list-table tr").click(function(){
 			var trArr = new Object(); // 한 행의 배열을 담을 객체 선언
@@ -169,6 +177,7 @@
 			}
 		});
 	}
+	
 	// 선택한 결재자/참조자 문서 작성 페이지에 표시
 	function appSelView() {
 		if(varType == "app") {

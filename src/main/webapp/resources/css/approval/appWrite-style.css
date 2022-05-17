@@ -205,12 +205,14 @@ label { /* 파일 선택 버튼 */
 }
 #td-leave-reason {
 	height: 200px;
+	padding: 0;
 }
 #td-leave-reason textarea { /* 휴가 사유 */
 	padding: 15px;
 	border: none;
-	width: 755px;
-	height: 190px;
+	width: calc(100% - 30px);
+	height: calc(100% - 30px);
+	margin-top: 3px;
 	resize: none;
 	font-size: 14.5px;
 	font-family: inherit;

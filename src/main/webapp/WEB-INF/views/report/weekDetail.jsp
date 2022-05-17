@@ -6,7 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>주간 업무 상세</title>
-<script src="https://cdn.ckeditor.com/4.18.0/standard/ckeditor.js"></script>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>

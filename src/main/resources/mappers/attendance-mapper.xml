@@ -32,17 +32,66 @@
   	
   	<!-- 리스트 -->
   	<select id="selectAllList" resultMap="attendanceResultMap">
-  		SELECT * FROM ATTENDANCE WHERE MEM_NUM = #{memNum} ORDER BY ATT_DATE DESC
+  		SELECT ATT_NO
+             , TO_CHAR(ATT_DATE,'YYYY-MM-DD') AS ATT_DATE
+             , ATT_STR_TIME
+             , ATT_FIN_TIME
+             , ATT_TOTAL_TIME
+             , ATT_STATUS
+             , MEM_NUM 
+  		  FROM ATTENDANCE 
+  		 WHERE MEM_NUM || TO_CHAR(ATT_DATE,'YYYY-MM') LIKE #{memNum} || '%'
+  		 ORDER BY ATT_DATE DESC
   	</select>
   	<select id="selectListCount" resultType="_int"> 
-		SELECT COUNT(*) FROM ATTENDANCE WHERE MEM_NUM = #{memNum}
+		SELECT COUNT(*) 
+		  FROM ATTENDANCE 
+		 WHERE MEM_NUM || TO_CHAR(ATT_DATE,'YYYY-MM') LIKE #{memNum} || '%'
 	</select>
 	
 	<!-- 통계 -->
   	<select id="selectStats" resultMap="statsResultMap">
-  			SELECT ATT_STATUS, COUNT(ATT_STATUS) "ATT_COUNT", MEM_NUM FROM ATTENDANCE GROUP BY ATT_STATUS, MEM_NUM HAVING MEM_NUM = #{memNum}
+  			SELECT ATT_STATUS
+                 , ATT_COUNT
+                 , MEM_NUM
+              FROM (
+              SELECT NVL(MAX(ATT_STATUS),'지각') AS ATT_STATUS
+                   , NVL(MAX(COUNT(ATT_STATUS)),0) AS ATT_COUNT
+                   , NVL(MAX(MEM_NUM),#{memNum}) AS MEM_NUM                                  
+                FROM ATTENDANCE
+               WHERE MEM_NUM || TO_CHAR(ATT_DATE,'YYYY-MM') LIKE #{memNum} || '%' 
+                 AND ATT_STATUS = '지각'
+            GROUP BY ATT_STATUS
+                   , MEM_NUM
+                   UNION
+                   SELECT NVL(MAX(ATT_STATUS),'조퇴') AS ATT_STATUS
+                   , NVL(MAX(COUNT(ATT_STATUS)),0) AS ATT_COUNT
+                   , NVL(MAX(MEM_NUM),#{memNum}) AS MEM_NUM                            
+                FROM ATTENDANCE
+               WHERE MEM_NUM || TO_CHAR(ATT_DATE,'YYYY-MM') LIKE #{memNum} || '%' 
+                 AND ATT_STATUS = '조퇴'
+            GROUP BY ATT_STATUS
+                   , MEM_NUM
+                   UNION
+              SELECT NVL(MAX(ATT_STATUS),'출근') AS ATT_STATUS
+                   , NVL(MAX(COUNT(ATT_STATUS)),0) AS ATT_COUNT
+                   , NVL(MAX(MEM_NUM),#{memNum}) AS MEM_NUM                            
+                FROM ATTENDANCE
+               WHERE MEM_NUM || TO_CHAR(ATT_DATE,'YYYY-MM') LIKE #{memNum} || '%'
+                 AND ATT_STATUS = '출근'
+            GROUP BY ATT_STATUS
+                   , MEM_NUM
+                   )
+             ORDER BY CASE WHEN ATT_STATUS='지각' THEN 1
+                           WHEN ATT_STATUS='조퇴' THEN 2
+                           WHEN ATT_STATUS='출근' THEN 3 END
   	</select>
   	
 	<select id="selectAttendanceSearch" resultMap="attendanceResultMap">
+	</select>
+	
+	<!-- 홈 - 근태 관리 -->
+	<select id="selectOneAtt" resultMap="attendanceResultMap">
+		SELECT * FROM ATTENDANCE WHERE ATT_DATE = TO_CHAR(SYSDATE, 'YY/MM/DD') AND MEM_NUM = #{memberNum}
 	</select>
   </mapper>

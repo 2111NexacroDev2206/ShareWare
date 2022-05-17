@@ -2,6 +2,8 @@ package org.kh.shareware.fileBoard.domain;
 
 import java.sql.Date;
 
+import org.kh.shareware.member.domain.Member;
+
 public class FileBoard {
 private int fileBoardNo;
 private String memberNum;
@@ -13,6 +15,16 @@ private String fileName;
 private String fileRename;
 private String filePath;
 private String fileDelete;
+
+private Member member;
+
+public Member getMember() {
+	return member;
+}
+
+public void setMember(Member member) {
+	this.member = member;
+}
 
 public FileBoard() {}
 

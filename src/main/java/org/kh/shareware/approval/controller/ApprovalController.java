@@ -1,7 +1,6 @@
 package org.kh.shareware.approval.controller;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,6 +10,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.kh.shareware.alarm.domain.Alarm;
+import org.kh.shareware.alarm.service.AlarmService;
 import org.kh.shareware.approval.domain.AppDocument;
 import org.kh.shareware.approval.domain.AppFile;
 import org.kh.shareware.approval.domain.AppForm;
@@ -40,6 +41,9 @@ public class ApprovalController {
 	
 	@Autowired
 	private ApprovalService aService;
+	
+	@Autowired
+	private AlarmService alService;
 	
 	// 문서함으로 이동(기안/결재/참조/임시)
 	@RequestMapping(value = "/approval/{param}ListView.sw")
@@ -83,6 +87,7 @@ public class ApprovalController {
 			pi = Pagination.getPageInfo(currentPage, totalCount);
 			dList = aService.printAllAppDoc(app, pi);
 		}
+		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("dList", dList);
 		model.addAttribute("pi", pi);
 		model.addAttribute("type", parameter);
@@ -178,7 +183,7 @@ public class ApprovalController {
 		return mv;
 	}
 	
-	// 결재 요청, 임시 저장
+	// 결재 요청, 임시 저장, 반려 문서 재상신, 반려 문서 임시 저장
 	@RequestMapping(value = "/approval/save{param}.sw", method = RequestMethod.POST)
 	public ModelAndView docRegister(ModelAndView mv
 			, @ModelAttribute AppDocument appDoc
@@ -205,7 +210,7 @@ public class ApprovalController {
 			int rResult = 0; // 참조자 등록 결과 변수 선언
 			int fResult = 0; // 파일 첨부 등록 결과 변수 선언
 			// 결재자
-			if(!appMemNum.equals("") || parameter.equals("Temporary") || parameter.equals("Doc")) {
+			if(!appMemNum.equals("appMemNum") || parameter.equals("Temporary") || parameter.equals("Doc")) {
 				String[] appArray = appMemNum.split(","); // 배열에 결재자 넣기
 				for(int i = 0; i < appArray.length; i++) {
 					app.setDocNo(0);
@@ -214,6 +219,7 @@ public class ApprovalController {
 					if(!parameter.equals("Temporary")) {
 						if(i == 0) {
 							app.setAppStatus("대기"); // 첫 번째 결재자는 대기
+							alarmRegister(app.getMemNum(), appDoc.getMemNum(), 0, "요청"); // 알림 등록(첫 번째 결재자에게 결재 요청)
 						}else {
 							app.setAppStatus("예정"); // 두 번째 결재자부터는 예정
 						}
@@ -232,6 +238,7 @@ public class ApprovalController {
 						if(!parameter.equals("RejTem")) { // 임시 저장이 아니면
 							if(i == 0) {
 								app.setAppStatus("대기"); // 첫 번째 결재자는 대기
+								alarmRegister(app.getMemNum(), appDoc.getMemNum(), 0, "요청"); // 알림 등록(첫 번째 결재자에게 결재 요청)
 							}else {
 								app.setAppStatus("예정"); // 두 번째 결재자부터는 예정
 							}
@@ -244,7 +251,7 @@ public class ApprovalController {
 			}
 			// 참조자
 			if(parameter.equals("RejDoc") || parameter.equals("RejTem")) { // 반려 문서 재상신인 경우
-				if(refMemNum.isEmpty()) { // 참조자가 비어 있다면
+				if(refMemNum.equals("refMemNum")) { // 기존에 참조자 여부에 관계 없이 참조자를 수정하지 않은 경우
 					List<AppReference> rList = aService.printAllRef(appDoc.getDocNo()); // 참조자 조회
 					if(!rList.isEmpty()) {
 						for(int i = 0; i < rList.size(); i++) {
@@ -260,7 +267,7 @@ public class ApprovalController {
 					}else {
 						rResult = 1;
 					}
-				}else { // 참조자가 비어있지 않는다면
+				}else if(!refMemNum.equals("refMemNum") && !refMemNum.equals("")) { // 참조자를 새로 선택한 경우
 					String[] refArray = refMemNum.split(","); // 배열에 참조자 넣기
 					for(int i = 0; i < refArray.length; i++) {
 						ref.setDocNo(0);
@@ -270,8 +277,10 @@ public class ApprovalController {
 						}else {
 							ref.setRefStatus("임시");
 						}
-					}
 						rResult = aService.registerRef(ref); // 참조자 등록
+					}
+				}else if(refMemNum.equals("")) { // 기존에 참조자가 여부에 관계없이 참조자 선택에서 아무도 선택하지 않은 경우
+					rResult = 1; // 참조자 등록하지 않음
 				}
 			}else { // 기안 문서 결재 요청/임시 저장
 				if(!refMemNum.isEmpty()) { // 참조자가 있는 경우에만
@@ -284,8 +293,8 @@ public class ApprovalController {
 						}else {
 							ref.setRefStatus("임시");
 						}
-					}
 						rResult = aService.registerRef(ref); // 참조자 등록
+					}
 				}else {
 					rResult = 1;
 				}
@@ -463,29 +472,46 @@ public class ApprovalController {
 			int rResult = 0; // 참조자 등록 결과 변수 선언
 			int fResult = 0; // 파일 첨부 등록 결과 변수 선언
 			// 결재자
-			if(!appMemNum.equals("")) {
+			if(!appMemNum.equals("appMemNum")) { // 결재자 바꾼 경우
 				aService.removeApp(appDoc.getDocNo());
 				String[] appArray = appMemNum.split(","); // 배열에 결재자 넣기
 				for(int i = 0; i < appArray.length; i++) {
 					app.setDocNo(appDoc.getDocNo());
 					app.setMemNum(appArray[i]); // 결재자 사원번호
 					app.setAppLevel(i+1); // 결재자 순번
-					if(parameter.equals("Doc")) {
-						app.setAppStatus("대기");
-					}else if(parameter.equals("Temporary")) {
+					if(parameter.equals("Doc")) { // 결재 요청한 경우
+						if(i == 0) {
+							app.setAppStatus("대기"); // 첫 번째 결재자는 대기
+							alarmRegister(app.getMemNum(), appDoc.getMemNum(), appDoc.getDocNo(), "요청"); // 알림 등록(첫 번째 결재자에게 결재 요청)
+						}else {
+							app.setAppStatus("예정"); // 두 번째 결재자부터는 예정
+						}
+					}else if(parameter.equals("Temporary")) { // 임시 저장한 경우
 						app.setAppStatus("임시");
 					}
 					aResult = aService.registerApp(app); // 결재자 등록
 				}
-			}else {
-				if(parameter.equals("Doc")) {
-					app.setAppStatus("대기");
-					aService.modifyApp(app); // 결재자 상태 변경(임시->대기)
+			}else { // 결재자 바꾸지 않은 경우
+				if(parameter.equals("Doc")) { // 결재 요청 한 경우(임시 저장하면 결재자 상태 바꿀 필요 없음)
+					List<Approval> aList = aService.printAllApp(appDoc.getDocNo());
+					if(!aList.isEmpty()) {
+						for(int i = 0; i < aList.size(); i++) {
+							app.setMemNum(aList.get(i).getMemNum());
+							app.setAppLevel(aList.get(i).getAppLevel());
+							if(i == 0) {
+								app.setAppStatus("대기"); // 첫 번째 결재자는 대기
+								alarmRegister(app.getMemNum(), appDoc.getMemNum(), appDoc.getDocNo(), "요청"); // 알림 등록(첫 번째 결재자에게 결재 요청)
+							}else {
+								app.setAppStatus("예정"); // 두 번째 결재자부터는 예정
+							}
+							aService.modifyApp(app); // 결재자 상태 변경(임시->대기/예정)
+						}
+					}
 				}
 				aResult = 1;
 			}
 			// 참조자
-			if(!refMemNum.equals("")) {
+			if(!refMemNum.equals("refMemNum") && !refMemNum.equals("")) { // 참조자를 새로 선택한 경우
 				List<AppReference> rList = aService.printAllRef(appDoc.getDocNo()); // 참조자 조회
 				if(!rList.isEmpty()) {
 					aService.removeRef(appDoc.getDocNo());
@@ -501,10 +527,16 @@ public class ApprovalController {
 					}
 					rResult = aService.registerRef(ref); // 참조자 등록
 				}
-			}else {
+			}else if(refMemNum.equals("refMemNum")){ // 기존에 참조자 여부에 관계 없이 참조자를 수정하지 않은 경우
 				if(parameter.equals("Doc")) {
 					ref.setRefStatus("참조");
 					aService.modifyRef(ref); // 참조자 상태 변경(임시->참조)
+				}
+				rResult = 1;
+			}else if(refMemNum.equals("")) { // 기존에 참조자가 여부에 관계 없이 참조자 선택에서 아무도 선택하지 않은 경우
+				List<AppReference> rList = aService.printAllRef(appDoc.getDocNo()); // 참조자 조회
+				if(!rList.isEmpty()) {
+					aService.removeRef(appDoc.getDocNo());
 				}
 				rResult = 1;
 			}
@@ -603,16 +635,19 @@ public class ApprovalController {
 				List<Approval> aList = aService.printAllAppStatus(docNo); // 문서 번호에 해당하는 결재자 중에 예정이 있는지 확인
 				if(!aList.isEmpty()) {
 					aService.modifyAppNext(aList.get(0).getAppNo()); // 다음 결재자 상태 변경(예정->대기)
+					alarmRegister(aList.get(0).getMemNum(), null, docNo, "요청"); // 알림 등록(다음 결재자에게 결재 요청)
 					app.setAppStatus("완료");
 					app.setDocStatus("진행");
 				}else {
 					app.setAppStatus("완료");
 					app.setDocStatus("완료");
+					alarmRegister(null, null, docNo, "완료"); // 알림 등록(기안자에게 결재 완료)
 				}
-			}else if(parameter.equals("ref")) { // 결재 반려
+			}else if(parameter.equals("rej")) { // 결재 반려
 				app.setRejReason(rejReason);
 				app.setAppStatus("반려");
 				app.setDocStatus("반려");
+				alarmRegister(app.getMemNum(), null, docNo, "반려"); // 알림 등록(기안자에게 결재 반려)
 			}
 			aResult = aService.modifyAppStatus(app); // 결재자 상태 변경
 			dResult = aService.modifyDocStatus(app); // 문서 상태 변경
@@ -622,7 +657,7 @@ public class ApprovalController {
 			}else {
 				if(parameter.equals("app")) {
 					mv.addObject("msg", "승인 실패");
-				}else if(parameter.equals("ref")) {
+				}else if(parameter.equals("rej")) {
 					mv.addObject("msg", "반려 실패");
 				}
 				mv.addObject("loc", "/approval/detail.sw?docNo=" + docNo + "&type=" + type + "&docStatus=대기");
@@ -633,5 +668,38 @@ public class ApprovalController {
 			mv.setViewName("common/errorPage");
 		}
 		return mv;
+	}
+	
+	// 알림 등록
+	public void alarmRegister(String appMemNum, String docMemNum, int docNo, String type) {
+		Alarm alarm = new Alarm();
+		if(type.equals("요청")) { // [결재 요청]
+			if(docNo == 0) { // 문서 번호가 없는 경우
+				docNo = alService.printDocNo(docMemNum); // 문서 번호
+			}
+			String memName = alService.printName(docNo); // 기안서를 올린 사람의 이름
+			String formName = alService.printForm(docNo); // 양식 이름
+			alarm.setKind("<span class='al-kind app'>[결재 요청]</span>");
+			alarm.setMemNum(appMemNum); // 결재자에게 알림
+			alarm.setAlarmUrl("'/approval/detail.sw?docNo=" + docNo + "&type=app&docStatus=대기'");
+			alarm.setAlarmContent("<span class='al-content'><strong>" + memName + "</strong>님이 올린 <strong>'" + formName + "'</strong> 문서의 결재 차례가 되었습니다.</span>");
+		}else if(type.equals("완료")) { // [결재 완료]
+			String memNum = alService.printNum(docNo); // 기안서를 올린 사람의 사원번호
+			String memName = alService.printName(docNo); // 기안서를 올린 사람의 이름
+			String formName = alService.printForm(docNo); // 양식 이름
+			alarm.setKind("<span class='al-kind app'>[결재 완료]</span>");
+			alarm.setMemNum(memNum); // 기안자에게 알림
+			alarm.setAlarmUrl("'/approval/detail.sw?docNo=" + docNo + "&type=draft&docStatus=완료'");
+			alarm.setAlarmContent("<span class='al-content'><strong>" + memName + "</strong>님이 올린 <strong>'" + formName + "'</strong> 문서가 결재 완료되었습니다.</span>");
+		}else if(type.equals("반려")) { // [결재 반려]
+			String memNum = alService.printNum(docNo); // 기안서를 올린 사람의 사원번호
+			String memName = alService.printAppName(appMemNum); // 반려한 사람의 이름
+			String formName = alService.printForm(docNo); // 양식 이름
+			alarm.setKind("<span class='al-kind app'>[결재 반려]</span>");
+			alarm.setMemNum(memNum); // 기안자에게 알림
+			alarm.setAlarmUrl("'/approval/detail.sw?docNo=" + docNo + "&type=draft&docStatus=반려'");
+			alarm.setAlarmContent("<span class='al-content'><strong>" + memName + "</strong>님이 <strong>'" + formName + "'</strong> 문서를 반려하였습니다.</span>");
+		}
+		alService.registerAlarm(alarm); // 알림 등록
 	}
 }

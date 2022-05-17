@@ -6,29 +6,35 @@
 <head>
 <meta charset="UTF-8">
 <title>주소록</title>
+<link href="/resources/css/approval/appList-style.css" rel="stylesheet">
 </head>
 <body>
-		<form action="/member/searchList.sw" align="center" method="get" id="searchList">
+<jsp:include page="../common/menuBar.jsp"></jsp:include>
+
+<div class="s-container">
+	<h2 id="h-title">주소록</h2><br>
+		<form action="/member/searchList.sw" method="get" id="searchList">
 			<input type="hidden" name="currentPage" value="1">
 			<input type="hidden" name="memberLimit" value="10">
-				<select class="form-control" name="searchType"   style="width:60px;height:40px; align:center" >
+				<select class="l-select" id="s-condition" name="searchCondition" style="text-align: left; width: 80px;">
+					<option value="all2">전체</option>
 					<option value="division">부서</option>
 					<option value="rank">직급</option>
 					<option value="memberName">이름</option>
 				</select>
-			<input type="text" name="searchKeyword">
+			<input type="text" name="searchValue">
 			<input type="submit" value="검색">
 		</form>
 		
 	<div id="">
-	<table align="center" id="" border="1">
+	<table class="t-List">
 		<tr>
-			<th>사원번호</th>
-			<th>이름</th>
-			<th>부서</th>
-			<th>직급</th>
-			<th>이메일</th>
-			<th>전화번호</th>
+			<th class="th-1">사원번호</th>
+			<th class="th-1">이름</th>
+			<th class="th-1">부서</th>
+			<th class="th-1">직급</th>
+			<th class="th-1">이메일</th>
+			<th class="th-1">전화번호</th>
 		</tr>
 		
 		<c:forEach items="${mList }" var="member">
@@ -44,19 +50,17 @@
 	</table>
 	<br>
 	
-		<div id="page">
-			[<<]
+		<div class="paging">
 			<c:forEach var="p" begin="${pi.startNavi }" end="${pi.endNavi }">
-				<c:url var="pagination" value="/qna/list.mayfly">
+				<c:url var="pagination" value="/member/address.sw">
 					<c:param name="page" value="${p}"></c:param>
 				</c:url>
-				<a href="${pagination }">${p }</a>&nbsp;
+				<a href="${pagination }">${p }<button class="page-btn"></button></a>&nbsp;
 			</c:forEach>
-			[>>]
 		</div>
 		
 		
 	</div>
-			
+</div>			
 </body>
 </html>

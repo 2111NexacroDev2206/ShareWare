@@ -140,7 +140,7 @@ public class ApprovalStoreLogic implements ApprovalStore{
 	}
 
 	@Override
-	public int updateApp(SqlSession sqlSession, Approval app) { // 결재자 상태 변경(임시->대기)
+	public int updateApp(SqlSession sqlSession, Approval app) { // 결재자 상태 변경(임시->대기/예정)
 		int result = sqlSession.update("ApprovalMapper.updateApp", app);
 		return result;
 	}
@@ -243,6 +243,24 @@ public class ApprovalStoreLogic implements ApprovalStore{
 	public int updateAppNext(SqlSession sqlSession, int appNo) { // 다음 결재자 상태 변경(요청->대기)
 		int result = sqlSession.update("ApprovalMapper.updateAppNext", appNo);
 		return result;
+	}
+
+	@Override
+	public int selectOneAppCount(SqlSession sqlSession, String memberNum) { // 홈 - 결재 대기 문서
+		int appCount = sqlSession.selectOne("ApprovalMapper.selectOneAppCount", memberNum);
+		return appCount;
+	}
+
+	@Override
+	public int selectOneDraftCount(SqlSession sqlSession, String memberNum) { // 홈 - 결재 진행 문서
+		int draftCount = sqlSession.selectOne("ApprovalMapper.selectOneDraftCount", memberNum);
+		return draftCount;
+	}
+
+	@Override
+	public int selectOneExpCount(SqlSession sqlSession, String memberNum) { // 홈 - 결재 진행 문서
+		int expCount = sqlSession.selectOne("ApprovalMapper.selectOneExpCount", memberNum);
+		return expCount;
 	}
 
 }

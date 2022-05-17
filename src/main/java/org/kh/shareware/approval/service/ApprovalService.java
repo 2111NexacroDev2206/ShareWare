@@ -31,7 +31,7 @@ public interface ApprovalService {
 	public int modifyDoc(AppDocument appDoc); // 임시 저장 수정(문서)
 	public int removeApp(int docNo); // 결재자 삭제
 	public int removeRef(int docNo); // 참조자 삭제
-	public int modifyApp(Approval app); // 결재자 상태 변경(임시->대기)
+	public int modifyApp(Approval app); // 결재자 상태 변경(임시->대기/예정)
 	public int modifyRef(AppReference ref); // 참조자 상태 변경(임시->참조)
 	public int removeFile(int docNo); // 파일 삭제
 	public List<AppDocument> printAllRefDoc(AppReference ref, PageInfo pi); // 참조 문서함 문서 조회
@@ -46,5 +46,8 @@ public interface ApprovalService {
 	public int modifyDocStatus(Approval app); // 결재 승인/반려(문서 상태 변경)
 	public List<Approval> printAllAppStatus(int docNo); // 다음 차례 결재자 확인
 	public int modifyAppNext(int appNo); // 다음 결재자 상태 변경(요청->대기)
+	public int homeAppCount(String memberNum); // 홈 - 결재 대기 문서
+	public int homeDraftCount(String memberNum); // 홈 - 결재 진행 문서
+	public int homeExpCount(String memberNum); // 홈 - 결재 예정 문서
 
 }

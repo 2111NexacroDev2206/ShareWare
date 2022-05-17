@@ -139,7 +139,7 @@ public class ApprovalServiceImpl implements ApprovalService{
 	}
 
 	@Override
-	public int modifyApp(Approval app) { // 결재자 상태 변경(임시->대기)
+	public int modifyApp(Approval app) { // 결재자 상태 변경(임시->대기/예정)
 		int result = aStore.updateApp(sqlSession, app);
 		return result;
 	}
@@ -226,6 +226,24 @@ public class ApprovalServiceImpl implements ApprovalService{
 	public int modifyAppNext(int appNo) { // 다음 결재자 상태 변경(요청->대기)
 		int result = aStore.updateAppNext(sqlSession, appNo);
 		return result;
+	}
+
+	@Override
+	public int homeAppCount(String memberNum) { // 홈 - 결재 대기 문서
+		int appCount = aStore.selectOneAppCount(sqlSession, memberNum);
+		return appCount;
+	}
+
+	@Override
+	public int homeDraftCount(String memberNum) { // 홈 - 결재 진행 문서
+		int draftCount = aStore.selectOneDraftCount(sqlSession, memberNum);
+		return draftCount;
+	}
+
+	@Override
+	public int homeExpCount(String memberNum) { // 홈 - 결재 예정 문서
+		int expCount = aStore.selectOneExpCount(sqlSession, memberNum);
+		return expCount;
 	}
 
 }
