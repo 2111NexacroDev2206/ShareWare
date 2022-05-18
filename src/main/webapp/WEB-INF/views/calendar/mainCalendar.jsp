@@ -26,6 +26,14 @@
 	  function schWrite(){ // 버튼 클릭 시 이벤트 추가
 		  $('#exampleModalLabel').text('일정 작성');
 			$('#addCalendar').text('등록');
+			  $('input[name="scheduleNo"]').val('');
+	            $('input[name="schName"]').val('');
+	            $('input[name="schStartDate"]').val('');
+	            $('input[name="schEndDate"]').val('');
+	            $('textarea[name="schContent"]').val('');
+	            $('select[name="schStartTime"]').val('');
+	            $('select[name="schEndTime"]').val('');
+
           $("#calendarModal").modal("show"); // modal 나타내기
         
              $(function(){
@@ -46,33 +54,33 @@
 				
 				$("#addCalendar").on("click",function(){  // modal의 추가 버튼 클릭 시
 					var schNo = $("schNo").val();
-					var memNum = 'admin';
+					var memNum = $("memNum").val();
               var schName = $("#schName").val();
               var schContent = $("#schContent").val();
               var schStartDate = $("#schStartDate").val();
               var schStartTime = $("#schStartTime").val();
               var schEndDate = $("#schEndDate").val();
               var schEndTime = $("#schEndTime").val();
-              var alStatus;
+             /*  var alStatus;
               if($("alStatus").attr("checked")) {
               	alStatus = "y";
               }else{
               	alStatus = "n";
-              }
-              var schColor = $("#schColor").val();
+              } */
+              var schColor = $(".selected").css("backgroundColor");
               $.ajax({
         		  url: "/calendar/schRegister.sw",
         		  type: "post",
         		  data: { 
         			  "schNo" : schNo,
-        			  "memNum" : 'admin',
+        			  "memNum" : memNum,
         			  "schName" : schName,
                     "schContent" : schContent,
                     "schStartDate" : schStartDate,
                     "schStartTime" : schStartTime,
                     "schEndDate" : schEndDate,
                     "schEndTime" : schEndTime,
-                    "alStatus" : alStatus,
+                   /*  "alStatus" : alStatus, */
                     "schColor" : schColor
                     }
            /*     success : function(data) {
@@ -86,7 +94,7 @@
                   alert("제목을 입력하세요.");
               }else if(schStartDate == "" || schEndDate ==""){
                   alert("날짜를 입력하세요.");
-              }else if(new Date(schEndDate)- new Date(schStartTime) < 0){ // date 타입으로 변경 후 확인
+              }else if(new string(schEndDate)- new String(schStartTime) < 0){ // date 타입으로 변경 후 확인
                   alert("종료일이 시작일보다 먼저입니다.");
               }else{ // 정상적인 입력 시
                   var obj = {
@@ -97,7 +105,7 @@
                       "schStartTime" : schStartTime,
                       "schEndDate" : schEndDate,
                       "schEndTime" : schEndTime,
-                      "alStatus" : alStatus,
+                    /*   "alStatus" : alStatus, */
                       "schColor" : schColor
                       
                   }//전송할 객체 생성
@@ -128,7 +136,6 @@
 	        	day : "일간",
 	        	list : "목록"
 	        },
-	        editable: false,
 	        droppable: false,
 	        selectable: true,
 	   		dayMaxEvents: true,
@@ -137,16 +144,74 @@
 			     if (title) { 
 			    	 calendar.addEvent({ 
 			    	 title: title, start: arg.start,
-			    	 end: arg.end, 
+			    	 end: arg.end+1, 
 			    	 allDay: arg.allDay, 
-			    	 backgroundColor:"${calSch.schColor}", textColor:" " }) 
+			    	 backgroundColor:" ", textColor:" " }) 
 			     }
 		     	 calendar.unselect() 
 	     	}, 
      		eventClick: function(arg) { // 있는 일정 클릭시, console.log("#등록된 일정 클릭#"); 
-   				$("#calendarModal").modal("show");
+     		   $("#calendarModal").modal("show");
    				$('#exampleModalLabel').text('일정 상세');
      			$('#addCalendar').text('수정');
+     			$('input[name="schNo"]').val(arg.event.extendedProps.schNo);
+                $('input[name="schName"]').val(arg.event.title);
+                $('input[name="schStartDate"]').val(arg.event.start.toISOString().substr(0, 10));
+                $('input[name="schEndDate"]').val(arg.event.end.toISOString().substr(0, 10)); 
+                $('textarea[name="schContent"]').val(arg.event.extendedProps.schContent);
+                $('select[name="schStartTime"]').val(arg.event.extendedProps.schStartTime);
+                $('select[name="schEndTime"]').val(arg.event.extendedProps.schEndTime);
+                $("#addCalendar").on("click",function(){  // modal의 추가 버튼 클릭 시
+					var schNo = $('input[name="schNo"]').val();
+					var memNum = $("memNum").val();
+                  var schName = $("#schName").val();
+                  var schContent = $("#schContent").val();
+                  var schStartDate = $("#schStartDate").val();
+                  var schStartTime = $("#schStartTime").val();
+                  var schEndDate = $("#schEndDate").val();
+                  var schEndTime = $("#schEndTime").val();
+                  var schColor = $(".selected").css("backgroundColor");
+                  $.ajax({
+            		  url: "/calendar/schModifyView.sw",
+            		  type: "post",
+            		  data: { 
+            			  "schNo" : schNo,
+            			  "memNum" : memNum,
+            			  "schName" : schName,
+                        "schContent" : schContent,
+                        "schStartDate" : schStartDate,
+                        "schStartTime" : schStartTime,
+                        "schEndDate" : schEndDate,
+                        "schEndTime" : schEndTime,
+                        "schColor" : schColor
+                        }
+                 /*  success : function(data) {
+                  	if(data == "success") {
+                  		
+                  	}
+                  } */
+            		});
+                //내용 입력 여부 확인
+                  if(schName == null || schName == ""){
+                      alert("제목을 입력하세요.");
+                  }else if(schStartDate == "" || schEndDate ==""){
+                      alert("날짜를 입력하세요.");
+                  }else if(new Date(schEndDate)- new Date(schStartTime) < 0){ // date 타입으로 변경 후 확인
+                      alert("종료일이 시작일보다 먼저입니다.");
+                  }else{ // 정상적인 입력 시
+                      var obj = {
+                      	"schNo" : schNo,
+                          "schName" : schName,
+                          "schContent" : schContent,
+                          "schStartDate" : schStartDate,
+                          "schStartTime" : schStartTime,
+                          "schEndDate" : schEndDate,
+                          "schEndTime" : schEndTime,
+                          "schColor" : schColor
+                      }//전송할 객체 생성
+                      console.log(obj); //서버로 해당 객체를 전달해서 DB 연동 가능
+                  }
+              });
      		},
        		editable : true, //수정가능
         	selectable: true, // 달력일자 선택 가능, 드래그
@@ -162,7 +227,9 @@
 	        			borderColor: '${sList.schColor}',
 	        			extendedProps: {
 	        				'schNo' : '${sList.schNo}',
-	        				'schContent' : '${sList.schContent}'
+	        				'schContent' : '${sList.schContent}',
+	        				'schStartTime' : '${sList.schStartTime}',
+	        				'schEndTime' : '${sList.schEndTime}'
 	        			}
 	        		},
 	        		</c:forEach>
@@ -177,6 +244,13 @@
 	        eventAdd:function() {
 	        	$('#exampleModalLabel').text('일정 작성');
      			$('#addCalendar').text('등록');
+     			 $('input[name="scheduleNo"]').val('');
+ 	            $('input[name="schName"]').val('');
+ 	            $('input[name="schStartDate"]').val('');
+ 	            $('input[name="schEndDate"]').val('');
+ 	            $('textarea[name="schContent"]').val('');
+ 	            $('select[name="schStartTime"]').val('');
+ 	            $('select[name="schEndTime"]').val('');
 	        	 $("#calendarModal").modal("show");
 	        	
 	        	/*  $("#schModal").css('display', 'flex').hide().fadeIn();   */
@@ -196,33 +270,33 @@
                   });
                   $("#addCalendar").on("click",function(){  // modal의 추가 버튼 클릭 시
 						var schNo = $("schNo").val();
-						var memNum = 'admin';
+						var memNum =  $("memNum").val();
                       var schName = $("#schName").val();
                       var schContent = $("#schContent").val();
                       var schStartDate = $("#schStartDate").val();
                       var schStartTime = $("#schStartTime").val();
                       var schEndDate = $("#schEndDate").val();
                       var schEndTime = $("#schEndTime").val();
-                      var alStatus;
+                     /*  var alStatus;
                       if($("alStatus").attr("checked")) {
                       	alStatus = "y";
                       }else{
                       	alStatus = "n";
-                      }
+                      } */
                       var schColor = $(".selected").css("backgroundColor");
                       $.ajax({
                 		  url: "/calendar/schRegister.sw",
                 		  type: "post",
                 		  data: { 
                 			  "schNo" : schNo,
-                			  "memNum" : 'admin',
+                			  "memNum" : memNum,
                 			  "schName" : schName,
                             "schContent" : schContent,
                             "schStartDate" : schStartDate,
                             "schStartTime" : schStartTime,
                             "schEndDate" : schEndDate,
                             "schEndTime" : schEndTime,
-                            "alStatus" : alStatus,
+                           /*  "alStatus" : alStatus, */
                             "schColor" : schColor
                             }
                      /*  success : function(data) {
@@ -247,7 +321,7 @@
                               "schStartTime" : schStartTime,
                               "schEndDate" : schEndDate,
                               "schEndTime" : schEndTime,
-                              "alStatus" : alStatus,
+                            /*   "alStatus" : alStatus, */
                               "schColor" : schColor
                           }//전송할 객체 생성
                           console.log(obj); //서버로 해당 객체를 전달해서 DB 연동 가능
@@ -257,7 +331,6 @@
 	       
 	    });
 	    calendar.render();
-	    
 	});
 
 	function color(arg){
@@ -281,7 +354,8 @@
 	   $('input[name="scheduleColor"]').val('defaultColor');
 	}
      
-            
+    
+     
            
     </script>
 <style>
@@ -375,7 +449,7 @@ strong {
  color: rgb(140, 140, 140);
 }
 
-button {
+.btn-cal {
 	display: inline-block;
 	width: 100px;
 	height: 40px;
@@ -436,13 +510,14 @@ button {
 					</button>
 				</div>
 				<div class="modal-body">
+				
 					<div class="form-group">
 						<label for="taskId" class="col-form-label"><strong>일정 제목</strong></label> 
-						<input type="text" class="form-control" id="schName" name="schName" value="${schName }">
+						<input type="text" class="form-control" id="schName" name="schName">
 							<br>
+							<input type="hidden" name="schNo" >
+							<input type="hidden" name="memNum" >
 						<input type="hidden" name="schColor">
-						
-							
 							<strong>색 선택</strong>
 						<br>
 								<div class="colors">
@@ -463,7 +538,7 @@ button {
 						<div>
 							<input type="date" class="form-control" id="schStartDate"
 								name="schStartDate"> <select class="form-control"
-								id="schStartTime" name="schStartTime">
+								id="schStartTime" name="schStartTime" > 
 								<option value="09:00">09:00</option>
 								<option value="09:30">09:30</option>
 								<option value="10:00">10:00</option>
@@ -485,12 +560,7 @@ button {
 								<option value="18:00">18:00</option>
 								<option value="18:30">18:30</option>
 							</select>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label for="taskId" class="col-form-label"></label>
-						<div>
+							
 							<input type="date" class="form-control" id="schEndDate"
 								name="schEndDate"> <select class="form-control"
 								id="schEndTime" name="schEndTime">
@@ -517,18 +587,22 @@ button {
 							</select>
 						</div>
 					</div>
-					<div class="form-group">
+
+					
+						
+							
+						<div class="form-group">
 						<label for="allDay"><strong>종일</strong></label>
 						<div class="form-check">
 							<input type="checkbox" class="form-check-input" value="true"
 								name="allDay">
-
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="taskId" class="col-form-label"><strong>일정 내용</strong></label>
-						<textarea rows="8" cols="60" id="schContent" name="schContent"></textarea>
-						<label for="taskId" class="col-form-label">알림 <input
+						<br>
+						<textarea rows="8" cols="70" id="schContent" name="schContent"></textarea>
+						<!-- <label for="taskId" class="col-form-label">알림 <input
 							type="checkbox" class="form-control" id="input_check"
 							name="alStatus">
 						</label> <label id="aType" style="display: none;"> <select
@@ -541,13 +615,14 @@ button {
 								<option value="6">5시간전</option>
 						</select>
 						</label>
-
+ -->
 					</div>
 
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn-register" id="addCalendar">저장</button>
-					<button type="button" class="btn-cancel" data-dismiss="modal"
+					<a href="">삭제하기</a>
+					<button type="submit" class="btn-cal" id="addCalendar">저장</button>
+					<button type="button" class="btn-cal" data-dismiss="modal"
 						id="sprintSettingModalClose">취소</button>
 				</div>
 
@@ -558,20 +633,17 @@ button {
 
 
 
-	<script
-		src="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.js"></script>
+	
 	<script
 		src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/locales-all.min.js"></script>
 	<script type="text/javascript"
 		src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<!-- <script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script> -->
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-	<script type="text/javascript"
-		src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 

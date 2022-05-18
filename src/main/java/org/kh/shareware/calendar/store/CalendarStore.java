@@ -16,4 +16,6 @@ public interface CalendarStore {
 
 	public CalSch selectOneSchedule(SqlSession sqlSession, int schNo);
 
+	public int updateSchedule(CalSch calSch, SqlSession sqlSession);
+
 }

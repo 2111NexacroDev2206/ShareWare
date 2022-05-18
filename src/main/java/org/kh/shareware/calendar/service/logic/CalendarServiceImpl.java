@@ -36,5 +36,10 @@ public class CalendarServiceImpl implements CalendarService{
 		CalSch calSch = cStore.selectOneSchedule(sqlSession, schNo);
 		return calSch;
 	}
+	@Override
+	public int modifySchedule(CalSch calSch) {
+		int result = cStore.updateSchedule(calSch, sqlSession);
+		return result;
+	}
 
 }
