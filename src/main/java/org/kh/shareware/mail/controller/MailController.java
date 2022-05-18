@@ -532,7 +532,7 @@ public class MailController {
 			mailBmk.setMemNum(member.getMemberNum());
 			List<MailBmk> bList  = mService.printBmk(mailBmk);
 			
-			String viewName = "mail/mailList";
+//			String viewName = "mail/mailList";
 			int mResult = 0;
 			int mRecResult = 0;
 			int mMyResult = 0;
@@ -578,7 +578,7 @@ public class MailController {
 			mv.addObject("pi", pi);
 			
 			mv.addObject("mailCategory", mailCategory);
-			mv.setViewName(viewName);
+			mv.setViewName("mail/mailList");
 			mv.addObject("bList", bList);
 			mv.addObject("cList", cList);
 			

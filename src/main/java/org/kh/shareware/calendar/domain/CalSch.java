@@ -1,6 +1,7 @@
 package org.kh.shareware.calendar.domain;
 
 
+
 public class CalSch {
 	private int schNo;
 	private String memNum;
@@ -17,6 +18,24 @@ public class CalSch {
 	
 	
 	public CalSch() {}
+
+
+
+	public CalSch(int schNo, String memNum, String calNo, String schName, String schStartDate, String schStartTime,
+			String schEndDate, String schEndTime, String schContent, String alStatus, String schColor) {
+		super();
+		this.schNo = schNo;
+		this.memNum = memNum;
+		this.calNo = calNo;
+		this.schName = schName;
+		this.schStartDate = schStartDate;
+		this.schStartTime = schStartTime;
+		this.schEndDate = schEndDate;
+		this.schEndTime = schEndTime;
+		this.schContent = schContent;
+		this.alStatus = alStatus;
+		this.schColor = schColor;
+	}
 
 
 
@@ -159,6 +178,9 @@ public class CalSch {
 				+ ", schEndTime=" + schEndTime + ", schContent=" + schContent + ", alStatus=" + alStatus + ", schColor="
 				+ schColor + "]";
 	}
+
+	
+
 	
 	
 	

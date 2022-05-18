@@ -31,6 +31,12 @@ public class CalendarStoreLogic implements CalendarStore{
 		return calSch;
 	}
 	
+	@Override
+	public int updateSchedule(CalSch calSch, SqlSession sqlSession) {
+		int result = sqlSession.update("CalendarMapper.updateSchedule", calSch);
+		return result;
+	}
+	
 	// 홈 - 일정
 	@Override
 	public List<CalSch> selectCalList(SqlSession sqlSession, CalSch calSch) {

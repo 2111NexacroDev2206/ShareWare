@@ -116,7 +116,7 @@
 			});
 		};
 	</script>
-	<form action="/mail/mailIDetailView.sw" method="post" enctype="multipart/form-data">
+	<form action="/mail/mailDetailView.sw" method="post" enctype="multipart/form-data">
 		<div>
 		
    	 			<div class="mailHeader">

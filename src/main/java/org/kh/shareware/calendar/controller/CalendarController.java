@@ -3,12 +3,9 @@ package org.kh.shareware.calendar.controller;
 
 
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.kh.shareware.calendar.domain.CalSch;
@@ -44,9 +41,12 @@ public class CalendarController {
 	public ModelAndView scheduleRegister(ModelAndView mv, 
 			@ModelAttribute CalSch calSch, 
 			HttpServletRequest request) {
-		int result = cService.registerSchedule(calSch);
 		
 		try {
+			HttpSession session = request.getSession();
+			Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
+			calSch.setMemNum(member.getMemberNum());
+			int result = cService.registerSchedule(calSch);
 			if(result>0) {
 				mv.setViewName("redirect:/calendar/schListView.sw");
 			} else {
@@ -106,4 +106,52 @@ public class CalendarController {
 		return mv;
 		
 	}
+	@ResponseBody
+	@RequestMapping(value="/calendar/schModifyView.sw", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	public ModelAndView scheduleUpdate(ModelAndView mv
+			, @ModelAttribute CalSch calSch
+			, HttpServletRequest request
+			) {
+		try{ HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
+		calSch.setMemNum(member.getMemberNum());
+		int result = cService.modifySchedule(calSch);
+		if(result>0) {
+			mv.setViewName("redirect:/calendar/schListView.sw");
+		} else {
+			mv.addObject("msg", "등록 실패");
+			mv.setViewName("common/errorPage");
+		}
+	}catch (Exception e) {
+		mv.setViewName("common/errorPage");
+		mv.addObject("msg", e.toString());
+	}
+				return mv;
+		
+		
+	}
+	@RequestMapping ( value="/calendar/calRegister.sw", method = RequestMethod.POST)
+	public ModelAndView calendarRegister(ModelAndView mv, 
+			@ModelAttribute CalSch calSch, 
+			HttpServletRequest request) {
+		
+		try {
+			HttpSession session = request.getSession();
+			Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
+			calSch.setMemNum(member.getMemberNum());
+			int result = cService.registerSchedule(calSch);
+			if(result>0) {
+				mv.setViewName("redirect:/calendar/schListView.sw");
+			} else {
+				mv.addObject("msg", "등록 실패");
+				mv.setViewName("common/errorPage");
+			}
+		} catch (Exception e) {
+			mv.setViewName("common/errorPage");
+			mv.addObject("msg", e.toString());
+		}
+				return mv;
+				
+	}
+	
 }

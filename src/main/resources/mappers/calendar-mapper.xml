@@ -19,9 +19,11 @@
 	<insert id="insertSchedule">
 		INSERT INTO CAL_SCH VALUES(SEQ_SCH_NO.NEXTVAL, #{memNum}, #{calNo}, #{schName}, #{schStartDate}, #{schStartTime}, #{schEndDate}, #{schEndTime}, #{schContent}, #{alStatus}, #{schColor}) 
 	</insert>
-	
+	<update id="updateSchedule">
+	 	UPDATE CAL_SCH SET SCH_NAME = #{schName}, SCH_START_DATE = #{schStartDate}, SCH_START_TIME = #{schStartTime}, SCH_END_DATE = #{schEndDate}, SCH_END_TIME = #{schEndTime}, SCH_CONTENT = #{schContent}, SCH_COLOR = #{schColor} WHERE MEM_NUM = #{memNum} AND SCH_NO = #{schNo}
+	</update>
 	<select id="selectAllSchedule" resultMap="calSchResultMap">
-		SELECT * FROM CAL_SCH WHERE MEM_NUM = 'admin'
+		SELECT * FROM CAL_SCH WHERE MEM_NUM = #{memNum}
 	</select>
 	<select id="selectOneSchedule" resultMap="calSchResultMap">
 		SELECT * FROM CAL_SCH WHERE MEM_NUM = #{memNum}
