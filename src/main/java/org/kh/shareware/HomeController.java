@@ -110,15 +110,23 @@ public class HomeController {
 		return new Gson().toJson(result);
 	}
 	
-	// 캘린더
+	// 일정 목록
 	@ResponseBody
-	@RequestMapping(value="/calendar/homeView.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
-	public String calendarView(@ModelAttribute CalSch calSch
+	@RequestMapping(value="/calendar/homeListView.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+	public String calendarListView(@ModelAttribute CalSch calSch
 			, @RequestParam("selectDay") String calDate
 			, @RequestParam("memberNum") String memberNum) {
 		calSch.setMemNum(memberNum);
 		calSch.setSchStartDate(calDate);
-		List <CalSch> cList = cService.selectCalList(calSch);
+		List <CalSch> cList = cService.printAllHomeCal(calSch);
 		return new Gson().toJson(cList);
+	}
+	
+	// 일정 상세
+	@ResponseBody
+	@RequestMapping(value="/calendar/homeDetailView.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+	public String calendarDetailView(@RequestParam("schNo") int schNo) {
+		CalSch calSch = cService.printOneHomeCal(schNo);
+		return new Gson().toJson(calSch);
 	}
 }

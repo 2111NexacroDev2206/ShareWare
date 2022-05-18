@@ -39,9 +39,15 @@ public class CalendarStoreLogic implements CalendarStore{
 	
 	// 홈 - 일정
 	@Override
-	public List<CalSch> selectCalList(SqlSession sqlSession, CalSch calSch) {
-		List<CalSch> cList = sqlSession.selectList("CalendarMapper.selectListHome", calSch);
+	public List<CalSch> selectListHomeCal(SqlSession sqlSession, CalSch calSch) { // 일정 목록
+		List<CalSch> cList = sqlSession.selectList("CalendarMapper.selectListHomeCal", calSch);
 		return cList;
+	}
+
+	@Override
+	public CalSch selectOneHomeCal(SqlSession sqlSession, int schNo) { // 일정 상세
+		CalSch calSch = sqlSession.selectOne("CalendarMapper.selectOneHomeCal", schNo);
+		return calSch;
 	}
 
 }

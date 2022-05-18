@@ -19,6 +19,8 @@ public interface CalendarStore {
 	public int updateSchedule(CalSch calSch, SqlSession sqlSession);
 	
 	// 홈 - 일정
-	public List<CalSch> selectCalList(SqlSession sqlSession, CalSch calSch);
+	public List<CalSch> selectListHomeCal(SqlSession sqlSession, CalSch calSch); // 일정 목록
+
+	public CalSch selectOneHomeCal(SqlSession sqlSession, int schNo); // 일정 상세
 
 }

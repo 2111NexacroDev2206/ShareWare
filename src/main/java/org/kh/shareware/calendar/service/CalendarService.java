@@ -18,6 +18,8 @@ public interface CalendarService {
 	public int modifySchedule(CalSch calSch);
 	
 	// 홈 - 일정
-	public List<CalSch> selectCalList(CalSch calSch);
+	public List<CalSch> printAllHomeCal(CalSch calSch); // 일정 목록
+
+	public CalSch printOneHomeCal(int schNo); // 일정 상세
  
 }
