@@ -27,4 +27,8 @@
 		SELECT * FROM CAL_SCH WHERE MEM_NUM = #{memNum}
 	</select>
 	
+	<!-- 홈 - 일정 -->
+	<select id="selectListHome" resultMap="calSchResultMap">
+		SELECT * FROM CAL_SCH WHERE MEM_NUM IN('admin', #{memNum}) AND SCH_START_DATE <![CDATA[<]]>= TO_DATE(#{schStartDate}, 'YYYY-MM-DD') AND SCH_END_DATE <![CDATA[>]]>= TO_DATE(#{schStartDate}, 'YYYY-MM-DD')
+	</select>
 	</mapper>

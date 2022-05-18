@@ -46,6 +46,7 @@
 			<div class="calendar" id="calendar">
 			</div>
 			<div class="calendar-detail box-t">
+				<table id="cal-table"></table>
 			</div>
 		</div>
 		<div class="c-right">
@@ -80,7 +81,7 @@
 </body>
 <script>
 	$(document).ready(function() {
-		attTime();
+		attTime(); // 근태 관리 시간 조회
 	})
 	
 	// 근태 관리 시간 조회
@@ -127,7 +128,7 @@
 		$.ajax({
 			url : "/attendance/workEnd.sw",
 			type : "get",
-			data : { "memberNum" : "${loginUser.memberNum}"},
+			data : { "memberNum" : "${loginUser.memberNum}" },
 			success : function(result) {
 				attTime();
 			},
@@ -139,11 +140,54 @@
 	
 	// 캘린더
 	document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth'
-        });
-        calendar.render();
-      });
+		var calendarEl = document.getElementById('calendar');
+		var calendar = new FullCalendar.Calendar(calendarEl, {
+			headerToolbar: {
+	            left: 'prev,next',
+	            center: 'title',
+	            right: 'today'
+	        },
+			initialView: 'dayGridMonth',
+			selectable: true,
+			dateClick: function(info) {
+				calList(info.dateStr);
+			}
+		});
+		calendar.render();
+		var date = calendar.getDate(); // 현재 날짜
+		calList(date.toISOString().substr(0, 10)); // 일정 목록 조회
+	});
+	
+	// 일정 목록 조회
+	function calList(selDate) {
+		$.ajax({
+			url : "/calendar/homeView.sw",
+			type : "get",
+			data : { "selectDay" : selDate, "memberNum" : "${loginUser.memberNum}" },
+			success : function(cList) {
+				$("#cal-table").html(""); // 테이블 값 비우기
+				var tr;
+				tr += '<tr class="tr-header"><td colspan="3" class="td-date">' + selDate + '</td><td class="td-moreBtn"><button onclick="calViewMove();">+</button></td></tr>'
+				$.each(cList, function(i) {
+					tr += '<tr class="tr-cal"><td class="td-color"><span class="circle-color" style="background:' + cList[i].schColor + ';"></span></td>';
+					if(cList[i].alStatus == 'y'){
+						tr += '<td class="td-time">종일</td>';
+					}else {
+						tr += '<td class="td-time">' + cList[i].schStartTime + '</td>';
+					}
+					tr += '<td class="td-name" colspan="2">' + cList[i].schName + '</td></tr>';
+				});
+				$("#cal-table").append(tr);
+			},
+			error : function() {
+				alert("일정 조회 실패");
+			}
+		})
+	}
+	
+	// 더보기 버튼 클릭
+	function calViewMove() {
+		location.href="/calendar/schWriteView.sw";
+	}
 </script>
 </html>

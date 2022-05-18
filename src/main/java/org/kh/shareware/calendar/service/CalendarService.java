@@ -14,5 +14,8 @@ public interface CalendarService {
 	public List<CalSch> printAllSchedule(CalSch calSch);
 
 	public CalSch printOneSchedule(int schNo);
+	
+	// 홈 - 일정
+	public List<CalSch> selectCalList(CalSch calSch);
 
 }

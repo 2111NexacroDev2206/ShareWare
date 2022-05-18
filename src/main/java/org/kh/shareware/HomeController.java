@@ -9,6 +9,8 @@ import javax.servlet.http.HttpSession;
 import org.kh.shareware.approval.service.ApprovalService;
 import org.kh.shareware.attendance.domain.Attendance;
 import org.kh.shareware.attendance.service.AttendanceService;
+import org.kh.shareware.calendar.domain.CalSch;
+import org.kh.shareware.calendar.service.CalendarService;
 import org.kh.shareware.member.domain.Member;
 import org.kh.shareware.notice.domain.Notice;
 import org.kh.shareware.notice.service.NoticeService;
@@ -40,24 +42,27 @@ public class HomeController {
 	@Autowired
 	private ProjectService pService;
 	
+	@Autowired
+	private CalendarService cService;
+	
 	@RequestMapping(value = "/home.sw", method = RequestMethod.GET)
 	public String home(Model model, HttpServletRequest request) {
-			model.addAttribute("myCondition", "home");
-			HttpSession session = request.getSession();
-			Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
-			// 내 정보
-			int appCount = aService.homeAppCount(member.getMemberNum()); // 결재 대기 문서
-			int draftCount = aService.homeDraftCount(member.getMemberNum()); // 결재 진행 문서
-			int expCount = aService.homeExpCount(member.getMemberNum()); // 결재 예정 문서
-			model.addAttribute("appCount", appCount);
-			model.addAttribute("draftCount", draftCount);
-			model.addAttribute("expCount", expCount);
-			// 공지사항
-			List<Notice> nList = nService.homeNotice();
-			model.addAttribute("nList", nList);
-			// 프로젝트 관리
-			List<Project> pList = pService.homeProject(member.getMemberNum());
-			model.addAttribute("pList", pList);
+		model.addAttribute("myCondition", "home");
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
+		// 내 정보
+		int appCount = aService.homeAppCount(member.getMemberNum()); // 결재 대기 문서
+		int draftCount = aService.homeDraftCount(member.getMemberNum()); // 결재 진행 문서
+		int expCount = aService.homeExpCount(member.getMemberNum()); // 결재 예정 문서
+		model.addAttribute("appCount", appCount);
+		model.addAttribute("draftCount", draftCount);
+		model.addAttribute("expCount", expCount);
+		// 공지사항
+		List<Notice> nList = nService.homeNotice();
+		model.addAttribute("nList", nList);
+		// 프로젝트 관리
+		List<Project> pList = pService.homeProject(member.getMemberNum());
+		model.addAttribute("pList", pList);
 		return "home";
 	}
 	
@@ -103,5 +108,17 @@ public class HomeController {
 			}
 		int result = tService.modifyAttendance(attendance);
 		return new Gson().toJson(result);
+	}
+	
+	// 캘린더
+	@ResponseBody
+	@RequestMapping(value="/calendar/homeView.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+	public String calendarView(@ModelAttribute CalSch calSch
+			, @RequestParam("selectDay") String calDate
+			, @RequestParam("memberNum") String memberNum) {
+		calSch.setMemNum(memberNum);
+		calSch.setSchStartDate(calDate);
+		List <CalSch> cList = cService.selectCalList(calSch);
+		return new Gson().toJson(cList);
 	}
 }

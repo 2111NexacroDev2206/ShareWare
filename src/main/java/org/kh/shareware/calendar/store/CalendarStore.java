@@ -15,5 +15,8 @@ public interface CalendarStore {
 	public List<CalSch> selectAllSchedule(CalSch calSch, SqlSession sqlSession);
 
 	public CalSch selectOneSchedule(SqlSession sqlSession, int schNo);
+	
+	// 홈 - 일정
+	public List<CalSch> selectCalList(SqlSession sqlSession, CalSch calSch);
 
 }

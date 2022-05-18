@@ -110,6 +110,45 @@
 	width: calc(100% - 2px);
 	height: 200px;
 }
+#cal-table { /* 일정 목록 테이블 */
+	width: 100%;
+	padding: 10px;
+}
+.tr-header { /* 일정 목록 테이블 상단 */
+	font-size: 25px;
+}
+.td-date { /* 선택 날짜 텍스트 */
+	padding: 5px 15px 10px 15px;
+}
+.td-moreBtn {
+	text-align: right;
+	padding: 0 15px;
+}
+.td-moreBtn button { /* 더보기 버튼 */
+	border: none;
+	background: transparent;
+	font-size: 40px;
+	cursor: pointer;
+}
+.circle-color { /* 일정 색 */
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+}
+.tr-cal { /* 목록 */
+	height: 35px;
+}
+.td-color {
+	width: 15px;
+	padding: 0 15px;
+}
+.td-time {
+	width: 50px;
+}
+.td-name {
+	width: 300px;
+}
 .notice { /* 공지사항 */
 	width: 100%;
 	height: 351px;

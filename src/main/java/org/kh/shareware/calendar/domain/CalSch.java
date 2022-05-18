@@ -1,15 +1,14 @@
 package org.kh.shareware.calendar.domain;
 
-import java.sql.Date;
 
 public class CalSch {
 	private int schNo;
 	private String memNum;
 	private String calNo;
 	private String schName;
-	private Date schStartDate;
+	private String schStartDate;
 	private String schStartTime;
-	private Date schEndDate;
+	private String schEndDate;
 	private String schEndTime;
 	private String schContent;
 	private String alStatus;
@@ -18,24 +17,6 @@ public class CalSch {
 	
 	
 	public CalSch() {}
-
-
-
-	public CalSch(int schNo, String memNum, String calNo, String schName, Date schStartDate, String schStartTime,
-			Date schEndDate, String schEndTime, String schContent, String alStatus, String schColor) {
-		super();
-		this.schNo = schNo;
-		this.memNum = memNum;
-		this.calNo = calNo;
-		this.schName = schName;
-		this.schStartDate = schStartDate;
-		this.schStartTime = schStartTime;
-		this.schEndDate = schEndDate;
-		this.schEndTime = schEndTime;
-		this.schContent = schContent;
-		this.alStatus = alStatus;
-		this.schColor = schColor;
-	}
 
 
 
@@ -87,13 +68,13 @@ public class CalSch {
 
 
 
-	public Date getSchStartDate() {
+	public String getSchStartDate() {
 		return schStartDate;
 	}
 
 
 
-	public void setSchStartDate(Date schStartDate) {
+	public void setSchStartDate(String schStartDate) {
 		this.schStartDate = schStartDate;
 	}
 
@@ -111,13 +92,13 @@ public class CalSch {
 
 
 
-	public Date getSchEndDate() {
+	public String getSchEndDate() {
 		return schEndDate;
 	}
 
 
 
-	public void setSchEndDate(Date schEndDate) {
+	public void setSchEndDate(String schEndDate) {
 		this.schEndDate = schEndDate;
 	}
 
