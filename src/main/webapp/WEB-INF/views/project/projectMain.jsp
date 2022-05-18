@@ -9,89 +9,66 @@
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
 <title>프로젝트 메인 화면 </title>
-<link href="/resources/css/approval/appList-style.css" rel="stylesheet">
+<link href="/resources/css/project/project-main.css" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="projectMainMenu.jsp"></jsp:include>
 		<div class="s-container">
 		<br><br>
-		<div class="border">
-		<div>
-		<span>중요공지</span><button onclick="location.href='/project/importantList.sw?projectNo=${projectNo}'">더보기</button>
-		<table>
-			<thead>
-				<tr>
-					<th>제목</th>
-					<th>작성일</th>
-				</tr>
-			</thead>
-			<tbody>
-			<c:forEach items="${iList }" var="important" varStatus="status">
-				<tr>
-					<c:url var="iDetail" value="/project/importantDetail.sw">
-						<c:param name="importantNo" value="${important.importantNo }"></c:param>
-						<c:param name="projectNo" value="${projectNo }"></c:param>
-					</c:url>
-					<td><a href="${iDetail }">${important.importantTitle }</a></td>
-					<td>${important.importantDate }</td>
-				</tr>
-			</c:forEach>
-			</tbody>
-		</table>
+		<div class="important-table">
+			<span>중요공지</span><button onclick="location.href='/project/importantList.sw?projectNo=${projectNo}'">+ 더보기</button>
+			<hr class="line">
+			<table>
+				<c:forEach items="${iList }" var="important" varStatus="status">
+					<tr>
+						 <c:url var="iDetail" value="/project/importantDetail.sw">
+							<c:param name="importantNo" value="${important.importantNo }"></c:param>
+							<c:param name="projectNo" value="${projectNo }"></c:param>
+						</c:url>
+						<td id="intitle"><a href="${iDetail }"><li>${important.importantTitle }</li></a></td>
+						<td id="indate">${important.importantDate }</td>
+					  
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
+	
+		<div class="work-table">
+			<span>업무현황</span><button onclick="location.href='/project/workList.sw?projectNo=${projectNo}'">+더보기</button>
+			<hr class="line">
+			<table>
+				<c:forEach items="${wList }" var="work" varStatus="status">
+					<tr>
+						<c:url var="wDetail" value="/project/workDetail.sw">
+							<c:param name="workNo" value="${work.workNo }"></c:param>
+							<c:param name="projectNo" value="${projectNo }"></c:param>
+						</c:url>
+						<td id="intitle-work"><a href="${wDetail }">${work.workTitle }</a></td>
+						<td id="inwriter">${work.workWriter }</td>
+						<td id="indate">${work.workDate }</td>
+					</tr>
+				</c:forEach>
+			</table>
 		</div>
 		<br><br>
-		<span>업무현황</span><button onclick="location.href='/project/workList.sw?projectNo=${projectNo}'">더보기</button>
-		<div>
-			<table>
-		<thead>
-			<tr>
-				<th>제목</th>
-				<th>작성일</th>
-				<th>작성자</th>
-			</tr>
-			</thead>
-			<tbody>
-			<c:forEach items="${wList }" var="work" varStatus="status">
-				<tr>
-					<c:url var="wDetail" value="/project/workDetail.sw">
-						<c:param name="workNo" value="${work.workNo }"></c:param>
-						<c:param name="projectNo" value="${projectNo }"></c:param>
-					</c:url>
-					<td><a href="${wDetail }">${work.workTitle }</a></td>
-					<td>${work.workDate }</td>
-					<td>${work.workWriter }</td>
-				</tr>
-			</c:forEach>
-			</tbody>
-	</table>
-		</div>
-		</div>
-		<div>
-		<button onclick="chart()">입력</button>
-		<table>
-			<tr>
-				<c:forEach items="${cList }" var="workChart">
-					<td>${workChart.wpRate }%</td>
-				</c:forEach>
-			</tr>
-			<tr>
-				<c:forEach items="${cList }" var="workChart">
-					<td>${workChart.projectWriter }</td>
-				</c:forEach>
-			</tr>
-		</table>
-		</div>
-		<div>
-			<span>구성원</span>
 			<div>
-				<div>프로젝트 관리자 ${project.projectMade }</div>
-				<c:forEach items="${pList }" var="participant">
-					<div>${participant.division } ${participant.memberName } ${participant.rank }</div>
-				</c:forEach>
+				<div class="chart" style="position: relative; height:500px; width:500px;">
+					<span id="chart-span">업무진행률</span><button id="chart-btn" onclick="chart()">입력</button>
+					<canvas id="Chart" width="500" height="400"></canvas>
+				</div>
+				<div class="participant" >
+					<span id="par-span">구성원</span>
+					<br><br>
+					<div style="overflow:scroll; width:300px; height:150px; padding:10px; border:solid 1px gray; border-radius:3px">
+						<div id="manager">프로젝트 관리자 ${project.projectMade }</div>
+						<c:forEach items="${pList }" var="participant">
+							<div>${participant.division } ${participant.memberName } ${participant.rank }</div>
+						</c:forEach>
+					</div>
+					
+				</div>
 			</div>
-			<canvas id="Chart" width="400" height="400"></canvas>
 		</div>
-	</div>
 		
 <script>
 // 'Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'
@@ -109,6 +86,7 @@
 		      }]
 		  },
 		  options: {
+			  responsive : false,
 		      scales: {
 		          y: {
 		        	  suggestedMax: 100,

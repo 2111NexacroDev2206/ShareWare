@@ -6,17 +6,20 @@
 <head>
 <meta charset="UTF-8">
 <title>프로젝트 정보 상세</title>
+<link href="/resources/css/project/project.css" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="projectMainMenu.jsp"></jsp:include>
 	<div class="s-container">
 		<form action="/project/projectRegister.sw" method="post">
 		<div>
+		<br>
 			<div>
-				<h2>프로젝트 정보</h2>
+				<span id="title">프로젝트 정보</span>
 			</div>
-			<div>
-				<table border="1">
+			<br>
+			<div class="project-box">
+				<table class="project-tbl">
 					<tr>
 						<td>프로젝트 명</td>
 						<td>${project.projectTitle }</td>
@@ -43,7 +46,9 @@
 					</tr>
 					<tr>
 						<td colspan="2" align="left">
+							<c:if test="${loginUser.memberNum eq project.projectMade}">
 								<input type="button" onclick="location.href='/project/projectModifyView.sw?projectNo=${project.projectNo }'" value="수정">
+							</c:if>	
 								<input type="button" onclick="location.href='/project/main.sw?projectNo=${project.projectNo }'" value="취소">
 						</td>
 					</tr>

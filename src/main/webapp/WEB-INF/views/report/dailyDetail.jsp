@@ -33,10 +33,12 @@
 				</td>
 			</tr>
 		</table>
+		<c:if test="${daily.fileReName != null}">
 		<p >첨부파일</p>
 		<a href="../../../resources/duploadFiles/${daily.fileReName }" download>
 		 		${daily.fileName }
-				</a>
+		</a>
+		</c:if>
 		<div class="div-btn">
 			<input type="button" onclick="location.href='/report/dailyModifyView.sw?drNo=${daily.drNo}'" value="수정">
 			<input type="button" onclick="delPop();" value="삭제">

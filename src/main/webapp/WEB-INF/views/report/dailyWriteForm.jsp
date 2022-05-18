@@ -32,11 +32,11 @@
 			<tr>
 			<td colspan="4" id="trCont" >
 				<textarea name="drContent" id="trCont">
-				<table align="center" border="1" cellpadding="3" cellspacing="1" style="height:900px; width:800px; ">
+				<table align="center" border="1" cellpadding="1" cellspacing="1" style="height:900px">
 					<tbody>
 						<tr>
-							<td style="text-align:center"><strong>업 무 내 용&nbsp;</strong></td>
-							<td style="text-align:center"><strong>처 리 내 용</strong></td>
+							<td style="text-align:center; width:500px"><strong>업 무 내 용&nbsp;</strong></td>
+							<td style="text-align:center; width:410px"><strong>처 리 내 용</strong></td>
 						</tr>
 						<tr>
 							<td style="height:700px; width:70%">&nbsp;</td>
@@ -67,7 +67,8 @@
 	<script>
 	// 일일업무일지 내용	
 	CKEDITOR.replace( 'drContent', {
-        height: 800
+        height: 800,
+        removePlugins: "exportpdf"
      } );
 	</script>
 </body>

@@ -1,5 +1,105 @@
 @charset "UTF-8";
 
-.border{
-		
+.important-table{
+	width: 1200px;
+    padding: 15px 0px;
+}
+.important-table button{
+	float: right;
+    margin: 0 30px;
+    border: none;
+    background: white;
+    font-size: medium;
+    font-weight: bolder;
+}
+.important-table span{
+    margin: 0 30px;
+    border: none;
+    background: white;
+    font-size: x-large;
+    font-weight: bolder;
+}
+.important-table a{
+	text-decoration: none;
+	color: black;
+	cursor: pointer;
+}
+.line{
+	margin: 5px 30px;
+    margin-bottom: 10px;
+	
+}
+#intitle{
+    padding: 0 750px 0 40px;
+    font-size : large;
+}
+#intitle-work{
+    padding: 0 630px 0 40px;
+    font-size : large;
+}
+#inwriter{
+	padding: 0 30px 0 0px;
+	font-size: large;
+}
+#indate{
+	font-size : large;
+}
+.work-table{
+	width: 1200px;
+    padding: 15px 0px;
+}
+.work-table button{
+	float: right;
+    margin: 0 30px;
+    border: none;
+    background: white;
+    font-size: medium;
+    font-weight: bolder;
+}
+.work-table span{
+    margin: 0 30px;
+    border: none;
+    background: white;
+    font-size: x-large;
+    font-weight: bolder;
+}
+.work-table a{
+	text-decoration: none;
+	color: black;
+	cursor: pointer;
+}
+.chart{
+	float : left;
+    padding-left: 50px;
+}
+.participant{
+	float : left;
+	padding: 0 20px 0 200px;
+}
+#chart-span{
+	margin-right: 320px;
+    border: none;
+    background: white;
+    font-size: x-large;
+    font-weight: bolder;
+}
+#chart-btn{
+	background-color: #5a6ad8;
+	padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px;
+    color: white;
+}
+.participant div{
+	font-size : large;
+	line-height: 1.5;
+}
+#par-span{
+	font-size: x-large;
+    font-weight: bolder;
+}
+#manager{
+	background: rgb(145, 168, 210);
+    font-weight: bolder;
+    color: white;
 }

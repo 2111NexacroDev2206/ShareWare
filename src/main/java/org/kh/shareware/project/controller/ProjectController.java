@@ -258,6 +258,7 @@ public class ProjectController {
 			,@ModelAttribute Participant participant
 			,@RequestParam(value="memNum") String memNum
 			){ // 정은진,권지혜,김아름
+		project.setProjectNo(0);
 		int result = service.registerProject(project);
 		// 참여자 등록
 		int pResult = 0;
