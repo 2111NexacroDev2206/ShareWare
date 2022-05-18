@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+#title{
+	font-size : x-large;
+	font-weight : bold;
+}
+.project-tbl{
+	border-radius : 5px;
+	background-color : rgb(245, 245, 245);
+	width: 550px;
+    height: 500px;
+}

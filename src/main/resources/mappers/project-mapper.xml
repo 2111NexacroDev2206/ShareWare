@@ -89,7 +89,13 @@
   		)
   	</insert>
   	<insert id="insertParticipant">
-  		INSERT INTO PARTICIPANT VALUES(#{memberNum}, SEQ_PROJECT_NO.CURRVAL)
+  		INSERT INTO PARTICIPANT VALUES(#{memberNum},
+  		<if test="projectNo == 0">
+	  		SEQ_PROJECT_NO.CURRVAL)
+  		</if>
+  		<if test="projectNo > 0">
+	  		#{projectNo})
+  		</if>
   	</insert>
   	
   	<select id="selectOneChart" resultType="_int">
