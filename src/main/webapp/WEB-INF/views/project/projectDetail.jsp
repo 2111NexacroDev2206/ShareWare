@@ -18,7 +18,7 @@
 				<span id="title">프로젝트 정보</span>
 			</div>
 			<br>
-			<div class="project-box">
+			<div>
 				<table class="project-tbl">
 					<tr>
 						<td>프로젝트 명</td>
@@ -45,11 +45,10 @@
 						<td>${project.projectContent }</td>
 					</tr>
 					<tr>
-						<td colspan="2" align="left">
-							<c:if test="${loginUser.memberNum eq project.projectMade}">
-								<input type="button" onclick="location.href='/project/projectModifyView.sw?projectNo=${project.projectNo }'" value="수정">
-							</c:if>	
-								<input type="button" onclick="location.href='/project/main.sw?projectNo=${project.projectNo }'" value="취소">
+						<td colspan="2">
+		<%-- 					<c:if test="${loginUser.memberNum eq project.projectMade}"></c:if>	 --%>
+								<input type="button" id="btn" onclick="location.href='/project/projectModifyView.sw?projectNo=${project.projectNo }'" value="수정">
+								<input type="button" id="btn" onclick="location.href='/project/main.sw?projectNo=${project.projectNo }'" value="취소">
 						</td>
 					</tr>
 				</table>
