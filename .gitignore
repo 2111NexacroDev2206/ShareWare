@@ -11,5 +11,9 @@ duploadFiles/
 wuploadFiles/
 iuploadFiles/
 wkuploadFiles/
-mUploadFiles/
+muploadFiles/
 loadFile/
+*.geninfo
+*.xfdl$
+*.xml$
+*/$temporary$/*
