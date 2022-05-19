@@ -106,6 +106,9 @@
 	height: 500px;
 	margin-bottom: 30px;
 }
+.fc-h-event .fc-event-title-container { /* 풀캘린더 내 개별 일정 */
+	height: 5px;
+}
 .calendar-detail { /* 일정 목록 */
 	width: calc(100% - 2px);
 	height: 200px;
@@ -158,10 +161,9 @@
 	padding: 0 20px;
 }
 .td-time {
-	width: 50px;
+	width: 70px;
 }
 .td-name {
-	width: 300px;
 	cursor: pointer;
 }
 .notice { /* 공지사항 */

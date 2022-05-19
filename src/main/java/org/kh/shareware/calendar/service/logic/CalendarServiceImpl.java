@@ -44,7 +44,7 @@ public class CalendarServiceImpl implements CalendarService{
 	
 	// 홈 - 일정
 	@Override
-	public List<CalSch> printAllHomeCal(CalSch calSch) { // 일정 목록
+	public List<CalSch> printListHomeCal(CalSch calSch) { // 일정 목록
 		List<CalSch> cList = cStore.selectListHomeCal(sqlSession, calSch);
 		return cList;
 	}
@@ -52,6 +52,11 @@ public class CalendarServiceImpl implements CalendarService{
 	public CalSch printOneHomeCal(int schNo) { // 일정 상세
 		CalSch calSch = cStore.selectOneHomeCal(sqlSession, schNo);
 		return calSch;
+	}
+	@Override
+	public List<CalSch> printAllHomeCal(String memberNum) { // 전체 일정 목록
+		List<CalSch> sList = cStore.selectAllHomeCal(sqlSession, memberNum);
+		return sList;
 	}
 
 }

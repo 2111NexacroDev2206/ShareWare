@@ -23,4 +23,6 @@ public interface CalendarStore {
 
 	public CalSch selectOneHomeCal(SqlSession sqlSession, int schNo); // 일정 상세
 
+	public List<CalSch> selectAllHomeCal(SqlSession sqlSession, String memberNum); // 전체 일정 목록
+
 }

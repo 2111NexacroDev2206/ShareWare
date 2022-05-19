@@ -155,7 +155,24 @@
 			selectable: true,
 			dateClick: function(info) {
 				calList(info.dateStr);
-			}
+			},
+	        events: [
+        		<c:forEach items="${sList}" var="sList">
+        		{
+        			start: '${sList.schStartDate}',
+        			end: '${sList.schEndDate}',
+        			backgroundColor: '${sList.schColor}',
+        			borderColor: '${sList.schColor}',
+        			extendedProps: {
+        				'schNo' : '${sList.schNo}',
+        			}
+        		},
+        		</c:forEach>
+        	],
+        	displayEventTime: false,
+        	eventClick: function(info) {
+        		calDetail(info.event.extendedProps.schNo);
+        	}
 		});
 		calendar.render();
 		var date = calendar.getDate(); // 현재 날짜
@@ -178,10 +195,14 @@
 					tr += '<tr class="tr-cal"><td class="td-color"><span class="circle-color" style="background:' + cList[i].schColor + ';"></span></td>';
 					if(cList[i].alStatus == 'y'){
 						tr += '<td class="td-time">종일</td>';
-					}else if(cList[i].schStartTime != null && cList[i].schStartDate == selDate){
-						tr += '<td class="td-time">' + cList[i].schStartTime + '</td>';
-					}else if(cList[i].schStartTime != null && cList[i].schStartDate != selDate){
+					}else if(cList[i].schStartTime != null && cList[i].schStartDate == selDate && cList[i].schEndDate != selDate){
+						tr += '<td class="td-time">' + cList[i].schStartTime + ' ~</td>';
+					}else if(cList[i].schStartTime != null && cList[i].schStartDate != selDate && cList[i].schEndDate != selDate){
 						tr += '<td class="td-time">종일</td>';
+					}else if(cList[i].schEndDate == selDate && cList[i].schEndTime != null && cList[i].schStartDate != selDate){
+						tr += '<td class="td-time">~ ' + cList[i].schEndTime + '</td>';
+					}else if(cList[i].schStartDate == selDate && cList[i].schEndDate == selDate && cList[i].schStartTime != null){
+						tr += '<td class="td-time">' + cList[i].schStartTime + '</td>';
 					}else {
 						tr += '<td class="td-time"></td>';
 					}

@@ -31,9 +31,12 @@
 	
 	<!-- 홈 - 일정 -->
 	<select id="selectListHomeCal" resultMap="calSchResultMap"><!-- 일정 목록 -->
-		SELECT * FROM CAL_SCH WHERE MEM_NUM IN('admin', #{memNum}) AND SCH_START_DATE <![CDATA[<]]>= TO_DATE(#{schStartDate}, 'YYYY-MM-DD') AND SCH_END_DATE <![CDATA[>]]>= TO_DATE(#{schStartDate}, 'YYYY-MM-DD') ORDER BY SCH_START_TIME
+		SELECT * FROM CAL_SCH WHERE MEM_NUM IN('admin', #{memNum}) AND SCH_START_DATE <![CDATA[<]]>= TO_DATE(#{schStartDate}, 'YYYY-MM-DD') AND SCH_END_DATE <![CDATA[>]]>= TO_DATE(#{schStartDate}, 'YYYY-MM-DD') ORDER BY SCH_START_DATE, SCH_START_TIME
 	</select>
 	<select id="selectOneHomeCal" resultMap="calSchResultMap"><!-- 일정 상세 -->
 		SELECT * FROM CAL_SCH WHERE SCH_NO = #{schNo}
+	</select>
+	<select id="selectAllHomeCal" resultMap="calSchResultMap"><!-- 전체 일정 목록 -->
+		SELECT SCH_NO, MEM_NUM, CAL_NO, SCH_NAME, SCH_START_DATE, TO_DATE(SCH_END_DATE, 'YYYY-MM-DD') + 1 AS SCH_END_DATE, SCH_COLOR FROM CAL_SCH WHERE MEM_NUM IN ('admin', #{memberNum})
 	</select>
 	</mapper>

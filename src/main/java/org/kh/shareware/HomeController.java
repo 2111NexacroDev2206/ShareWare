@@ -63,6 +63,9 @@ public class HomeController {
 		// 프로젝트 관리
 		List<Project> pList = pService.homeProject(member.getMemberNum());
 		model.addAttribute("pList", pList);
+		// 일정
+		List <CalSch> sList = cService.printAllHomeCal(member.getMemberNum());
+		model.addAttribute("sList", sList);
 		return "home";
 	}
 	
@@ -118,7 +121,7 @@ public class HomeController {
 			, @RequestParam("memberNum") String memberNum) {
 		calSch.setMemNum(memberNum);
 		calSch.setSchStartDate(calDate);
-		List <CalSch> cList = cService.printAllHomeCal(calSch);
+		List <CalSch> cList = cService.printListHomeCal(calSch);
 		return new Gson().toJson(cList);
 	}
 	

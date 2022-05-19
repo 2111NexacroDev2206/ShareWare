@@ -50,4 +50,10 @@ public class CalendarStoreLogic implements CalendarStore{
 		return calSch;
 	}
 
+	@Override
+	public List<CalSch> selectAllHomeCal(SqlSession sqlSession, String memberNum) { // 전체 일정 목록
+		List<CalSch> sList = sqlSession.selectList("CalendarMapper.selectAllHomeCal", memberNum);
+		return sList;
+	}
+
 }
