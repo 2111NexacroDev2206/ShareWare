@@ -1292,4 +1292,16 @@ public class MailController {
 			
 		}
 
+		// 메뉴 - 메일 카운트
+		@ResponseBody
+		@RequestMapping(value = "/mail/count.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
+		public String mailCount(@ModelAttribute Mail mail, HttpServletRequest request) {
+			HttpSession session = request.getSession();
+			Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
+			mail.setMemNum(member.getMemberNum());
+			mail.setMailReceiver(member.getMail());
+			mail.setMailSender(member.getMail());
+			int count = mService.getMailReadCount(mail);
+			return new Gson().toJson(count);
+		}
 }

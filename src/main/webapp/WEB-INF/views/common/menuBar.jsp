@@ -32,10 +32,11 @@
     </div>
     <div class="header">
    		<div class="header-right">
-   			<button id="btn-mail">
+   			<button id="btn-mail" onclick="location.href='/mail/SmailListView.sw'">
 		    	<span class="material-icons" style="font-size:45px;">
 					mail_outline
 				</span>
+				<div id="mail-count"></div>
 			</button>
 			<button id="btn-alarm">
 		    	<span class="material-icons" style="font-size:45px;">
@@ -73,6 +74,21 @@
 			$("#profile-menu").show();
 		}else {
 			$("#profile-menu").hide();
+		}
+	})
+	
+	// 메일 카운트
+	$.ajax({
+		url : "/mail/count.sw",
+		type: "get",
+		success : function(count) {
+			if(count > 0) {
+				$("#mail-count").text(count);
+				$("#mail-count").css("display", "inline-flex");
+			}
+		},
+		error : function() {
+			alert("메일 카운트 조회 실패");
 		}
 	})
 </script>

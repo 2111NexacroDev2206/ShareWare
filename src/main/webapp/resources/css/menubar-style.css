@@ -82,6 +82,16 @@ html, body {
 	border: none;
 	cursor: pointer;
 }
+#mail-count {
+	display: none;
+	position: absolute;
+	background-color: red;
+	top: 15px;
+	margin-left: -20px;
+	color: white;
+	border-radius: 100%;
+	padding: 4px 7.5px;
+}
 .user { /* 사용자 */
 	margin-left: 10px;
 	line-height: 48px;
