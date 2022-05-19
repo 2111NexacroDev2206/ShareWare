@@ -33,7 +33,7 @@
 							<input type="text" id="fileTitle" placeholder="글 제목을 입력해주세요.">
 						</div>
 						<div id="fileBoard-ContentDiv">
-								<td><textarea id="fileContent" rows="" cols=""></textarea></td>
+								<textarea id="fileContent" rows="" cols=""></textarea>
 						</div>
 						<div class="fileDiv">
 							<input class="upload-name" value="파일선택" disabled="disabled">				
