@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.calendar.domain.CalSch;
+import org.kh.shareware.calendar.domain.Calendar;
 import org.kh.shareware.calendar.service.CalendarService;
 import org.kh.shareware.calendar.store.CalendarStore;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,21 @@ public class CalendarServiceImpl implements CalendarService{
 	public List<CalSch> selectCalList(CalSch calSch) {
 		List<CalSch> cList = cStore.selectCalList(sqlSession, calSch);
 		return cList;
+	}
+	@Override
+	public int registerCalendar(Calendar calendar) {
+		int result = cStore.registerCalendar(calendar, sqlSession);
+		return result;
+	}
+	@Override
+	public List<Calendar> printAllMyCalendar(Calendar calendar) {
+		List<Calendar> cList = cStore.selectCalMyList(sqlSession, calendar);
+		return cList;
+	}
+	@Override
+	public int deleteCalendar(int calNo) {
+		int result = cStore.deleteCalendar(calNo, sqlSession);
+		return result;
 	}
 
 }

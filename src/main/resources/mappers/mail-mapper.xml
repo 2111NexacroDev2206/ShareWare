@@ -283,6 +283,9 @@
 		<delete id="deleteiMail">
 			UPDATE MAIL SET I_STATUS ='0' WHERE MAIL_NO = #{mailNo}
 		</delete>
+		<delete id="deleteMailBmk">
+			DELETE FROM MAIL_BMK WHERE BMK_NO = #{bmkNo}
+		</delete>
 		<!--메일 상세페이지  -->
 		<select id="selectOneMail" resultMap="mailResultMap">
 			SELECT * FROM MAIL 

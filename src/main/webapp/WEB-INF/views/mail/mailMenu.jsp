@@ -140,7 +140,7 @@ padding-top: 15px;
 					<div id="subject">
 					<c:forEach items="${bList}" var="mail">
 							
-						<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-circle-minus" style="color: grey;" onclick="deleteBmk();"></i>&nbsp;&nbsp;${mail.bmkSubject }</div>
+						<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-circle-minus" style="color: grey;" onclick="deleteBmk('${mail.bmkNo}');"></i>&nbsp;&nbsp;${mail.bmkSubject }</div>
 					</c:forEach>
 					</div>
 			</div>
@@ -153,7 +153,25 @@ padding-top: 15px;
 	
 </body>
 <script type="text/javascript">
-		
-
+function refreshMemList(){ //실행시 재로드
+	location.reload();
+}
+function deleteBmk(bmkNo) {
+	debugger;
+	$.ajax({
+		url : "/mail/deleteMailBmk.sw",
+		type : "get",
+		data : {
+			"bmkNo" : bmkNo
+		},
+		success : function(data) {
+			
+			refreshMemList();
+		},
+		error : function() {
+			alert("Ajax 통신 실패!");
+		}
+	});
+}
 </script>
 </html>

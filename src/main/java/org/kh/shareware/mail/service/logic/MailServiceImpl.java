@@ -565,6 +565,13 @@ public class MailServiceImpl implements MailService{
 	}
 
 
+	@Override
+	public int deleteMailBmk(int mailNo) {
+		int result = mStore.deleteMailBmk(sqlSession, mailNo);
+		return result;
+	}
+
+
 	
 
 	

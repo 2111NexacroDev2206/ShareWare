@@ -176,6 +176,8 @@ public interface MailStore {
 
 	public int deleteiMail(SqlSession sqlSession, int mailNo);
 
+	public int deleteMailBmk(SqlSession sqlSession, int mailNo);
+
 	
 
 	
