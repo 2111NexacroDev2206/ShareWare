@@ -119,6 +119,7 @@ public class AttendanceController {
 			model.addAttribute("sList", sList); //통계
 			model.addAttribute("aList", aList);
 			model.addAttribute("pi", pi);
+			model.addAttribute("myCondition", "attendance");
 			model.addAttribute("listCondition", "attendance");
 		}		
 		return "attendance/attListViewEmp";

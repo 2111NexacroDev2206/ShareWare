@@ -67,8 +67,8 @@
 	
 	<div class="s-container">
 	<h2 id="h-title">근태관리</h2><br>
-	
-	<%= sf.format(nowTime) %><br>
+	<div id="now-time"></div>
+<%-- 	<%= sf.format(nowTime) %><br> --%>
 	
 	<div>
 		<form action="/attendance/registerAtt.sw" method="post">
@@ -141,6 +141,22 @@
 			</div>
 		</div>
 </div>
-	
+<script>
+$(document).ready(function () { 
+    startDate(); 
+}); 
+
+function startDate() { 
+    date = setInterval(function () { 
+        var dateString = "";
+        var newDate = new Date();
+        dateString += ("0" + newDate.getHours()).slice(-2) + ":"; 
+        dateString += ("0" + newDate.getMinutes()).slice(-2) + ":"; 
+        dateString += ("0" + newDate.getSeconds()).slice(-2);
+        //document.write(dateString); 문서에 바로 그릴 수 있다. 
+        $("#now-time").text(dateString); 
+    }, 1000); 
+}
+</script>
 </body>
 </html>
