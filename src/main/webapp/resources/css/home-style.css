@@ -162,6 +162,7 @@
 }
 .td-name {
 	width: 300px;
+	cursor: pointer;
 }
 .notice { /* 공지사항 */
 	width: 100%;

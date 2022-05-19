@@ -81,6 +81,7 @@
 			</div>
 		</div>
 	</div>
+	<jsp:include page="calModal.jsp"></jsp:include> <!-- 일정 상세 모달 -->
 </body>
 <script>
 	$(document).ready(function() {
@@ -184,7 +185,7 @@
 					}else {
 						tr += '<td class="td-time"></td>';
 					}
-					tr += '<td class="td-name" colspan="2" onclick="calDetail(' + cList[i].schNo + ');">' + cList[i].schName + '</td></tr>';
+					tr += '<td class="td-name" colspan="2" id="cal-Name" onclick="calDetail(' + cList[i].schNo + ');">' + cList[i].schName + '</td></tr>';
 				});
 				$("#cal-header").append(header);
 				$("#cal-table").append(tr);
@@ -198,21 +199,6 @@
 	// 더보기 버튼 클릭
 	function calViewMove() {
 		location.href="/calendar/schWriteView.sw";
-	}
-	
-	// 일정 상세
-	function calDetail(schNo) {
-		$.ajax({
-			url : "/calendar/homeDetailView.sw",
-			type : "get",
-			data : { "schNo" : schNo },
-			success : function(calSch) {
-				console.log(calSch);
-			},
-			error : function() {
-				alert("일정 상세 조회 실패");
-			}
-		})
 	}
 </script>
 </html>
