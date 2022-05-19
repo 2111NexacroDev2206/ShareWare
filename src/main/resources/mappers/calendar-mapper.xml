@@ -40,6 +40,12 @@
 	<select id="selectOneSchedule" resultMap="calSchResultMap">
 		SELECT * FROM CAL_SCH WHERE MEM_NUM = #{memNum}
 	</select>
+	<select id="selectCalMyList" resultMap="calendarResultMap">
+		SELECT * FROM CALENDAR WHERE MEM_NUM = #{memNum} 
+	</select>
+	<delete id="deleteCalendar">
+		DELETE FROM CALENDAR WHERE CAL_NO = #{calNo} 
+	</delete>
 	
 	<!-- 홈 - 일정 -->
 	<select id="selectListHomeCal" resultMap="calSchResultMap"><!-- 일정 목록 -->
@@ -51,11 +57,4 @@
 	<select id="selectAllHomeCal" resultMap="calSchResultMap"><!-- 전체 일정 목록 -->
 		SELECT SCH_NO, MEM_NUM, CAL_NO, SCH_NAME, SCH_START_DATE, TO_DATE(SCH_END_DATE, 'YYYY-MM-DD') + 1 AS SCH_END_DATE, SCH_COLOR FROM CAL_SCH WHERE MEM_NUM IN ('admin', #{memberNum})
 	</select>
-	<select id="selectCalMyList" resultMap="calendarResultMap">
-		SELECT * FROM CALENDAR WHERE MEM_NUM = #{memNum} 
-	</select>
-	<delete id="deleteCalendar">
-		DELETE FROM CALENDAR WHERE CAL_NO = #{calNo} 
-	</delete>
-	
 	</mapper>
