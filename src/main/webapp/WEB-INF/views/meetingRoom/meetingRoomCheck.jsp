@@ -117,7 +117,7 @@
 			var $imgDiv = $("<div>");
 			var $imgTag = $("<img src=\"../../../resources/img/meetingRoom1.png\" id=\"roomImg\">");
 			var $detailDiv = $("<div class=\"detailDiv\">");
-			var $detailList = $("<ul>").append("<li>적정인원  3인</li>")
+			var $detailList = $("<ul>").append("<li>적정인원  5인</li>")
 										.append("<li>빔프로젝트</li>")
 										.append("<li>노트북</li>")
 										.append("<li>화이트보드</li>");
@@ -128,16 +128,17 @@
 			var $detailDiv = $("<div class=\"detailDiv\">");
 			var $detailList = $("<ul>").append("<li>적정인원  5~6인</li>")
 										.append("<li>빔프로젝트</li>")
-										.append("<li>과장님</li>")
+										.append("<li>노트북</li>")
 										.append("<li>화이트보드</li>");
 		}
 		if(meetingNo == "3 회의실"){
 			var $imgDiv = $("<div>");
 			var $imgTag = $("<img src=\"../../../resources/img/meetingRoom1.png\" id=\"roomImg\">");
 			var $detailDiv = $("<div class=\"detailDiv\">");
-			var $detailList = $("<ul>").append("<li>적정인원  5~6인</li>")
+			var $detailList = $("<ul>").append("<li>적정인원 15인</li>")
 										.append("<li>빔프로젝트</li>")
-										.append("<li>정수기</li>")
+										.append("<li>노트북</li>")
+										.append("<li>스피커</li>")
 										.append("<li>화이트보드</li>");
 		}
 		if(meetingNo == "4 회의실"){
@@ -146,7 +147,7 @@
 			var $detailDiv = $("<div class=\"detailDiv\">");
 			var $detailList = $("<ul>").append("<li>적정인원  5~6인</li>")
 										.append("<li>빔프로젝트</li>")
-										.append("<li>정수기</li>")
+										.append("<li>스피커</li>")
 										.append("<li>화이트보드</li>");
 		}
 		if(meetingNo == "5 회의실"){

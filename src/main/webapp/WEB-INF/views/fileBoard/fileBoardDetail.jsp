@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>자료실 상세보기</title>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
-<link rel="stylesheet" href="../../../resources/css/fileBoaed/fileBoaedDetail.css">
+<link rel="stylesheet" href="../../../resources/css/fileBoard/fileBoardDetail.css">
 </head>
 <body>
 <jsp:include page="../common/menuBar.jsp"></jsp:include>

@@ -77,7 +77,7 @@ public class FileBoardController {
 	
 	//리스트 페이지 보기
 	@RequestMapping(value="/fileBoard/list.sw", method=RequestMethod.GET)
-	public String CommunityListView(
+	public String fileBoardListView(
 			Model model
 			,@RequestParam(value="page", required=false) Integer page) {
 		
@@ -89,8 +89,9 @@ public class FileBoardController {
 		if(fList != null) {
 			model.addAttribute("fList", fList);
 			model.addAttribute("pi", pi);
-			model.addAttribute("myCondition", "board");
+			model.addAttribute("currentPage", currentPage);
 			model.addAttribute("listCondition", "fileBoard");
+			model.addAttribute("myCondition", "board");
 			return "fileBoard/fileBoardList";
 		}else {
 			model.addAttribute("msg", "리스트 출력 실패");

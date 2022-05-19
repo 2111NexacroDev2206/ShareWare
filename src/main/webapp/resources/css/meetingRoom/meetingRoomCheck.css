@@ -78,12 +78,12 @@ table.type04 {
     color: black;
   }
 
-  .paging {
+.paging {
 	display: inline-flex;
 	height: 40px;
 	width: 836px;
 	position: absolute;
-	top: 500px;
+	top: 600px;
 	margin-left: 257px;
 	justify-content: center;
 }

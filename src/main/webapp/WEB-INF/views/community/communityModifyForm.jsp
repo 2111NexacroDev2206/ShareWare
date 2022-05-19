@@ -7,76 +7,82 @@
 <meta charset="UTF-8">
 <title>수정페이지</title>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+<link rel="stylesheet" href="../../../resources/css/community/communityModifyForm.css">
 </head>
 <body>
+	<jsp:include page="../common/menuBar.jsp"></jsp:include>
+	<div class="s-menu">
+		<div class="s-menu-title">
+			<p>자유게시판
+				<i class="fa-solid fa-pen-to-square fa-lg"></i>
+		</div>
+		<div class="s-list-item ${listCondition eq 'community' ? 'active' : ''}"><a href="/community/list.sw?docStatus=전체">자유게시판</a></div>
+		<div class="s-list-item ${listCondition eq 'notice' ? 'active' : ''}"><a href="/notice/list.sw?docStatus=전체">공지게시판</a></div>
+		<div class="s-list-item ${listCondition eq 'fileBoard' ? 'active' : ''}"><a href="/fileBoard/list.sw?docStatus=전체">자료실</a></div>
+	</div>
+	<div id="coreDiv">
+		<div id="marging">
+		</div>
+		<div id="position">
+			<div id="contents">
+				<form action="/community/update.sw" method="POST" enctype="multipart/form-data" id="updateForm"> 
+					<div class="optionBtnDiv">
+						<button type="button" id="upDateBtn">수정</button>
+						<button type="button" id="cancleBtn" onclick="location.href='/community/list.sw'">취소</button>
+					</div> 
+					<div class="dateDiv">작성일 : ${community.comDate}</div>
+					
+					<div id="community-TitleDiv">
+						<input type="text" id="comTitle" value="${community.comTitle}">
+					</div>
+					<div id="community-ContentDiv">
+						<!-- <div contentEditable="true" id="comContent" style="height:500px;">  -->
+							<textarea id="comContent" name="comContent" rows="" cols="">${community.comContent}</textarea>
+							<div id="vote-body-div">
+								<input type="text" value="${communityVote.cVoteState}">
+								<div id="vote-textbox-div">
+									<div id="vote-textbox1-div"  class="vote-textbox-div">
+										<input id="vote-input1" value="${communityVote.cVoteText1}" type="text" class="vote-input">
+									</div>
+									<div id="vote-textbox2-div"  class="vote-textbox-div">
+										<input id="vote-input2" value="${communityVote.cVoteText2}" type="text" class="vote-input">	
+										<input type="button"  class="btn-delete">
+									</div>
+									<div id="vote-textbox3-div"  class="vote-textbox-div">
+										<input id="vote-input3" value="${communityVote.cVoteText3}" type="text" class="vote-input">
+										<input type="button" id="btn-delete1" class="btn-delete" value="&#xf056;">
+									</div>
+									<div id="vote-textbox4-div"  class="vote-textbox-div">
+										<input id="vote-input4" value="${communityVote.cVoteText4}" type="text" class="vote-input">
+										<input type="button" id="btn-delete2" class="btn-delete" value="&#xf056;">
+									</div>
+								</div>
+									<div id="button-boxDiv">
+										<input type="button" id="voteInputAdd" value="&#xf055;">
+										<button type="button" id="voteInsert">등록</button>
+										<button type="button" id="voteDelete">삭제</button>
+									</div>
+								</div>
+							</div>			
 
-<h1>수정 페이지</h1>
-	
-	<span>작성일 : ${community.comDate}</span>
-	<form action="/community/update.sw" method="POST" enctype="multipart/form-data" id="updateForm">  
-		<button type="button" id="cancel" onClick="location.href='/community/list.sw'">취소</button>
-	<table border="1">
-		<tr>
-			<td>제목</td>
-			<td><input type="text" size="50" id="comTitle" value="${community.comTitle}"></td>
-			
-		</tr>
-		<tr>
-			<td>본문</td>
-			<td>
- 				<!-- <div contentEditable="true" id="comContent" style="height:500px;">  -->
-				<input type="text" id="comContent" value="${community.comContent}">
-				<input type="text" value="${communityVote.cVoteState}">
-					<div>
-						<c:if test="${community.comImgName != null}">
-							<img src = "../../../resources/loadFile/${community.comImgRename}" alt="${community.comImgName}" id="viewImg">
-						</c:if>
-							<img id ="img" />
-					</div>
-			
-				<div id="vote-body-div">
-					<div id="vote-textbox-div">
-						<div id="vote-textbox1-div">
-							<input id="vote-input1" type="text" value="${communityVote.cVoteText1}" class="intext">
-						</div>
-						<div id="vote-textbox2-div">
-							<input id="vote-input2" type="text" value="${communityVote.cVoteText2}" class="intext">	
-						</div>
-						<div id="vote-textbox3-div">
-							<input id="vote-input3" type="text" value= "${communityVote.cVoteText3}" class="intext">
-							<button type="button" id="btn-delete1" >-</button>
-						</div>
-						<div id="vote-textbox4-div">
-							<input id="vote-input4" type="text" value= "${communityVote.cVoteText4}" class="intext">
-							<button type="button" id="btn-delete2">-</button>
-						</div>
-					</div>
-						<div id="button-box">
-							<button type="button" id="voteDelete">삭제</button>
-							<button type="button" id="voteInputAdd">+</button>
-						</div>
-					</div>
+							<div class="fileDiv">
+								<input class="upload-name" value="파일선택" disabled="disabled">				
 		
-				<!--</div>  -->
-				
-			</td>
-		</tr>
-		<tr>
-			<td>첨부파일</td>
-			<td><input type="file" accept=".jpg,.pdf,.bmp,.png,.jpeg" id="comImgName" onchange="loadImg(this);" ></td>
-			<!--onchange="loadImg(this)주기->function loadImg(obj)받기-->
-		</tr>
-		<tr>
-			<td>
-				<button type="button" id="upDate">수정</button>
-				<button>취소</button>
-				<button type="button" id="comVoteInsert">투표등록</button>
-			</td>
-		</tr>
-	</table>
-	</form>
+								<label for="comImgName" class="comImgNameLeble">첨부파일</label>
+								<input type="file" accept=".jpg,.pdf,.bmp,.png,.jpeg" id="comImgName" >
+								<button type="button" id="comVoteInsert">투표등록</button>
+							</div>
+				</form>
+			</div>
+		</div>
 	
 	<script>
+
+	document.getElementById("vote-body-div").style.display = "none";
+	document.getElementById("vote-textbox3-div").style.display = "none";
+	document.getElementById("vote-textbox4-div").style.display = "none";
+	document.getElementById("btn-delete1").style.display = "none";
+	document.getElementById("btn-delete2").style.display = "none";
 
 	const voteBodyDiv =document.getElementById('vote-body-div');
 	const div1 =document.getElementById('vote-textbox1-div');
@@ -86,6 +92,7 @@
 	const divAddButton = document.getElementById('voteInputAdd');
 	const divButton1 =document.getElementById('btn-delete1');
 	const divButton2 =document.getElementById('btn-delete2');
+	const divButtonAdd =document.getElementById('voteInputAdd');
 	const bookedImg = "${community.comImgName}";
 	const bookedImgbox = document.getElementById('viewImg');
 	var divText3 ="${communityVote.cVoteText3}";
@@ -179,11 +186,13 @@
 		if(div3.style.display === 'none'){
 			div3.style.display = 'block';
 			divButton1.style.display = 'block';
+			divButtonAdd.style.display = 'block';
 		//div2가 생성됐을 때는 div1의 -버튼이 보이면 안됨
 		}else if(div3.style.display === 'block'){
 			div4.style.display = 'block';
 			divButton1.style.display = 'none';
 			divButton2.style.display = 'block';
+			divButtonAdd.style.display = 'none';
 		}
 	});
 	
@@ -205,22 +214,22 @@
 
 	
 	
-	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ이미지 미리보기ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-	const imageInput = $("#comImgName")[0]; //첨부파일 input id
-	  console.log("imageInput: ", imageInput.files) //콘솔출력
+	// //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ이미지 미리보기ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	// const imageInput = $("#comImgName")[0]; //첨부파일 input id
+	//   console.log("imageInput: ", imageInput.files) //콘솔출력
 	
-	  function loadImg(obj){
-		console.log(obj.files);
-		if(obj.files.length != 0 && obj.files[0] !=0){//만약 파일 크기가 null이 아니고 파일이 null이 아니면 실행
-			var reader = new FileReader();
-			reader.readAsDataURL(obj.files[0]);
-			reader.onload = function(e){
-				$("#img").attr("src", e.target.result);
+	//   function loadImg(obj){
+	// 	console.log(obj.files);
+	// 	if(obj.files.length != 0 && obj.files[0] !=0){//만약 파일 크기가 null이 아니고 파일이 null이 아니면 실행
+	// 		var reader = new FileReader();
+	// 		reader.readAsDataURL(obj.files[0]);
+	// 		reader.onload = function(e){
+	// 			$("#img").attr("src", e.target.result);
 				
-				bookedImgbox.style.display = 'none';
-			}
-		}
-	}	
+	// 			bookedImgbox.style.display = 'none';
+	// 		}
+	// 	}
+	// }	
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ수정ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	
 	$("#upDate").on("click", function(){

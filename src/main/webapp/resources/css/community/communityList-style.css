@@ -29,7 +29,7 @@ a {
 #contents{
 	position:absolute;
 	top: 200;
-	margin-top: 150px;
+	margin-top: 100px;
 	margin-left: 540px;
 	margin-right: 100px;
 	margin-bottom: 400px;
@@ -118,7 +118,7 @@ table.type04 {
 	border-radius: 4px;
 }
  
- .l-search {
+.l-search {
 	display: flex;
 	height:40px;
 	margin-bottom: 10px;
@@ -147,7 +147,14 @@ table.type04 {
 	width: 137px;
 	border: none;
 }
-.i-search{
-	font-family: fontAwesome;
-	width: 50px;
-}
+.i-search {
+		display: inline-flex;
+		width: 33px;
+		justify-content:center;
+		font-size: 17px;
+		font-family: FontAwesome;
+		border: none;
+		cursor : pointer;
+		background-color : transparent;
+		color: rgb(51, 51, 51);
+	}

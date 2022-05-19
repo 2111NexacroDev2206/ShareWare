@@ -20,24 +20,9 @@
 					<a href="${pagination }"><button class="page-btn ${p eq currentPage ? 'active' : '' }">${p }</button></a>&nbsp;								
 				</c:forEach>
 				<c:if test="${pi.next == true && pi.endNavi > 0}">
-					<a href='<c:url value="/fileBoardy/list.sw?page=${pi.endNavi+1 }"/>'><button class="page-btn">＞</button></a>
+					<a href='<c:url value="/fileBoard/list.sw?page=${pi.endNavi+1 }"/>'><button class="page-btn">＞</button></a>
 				</c:if>
-		</c:if>
-		<!-- 검색 했을 경우 -->
-		<c:if test="${search.memberNum != null }">
-				<c:if test="${pi.prev == true}">
-					<a href='<c:url value="/fileBoard/search.sw?page=${pi.startNavi-1 }&searchCondition=${search.searchCondition }&searchValue=${search.searchValue }"/>'><button class="page-btn">＜</button></a>
-				</c:if>
-				<c:forEach var="p" begin="${pi.startNavi }" end="${pi.endNavi }">
-					<c:url var="pagination" value="/fileBoard/search.sw?searchCondition=${search.searchCondition }&searchValue=${search.searchValue }">
-						<c:param name="page" value="${p }"></c:param>
-					</c:url>
-					<a href="${pagination }"><button class="page-btn ${p eq currentPage ? 'active' : '' }">${p }</button></a>&nbsp;								
-				</c:forEach>
-				<c:if test="${pi.next == true && pi.endNavi > 0}">
-					<a href='<c:url value="/fileBoard/search.sw?page=${pi.endNavi+1 }&searchCondition=${search.searchCondition }&searchValue=${search.searchValue }"/>'><button class="page-btn">＞</button></a>
-				</c:if>
-		</c:if>
-	</div>	
+		</c:if>	
+	</div>
 </body>
 </html>

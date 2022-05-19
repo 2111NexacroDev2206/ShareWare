@@ -43,7 +43,14 @@ a {
     float: right;
   }
 
-  .optionBtnDiv #comInsertBtn{
+  .dateDiv{
+    height: 20px;
+    width: 150px;
+    float: right;
+    margin-right: 5px;
+  }
+
+  .optionBtnDiv #upDateBtn{
     margin-left: 3px;
     margin-right: 3px;
     width: 80px;
