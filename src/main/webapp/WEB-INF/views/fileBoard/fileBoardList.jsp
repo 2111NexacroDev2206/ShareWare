@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>자료실 리스트</title>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
-<link rel="stylesheet" href="../../../resources/css/fileBoaed/fileBoaedList-style.css">
+<link rel="stylesheet" href="../../../resources/css/fileBoard/fileBoardList-style.css">
 </head>
 <body>
 <jsp:include page="../common/menuBar.jsp"></jsp:include>
@@ -27,11 +27,9 @@
 		<div id="position">
 			<div id="contents">
 				<div id="writeBtnDiv">
-					<button onclick="location.href='/fileBoard/WriteView.sw'">글 작성</button>
+					<button onclick="location.href='/fileBoard/WriteView.sw'">작성</button>
 				</div>
-					<!-- <a href="/community/WriteView.sw">게시글 작성</a> -->
-				<br>
-				
+					<!-- <a href="/community/WriteView.sw">게시글 작성</a> -->				
 					<table align="center" class="type04">
 					<tr>
 						<th colspan="2">제목</th>

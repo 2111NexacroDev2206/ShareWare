@@ -6,38 +6,51 @@
 <meta charset="UTF-8">
 <title>자료게시판 글쓰기</title>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+<link rel="stylesheet" href="../../../resources/css/fileBoard/fileBoardWriteForm.css">
 </head>
 <body>
-		<h1>게시글 등록 페이지(임시)</h1>
-	<form action="/community/register.sw" method="post" enctype="multipart/form-data">
-	<table border="1">
-		<tr>
-			<td>제목</td>
-			<td><input type="text" size="50" id="fileTitle"></td>
-			
-		</tr>
-		<tr>
-			<td>본문</td>
-			<td><textarea id="fileContent" rows="" cols=""></textarea></td>
-		</tr>
-		<tr>
-			<td>첨부파일</td>
-			<td><input type="file" id="fileName" ></td>
-		</tr>
-		<tr>
-			<td>
-				<button type="button" id="fileInsert">등록</button>
-				<input type="reset" value="취소">
-			</td>
-		</tr>
-	</table>
-	</form>
+	<jsp:include page="../common/menuBar.jsp"></jsp:include>
+	<div class="s-menu">
+		<div class="s-menu-title">
+			<p>자료실
+				<i class="fa-solid fa-pen-to-square fa-lg"></i>
+		</div>
+		<div class="s-list-item ${listCondition eq 'community' ? 'active' : ''}"><a href="/community/list.sw?docStatus=전체">자유게시판</a></div>
+		<div class="s-list-item ${listCondition eq 'notice' ? 'active' : ''}"><a href="/notice/list.sw?docStatus=전체">공지게시판</a></div>
+		<div class="s-list-item ${listCondition eq 'fileBoard' ? 'active' : ''}"><a href="/fileBoard/list.sw?docStatus=전체">자료실</a></div>
+	</div>
+	<div id="coreDiv">
+		<div id="marging">
+		</div>
+		<div id="position">
+			<div id="contents">
+					<form action="/fileBoard/register.sw" method="post" enctype="multipart/form-data">
+						<div class="optionBtnDiv">
+							<button type="button" id="fileInsertBtn">등록</button>
+							<button type="button" id="cancleBtn" onclick="location.href='/fileBoard/list.sw'">취소</button>
+						</div>
+						<div id="fileBoard-TitleDiv">
+							<input type="text" id="fileTitle" placeholder="글 제목을 입력해주세요.">
+						</div>
+						<div id="fileBoard-ContentDiv">
+								<td><textarea id="fileContent" rows="" cols=""></textarea></td>
+						</div>
+						<div class="fileDiv">
+							<input class="upload-name" value="파일선택" disabled="disabled">				
+
+							<label for="fileName" class="fileNameLeble">첨부파일</label>
+							<input type="file" id="fileName" >
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	<script>
 	
 
 	const fileInput = $("#fileName")[0];
 	
-	 $("#fileInsert").on("click", function(){
+	 $("#fileInsertBtn").on("click", function(){
 		 var fileTitle = $("#fileTitle").val();
 		 var fileContent = $("#fileContent").val();
 		 

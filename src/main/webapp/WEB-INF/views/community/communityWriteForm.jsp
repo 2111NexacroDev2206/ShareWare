@@ -8,6 +8,7 @@
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <link rel="stylesheet" href="../../../resources/css/community/communityWriteForm.css">
 <script src="https://cdn.ckeditor.com/4.18.0/full-all/ckeditor.js"></script>
+<link rel="stylesheet" href="../../../resources/css/fileBoard/fileBoardWriteForm">
 </head>
 <body>
 <jsp:include page="../common/menuBar.jsp"></jsp:include>
@@ -28,47 +29,48 @@
 			<form action="/community/register.sw" method="POST" enctype="multipart/form-data" id="uploadForm">  
 							
 				<div class="optionBtnDiv">
-					<button type="button" id="comInsert">등록</button>
-					<button type="button" id="cancle" onclick="location.href='/community/list.sw'">취소</button>
+					<button type="button" id="comInsertBtn" onclick = "comInsert()">등록</button>
+					<button type="button" id="cancleBtn" onclick="location.href='/community/list.sw'">취소</button>
 				</div>
-				<div id="community-TileDiv">
-					<input type="text" size="50" id="comTitle">
+				<div id="community-TitleDiv">
+					<input type="text" id="comTitle" placeholder="글 제목을 입력해주세요.">
 				</div>
 				<div id="community-ContentDiv">
 					<!-- <div contentEditable="true" id="comContent" style="height:500px;">  -->
-						<textarea id="comContent" name="content" rows="" cols=""></textarea>
-						<div>
-							<img id ="img" />
-						</div>
+						<textarea id="comContent" name="content" rows="" cols="" placeholder="글 내용을 입력해주세요."></textarea>
 						<div id="vote-body-div">
 							<div id="vote-textbox-div">
-								<div id="vote-textbox1-div">
-									<input id="vote-input1" type="text">
+								<div id="vote-textbox1-div" class="vote-textbox-div">
+									<input id="vote-input1" type="text" class="vote-input">
 								</div>
-								<div id="vote-textbox2-div">
-									<input id="vote-input2" type="text">	
+								<div id="vote-textbox2-div" class="vote-textbox-div">
+									<input id="vote-input2" type="text" class="vote-input">	
+									<input type="button" class="btn-delete">
 								</div>
-								<div id="vote-textbox3-div">
-									<input id="vote-input3" type="text">
-									<button type="button" id="btn-delete1">-</button>
+								<div id="vote-textbox3-div" class="vote-textbox-div">
+									<input id="vote-input3" type="text" class="vote-input">
+									<input type="button" id="btn-delete1" class="btn-delete" value="&#xf056;">
 								</div>
-								<div id="vote-textbox4-div">
-									<input id="vote-input4" type="text">
-									<button type="button" id="btn-delete2">-</button>
-								</div>
-							</div>
-								<div id="button-box">
-									<button type="button" id="voteInputAdd">+</button>
+								<div id="vote-textbox4-div" class="vote-textbox-div">
+									<input id="vote-input4" type="text" class="vote-input">
+									<input type="button" id="btn-delete2" class="btn-delete" value="&#xf056;">
 								</div>
 							</div>
-					</div>		
-					<div>
-						첨부파일<input type="file" accept=".jpg,.pdf,.bmp,.png,.jpeg" id="comImgName" onchange="loadImg(this);" >
+								<div id="button-boxDiv">
+									<input type="button" id="voteInputAdd" value="&#xf055;">
+									<button type="button" id="voteInsert">등록</button>
+									<button type="button" id="voteDelete">삭제</button>
+
+								</div>
+							</div>
+						</div>		
+					<div class="fileDiv">
+						<input class="upload-name" value="파일선택" disabled="disabled">				
+
+						<label for="comImgName" class="comImgNameLeble">첨부파일</label>
+						<input type="file" accept=".jpg,.pdf,.bmp,.png,.jpeg" id="comImgName" >
+						<button type="button" id="comVoteInsert">투표등록</button>
 					</div>
-						<!--onchange="loadImg(this)주기->function loadImg(obj)받기-->
-					
-							<button type="button" id="voteDelete">삭제</button>
-							<button type="button" id="comVoteInsert">투표등록</button>
 				</form>
 			</div>
 	</div>
@@ -84,13 +86,26 @@
 	
 	const voteBodyDiv =document.getElementById('vote-body-div');
 	
-	
+	$(document).ready(function(){ 
+		var fileTarget = $('.fileDiv #comImgName'); 
+		fileTarget.on('change', function(){ 
+			// 값이 변경되면 
+			if(window.FileReader)
+			{ // modern browser
+			 var filename = $(this)[0].files[0].name; 
+			} else { 
+				// old IE 
+				var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
+			} // 추출한 파일명 삽입 
+			$(this).siblings('.upload-name').val(filename); }); });
+
+
 	// CKEditor
-		CKEDITOR.replace( 'content', {
+/* 		CKEDITOR.replace( 'content', {
 				height: 350,
 				removePlugins: "exportpdf"
 			} );
-
+ */
 	$("#comVoteInsert").on("click",function(){
 
 	
@@ -99,11 +114,19 @@
 		}
 
 	});
+ 
+ 	var cVoteText1 ="";
+	var cVoteText2 ="";
+	var cVoteText3 ="";
+	var cVoteText4 ="";
 
 	$("#voteDelete").on("click",function(){
 
-
 		if(voteBodyDiv.style.display === 'block'){
+			cVoteText1 =$("#vote-input1").val("");
+			cVoteText2 =$("#vote-input2").val("");
+			cVoteText3 =$("#vote-input3").val("");
+			cVoteText4 =$("#vote-input4").val("");	
 			voteBodyDiv.style.display = 'none';
 		}
 
@@ -116,6 +139,7 @@
 
 		const divButton1 =document.getElementById('btn-delete1');
 		const divButton2 =document.getElementById('btn-delete2');
+		const divButtonAdd =document.getElementById('voteInputAdd');
 
 		//div1 이 생성됐을 때는 -버튼이 보여야함
 		if(div1.style.display === 'none'){
@@ -124,6 +148,7 @@
 		//div2가 생성됐을 때는 div1의 -버튼이 보이면 안됨
 		}else if(div1.style.display === 'block'){
 			div2.style.display = 'block';
+			divButtonAdd.style.display = 'none';
 			divButton1.style.display = 'none';
 			divButton2.style.display = 'block';
 		}
@@ -131,10 +156,12 @@
 
 	$("#btn-delete1").on("click", function(){
 		const div1 =document.getElementById('vote-textbox3-div');
+		const divButtonAdd =document.getElementById('voteInputAdd');
 		
 
 		if(div1.style.display === 'block'){
 			div1.style.display = 'none';
+			divButtonAdd.style.display = 'block';
 		
 		}
 	});
@@ -142,79 +169,94 @@
 	$("#btn-delete2").on("click", function(){
 		const div2 =document.getElementById('vote-textbox4-div');
 		const divButton1 =document.getElementById('btn-delete1');
+		const divButtonAdd =document.getElementById('voteInputAdd');
 
 		if(div2.style.display === 'block'){
 			div2.style.display = 'none';
 			divButton1.style.display = 'block';
+			divButtonAdd.style.display = 'block';
 		}
 	});
 
-	const imageInput = $("#comImgName")[0];
-	  console.log("imageInput: ", imageInput.files)
+	// const imageInput = $("#comImgName")[0];
+	//   console.log("imageInput: ", imageInput.files)
 
-	  function loadImg(obj){
-		console.log(obj.files);
-		if(obj.files.length != 0 && obj.files[0] !=0){
-			var reader = new FileReader();
-			reader.readAsDataURL(obj.files[0]);
-			reader.onload = function(e){
-				$("#img").attr("src", e.target.result);
-			}
+	//   function loadImg(obj){
+	// 	console.log(obj.files);
+	// 	if(obj.files.length != 0 && obj.files[0] !=0){
+	// 		var reader = new FileReader();
+	// 		reader.readAsDataURL(obj.files[0]);
+	// 		reader.onload = function(e){
+	// 			$("#img").attr("src", e.target.result);
+	// 		}
+	// 	}
+	// }
+	
+		
+	
+	$("#voteInsert").on("click", function(){
+		 cVoteText1 = $("#vote-input1").val();
+		 cVoteText2 = $("#vote-input2").val();
+		 cVoteText3 = $("#vote-input3").val();
+		 cVoteText4 = $("#vote-input4").val();
+		
+		
+		if(voteBodyDiv.style.display === 'block'){
+			   if(cVoteText1 == "" && cVoteText2 == ""){
+				   //만약 text1이랑  text2가 값이 없으면
+				   alert("투표 선택지를 입력해주세요!");
+				   
+			   }else{//투표 선택지에 값이 있으면 데이터 보내기
+				   voteBodyDiv.style.display = 'none';
+			   }
 		}
-	}
+		
+	});
 
 	
 	//글 등록comInsert
-	  $("#comInsert").on("click", function(){
-		    
-			var comTitle = $("#comTitle").val();
-			var comContent = $('#comContent').val();
-			var cVoteText1 = $("#vote-input1").val();
-			var cVoteText2 = $("#vote-input2").val();
-			var cVoteText3 = $("#vote-input3").val();
-			var cVoteText4 = $("#vote-input4").val();
-			var insertTrue = 1; //0이면 ajax 동작 x 1이면 동작 되게
-
-			
-			 const formData = new FormData();
-			  formData.append("uploadFile", imageInput.files[0]);
-			   formData.append("comTitle", comTitle);
-			   formData.append("comContent", comContent.trim());
-			   
-			   //투표가 보여지고 있을 때
-			   if(voteBodyDiv.style.display === 'block'){
-				   if(cVoteText1 == "" && cVoteText2 == ""){
-					   //만약 text1이랑  text2가 값이 없으면
-					   alert("투표 선택지를 입력해주세요!");
-					   insertTrue = 0;
-				   }else{//투표 선택지에 값이 있으면 데이터 넣어주기
+	const imageInput = $("#comImgName")[0];
+	
+	function comInsert(){
+		if(voteBodyDiv.style.display === 'block'){
+			alert("투표 작성을 끝마쳐주요.");
+		}else{
+				var comTitle = $("#comTitle").val();
+				var comContent = $('#comContent').val();
+				
+				 const formData = new FormData();
+				  formData.append("uploadFile", imageInput.files[0]);
+				   formData.append("comTitle", comTitle);
+				   formData.append("comContent", comContent);
+				   
+				   if(cVoteText1 == "" || cVoteText2 == ""){
 					   formData.append("cVoteText1", cVoteText1);
 					   formData.append("cVoteText2", cVoteText2);
 					   formData.append("cVoteText3", cVoteText3);
 					   formData.append("cVoteText4", cVoteText4);
-					   insertTrue = 1;
 				   }
-			   }
-		if(insertTrue == 1){
-			  jQuery.ajax({
-		             url : "/community/register.sw"
-		           ,processData: false
-		           ,contentType: false
-		           , type : "POST"
-		           , data : formData
-		           , success:function(data){
-		        	   if(data == "success"){
-		        		   location.href = '/community/list.sw';
-		           }else{
-		        	   alert("등록 실패!");
-		        	   }
-		        },error : function() {
-					alert("ajax 통신 오류! 관리자에게 문의해주세요.");
-				}
-			})
-		}
+				   //투표가 보여지고 있을 때
+				   
 			
-		});
+				  jQuery.ajax({
+			             url : "/community/register.sw"
+			           ,processData: false
+			           ,contentType: false
+			           , type : "POST"
+			           , data : formData
+			           , success:function(data){
+			        	   if(data == "success"){
+			        		   location.href = '/community/list.sw';
+			           }else{
+			        	   alert("등록 실패!");
+			        	   }
+			        },error : function() {
+						alert("ajax 통신 오류! 관리자에게 문의해주세요.");
+					}
+				})
+		}
+	}
+	 
 			
 			 
 	</script>

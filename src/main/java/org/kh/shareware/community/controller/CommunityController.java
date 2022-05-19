@@ -129,6 +129,7 @@ public class CommunityController {
 				model.addAttribute("cList", cList);
 				model.addAttribute("pi", pi);
 				model.addAttribute("myCondition", "board");
+				model.addAttribute("currentPage", currentPage);
 				model.addAttribute("listCondition", "community");
 				return "community/communityList";
 			}else {

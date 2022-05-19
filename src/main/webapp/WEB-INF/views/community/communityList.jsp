@@ -63,7 +63,7 @@
 					<jsp:include page="communityPaging.jsp"></jsp:include>
 					<div class="l-search">
 						<form action="/community/search.sw" method="get" name="searchForm">
-							<select name="searchCondition" class="l-search" style="text-align: left; width: 80px;">
+							<select name="searchCondition" class="l-select" style="text-align: left; width: 80px;">
 								<option value="all">전체</option>
 								<option value="writer">작성자</option>
 								<option value="title">제목</option>

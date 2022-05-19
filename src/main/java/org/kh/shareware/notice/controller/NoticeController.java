@@ -39,6 +39,7 @@ public class NoticeController {
 		if(nList != null) {
 			model.addAttribute("nList", nList);
 			model.addAttribute("pi", pi);
+			model.addAttribute("currentPage", currentPage);
 			model.addAttribute("listCondition", "notice");
 			model.addAttribute("myCondition", "board");
 			return "notice/noticeList";

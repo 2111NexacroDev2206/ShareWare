@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +9,9 @@
 <title>회의실 예약</title>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <link rel="stylesheet" href="../../../resources/css/meetingRoom/meetingRoomReservation.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.js"></script>
+
 </head>
 <body>
 <jsp:include page="../common/menuBar.jsp"></jsp:include>
@@ -25,22 +29,35 @@
 				<div id="position">
 					<div id="contents">
 					<form action="/meetionRoom/reservation.sw" method="GET" id="roomForm">
-							<div id = "formDiv">
 								<div id="rDiv">
-										<div>
-										날짜 : <input type=date id="roomRDate">
+										<div class="dateInputDiv">
+											<div class="selectTextDiv">
+												1. 날짜  
+											</div>
+											<div class="selectOptionDiv">
+												<input type=date id="roomRDate">
+											</div>
 										</div>
-										<div>
-											회의실 : <select id="room">
-												<option value="1 회의실" selected>1 회의실</option>
-												<option value="2 회의실">2 회의실</option>
-												<option value="3 회의실">3 회의실</option>
-												<option value="4 회의실">4 회의실</option>
-												<option value="5 회의실">5 회의실</option>
+										<div class="roomSelectDiv">
+											<div class="selectTextDiv">
+												2. 회의실 
+											</div>
+											<div class="selectOptionDiv">
+												<select id="room">
+												<option value="1 회의실"  selected>1 회의실</option>
+												<option value="2 회의실" >2 회의실</option>
+												<option value="3 회의실" >3 회의실</option>
+												<option value="4 회의실" >4 회의실</option>
+												<option value="5 회의실" >5 회의실</option>
 											</select>
+											</div>
 										</div>
-										<div>
-											시간 : <select id="time">
+										<div class="timeSelectDiv">
+											<div class="selectTextDiv">
+												3. 시간 
+											</div>
+											<div class="selectOptionDiv">
+												<select id="time">
 												<option value="a">=== 선택 ===</option>
 												<option value="1"  id="time1">10:00~12:00</option>
 												<option value="2"  id="time2">13:00~15:00</option>
@@ -48,12 +65,31 @@
 												<option value="4"  id="time4">17:00~19:00</option>
 												<option value="5"  id="time5">19:00~21:00</option>
 											</select>
+											</div>
 										</div>
-									</div>
-								<div id = "bDiv">
-									<button type="button" id="rButton">예약</button>
+										<div class="guide">
+											<a>*회의실 이용안내 및 예약 방법*</a>	
+											<div>
+												<ul>
+													<li>원하시는 날짜, 회의실, 시간을 선택해주세요.</li>
+													<li>회의실 예약은 최대 3주 까지 가능합니다.</li>
+													<li>원할한 이용을 위해 10분전 퇴실을 준비해주세요.</li>	
+													<li>회의실 내 취식을 엄금합니다.</li>
+													<li>회의실 내에서는 마스크를 착용해주세요.</li>	
+												</ul>
+											</div>
+										</div>
+										
 								</div>
-						</div>
+								<div class="detaileDiv">
+									<div id = "calendar" class="calendarDiv">
+									
+									</div>
+								</div>
+								
+							<div id = "buttonDiv">
+								<button type="button" id="rButton">예약</button>
+							</div>
 					</form>
 				</div>
 			</div>
@@ -69,6 +105,101 @@
 		dateVaule();
 		dateMax();
 		roomChangeTime();
+		
+		document.addEventListener('DOMContentLoaded', function() {
+		
+				var calendarEl = document.getElementById("calendar");
+				var calendar = new FullCalendar.Calendar(calendarEl, {
+				initialView: 'dayGridMonth'
+				});
+				calendar.render();
+	      }); 
+		
+		$("#roomRDate").on("click",function(){
+			var $detaileDiv = $(".detaileDiv");
+			$detaileDiv.html("");
+			var $subContent = $("<div id = \"calendar\" class=\"calendarDiv\">");
+			
+			$detaileDiv.append($subContent);
+			$('#calendar').css("background-color","white");
+
+			var calendarEl = document.getElementById("calendar");
+				var calendar = new FullCalendar.Calendar(calendarEl, {
+				initialView: 'dayGridMonth'
+				});
+				calendar.render();
+		});
+		
+	      $("#room").change(function(){
+	    	  	var value = $("#room").val();
+				var $detaileDiv = $(".detaileDiv");
+				$detaileDiv.html("");
+				var $subContent = $("<div id = \"calendar\" class=\"subContent\">");
+				var $roomDetail1 = $("<div id=\"roomDetailDiv\">");
+				if(value == "1 회의실"){
+					var $roomImg =$("<img src=\"../../../resources/img/meetingRoom1.png\" id=\"roomImg\">");
+					
+					var $roomDetailList = $("<ul>").append("<li>적정인원 5인</li>")
+													.append("<li>빔프로젝트</li>")
+													.append("<li>노트북 대여</li>")
+													.append("<li>화이트보드</li>");
+					
+					}
+				if(value == "2 회의실"){
+					var $roomImg =$("<img src=\"../../../resources/img/meetingRoom2.jpg\" id=\"roomImg\">");
+					
+						var $roomDetailList = $("<ul>").append("<li>적정인원 5인</li>")
+													.append("<li>빔프로젝트</li>")
+													.append("<li>노트북 대여</li>")
+													.append("<li>화이트보드</li>");
+					}
+				if(value == "3 회의실"){
+					var $roomImg =$("<img src=\"../../../resources/img/meetingRoom3.jpg\" id=\"roomImg\">");
+					
+					var $roomDetailList = $("<ul>").append("<li>적정인원 5인</li>")
+													.append("<li>빔프로젝트</li>")
+													.append("<li>노트북 대여</li>")
+													.append("<li>화이트보드</li>");
+					}
+				if(value == "4 회의실"){
+					var $roomImg =$("<img src=\"../../../resources/img/meetingRoom4.jpg\" id=\"roomImg\">");
+					
+					var $roomDetailList = $("<ul>").append("<li>적정인원 15인</li>")
+													.append("<li>빔프로젝트</li>")
+													.append("<li>노트북 대여</li>")
+													.append("<li>스피커</li>")
+													.append("<li>화이트보드</li>");
+					}
+				if(value == "5 회의실"){
+					var $roomImg =$("<img src=\"../../../resources/img/meetingRoom5.jpg\" id=\"roomImg\">");
+					
+					var $roomDetailList = $("<ul>").append("<li>적정인원 5인</li>")
+													.append("<li>빔프로젝트</li>")
+													.append("<li>노트북 대여</li>")
+													.append("<li>스피커</li>")
+													.append("<li>화이트보드</li>");
+				
+					}
+				
+				$subContent.append($roomImg);
+				$roomDetail1.append($roomDetailList);
+				$detaileDiv.append($subContent);
+				$detaileDiv.append($roomDetail1);
+				
+				
+				
+				
+			});
+		
+		$("#time").on("click",function(){
+			var $detaileDiv = $(".detaileDiv");
+			$detaileDiv.html("");
+			var $subContent = $("<div class=\"timeContent\">");
+			var $timeImg = $("<img src=\"../../../resources/img/time.png\" id=\"timeImg\">");
+			
+			$subContent.append($timeImg);
+			$detaileDiv.append($subContent);
+		});
 		
 		
 		function dateVaule(){
