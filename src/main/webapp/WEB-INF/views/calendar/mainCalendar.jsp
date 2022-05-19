@@ -8,7 +8,7 @@
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge'>
 
-<title>calendar</title>
+<title>일정</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 
@@ -353,8 +353,26 @@
 	   let defaultColor = $('.colors span:first-of-type').css('background-color');
 	   $('input[name="scheduleColor"]').val('defaultColor');
 	}
-     
-    
+	function refreshMemList(){ //실행시 재로드
+		location.reload();
+	}
+	
+    function deleteBmk(calNo) {
+    	$.ajax({
+    		url : "/calendar/deleteCal.sw",
+    		type : "get",
+    		data : {
+    			"calNo" : calNo
+    		},
+    		success : function(data) {
+    			
+    			refreshMemList();
+    		},
+    		error : function() {
+    			alert("Ajax 통신 실패!");
+    		}
+    	});
+    }
      
            
     </script>
@@ -459,6 +477,12 @@ strong {
 	font-size: 15px;
 	cursor: pointer;
 }
+#subject {
+	overflow:auto;
+	height: 80px;
+	
+}
+
 </style>
 </head>
 <body>
@@ -474,20 +498,25 @@ strong {
 		</button>
 		<br> <br> <br>
 		<div class="s-list-item ${listCondition eq 'calMy' ? 'active' : ''}">
-			<p>
-				&nbsp;&nbsp;&nbsp;<strong>내 캘린더</strong>&nbsp;&nbsp;<i
+			
+				<a href="javascript:myCalendar();"><strong>내 캘린더</strong></a>&nbsp;&nbsp;<i
 					class="fa-solid fa-user-check"></i>
 		</div>
-		&nbsp;
+		<div id="subject">
+		<c:forEach items="${cList }" var="cal">
+					<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-circle-minus" style="color: grey;" onclick="deleteBmk('${cal.calNo}');"></i>&nbsp;&nbsp;${cal.calName }</div>
+					</c:forEach> 
+		</div>
+				&nbsp;
 		<div class="s-list-item ${listCondition eq 'calBmk' ? 'active' : ''}">
-			<p>
+			
 				&nbsp;&nbsp;&nbsp;<strong>관심 캘린더</strong>&nbsp;&nbsp;<i
 					class="fa-solid fa-bookmark"></i>
 		</div>
 		&nbsp;
 		<div
 			class="s-list-item ${listCondition eq 'calGroup' ? 'active' : ''}">
-			<p>
+			
 				&nbsp;&nbsp;&nbsp;<strong>공유 캘린더</strong>&nbsp;&nbsp;<i
 					class="fa-solid fa-user-group"></i>
 		</div>
@@ -629,7 +658,7 @@ strong {
 			</div>
 		</div>
 	</div>
-
+	<jsp:include page="../calendar/calRegisterModal.jsp"></jsp:include>
 
 
 

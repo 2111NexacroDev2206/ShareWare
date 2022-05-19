@@ -654,23 +654,7 @@ public class MailController {
 		return mv;
 		
 	}
-	// 즐겨찾는 그룹 추가 목록
-	@ResponseBody
-	@RequestMapping(value = "/modal/mailBmklist.sw", method = RequestMethod.GET, produces="application/json;charset=utf-8")
-	public String modalBmkList(
-			HttpServletRequest request
-		) {
-		MailBmk mailBmk = new MailBmk();
-		HttpSession session = request.getSession();
-		Member member = (Member) session.getAttribute("loginUser"); 
-		mailBmk.setMemNum(member.getMemberNum());
-		List<MailBmk> bList = mService.printBmk(mailBmk);
-		if(!bList.isEmpty()) {
-			return new Gson().toJson(bList);
-		}
-		return null;
-		
-	}
+
 	//승인메일 목록 조회
 	@RequestMapping( value="/mail/mailAppListView.sw", method= {RequestMethod.GET ,RequestMethod.POST})
 	public ModelAndView mailAppListView(ModelAndView mv
@@ -1288,8 +1272,17 @@ public class MailController {
 				return "common/errorPage";
 			}
 			
-			
-			
+		}
+		
+		@ResponseBody
+		@RequestMapping(value="/mail/deleteMailBmk.sw", method=RequestMethod.GET)
+		public String calendarDelete(@RequestParam("mailNo") int mailNo) {
+			int result = mService.deleteMailBmk(mailNo);
+			if(result > 0) {
+				return "success";
+			}else {
+				return "fail";
+			}
 		}
 
 		// 메뉴 - 메일 카운트

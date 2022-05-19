@@ -9,17 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.kh.shareware.calendar.domain.CalSch;
+import org.kh.shareware.calendar.domain.Calendar;
 import org.kh.shareware.calendar.service.CalendarService;
 import org.kh.shareware.member.domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
 
 @Controller
 public class CalendarController {
@@ -31,8 +33,7 @@ public class CalendarController {
 	
 	
 	@RequestMapping( value="/calendar/schWriteView.sw")
-	public String scheduleWriteView(Model model) {
-		model.addAttribute("myCondition", "calendar");
+	public String scheduleWriteView() {
 		return "calendar/mainCalendar";
 	}
 	
@@ -66,13 +67,19 @@ public class CalendarController {
 	public ModelAndView scheduleList(ModelAndView mv
 			,HttpServletRequest request
 			, @ModelAttribute CalSch calSch
+			, @ModelAttribute Calendar calendar
 			) {
+//		Calendar calendar = new Calendar();
 		HttpSession session = request.getSession();
 		Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
 		calSch.setMemNum(member.getMemberNum());
 		List<CalSch> sList = cService.printAllSchedule(calSch);
+		calendar.setMemNum(member.getMemberNum());
+		List<Calendar> cList = cService.printAllMyCalendar(calendar);
+		mv.addObject("cList", cList);
 		if(!sList.isEmpty()) {
 			mv.addObject("sList", sList);
+			
 			mv.setViewName("calendar/mainCalendar");
 		}else {
 			mv.setViewName("calendar/mainCalendar");
@@ -128,18 +135,27 @@ public class CalendarController {
 	}
 				return mv;
 		
-		
 	}
+	
+	
+	@RequestMapping( value="/calendar/calWriteView.sw")
+	public String calendarWriteView() {
+		return "calendar/mainCalendar";
+	}
+	
+	@ResponseBody
 	@RequestMapping ( value="/calendar/calRegister.sw", method = RequestMethod.POST)
 	public ModelAndView calendarRegister(ModelAndView mv, 
-			@ModelAttribute CalSch calSch, 
-			HttpServletRequest request) {
+			@ModelAttribute Calendar calendar, 
+			HttpServletRequest request
+			, @RequestParam(value="calName") String calName) {
 		
 		try {
 			HttpSession session = request.getSession();
 			Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
-			calSch.setMemNum(member.getMemberNum());
-			int result = cService.registerSchedule(calSch);
+			calendar.setMemNum(member.getMemberNum());
+			calendar.setCalName(calName);
+			int result = cService.registerCalendar(calendar);
 			if(result>0) {
 				mv.setViewName("redirect:/calendar/schListView.sw");
 			} else {
@@ -154,4 +170,14 @@ public class CalendarController {
 				
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="/calendar/deleteCal.sw", method=RequestMethod.GET)
+	public String calendarDelete(@RequestParam("calNo") int calNo) {
+		int result = cService.deleteCalendar(calNo);
+		if(result > 0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
 }

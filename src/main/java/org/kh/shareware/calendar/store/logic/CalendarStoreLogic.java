@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.calendar.domain.CalSch;
+import org.kh.shareware.calendar.domain.Calendar;
 import org.kh.shareware.calendar.store.CalendarStore;
 import org.springframework.stereotype.Repository;
 
@@ -34,6 +35,24 @@ public class CalendarStoreLogic implements CalendarStore{
 	@Override
 	public int updateSchedule(CalSch calSch, SqlSession sqlSession) {
 		int result = sqlSession.update("CalendarMapper.updateSchedule", calSch);
+		return result;
+	}
+	
+	@Override
+	public int registerCalendar(Calendar calendar, SqlSession sqlSession) {
+		int result = sqlSession.insert("CalendarMapper.insertCalendar", calendar);
+		return result;
+	}
+
+	@Override
+	public List<Calendar> selectCalMyList(SqlSession sqlSession, Calendar calendar) {
+		List<Calendar> cList = sqlSession.selectList("CalendarMapper.selectCalMyList", calendar);
+		return cList;
+	}
+
+	@Override
+	public int deleteCalendar(int calNo, SqlSession sqlSession) {
+		int result = sqlSession.delete("CalendarMapper.deleteCalendar", calNo);
 		return result;
 	}
 	

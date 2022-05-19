@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title></title>
 <link href="/resources/css/approval/appModal-style.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 <style type="text/css">
@@ -84,7 +84,7 @@ function bmkList(bList) {
 	$("#b-list-table").html(""); // 테이블 값 지우기
 	var tr = "";
 	for(var i = 0; i<bList.length; i++) {
-		tr += '<tr class="tr"><td>&emsp;<i class="fa-solid fa-user-group"></i>&ensp;' +bList[i].bmkSubject + '</td></tr>';
+		tr += '<tr class="tr"><td><i class="fa-solid fa-user-group"></i></td><td id="td-bmk">' +bList[i].bmkSubject + '</td></tr>';
 	}
 
 	$("#b-list-table").append(tr);
@@ -97,7 +97,7 @@ function bmkSelect() {
 		
 		// 현재 클릭된 Row(<tr>)
 		var tr = $(this);
-		var td = tr.children();
+		var td = tr.children("#td-bmk");
 					
 		// 반복문을 이용해서 배열에 값을 담아 사용 가능
 		td.each(function(i){

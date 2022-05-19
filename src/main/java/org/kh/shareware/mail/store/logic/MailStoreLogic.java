@@ -535,6 +535,12 @@ public class MailStoreLogic implements MailStore{
 		return result;
 	}
 
+	@Override
+	public int deleteMailBmk(SqlSession sqlSession, int mailNo) {
+		int result = sqlSession.delete("MailMapper.deleteMailBmk", mailNo);
+		return result;
+	}
+
 	
 	
 

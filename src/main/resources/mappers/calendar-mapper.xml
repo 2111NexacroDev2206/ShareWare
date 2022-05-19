@@ -16,8 +16,20 @@
 		<result property="alStatus" column="AL_STATUS"/>
 		<result property="schColor" column="SCH_COLOR"/>
 	</resultMap>
+	<resultMap type="Calendar" id="calendarResultMap">
+		<id property="calNo" column="CAL_NO"/>
+		<result property="schNo" column="SCH_NO"/>
+		<result property="memNum" column="MEM_NUM"/>
+		<result property="calName" column="CAL_NAME"/>
+		<result property="memName" column="MEM_NAME"/>
+		<result property="memDivision" column="MEM_DIVISION"/>
+		<result property="memRank" column="MEM_RANK"/>
+	</resultMap>
 	<insert id="insertSchedule">
 		INSERT INTO CAL_SCH VALUES(SEQ_SCH_NO.NEXTVAL, #{memNum}, #{calNo}, #{schName}, #{schStartDate}, #{schStartTime}, #{schEndDate}, #{schEndTime}, #{schContent}, #{alStatus}, #{schColor}) 
+	</insert>
+	<insert id="insertCalendar">
+		INSERT INTO CALENDAR (CAL_NO, CAL_NAME, MEM_NUM) VALUES(SEQ_CAL_NO.NEXTVAL, #{calName}, #{memNum} )	
 	</insert>
 	<update id="updateSchedule">
 	 	UPDATE CAL_SCH SET SCH_NAME = #{schName}, SCH_START_DATE = #{schStartDate}, SCH_START_TIME = #{schStartTime}, SCH_END_DATE = #{schEndDate}, SCH_END_TIME = #{schEndTime}, SCH_CONTENT = #{schContent}, SCH_COLOR = #{schColor} WHERE MEM_NUM = #{memNum} AND SCH_NO = #{schNo}
@@ -39,4 +51,11 @@
 	<select id="selectAllHomeCal" resultMap="calSchResultMap"><!-- 전체 일정 목록 -->
 		SELECT SCH_NO, MEM_NUM, CAL_NO, SCH_NAME, SCH_START_DATE, TO_DATE(SCH_END_DATE, 'YYYY-MM-DD') + 1 AS SCH_END_DATE, SCH_COLOR FROM CAL_SCH WHERE MEM_NUM IN ('admin', #{memberNum})
 	</select>
+	<select id="selectCalMyList" resultMap="calendarResultMap">
+		SELECT * FROM CALENDAR WHERE MEM_NUM = #{memNum} 
+	</select>
+	<delete id="deleteCalendar">
+		DELETE FROM CALENDAR WHERE CAL_NO = #{calNo} 
+	</delete>
+	
 	</mapper>

@@ -191,6 +191,8 @@ public interface MailService {
 
 	public int getReceiverCount(Mail mail);
 
+	public int deleteMailBmk(int mailNo);
+
 	
 
 
