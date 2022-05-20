@@ -54,13 +54,13 @@ table.type04 {
   }
 
   table.type04 th {
-	width: 150px;
 	padding: 10px;
 	font-weight: bold;
 	vertical-align: top;
 	border-bottom: 1px solid #ccc;
 	background-color: rgb(145, 168, 210);
   }
+  
 
   table.type04 td {
 	padding: 10px;
@@ -69,16 +69,27 @@ table.type04 {
   }
 
   .comNoTd{
-	width: 3%;
+	width: 38px;
   }
 
   .comTitleTd{
-	width: 65%;
+	width: 845px;
   }
 
-  .defualtTd{
+  .memeberTd{
 	text-align :center;
+	width: 96px;
   }
+
+  .dateTd{
+	text-align :center;
+	width: 140px;
+  }
+  .viewTd{
+	text-align :center;
+	width: 97px;
+  }
+
 
  #writeBtnDiv {
 	margin-top: 10px;

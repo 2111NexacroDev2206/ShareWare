@@ -136,8 +136,8 @@ public class CommunityServiceImpl implements CommunityService{
 
 	//검색
 	@Override
-	public List<Search> printSearchCommunity(Search search, PageInfo pi) {
-		List<Search> cList = cStore.selectSearchCommunity(sqlsession, search, pi);
+	public List<Search> printSearchCommunity(PageInfo pi, Search search) {
+		List<Search> cList = cStore.selectSearchCommunity(sqlsession,pi, search);
 		return cList;
 	}
 

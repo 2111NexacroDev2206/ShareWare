@@ -132,11 +132,24 @@
 		$("#voteInsert").css("color","white");
 		$("#voteInsert").attr("disabled",true);
 
+		$("#btn-delete1").css("color","rgb(158, 158, 158)");
+		$("#btn-delete1").attr("disabled",true);
+
+		$("#btn-delete2").css("color","rgb(158, 158, 158)");
+		$("#btn-delete2").attr("disabled",true);
+
+		$("#voteInputAdd").css("color","rgb(158, 158, 158)");
+		$("#voteInputAdd").attr("disabled",true);
+
 	}
 
 	$("#returnBtn").on("click",function(){
 		if(voteBodyDiv.style.display === 'block'){
 			voteBodyDiv.style.display = 'none';
+			cVoteText1 = $("#vote-input1").val();
+			cVoteText2 = $("#vote-input2").val();
+			cVoteText3 = $("#vote-input3").val();
+			cVoteText4 = $("#vote-input4").val();
 			}
 	});
 	//투표 등록 버튼을 눌렀을 때 투표가 화면 보이게 
@@ -145,6 +158,7 @@
 			voteBodyDiv.style.display = 'block'; //화면에 보이게
 			if(divText3 != ""){//선택지 3이 null이 아니면 보이게 하기
 				div3.style.display = 'block'; 
+				divButton1.style.display = 'block';
 				if(divText4 != ""){//선택지 4가 null이 아니면 보이게 하기
 					divButton1.style.display = 'none';
 					divButton2.style.display = 'block';
@@ -184,12 +198,17 @@
 	//만약 투표 테이블이 있으면 테이블 삭제
 	//테이블이 없으면 투표 창만 안보이도록
 	$("#voteDelete").on("click",function(){
-		if(voteResult == null || voteResult == 0){ //이전 투표가 없었으면 투표를 삭제하는 ajax를 실행시키지않음
+		if(voteResult == null || voteResult == 0){ //이전 투표가 없었으면 투표를 삭제하는 ajax를 실행시키지않고
+			//그냥 비워줌
 			if(voteBodyDiv.style.display === 'block'){
 			cVoteText1 ="";
 			cVoteText2 ="";
 			cVoteText3 ="";
 			cVoteText4 ="";
+			divText1 = "";
+			divText2 = "";
+			divText3 = "";
+			divText4 = "";
 			$("#vote-input1").val("");
 			$("#vote-input2").val("");
 			$("#vote-input3").val("");

@@ -186,6 +186,12 @@ a {
     width: 100%;
 }
 
+#modifyData{
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
 #inputTextDiv{
     margin-top: 8px;
     width: 90%;

@@ -154,6 +154,7 @@
 		if(div1.style.display === 'block'){
 			div1.style.display = 'none';
 			divButtonAdd.style.display = 'block';
+			$("#vote-input3").val("");
 		
 		}
 	});
@@ -167,6 +168,7 @@
 			div2.style.display = 'none';
 			divButton1.style.display = 'block';
 			divButtonAdd.style.display = 'block';
+			$("#vote-input4").val("");
 		}
 	});
 
