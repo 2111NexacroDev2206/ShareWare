@@ -30,7 +30,7 @@
 					</tr>
 					<tr>
 						<td>프로젝트 관리자</td>
-						<td>${project.projectMadeName }</td>
+						<td>${project.projectMade }</td>
 					</tr>
 					<tr>
 						<td>프로젝트 참여자</td>
@@ -46,7 +46,7 @@
 					</tr>
 					<tr>
 						<td colspan="2">
-								<c:if test="${loginUser.memberNum eq project.projectMade}">
+								<c:if test="${loginUser.memberNum eq project.projectMadeNum}">
 									<input type="button" id="btn" onclick="location.href='/project/projectModifyView.sw?projectNo=${project.projectNo }'" value="수정">
 								</c:if>
 									<input type="button" id="btn" onclick="location.href='/project/main.sw?projectNo=${project.projectNo }'" value="목록">

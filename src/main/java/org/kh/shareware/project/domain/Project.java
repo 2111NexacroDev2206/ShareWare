@@ -4,7 +4,7 @@ public class Project {
 	 private int projectNo;
 	 private String projectTitle;
 	 private String projectMade;
-	 private String projectMadeName;
+	 private String projectMadeNum;
 	 private String pStartDate;
 	 private String pEndDate;
 	 private String pStatus;
@@ -38,12 +38,12 @@ public class Project {
 		this.projectMade = projectMade;
 	}
 
-	public String getProjectMadeName() {
-		return projectMadeName;
+	public String getProjectMadeNum() {
+		return projectMadeNum;
 	}
 
-	public void setProjectMadeName(String projectMadeName) {
-		this.projectMadeName = projectMadeName;
+	public void setProjectMadeNum(String projectMadeNum) {
+		this.projectMadeNum = projectMadeNum;
 	}
 
 	public String getpStartDate() {
@@ -81,7 +81,7 @@ public class Project {
 	@Override
 	public String toString() {
 		return "Project [projectNo=" + projectNo + ", projectTitle=" + projectTitle + ", projectMade=" + projectMade
-				+ ", projectMadeName=" + projectMadeName + ", pStartDate=" + pStartDate + ", pEndDate=" + pEndDate
+				+ ", projectMadeNum=" + projectMadeNum + ", pStartDate=" + pStartDate + ", pEndDate=" + pEndDate
 				+ ", pStatus=" + pStatus + ", projectContent=" + projectContent + "]";
 	}
 	 

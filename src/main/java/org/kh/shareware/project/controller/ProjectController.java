@@ -173,12 +173,14 @@ public class ProjectController {
 					, @RequestParam(value= "projectNo", required=false) Integer projectNo) {
 				try {
 					int result = service.modifyProject(project);
-					int delResult = service.removeParticipant(participant);
 					int pResult= 0;
-					String[] parArr = memNum.split(","); // [0]정은진 / [1]권지혜 / [2]김아름
-					for(int i = 0; i < parArr.length; i++) {
-						participant.setMemberNum(parArr[i]); // 사원번호
-						pResult = service.registerParticipant(participant);
+					if(!memNum.equals("")) {
+						int delResult = service.removeParticipant(participant);
+						String[] parArr = memNum.split(","); // [0]정은진 / [1]권지혜 / [2]김아름
+						for(int i = 0; i < parArr.length; i++) {
+							participant.setMemberNum(parArr[i]); // 사원번호
+							pResult = service.registerParticipant(participant);
+						}
 					}
 					if(result > 0) {
 						mv.addObject("projectNo", projectNo);
