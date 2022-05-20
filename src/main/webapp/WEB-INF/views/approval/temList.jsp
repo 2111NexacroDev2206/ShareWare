@@ -12,7 +12,8 @@
 	<jsp:include page="appMenu.jsp"></jsp:include> <!-- 메뉴 + 소메뉴 -->
 	<div class="s-container">
 		<h2 id="h-title">임시 저장함</h2>
-		<button id="app-btn" style="margin-bottom: 21px;">결재 상신</button>
+		<span style="display:inline-block; height:47px"></span>
+		<button id="app-btn">결재 상신</button>
 		<table class="t-List">
 			<tr>
 				<th class="th-1">생성일</th>
