@@ -82,6 +82,16 @@ html, body {
 	border: none;
 	cursor: pointer;
 }
+#btn-info img {
+	margin-left: 10px;
+	margin-top: 15px;
+	width: 45px;
+	height: 45px;
+	border-radius: 100%;
+	image-rendering: -webkit-optimize-contrast;
+	object-fit: cover;
+	float: left;
+}
 #mail-count {
 	display: none;
 	position: absolute;

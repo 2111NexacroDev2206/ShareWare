@@ -17,7 +17,14 @@
 		<div class="c-left">
 			<div class="myInfo box">
 				<span class="c-title">내 정보</span>
-				<img src="../resources/profile/kwonjihye.png" onclick="location.href='/member/myInfo.sw'">
+				<c:if test="${loginUser.photo != null }">
+					<img src="../resources/profile/${loginUser.photo }" onclick="location.href='/member/myInfo.sw'">
+				</c:if>
+				<c:if test="${loginUser.photo == null }">
+					<span class="material-icons" style="font-size: 130px;display: block;text-align: center">
+						account_circle
+					</span>
+				</c:if>
 				<div style="font-size:18px;">${loginUser.memberName } ${loginUser.rank }</div>
 				<div style="color: rgba(90, 90, 90); font-size:16px">${loginUser.division }</div>
 				<div class="info-list">

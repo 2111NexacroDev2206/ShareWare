@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +17,16 @@
 		</div>
 		<table class="t-info">
 			<tr>
-				<td rowspan="5"><img src="../../resources/profile/kwonjihye.png" alt="사진"></td>
+				<td rowspan="5">
+					<c:if test="${loginUser.photo != null }">
+						<img src="../../resources/profile/${loginUser.photo }" alt="사진">
+					</c:if>
+					<c:if test="${loginUser.photo == null }">
+						<span class="material-icons" style="font-size: 250px;display: block;text-align: center">
+							account_circle
+						</span>
+					</c:if>
+				</td>
 				<td class="td-left">사원번호</td>
 				<td colspan="2">
 					${loginUser.memberNum }
@@ -46,15 +56,14 @@
 					${loginUser.address }
 				</td>
 			</tr>
-			
 			<tr>
 				<td class="td-left">전화번호</td>
 				<td>
-					${loginUser.address }
+					${loginUser.phone }
 				</td>
 				<td class="td-left">이메일</td>
 				<td>
-					${loginUser.address }
+					${loginUser.mail }
 				</td>
 			</tr>
 			<tr>

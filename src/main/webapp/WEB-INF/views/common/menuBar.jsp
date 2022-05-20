@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,9 +46,14 @@
 				<div id="alarm-count"></div>
 			</button>
 			<button id="btn-info">
-				<span class="material-icons" style="font-size:45px;">
-					account_circle
-				</span>
+				<c:if test="${loginUser.photo != null }">
+					<img src="../../resources/profile/${loginUser.photo }" alt="사진">
+				</c:if>
+				<c:if test="${loginUser.photo == null }">
+					<span class="material-icons" style="font-size:45px;">
+						account_circle
+					</span>
+				</c:if>
 				<span class="user">${loginUser.memberName } 님</span>
 			</button>
 		</div>
