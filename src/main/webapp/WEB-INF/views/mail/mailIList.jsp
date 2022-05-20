@@ -25,7 +25,7 @@
 
 .mailHeader {
 	padding-bottom: 210px;
-	border-bottom: 1px lightgray solid;
+	
 }
 
 .mailWriteMenu {
@@ -51,11 +51,10 @@
 	font-size: 14px;
 	text-align: center;
 	border-collapse: collapse;
-	border-top: 2px solid rgb(200, 200, 200);
+	border-top: 1px solid rgb(200, 200, 200);
 	border-bottom: 2px solid rgb(200, 200, 200);
 }
 #rMail tr {
-	border-top: 1px solid rgb(200, 200, 200);
 	height: 45px;
 }
 #rMail tr:hover {
@@ -63,11 +62,10 @@ background-color: rgb(250, 250, 250);
 }
 #rMail th{
 background-color: rgb(240, 240, 240);
-
-
+border-top: 2px solid rgb(200, 200, 200);
 }
 #rMail td {
-border-top: 1px solid gray;
+
 border-bottom: 1px solid lightgray;
 }
 #rMail a {
@@ -78,7 +76,7 @@ border-bottom: 1px solid lightgray;
 
 #mailRList {
 	float: right;
-	margin-top: 10%;
+	margin-top: 120px;
 	margin-right: 30px;
 	}
 .l-search {
@@ -122,7 +120,15 @@ border-bottom: 1px solid lightgray;
 }
 #delete {
 	float:left;
+	border: solid 2px rgb(190, 190, 190);
+}
+#mailTop {
+padding-bottom: 20px;
+	border-bottom: 2px solid rgb(190, 190, 190);
 	
+}
+a {
+	text-decoration: none;
 }
 </style>
 </head>
@@ -192,7 +198,7 @@ border-bottom: 1px solid lightgray;
 	
 	
 	<div id="mailRList">
-		<button type="submit" id="delete" onclick="deleteValue();">삭제하기</button>
+	<button type="submit" class="btn-mail" id="delete" style="margin-left: 15px;" onclick="deleteValue();"><i class="fa-solid fa-trash" style=" color:rgb(190, 190, 190);"></i>&nbsp;삭제하기</button>
 		<form action="/mail/AmailSearch.sw" method="get">
 				<select class= "l-select" name="searchCondition" style="text-align: left; width:80px; margin-left:10px;">
 					<option value="all">전체</option>

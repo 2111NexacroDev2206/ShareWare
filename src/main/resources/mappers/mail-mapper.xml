@@ -198,6 +198,9 @@
 		<select id="selectBmkList" resultMap="mailBmkResultMap">
 			 SELECT * FROM MAIL_BMK WHERE BMK_SUBJECT = #{bmkSubject }
 		</select>
+		<select id="selectBmkAllList" resultMap="mailBmkResultMap">
+		 	SELECT * FROM MAIL_BMK WHERE MEM_NUM = #{memNum}
+		</select>
 		<select id="selectMailCount" resultType="_int"><!-- 메일함 페이징 -->
 			SELECT COUNT(*) 
             FROM  MAIL 
@@ -284,7 +287,7 @@
 			UPDATE MAIL SET I_STATUS ='0' WHERE MAIL_NO = #{mailNo}
 		</delete>
 		<delete id="deleteMailBmk">
-			DELETE FROM MAIL_BMK WHERE BMK_NO = #{bmkNo}
+			DELETE FROM MAIL_BMK WHERE BMK_SUBJECT = #{bmkSubject} AND MEM_NUM = #{memNum}
 		</delete>
 		<!--메일 상세페이지  -->
 		<select id="selectOneMail" resultMap="mailResultMap">
