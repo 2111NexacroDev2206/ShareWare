@@ -572,6 +572,13 @@ public class MailServiceImpl implements MailService{
 	}
 
 
+	@Override
+	public List<MailBmk> printBmkList(MailBmk mailBmk) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 	
 
 	
