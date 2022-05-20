@@ -193,7 +193,7 @@ public interface MailService {
 
 	public int deleteMailBmk(int mailNo);
 
-	/* public List<MailBmk> printBmkList(MailBmk mailBmk); */
+	 public List<MailBmk> printBmkList(MailBmk mailBmk);
 
 	
 
