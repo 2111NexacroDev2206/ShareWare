@@ -17,11 +17,11 @@
 <link href="/resources/css/approval/appList-style.css" rel="stylesheet">
 	<style type="text/css">
 	.stats-List{
-	font-size: 14px;
-	text-align: center;
-	border-collapse: collapse;
-	border-top: 2px solid rgb(200, 200, 200);
-	border-bottom: 2px solid rgb(200, 200, 200);
+		font-size: 14px;
+		text-align: center;
+		border-collapse: collapse;
+		border-top: 2px solid rgb(200, 200, 200);
+		border-bottom: 2px solid rgb(200, 200, 200);
 	}
 	.stats-List tr {
 		border-top: 1px solid rgb(200, 200, 200);
@@ -62,6 +62,7 @@
 		width: 40%;
 		height: 100%;
 		float: left;
+		min-width: 340px;
 	}
 	#now-time {
 		font-size: 70px;
@@ -87,6 +88,7 @@
 		float: right;
 		display: inline-flex;
     	align-items: flex-end;
+    	min-width: 515px;
 	}
 	.t-search {
 		margin: 20px 0 10px;
@@ -95,6 +97,7 @@
 		text-align: center;
 		border-collapse: collapse;
     	border: 2px solid rgb(200, 200, 200);
+    	min-width: 430px;
 	}
 	.t-search tr {
 		height: 45px;
