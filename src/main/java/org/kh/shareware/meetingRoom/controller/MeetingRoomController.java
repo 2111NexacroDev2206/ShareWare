@@ -115,6 +115,7 @@ public class MeetingRoomController {
 				model.addAttribute("pi", pi);
 				model.addAttribute("myCondition", "meetingRoom");
 				model.addAttribute("listCondition", "roomCheck");
+				model.addAttribute("currentPage", currentPage);
 				return "meetingRoom/meetingRoomCheck";
 			}else {
 				model.addAttribute("msg", "리스트 출력 실패");

@@ -121,11 +121,19 @@ public class CommunityController {
 				,@RequestParam(value="page", required=false) Integer page
 				,HttpServletRequest request) {
 			
+			HttpSession session = request.getSession();
+			String memberNum = "";
+			Member member = (Member)session.getAttribute("loginUser");
+			memberNum = member.getMemberNum();
+			
+			Community community = new Community();
+			community.setMemberNum(memberNum);
+			
 			int currentPage = (page != null) ? page : 1;
 			//DB에서 전체 게시물의 갯수
-			int totalCount = cService.getListCount();
+			int totalCount = cService.getListCount(memberNum);
 			PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
-			List<Community> cList = cService.listCommunity(pi);
+			List<Community> cList = cService.listCommunity(pi, memberNum);
 			
 			if(cList != null) {
 				model.addAttribute("cList", cList);

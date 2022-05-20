@@ -16,8 +16,8 @@ public interface CommunityService {
 	int registerCommunity(Community community);
 	int searchComNo();
 	//전체 게시물의 갯수
-	int getListCount();
-	List<Community> listCommunity(PageInfo pi);
+	int getListCount(String memberNum);
+	List<Community> listCommunity(PageInfo pi, String memberNum);
 	Community detailCommunity(Integer comNo);
 	int removeCommunity(int comNo);
 	int countViewCommunity(Integer comNo);
