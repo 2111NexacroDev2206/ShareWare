@@ -20,24 +20,8 @@
 	border: 1px solid rgb(51, 51, 51);
 	border-radius: 4px;
 }
-#w-title {
+#i-title{
 	margin-top: 25px;
-	margin-bottom: 5px;
-}
-.type {
-    display: inline-block;
-    height: 50px;
-}
-.type.active a{
-	color: black;
-    font-weight: bold;
-}
-.type a{
-    display: inline-block;
-    text-decoration: none;
-    color: rgb(94, 94, 94);
-    margin-top: 30px;
-    margin-right: 35px;	
 }
 #write-btn{
 	display: inline-block;
@@ -46,11 +30,12 @@
     background-color: white;
     border: 1px solid rgb(51, 51, 51);
     border-radius: 4px;
-    font-size: 15px;
+    font-size: 17px;
     float: right;
     cursor: pointer;
+    margin-bottom: 21px;
 }
-.t-List{
+.i-List{
 	width: 1350px;
 	margin: 20px 0;
 	font-size: 20px;
@@ -59,27 +44,27 @@
 	border-top: 2px solid rgb(200, 200, 200);
 	border-bottom: 2px solid rgb(200, 200, 200);
 }
-.t-List tr {
+.i-List tr {
 	border-top: 1px solid rgb(200, 200, 200);
 	height: 45px;
 }
-.t-List tr:hover {
+.i-List tr:hover {
 	background-color: rgb(250, 250, 250);
 }
-.t-List th {
+.i-List th {
 	background-color: rgb(240, 240, 240);
 }
-.t-List a {
+.i-List a {
 	text-decoration: none;
 	color: black;
 	cursor: pointer;
 }
-.t-List .th-1{
+.i-List .th-1{
 	width: 80px;
 }
-.t-List .th-2{
+.i-List .th-2{
 	width: 200px;
 }
-.t-List .th-3{
+.i-List .th-3{
 	width: 630px;
 }
