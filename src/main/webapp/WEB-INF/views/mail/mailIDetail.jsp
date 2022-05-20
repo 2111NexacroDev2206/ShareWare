@@ -115,8 +115,8 @@
 					<c:url var="mDelete" value="/mail/mailDelete.sw">
 					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
 						</c:url> 
-					<button type="submit" id="delete" onclick="javascript: form.action='/mail/mailTemListView.sw'"><a href="${mDelete}">메일 삭제</a></button>
-					<button type="submit" onclick="javascript: form.action='/mail/mailListView.sw'">목록</button>
+					<button type="submit" id="delete" class="btn-mail" onclick="javascript: form.action='/mail/mailTemListView.sw'"><a href="${mDelete}">메일 삭제</a></button>
+					<button type="submit" class="btn-mail" onclick="javascript: form.action='/mail/mailListView.sw'">목록</button>
 					
 				</div>
 	    	</div>

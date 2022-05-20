@@ -98,11 +98,11 @@ a{
    	 		<div class="mailHeader">
 	   	 		<div class= "mailWriteMenu">
 					
-					<button type="submit" onclick="javascript: form.action='mailRegister.sw'">메일보내기</button>
+					<button type="submit" class="btn-mail" onclick="javascript: form.action='mailRegister.sw'">메일보내기</button>
 					<c:url var="mModify" value="/mail/temModifyView.sw">
 					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
 						</c:url> 
-					<a href="${mModify }"><button type="button">수정하기</button></a>
+					<a href="${mModify }"><button type="button" class="btn-mail">수정하기</button></a>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -112,8 +112,8 @@ a{
 					<c:url var="mDelete" value="/mail/mailDelete.sw">
 					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
 						</c:url> 
-					<button type="submit" id="delete" onclick="javascript: form.action='/mail/mailTemListView.sw'"><a href="${mDelete}">메일 삭제</a></button>
-					<button type="submit" onclick="javascript: form.action='/mail/mailTemListView.sw'">목록</button>
+					<button type="submit" id="delete" class="btn-mail" onclick="javascript: form.action='/mail/mailTemListView.sw'"><a href="${mDelete}">메일 삭제</a></button>
+					<button type="submit" class="btn-mail" onclick="javascript: form.action='/mail/mailTemListView.sw'">목록</button>
 					
 				</div>
 	    	</div>

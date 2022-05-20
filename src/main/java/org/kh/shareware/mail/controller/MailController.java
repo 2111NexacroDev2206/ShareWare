@@ -107,6 +107,21 @@ public class MailController {
 		mv.addObject("totalTemCount", totalTemCount);
 		return "mail/mailMenu";
 	}
+	@ResponseBody
+	@RequestMapping(value="/modal/mailBmklist.sw", method=RequestMethod.GET)
+	public String bmkListData(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Member member = (Member) session.getAttribute("loginUser");
+		String bmkMemNum = member.getMemberNum();
+		MailBmk mailBmk = new MailBmk();
+		mailBmk.setMemNum(bmkMemNum);
+		List<MailBmk> bmkList  = mService.printBmk(mailBmk);
+		Gson gson = new Gson();
+		if(!bmkList.isEmpty()) {
+			return gson.toJson(bmkList);
+		}
+		return null;
+	}
 	//메일 발송 등록
 	@RequestMapping(value="/mail/mailRegister.sw", method={RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView mailRegister(ModelAndView mv, 
@@ -451,10 +466,10 @@ public class MailController {
 	}
 	
 	// 즐겨찾는 그룹 등록
+	@ResponseBody
 	@RequestMapping(value="/mail/registerBmk.sw", method=RequestMethod.POST)
-	public ModelAndView registerBmk(
-			ModelAndView mv
-			,HttpServletRequest request
+	public String registerBmk(
+			HttpServletRequest request
 			,@RequestParam(value="bmkSubject") String bmkSubject
 			) {
 		
@@ -475,16 +490,15 @@ public class MailController {
 				mailBmk.setRank(results[3]);
 				mailBmk.setBmkAddr(results[4]);
 				
-				result = mService.registerMailBmk(mailBmk);
+				result += mService.registerMailBmk(mailBmk);
 			}
 			if(result>0) {
-				mv.addObject("msg", "등록 성공");
-				mv.setViewName("redirect:/mail/RmailListView.sw");
+				return "success";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return mv;
+		return "fail";
 		
 	}
 	
@@ -1275,14 +1289,24 @@ public class MailController {
 		}
 		
 		@ResponseBody
-		@RequestMapping(value="/mail/deleteMailBmk.sw", method=RequestMethod.GET)
-		public String calendarDelete(@RequestParam("mailNo") int mailNo) {
-			int result = mService.deleteMailBmk(mailNo);
+		@RequestMapping(value="/mail/deleteMailBmk.sw", method=RequestMethod.GET, produces="application/json;charset=utf-8")
+		public String mailBmkDelete(
+				HttpServletRequest request,
+				@RequestParam("bmkSubject") String bmkSubject) {
+			MailBmk mailBmk = new MailBmk();
+			HttpSession session = request.getSession();
+			Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
+			mailBmk.setMemNum(member.getMemberNum());
+			mailBmk.setBmkSubject(bmkSubject);
+			int result = mService.deleteMailBmk(mailBmk);
+//			List<MailBmk> bmkList  = mService.printBmkList(mailBmk);
 			if(result > 0) {
-				return "success";
+//				mv.addObject("bmkList", bmkList);
+				return new Gson().toJson("success");
 			}else {
-				return "fail";
+				return new Gson().toJson("fail");
 			}
+			
 		}
 
 		// 메뉴 - 메일 카운트

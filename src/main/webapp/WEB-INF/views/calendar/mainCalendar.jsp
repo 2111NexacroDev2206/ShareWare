@@ -326,6 +326,7 @@
                           }//전송할 객체 생성
                           console.log(obj); //서버로 해당 객체를 전달해서 DB 연동 가능
                       }
+                      refreshMemList();
                   });
 	        }
 	       
@@ -353,7 +354,7 @@
 	   let defaultColor = $('.colors span:first-of-type').css('background-color');
 	   $('input[name="scheduleColor"]').val('defaultColor');
 	}
-	function refreshMemList(){ //실행시 재로드
+	function refreshList(){ //실행시 재로드
 		location.reload();
 	}
 	
@@ -366,7 +367,7 @@
     		},
     		success : function(data) {
     			
-    			refreshMemList();
+    			refreshList();
     		},
     		error : function() {
     			alert("Ajax 통신 실패!");
@@ -514,13 +515,7 @@ strong {
 					class="fa-solid fa-bookmark"></i>
 		</div>
 		&nbsp;
-		<div
-			class="s-list-item ${listCondition eq 'calGroup' ? 'active' : ''}">
-			
-				&nbsp;&nbsp;&nbsp;<strong>공유 캘린더</strong>&nbsp;&nbsp;<i
-					class="fa-solid fa-user-group"></i>
-		</div>
-		<i class="fa-solid fa-users-medical"></i>
+		
 
 	</div>
 

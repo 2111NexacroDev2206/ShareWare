@@ -125,9 +125,9 @@
 					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
 						</c:url> 
 						<div class="m-detail">
-					<button type="submit" id="delete" onclick="javascript: form.action='/mail/mailTemListView.sw'"><a href="${mDelete}">메일 삭제</a></button>
+					<button type="submit" id="delete" class="btn-mail " onclick="javascript: form.action='/mail/mailTemListView.sw'"><a href="${mDelete}">메일 삭제</a></button>
 					<%-- <c:if test="${mailCategory == 'S' }"> --%>
-					<button type="submit"  onclick="javascript: form.action='/mail/mailListView.sw'">목록</button>
+					<button type="submit" class="btn-mail "  onclick="javascript: form.action='/mail/mailListView.sw'">목록</button>
 				<%-- 	</c:if> --%>
 					<%-- <c:if test="${mailCategory == 'R' }">
 					<button type="submit"  onclick="javascript: form.action='/mail/RmailListView.sw'">목록</button>
