@@ -6,7 +6,8 @@
   	<resultMap type="Project" id="projectResultMap">
   		<id 	property="projectNo"		column="PROJECT_NO"/>
   		<result property="projectTitle"		column="PROJECT_TITLE"/>
-  		<result property="projectMade"		column="MEMBER_NAME"/>
+  		<result property="projectMade"		column="MEMBER_NUM"/>
+  		<result property="projectMadeName"	column="MEMBER_NAME"/>
   		<result property="pStartDate"		column="P_START_DATE"/>
   		<result property="pEndDate"			column="P_END_DATE"/>
   		<result property="pStatus"			column="P_STATUS"/>
@@ -54,7 +55,7 @@
   		 SELECT PROJECT_NO, PROJECT_TITLE, MEMBER_NAME, P_START_DATE, P_END_DATE, P_STATUS, PROJECT_CONTENT FROM PROJECT JOIN MEMBER ON PROJECT_MADE = MEMBER_NUM WHERE PROJECT_NO = #{projectNo}
   	</select>
   	<select id="selectOneProjectDetail" resultMap="projectResultMap" >
-  		SELECT PROJECT_NO, PROJECT_TITLE, MEMBER_NAME, P_START_DATE, P_END_DATE, P_STATUS, PROJECT_CONTENT FROM PROJECT JOIN MEMBER ON PROJECT_MADE = MEMBER_NUM WHERE PROJECT_NO = #{projectNo}
+  		SELECT PROJECT_NO, PROJECT_TITLE, MEMBER_NUM, MEMBER_NAME, P_START_DATE, P_END_DATE, P_STATUS, PROJECT_CONTENT FROM PROJECT JOIN MEMBER ON PROJECT_MADE = MEMBER_NUM WHERE PROJECT_NO = #{projectNo}
   	</select>
   	<resultMap type="Member" id="memberResultMap">
   		<id property="memberNum" column="MEMBER_NUM"/>
