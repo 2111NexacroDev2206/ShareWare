@@ -40,9 +40,11 @@
 							
 							<div id="community-TileDiv">${community.comTitle}</div>
 							<div id="community-ContentDiv">${community.comContent}
-									
+							
 							<c:if test="${community.comImgName != null}">
-								<img src = "../../../resources/loadFile/${community.comImgRename}" alt="${community.comImgName}">
+								<div class="imgDiv">
+									<img src = "../../../resources/loadFile/${community.comImgRename}" alt="${community.comImgName}">
+								</div>
 							</c:if>
 									
 										<div id="vote-body-div">

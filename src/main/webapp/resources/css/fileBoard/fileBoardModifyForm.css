@@ -43,7 +43,14 @@ a {
     float: right;
   }
 
-  .optionBtnDiv #comInsertBtn{
+  .dateDiv{
+    height: 20px;
+    width: 150px;
+    float: right;
+    margin-right: 5px;
+  }
+
+  .optionBtnDiv #updateBtn{
     margin-left: 3px;
     margin-right: 3px;
     width: 80px;
@@ -69,7 +76,7 @@ a {
     color: black;
 }
 
-#community-TitleDiv{
+#fileBoard-TitleDiv{
     float: left;
     border: 1px solid rgb(158, 158, 158);
     margin-top: 10px;
@@ -78,7 +85,7 @@ a {
     width: 100%;
 }
 
-#comTitle{
+#fileBoardTitle{
     border: none;
     width: 1175px;
     height: 30px;
@@ -86,7 +93,7 @@ a {
     font-size: 18px;
 }
 
-#community-ContentDiv{
+#fileBoard-ContentDiv{
     border: 1px solid rgb(158, 158, 158);
     overflow:hidden;
     height: 650px;
@@ -95,7 +102,7 @@ a {
     width: 100%;
 }
 
-#comContent{
+#fileBoaedContent{
     border: none;
     padding: 15px 15px 15px 15px;
     height: 620px;
@@ -143,7 +150,7 @@ a {
     font-family: inherit; 
     line-height: normal; 
     height: 28px;
-    width: 83%;
+    width: 90%;
     margin-right: 10px;
     vertical-align: middle;
     border: 1px solid rgb(158, 158, 158); 
@@ -153,125 +160,6 @@ a {
     appearance: none;
     float: left;
 }
-
-#comVoteInsert { 
-    margin-left: 10px;
-    width: 86px;
-    height: 34px;
-    border-radius: 5px;
-    border: 1px solid rgb(147, 169, 209);
-    background-color: rgb(147, 169, 209);
-    font-size: 15px;
-    font-weight:bold;
-    line-height: normal;
-    vertical-align: middle;
-    color: white;
-    float: left;
-}
-
-#vote-body-div{
-    position: absolute;
-    width: 400px;
-	height: auto;
-    padding: 5px 10px 10px 20px;
-	top:50%;
-	left: 50%;
-	margin: -250px 0 0 -250px;
-	background:white;
-    border-radius: 5px;
-	border: 2px solid rgb(145, 168, 210);
-	z-index: 2;
-}
-
-#returnBtnDiv #returnBtn{
-    margin-left: 360px;
-    margin-bottom: 10px;
-	width: 40px;
-    height: 40px;
-	font-family: FontAwesome;
-    display: inline-flex;
-	justify-content:center;
-	border: none;
-	cursor : pointer;
-	background-color : transparent;
-    font-size: 30px;
-    color: rgb(145, 168, 210);
-}
-
-
-#vote-textbox-div {
-    margin-bottom: 10px;
-    width: 400px;
-}
-
-#vote-textbox-div .vote-input{
-    height: 25px;
-    width: 350px;
-    margin-bottom: 5px;
-}
-
-.btn-delete{
-    float :right;
-    margin-right: 5px;
-	width: 30px;
-    height: 30px;
-	font-family: FontAwesome;
-    display: inline-flex;
-	justify-content:center;
-	border: none;
-	cursor : pointer;
-	background-color : transparent;
-    font-size: 30px;
-    color: rgb(145, 168, 210);
-}
-
-#button-boxDiv {
-    float :left;
-    width: auto;
-    height: 50px;
-}
-#voteInputAdd{
-    float :right;
-    margin-right: 5px;
-	width: 30px;
-    height: 30px;
-	font-family: FontAwesome;
-    display: inline-flex;
-	justify-content:center;
-	border: none;
-	cursor : pointer;
-	background-color : transparent;
-    font-size: 30px;
-    color: rgb(145, 168, 210);
-}
-
-#voteDelete{
-    margin-left: 135px;
-    width: 50px;
-    height: 30px;
-    border-radius: 5px;
-    border: 1px solid rgb(147, 169, 209);
-    background-color: rgb(255, 255, 255);
-    font-size: 15px;
-    font-weight:bold;
-    float: right;
-    color: black;
-}
-
-#voteInsert{
-    margin-left: 5px;
-    margin-right: 125px;
-    width: 50px;
-    height: 30px;
-    border-radius: 5px;
-    border: 1px solid rgb(147, 169, 209);
-    background-color: rgb(147, 169, 209);
-    font-size: 15px;
-    font-weight:bold;
-    float: right;
-    color: rgb(255, 255, 255);
-}
-
 
 
 

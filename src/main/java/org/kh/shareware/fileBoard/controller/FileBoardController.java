@@ -89,6 +89,7 @@ public class FileBoardController {
 		if(fList != null) {
 			model.addAttribute("fList", fList);
 			model.addAttribute("pi", pi);
+			model.addAttribute("totalCount", totalCount);
 			model.addAttribute("currentPage", currentPage);
 			model.addAttribute("listCondition", "fileBoard");
 			model.addAttribute("myCondition", "board");

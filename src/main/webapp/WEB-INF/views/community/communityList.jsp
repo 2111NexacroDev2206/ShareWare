@@ -44,10 +44,11 @@
 									<td colspan = "5">검색 정보가 없습니다.</td>
 								</tr>
 							</c:if>
+							<c:set var="num" value="${totalCount - ((currentPage-1) * 10) }"/>
 							<c:forEach items="${cList }" var="community">
 									<tr>
 										
-										<td class="comNoTd">${community.comNo} </td>
+										<td class="comNoTd">${num }</td>
 											<c:url var="cDetail" value="/community/detail.sw">
 												<c:param name="comNo" value="${community.comNo }"></c:param>
 											</c:url>
@@ -57,6 +58,7 @@
 										<td class="defualtTd">${community.comView }</td>
 										
 									</tr>
+									<c:set var="num" value="${num-1 }"></c:set>
 							</c:forEach>
 					</table>
 						

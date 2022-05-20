@@ -118,18 +118,21 @@ public class CommunityController {
 		@RequestMapping(value="/community/list.sw", method=RequestMethod.GET)
 		public String CommunityListView(
 				Model model
-				,@RequestParam(value="page", required=false) Integer page) {
+				,@RequestParam(value="page", required=false) Integer page
+				,HttpServletRequest request) {
 			
 			int currentPage = (page != null) ? page : 1;
 			//DB에서 전체 게시물의 갯수
 			int totalCount = cService.getListCount();
 			PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
 			List<Community> cList = cService.listCommunity(pi);
+			
 			if(cList != null) {
 				model.addAttribute("cList", cList);
 				model.addAttribute("pi", pi);
 				model.addAttribute("myCondition", "board");
 				model.addAttribute("currentPage", currentPage);
+				model.addAttribute("totalCount", totalCount);
 				model.addAttribute("listCondition", "community");
 				return "community/communityList";
 			}else {
