@@ -49,8 +49,7 @@ public class LeaveController {
 	//연차 리스트
 	@RequestMapping(value="/leave/leaveListView.sw", method=RequestMethod.GET)
 	public String leaveListView(
-			String date
-			, HttpServletRequest request
+			HttpServletRequest request
 			, Model model){
 		HttpSession session = request.getSession(); //사원번호 값 가져오기
 		session.getAttribute("loginUser");
@@ -60,18 +59,13 @@ public class LeaveController {
 		float uLeaveCount = lService.printLeaveUse(memNum);
 		float rLeaveCount = tLeaveCount - uLeaveCount;
 		List<LeaveList> lList = lService.printAll(memNum+"2022");
-		if(!lList.isEmpty()) {
-			model.addAttribute("tLeaveCount",tLeaveCount); //총연차 //통계
-			model.addAttribute("uLeaveCount",uLeaveCount); //사용연차
-			model.addAttribute("rLeaveCount",rLeaveCount); //사용연차
-			model.addAttribute("lList", lList);
-			model.addAttribute("listCondition", "leave");
-			model.addAttribute("myCondition", "attendance");
-			return "/attendance/leaveListView";
-		}else {
-			model.addAttribute("msg", "연차 조회 실패");
-			return "common/errorPage";
-		}
+		model.addAttribute("tLeaveCount",tLeaveCount); //총연차 //통계
+		model.addAttribute("uLeaveCount",uLeaveCount); //사용연차
+		model.addAttribute("rLeaveCount",rLeaveCount); //사용연차
+		model.addAttribute("lList", lList);
+		model.addAttribute("listCondition", "leave");
+		model.addAttribute("myCondition", "attendance");
+		return "/attendance/leaveListView";
 	}
 	
 	//날짜 검색 
