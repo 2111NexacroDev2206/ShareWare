@@ -37,9 +37,10 @@
 						<th>작성일</th>
 						<th>조회수</th>
 					</tr>
+						<c:set var="num" value="${totalCount - ((currentPage-1) * 10) }"/>
 							<c:forEach items="${fList }" var="fileBoard">
 									<tr>
-										<td class="comNoTd">${fileBoard.fileBoardNo} </td>
+										<td class="comNoTd">${num} </td>
 											<c:url var="fDetail" value="/fileBoard/detail.sw">
 												<c:param name="fileBoardNo" value="${fileBoard.fileBoardNo }"></c:param>
 											</c:url>
@@ -48,6 +49,7 @@
 										<td class="defualtTd">${fileBoard.fileBoardDate }</td>
 										<td class="defualtTd">${fileBoard.fileBoardView }</td>
 									</tr>
+									<c:set var="num" value="${num-1 }"></c:set>
 							</c:forEach>
 					</table>
 					<jsp:include page="fileBoardPagin.jsp"></jsp:include>
