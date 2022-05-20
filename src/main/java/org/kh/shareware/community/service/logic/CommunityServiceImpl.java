@@ -36,14 +36,14 @@ public class CommunityServiceImpl implements CommunityService{
 	
 	//전체 게시물의 개수
 	@Override
-	public int getListCount() {
-		int result = cStore.selectClistCount(sqlsession);
+	public int getListCount(String memberNum) {
+		int result = cStore.selectClistCount(sqlsession, memberNum);
 		return result;
 	}
 	
 	@Override
-	public List<Community> listCommunity(PageInfo pi) {
-		List<Community> cList = cStore.selectAllCommunity(sqlsession, pi);
+	public List<Community> listCommunity(PageInfo pi, String memberNum) {
+		List<Community> cList = cStore.selectAllCommunity(sqlsession, pi, memberNum);
 		return cList;
 	}
 	

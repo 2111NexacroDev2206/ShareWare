@@ -32,18 +32,18 @@ public class CommunityStoreLogic implements CommunityStore {
 	}
 	//전체 게시물의 개수
 	@Override
-	public int selectClistCount(SqlSession sqlsession) {
-		int totalCount =sqlsession.selectOne("CommnuityMapper.selectClistCount");
+	public int selectClistCount(SqlSession sqlsession, String memberNum) {
+		int totalCount =sqlsession.selectOne("CommnuityMapper.selectClistCount",memberNum);
 		return totalCount;
 	}
 
 	@Override
-	public List<Community> selectAllCommunity(SqlSession sqlsession, PageInfo pi) {
+	public List<Community> selectAllCommunity(SqlSession sqlsession, PageInfo pi, String MemberNum) {
 		int limit = pi.getDocLimit();
 		int currentPage = pi.getCurrentPage();
 		int offset = (currentPage - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		List<Community> cList = sqlsession.selectList("CommnuityMapper.listCommnuity", pi, rowBounds);
+		List<Community> cList = sqlsession.selectList("CommnuityMapper.listCommnuity", MemberNum, rowBounds);
 		return cList;
 	}
 	
