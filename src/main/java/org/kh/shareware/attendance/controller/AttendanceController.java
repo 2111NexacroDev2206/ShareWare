@@ -119,9 +119,9 @@ public class AttendanceController {
 		if(!aList.isEmpty()) {
 			model.addAttribute("sList", sList); //통계
 			model.addAttribute("aList", aList);
-			model.addAttribute("myCondition", "attendance");
-			model.addAttribute("listCondition", "attendance");
 		}		
+		model.addAttribute("myCondition", "attendance");
+		model.addAttribute("listCondition", "attendance");
 		return "attendance/attListViewEmp";
 	}
 	
@@ -136,9 +136,9 @@ public class AttendanceController {
 		if(!aList.isEmpty()) {
 			model.addAttribute("sList", sList); //통계
 			model.addAttribute("aList", aList);
-			model.addAttribute("myCondition", "attendance");
-			model.addAttribute("listCondition", "attendance");
 		}	
+		model.addAttribute("myCondition", "attendance");
+		model.addAttribute("listCondition", "attendance");
 		model.addAttribute("date", date);
 		return "attendance/attListViewEmp";
 	}
