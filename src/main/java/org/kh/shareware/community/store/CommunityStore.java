@@ -38,7 +38,7 @@ public interface CommunityStore {
 	//전체 검색된 글 개수
 	int selectSearchCount(SqlSession sqlsession, Search search);
 	//검색
-	List<Search> selectSearchCommunity(SqlSession sqlsession, Search search, PageInfo pi);
+	List<Search> selectSearchCommunity(SqlSession sqlsession,  PageInfo pi, Search search);
 	//댓글
 	List<Reply> selectCommunityReply(SqlSession sqlsession, int comNo);
 	//댓글 등록

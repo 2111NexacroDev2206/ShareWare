@@ -471,16 +471,24 @@ public class CommunityController {
 		try {
 			HttpSession session = request.getSession();//세션에서 로그인 된 아이디를 가져옴->검색을 했는지 안했는지를 판별
 			search.setMemberNum(((Member)session.getAttribute("loginUser")).getMemberNum());
+			String memberNum = "";
+			Member member = (Member)session.getAttribute("loginUser");
+			memberNum = member.getMemberNum();
+			
+			search.setMemberNum(memberNum);
+			
 			int currentPage = (page != null) ? page : 1;
 			PageInfo pi = null;
 			int totalCount = cService.getSearchCount(search);
 			pi = Pagination.getPageInfo(currentPage, totalCount);
 			
 			
-			List<Search> cList = cService.printSearchCommunity(search, pi);
+			List<Search> cList = cService.printSearchCommunity(pi,search);
 				
 			mv.addObject("cList", cList);
 			mv.addObject("search", search);
+			mv.addObject("currentPage",currentPage);
+			mv.addObject("totalCount",totalCount);
 			mv.addObject("pi", pi);
 			mv.setViewName("community/communityList");
 			

@@ -3,6 +3,7 @@ package org.kh.shareware.community.store.logic;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.common.PageInfo;
@@ -136,12 +137,12 @@ public class CommunityStoreLogic implements CommunityStore {
 
 	//검색
 	@Override
-	public List<Search> selectSearchCommunity(SqlSession sqlsession, Search search, PageInfo pi) {
+	public List<Search> selectSearchCommunity(SqlSession sqlsession, PageInfo pi, Search search) {
 		int limit = pi.getDocLimit();
 		int currentPage = pi.getCurrentPage();
 		int offset = (currentPage - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		List<Search> cList = sqlsession.selectList("CommnuityMapper.searchCommunity",search, rowBounds);
+		List<Search> cList = sqlsession.selectList("CommnuityMapper.searchCommunity", search, rowBounds);
 		return cList;
 	}
 	//덧글 출력

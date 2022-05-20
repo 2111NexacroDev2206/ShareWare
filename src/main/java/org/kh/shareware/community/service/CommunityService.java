@@ -40,7 +40,7 @@ public interface CommunityService {
 	//글 검색 개수
 	int getSearchCount(Search search);
 	//검색
-	List<Search> printSearchCommunity(Search search, PageInfo pi);
+	List<Search> printSearchCommunity(PageInfo pi, Search search);
 	//덧글
 	//리스트 보기
 	List<Reply> printAllCommunityReply(int comNo);
