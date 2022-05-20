@@ -36,7 +36,7 @@ public class DailyController {
 	public ModelAndView dailyListView(Model model, ModelAndView mv
 			, HttpServletRequest request
 			,@RequestParam(value="page", required=false) Integer page) {
-		//model.addAttribute("myCondition", "report");
+		model.addAttribute("myCondition", "report");
 		model.addAttribute("listCondition", "dailyList");
 		HttpSession session = request.getSession();
 		String memNum = ((Member)(session.getAttribute("loginUser"))).getMemberNum();
@@ -59,6 +59,7 @@ public class DailyController {
 	//일일 업무 등록 화면 
 	@RequestMapping(value="/report/dailyWriteView.sw")
 	public String dailyWriteView(Model model) {
+		model.addAttribute("myCondition", "report");
 		model.addAttribute("listCondition", "dailyWrite");
 		Date nowTime = new Date();
 	    SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
@@ -73,7 +74,6 @@ public class DailyController {
 			,@RequestParam(value="uploadFile", required=false) MultipartFile uploadFile
 			,HttpServletRequest request
 			,Model model){
-		model.addAttribute("listCondition", "dailyWrite");
 		try {
 			if(uploadFile != null && !uploadFile.getOriginalFilename().equals("")) {
 				HashMap<String, String> fileMap = saveFile(uploadFile, request); // 업로드한 파일 저장하고 경로 리턴
@@ -126,6 +126,8 @@ public class DailyController {
 	   public ModelAndView dailyDetailView(
 			   ModelAndView mv
 				, @RequestParam(value = "drNo", required =false) Integer drNo) {
+		mv.addObject("myCondition", "report");
+		mv.addObject("listCondition", "dailyList");
 	try {
 		Daily daily = service.printOneByNo(drNo);
 		if(daily != null) {
@@ -146,6 +148,8 @@ public class DailyController {
 		public String dailyModifyView(
 				  Model model
 				, @RequestParam(value = "drNo", required =false) Integer drNo) {
+		 	model.addAttribute("myCondition", "report");
+			model.addAttribute("listCondition", "dailyList");
 			try {
 				// 수정화면에 필요한 데이터 DB 가져오기
 				Daily daily = service.printOneByNo(drNo);

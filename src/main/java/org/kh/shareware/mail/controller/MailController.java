@@ -531,7 +531,7 @@ public class MailController {
 			List<MailRec> cList = mService.printMailRecList(mailRec);
 			mailBmk.setMemNum(member.getMemberNum());
 			List<MailBmk> bList  = mService.printBmk(mailBmk);
-			List<MailBmk> bmkList  = mService.printBmkList(mailBmk);
+//			List<MailBmk> bmkList  = mService.printBmkList(mailBmk);
 //			String viewName = "mail/mailList";
 			int mResult = 0;
 			int mRecResult = 0;
@@ -581,7 +581,7 @@ public class MailController {
 			mv.setViewName("mail/mailList");
 			mv.addObject("bList", bList);
 			mv.addObject("cList", cList);
-			mv.addObject("bmkList", bmkList);
+//			mv.addObject("bmkList", bmkList);
 			mv.addObject("totalCount", totalCount);
 			mv.addObject("totalICount", totalICount);
 			mv.addObject("totalmCount", totalmCount);
