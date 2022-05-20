@@ -66,6 +66,7 @@ public class LeaveController {
 			model.addAttribute("rLeaveCount",rLeaveCount); //사용연차
 			model.addAttribute("lList", lList);
 			model.addAttribute("listCondition", "leave");
+			model.addAttribute("myCondition", "attendance");
 			return "/attendance/leaveListView";
 		}else {
 			model.addAttribute("msg", "연차 조회 실패");

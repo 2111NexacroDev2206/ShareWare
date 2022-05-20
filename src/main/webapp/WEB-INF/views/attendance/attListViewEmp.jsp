@@ -114,7 +114,7 @@
 					<th class="th-1">날짜</th>
 					<th class="th-1">출근시간</th>
 					<th class="th-1">퇴근시간</th>
-					<th class="th-1">무시간</th>
+					<th class="th-1">근무시간</th>
 					<th class="th-1">근무상태</th>
 				</tr>
 				<c:forEach items="${aList }" var="attendance">

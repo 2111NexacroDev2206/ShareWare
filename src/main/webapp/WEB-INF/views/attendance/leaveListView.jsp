@@ -86,7 +86,7 @@
 					</tr>	
 			</table> 
 			<h3 id="h-title" align="center">2022년도 조회</h3>
-			<button id="app-btn">연차신청</button><br>
+			<button id="app-btn" type="button" onclick="location.href='/approval/docWriteView.sw?formNo=3'">연차신청</button><br>
 		</div>
 		
 		<div><br>
