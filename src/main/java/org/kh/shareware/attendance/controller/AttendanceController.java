@@ -1,6 +1,8 @@
 package org.kh.shareware.attendance.controller;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -107,18 +109,16 @@ public class AttendanceController {
 			Model model
 			, HttpSession session
 			, @RequestParam(value="page", required=false) Integer page
-			, @RequestParam(value="date", required=false) String date) {
-		int currentPage = (page != null) ? page : 1;
+			, @RequestParam(value="date", required=false) String date){
 		Member value = (Member) session.getAttribute("loginUser");
-		String memNum = value.getMemberNum();
-		int totalCount = aService.getListCount(memNum);
-		PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
-		List<Attendance> aList = aService.printAll(pi, memNum);
+		Date nowTime = new Date(); // 현재 날짜 가져오기
+		SimpleDateFormat sf = new SimpleDateFormat("YYYY-MM");
+		String memNum = value.getMemberNum() + sf.format(nowTime);
+		List<Attendance> aList = aService.printAll(memNum);
 		List<Stats> sList = aService.printStats(memNum); //통계
 		if(!aList.isEmpty()) {
 			model.addAttribute("sList", sList); //통계
 			model.addAttribute("aList", aList);
-			model.addAttribute("pi", pi);
 			model.addAttribute("myCondition", "attendance");
 			model.addAttribute("listCondition", "attendance");
 		}		
@@ -129,21 +129,17 @@ public class AttendanceController {
 	//날짜 검색 (연도/월)
 	@PostMapping("/attendance/searchDate.sw")
 	public String searchDate(String date, HttpSession session, Model model) {			
-		
-		int currentPage = 1;
 		Member value = (Member) session.getAttribute("loginUser");
 		String memNum = value.getMemberNum()+date;  //A02022-06
-		
-		int totalCount = aService.getListCount(memNum);
-		PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
-		List<Attendance> aList = aService.printAll(pi, memNum);
+		List<Attendance> aList = aService.printAll(memNum);
 		List<Stats> sList = aService.printStats(memNum); //통계
 		if(!aList.isEmpty()) {
 			model.addAttribute("sList", sList); //통계
 			model.addAttribute("aList", aList);
-			model.addAttribute("pi", pi);
+			model.addAttribute("myCondition", "attendance");
+			model.addAttribute("listCondition", "attendance");
 		}	
-		//return "redirect:/attendance/attListViewEmp.sw";
+		model.addAttribute("date", date);
 		return "attendance/attListViewEmp";
 	}
 				

@@ -14,7 +14,7 @@ public interface AttendanceService {
 	
 	//근태리스트
 	int getListCount(String memNum);
-	List<Attendance> printAll(PageInfo pi, String memNum);
+	List<Attendance> printAll(String memNum);
 	
 	//통계
 	List<Stats> printStats(String memNum);

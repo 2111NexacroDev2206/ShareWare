@@ -17,8 +17,6 @@
 <link href="/resources/css/approval/appList-style.css" rel="stylesheet">
 	<style type="text/css">
 	.stats-List{
-	width: 500px;
-	margin: 20px 0;
 	font-size: 14px;
 	text-align: center;
 	border-collapse: collapse;
@@ -55,6 +53,75 @@
 		border: 1px;
 		color: white;
 	}
+	.att-header {
+		width: 100%;
+		height: 153px;
+		margin: 10px 0;
+	}
+	.div-time-btn {
+		width: 40%;
+		height: 100%;
+		float: left;
+	}
+	#now-time {
+		font-size: 70px;
+	}
+	.div-time-btn form{
+		display: inline-block;
+	}
+	.btn-sub {
+		width: 115px;
+		height: 60px;
+		background: rgb(117, 144, 194);
+		border: none;
+		border-radius: 4px;
+		color: white;
+		font-size: 17px;
+	}
+	#button1 {
+		margin-right: 25px;
+	}
+	.div-stats {
+		width: 60%;
+		height: 100%;
+		float: right;
+		display: inline-flex;
+    	align-items: flex-end;
+	}
+	.t-search {
+		margin: 20px 0 10px;
+		width: 50%;
+		margin-right: auto;
+		text-align: center;
+		border-collapse: collapse;
+    	border: 2px solid rgb(200, 200, 200);
+	}
+	.t-search tr {
+		height: 45px;
+	}
+	.t-search-title {
+	    background-color: rgb(240, 240, 240);
+	    width: 200px;
+	}
+	.t-search input {
+		vertical-align: middle;
+	}
+	.t-search input[name="date"] {
+		height: 30px;
+		font-size: 14px;
+		border: 1px solid gray;
+		border-radius: 4px;
+		width: 120px;
+		margin-right: 15px;
+	}
+	.t-search input[type="submit"] {
+		background: white;
+		border: 1px solid gray;
+		border-radius: 4px;
+		width: 55px;
+		height: 31px;
+		font-size: 14px;
+	}
 	</style>
 
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
@@ -66,31 +133,22 @@
 <jsp:include page="appMenu.jsp"></jsp:include> <!-- 메뉴 + 소메뉴 -->
 	
 	<div class="s-container">
-	<h2 id="h-title">근태관리</h2><br>
-	<div id="now-time"></div>
-<%-- 	<%= sf.format(nowTime) %><br> --%>
-	
-	<div>
-		<form action="/attendance/registerAtt.sw" method="post">
-			<input type="submit" id="button1" value="출근">
-		</form>
-		<form action="/attendance/modifyAtt.sw" method="post">
-			<input type="submit" id="button2" value="퇴근">
-			 <br>
-		</form>		
-	</div>
-	
-	<!-- 검색일<input type="text" id="searchDate">  -->
-	<form action="/attendance/searchDate.sw" method="post">
-    	<div>
-	      <input type="month" value="Sysdate" name="date">
-	      <input type="submit" value="검색">
-    	</div>
-    
-    	<br>
-    	<div>
+	<div class="att-header">
+		<div class="div-time-btn">
+			<div id="now-time"></div>
+	<%-- 	<%= sf.format(nowTime) %><br> --%>
+		
+			<form action="/attendance/registerAtt.sw" method="post">
+				<input type="submit" id="button1" class="btn-sub" value="출근">
+			</form>
+			<form action="/attendance/modifyAtt.sw" method="post">
+				<input type="submit" id="button2" class="btn-sub" value="퇴근">
+				 <br>
+			</form>		
+		</div>
+	   	<div class="div-stats">
 			<table class="stats-List">
-				<tr><th>통계</th></tr>
+				<tr><th colspan="3">통계</th></tr>
 				<tr>
 					<th class="th-1">지각</th>
 					<th class="th-1">조퇴</th>
@@ -105,9 +163,21 @@
 				</c:if>
 			</table>
 		</div>
+	</div>
+	<!-- 검색일<input type="text" id="searchDate">  -->
+	<form action="/attendance/searchDate.sw" method="post">
+    	<table class="t-search">
+    	<tr>
+    		<td class="t-search-title">
+    			검색일
+    		</td>
+    		<td>
+	      		<input type="month" id="nowMonth" name="date">
+	      		<input type="submit" value="검색">
+	      	</td>
+	     </tr>
+    	</table>
     </form>
-  	<br>
-		
 		<div>
 			<table class="t-List">
 				<tr>
@@ -130,21 +200,17 @@
 				</c:forEach>
 			</table>
 			<br>
-			<div id="page" align="center">
-				<c:forEach var="p" begin="${pi.startNavi }"
-					end="${pi.endNavi }">
-					<c:url var="pagination" value="/attendance/attListViewEmp.sw">
-						<c:param name="page" value="${p }"></c:param>
-					</c:url>
-					<a href="${pagination }">${p }</a>&nbsp;
-				</c:forEach>
-			</div>
 		</div>
 </div>
 <script>
 $(document).ready(function () { 
-    startDate(); 
-}); 
+    startDate();
+    if("${date}" != "") {
+    	$("#nowMonth").val("${date}");
+    }else {
+		$("#nowMonth").val(new Date().toISOString().slice(0, 7));
+    }
+});
 
 function startDate() { 
     date = setInterval(function () { 
