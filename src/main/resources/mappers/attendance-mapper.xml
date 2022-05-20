@@ -97,6 +97,6 @@
 	
 	<!-- 홈 - 근태 관리 -->
 	<select id="selectOneAtt" resultMap="attendanceResultMap">
-		SELECT * FROM ATTENDANCE WHERE ATT_DATE = TO_CHAR(SYSDATE, 'YY/MM/DD') AND MEM_NUM = #{memberNum}
+		SELECT * FROM ATTENDANCE WHERE TO_CHAR(ATT_DATE, 'YY/MM/DD') = TO_CHAR(SYSDATE, 'YY/MM/DD') AND MEM_NUM = #{memberNum}
 	</select>
   </mapper>
