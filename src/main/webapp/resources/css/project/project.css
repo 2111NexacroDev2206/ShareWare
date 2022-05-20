@@ -10,3 +10,64 @@
 	width: 550px;
     height: 500px;
 }
+.project-tbl td{
+	font-size: large;
+    font-family: 'Changa';
+    vertical-align: top;
+    font-weight: normal;
+    padding: 20px 35px;
+}
+#btn{
+    float: right;
+	background: rgb(94, 94, 94);
+    color: white;
+    font-size: smaller;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 0 10px;
+}
+.project-tbl-update{
+	border-radius : 5px;
+	background-color : rgb(245, 245, 245);
+	width: 550px;
+    height: 500px;
+}
+.project-tbl-update td{
+	font-size: large;
+    font-family: 'Changa';
+    vertical-align: top;
+    font-weight: normal;
+    padding: 15px 23px;
+}
+
+#par-btn{
+	border: none;
+	cursor: pointer;
+}
+#par-list{
+	background: white;
+    border: 1px solid;
+    border-color: gray;
+    border-radius: 5px;
+    height:150px;
+}
+#name{
+	border-color: gray;
+    border-radius: 5px;
+    height: 25px;
+    font-size: unset;
+}
+#date{
+	height: 22px;
+    font-size: large;
+	border-color: gray;
+    border-radius: 5px;
+}
+#project-content{
+	height: 150px;
+    width: 300px;
+    border-color: gray;
+    border-radius: 5px;
+    font-size: unset;
+}

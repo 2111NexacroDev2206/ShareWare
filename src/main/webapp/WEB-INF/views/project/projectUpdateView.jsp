@@ -6,52 +6,55 @@
 <head>
 <meta charset="UTF-8">
 <title>프로젝트 수정 페이지</title>
+<link href="/resources/css/project/project.css" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="projectMainMenu.jsp"></jsp:include>
 	<div class="s-container">
 		<form action="/project/projectUpdate.sw" method="post">
-		<div>
+			<br>
 			<div>
-				<h2>프로젝트 정보 수정</h2>
+				<span id="title">프로젝트 정보 수정</span>
 			</div>
+			<br>
 			<div>
-				<table>
+				<table class="project-tbl-update">
 					<tr>
 						<td>프로젝트 명</td>
-						<td><input type="text" name="projectTitle" value="${project.projectTitle }"></td>
+						<td><input type="text" id="name" name="projectTitle" value="${project.projectTitle }"></td>
 					</tr>
 					<tr>
 						<td>진행기간</td>
-						<td><input type="date" name="pStartDate" value="${project.pStartDate }"> ~ <input type="date" name="pEndDate" value="${project.pEndDate }"> </td>
+						<td><input type="date" id="date" name="pStartDate" value="${project.pStartDate }"> ~ <input type="date" id="date" name="pEndDate" value="${project.pEndDate }"> </td>
 					</tr>
 					<tr>
 						<td>프로젝트 관리자</td>
 						<td>${loginUser.memberName }<input type="hidden" value="${loginUser.memberNum }" name="projectMade" readonly></td>
 					</tr>
 					<tr>
-						<td>프로젝트 참여자</td>
+						<td>프로젝트 참여자 <button id="par-btn" type="button" onclick="participant();"><i class="fa-solid fa-user-plus fa-lg"></i></button></td>
 						<td>
-							<button type="button" onclick="participant();"> + </button>
-							<p id="par-list">
+							<div id="par-list" style="overflow-x:hidden;overflow-y:scroll;">
 							<c:forEach items="${pList }" var="participant">
-								${participant.division } ${participant.memberName } ${participant.rank } <br>
+								 &nbsp;&nbsp;${participant.division } ${participant.memberName } ${participant.rank } <br>
 						 	</c:forEach>
+							</div>
 						</td>
 						<input type="hidden" id="num-par" name="memNum" readonly>
 						<input type="hidden" value="${project.projectNo }" name="projectNo" readonly>
 					</tr>
 					<tr>
 						<td>프로젝트 내용</td>
-						<td><textarea name="projectContent" value="${project.projectContent }"></textarea></td>
+						<td><textarea id="project-content" name="projectContent" value="${project.projectContent }"></textarea></td>
 					</tr>
 					<tr>
-						<input type="submit" value="저 장">
-						<input type="button" onclick="delPop();" value="삭제">
+						<td colspan="2">
+							<input id="btn" type="submit" value="저 장">
+							<input id="btn" type="button" onclick="delPop();" value="삭 제">
+						</td>
 					</tr>
 				</table>
 			</div>
-		</div>
 		</form>
 	</div>
 	<jsp:include page="projectModal.jsp"></jsp:include> <!-- 참여자 선택 모달 -->

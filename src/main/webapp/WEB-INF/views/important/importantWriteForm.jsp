@@ -31,7 +31,7 @@
 					<td colspan="4"><textarea name="importantContent"></textarea></td>
 				</tr>
 			</table>
-				<input type="reset" value="취소">
+				<input type="button" onclick="location.href='/project/importantList.sw?projectNo=${projectNo}'" value="취소">
 				<input type="submit" value="등록">
 		</form>
 		

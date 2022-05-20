@@ -31,10 +31,12 @@
 				</td>
 			</tr>
 		</table>
+		<c:if test="${week.fileReName != null}">
 		<p>첨부파일 </p>
 		<a href="../../../resources/wuploadFiles/${week.fileReName }" download>
 		 		${week.fileName }
 				</a>
+		</c:if>
 		<div class="div-btn">
 		<input type="button" onclick="location.href='/report/weekModifyView.sw?wrNo=${week.wrNo}'" value="수정">
 		<input type="button" onclick="delPop();" value="삭제">

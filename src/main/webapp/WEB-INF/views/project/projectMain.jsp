@@ -59,7 +59,7 @@
 				<div class="participant" >
 					<span id="par-span">구성원</span>
 					<br><br>
-					<div style="overflow:scroll; width:300px; height:150px; padding:10px; border:solid 1px gray; border-radius:3px">
+					<div style="overflow-x:hidden;overflow-y:scroll;width:300px; height:150px; padding:10px; border:solid 1px gray; border-radius:3px">
 						<div id="manager">프로젝트 관리자 ${project.projectMade }</div>
 						<c:forEach items="${pList }" var="participant">
 							<div>${participant.division } ${participant.memberName } ${participant.rank }</div>
