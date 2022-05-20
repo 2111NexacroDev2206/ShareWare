@@ -8,42 +8,24 @@
 <head>
 <meta charset="UTF-8">
 <title>업무현황 목록페이지</title>
-<style>
-	.paging {
-		display: inline-flex;
-		height: 40px;
-		width: 840px;
-		margin-left: 253px;
-		justify-content: center;
-	}
-	.page-btn {
-		width: 40px;
-		height: 40px;
-		border: none;
-		background-color: transparent;
-		font-size: 14px;
-		margin: 0 5px;
-		cursor: pointer;
-	}
-	.page-btn:hover, .page-btn.active {
-		border: 1px solid rgb(51, 51, 51);
-		border-radius: 4px;
-	}
-</style>
+<link href="/resources/css/work/work-list.css" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="../project/projectMainMenu.jsp"></jsp:include>
 	<div class="s-container">
-	<span class="type ${Status eq 'all' ? 'active' : ''}"><a href="/project/workList.sw?projectNo=${projectNo }">전체</a></span>
-	<span class="type ${Status eq 'myList' ? 'active' : ''}"><a href="/project/workList.sw?projectNo=${projectNo }&status=myList">내가 쓴 글</a></span>
-	<a href="/project/workWriteView.sw?projectNo=${projectNo }">+공지작성</a>
-	<table border="1">
+	<h2 id="w-title">업무진행현황</h2>
+	<div>
+		<span class="type ${Status eq 'all' ? 'active' : ''}"><a href="/project/workList.sw?projectNo=${projectNo }">전체</a></span>
+		<span class="type ${Status eq 'myList' ? 'active' : ''}"><a href="/project/workList.sw?projectNo=${projectNo }&status=myList">내가 쓴 글</a></span>
+		<button id="write-btn" onclick="location.href='/project/workWriteView.sw?projectNo=${projectNo }'">글작성</button>
+	</div>
+	<table class="t-List">
 		<thead>
 			<tr>
-				<th>번호</th>
-				<th>제목</th>
-				<th>작성일</th>
-				<th>작성자</th>
+				<th class="th-1">번호</th>
+				<th class="th-3">제목</th>
+				<th class="th-2">작성일</th>
+				<th class="th-2">작성자</th>
 			</tr>
 			</thead>
 			<tbody>
