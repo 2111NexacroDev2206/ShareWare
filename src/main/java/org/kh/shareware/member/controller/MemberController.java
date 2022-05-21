@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 
 @Controller
@@ -205,5 +206,27 @@ public class MemberController {
 			return new Gson().toJson(mList);
 		}
 		return null;
+	}
+	
+	// 넥사크로
+	// 인사 관리 - 사원 관리 - 사원 목록 조회
+	@RequestMapping(value = "admin/member/list.sw", method = RequestMethod.GET)
+	public NexacroResult adminMemberList() {
+		int 	nErrorCode = 0;
+		String 	strErrorMsg = "START";
+		NexacroResult result = new NexacroResult();
+		
+		List<Member> mList = mService.printAllMember();
+		if(!mList.isEmpty()) {
+			nErrorCode = 0;
+			strErrorMsg = "SUCC";
+		} else {
+			nErrorCode = -1;
+			strErrorMsg = "Fail";
+		}
+		result.addDataSet("out_member", mList);
+		result.addVariable("ErrorCode", nErrorCode);
+		result.addVariable("ErrorMsg", strErrorMsg);
+		return result;
 	}
 }
