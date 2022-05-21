@@ -24,6 +24,32 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<!-- nexacro platform으로 데이터를 송신하기 위한 org.springframework.web.servlet.view -->
+	<beans:bean id="nexacroView" class="com.nexacro.uiadapter17.spring.core.view.NexacroView">
+		<beans:property name="defaultContentType" value="PlatformXml"/>
+		<beans:property name="defaultCharset" value="UTF-8"/>
+	</beans:bean>
+	
+	<beans:bean class="com.nexacro.uiadapter17.spring.core.resolve.NexacroRequestMappingHandlerAdapter">
+		<beans:property name="order" value="0" />
+		<!-- PlatformData -> Java Bean으로 변환하는 작업 수행
+		Controller의 Argument의 데이터 변환 -->
+		<beans:property name="customArgumentResolvers">
+			<beans:list> <!-- 의존성 주입 -->
+				<beans:bean class="com.nexacro.uiadapter17.spring.core.resolve.NexacroMethodArgumentResolver" />
+			</beans:list>
+		</beans:property>
+		<!-- Java Bean -> PlatformData로 변환하는 작업 수행
+		Controller에서 반환되는 값의 데이터 변환을 수행 -->
+		<beans:property name="customReturnValueHandlers">
+			<beans:list> <!-- 의존성 주입 -->
+				<beans:bean class="com.nexacro.uiadapter17.spring.core.resolve.NexacroHandlerMethodReturnValueHandler">
+					<beans:property name="view" ref="nexacroView" /> <!-- ref(객체를 주입) -->
+				</beans:bean>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	
 	<context:component-scan base-package="org.kh.shareware" />
 	
 </beans:beans>
