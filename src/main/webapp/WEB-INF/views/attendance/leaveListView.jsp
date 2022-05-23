@@ -10,14 +10,52 @@
 <meta charset="UTF-8">
 <title>연차관리</title>
 <style type="text/css">
+	.form-search {
+		margin: 30px 0;
+	}
+	.t-search {
+		margin: 20px 0 10px;
+		width: 50%;
+		margin-right: auto;
+		text-align: center;
+		border-collapse: collapse;
+    	border: 2px solid rgb(200, 200, 200);
+    	min-width: 430px;
+	}
+	.t-search tr {
+		height: 45px;
+	}
+	.t-search-title {
+	    background-color: rgb(240, 240, 240);
+	    width: 200px;
+	}
+	.t-search input {
+		vertical-align: middle;
+	}
+	.t-search select[name="date"] {
+		height: 30px;
+		font-size: 14px;
+		border: 1px solid gray;
+		border-radius: 4px;
+		width: 80px;
+		margin-right: 15px;
+	}
+	.t-search input[type="submit"] {
+		background: white;
+		border: 1px solid gray;
+		border-radius: 4px;
+		width: 55px;
+		height: 31px;
+		font-size: 14px;
+	}
 	.stats-List{
-	width: 500px;
-	margin: 20px 0;
-	font-size: 14px;
-	text-align: center;
-	border-collapse: collapse;
-	border-top: 2px solid rgb(200, 200, 200);
-	border-bottom: 2px solid rgb(200, 200, 200);
+		width: 900px;
+		margin-bottom: 20px;
+		font-size: 14px;
+		text-align: center;
+		border-collapse: collapse;
+		border-top: 2px solid rgb(200, 200, 200);
+		border-bottom: 2px solid rgb(200, 200, 200);
 	}
 	.stats-List tr {
 		border-top: 1px solid rgb(200, 200, 200);
@@ -28,15 +66,6 @@
 	}
 	.stats-List th {
 		background-color: rgb(240, 240, 240);
-	}
-	.stats-List .th-1 {
-		width: 180px;
-	}
-	.stats-List .th-2 {
-		width: 630px;
-	}
-	.stats-List .th-3 {
-		width: 810px;
 	}
 	.stats-List a {
 		text-decoration: none;
@@ -49,6 +78,9 @@
 		border: 1px;
 		color: white;
 	}
+	.t-List {
+		width: 900px;
+	}
 	</style>
 
 <link href="/resources/css/approval/appList-style.css" rel="stylesheet">
@@ -57,19 +89,25 @@
 <jsp:include page="appMenu.jsp"></jsp:include> <!-- 메뉴 + 소메뉴 -->
 
 <div class="s-container">
-	<h2 id="h-title">연차관리</h2><br>
-	<form action="/leave/searchDate.sw" method="post">
-    	<div>검색일
-			<jsp:useBean id="now" class="java.util.Date" />
-			<fmt:formatDate value="${now}" pattern="yyyy" var="yearStart"/>
-			<select class="l-select" id="s-condition" name="date" style="text-align: left; width: 80px;">
-				<option value="">선택</option>
-				<c:forEach begin="0" end="${yearStart - 1980}" var="result" step="1">
-					<option value="<c:out value="${yearStart-result}" />" <c:if test="${yearStart-result == detail.U_YEAR}"> selected="selected"</c:if>><c:out value="${yearStart-result}" /></option>
-				</c:forEach>
-			</select>
-	        <input type="submit" value="검색">
-    	</div><br>
+	<form action="/leave/searchDate.sw" method="post" class="form-search">
+		<table class="t-search">
+	    	<tr>
+	    		<td class="t-search-title">
+	    			검색일
+	    		</td>
+	    		<td>
+		      		<jsp:useBean id="now" class="java.util.Date" />
+					<fmt:formatDate value="${now}" pattern="yyyy" var="yearStart"/>
+					<select id="s-condition" name="date">
+						<option value="">선택</option>
+						<c:forEach begin="0" end="${yearStart - 1980}" var="result" step="1">
+							<option value="<c:out value="${yearStart-result}" />" <c:if test="${yearStart-result == detail.U_YEAR}"> selected="selected"</c:if>><c:out value="${yearStart-result}" /></option>
+						</c:forEach>
+					</select>
+		      		<input type="submit" value="검색" class="btn-search">
+		      	</td>
+		     </tr>
+    	</table>
     </form>
 	<form action="/leave/leaveStatsView.sw" method="GET">
 		<div>
@@ -85,7 +123,7 @@
 						<td>${rLeaveCount}</td>
 					</tr>	
 			</table> 
-			<h3 id="h-title" align="center">2022년도 조회</h3>
+			<h2 id="h-title" align="center">${year }년도 조회</h2>
 			<button id="app-btn" type="button" onclick="location.href='/approval/docWriteView.sw?formNo=3'">연차신청</button><br>
 		</div>
 		
@@ -102,14 +140,19 @@
 						<tr>
 							<td>${status.count }</td>
 							<td>${leaveList.leaveType }</td>
-							<td>${leaveList.leaveStart }~${leaveList.leaveEnd }</td>
+							<c:if test="${leaveList.leaveType != '반차'}">
+								<td>${leaveList.leaveStart }~${leaveList.leaveEnd }</td>
+							</c:if>
+							<c:if test="${leaveList.leaveType == '반차'}">
+								<td>${leaveList.leaveStart } ${leaveList.leaveTime }</td>
+							</c:if>
 							<td>${leaveList.leaveDay }</td>
 						</tr>
 					</c:forEach>
 				
 				<c:if test="${empty lList }">
 					<tr>
-						<td colspan='4'>검색된 연차가 없습니다</td>
+						<td colspan='4'>검색된 휴가가 없습니다</td>
 					</tr>
 				</c:if>
 				

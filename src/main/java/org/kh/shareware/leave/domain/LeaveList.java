@@ -4,7 +4,8 @@ public class LeaveList {
 	private String leaveType;
 	private String leaveStart;
 	private String leaveEnd;
-	private int leaveDay;
+	private String leaveTime;
+	private float leaveDay;
 	
 	public LeaveList() {}
 
@@ -28,12 +29,24 @@ public class LeaveList {
 		return leaveEnd;
 	}
 
+	public String getLeaveTime() {
+		return leaveTime;
+	}
+
+	public void setLeaveTime(String leaveTime) {
+		this.leaveTime = leaveTime;
+	}
+
 	public void setLeaveEnd(String leaveEnd) {
 		this.leaveEnd = leaveEnd;
 	}
 
-	public int getLeaveDay() {
+	public float getLeaveDay() {
 		return leaveDay;
+	}
+
+	public void setLeaveDay(float leaveDay) {
+		this.leaveDay = leaveDay;
 	}
 
 	public void setLeaveDay(int leaveDay) {
@@ -43,8 +56,7 @@ public class LeaveList {
 	@Override
 	public String toString() {
 		return "LeaveList [leaveType=" + leaveType + ", leaveStart=" + leaveStart + ", leaveEnd=" + leaveEnd
-				+ ", leaveDay=" + leaveDay + "]";
+				+ ", leaveTime=" + leaveTime + ", leaveDay=" + leaveDay + "]";
 	}
-	
 	
 }

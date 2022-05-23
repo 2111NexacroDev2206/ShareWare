@@ -1,6 +1,8 @@
 package org.kh.shareware.leave.controller;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class LeaveController {
@@ -58,13 +61,16 @@ public class LeaveController {
 		float tLeaveCount = lService.printLeaveTotal(memNum); //통계
 		float uLeaveCount = lService.printLeaveUse(memNum);
 		float rLeaveCount = tLeaveCount - uLeaveCount;
-		List<LeaveList> lList = lService.printAll(memNum+"2022");
+		Date date = new Date();
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy");
+		List<LeaveList> lList = lService.printAll(memNum+sf.format(date));
 		model.addAttribute("tLeaveCount",tLeaveCount); //총연차 //통계
 		model.addAttribute("uLeaveCount",uLeaveCount); //사용연차
 		model.addAttribute("rLeaveCount",rLeaveCount); //사용연차
 		model.addAttribute("lList", lList);
 		model.addAttribute("listCondition", "leave");
 		model.addAttribute("myCondition", "attendance");
+		model.addAttribute("year", sf.format(date));
 		return "/attendance/leaveListView";
 	}
 	
@@ -75,7 +81,7 @@ public class LeaveController {
 		Member value = (Member) session.getAttribute("loginUser");
 		String memNum = value.getMemberNum();  //A02022
 		float tLeaveCount = lService.printLeaveTotal(memNum);
-		float uLeaveCount = lService.printLeaveUse(memNum);
+		float uLeaveCount = lService.printLeaveUse(memNum+date);
 		float rLeaveCount = tLeaveCount - uLeaveCount;
 		List<LeaveList> lList = lService.printAll(memNum+date);
 		model.addAttribute("tLeaveCount",tLeaveCount); //총연차
@@ -83,8 +89,10 @@ public class LeaveController {
 		model.addAttribute("rLeaveCount",rLeaveCount); //사용연차
 		if(!lList.isEmpty()) {
 			model.addAttribute("lList", lList);
-			model.addAttribute("listCondition", "leave");
 		}	
+		model.addAttribute("year", date);
+		model.addAttribute("listCondition", "leave");
+		model.addAttribute("myCondition", "attendance");
 		return "attendance/leaveListView";
 	}
 	
