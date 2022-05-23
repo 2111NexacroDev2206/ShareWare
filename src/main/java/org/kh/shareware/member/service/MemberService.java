@@ -28,5 +28,5 @@ public interface MemberService {
 	public List<Member> modalChatInviteSearch(Search search);
 	
 	// 넥사크로 - 관리자
-	public List<Member> printAllMember(); // 사원 전체 조회
+	public List<Member> printAllMember(Search search); // 사원 전체 조회
 }

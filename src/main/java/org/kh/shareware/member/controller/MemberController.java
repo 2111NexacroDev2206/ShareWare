@@ -7,7 +7,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.kh.shareware.chat.domain.ChatMember;
 import org.kh.shareware.common.Search;
 import org.kh.shareware.member.common.PageInfo;
 import org.kh.shareware.member.common.Pagination;
@@ -24,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 
@@ -210,13 +210,38 @@ public class MemberController {
 	
 	// 넥사크로
 	// 인사 관리 - 사원 관리 - 사원 목록 조회
-	@RequestMapping(value = "admin/member/list.sw", method = RequestMethod.GET)
-	public NexacroResult adminMemberList() {
+	@RequestMapping(value = "admin/member/list.sw", method = RequestMethod.POST)
+	public NexacroResult adminMemberList(@ParamVariable(name = "inVar") String inVar) {
 		int 	nErrorCode = 0;
 		String 	strErrorMsg = "START";
 		NexacroResult result = new NexacroResult();
-		
-		List<Member> mList = mService.printAllMember();
+		Search search = new Search();
+		search.setSearchCondition(inVar);
+		List<Member> mList = mService.printAllMember(search);
+		if(!mList.isEmpty()) {
+			nErrorCode = 0;
+			strErrorMsg = "SUCC";
+		} else {
+			nErrorCode = -1;
+			strErrorMsg = "Fail";
+		}
+		result.addDataSet("out_member", mList);
+		result.addVariable("ErrorCode", nErrorCode);
+		result.addVariable("ErrorMsg", strErrorMsg);
+		return result;
+	}
+	
+	// 인사 관리 - 사원 관리 - 사원 목록 조회
+	@RequestMapping(value = "admin/member/searchList.sw", method = RequestMethod.POST)
+	public NexacroResult adminMemberSearchList(@ParamVariable(name = "searchCondition") String searchCondition
+			, @ParamVariable(name = "searchValue") String searchValue) {
+		int 	nErrorCode = 0;
+		String 	strErrorMsg = "START";
+		NexacroResult result = new NexacroResult();
+		Search search = new Search();
+		search.setSearchCondition(searchCondition);
+		search.setSearchValue(searchValue);
+		List<Member> mList = mService.printAllMember(search);
 		if(!mList.isEmpty()) {
 			nErrorCode = 0;
 			strErrorMsg = "SUCC";
