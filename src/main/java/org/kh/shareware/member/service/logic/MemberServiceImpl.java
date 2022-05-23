@@ -1,6 +1,7 @@
 package org.kh.shareware.member.service.logic;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.common.Search;
@@ -95,6 +96,12 @@ public class MemberServiceImpl implements MemberService{
 	public List<Member> modalChatInviteSearch(Search search) {
 		List<Member> mList = mStore.selectAllChatMemberSearch(sqlSession, search);
 		return mList;
+	}
+
+	//사원등록
+	@Override
+	public int insertMem(Map<Object, String> paramMap) {
+		return mStore.regisgterMem(sqlSession, paramMap);
 	}
 
 }

@@ -1,10 +1,12 @@
 package org.kh.shareware.member.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kh.shareware.common.Search;
 import org.kh.shareware.member.domain.Division;
 import org.kh.shareware.member.domain.Member;
+import org.springframework.web.servlet.ModelAndView;
 import org.kh.shareware.member.common.PageInfo;
 
 public interface MemberService {
@@ -26,4 +28,7 @@ public interface MemberService {
 	public List<Member> modalPrintSearch(Search search);
 	public List<Member> modalChatInvitePrint(int chatRoomNo);
 	public List<Member> modalChatInviteSearch(Search search);
+	
+	//사원등록
+	public int insertMem(Map<Object, String> paramMap);
 }

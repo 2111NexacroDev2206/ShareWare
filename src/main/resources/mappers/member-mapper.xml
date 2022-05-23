@@ -150,4 +150,23 @@
 			OR MEMBER_NAME LIKE '%' || #{searchValue} || '%')
 		</if>
 	</select>
+	
+	<!-- 사원등록 -->
+	<insert id="regisgterMem" parameterType="Map">
+		insert into member values(#{hire_date}
+					            , #{cal_date}
+					            , #{account}
+					            , #{password}
+				                , #{memName}
+				                , #{memNum}
+				                , #{rank}
+				                , #{division}
+				                , #{address}
+				                , #{phone}
+				                , #{mail}
+				                , #{retire_date}
+				                , #{rdo_gender}
+				                , #{bank_Combo}                                        
+			                    )
+	</insert>
   </mapper>

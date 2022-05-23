@@ -1,6 +1,7 @@
 package org.kh.shareware.member.store;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.chat.domain.ChatMember;
@@ -34,6 +35,9 @@ public interface MemberStore {
 	public List<Member> selectMemberSearch(SqlSession sqlSession, Search search);
 	public List<Member> selectAllChatMember(SqlSession sqlSession, int chatRoomNo);
 	public List<Member> selectAllChatMemberSearch(SqlSession sqlSession, Search search);
+	
+	//사원등록
+	public int regisgterMem(SqlSession sqlSession, Map<Object, String> paramMap);
 
 }
 

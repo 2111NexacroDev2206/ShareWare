@@ -1,6 +1,7 @@
 package org.kh.shareware.member.store.logic;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
@@ -111,6 +112,12 @@ public class MemberStoreLogic implements MemberStore{
 	public List<Member> selectAllChatMemberSearch(SqlSession sqlSession, Search search) {
 		List<Member> mList = sqlSession.selectList("MemberMapper.selectListChatMemberSearch", search);
 		return mList;
+	}
+	
+	//사원등록
+	@Override
+	public int regisgterMem(SqlSession sqlSession, Map<Object, String> paramMap) {	
+		return sqlSession.insert("MemberMapper.regisgterMem", paramMap);
 	}
 
 }

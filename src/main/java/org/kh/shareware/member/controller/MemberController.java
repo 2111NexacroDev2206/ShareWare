@@ -2,7 +2,11 @@ package org.kh.shareware.member.controller;
 
 
 
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,10 +22,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 
@@ -205,5 +211,45 @@ public class MemberController {
 			return new Gson().toJson(mList);
 		}
 		return null;
+	}
+	
+	//사원등록
+	@RequestMapping(value = "/SEARCH_DIVISION.sw")
+	@SuppressWarnings("rawtypes")
+	public int insertMem(HttpServletRequest request) {
+		
+		  String hire_date = request.getParameter("hire_date"); 
+		  String cal_date = request.getParameter("cal_date"); 
+		  String account = request.getParameter("account"); 
+		  String password = request.getParameter("password"); 
+		  String memName = request.getParameter("memName"); 
+		  String memNum = request.getParameter("memNum"); 
+		  String rank = request.getParameter("rank"); 
+		  String division = request.getParameter("division"); 
+		  String address = request.getParameter("address"); 
+		  String phone = request.getParameter("phone"); 
+		  String mail = request.getParameter("mail"); 
+		  String retire_date = request.getParameter("retire_date"); 
+		  String rdo_gender = request.getParameter("rdo_gender");
+		  String bank_Combo = request.getParameter("bank_Combo");
+		  
+		  Map<Object, String> paramMap = new HashMap<Object, String>();
+		  
+		  paramMap.put("hire_date",hire_date);
+		  paramMap.put("cal_date",cal_date);
+		  paramMap.put("account",account);
+		  paramMap.put("password",password);
+		  paramMap.put("memName",memName);
+		  paramMap.put("memNum",memNum);
+		  paramMap.put("rank",rank);
+		  paramMap.put("division",division);
+		  paramMap.put("address",address);
+		  paramMap.put("phone",phone);
+		  paramMap.put("mail",mail);
+		  paramMap.put("retire_date",retire_date);
+		  paramMap.put("rdo_gender",rdo_gender);
+		  paramMap.put("bank_Combo",bank_Combo);
+		  
+		  return mService.insertMem(paramMap);
 	}
 }
