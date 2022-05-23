@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
+import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 
 @Controller
@@ -124,6 +126,7 @@ public class MemberController {
 	@RequestMapping(value="/member/organizationView.sw", method=RequestMethod.GET)
 	public String organizationView(Model model){
 		List<Division> oList = mService.printOrganization();
+		model.addAttribute("myCondition", "organization");
 		if(!oList.isEmpty()) {
 			model.addAttribute("oList", oList);
 			return "/member/organizationView";
@@ -258,7 +261,6 @@ public class MemberController {
 		result.addVariable("ErrorMsg", strErrorMsg);
 		return result;
 	}
-	
 	//사원등록
 	@RequestMapping(value = "/SEARCH_DIVISION.sw")
 	@SuppressWarnings("rawtypes")
