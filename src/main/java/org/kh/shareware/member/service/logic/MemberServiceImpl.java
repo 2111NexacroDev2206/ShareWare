@@ -97,6 +97,13 @@ public class MemberServiceImpl implements MemberService{
 		List<Member> mList = mStore.selectAllChatMemberSearch(sqlSession, search);
 		return mList;
 	}
+	
+	// 넥사크로 - 관리자
+	@Override
+	public List<Member> printAllMember(Search search) { // 사원 전체 조회
+		List<Member> mList = mStore.selectAllMemberNexa(sqlSession, search);
+		return mList;
+	}
 
 	//사원등록
 	@Override

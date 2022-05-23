@@ -14,7 +14,7 @@ public interface AttendanceStore {
 	public int updateAttendance(SqlSession sqlSession, Attendance attendance);
 
 	//근태리스트
-	List<Attendance> selectAll(SqlSession sqlSession, PageInfo pi, String memNum);
+	List<Attendance> selectAll(SqlSession sqlSession, String memNum);
 	public int selectListCount(SqlSession sqlSession, String memNum);
 	
 	//통계

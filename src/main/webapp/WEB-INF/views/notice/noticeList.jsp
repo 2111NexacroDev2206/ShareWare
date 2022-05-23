@@ -40,9 +40,10 @@
 							<td colspan = "5">검색 정보가 없습니다.</td>
 						</tr>
 					</c:if>
+					<c:set var="num" value="${totalCount - ((currentPage-1) * 10) }"/>
 					<c:forEach items="${nList }" var="notice">
 							<tr>
-								<td class="comNoTd">${notice.noticeNo} </td>
+								<td class="comNoTd">${num} </td>
 									<c:url var="nDetail" value="/notice/detail.sw">
 										<c:param name="noticeNo" value="${notice.noticeNo }"></c:param>
 									</c:url>
@@ -51,6 +52,7 @@
 								<td class="defualtTd">${notice.noticeDate }</td>
 								<td class="defualtTd">${notice.noticeView }</td>		
 							</tr>
+							<c:set var="num" value="${num-1 }"></c:set>
 					</c:forEach>
 			</table>
 				

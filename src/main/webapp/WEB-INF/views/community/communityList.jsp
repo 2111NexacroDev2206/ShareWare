@@ -34,29 +34,31 @@
 				<!-- <a href="/community/WriteView.sw">게시글 작성</a> -->
 					<table align="center" class="type04">
 					<tr>
-						<th colspan="2">제목</th>
-						<th>작성자</th>
-						<th>작성일</th>
-						<th>조회수</th>
+						<th colspan="2" class="comTitleTd">제목</th>
+						<th class="memeberTd">작성자</th>
+						<th class="dateTd">작성일</th>
+						<th class="viewTd">조회수</th>
 					</tr>
 							<c:if test ="${fn:length(cList) eq 0}"> <!-- list의 길이를 구해서 길이가 0이면 해당 문구를 출력 -->
 								<tr>
 									<td colspan = "5">검색 정보가 없습니다.</td>
 								</tr>
 							</c:if>
+							<c:set var="num" value="${totalCount - ((currentPage-1) * 10) }"/>
 							<c:forEach items="${cList }" var="community">
 									<tr>
 										
-										<td class="comNoTd">${community.comNo} </td>
+										<td class="comNoTd">${num }</td>
 											<c:url var="cDetail" value="/community/detail.sw">
 												<c:param name="comNo" value="${community.comNo }"></c:param>
 											</c:url>
 										<td class="comTitleTd"><a href ="${cDetail}">${community.comTitle }</a></td>
-										<td class="defualtTd">${community.member.memberName }</td>
-										<td class="defualtTd">${community.comDate }</td>
-										<td class="defualtTd">${community.comView }</td>
+										<td class="memeberTd">${community.member.memberName }</td>
+										<td class="dateTd">${community.comDate }</td>
+										<td class="viewTd">${community.comView }</td>
 										
 									</tr>
+									<c:set var="num" value="${num-1 }"></c:set>
 							</c:forEach>
 					</table>
 						

@@ -114,6 +114,12 @@ public class MemberStoreLogic implements MemberStore{
 		return mList;
 	}
 	
+	// 넥사크로 - 관리자
+	@Override
+	public List<Member> selectAllMemberNexa(SqlSession sqlSession, Search search) { // 사원 전체 조회
+		List<Member> mList = sqlSession.selectList("MemberMapper.selectAllListMemberNexa", search);
+		return mList;
+	}
 	//사원등록
 	@Override
 	public int regisgterMem(SqlSession sqlSession, Map<Object, String> paramMap) {	

@@ -29,6 +29,9 @@ public interface MemberService {
 	public List<Member> modalChatInvitePrint(int chatRoomNo);
 	public List<Member> modalChatInviteSearch(Search search);
 	
+	// 넥사크로 - 관리자
+	public List<Member> printAllMember(Search search); // 사원 전체 조회
+
 	//사원등록
 	public int insertMem(Map<Object, String> paramMap);
 }

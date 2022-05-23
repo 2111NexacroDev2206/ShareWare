@@ -11,7 +11,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.kh.shareware.chat.domain.ChatMember;
 import org.kh.shareware.common.Search;
 import org.kh.shareware.member.common.PageInfo;
 import org.kh.shareware.member.common.Pagination;
@@ -211,6 +210,53 @@ public class MemberController {
 			return new Gson().toJson(mList);
 		}
 		return null;
+	}
+	
+	// 넥사크로
+	// 인사 관리 - 사원 관리 - 사원 목록 조회
+	@RequestMapping(value = "admin/member/list.sw", method = RequestMethod.POST)
+	public NexacroResult adminMemberList(@ParamVariable(name = "inVar") String inVar) {
+		int 	nErrorCode = 0;
+		String 	strErrorMsg = "START";
+		NexacroResult result = new NexacroResult();
+		Search search = new Search();
+		search.setSearchCondition(inVar);
+		List<Member> mList = mService.printAllMember(search);
+		if(!mList.isEmpty()) {
+			nErrorCode = 0;
+			strErrorMsg = "SUCC";
+		} else {
+			nErrorCode = -1;
+			strErrorMsg = "Fail";
+		}
+		result.addDataSet("out_member", mList);
+		result.addVariable("ErrorCode", nErrorCode);
+		result.addVariable("ErrorMsg", strErrorMsg);
+		return result;
+	}
+	
+	// 인사 관리 - 사원 관리 - 사원 목록 조회
+	@RequestMapping(value = "admin/member/searchList.sw", method = RequestMethod.POST)
+	public NexacroResult adminMemberSearchList(@ParamVariable(name = "searchCondition") String searchCondition
+			, @ParamVariable(name = "searchValue") String searchValue) {
+		int 	nErrorCode = 0;
+		String 	strErrorMsg = "START";
+		NexacroResult result = new NexacroResult();
+		Search search = new Search();
+		search.setSearchCondition(searchCondition);
+		search.setSearchValue(searchValue);
+		List<Member> mList = mService.printAllMember(search);
+		if(!mList.isEmpty()) {
+			nErrorCode = 0;
+			strErrorMsg = "SUCC";
+		} else {
+			nErrorCode = -1;
+			strErrorMsg = "Fail";
+		}
+		result.addDataSet("out_member", mList);
+		result.addVariable("ErrorCode", nErrorCode);
+		result.addVariable("ErrorMsg", strErrorMsg);
+		return result;
 	}
 	
 	//사원등록

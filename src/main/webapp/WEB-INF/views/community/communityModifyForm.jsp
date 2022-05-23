@@ -27,7 +27,7 @@
 			<div id="contents">
 				<form action="/community/update.sw" method="POST" enctype="multipart/form-data" id="updateForm"> 
 					<div class="optionBtnDiv">
-						<button type="button" id="upDateBtn">수정</button>
+						<button type="button" id="updateBtn">수정</button>
 						<button type="button" id="cancleBtn" onclick="location.href='/community/list.sw'">취소</button>
 					</div> 
 					<div class="dateDiv">작성일 : ${community.comDate}</div>
@@ -39,27 +39,30 @@
 						<!-- <div contentEditable="true" id="comContent" style="height:500px;">  -->
 							<textarea id="comContent" name="comContent" rows="" cols="">${community.comContent}</textarea>
 							<div id="vote-body-div">
-								<input type="text" value="${communityVote.cVoteState}">
+								<div>
+									<input type="button" id="returnBtn" value="&#xf00d;">
+								</div>
+								
 								<div id="vote-textbox-div">
 									<div id="vote-textbox1-div"  class="vote-textbox-div">
-										<input id="vote-input1" value="${communityVote.cVoteText1}" type="text" class="vote-input">
+										<input id="vote-input1" type="text" class="vote-input">
 									</div>
 									<div id="vote-textbox2-div"  class="vote-textbox-div">
-										<input id="vote-input2" value="${communityVote.cVoteText2}" type="text" class="vote-input">	
+										<input id="vote-input2" type="text" class="vote-input">	
 										<input type="button"  class="btn-delete">
 									</div>
 									<div id="vote-textbox3-div"  class="vote-textbox-div">
-										<input id="vote-input3" value="${communityVote.cVoteText3}" type="text" class="vote-input">
+										<input id="vote-input3"  type="text" class="vote-input">
 										<input type="button" id="btn-delete1" class="btn-delete" value="&#xf056;">
 									</div>
 									<div id="vote-textbox4-div"  class="vote-textbox-div">
-										<input id="vote-input4" value="${communityVote.cVoteText4}" type="text" class="vote-input">
+										<input id="vote-input4"  type="text" class="vote-input">
 										<input type="button" id="btn-delete2" class="btn-delete" value="&#xf056;">
 									</div>
 								</div>
 									<div id="button-boxDiv">
 										<input type="button" id="voteInputAdd" value="&#xf055;">
-										<button type="button" id="voteInsert">등록</button>
+										<button type="button" id="voteInsert">확인</button>
 										<button type="button" id="voteDelete">삭제</button>
 									</div>
 								</div>
@@ -72,7 +75,8 @@
 								<input type="file" accept=".jpg,.pdf,.bmp,.png,.jpeg" id="comImgName" >
 								<button type="button" id="comVoteInsert">투표등록</button>
 							</div>
-				</form>
+					</form>
+				</div>
 			</div>
 		</div>
 	
@@ -95,60 +99,121 @@
 	const divButtonAdd =document.getElementById('voteInputAdd');
 	const bookedImg = "${community.comImgName}";
 	const bookedImgbox = document.getElementById('viewImg');
+	var divText1 ="${communityVote.cVoteText1}";
+	var divText2 ="${communityVote.cVoteText2}";
 	var divText3 ="${communityVote.cVoteText3}";
 	var divText4 ="${communityVote.cVoteText4}";
-	var voteState = "${communityVote.cVoteState}"
+	var voteState = "${communityVote.cVoteState}";
 	var voteResult = "${communityVote.comVoteNo}";
+	var cVoteText1 ="";
+	var cVoteText2 ="";
+	var cVoteText3 ="";
+	var cVoteText4 ="";
+
+//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ파일이름 추출&출력ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+	$(document).ready(function(){ 
+		var fileTarget = $('.fileDiv #comImgName'); 
+		fileTarget.on('change', function(){ 
+			// 값이 변경되면 
+			if(window.FileReader)
+			{ // modern browser
+			 var filename = $(this)[0].files[0].name; 
+			} else { 
+				// old IE 
+				var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
+			} // 추출한 파일명 삽입 
+			$(this).siblings('.upload-name').val(filename); }); });
 	
-	//투표가 있을 때는 투표가 보이고 투표가 없을 때 화면을 부르면 투표가 안보이게
-	
-		if(voteResult != ""){ //투표 번호가 null이 아니면 투표 보이게 하기
-			voteBodyDiv.style.display = 'block';
-			div1.style.display = 'block';
-			div2.style.display = 'block';
-			div3.style.display = 'none';
-			div4.style.display = 'none';
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ버튼 관련ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	if(voteState != 0){
+		$("#voteInsert").css("background-color","rgb(158, 158, 158)");
+		$("#voteInsert").css("border","rgb(158, 158, 158)");
+		$("#voteInsert").css("color","white");
+		$("#voteInsert").attr("disabled",true);
+
+		$("#btn-delete1").css("color","rgb(158, 158, 158)");
+		$("#btn-delete1").attr("disabled",true);
+
+		$("#btn-delete2").css("color","rgb(158, 158, 158)");
+		$("#btn-delete2").attr("disabled",true);
+
+		$("#voteInputAdd").css("color","rgb(158, 158, 158)");
+		$("#voteInputAdd").attr("disabled",true);
+
+	}
+
+	$("#returnBtn").on("click",function(){
+		if(voteBodyDiv.style.display === 'block'){
+			voteBodyDiv.style.display = 'none';
+			cVoteText1 = $("#vote-input1").val();
+			cVoteText2 = $("#vote-input2").val();
+			cVoteText3 = $("#vote-input3").val();
+			cVoteText4 = $("#vote-input4").val();
+			}
+	});
+	//투표 등록 버튼을 눌렀을 때 투표가 화면 보이게 
+	$("#comVoteInsert").on("click",function(){
+		if(voteBodyDiv.style.display == 'none'){  //만약 화면에 없으면
+			voteBodyDiv.style.display = 'block'; //화면에 보이게
 			if(divText3 != ""){//선택지 3이 null이 아니면 보이게 하기
 				div3.style.display = 'block'; 
+				divButton1.style.display = 'block';
 				if(divText4 != ""){//선택지 4가 null이 아니면 보이게 하기
 					divButton1.style.display = 'none';
 					divButton2.style.display = 'block';
 					div4.style.display = 'block';
 					}
+					$("#vote-input1").val(divText1);
+					$("#vote-input2").val(divText2);
+					$("#vote-input3").val(divText3);
+					$("#vote-input4").val(divText4);
+				}
 			}
-			if(voteState > 0){//투표한 사람이 있거나 투표 종료가 되어있으면 수정 불가
-				$(".intext").attr("readonly",true);
-				divButton1.style.display = 'none';
-				divButton2.style.display = 'none';
-				divAddButton.style.display = 'none';
-			}
-			
-		}else{ // 아니면 안보이게
-			voteBodyDiv.style.display = 'none';
-			div3.style.display = 'none';
-			div4.style.display = 'none';
-			divButton1.style.display = 'none';
-			divButton2.style.display = 'none';
-		}
+	});
 
-	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ버튼 관련ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ투표등록ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	
-	//투표 등록 버튼을 눌렀을 때 투표가 화면에 없으면 보이게 
-	$("#comVoteInsert").on("click",function(){
- 	
-		if(voteBodyDiv.style.display == 'none'){  //만약 화면에 없으면
-			voteBodyDiv.style.display = 'block'; //화면에 보이게
+
+	$("#voteInsert").on("click", function(){
+		 cVoteText1 = $("#vote-input1").val();
+		 cVoteText2 = $("#vote-input2").val();
+		 cVoteText3 = $("#vote-input3").val();
+		 cVoteText4 = $("#vote-input4").val();
+		
+		
+		if(voteBodyDiv.style.display === 'block'){
+			if(cVoteText1 == "" && cVoteText2 == "" || div3.style.display != 'none' && cVoteText3 == "" ||div4.style.display != 'none' && cVoteText4 == ""){
+				   //만약 text1이랑  text2가 값이 없으면
+				   alert("투표 선택지를 입력해주세요!");
+				}else{//투표 선택지에 값이 있으면 데이터 보내기
+				   voteBodyDiv.style.display = 'none';
 		}
+	}
 		
 	});
+	
 	
 	//투표 삭제 버튼을 누르면 안보이게
 	//만약 투표 테이블이 있으면 테이블 삭제
 	//테이블이 없으면 투표 창만 안보이도록
 	$("#voteDelete").on("click",function(){
-		if(voteResult == null){
+		if(voteResult == null || voteResult == 0){ //이전 투표가 없었으면 투표를 삭제하는 ajax를 실행시키지않고
+			//그냥 비워줌
 			if(voteBodyDiv.style.display === 'block'){
-				voteBodyDiv.style.display = 'none';
+			cVoteText1 ="";
+			cVoteText2 ="";
+			cVoteText3 ="";
+			cVoteText4 ="";
+			divText1 = "";
+			divText2 = "";
+			divText3 = "";
+			divText4 = "";
+			$("#vote-input1").val("");
+			$("#vote-input2").val("");
+			$("#vote-input3").val("");
+			$("#vote-input4").val("");
+			voteBodyDiv.style.display = 'none';
 			}
 		}else{
 			var comNo = "${community.comNo}";
@@ -162,11 +227,19 @@
 				success : function(data) {
 					if(data == "success") {
 						alert("투표삭제 성공!");
+						cVoteText1 ="";
+						cVoteText2 ="";
+						cVoteText3 ="";
+						cVoteText4 ="";
+						divText1 = "";
+						divText2 = "";
+						divText3 = "";
+						divText4 = "";
+						$("#vote-input1").val("");
+						$("#vote-input2").val("");
+						$("#vote-input3").val("");
+						$("#vote-input4").val("");
 						voteBodyDiv.style.display = 'none';
-						div1.style.display = 'none';
-						div2.style.display = 'none';
-						divButton1.style.display = 'none';
-						divButton2.style.display = 'none';
 					}else {
 						alert("삭제 실패!");
 					}
@@ -199,7 +272,9 @@
 	$("#btn-delete1").on("click", function(){
 
 		if(div3.style.display === 'block'){
-			div3.style.display = 'none';	
+			div3.style.display = 'none';
+			cVoteText3 ="";
+			$("#vote-input3").val("");
 		}
 	});
 
@@ -208,11 +283,10 @@
 		if(div4.style.display === 'block'){
 			div4.style.display = 'none';
 			divButton1.style.display = 'block';
+			cVoteText4 ="";
+			$("#vote-input4").val("");
 		}
 	});
-
-
-	
 	
 	// //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ이미지 미리보기ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	// const imageInput = $("#comImgName")[0]; //첨부파일 input id
@@ -229,44 +303,31 @@
 	// 			bookedImgbox.style.display = 'none';
 	// 		}
 	// 	}
-	// }	
+	// }
+
+		
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ수정ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-	
-	$("#upDate").on("click", function(){
-		    
+	const imageInput = $("#comImgName")[0];
+
+	$("#updateBtn").on("click", function(){
 			var comTitle = $("#comTitle").val();
 			var comContent = $("#comContent").val();
 			var comNo = "${community.comNo}";
-			var cVoteText1 = $("#vote-input1").val();
-			var cVoteText2 = $("#vote-input2").val();
-			var cVoteText3 = $("#vote-input3").val();
-			var cVoteText4 = $("#vote-input4").val();
 			var cVoteState = "${communityVote.cVoteState}";
-			var insertTrue = 1; //0이면 ajax 동작 x 1이면 동작 되게
-			
 			
 			 const formData = new FormData();
 			  formData.append("uploadFile", imageInput.files[0]);
 			  formData.append("comNo", comNo);
 			   formData.append("comTitle", comTitle);
-			   formData.append("comContent", comContent.trim());
+			   formData.append("comContent", comContent);
 			   formData.append("cVoteState", cVoteState);
 			   
-			   //투표가 보여지고 있을 때
-			   if(voteBodyDiv.style.display === 'block'){
-				   if(cVoteText1 == "" && cVoteText2 == ""){
-					   //만약 text1이랑  text2가 값이 없으면
-					   alert("투표 선택지를 입력해주세요!");
-					   insertTrue = 0;
-				   }else{//투표 선택지에 값이 있으면 데이터 넣어주기
-					   formData.append("cVoteText1", cVoteText1);
-					   formData.append("cVoteText2", cVoteText2);
-					   formData.append("cVoteText3", cVoteText3);
-					   formData.append("cVoteText4", cVoteText4);
-					   insertTrue = 1;
-				   }
+			   if(cVoteText1 != "" || cVoteText2 != "" || cVoteText1 != null || cVoteText2 != null){
+					formData.append("cVoteText1", cVoteText1);
+					formData.append("cVoteText2", cVoteText2);
+					formData.append("cVoteText3", cVoteText3);
+					formData.append("cVoteText4", cVoteText4);
 			   }
-		if(insertTrue == 1){
 			  jQuery.ajax({
 		             url : "/community/modify.sw"
 		           ,processData: false
@@ -283,8 +344,6 @@
 					alert("ajax 통신 오류! 관리자에게 문의해주세요.");
 				}
 			})
-		}
-			
 		});
 
 	</script>

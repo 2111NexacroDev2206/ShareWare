@@ -17,9 +17,9 @@ public interface CommunityStore {
 	int registerCommunity(SqlSession sqlsession, Community community);
 	int selectComNo(SqlSession sqlsession);
 	//전체 게시글의 개수
-	int selectClistCount(SqlSession sqlsession);
+	int selectClistCount(SqlSession sqlsession, String memberNum);
 	//자유게시판 리스트 보기
-	List<Community> selectAllCommunity(SqlSession sqlsession, PageInfo pi);
+	List<Community> selectAllCommunity(SqlSession sqlsession, PageInfo pi, String memerNum);
 	//자유게시판 상세보기
 	Community selectOneCommunity(SqlSession sqlsession, Integer comNo);
 	int updateCommunity(SqlSession sqlsession, Community community);
@@ -38,7 +38,7 @@ public interface CommunityStore {
 	//전체 검색된 글 개수
 	int selectSearchCount(SqlSession sqlsession, Search search);
 	//검색
-	List<Search> selectSearchCommunity(SqlSession sqlsession, Search search, PageInfo pi);
+	List<Search> selectSearchCommunity(SqlSession sqlsession,  PageInfo pi, Search search);
 	//댓글
 	List<Reply> selectCommunityReply(SqlSession sqlsession, int comNo);
 	//댓글 등록

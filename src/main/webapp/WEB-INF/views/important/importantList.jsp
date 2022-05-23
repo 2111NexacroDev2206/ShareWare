@@ -7,41 +7,20 @@
 <head>
 <meta charset="UTF-8">
 <title>중요공지 목록</title>
-<style>
-	.paging {
-		display: inline-flex;
-		height: 40px;
-		width: 840px;
-		margin-left: 253px;
-		justify-content: center;
-	}
-	.page-btn {
-		width: 40px;
-		height: 40px;
-		border: none;
-		background-color: transparent;
-		font-size: 14px;
-		margin: 0 5px;
-		cursor: pointer;
-	}
-	.page-btn:hover, .page-btn.active {
-		border: 1px solid rgb(51, 51, 51);
-		border-radius: 4px;
-	}
-</style>
+<link href="/resources/css/important/important-list.css" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="../project/projectMainMenu.jsp"></jsp:include>
 	<div class="s-container">
-	<h2>중요공지</h2>
-		<a href="/project/importantWriteView.sw?projectNo=${projectNo }">+공지작성</a>
-		<table border="1">
+	<h2 id="i-title">중요공지사항</h2>
+		<button id="write-btn" onclick="location.href='/project/importantWriteView.sw?projectNo=${projectNo }'" id="#write-btn">공지작성</button>
+		<table class="i-List">
 			<thead>
 				<tr>
-					<th>번호</th>
-					<th>제목</th>
-					<th>작성일</th>
-					<th>조회수</th>
+					<th class="th-1">번호</th>
+					<th class="th-3">제목</th>
+					<th class="th-2">작성일</th>
+					<th class="th-1">조회수</th>
 				</tr>
 			</thead>
 			<tbody>

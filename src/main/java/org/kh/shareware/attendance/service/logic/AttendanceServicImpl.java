@@ -34,8 +34,8 @@ public class AttendanceServicImpl implements AttendanceService{
 
 	//근태 리스트
 	@Override
-	public List<Attendance> printAll(PageInfo pi, String memNum) {
-		List<Attendance> aList = aStore.selectAll(sqlSession, pi, memNum);
+	public List<Attendance> printAll(String memNum) {
+		List<Attendance> aList = aStore.selectAll(sqlSession, memNum);
 		return aList;
 	}
 	@Override

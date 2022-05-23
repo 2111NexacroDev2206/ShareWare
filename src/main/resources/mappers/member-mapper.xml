@@ -151,6 +151,32 @@
 		</if>
 	</select>
 	
+	<!-- 넥사크로 - 관리자 -->
+	<!-- 사원 전체 조회 -->
+	<select id="selectAllListMemberNexa" resultMap="memberResultMap">
+		SELECT * FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE
+		<if test="searchCondition.toString() == 'exist'"><!-- 재직자 -->
+			WHERE RETIRE_DATE IS NULL
+		</if>
+		<if test="searchCondition.toString() == 'noExist'"><!-- 퇴직자 -->
+			WHERE RETIRE_DATE IS NOT NULL
+		</if>
+		<!-- 검색 -->
+		<if test="searchCondition.toString() == 'memberName'">
+			WHERE MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'division'">
+			WHERE DIV_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'rank'">
+			WHERE RANK_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'all'">
+			WHERE (MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+			OR DIV_NAME LIKE '%' || #{searchValue} || '%'
+			OR RANK_NAME LIKE '%' || #{searchValue} || '%')
+		</if>
+	</select>
 	<!-- 사원등록 -->
 	<insert id="regisgterMem" parameterType="Map">
 		insert into member values(#{hire_date}

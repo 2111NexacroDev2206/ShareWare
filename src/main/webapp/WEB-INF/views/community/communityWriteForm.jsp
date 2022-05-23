@@ -8,7 +8,6 @@
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <link rel="stylesheet" href="../../../resources/css/community/communityWriteForm.css">
 <script src="https://cdn.ckeditor.com/4.18.0/full-all/ckeditor.js"></script>
-<link rel="stylesheet" href="../../../resources/css/fileBoard/fileBoardWriteForm">
 </head>
 <body>
 <jsp:include page="../common/menuBar.jsp"></jsp:include>
@@ -39,6 +38,9 @@
 					<!-- <div contentEditable="true" id="comContent" style="height:500px;">  -->
 						<textarea id="comContent" name="content" rows="" cols="" placeholder="글 내용을 입력해주세요."></textarea>
 						<div id="vote-body-div">
+							<div id="returnBtnDiv">
+								<input type="button" id="returnBtn" value="&#xf00d;">
+							</div>
 							<div id="vote-textbox-div">
 								<div id="vote-textbox1-div" class="vote-textbox-div">
 									<input id="vote-input1" type="text" class="vote-input">
@@ -68,7 +70,7 @@
 						<input class="upload-name" value="파일선택" disabled="disabled">				
 
 						<label for="comImgName" class="comImgNameLeble">첨부파일</label>
-						<input type="file" accept=".jpg,.pdf,.bmp,.png,.jpeg" id="comImgName" >
+						<input type="file" accept="image/*" id="comImgName" >
 						<button type="button" id="comVoteInsert">투표등록</button>
 					</div>
 				</form>
@@ -85,6 +87,12 @@
 	document.getElementById("btn-delete2").style.display = "none";
 	
 	const voteBodyDiv =document.getElementById('vote-body-div');
+
+	$("#returnBtn").on("click",function(){
+		if(voteBodyDiv.style.display === 'block'){
+			voteBodyDiv.style.display = 'none';
+			}
+	});
 	
 	$(document).ready(function(){ 
 		var fileTarget = $('.fileDiv #comImgName'); 
@@ -115,23 +123,7 @@
 
 	});
  
- 	var cVoteText1 ="";
-	var cVoteText2 ="";
-	var cVoteText3 ="";
-	var cVoteText4 ="";
-
-	$("#voteDelete").on("click",function(){
-
-		if(voteBodyDiv.style.display === 'block'){
-			cVoteText1 =$("#vote-input1").val("");
-			cVoteText2 =$("#vote-input2").val("");
-			cVoteText3 =$("#vote-input3").val("");
-			cVoteText4 =$("#vote-input4").val("");	
-			voteBodyDiv.style.display = 'none';
-		}
-
-	});
-
+ 	
 
 	$("#voteInputAdd").on("click",function(){
 		const div1 =document.getElementById('vote-textbox3-div');
@@ -162,6 +154,7 @@
 		if(div1.style.display === 'block'){
 			div1.style.display = 'none';
 			divButtonAdd.style.display = 'block';
+			$("#vote-input3").val("");
 		
 		}
 	});
@@ -175,6 +168,7 @@
 			div2.style.display = 'none';
 			divButton1.style.display = 'block';
 			divButtonAdd.style.display = 'block';
+			$("#vote-input4").val("");
 		}
 	});
 
@@ -192,8 +186,11 @@
 	// 	}
 	// }
 	
-		
-	
+	var cVoteText1 ="";
+	var cVoteText2 ="";
+	var cVoteText3 ="";
+	var cVoteText4 ="";
+
 	$("#voteInsert").on("click", function(){
 		 cVoteText1 = $("#vote-input1").val();
 		 cVoteText2 = $("#vote-input2").val();
@@ -205,13 +202,38 @@
 			   if(cVoteText1 == "" && cVoteText2 == ""){
 				   //만약 text1이랑  text2가 값이 없으면
 				   alert("투표 선택지를 입력해주세요!");
-				   
+				}else{//투표 선택지에 값이 있으면 데이터 보내기
+				   voteBodyDiv.style.display = 'none';
+			   }
+			   if(div3.style.display != 'none' && cVoteText3 == ""){
+					alert("투표 선택지를 입력해주세요!");
+				}else{//투표 선택지에 값이 있으면 데이터 보내기
+				   voteBodyDiv.style.display = 'none';
+			   }
+			   if(div4.style.display != 'none' && cVoteText4 == ""){
+					alert("투표 선택지를 입력해주세요!");
 			   }else{//투표 선택지에 값이 있으면 데이터 보내기
 				   voteBodyDiv.style.display = 'none';
 			   }
 		}
 		
 	});
+	
+	$("#voteDelete").on("click",function(){
+		if(voteBodyDiv.style.display === 'block'){
+			cVoteText1 ="";
+			cVoteText2 ="";
+			cVoteText3 ="";
+			cVoteText4 ="";
+			$("#vote-input1").val("");
+			$("#vote-input2").val("");
+			$("#vote-input3").val("");
+			$("#vote-input4").val("");
+			voteBodyDiv.style.display = 'none';
+		}
+
+	});
+
 
 	
 	//글 등록comInsert
@@ -229,7 +251,7 @@
 				   formData.append("comTitle", comTitle);
 				   formData.append("comContent", comContent);
 				   
-				   if(cVoteText1 == "" || cVoteText2 == ""){
+				   if(cVoteText1 != "" || cVoteText2 != "" || cVoteText1 != null || cVoteText2 != null ){
 					   formData.append("cVoteText1", cVoteText1);
 					   formData.append("cVoteText2", cVoteText2);
 					   formData.append("cVoteText3", cVoteText3);

@@ -40,9 +40,11 @@
 							
 							<div id="community-TileDiv">${community.comTitle}</div>
 							<div id="community-ContentDiv">${community.comContent}
-									
+							
 							<c:if test="${community.comImgName != null}">
-								<img src = "../../../resources/loadFile/${community.comImgRename}" alt="${community.comImgName}">
+								<div class="imgDiv">
+									<img src = "../../../resources/loadFile/${community.comImgRename}" alt="${community.comImgName}">
+								</div>
 							</c:if>
 									
 										<div id="vote-body-div">
@@ -441,8 +443,8 @@
 		var $tr = $(obj).parent().parent();//버튼의 부모의 부모 선택
 		$tr.html("");
 		var $tdModify = $("<td colspan='3'>");
-		var $tdModifyBtn = $("<td width='120'>").append("<button onclick='modifyReply("+comNo+","+replyNo+");'>수정</button>")
-											.append("<button onclick='getCommunityReply();'>취소</button>");
+		var $tdModifyBtn = $("<td width='120'>").append("<a href='javascript:void(0)'onclick='modifyReply("+comNo+","+replyNo+");'>수정 </a>")
+												.append("<a href='javascript:void(0)' onclick='getCommunityReply();'>취소</a>");
 		
 		$tdModify.append("<input type='text' size='50' value='"+replyContent+"' id='modifyData'>"); //td에 input 추가+적혀있던 덧글 넣기
 		$tr.append($tdModify);

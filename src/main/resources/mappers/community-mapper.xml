@@ -52,11 +52,11 @@
 </update>
 
 <select id="selectClistCount" resultType="_int">
-	SELECT COUNT(*) FROM COMMUNITY
+	SELECT COUNT(*) FROM COMMUNITY JOIN MEMBER ON COMMUNITY.MEMBER_NUM = MEMBER.MEMBER_NUM WHERE DIVISION= (SELECT DIVISION FROM MEMBER WHERE MEMBER_NUM = #{memberNum})
 </select>
 
 <select id="listCommnuity" resultMap="CommunityResultMap">
-	SELECT * FROM COMMUNITY JOIN MEMBER ON COMMUNITY.MEMBER_NUM = MEMBER.MEMBER_NUM ORDER BY COM_DATE DESC
+	SELECT * FROM COMMUNITY JOIN MEMBER ON COMMUNITY.MEMBER_NUM = MEMBER.MEMBER_NUM WHERE DIVISION= (SELECT DIVISION FROM MEMBER WHERE MEMBER_NUM = #{memberNum}) ORDER BY COM_DATE DESC
 </select>
 
 <select id="selectOneCommunity" resultMap="CommunityResultMap">
@@ -73,39 +73,39 @@
 
 <select id="selectSearchCount" resultType="_int">
 
- 	SELECT COUNT(*) FROM COMMUNITY JOIN MEMBER ON COMMUNITY.MEMBER_NUM = MEMBER.MEMBER_NUM
+ 	SELECT COUNT(*) FROM COMMUNITY JOIN MEMBER ON COMMUNITY.MEMBER_NUM = MEMBER.MEMBER_NUM 
 	<if test ="searchCondition.toString()=='writer'">
-		WHERE MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
+		WHERE DIVISION= (SELECT DIVISION FROM MEMBER WHERE MEMBER_NUM = #{memberNum}) AND MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
 	</if>
 	<if test ="searchCondition.toString()=='title'">
-		WHERE COM_TITLE LIKE '%'||#{searchValue} ||'%'
+		 WHERE DIVISION= (SELECT DIVISION FROM MEMBER WHERE MEMBER_NUM = #{memberNum}) AND COM_TITLE LIKE '%'||#{searchValue} ||'%'
 	</if>
 	<if test ="searchCondition.toString()=='contents'">
-		WHERE COM_CONTENT LIKE '%'||#{searchValue} ||'%'
+		WHERE DIVISION= (SELECT DIVISION FROM MEMBER WHERE MEMBER_NUM = #{memberNum}) AND COM_CONTENT LIKE '%'||#{searchValue} ||'%'
 	</if>
 	<if test ="searchCondition.toString()=='all'">
-		WHERE MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
-		OR COM_TITLE LIKE '%'||#{searchValue} ||'%'
-		OR COM_CONTENT LIKE '%'||#{searchValue} ||'%'
+		WHERE DIVISION= (SELECT DIVISION FROM MEMBER WHERE MEMBER_NUM = #{memberNum}) AND MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
+		OR DIVISION= (SELECT DIVISION FROM MEMBER WHERE MEMBER_NUM = #{memberNum}) AND COM_TITLE LIKE '%'||#{searchValue} ||'%'
+		OR DIVISION= (SELECT DIVISION FROM MEMBER WHERE MEMBER_NUM = #{memberNum}) AND COM_CONTENT LIKE '%'||#{searchValue} ||'%'
 	</if>
 	</select>
 
 <select id="searchCommunity" resultMap="CommunityResultMap">
 
- 	SELECT * FROM COMMUNITY JOIN MEMBER ON COMMUNITY.MEMBER_NUM = MEMBER.MEMBER_NUM
+ 	SELECT * FROM COMMUNITY JOIN MEMBER ON COMMUNITY.MEMBER_NUM = MEMBER.MEMBER_NUM 
 	<if test ="searchCondition.toString()=='writer'">
-		WHERE MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
+		WHERE DIVISION= (SELECT DIVISION FROM MEMBER WHERE MEMBER_NUM = #{memberNum}) AND MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
 	</if>
 	<if test ="searchCondition.toString()=='title'">
-		WHERE COM_TITLE LIKE '%'||#{searchValue} ||'%'
+		WHERE DIVISION= (SELECT DIVISION FROM MEMBER WHERE MEMBER_NUM = #{memberNum}) AND COM_TITLE LIKE '%'||#{searchValue} ||'%'
 	</if>
 	<if test ="searchCondition.toString()=='contents'">
-		WHERE COM_CONTENT LIKE '%'||#{searchValue} ||'%'
+		WHERE DIVISION= (SELECT DIVISION FROM MEMBER WHERE MEMBER_NUM = #{memberNum}) AND  COM_CONTENT LIKE '%'||#{searchValue} ||'%'
 	</if>
 	<if test ="searchCondition.toString()=='all'">
-		WHERE MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
-		OR COM_TITLE LIKE '%'||#{searchValue} ||'%'
-		OR COM_CONTENT LIKE '%'||#{searchValue} ||'%'
+		WHERE DIVISION= (SELECT DIVISION FROM MEMBER WHERE MEMBER_NUM = #{memberNum}) AND MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
+		OR DIVISION= (SELECT DIVISION FROM MEMBER WHERE MEMBER_NUM = #{memberNum}) AND COM_TITLE LIKE '%'||#{searchValue} ||'%'
+		OR DIVISION= (SELECT DIVISION FROM MEMBER WHERE MEMBER_NUM = #{memberNum}) AND COM_CONTENT LIKE '%'||#{searchValue} ||'%'
 	</if>
 		ORDER BY COM_DATE DESC
 	</select>

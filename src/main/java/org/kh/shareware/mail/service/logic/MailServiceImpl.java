@@ -566,9 +566,16 @@ public class MailServiceImpl implements MailService{
 
 
 	@Override
-	public int deleteMailBmk(int mailNo) {
-		int result = mStore.deleteMailBmk(sqlSession, mailNo);
+	public int deleteMailBmk(MailBmk mailBmk) {
+		int result = mStore.deleteMailBmk(sqlSession, mailBmk);
 		return result;
+	}
+
+
+	@Override
+	public List<MailBmk> printBmkList(MailBmk mailBmk) {
+		List<MailBmk> bmkList = mStore.selectBmkList(sqlSession, mailBmk);
+		return bmkList;
 	}
 
 

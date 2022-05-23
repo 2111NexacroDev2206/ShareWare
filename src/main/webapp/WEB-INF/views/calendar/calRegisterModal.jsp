@@ -68,6 +68,7 @@ $("#cal-confirm").click(function(){
 		},
 		success : function(data) {
 			$("#myCalModal").fadeOut();
+			refreshList();
 		},
 		error : function() {
 			alert("내캘린더 등록 실패");

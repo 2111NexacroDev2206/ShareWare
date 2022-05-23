@@ -50,7 +50,7 @@ a {
     margin-right: 5px;
   }
 
-  .optionBtnDiv #upDateBtn{
+  .optionBtnDiv #updateBtn{
     margin-left: 3px;
     margin-right: 3px;
     width: 80px;
@@ -180,7 +180,7 @@ a {
     position: absolute;
     width: 400px;
 	height: auto;
-    padding: 20px 10px 10px 20px;
+    padding: 5px 10px 10px 20px;
 	top:50%;
 	left: 50%;
 	margin: -250px 0 0 -250px;
@@ -189,6 +189,22 @@ a {
 	border: 2px solid rgb(145, 168, 210);
 	z-index: 2;
 }
+
+#returnBtn{
+    margin-left: 360px;
+    margin-bottom: 10px;
+	width: 40px;
+    height: 40px;
+	font-family: FontAwesome;
+    display: inline-flex;
+	justify-content:center;
+	border: none;
+	cursor : pointer;
+	background-color : transparent;
+    font-size: 30px;
+    color: rgb(145, 168, 210);
+}
+
 #vote-textbox-div {
     margin-bottom: 10px;
     width: 400px;

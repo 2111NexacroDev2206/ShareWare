@@ -536,9 +536,15 @@ public class MailStoreLogic implements MailStore{
 	}
 
 	@Override
-	public int deleteMailBmk(SqlSession sqlSession, int mailNo) {
-		int result = sqlSession.delete("MailMapper.deleteMailBmk", mailNo);
+	public int deleteMailBmk(SqlSession sqlSession, MailBmk mailBmk) {
+		int result = sqlSession.delete("MailMapper.deleteMailBmk", mailBmk);
 		return result;
+	}
+
+	@Override
+	public List<MailBmk> selectBmkList(SqlSession sqlSession, MailBmk mailBmk) {
+		List<MailBmk> bmkList = sqlSession.selectList("MailMapper.selectBmkAllList",mailBmk);
+		return bmkList;
 	}
 
 	

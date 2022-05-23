@@ -75,8 +75,8 @@
 		}else {
 			$("#m-cal-Name").text("내 캘린더");
 		}
-		$("#m-sch-start").text(calSch.schStartDate + " " + calSch.schStartTime); // 시작
-		$("#m-sch-end").text(calSch.schEndDate + " " + calSch.schEndTime); // 종료
+		$("#m-sch-start").text(calSch.schStartDate + " " + (calSch.schStartTime != null ? calSch.schStartTime : "")); // 시작
+		$("#m-sch-end").text(calSch.schEndDate + " " + (calSch.schEndTime != null ? calSch.schEndTime : "")); // 종료
 		$("#m-sch-content").text(calSch.schContent); // 내용
 		$("#appSelModal").css('display', 'flex').hide().fadeIn();
 	};

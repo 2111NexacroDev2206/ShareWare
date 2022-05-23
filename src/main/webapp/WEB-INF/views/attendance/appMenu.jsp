@@ -11,7 +11,7 @@
 	<div class="s-menu">
 		<div class="s-menu-title">
 			<p>근태관리
-			<i class=""></i>
+			<i class="fa-solid fa-user-clock"></i>
 		</div>
 		<div class="s-list-item ${listCondition eq 'attendance' ? 'active' : ''}"><a href="/attendance/attListViewEmp.sw">근태관리</a></div>
 		<div class="s-list-item ${listCondition eq 'leave' ? 'active' : ''}"><a href="/leave/leaveListView.sw">연차관리</a></div>

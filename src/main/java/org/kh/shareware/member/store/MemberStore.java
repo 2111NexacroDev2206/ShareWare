@@ -36,6 +36,8 @@ public interface MemberStore {
 	public List<Member> selectAllChatMember(SqlSession sqlSession, int chatRoomNo);
 	public List<Member> selectAllChatMemberSearch(SqlSession sqlSession, Search search);
 	
+	// 넥사크로 - 관리자
+	public List<Member> selectAllMemberNexa(SqlSession sqlSession, Search search); // 사원 조회
 	//사원등록
 	public int regisgterMem(SqlSession sqlSession, Map<Object, String> paramMap);
 
