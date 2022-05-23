@@ -18,8 +18,8 @@ public interface MemberService {
 	public List<Member> printOrgInfo(); //조직도 사원정보
 	
 	//주소록 검색
-	public List<Member> printAllSearch(PageInfo pi); 
-	public int getListCountSearch(); //검색 페이징
+	public List<Member> printAllSearch(Search search, PageInfo pi); 
+	public int getListCount(Search search); //검색 페이징
 	
 	// 사원 조회 모달
 	public List<Member> modalPrintAll(String memberNum);

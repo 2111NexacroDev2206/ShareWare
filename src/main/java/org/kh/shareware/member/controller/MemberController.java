@@ -82,7 +82,9 @@ public class MemberController {
 		int totalCount = mService.getListCount();
 		PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
 		List<Member> mList = mService.printAll(pi);
+		model.addAttribute("myCondition", "member");
 		if(!mList.isEmpty()) {
+			model.addAttribute("currentPage", currentPage);
 			model.addAttribute("mList", mList);
 			model.addAttribute("pi", pi);
 			return "member/addressView";
@@ -97,16 +99,14 @@ public class MemberController {
 			Model model
 			, HttpSession session
 			, @RequestParam(value="page", required=false) Integer page
-			, @RequestParam(value="searchCondition", required=false) String searchCondition
-			, @RequestParam(value="searchValue", required=false) String searchValue) {
+			, @ModelAttribute Search search) {
 		int currentPage = (page != null) ? page : 1;
-		int totalCount = mService.getListCount();
+		int totalCount = mService.getListCount(search);
 		//int totalCount = mService.getListCountSearch(); //검색 페이징
 		PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
-		pi.setSearchCondition(searchCondition);
-		pi.setSearchValue(searchValue);
-		List<Member> mList = mService.printAllSearch(pi);
+		List<Member> mList = mService.printAllSearch(search, pi);
 		if(!mList.isEmpty()) {
+			model.addAttribute("currentPage", currentPage);
 			model.addAttribute("mList", mList);
 			model.addAttribute("pi", pi);
 			return "member/addressView";

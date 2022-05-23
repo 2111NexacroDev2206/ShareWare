@@ -61,29 +61,20 @@ public class MemberStoreLogic implements MemberStore{
 	}
 	//주소록 검색
 	@Override
-	public List<Member> selectAllSearch(SqlSession sqlSession, PageInfo pi) {
+	public int selectListCount(SqlSession sqlSession, Search search) {
+		int totalCount = sqlSession.selectOne("MemberMapper.selectListSearchCount", search);
+		return totalCount;
+	}
+	@Override
+	public List<Member> selectAllSearch(SqlSession sqlSession, PageInfo pi, Search search) {
 		int limit = pi.getMemberLimit();
 		int currentPage = pi.getCurrentPage();
 		int offset = (currentPage - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		List<Member> mList 
-			= sqlSession.selectList("MemberMapper.selectMemberSearch", pi, rowBounds);
+			= sqlSession.selectList("MemberMapper.selectMemberSearch", search, rowBounds);
 		return mList;
 	}
-	
-	@Override
-	public int selectListCountSearch(SqlSession sqlSession) {
-		return 0;
-//		int limit = pi.getMemberLimit();
-//		int currentPage = pi.getCurrentPage();
-//		int offset = (currentPage - 1) * limit;
-//		RowBounds rowBounds = new RowBounds(offset, limit);
-//		List<Member> mList 
-//			= sqlSession.selectList("MemberMapper.selectListCountSearch", rowBounds);
-		//return mList;
-	}
-	
-	
 
 	// 사원 조회 모달
 	@Override
