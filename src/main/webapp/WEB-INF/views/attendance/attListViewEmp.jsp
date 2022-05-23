@@ -1,11 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ page import="java.util.Date" %>
+<%@page import="java.util.Calendar"%>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	Date nowTime = new Date();
-	SimpleDateFormat sf = new SimpleDateFormat("a hh:mm:ss");
+	SimpleDateFormat sf = new SimpleDateFormat("HH:mm:ss");
+	Calendar cal = Calendar.getInstance();
+	cal.setTime(nowTime); // 10분 더하기
+	cal.add(Calendar.SECOND, 4);
 %>
 
 
@@ -138,9 +142,7 @@
 	<div class="s-container">
 	<div class="att-header">
 		<div class="div-time-btn">
-			<div id="now-time"></div>
-	<%-- 	<%= sf.format(nowTime) %><br> --%>
-		
+			<div id="now-time"><%= sf.format(cal.getTime()) %></div>
 			<form action="/attendance/registerAtt.sw" method="post">
 				<input type="submit" id="button1" class="btn-sub" value="출근">
 			</form>
@@ -221,7 +223,7 @@ function startDate() {
         var newDate = new Date();
         dateString += ("0" + newDate.getHours()).slice(-2) + ":"; 
         dateString += ("0" + newDate.getMinutes()).slice(-2) + ":"; 
-        dateString += ("0" + newDate.getSeconds()).slice(-2);
+        dateString += ("0" + (newDate.getSeconds() + 4)).slice(-2);
         //document.write(dateString); 문서에 바로 그릴 수 있다. 
         $("#now-time").text(dateString); 
     }, 1000); 
