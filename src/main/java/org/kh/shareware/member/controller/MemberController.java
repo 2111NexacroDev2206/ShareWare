@@ -120,6 +120,7 @@ public class MemberController {
 	@RequestMapping(value="/member/organizationView.sw", method=RequestMethod.GET)
 	public String organizationView(Model model){
 		List<Division> oList = mService.printOrganization();
+		model.addAttribute("myCondition", "organization");
 		if(!oList.isEmpty()) {
 			model.addAttribute("oList", oList);
 			return "/member/organizationView";
