@@ -47,11 +47,13 @@ public class ProjectController {
 	
 	//프로젝트 목록
 	@RequestMapping(value="/project/projectList.sw" , method = RequestMethod.GET)
-	public ModelAndView projectListView(ModelAndView mv
+	public ModelAndView projectListView(Model model, ModelAndView mv
 			,HttpServletRequest request
 			,@RequestParam(value="pStatus", required=false) String pStatus
 			,@RequestParam(value="page", required=false) Integer page
 			,@ModelAttribute Project project) {
+		model.addAttribute("myCondition", "project");
+		model.addAttribute("listCondition", "All");
 		HttpSession session = request.getSession();
 		String memberNum = ((Member)session.getAttribute("loginUser")).getMemberNum();
 		int currentPage = (page != null) ? page : 1;
@@ -84,6 +86,9 @@ public class ProjectController {
 			, HttpServletRequest request
 			, @RequestParam(value="page", required = false) Integer page
 			, @RequestParam(value="pStatus", required=false) String pStatus) {
+				model.addAttribute("myCondition", "project");
+				model.addAttribute("listCondition", "yList");
+				model.addAttribute("listCondition", "nList");
 			try {
 				HttpSession session = request.getSession();
 				search.setMemberNum(((Member)session.getAttribute("loginUser")).getMemberNum()); //
@@ -111,11 +116,14 @@ public class ProjectController {
 	}
 	//프로젝트 정보(상세)
 		@RequestMapping(value="/project/detail.sw", method=RequestMethod.GET)
-		public ModelAndView projectDetailVeiw(
+		public ModelAndView projectDetailVeiw(Model model,
 					ModelAndView mv
 					,@RequestParam(value= "projectNo") int projectNo
 					,@ModelAttribute Participant participant
 					,@ModelAttribute Member member) {
+				model.addAttribute("myCondition", "project");
+				model.addAttribute("listCondition", "yList");
+				model.addAttribute("listCondition", "nList");
 			try {
 				Project project = service.printOneProjectDetail(projectNo);
 				List<Member> pList = service.printAllParticipant(projectNo);
@@ -216,9 +224,12 @@ public class ProjectController {
 	} 
 	//프로젝트 메인페이지
 	@RequestMapping(value="/project/main.sw", method=RequestMethod.GET)
-	public ModelAndView projectMainView(
+	public ModelAndView projectMainView(Model model,
 				ModelAndView mv
 				,@RequestParam("projectNo") int projectNo) {
+			model.addAttribute("myCondition", "project");
+			model.addAttribute("listCondition", "yList");
+			model.addAttribute("listCondition", "nList");
 		try {
 			Project project = service.printOneProject(projectNo);
 			List<Work> wList = wService.printAllWork(projectNo);
