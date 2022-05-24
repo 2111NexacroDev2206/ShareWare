@@ -103,5 +103,11 @@ public class MemberServiceImpl implements MemberService{
 		List<Member> mList = mStore.selectAllMemberNexa(sqlSession, search);
 		return mList;
 	}
+	
+	@Override
+	public int registerMember(Member newMember) { // 사원 등록
+		int result = mStore.insertMember(sqlSession, newMember);
+		return result;
+	}
 
 }

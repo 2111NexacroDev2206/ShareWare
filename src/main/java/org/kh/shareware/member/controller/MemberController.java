@@ -2,6 +2,12 @@ package org.kh.shareware.member.controller;
 
 
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,10 +27,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.google.gson.Gson;
+import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
+import com.nexacro17.xapi.data.DataSet;
 
 
 @Controller
@@ -255,4 +265,44 @@ public class MemberController {
 		result.addVariable("ErrorMsg", strErrorMsg);
 		return result;
 	}
+	
+	// 인사 관리 - 사원 관리 - 사원 등록
+	@RequestMapping(value = "admin/member/register.sw", method = RequestMethod.POST)
+	public NexacroResult adminMemberRegister(HttpServletRequest request, @ParamDataSet(name = "member") DataSet member) {
+		int 	nErrorCode = 0;
+		String 	strErrorMsg = "START";
+		NexacroResult result = new NexacroResult();
+		
+		// INSERT
+		Member newMember = new Member(
+				member.getString(0, "memberNum"),
+				member.getString(0, "memberName"),
+				member.getString(0, "division"),
+				member.getString(0, "rank"),
+				member.getString(0, "address"),
+				member.getString(0, "phone"),
+				member.getString(0, "mail"),
+				member.getString(0, "hireDate"),
+				member.getString(0, "retireDate"),
+				member.getString(0, "birth"),
+				member.getString(0, "account"),
+				member.getString(0, "bank"),
+				member.getString(0, "password"),
+				member.getString(0, "gender"),
+				member.getString(0, "memberNum") + "." + member.getString(0, "photo").substring(member.getString(0, "photo").lastIndexOf(".") + 1),
+				member.getString(0, "breakTotal"),
+				null);
+			int iResult = mService.registerMember(newMember);
+			if(iResult > 0) {
+				nErrorCode = 0;
+				strErrorMsg = "SUCC";
+			} else {
+				nErrorCode = -1;
+				strErrorMsg = "Fail";
+			}
+			result.addVariable("ErrorCode", nErrorCode);
+			result.addVariable("ErrorMsg", strErrorMsg);
+			return result;
+		}
+
 }

@@ -37,6 +37,7 @@ public interface MemberStore {
 	
 	// 넥사크로 - 관리자
 	public List<Member> selectAllMemberNexa(SqlSession sqlSession, Search search); // 사원 조회
+	public int insertMember(SqlSession sqlSession, Member newMember); // 사원 등록
 
 }
 

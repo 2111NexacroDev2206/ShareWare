@@ -10,8 +10,8 @@ public class Member {
 	private String address;
 	private String phone;
 	private String mail;
-	private Date hireDate;
-	private Date retireDate;
+	private String hireDate;
+	private String retireDate;
 	private String birth;
 	private String account;
 	private String bank;
@@ -24,7 +24,7 @@ public class Member {
 	public Member() {}
 
 	public Member(String memberNum, String memberName, String division, String rank, String address, String phone,
-			String mail, Date hireDate, Date retireDate, String birth, String account, String bank, String password,
+			String mail, String hireDate, String retireDate, String birth, String account, String bank, String password,
 			String gender, String photo, String breakTotal, String mStatus) {
 		super();
 		this.memberNum = memberNum;
@@ -102,19 +102,19 @@ public class Member {
 		this.mail = mail;
 	}
 
-	public Date getHireDate() {
+	public String getHireDate() {
 		return hireDate;
 	}
 
-	public void setHireDate(Date hireDate) {
+	public void setHireDate(String hireDate) {
 		this.hireDate = hireDate;
 	}
 
-	public Date getRetireDate() {
+	public String getRetireDate() {
 		return retireDate;
 	}
 
-	public void setRetireDate(Date retireDate) {
+	public void setRetireDate(String retireDate) {
 		this.retireDate = retireDate;
 	}
 
@@ -190,7 +190,5 @@ public class Member {
 				+ ", password=" + password + ", gender=" + gender + ", photo=" + photo + ", breakTotal=" + breakTotal
 				+ ", mStatus=" + mStatus + "]";
 	}
-
-	
 	
 }

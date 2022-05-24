@@ -111,4 +111,10 @@ public class MemberStoreLogic implements MemberStore{
 		return mList;
 	}
 
+	@Override
+	public int insertMember(SqlSession sqlSession, Member newMember) { // 사원 등록
+		int result = sqlSession.insert("MemberMapper.insertMember", newMember);
+		return result;
+	}
+
 }

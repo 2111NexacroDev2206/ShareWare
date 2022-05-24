@@ -195,4 +195,24 @@
 			OR RANK_NAME LIKE '%' || #{searchValue} || '%')
 		</if>
 	</select>
+	<!-- 사원 등록 -->
+	<insert id="insertMember">
+		INSERT INTO MEMBER VALUES(
+		#{memberNum}, 
+		#{memberName}, 
+		#{division}, 
+		#{rank}, 
+		#{address}, 
+		#{phone}, 
+		#{mail}, 
+		#{hireDate}, 
+		#{retireDate}, 
+		#{birth},
+		#{account},
+		#{bank},
+		#{password},
+		#{gender},
+		#{photo},
+		#{breakTotal})
+	</insert>
   </mapper>
