@@ -19,7 +19,7 @@
 }
 #btn{
     float: right;
-	background: rgb(94, 94, 94);
+	background: rgb(145, 168, 210);
     color: white;
     font-size: smaller;
     border: none;
@@ -70,4 +70,5 @@
     border-color: gray;
     border-radius: 5px;
     font-size: unset;
+    padding: 6px;
 }
