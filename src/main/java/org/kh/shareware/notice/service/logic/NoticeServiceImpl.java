@@ -60,5 +60,29 @@ public class NoticeServiceImpl implements NoticeService{
 		List<Notice> nList = nStore.selectAllHomeNotice(sqlsession);
 		return nList;
 	}
+	//공지사항 삭제
+	@Override
+	public int registerNotice(String memberNum) {
+		int result = nStore.insertNotice(sqlsession, memberNum);
+		return result;
+	}
+	//공지사항 수정
+	@Override
+	public int modifyNotice(Notice notice) {
+		int result = nStore.updateNotice(sqlsession, notice);
+		return result;
+	}
+	//넥사크로 리스트
+	@Override
+	public List<Notice> adminlistNotice() {
+		List<Notice> nList = nStore.selectAdminList(sqlsession);
+		return nList;
+	}
+	//넥사크로 검색
+	@Override
+	public List<Notice> noticeSearchList(Search search) {
+		List<Notice> nList = nStore.selectAdminSearch(sqlsession,search);
+		return nList;
+	}
 
 }

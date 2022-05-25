@@ -208,5 +208,5 @@ public class Member {
 				+ ", account=" + account + ", bank=" + bank + ", password=" + password + ", gender=" + gender
 				+ ", photo=" + photo + ", breakTotal=" + breakTotal + ", mStatus=" + mStatus + "]";
 	}
-
+	
 }

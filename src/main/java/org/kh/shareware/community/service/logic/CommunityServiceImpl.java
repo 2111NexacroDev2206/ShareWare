@@ -30,7 +30,7 @@ public class CommunityServiceImpl implements CommunityService{
 	
 	@Override
 	public int registerCommunity(Community community) {
-		int result = cStore.registerCommunity(sqlsession, community);
+		int result = cStore.insertCommunity(sqlsession, community);
 		return result;
 	}
 	

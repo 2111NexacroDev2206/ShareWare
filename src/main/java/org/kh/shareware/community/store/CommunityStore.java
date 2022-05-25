@@ -14,7 +14,7 @@ import org.kh.shareware.community.domain.Reply;
 public interface CommunityStore {
 	
 	//자유게시판 글작성
-	int registerCommunity(SqlSession sqlsession, Community community);
+	int insertCommunity(SqlSession sqlsession, Community community);
 	int selectComNo(SqlSession sqlsession);
 	//전체 게시글의 개수
 	int selectClistCount(SqlSession sqlsession, String memberNum);

@@ -20,7 +20,7 @@ public class CommunityStoreLogic implements CommunityStore {
 	
 	//글등록
 	@Override
-	public int registerCommunity(SqlSession sqlsession, Community community) {
+	public int insertCommunity(SqlSession sqlsession, Community community) {
 		int result = sqlsession.insert("CommnuityMapper.insertCommnuity",community);
 		return result;
 	}
