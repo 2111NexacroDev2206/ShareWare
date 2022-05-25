@@ -10,7 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class MeetingRoom {
 private String memberNum;
 private String meetingNo;
-private Date meetingDate;
+private String meetingDate;
 private int meetingTime;
 private String meetingReservation;
 
@@ -25,15 +25,6 @@ public void setMember(Member member) {
 }
 
 public MeetingRoom() {}
-
-public MeetingRoom(String memberNum, String meetingNo, Date meetingDate, int meetingTime, String meetingReservation) {
-	super();
-	this.memberNum = memberNum;
-	this.meetingNo = meetingNo;
-	this.meetingDate = meetingDate;
-	this.meetingTime = meetingTime;
-	this.meetingReservation = meetingReservation;
-}
 
 public String getMemberNum() {
 	return memberNum;
@@ -51,11 +42,11 @@ public void setMeetingNo(String meetingNo) {
 	this.meetingNo = meetingNo;
 }
 
-public Date getMeetingDate() {
+public String getMeetingDate() {
 	return meetingDate;
 }
 
-public void setMeetingDate(Date meetingDate) {
+public void setMeetingDate(String meetingDate) {
 	this.meetingDate = meetingDate;
 }
 
@@ -78,8 +69,8 @@ public void setMeetingReservation(String meetingReservation) {
 @Override
 public String toString() {
 	return "MeetingRoom [memberNum=" + memberNum + ", meetingNo=" + meetingNo + ", meetingDate=" + meetingDate
-			+ ", meetingTime=" + meetingTime + ", meetingReservation=" + meetingReservation + "]";
+			+ ", meetingTime=" + meetingTime + ", meetingReservation=" + meetingReservation + ", member=" + member
+			+ "]";
 }
-
 
 }

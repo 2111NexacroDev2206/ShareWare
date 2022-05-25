@@ -1,5 +1,6 @@
 package org.kh.shareware.meetingRoom.store;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -17,5 +18,7 @@ public interface MeetingRoomStore {
 	int updateRoom(SqlSession sqlsession, MeetingRoom meetingRoom);
 
 	int selectClistCount(SqlSession sqlsession, String memberNum);
+	//관리자 리스트페이지 onload
+	List<MeetingRoom> selectListAdminReservation(SqlSession sqlsession, MeetingRoom meetingRoom);
 
 }

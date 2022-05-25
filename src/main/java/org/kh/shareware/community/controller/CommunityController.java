@@ -463,7 +463,7 @@ public class CommunityController {
 	
 	//검색
 	@RequestMapping(value="/community/search.sw", method=RequestMethod.GET)
-	public ModelAndView noticeSearchList(
+	public ModelAndView communitySearchList(
 			ModelAndView mv
 			, @ModelAttribute Search search
 			, HttpServletRequest request

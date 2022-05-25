@@ -1,5 +1,6 @@
 package org.kh.shareware.meetingRoom.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.kh.shareware.common.PageInfo;
@@ -15,5 +16,6 @@ public interface MeetingRoomService {
 	//회의실 예약 취소
 	int modifyRoom(MeetingRoom meetingRoom);
 	int getListCount(String memberNum);
+	List<MeetingRoom> adminReservationList(MeetingRoom meetingRoom);
 
 }

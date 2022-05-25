@@ -1,5 +1,6 @@
 package org.kh.shareware.meetingRoom.store.logic;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -45,6 +46,12 @@ public class MeetingRoomStoreLogic implements MeetingRoomStore{
 	public int selectClistCount(SqlSession sqlsession, String memberNum) {
 		int totalCount =sqlsession.selectOne("MeetingRoomMapper.selectClistCount", memberNum);
 		return totalCount;
+	}
+	//관리자 리스트페이지 onload
+	@Override
+	public List<MeetingRoom> selectListAdminReservation(SqlSession sqlsession, MeetingRoom meetingRoom) {
+		List<MeetingRoom> mList = sqlsession.selectList("MeetingRoomMapper.selectListAdminReservation", meetingRoom);
+		return mList;
 	}
 
 }

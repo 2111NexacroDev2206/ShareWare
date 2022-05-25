@@ -38,7 +38,7 @@
   	</resultMap>
   	
   	<update id="countViewNotice">
-	UPDATE NOTICE SET NOTICE_VIEW = NOTICE_VIEW+1 WHERE NOTICE_NO = #{noticeNo}
+		UPDATE NOTICE SET NOTICE_VIEW = NOTICE_VIEW+1 WHERE NOTICE_NO = #{noticeNo}
 	</update>
 
 	<select id="selectClistCount" resultType="_int">
@@ -52,6 +52,16 @@
 	<select id="noticeList" resultMap="NoticeResultMap">
 		SELECT * FROM NOTICE JOIN MEMBER ON NOTICE.MEMBER_NUM = MEMBER.MEMBER_NUM ORDER BY NOTICE_DATE DESC
 	</select>
+	
+	
+	
+	<insert id="insertNotice">
+		INSERT INTO COMMUNITY VALUES(SEQ_NOTICE_NO.NEXTVAL ,#{memberNum } ,DEFAULT ,#{noticeTitle },#{noticeContent }, DEFAULT, #{noticeImgName}, #{noticeImgRemane}, #{noticeImgPath},NULL,NULL)
+	</insert>
+	
+	<update id="updateNotice">
+		UPDATE NOTICE SET NOTICE_TITLE = #{noticeTitle }, NOTICE_CONTENT = #{noticeContent }, NOTICE_IMG_NAME =#{noticeImgName },  NOTICE_IMG_RENAME = #{noticeImgRemane }, NOTICE_IMG_PATH = #{noticeImgPath }
+	</update>
 	
 	<select id="selectNoticeSearchCount" resultType="_int">
 		SELECT COUNT(*) FROM NOTICE JOIN MEMBER ON NOTICE.MEMBER_NUM = MEMBER.MEMBER_NUM
@@ -93,5 +103,29 @@
 	<!-- 홈 - 공지사항 -->
 	<select id="selectListHomeNotice" resultMap="NoticeResultMap">
 		SELECT * FROM NOTICE WHERE ROWNUM <![CDATA[<]]> 6 ORDER BY NOTICE_NO DESC
+	</select>
+	
+	<!-- admin 넥사크로 리스트 보기 -->
+	<select id="selectAdminList" resultMap="NoticeResultMap">
+		SELECT * FROM NOTICE JOIN MEMBER ON NOTICE.MEMBER_NUM = MEMBER.MEMBER_NUM ORDER BY NOTICE_DATE DESC
+	</select>
+	
+		<!-- admin 넥사크로 검색 -->
+	<select id="selectAdminSearch" resultMap="NoticeResultMap">
+		SELECT * FROM NOTICE JOIN MEMBER ON NOTICE.MEMBER_NUM = MEMBER.MEMBER_NUM
+		<if test ="searchCondition.toString()=='writer'">
+		WHERE MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='title'">
+		WHERE NOTICE_TITLE LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='contents'">
+		WHERE NOTICE_CONTENT LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='all'">
+		WHERE MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
+		OR NOTICE_TITLE LIKE '%'||#{searchValue} ||'%'
+		OR NOTICE_CONTENT LIKE '%'||#{searchValue} ||'%'
+	</if>
 	</select>
 </mapper>

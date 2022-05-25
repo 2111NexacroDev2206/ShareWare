@@ -64,5 +64,30 @@ public class NoticeStoreLogic implements NoticeStore{
 		List<Notice> nList = sqlsession.selectList("NoticeMapper.selectListHomeNotice");
 		return nList;
 	}
+	//넥사크로 글작성
+	@Override
+	public int insertNotice(SqlSession sqlsession, String memberNum) {
+		int result = sqlsession.insert("NoticeMapper.insertNotice",memberNum);
+		return result;
+	}
+	
+	//넥사크로 글 수정
+	@Override
+	public int updateNotice(SqlSession sqlsession, Notice notice) {
+		int result = sqlsession.update("NoticeMapper.updateNotice", notice);
+		return result;
+	}
+	//넥사크로 글목록
+	@Override
+	public List<Notice> selectAdminList(SqlSession sqlsession) {
+		List<Notice> nList = sqlsession.selectList("NoticeMapper.selectAdminList");
+		return nList;
+	}
+	//넥사크로 검색
+	@Override
+	public List<Notice> selectAdminSearch(SqlSession sqlsession, Search search) {
+		List<Notice> nList = sqlsession.selectList("NoticeMapper.selectAdminSearch", search);
+		return nList;
+	}
 
 }

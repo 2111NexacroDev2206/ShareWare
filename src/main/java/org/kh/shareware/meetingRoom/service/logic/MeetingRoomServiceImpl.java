@@ -1,5 +1,6 @@
 package org.kh.shareware.meetingRoom.service.logic;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -45,6 +46,12 @@ public class MeetingRoomServiceImpl implements MeetingRoomService{
 	public int getListCount(String memberNum) {
 		int result = mStore.selectClistCount(sqlsession, memberNum);
 		return result;
+	}
+
+	@Override
+	public List<MeetingRoom> adminReservationList(MeetingRoom meetingRoom) {
+		List<MeetingRoom> mList= mStore.selectListAdminReservation(sqlsession, meetingRoom);
+		return mList;
 	}
 
 }

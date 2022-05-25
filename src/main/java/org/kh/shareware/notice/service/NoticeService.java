@@ -22,5 +22,14 @@ public interface NoticeService {
 	Notice detailNotice(Integer noticeNo);
 	// 홈 - 공지사항
 	public List<Notice> homeNotice();
+	//공지사항 글 작성 넥사크
+	int registerNotice(String memberNum);
+	//공지사항 수정
+	int modifyNotice(Notice notice);
+	//넥사크로 리스트 
+	List<Notice> adminlistNotice();
+	//넥사크로 검색
+	List<Notice> noticeSearchList(Search search);
+	
 
 }
