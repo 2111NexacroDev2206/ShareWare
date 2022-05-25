@@ -128,4 +128,16 @@ public class MemberServiceImpl implements MemberService{
 		return result;
 	}
 
+	@Override
+	public List<Division> printAllDivision() { // 부서 조회
+		List<Division> dList = mStore.selectAllDivision(sqlSession);
+		return dList;
+	}
+
+	@Override
+	public List<Division> printOneDivision(String divCode) { // 부서 사원 조회
+		List<Division> mList = mStore.selectOneDivision(sqlSession, divCode);
+		return mList;
+	}
+
 }

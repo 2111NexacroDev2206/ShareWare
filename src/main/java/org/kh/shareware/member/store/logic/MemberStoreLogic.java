@@ -135,4 +135,16 @@ public class MemberStoreLogic implements MemberStore{
 		return result;
 	}
 
+	@Override
+	public List<Division> selectAllDivision(SqlSession sqlSession) { // 부서 조회
+		List<Division> dList = sqlSession.selectList("MemberMapper.selectAllDivision");
+		return dList;
+	}
+
+	@Override
+	public List<Division> selectOneDivision(SqlSession sqlSession, String divCode) { // 부서 사원 조회
+		List<Division> mList = sqlSession.selectList("MemberMapper.selectOneDivision", divCode);
+		return mList;
+	}
+
 }

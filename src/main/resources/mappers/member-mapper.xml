@@ -245,4 +245,15 @@
 			BREAK_TOTAL = #{breakTotal}
 		WHERE MEMBER_NUM = #{memberNum}
 	</update>
+	<!-- 조직도 -->
+	<!-- 부서 조회 -->
+	<select id="selectAllDivision" resultMap="divisionResultMap">
+		SELECT * FROM DIVISION ORDER BY DIV_CODE
+	</select>
+	<!-- 부서 사원 조회 -->
+	<select id="selectOneDivision" resultMap="divisionResultMap">
+		SELECT DIV_CODE, DIV_NAME, DIV_LEVEL FROM DIVISION WHERE DIV_CODE = #{divCode}
+		UNION ALL
+		SELECT MEMBER_NUM AS DIV_CODE, MEMBER_NAME AS DIV_NAME, 3 AS DIV_LEVEL FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE WHERE DIV_CODE = #{divCode}
+	</select>
   </mapper>

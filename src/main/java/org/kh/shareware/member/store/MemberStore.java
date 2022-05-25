@@ -40,5 +40,8 @@ public interface MemberStore {
 	public Member selectOneMember(SqlSession sqlSession, String memberNum); // 사원 상세 조회
 	public int deleteMember(SqlSession sqlSession, String memberNum); // 사원 삭제
 	public int updateMember(SqlSession sqlSession, Member newMember); // 사원 정보 수정
+	// 조직도
+	public List<Division> selectAllDivision(SqlSession sqlSession); // 부서 조회
+	public List<Division> selectOneDivision(SqlSession sqlSession, String divCode); // 부서 사원 조회
 
 }

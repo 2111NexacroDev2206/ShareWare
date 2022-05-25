@@ -1,5 +1,6 @@
 package org.kh.shareware.member.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -383,4 +384,42 @@ public class MemberController {
 		return result;
 	}
 	
+	// 조직도
+	@RequestMapping(value = "admin/member/organization.sw")
+	public NexacroResult adminMemberorganization() {
+		int 	nErrorCode = 0;
+		String 	strErrorMsg = "START";
+		NexacroResult result = new NexacroResult();
+		List<Division> tList = new ArrayList<Division>();
+		List<Division> dList = mService.printAllDivision();
+		if(!dList.isEmpty()) {
+			for(int i = 0; i < dList.size(); i++) {
+				List<Division> mList = mService.printOneDivision(dList.get(i).getDivCode());
+				tList.addAll(mList);
+			}
+		}
+		if(!tList.isEmpty()) {
+			for(int i = 0; i < tList.size(); i++) {
+				if(tList.get(i).getDivLevel().equals("3")) {
+					Member member = mService.printOneMember(tList.get(i).getDivCode());
+					tList.get(i).setMemberName(member.getMemberName());
+					tList.get(i).setRank(member.getRank());
+					tList.get(i).setBirth(member.getBirth());
+					tList.get(i).setMail(member.getMail());
+					tList.get(i).setPhone(member.getPhone());
+					tList.get(i).setAddress(member.getAddress());
+					tList.get(i).setHireDate(member.getHireDate());
+				}
+			}
+			nErrorCode = 0;
+			strErrorMsg = "SUCC";
+		} else {
+			nErrorCode = -1;
+			strErrorMsg = "Fail";
+		}
+		result.addDataSet("out_division", tList);
+		result.addVariable("ErrorCode", nErrorCode);
+		result.addVariable("ErrorMsg", strErrorMsg);
+		return result;
+	}
 }

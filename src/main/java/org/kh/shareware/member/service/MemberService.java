@@ -33,4 +33,7 @@ public interface MemberService {
 	public Member printOneMember(String memberNum); // 사원 상세 조회
 	public int removeMember(String memberNum); // 사원 삭제
 	public int modifyMember(Member newMember); // 사원 정보 수정
+	// 조직도
+	public List<Division> printAllDivision(); // 부서 조회
+	public List<Division> printOneDivision(String divCode); // 부서 사원 조회
 }
