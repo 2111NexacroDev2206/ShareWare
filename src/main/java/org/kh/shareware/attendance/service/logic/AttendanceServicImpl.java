@@ -8,7 +8,7 @@ import org.kh.shareware.attendance.domain.Attendance;
 import org.kh.shareware.attendance.domain.Stats;
 import org.kh.shareware.attendance.service.AttendanceService;
 import org.kh.shareware.attendance.store.AttendanceStore;
-import org.kh.shareware.member.common.PageInfo;
+import org.kh.shareware.common.Search;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +56,26 @@ public class AttendanceServicImpl implements AttendanceService{
 	public Attendance homeAttTime(String memberNum) {
 		Attendance attendance = aStore.selectOneAtt(sqlSession, memberNum);
 		return attendance;
+	}
+	
+	
+	//넥사크로-근태관리
+	@Override
+	public List<Attendance> printAllAtt(String inVar) {
+		List<Attendance> aList = aStore.selectAllAttNexa(sqlSession, inVar);
+		return aList;
+	}
+	//넥사크로-근태관리 검색
+	@Override
+	public List<Attendance> printAllSearchAtt(Search search) {
+		List<Attendance> aList = aStore.selectAllSearchAttNexa(sqlSession,search);
+		return aList;
+	}
+	//넥사크로-근태통계
+	@Override
+	public List<Stats> printAttStats(String inVar) {
+		List<Stats> sList = aStore.selectStatsNexa(sqlSession, inVar);
+		return sList;
 	}
 
 }

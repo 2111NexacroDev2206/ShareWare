@@ -8,6 +8,8 @@ public class Attendance {
 	private String attTotalTime;
 	private String attStatus;
 	private String memNum;
+	private String memberName;
+	private String division;
 	
 	public Attendance() {}
 
@@ -67,11 +69,27 @@ public class Attendance {
 		this.memNum = memNum;
 	}
 
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+
+	public String getDivision() {
+		return division;
+	}
+
+	public void setDivision(String division) {
+		this.division = division;
+	}
+
 	@Override
 	public String toString() {
 		return "Attendance [attNo=" + attNo + ", attDate=" + attDate + ", attStrTime=" + attStrTime + ", attFinTime="
 				+ attFinTime + ", attTotalTime=" + attTotalTime + ", attStatus=" + attStatus + ", memNum=" + memNum
-				+ "]";
+				+ ", memberName=" + memberName + ", division=" + division + "]";
 	}
 	
 }

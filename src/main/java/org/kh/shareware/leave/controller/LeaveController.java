@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.kh.shareware.common.Search;
 import org.kh.shareware.leave.domain.LeaveList;
 import org.kh.shareware.leave.service.LeaveService;
 import org.kh.shareware.member.domain.Member;
@@ -17,7 +18,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+
+import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
+import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 @Controller
 public class LeaveController {
@@ -96,6 +99,51 @@ public class LeaveController {
 		return "attendance/leaveListView";
 	}
 	
+	//넥사크로 - 연차조회
+	@RequestMapping(value = "/admin/leave/leaveList.sw", method = RequestMethod.POST)
+	public NexacroResult adminMemberLeaveList(@ParamVariable(name = "year") String year) {
+		int 	nErrorCode = 0;
+		String 	strErrorMsg = "START";
+		NexacroResult result = new NexacroResult();
+		List<LeaveList> lList = lService.printAllLeave(year);
+		if(!lList.isEmpty()) {
+			nErrorCode = 0;
+			strErrorMsg = "SUCC";
+		} else {
+			nErrorCode = -1;
+			strErrorMsg = "Fail";
+		}
+		result.addDataSet("out_leave", lList);
+		result.addVariable("ErrorCode", nErrorCode);
+		result.addVariable("ErrorMsg", strErrorMsg);
+		return result;
+	}
+	
+	//넥사크로 - 연차조회 검색
+	@RequestMapping(value = "/admin/leave/leaveSearchList.sw", method = RequestMethod.POST)
+	public NexacroResult adminMemberSearchList(@ParamVariable(name = "year") String year
+			, @ParamVariable(name = "searchCondition") String searchCondition
+			, @ParamVariable(name = "searchValue") String searchValue) {
+		int 	nErrorCode = 0;
+		String 	strErrorMsg = "START";
+		NexacroResult result = new NexacroResult();
+		Search search = new Search();
+		search.setSearchCondition(searchCondition);
+		search.setSearchValue(searchValue);
+		search.setType(year);
+		List<LeaveList> lList = lService.printAllSearchLeave(search);
+		if(!lList.isEmpty()) {
+			nErrorCode = 0;
+			strErrorMsg = "SUCC";
+		} else {
+			nErrorCode = -1;
+			strErrorMsg = "Fail";
+		}
+		result.addDataSet("out_leave", lList);
+		result.addVariable("ErrorCode", nErrorCode);
+		result.addVariable("ErrorMsg", strErrorMsg);
+		return result;
+	}
 }
 
 

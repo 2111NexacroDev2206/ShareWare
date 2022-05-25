@@ -2,12 +2,11 @@ package org.kh.shareware.attendance.store.logic;
 
 import java.util.List;
 
-import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.kh.shareware.attendance.domain.Attendance;
 import org.kh.shareware.attendance.domain.Stats;
 import org.kh.shareware.attendance.store.AttendanceStore;
-import org.kh.shareware.member.common.PageInfo;
+import org.kh.shareware.common.Search;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -51,6 +50,25 @@ public class AttendanceStoreLogic implements AttendanceStore{
 	public Attendance selectOneAtt(SqlSession sqlSession, String memberNum) {
 		Attendance attendance = sqlSession.selectOne("AttendanceMapper.selectOneAtt", memberNum);
 		return attendance;
+	}
+	
+	//넥사크로-근태관리
+	@Override
+	public List<Attendance> selectAllAttNexa(SqlSession sqlSession, String inVar) {
+		List<Attendance> aList = sqlSession.selectList("AttendanceMapper.selectAllAttNexa", inVar);
+		return aList;
+	}
+	//넥사크로-근태관리 검색
+	@Override
+	public List<Attendance> selectAllSearchAttNexa(SqlSession sqlSession, Search search) {
+		List<Attendance> aList = sqlSession.selectList("AttendanceMapper.selectAllSearchAttNexa", search);
+		return aList;
+	}
+	//넥사크로-근태통계
+	@Override
+	public List<Stats> selectStatsNexa(SqlSession sqlSession, String inVar) {
+		List<Stats> sList = sqlSession.selectList("AttendanceMapper.selecAttStsNexa", inVar);
+		return sList;
 	}
 
 

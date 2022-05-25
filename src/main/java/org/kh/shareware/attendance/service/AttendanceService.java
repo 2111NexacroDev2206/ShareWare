@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.kh.shareware.attendance.domain.Attendance;
 import org.kh.shareware.attendance.domain.Stats;
-import org.kh.shareware.member.common.PageInfo;
+import org.kh.shareware.common.Search;
 
 public interface AttendanceService {
 
@@ -24,5 +24,13 @@ public interface AttendanceService {
 	
 	// 홈 - 근태 관리
 	public Attendance homeAttTime(String memberNum);
+	
+	//넥사크로-근태관리
+	List<Attendance> printAllAtt(String inVar);
+	//넥사크로-근태관리 검색
+	List<Attendance> printAllSearchAtt(Search search);
+	//넥사크로-근태통계
+	List<Stats> printAttStats(String inVar);
+
 	
 }
