@@ -39,11 +39,13 @@ public class ImportantController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
 		try {
 			 List<Important> iList = service.printAllImportant(projectNo, pi);
-				 model.addAttribute("projectNo", projectNo);
-				 model.addAttribute("pi", pi);
-				 model.addAttribute("iList", iList);
-				 model.addAttribute("currentPage", currentPage);
-				return("important/importantList");
+			 model.addAttribute("myCondition", "project");
+			 model.addAttribute("listCondition", "projectImportant");
+		 	 model.addAttribute("projectNo", projectNo);
+			 model.addAttribute("pi", pi);
+			 model.addAttribute("iList", iList);
+			 model.addAttribute("currentPage", currentPage);
+			return("important/importantList");
 		}catch(Exception e){
 			model.addAttribute("msg", "게시글 전체조회 실패");
 			return("common/errorPage");
@@ -56,6 +58,8 @@ public class ImportantController {
 				,@RequestParam(value = "importantNo" , required = false) Integer importantNo
 				,@RequestParam(value = "projectNo", required=false) Integer projectNo) {
 		try {
+			mv.addObject("myCondition", "project");
+			mv.addObject("listCondition", "projectImportant");
 			service.updateCount(importantNo);
 			Important important = service.printOneByNo(importantNo);
 			if(importantNo != null) {
@@ -79,6 +83,8 @@ public class ImportantController {
 			,@RequestParam(value="projectNo", required=false) Integer projectNo) {
 		Date nowTime = new Date();
 	    SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+	    model.addAttribute("myCondition", "project");
+		model.addAttribute("listCondition", "projectImportant");
 	    model.addAttribute("nowTime", sf.format(nowTime));
 	    model.addAttribute("projectNo", projectNo);
 		return "important/importantWriteForm";
@@ -146,6 +152,8 @@ public class ImportantController {
 				, @RequestParam(value = "importantNo", required =false) Integer importantNo
 				, @RequestParam(value = "projectNo", required=false) Integer projectNo) {
 			try {
+				model.addAttribute("myCondition", "project");
+				model.addAttribute("listCondition", "projectImportant");
 				Important important = service.printOneByNo(importantNo);
 				if(important != null) {
 					model.addAttribute("important", important);

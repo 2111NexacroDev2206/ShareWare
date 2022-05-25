@@ -40,6 +40,8 @@ public class WorkController {@Autowired
 		if(status == null) {
 			status = "all";
 		}
+		model.addAttribute("myCondition", "project");
+		model.addAttribute("listCondition", "projectWork");
 		model.addAttribute("status", status);
 		HttpSession session = request.getSession();
 		String memNum = ((Member)(session.getAttribute("loginUser"))).getMemberNum();
@@ -69,6 +71,8 @@ public class WorkController {@Autowired
 						,@RequestParam(value = "workNo" , required = false) Integer workNo
 						,@RequestParam(value = "projectNo", required=false) Integer projectNo) {
 				try {
+					mv.addObject("myCondition", "project");
+					mv.addObject("listCondition", "projectWork");
 					Work work = service.printOneByNo(workNo);
 					if(workNo != null) {
 						mv.addObject("work", work);
@@ -92,6 +96,8 @@ public class WorkController {@Autowired
 				,@RequestParam(value="projectNo", required=false) Integer projectNo) {
 			Date nowTime = new Date();
 		    SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		    model.addAttribute("myCondition", "project");
+			model.addAttribute("listCondition", "projectWork");
 		    model.addAttribute("nowTime", sf.format(nowTime));
 		    model.addAttribute("projectNo", projectNo);
 			return "work/workWriteForm";
@@ -159,6 +165,8 @@ public class WorkController {@Autowired
 							, @RequestParam(value = "workNo", required =false) Integer workNo
 							, @RequestParam(value = "projectNo", required=false) Integer projectNo) {
 						try {
+							model.addAttribute("myCondition", "project");
+							model.addAttribute("listCondition", "projectWork");
 							Work work = service.printOneByNo(workNo);
 							if(work != null) {
 								model.addAttribute("work", work);

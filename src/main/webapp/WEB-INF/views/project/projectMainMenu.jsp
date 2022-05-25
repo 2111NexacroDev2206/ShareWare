@@ -15,8 +15,8 @@
 		</div>
 		<div class="s-list-item ${listCondition eq 'projectMain' ? 'active' : ''}"><a href="/project/main.sw?projectNo=${projectNo }">프로젝트 메인</a></div>
 		<div class="s-list-item ${listCondition eq 'projectDetail' ? 'active' : ''}"><a href="/project/detail.sw?projectNo=${projectNo }">프로젝트 정보</a></div>
-		<div class="s-list-item ${listCondition eq 'approval' ? 'work' : ''}"><a href="/project/workList.sw?projectNo=${projectNo }">진행현황</a></div>
-		<div class="s-list-item ${listCondition eq 'dailyList' ? 'important' : ''}"><a href="/project/importantList.sw?projectNo=${projectNo }">중요공지</a></div>
+		<div class="s-list-item ${listCondition eq 'projectWork' ? 'active' : ''}"><a href="/project/workList.sw?projectNo=${projectNo }">진행현황</a></div>
+		<div class="s-list-item ${listCondition eq 'projectImportant' ? 'active' : ''}"><a href="/project/importantList.sw?projectNo=${projectNo }">중요공지</a></div>
 	</div>
 </body>
 </html>

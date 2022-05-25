@@ -38,7 +38,7 @@
 					<td colspan="4"><textarea name="workContent">${work.workContent }</textarea></td>
 				</tr>
 			</table>
-				<input id="btn" type="button" onclick="location.href='/project/workDetail.sw?projectNo=${projectNo}&workNo=${work.workNo }&projectNo=${projectNo}'"value="취소">
+				<input id="btn" type="button" onclick="location.href='/project/workDetail.sw?workNo=${work.workNo }&projectNo=${projectNo}'"value="취소">
 				<input id="btn" type="submit" value="등록">
 		</form>
 	</div>

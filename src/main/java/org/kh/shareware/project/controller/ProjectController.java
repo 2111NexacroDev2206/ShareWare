@@ -53,7 +53,6 @@ public class ProjectController {
 			,@RequestParam(value="page", required=false) Integer page
 			,@ModelAttribute Project project) {
 		model.addAttribute("myCondition", "project");
-		model.addAttribute("listCondition", "All");
 		HttpSession session = request.getSession();
 		String memberNum = ((Member)session.getAttribute("loginUser")).getMemberNum();
 		int currentPage = (page != null) ? page : 1;
@@ -87,8 +86,6 @@ public class ProjectController {
 			, @RequestParam(value="page", required = false) Integer page
 			, @RequestParam(value="pStatus", required=false) String pStatus) {
 				model.addAttribute("myCondition", "project");
-				model.addAttribute("listCondition", "yList");
-				model.addAttribute("listCondition", "nList");
 			try {
 				HttpSession session = request.getSession();
 				search.setMemberNum(((Member)session.getAttribute("loginUser")).getMemberNum()); //
@@ -122,8 +119,7 @@ public class ProjectController {
 					,@ModelAttribute Participant participant
 					,@ModelAttribute Member member) {
 				model.addAttribute("myCondition", "project");
-				model.addAttribute("listCondition", "yList");
-				model.addAttribute("listCondition", "nList");
+				model.addAttribute("listCondition", "projectDetail");
 			try {
 				Project project = service.printOneProjectDetail(projectNo);
 				List<Member> pList = service.printAllParticipant(projectNo);
@@ -154,6 +150,8 @@ public class ProjectController {
 					// 수정화면에 필요한 데이터 DB 가져오기
 					Project project = service.printOneProject(projectNo);
 					List<Member> pList = service.printAllParticipant(projectNo);
+					model.addAttribute("myCondition", "project");
+					model.addAttribute("listCondition", "projectDetail");
 					if(project != null) {
 						model.addAttribute("project", project);
 						model.addAttribute("projectNo", projectNo);
@@ -228,8 +226,7 @@ public class ProjectController {
 				ModelAndView mv
 				,@RequestParam("projectNo") int projectNo) {
 			model.addAttribute("myCondition", "project");
-			model.addAttribute("listCondition", "yList");
-			model.addAttribute("listCondition", "nList");
+			model.addAttribute("listCondition", "projectMain");
 		try {
 			Project project = service.printOneProject(projectNo);
 			List<Work> wList = wService.printAllWork(projectNo);
