@@ -107,14 +107,14 @@ a {
     padding : 30px 5px 5px 20px;
 }
 #community-ContentDiv .imgDiv{
-    margin : 20px 15px 15px 15px;
+    margin : 20px 15px 15px 30px;
     width: auto;
-    max-height: 500px;
+    height: auto;
 }
 
 #vote-body-div{
     border-radius: 5px;
-    margin-top: 40px;
+    margin-top: 20px;
     border: 1px solid rgb(158, 158, 158);
     width : 400px;
     height: auto;
