@@ -3,7 +3,6 @@ package org.kh.shareware.member.store;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
-import org.kh.shareware.chat.domain.ChatMember;
 import org.kh.shareware.common.Search;
 import org.kh.shareware.member.common.PageInfo;
 import org.kh.shareware.member.domain.Division;
@@ -43,4 +42,3 @@ public interface MemberStore {
 	public int updateMember(SqlSession sqlSession, Member newMember); // 사원 정보 수정
 
 }
-

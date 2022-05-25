@@ -5,9 +5,6 @@ import java.util.List;
 import org.kh.shareware.common.Search;
 import org.kh.shareware.member.domain.Division;
 import org.kh.shareware.member.domain.Member;
-
-import com.nexacro17.xapi.data.DataSet;
-
 import org.kh.shareware.member.common.PageInfo;
 
 public interface MemberService {
