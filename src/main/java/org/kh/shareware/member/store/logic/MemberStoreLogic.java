@@ -117,4 +117,22 @@ public class MemberStoreLogic implements MemberStore{
 		return result;
 	}
 
+	@Override
+	public Member selectOneMember(SqlSession sqlSession, String memberNum) { // 사원 상세 조회
+		Member member = sqlSession.selectOne("MemberMapper.selectOneMember", memberNum);
+		return member;
+	}
+
+	@Override
+	public int deleteMember(SqlSession sqlSession, String memberNum) { // 사원 삭제
+		int result = sqlSession.delete("MemberMapper.deleteMember", memberNum);
+		return result;
+	}
+
+	@Override
+	public int updateMember(SqlSession sqlSession, Member newMember) { // 사원 정보 수정
+		int result = sqlSession.update("MemberMapper.updateMember", newMember);
+		return result;
+	}
+
 }

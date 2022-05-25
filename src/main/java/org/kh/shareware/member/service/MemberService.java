@@ -33,4 +33,7 @@ public interface MemberService {
 	// 넥사크로 - 관리자
 	public List<Member> printAllMember(Search search); // 사원 전체 조회
 	public int registerMember(Member newMember); // 사원 등록
+	public Member printOneMember(String memberNum); // 사원 상세 조회
+	public int removeMember(String memberNum); // 사원 삭제
+	public int modifyMember(Member newMember); // 사원 정보 수정
 }

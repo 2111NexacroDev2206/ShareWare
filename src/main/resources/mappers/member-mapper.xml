@@ -6,7 +6,9 @@
   	<resultMap type="Member" id="memberResultMap">
   		<id property="memberNum" column="MEMBER_NUM"/>
   		<result property="memberName" column="MEMBER_NAME"/>
+  		<result property="divCode" column="DIVISION"/>
   		<result property="division" column="DIV_NAME"/>
+  		<result property="rankCode" column="RANK"/>
   		<result property="rank" column="RANK_NAME"/>
   		<result property="address" column="ADDRESS"/>
   		<result property="phone" column="PHONE"/>
@@ -215,4 +217,32 @@
 		#{photo},
 		#{breakTotal})
 	</insert>
+	<!-- 사원 상세 조회 -->
+	<select id="selectOneMember" resultMap="memberResultMap">
+		SELECT * FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE MEMBER_NUM = #{memberNum}
+	</select>
+	<!-- 사원 삭제 -->
+	<delete id="deleteMember">
+		DELETE FROM MEMBER WHERE MEMBER_NUM = #{memberNum}
+	</delete>
+	<!-- 사원 정보 수정 -->
+	<update id="updateMember">
+		UPDATE MEMBER SET 
+			MEMBER_NAME = #{memberName}, 
+			DIVISION = #{divCode},
+			RANK = #{rankCode},
+			ADDRESS = #{address},
+			PHONE = #{phone},
+			MAIL = #{mail}, 
+			HIRE_DATE = #{hireDate}, 
+			RETIRE_DATE = #{retireDate}, 
+			BIRTH = #{birth},
+			ACCOUNT = #{account},
+			BANK = #{bank},
+			PASSWORD = #{password},
+			GENDER = #{gender},
+			PHOTO = #{photo},
+			BREAK_TOTAL = #{breakTotal}
+		WHERE MEMBER_NUM = #{memberNum}
+	</update>
   </mapper>

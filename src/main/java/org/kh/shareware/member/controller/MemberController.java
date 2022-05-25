@@ -272,12 +272,17 @@ public class MemberController {
 		int 	nErrorCode = 0;
 		String 	strErrorMsg = "START";
 		NexacroResult result = new NexacroResult();
-		
+		String photo = null;
+		if(member.getString(0, "photo") != null) {
+			photo = member.getString(0, "memberNum") + "." + member.getString(0, "photo").substring(member.getString(0, "photo").lastIndexOf(".") + 1);
+		}
 		// INSERT
 		Member newMember = new Member(
 				member.getString(0, "memberNum"),
 				member.getString(0, "memberName"),
+				null,
 				member.getString(0, "division"),
+				null,
 				member.getString(0, "rank"),
 				member.getString(0, "address"),
 				member.getString(0, "phone"),
@@ -289,20 +294,104 @@ public class MemberController {
 				member.getString(0, "bank"),
 				member.getString(0, "password"),
 				member.getString(0, "gender"),
-				member.getString(0, "memberNum") + "." + member.getString(0, "photo").substring(member.getString(0, "photo").lastIndexOf(".") + 1),
+				photo,
 				member.getString(0, "breakTotal"),
 				null);
-			int iResult = mService.registerMember(newMember);
-			if(iResult > 0) {
-				nErrorCode = 0;
-				strErrorMsg = "SUCC";
-			} else {
-				nErrorCode = -1;
-				strErrorMsg = "Fail";
-			}
-			result.addVariable("ErrorCode", nErrorCode);
-			result.addVariable("ErrorMsg", strErrorMsg);
-			return result;
+		int iResult = mService.registerMember(newMember);
+		if(iResult > 0) {
+			nErrorCode = 0;
+			strErrorMsg = "SUCC";
+		} else {
+			nErrorCode = -1;
+			strErrorMsg = "Fail";
 		}
-
+		result.addVariable("ErrorCode", nErrorCode);
+		result.addVariable("ErrorMsg", strErrorMsg);
+		return result;
+	}
+	
+	// 사원 상세 조회
+	@RequestMapping(value = "admin/member/detail.sw", method = RequestMethod.POST)
+	public NexacroResult adminMemberDetail(@ParamVariable(name = "memberNum") String memberNum) {
+		int 	nErrorCode = 0;
+		String 	strErrorMsg = "START";
+		NexacroResult result = new NexacroResult();
+		Member member = mService.printOneMember(memberNum);
+		if(member != null) {
+			member.setPhoto("theme://images/" + member.getPhoto());
+			nErrorCode = 0;
+			strErrorMsg = "SUCC";
+		} else {
+			nErrorCode = -1;
+			strErrorMsg = "Fail";
+		}
+		result.addDataSet("out_member", member);
+		result.addVariable("ErrorCode", nErrorCode);
+		result.addVariable("ErrorMsg", strErrorMsg);
+		return result;
+	}
+	
+	// 사원 삭제
+	@RequestMapping(value = "admin/member/remove.sw")
+	public NexacroResult adminMemberRemove(@ParamVariable(name = "memberNum") String memberNum) {
+		int 	nErrorCode = 0;
+		String 	strErrorMsg = "START";
+		NexacroResult result = new NexacroResult();
+		int rResult = mService.removeMember(memberNum);
+		if(rResult > 0) {
+			nErrorCode = 0;
+			strErrorMsg = "SUCC";
+		} else {
+			nErrorCode = -1;
+			strErrorMsg = "Fail";
+		}
+		result.addVariable("ErrorCode", nErrorCode);
+		result.addVariable("ErrorMsg", strErrorMsg);
+		return result;
+	}
+	
+	// 사원 정보 수정
+	@RequestMapping(value = "admin/member/modify.sw", method = RequestMethod.POST)
+	public NexacroResult adminMemberModify(HttpServletRequest request, @ParamDataSet(name = "member") DataSet member) {
+		int 	nErrorCode = 0;
+		String 	strErrorMsg = "START";
+		NexacroResult result = new NexacroResult();
+		String photo = null;
+		if(member.getString(0, "photo") != null) {
+			photo = member.getString(0, "memberNum") + "." + member.getString(0, "photo").substring(member.getString(0, "photo").lastIndexOf(".") + 1);
+		}
+		// UPDATE
+		Member newMember = new Member(
+				member.getString(0, "memberNum"),
+				member.getString(0, "memberName"),
+				member.getString(0, "divCode"),
+				null,
+				member.getString(0, "rankCode"),
+				null,
+				member.getString(0, "address"),
+				member.getString(0, "phone"),
+				member.getString(0, "mail"),
+				member.getString(0, "hireDate"),
+				member.getString(0, "retireDate"),
+				member.getString(0, "birth"),
+				member.getString(0, "account"),
+				member.getString(0, "bank"),
+				member.getString(0, "password"),
+				member.getString(0, "gender"),
+				photo,
+				member.getString(0, "breakTotal"),
+				null);
+		int iResult = mService.modifyMember(newMember);
+		if(iResult > 0) {
+			nErrorCode = 0;
+			strErrorMsg = "SUCC";
+		} else {
+			nErrorCode = -1;
+			strErrorMsg = "Fail";
+		}
+		result.addVariable("ErrorCode", nErrorCode);
+		result.addVariable("ErrorMsg", strErrorMsg);
+		return result;
+	}
+	
 }

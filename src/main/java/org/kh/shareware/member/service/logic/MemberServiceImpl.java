@@ -110,4 +110,22 @@ public class MemberServiceImpl implements MemberService{
 		return result;
 	}
 
+	@Override
+	public Member printOneMember(String memberNum) { // 사원 상세 조회
+		Member member = mStore.selectOneMember(sqlSession, memberNum);
+		return member;
+	}
+
+	@Override
+	public int removeMember(String memberNum) { // 사원 삭제
+		int result = mStore.deleteMember(sqlSession, memberNum);
+		return result;
+	}
+
+	@Override
+	public int modifyMember(Member newMember) { // 사원 정보 수정
+		int result = mStore.updateMember(sqlSession, newMember);
+		return result;
+	}
+
 }
