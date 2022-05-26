@@ -45,6 +45,7 @@ public class CommunityController {
 	@RequestMapping(value="/community/WriteView.sw", method=RequestMethod.GET)
 	public String CommunityWriteView(Model model) {
 		model.addAttribute("myCondition", "board");
+		model.addAttribute("listCondition", "community");
 		return "community/communityWriteForm";
 	}
 	
@@ -167,6 +168,7 @@ public class CommunityController {
 		
 		if(community != null) {
 			model.addAttribute("myCondition", "board");
+			model.addAttribute("listCondition", "community");
 			model.addAttribute("community",community);
 			return "community/communityDetail";
 		}else {
@@ -193,6 +195,7 @@ public class CommunityController {
 		
 		if(community != null) {
 			model.addAttribute("myCondition", "board");
+			model.addAttribute("listCondition", "community");
 			model.addAttribute("community",community);
 			model.addAttribute("communityVote",communityVote);
 			model.addAttribute("cVoteSelect",cVoteSelect);

@@ -190,7 +190,6 @@ public class NoticeController {
 	// 리스트 보기
 	@RequestMapping(value = "/notice/list.sw", method = RequestMethod.GET)
 	public String noticeListView(Model model, @RequestParam(value = "page", required = false) Integer page) {
-
 		int currentPage = (page != null) ? page : 1;
 		int totalCount = nService.getListCount();
 		PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
@@ -220,6 +219,7 @@ public class NoticeController {
 
 		if (notice != null) {
 			model.addAttribute("myCondition", "board");
+			model.addAttribute("listCondition", "notice");
 			model.addAttribute("notice", notice);
 			return "notice/noticeDetail";
 		} else {
@@ -245,6 +245,8 @@ public class NoticeController {
 			mv.addObject("nList", nList);
 			mv.addObject("search", search);
 			mv.addObject("pi", pi);
+			mv.addObject("myCondition", "board");
+			mv.addObject("listCondition", "notice");
 			mv.setViewName("notice/noticeList");
 
 		} catch (Exception e) {

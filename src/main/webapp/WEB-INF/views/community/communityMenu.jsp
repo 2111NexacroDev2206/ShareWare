@@ -4,14 +4,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>자유게시판 소메뉴</title>
+<title>게시판 소메뉴</title>
 <link rel="stylesheet" href="../../../resources/css/community/communityList-style.css">
 </head>
 <body>
 	<jsp:include page="../common/menuBar.jsp"></jsp:include>
 	<div class="s-menu">
 		<div class="s-menu-title">
-			<p>자유게시판
+			<p>게시판
 			<i class="fa-solid fa-pen-to-square fa-lg"></i>
 		</div>
 		<div class="s-list-item ${listCondition eq 'community' ? 'active' : ''}"><a href="/community/list.sw?docStatus=전체">자유게시판</a></div>

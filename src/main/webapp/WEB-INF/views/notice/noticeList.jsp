@@ -38,7 +38,7 @@
 										<c:param name="noticeNo" value="${notice.noticeNo }"></c:param>
 									</c:url>
 								<td><a href ="${nDetail}">${notice.noticeTitle }</a></td>
-								<td>${notice.member.memberName }</td>
+								<td>${notice.memberNum }</td>
 								<td>${notice.noticeDate }</td>
 								<td>${notice.noticeView }</td>		
 							</tr>
