@@ -11,31 +11,21 @@
 <link rel="stylesheet" href="../../../resources/css/notice/noticeList-style.css">
 </head>
 <body>
-<jsp:include page="../common/menuBar.jsp"></jsp:include>
-	<div class="s-menu">
-		<div class="s-menu-title">
-			<p>공지게시판
-				<i class="fa-solid fa-pen-to-square fa-lg"></i>
-		</div>
-		<div class="s-list-item ${listCondition eq 'community' ? 'active' : ''}"><a href="/community/list.sw?docStatus=전체">자유게시판</a></div>
-		<div class="s-list-item ${listCondition eq 'notice' ? 'active' : ''}"><a href="/notice/list.sw?docStatus=전체">공지게시판</a></div>
-		<div class="s-list-item ${listCondition eq 'fileBoard' ? 'active' : ''}"><a href="/fileBoard/list.sw?docStatus=전체">자료실</a></div>
-	</div>
-	
-	<div id="marging">
-	</div>
-	<div id="coreDiv">
-		<div id="position">
-			<div id="contents">
-		
+<jsp:include page="noticeMenu.jsp"></jsp:include>
+	<div class="s-container">
+		<h2 id="h-title">공지게시판 목록</h2>
+		<br>
 			<table align="center" class="type04">
-			<tr>
-				<th colspan="2">제목</th>
-				<th>작성자</th>
-				<th>작성일</th>
-				<th>조회수</th>
-			</tr>
-					<c:if test ="${fn:length(nList) eq 0}"> <!-- list의 길이를 구해서 길이가 0이면 해당 문구를 출력 -->
+			<thead>
+				<tr>
+					<th colspan="2" class="th-3">&nbsp;&nbsp;&nbsp;제 목</th>
+					<th class="th-2">작성자</th>
+					<th class="th-2">작성일</th>
+					<th class="th-1">조회수</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:if test ="${fn:length(nList) eq 0}"> <!-- list의 길이를 구해서 길이가 0이면 해당 문구를 출력 -->
 						<tr>
 							<td colspan = "5">검색 정보가 없습니다.</td>
 						</tr>
@@ -43,20 +33,22 @@
 					<c:set var="num" value="${totalCount - ((currentPage-1) * 10) }"/>
 					<c:forEach items="${nList }" var="notice">
 							<tr>
-								<td class="comNoTd">${num} </td>
+								<td id="no">${num} </td>
 									<c:url var="nDetail" value="/notice/detail.sw">
 										<c:param name="noticeNo" value="${notice.noticeNo }"></c:param>
 									</c:url>
-								<td class="comTitleTd"><a href ="${nDetail}">${notice.noticeTitle }</a></td>
-								<td class="defualtTd">${notice.member.memberName }</td>
-								<td class="defualtTd">${notice.noticeDate }</td>
-								<td class="defualtTd">${notice.noticeView }</td>		
+								<td><a href ="${nDetail}">${notice.noticeTitle }</a></td>
+								<td>${notice.member.memberName }</td>
+								<td>${notice.noticeDate }</td>
+								<td>${notice.noticeView }</td>		
 							</tr>
 							<c:set var="num" value="${num-1 }"></c:set>
 					</c:forEach>
-			</table>
-				
+			</tbody>
+		</table>
+		<div class="paging">
 			<jsp:include page="noticePaging.jsp"></jsp:include>
+		</div>
 			<div class="l-search">
 				<form action="/notice/search.sw" method="get" name="searchForm">
 					<select name="searchCondition" class="l-search" style="text-align: left; width: 80px;">
@@ -71,9 +63,7 @@
 					</div>
 				</form>
 			</div>
-		</div>
-	</div>
-</div>
+			</div>
 
 <script>
 
