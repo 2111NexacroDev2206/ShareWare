@@ -25,6 +25,9 @@
 		<div id="position">
 			<div id="contents">
 				<div class="WriteDiv">작성자 : ${notice.member.memberName }</div>
+				<div class="optionBtnDiv">
+					<button type="button" id="return" onclick="location.href='/fileBoard/list.sw'">목록</button>
+				</div>
 				<div class="dateDiv">작성일 : ${notice.noticeDate}</div>
 				<div id="notice-TileDiv">${notice.noticeTitle}</div>
 				<div id="notice-ContentDiv">${notice.noticeContent}

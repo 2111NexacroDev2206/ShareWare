@@ -39,7 +39,7 @@
   	</select>
   	<select id="selectListReservation" resultMap ="MeetingRoomResultMap">
   	<![CDATA[
-		SELECT * FROM MEETING_ROOM WHERE MEMBER_NUM = #{memberNum} AND TO_DATE(SYSDATE, 'yyyy mm dd') <= TO_DATE(MR_DATE, 'yyyy mm dd') AND MR_RESERVATION = 1 ORDER BY MR_DATE ASC
+		SELECT MEMBER_NUM, MR_NO, DATE_FORMAT(MR_DATE,'%Y-%M-%D'), MR_TIME, MR_RESERVATION FROM MEETING_ROOM WHERE MEMBER_NUM = #{memberNum} AND TO_DATE(SYSDATE, 'yyyy mm dd') <= TO_DATE(MR_DATE, 'yyyy mm dd') AND MR_RESERVATION = 1 ORDER BY MR_DATE ASC
 		]]>
   	</select>
   	

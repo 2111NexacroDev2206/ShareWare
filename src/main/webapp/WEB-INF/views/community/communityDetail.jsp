@@ -36,6 +36,9 @@
 								<button type="button" id="delete" onclick="deleteCommunity(replyCount)">삭제</button>
 								</div>
 							</c:if>
+							<div class="optionBtnDiv">
+								<button type="button" id="return" onclick="location.href='/fileBoard/list.sw'">목록</button>
+							</div>
 							<div class="dateDiv">작성일 : ${community.comDate}</div>
 							
 							<div id="community-TileDiv">${community.comTitle}</div>

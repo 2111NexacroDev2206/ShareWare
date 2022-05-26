@@ -1,13 +1,12 @@
 package org.kh.shareware.notice.domain;
 
-import java.sql.Date;
 
 import org.kh.shareware.member.domain.Member;
 
 public class Notice {
 	private int noticeNo;
 	private String memberNum;
-	private Date noticeDate;
+	private String noticeDate;
 	private String noticeTitle;
 	private String noticeContent;
 	private int noticeView;
@@ -29,7 +28,7 @@ public class Notice {
 
 	public Notice() {}
 
-	public Notice(int noticeNo, String memberNum, Date noticeDate, String noticeTitle, String noticeContent,
+	public Notice(int noticeNo, String memberNum, String noticeDate, String noticeTitle, String noticeContent,
 			int noticeView, String noticeImgName, String noticeImgRemane, String noticeImgPath, String noticeDelete,
 			int noticeVoteno) {
 		super();
@@ -62,11 +61,11 @@ public class Notice {
 		this.memberNum = memberNum;
 	}
 
-	public Date getNoticeDate() {
+	public String getNoticeDate() {
 		return noticeDate;
 	}
 
-	public void setNoticeDate(Date noticeDate) {
+	public void setNoticeDate(String noticeDate) {
 		this.noticeDate = noticeDate;
 	}
 

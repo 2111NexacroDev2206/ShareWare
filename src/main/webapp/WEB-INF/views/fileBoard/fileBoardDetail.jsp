@@ -13,7 +13,7 @@
 <jsp:include page="../common/menuBar.jsp"></jsp:include>
 	<div class="s-menu">
 		<div class="s-menu-title">
-			<p>자유게시판
+			<p>자료실
 				<i class="fa-solid fa-pen-to-square fa-lg"></i>
 		</div>
 		<div class="s-list-item ${listCondition eq 'community' ? 'active' : ''}"><a href="/community/list.sw?docStatus=전체">자유게시판</a></div>
@@ -35,6 +35,9 @@
 							<input type="button" id="upload" onclick="location.href='${update}'" value="수정"/>
 							<button type="button" id="delete" onclick="deletefileBoard()">삭제</button>
 						</c:if>
+					</div>
+					<div class="optionBtnDiv">
+						<button type="button" id="return" onclick="location.href='/fileBoard/list.sw'">목록</button>
 					</div>
 				<div class="dateDiv">작성일 : ${fileBoard.fileBoardDate}</div>
 				<div id="file-TileDiv">${fileBoard.fileBoardTitle}</div>
