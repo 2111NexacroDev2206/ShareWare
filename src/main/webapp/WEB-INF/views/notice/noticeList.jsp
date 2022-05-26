@@ -51,7 +51,7 @@
 		</div>
 			<div class="l-search">
 				<form action="/notice/search.sw" method="get" name="searchForm">
-					<select name="searchCondition" class="l-search" style="text-align: left; width: 80px;">
+					<select name="searchCondition" class="l-search" style="text-align: left; width: 80px; border: solid 1px rgb(190, 190, 190); border-radius: 4px;">
 						<option value="all">전체</option>
 						<option value="writer">작성자</option>
 						<option value="title">제목</option>
