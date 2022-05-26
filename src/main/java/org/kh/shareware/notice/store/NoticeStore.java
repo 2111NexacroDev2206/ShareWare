@@ -23,12 +23,16 @@ public interface NoticeStore {
 	// 홈 - 공지사항
 	List<Notice> selectAllHomeNotice(SqlSession sqlsession);
 	//넥사크로 글 작성
-	int insertNotice(SqlSession sqlsession, String memberNum);
+	int insertNotice(SqlSession sqlsession, Notice newNotice);
 	//넥사크로 글 수정
-	int updateNotice(SqlSession sqlsession, Notice notice);
+	int updateNotice(SqlSession sqlsession, Notice newNotice);
 	//넥사크로 리스트
 	List<Notice> selectAdminList(SqlSession sqlsession);
 	//넥사크로 검색
 	List<Notice> selectAdminSearch(SqlSession sqlsession, Search search);
+	//넥사크로 상세보기
+	Notice selectOneAdminNotice(SqlSession sqlsession, int noticeNo);
+	//넥사크로 글 삭제
+	int deleteAdminNotice(SqlSession sqlsession, int noticeNo);
 
 }

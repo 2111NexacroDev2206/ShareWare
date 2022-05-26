@@ -37,6 +37,11 @@ a {
     width: 1200px;
 	background-color:rgb(255, 255, 255);
 }
+.optionBtnDiv{
+    height: 32px;
+    width: auto;
+    float: right;
+  }
 
 
 .WriteDiv{
@@ -51,6 +56,19 @@ a {
   width: 150px;
   float: right;
 }
+
+.optionBtnDiv #return{
+    width: 80px;
+    height: 32px;
+    border-radius: 5px;
+    border: 1px solid rgb(147, 169, 209);
+    background-color: rgb(255, 255, 255);
+    font-size: 15px;
+    font-weight:bold;
+    float: right;
+    color: black;
+}
+
 
 
 .optionBtnDiv{

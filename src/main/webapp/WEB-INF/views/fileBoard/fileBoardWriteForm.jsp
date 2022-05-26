@@ -33,7 +33,7 @@
 							<input type="text" id="fileTitle" placeholder="글 제목을 입력해주세요.">
 						</div>
 						<div id="fileBoard-ContentDiv">
-								<textarea id="fileContent" rows="" cols=""></textarea>
+								<textarea id="fileContent" rows="" cols="" placeholder="글 제목을 입력해주세요."></textarea>
 						</div>
 						<div class="fileDiv">
 							<input class="upload-name" value="파일선택" disabled="disabled">				
@@ -47,6 +47,18 @@
 	</div>
 	<script>
 	
+	$(document).ready(function(){ 
+		var fileTarget = $('.fileDiv #fileName'); 
+		fileTarget.on('change', function(){ 
+			// 값이 변경되면 
+			if(window.FileReader)
+			{ // modern browser
+			 var filename = $(this)[0].files[0].name; 
+			} else { 
+				// old IE 
+				var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
+			} // 추출한 파일명 삽입 
+			$(this).siblings('.upload-name').val(filename); }); });
 
 	const fileInput = $("#fileName")[0];
 	

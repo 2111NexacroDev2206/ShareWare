@@ -159,6 +159,8 @@ public class MeetingRoomController {
 			PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
 					
 			List<MeetingRoom> mList = mService.reservationList(pi,memberNum);
+			
+			
 			if(mList != null) {
 				model.addAttribute("mList", mList);
 				model.addAttribute("pi", pi);
