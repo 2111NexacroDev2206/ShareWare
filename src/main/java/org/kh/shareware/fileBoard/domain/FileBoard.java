@@ -14,7 +14,6 @@ private int fileBoardView;
 private String fileName;
 private String fileRename;
 private String filePath;
-private String fileDelete;
 
 private Member member;
 
@@ -29,7 +28,7 @@ public void setMember(Member member) {
 public FileBoard() {}
 
 public FileBoard(int fileBoardNo, String memberNum, Date fileBoardDate, String fileBoardTitle, String fileBoaedContent,
-		int fileBoardView, String fileName, String fileRename, String filePath, String fileDelete) {
+		int fileBoardView, String fileName, String fileRename, String filePath) {
 	super();
 	this.fileBoardNo = fileBoardNo;
 	this.memberNum = memberNum;
@@ -40,7 +39,6 @@ public FileBoard(int fileBoardNo, String memberNum, Date fileBoardDate, String f
 	this.fileName = fileName;
 	this.fileRename = fileRename;
 	this.filePath = filePath;
-	this.fileDelete = fileDelete;
 }
 
 public int getFileBoardNo() {
@@ -115,20 +113,11 @@ public void setFilePath(String filePath) {
 	this.filePath = filePath;
 }
 
-public String getFileDelete() {
-	return fileDelete;
-}
-
-public void setFileDelete(String fileDelete) {
-	this.fileDelete = fileDelete;
-}
-
 @Override
 public String toString() {
 	return "FileBoard [fileBoardNo=" + fileBoardNo + ", memberNum=" + memberNum + ", fileBoardDate=" + fileBoardDate
 			+ ", fileBoardTitle=" + fileBoardTitle + ", fileBoaedContent=" + fileBoaedContent + ", fileBoardView="
-			+ fileBoardView + ", fileName=" + fileName + ", fileRename=" + fileRename + ", filePath=" + filePath
-			+ ", fileDelete=" + fileDelete + "]";
+			+ fileBoardView + ", fileName=" + fileName + ", fileRename=" + fileRename + ", filePath=" + filePath +"]";
 }
 
 

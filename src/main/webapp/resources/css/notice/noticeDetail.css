@@ -37,14 +37,9 @@ a {
     width: 1200px;
 	background-color:rgb(255, 255, 255);
 }
-.optionBtnDiv{
-    height: 32px;
-    width: auto;
-    float: right;
-  }
-
 
 .WriteDiv{
+    margin-top: 15px;
     height: 20px;
     width: 880px;
     float: left;
@@ -52,6 +47,7 @@ a {
 
 
 .dateDiv{
+ margin-top: 15px;
   height: 20px;
   width: 150px;
   float: right;
@@ -59,7 +55,7 @@ a {
 
 .optionBtnDiv #return{
     width: 80px;
-    height: 32px;
+    height: 40px;
     border-radius: 5px;
     border: 1px solid rgb(147, 169, 209);
     background-color: rgb(255, 255, 255);
@@ -68,41 +64,12 @@ a {
     float: right;
     color: black;
 }
-
-
 
 .optionBtnDiv{
     height: 32px;
-    width: 168px;
+    width: 90px;
     float: right;
   }
-
-
-.optionBtnDiv #upload{
-    margin-left: 3px;
-    margin-right: 3px;
-    width: 80px;
-    height: 32px;
-    border-radius: 5px;
-    border: 1px solid rgb(147, 169, 209);
-    background-color: rgb(147, 169, 209);
-    font-size: 15px;
-    font-weight:bold;
-    float: right;
-    color: white;
-}
-
-.optionBtnDiv #delete{
-    width: 80px;
-    height: 32px;
-    border-radius: 5px;
-    border: 1px solid rgb(147, 169, 209);
-    background-color: rgb(255, 255, 255);
-    font-size: 15px;
-    font-weight:bold;
-    float: right;
-    color: black;
-}
 
 #notice-TileDiv{
     float: left;
