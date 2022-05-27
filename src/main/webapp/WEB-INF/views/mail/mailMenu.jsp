@@ -145,7 +145,7 @@ padding-top: 15px;
 					</div>
 			</div>
 			<div class="mailTemList">
-				<div class="m-list-item"><a href="/mail/mailTemListView.sw"><i class="fa-solid fa-folder-open"></i>&nbsp;임시 저장함</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="color: green;">${totalCount}</strong></div>
+				<div class="m-list-item"><a href="/mail/mailTemListView.sw"><i class="fa-solid fa-folder-open"></i>&nbsp;임시 저장함</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="color: green;">${totalTemCount}</strong></div>
 			</div>
 			</div>	
 			<jsp:include page="mailBmkModal.jsp"></jsp:include>

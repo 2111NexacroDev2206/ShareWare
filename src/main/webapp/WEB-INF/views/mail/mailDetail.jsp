@@ -30,7 +30,7 @@
 	.mailWriteMenu {
 		float: left;
 		margin-top: 120px;
-		margin-left: 600px;
+		margin-left: 480px;
 		
 		
 	}
@@ -91,6 +91,16 @@
 .m-detail {
 	margin-right: 40px;
 }
+#file-square {
+	border: 1px solid rgb(51, 51, 51);
+	border-radius: 4px;
+	 padding-bottom: 30px;
+	 padding-top: 20px;
+	 margin-right: 200px;
+	 margin-left: 100px;
+	 
+	
+}
 </style>
 
 
@@ -99,35 +109,116 @@
 	<jsp:include page="../common/menuBar.jsp"></jsp:include>
 	<jsp:include page="../mail/mailMenu.jsp"></jsp:include>
 	<script type="text/javascript">
-		function deleteAll() {
-			$.ajax({
+	function refreshList(){ //실행시 재로드
+		location.reload();
+	}
+	function detailDelete(obj) {
+		if(confirm("메일을 삭제하시겠습니까?")) {
+			var inputTag = $(obj).prev();
+			var paramObj = {};
+			var paramData = inputTag[0].value.split("/");
+			paramObj.mailNo = paramData[0];
+			paramObj.rNo = paramData[1]; 
+			paramObj.refYn = paramData[2];
+			paramObj.mailCate = paramData[3];
+			paramObj.mailType = paramData[4];
+			$.ajax({				
 				url : '/mail/mailDelete.sw',
 				type : 'get',
-				traditional : true,
-				data : {
-					mailNo : mailNo
-				//보내는 변수
-				},
+				data : { "paramObj" : JSON.stringify(paramObj) },
 				success : function(data) {
-						
-						location.replace("/mail/mailListView.sw")//page로 새로고침
-					
+					debugger;
+					if (data == "success") {
+						alert("삭제되었습니다.");
+						location.href="/mail/"+paramData[3]+"mailListView.sw"
+// 						refreshList();
+					} else {
+						alert("실패했습니다.")
+					}
 				}
 			});
-		};
+		}
+	}
+	// 답장
+    function replyMail() {
+       var mailNo= ${mail.mailNo};
+          location.href='/mail/mailReplyView.sw?mailNo='+mailNo;
+       
+    }
+ // 전달
+    function relayMail() {
+       var mailNo= ${mail.mailNo};
+          location.href='/mail/mailRelayView.sw?mailNo='+mailNo;
+       
+    }
+    function impValue(obj) {
+		var mailCategory = document.querySelector("#mailCategory").value;
+		var inputTag = $(obj).prev();
+		var paramObj = {};
+		var paramData = inputTag[0].value.split("/");
+		paramObj.mailNo = paramData[0];
+		paramObj.rNo = paramData[1]; 
+		paramObj.refYn = paramData[2];
+		paramObj.mailCate = paramData[3];
+		paramObj.mailType = paramData[4];
+			
+		console.log(paramObj);
+		$.ajax({				
+			url : '/mail/registerI.sw',
+			type : 'get',
+			traditional : true,
+			data : { "paramObj" : JSON.stringify(paramObj) },
+			success : function(data) {
+				if (data) {
+					alert("중요메일함에 추가되었습니다.");
+					
+					refreshList();
+				} else {
+					alert("실패했습니다.")
+				}
+			}
+		});
+	}
+	function impCancel(obj) {
+		var mailCategory = document.querySelector("#mailCategory").value;
+		var inputTag = $(obj).prev();
+		var paramObj = {};
+		var paramData = inputTag[0].value.split("/");
+		paramObj.mailNo = paramData[0];
+		paramObj.rNo = paramData[1]; 
+		paramObj.refYn = paramData[2];
+		paramObj.mailCate = paramData[3];
+		paramObj.mailType = paramData[4];
+			
+		console.log(paramObj);
+		$.ajax({				
+			url : '/mail/cancelI.sw',
+			type : 'get',
+			traditional : true,
+			data : { "paramObj" : JSON.stringify(paramObj) },
+			success : function(data) {
+				if (data) {
+					alert("중요메일함에서 삭제되었습니다.");
+					
+					refreshList();
+				} else {
+					alert("실패했습니다.")
+				}
+			}
+		});
+	}
 	</script>
-	<form action="/mail/mailDetailView.sw" method="post" enctype="multipart/form-data">
+	<form action="/mail/${mailCategory }mailDetailView.sw" method="post" enctype="multipart/form-data">
 		<div>
-		
-   	 			<div class="mailHeader">
+	 		<div class="mailHeader">
 	   	 		<div class= "mailWriteMenu">
-					<c:url var="mDelete" value="/mail/mailDelete.sw">
-					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
-						</c:url> 
-						<div class="m-detail">
-					<button type="submit" id="delete" class="btn-mail " onclick="javascript: form.action='/mail/mailTemListView.sw'"><a href="${mDelete}">메일 삭제</a></button>
+					<div class="m-detail">
+					<input name="m-value" type="hidden" value="${mail.mailNo}/${mail.recNo}/${mail.refYn }/${mailCategory}/${mail.mailType}" />
+					<button type="submit" id="delete" class="btn-mail " onclick="detailDelete(this);">메일 삭제</button>
+					<button type="button" class="btn-mail" onclick= "replyMail();" > 답장하기</button>
+					<button type="button" class="btn-mail"  onclick= "relayMail();"> 전달하기</button>
 					<%-- <c:if test="${mailCategory == 'S' }"> --%>
-					<button type="submit" class="btn-mail "  onclick="javascript: form.action='/mail/mailListView.sw'">목록</button>
+					<button type="submit" class="btn-mail "  onclick="javascript: form.action='/mail/${mailCategory}mailListView.sw'">목록</button>
 				<%-- 	</c:if> --%>
 					<%-- <c:if test="${mailCategory == 'R' }">
 					<button type="submit"  onclick="javascript: form.action='/mail/RmailListView.sw'">목록</button>
@@ -147,16 +238,30 @@
 			<div id="mailRegister">
 				<div>
 				<input type="hidden" name="mailNo" value="${mail.mailNo}" >
-				
-				<div style="float:right;">
+				<br>
+				<div style="float:right; margin-right: 200px;">
 					<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${mail.mailToDate}</div>
+						&nbsp;&nbsp;&nbsp;&nbsp;<strong>${mail.mailToDate}</strong>&nbsp;&nbsp;</div>
 					</div>
 				</div>
+				<br>
 					<div>
-						<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<h2>&nbsp;&nbsp;&nbsp;&nbsp;<i class="far fa-star"></i>&nbsp;&nbsp;&nbsp;&nbsp;${mail.mailSubject}</h2></div>
+						<div>
+						<h2>
+						<span>
+							<input name="m-value" type="hidden" value="${mail.mailNo}/${mail.recNo}/${mail.refYn }/${mailCategory}/${mail.mailType}" />
+							<c:if test="${mail.recImpStatus eq '0'}">
+								<a href="javascript:void(0)" onclick="impValue(this);" id="m-value"><i class="fa-regular fa-star"></i></a>
+							</c:if>
+							<c:if test="${mail.recImpStatus eq '1'}">
+								<a href="javascript:void(0)" onclick="impCancel(this);" id="m-value"><i class="fa-solid fa-star"></i></a>
+							</c:if>
+						</span>	
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<c:if test="${mailCategory == 'R' }"><i class="fa-solid fa-paper-plane" style="color:grey;"></i></c:if>
+						<c:if test="${mailCategory == 'S' }"><i class="fa-solid fa-inbox" style="color:grey;"></i></c:if>
+						<c:if test="${mailCategory == 'M' }"><i class="fa-solid fa-file-lines" style="color:grey;"></i></c:if>
+						<c:if test="${mailCategory == 'F' }"><i class="fa-solid fa-file-lines" style="color:grey;"></i></c:if>&nbsp;&nbsp;${mail.mailSubject}</h2></div>
 					</div>
 					<br>
 					<div>
@@ -184,12 +289,17 @@
 			<br>
 			
 		<div id="mailContent">	
-			<div class="filebox" style="float:left;">&emsp;&emsp;&nbsp;&nbsp;<i class="fa-solid fa-paperclip"></i>&nbsp;&nbsp;<strong>첨부파일</strong>&ensp;</div>
+			<div class="filebox" style="float:left;">&emsp;&emsp;&nbsp;&nbsp;<strong><i class="fa-solid fa-paperclip" style="color:grey;"></i></strong>&nbsp;&nbsp;<strong>첨부파일</strong>&ensp;</div>
 			<br>
+			<br>			<c:if test="${mail.fStatus eq '1' }">
+							<div id="file-square">
 							<c:forEach items="${mailFile }" var="mailFile">
-							<div id=""><a href="/resources/mUploadFiles/${mailFile.mailFileRename}"download>${mailFile.mailFileName}</a>
-							</div>
+							&emsp;<i class="fa-solid fa-file-arrow-down" style="color: grey"></i>&nbsp;&nbsp;<a href="/resources/mUploadFiles/${mailFile.mailFileRename}"download>${mailFile.mailFileName}</a><br>
 							</c:forEach>
+							</div>
+							</c:if>
+							<c:if test="${mail.fStatus eq '0' }">
+							</c:if>
 			
 			<br>
 			<br>

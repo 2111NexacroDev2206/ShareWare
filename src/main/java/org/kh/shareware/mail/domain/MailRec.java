@@ -4,15 +4,19 @@ public class MailRec {
 	private int mailNo;
 	private String mailReceiver;
 	private int recNo;
-	private String mailToAddr;
-	
+	private String recStatus;
+	private String recImpStatus;
+	private String recReadType;
 	public MailRec(){}
-	public MailRec(int mailNo, String mailReceiver, int recNo, String mailToAddr) {
+	public MailRec(int mailNo, String mailReceiver, int recNo, String recStatus, String recImpStatus,
+			String recReadType) {
 		super();
 		this.mailNo = mailNo;
 		this.mailReceiver = mailReceiver;
 		this.recNo = recNo;
-		this.mailToAddr = mailToAddr;
+		this.recStatus = recStatus;
+		this.recImpStatus = recImpStatus;
+		this.recReadType = recReadType;
 	}
 	public int getMailNo() {
 		return mailNo;
@@ -32,17 +36,32 @@ public class MailRec {
 	public void setRecNo(int recNo) {
 		this.recNo = recNo;
 	}
-	public String getMailToAddr() {
-		return mailToAddr;
+	public String getRecStatus() {
+		return recStatus;
 	}
-	public void setMailToAddr(String mailToAddr) {
-		this.mailToAddr = mailToAddr;
+	public void setRecStatus(String recStatus) {
+		this.recStatus = recStatus;
+	}
+	public String getRecImpStatus() {
+		return recImpStatus;
+	}
+	public void setRecImpStatus(String recImpStatus) {
+		this.recImpStatus = recImpStatus;
+	}
+	public String getRecReadType() {
+		return recReadType;
+	}
+	public void setRecReadType(String recReadType) {
+		this.recReadType = recReadType;
 	}
 	@Override
 	public String toString() {
-		return "MailRec [mailNo=" + mailNo + ", mailReceiver=" + mailReceiver + ", recNo=" + recNo + ", mailToAddr="
-				+ mailToAddr + "]";
+		return "MailRec [mailNo=" + mailNo + ", mailReceiver=" + mailReceiver + ", recNo=" + recNo + ", recStatus="
+				+ recStatus + ", recImpStatus=" + recImpStatus + ", recReadType=" + recReadType + "]";
 	}
+
+	
+	
 	
 	
 }

@@ -1,10 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="<%= request.getContextPath()%>"></c:set>
 <!DOCTYPE html>
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+
 <style type="text/css">
 	#bmk {
 		float: left;
@@ -80,10 +85,14 @@
 #write {
 	color: grey;
 }
+
+
 </style>
 
 
 </head>
+
+
 
 <body>
 	<jsp:include page="../common/menuBar.jsp"></jsp:include>
@@ -98,7 +107,6 @@
 					<button type="submit"class="btn-mail"  style=" width:110px;" onclick= "javascript: form.action='mailRegister.sw'"><i class="fa-solid fa-paper-plane"></i>&nbsp;<strong>보내기</strong></button>&nbsp;&nbsp;
 						<button type="submit" class="btn-mail" onclick= "javascript: form.action='mailTemRegister.sw'"><i class="fa-solid fa-download"></i>&nbsp;<strong>임시 저장</strong></button>
 						<button type="submit" class="btn-mail" onclick= "javascript: form.action='mailAppRegister.sw'"><i class="fa-solid fa-user-check"></i>&nbsp;<strong>승인 메일</strong></button>
-						<button type="button" class="btn-mail" >발송 예약</button>
 						<a href="/mail/WriteMyView.sw"><i class="fa-solid fa-rotate"></i>내게 쓰기</a>&nbsp;&nbsp;
 					</div>
 				</div>
@@ -127,9 +135,9 @@
 			</div> 
 			<br>
 			<br>
-			<div>
-				<div><textarea rows="25" cols="160" name="mailContent"></textarea></div>
-			</div>	
+			
+				<textarea rows="25" cols="160" name="mailContent" id="mailContent"></textarea>
+			
 		</div>
 		</form>
 		<jsp:include page="../mail/mailAddrModal.jsp"></jsp:include>
@@ -222,5 +230,6 @@
 			$("input[name='mailReceiver']").val(arrText4.join(" "))
 			
 		}
+		
 		</script>
 </html>

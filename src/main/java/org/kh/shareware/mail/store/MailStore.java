@@ -15,7 +15,6 @@ import org.kh.shareware.mail.domain.MailRef;
 public interface MailStore {
 
 	
-
 	public int insertMail(Mail mail, SqlSession sqlSession);
 
 	public int insertMailFile(MailFile mailFile, SqlSession sqlSession);
@@ -68,13 +67,13 @@ public interface MailStore {
 	
 	public List<MailFile> selectOneTemMailFile(SqlSession sqlSession, int mailNo);
 
-	public int deleteMail(SqlSession sqlSession, int mailNo);
+	public int deleteMail(SqlSession sqlSession, int values);
 
-	public int deleteMailRec(SqlSession sqlSession,  int mailNo);
+	public int deleteMailRec(SqlSession sqlSession,  int values);
 
-	public int deleteMailRef(SqlSession sqlSession,  int mailNo);
+	public int deleteMailRef(SqlSession sqlSession,  int values);
 
-	public int deleteMailFile(SqlSession sqlSession,  int mailNo);
+//	public int deleteMailFile(SqlSession sqlSession,  Mail mail);
 
 	public List<Mail> selectSearchMail(SqlSession sqlSession, Search search, PageInfo pi);
 
@@ -87,7 +86,7 @@ public interface MailStore {
 	//받은 메일함
 	public List<Mail> selectMail(SqlSession sqlSession, Mail mail, PageInfo pi);
 	public List<MailRec> selectMailRecList(SqlSession sqlSession, MailRec mailRec);
-
+	public List<MailRef> selectMailRefList(SqlSession sqlSession, MailRef mailRef);
 	public List<Mail> selectRecMail(SqlSession sqlSession, Mail mail, PageInfo pi);
 
 	public List<Mail> selectMyMail(SqlSession sqlSession, Mail mail, PageInfo pi);
@@ -109,22 +108,20 @@ public interface MailStore {
 	public int selectSearchListMyCount(SqlSession sqlSession, Search search);
 
 	public int selectSearchListFileCount(SqlSession sqlSession, Search search);
-
-	public int updateICount(SqlSession sqlSession, int mailNo);
-
-	public int insertiMail(Mail mail, SqlSession sqlSession);
+	//읽은 메일 상태값
+	public int updateICount(SqlSession sqlSession, Mail mail);
 	
-	public int insertiMailRec(Mail mail, SqlSession sqlSession);
+	public int updateRecCount(SqlSession sqlSession, Mail mail);
 
-	public int insertiMailMy(Mail mail, SqlSession sqlSession);
+	public int updateRefCount(SqlSession sqlSession, Mail mail);
 
-	public int insertiMailFile(Mail mail, SqlSession sqlSession);
-
+	public int insertiMail(int values, SqlSession sqlSession);
 	
+	public int insertiMailRec(int values, SqlSession sqlSession);
+
+	public int insertiMailRef(int values, SqlSession sqlSession);
 
 	public int insertBmk(SqlSession sqlSession, MailBmk mailBmk);
-
-	
 
 	public int insertAppMail(Mail mail, SqlSession sqlSession);
 
@@ -172,13 +169,29 @@ public interface MailStore {
 
 	public List<MailBmk> selectModalBmk(SqlSession sqlSession, MailBmk mailBmk);
 
+	//수신인 카운트
 	public int selectReceiverCount(SqlSession sqlSession, Mail mail);
+	//참조인 카운트
+	public int selectRefereeCount(SqlSession sqlSession, Mail mail);
+	//즐겨찾는 메일취소
+	public int deleteiMail(SqlSession sqlSession, int values);
+	
+	public int deleteiMailRec(SqlSession sqlSession, int values);
 
-	public int deleteiMail(SqlSession sqlSession, int mailNo);
+	public int deleteiMailRef(SqlSession sqlSession, int values);
 
 	public int deleteMailBmk(SqlSession sqlSession, MailBmk mailBmk);
 
 	public List<MailBmk> selectBmkList(SqlSession sqlSession, MailBmk mailBmk);
+
+	public int selectMailNo(SqlSession sqlSession, Mail mail);
+
+	
+	
+
+	
+
+	
 
 	
 

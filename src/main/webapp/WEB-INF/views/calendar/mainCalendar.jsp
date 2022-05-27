@@ -11,7 +11,8 @@
 <title>일정</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/jquery-latest.js"></script>
-
+<link href="/resources/css/approval/appModal-style.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.css">
@@ -375,7 +376,108 @@
     	});
     }
      
-           
+    function bmkSchedule() {
+    	$("#header2").html("주소록");
+    	$("#s-text2").html("주소");
+    	$("#bmkCalModal").css('display', 'flex').hide().fadeIn();
+    	$.ajax({
+    		url : "/modal/member/list.sw",
+    		type : "get",
+    		success : function(mList) {
+    			$("#bmk-value").val(""); // 검색 입력창 지우기
+    			appList3(mList);
+    		},
+    		error : function() {
+    			alert("사원 목록 조회 실패");
+    		}
+    	})
+    }     
+    $("#confirm-bmkCal").click(function(){
+    	appSelView();
+    	 $("#bmkCalModal").fadeOut();
+    });
+    $("#cancel-bmkCal").click(function(){
+    	$("#s-list2").val("");
+    	 $("#bmkCalModal").fadeOut();
+    });
+   
+    //참여자 선택 사원 검색
+    $("#btn-search2").click(function() {
+    	var searchCondition = $("#s-condition").val();
+    	var searchValue = $("#s-value").val(); 
+    	$.ajax({
+    		url : "/modal/member/search.sw",
+    		type : "get",
+    		data : { "searchCondition" : searchCondition,  "searchValue" : searchValue },
+    		success : function(mList) {
+    			appList2(mList);
+    		},
+    		error : function() {
+    			alert("사원 목록 검색 실패");
+    		}
+    	})
+    });
+    //사원 목록 불러오기
+    function appList3(mList) {
+    	$("#m-list-table2").html(""); // 테이블 값 지우기
+    	var tr;
+    	$.each(mList, function(i) {
+    		tr += '<tr class="tr"><td style="display:none;">' + mList[i].memberNum
+    		+ '</td><td>' + mList[i].division
+    		+ '</td><td>' + mList[i].memberName
+    		+ '</td><td>' + mList[i].rank 
+    		+ '</td><td>' + mList[i].mail + '</td></tr>';
+    	});
+    	$("#m-list-table2").append(tr);
+    	
+    	appSelect2(); // 참여자 선택
+    }
+
+
+    // 선택한 참여자 문서 작성 페이지에 표시
+    function appSelView2() {
+    	/* $("#m-bmk").html({mailBmk.bmkSubject}); */
+    	/* $("#mailRec").val('arrText.join("<br>")'); */
+    	$("input[name='mailReceiver']").val(arrText.join(" "))
+    }
+    function appSelect2() {
+    	$("#m-list-table2 tr").click(function(){
+    		var trArr = new Object(); // 한 행의 배열을 담을 객체 선언
+    		var tdArr = new Array(); // 배열 선언(사원번호, 부서, 이름, 직급)
+    		
+    		// 현재 클릭된 Row(<tr>)
+    		var tr = $(this);
+    		var td = tr.children();
+    					
+    		// 반복문을 이용해서 배열에 값을 담아 사용 가능
+    		td.each(function(i){
+    			tdArr.push(td.eq(i).text());
+    		});
+    		
+    		// td.eq(index)를 통해 값 가져와서 trArr 객체에 넣기
+    		trArr.memberNum = td.eq(0).text();
+    		trArr.division = td.eq(1).text();
+    		trArr.memberName = td.eq(2).text();
+    		trArr.rank = td.eq(3).text();
+    		trArr.mail = td.eq(4).text();
+    		
+    		// 객체에 데이터가 있는지 여부 판단
+    		var checkedArrIdx = _.findIndex(Arr, { memberNum : trArr.memberNum }); // 동일한 값 인덱스 찾기
+    		arrText = []; // 배열 비우기
+    		if(checkedArrIdx > -1) {
+    			_.remove(Arr, { memberNum : trArr.memberNum }); // 동일한 값 지우기
+    		}else {
+    			Arr.push(trArr);
+    		} arrText = [];
+    		Arr.forEach(function(el, index) {
+    			arrText.push(el.mail);
+    		});
+    		$("#s-list2").html("");
+    		$("#s-list2").html(arrText.join("<br>")); // 개행해서 s-list 영역에 출력
+    	});
+    }
+
+    
     </script>
 <style>
 #calendarBox {
@@ -509,9 +611,9 @@ strong {
 					</c:forEach> 
 		</div>
 				&nbsp;
-		<div class="s-list-item ${listCondition eq 'calBmk' ? 'active' : ''}">
+		<div class="s-list-item ${listCondition eq 'calBmk' ? 'active' : ''}" >
 			
-				&nbsp;&nbsp;&nbsp;<strong>관심 캘린더</strong>&nbsp;&nbsp;<i
+				<a href="javascript:bmkSchedule();"><strong>관심 캘린더</strong></a>&nbsp;&nbsp;<i
 					class="fa-solid fa-bookmark"></i>
 		</div>
 		&nbsp;
@@ -654,7 +756,7 @@ strong {
 		</div>
 	</div>
 	<jsp:include page="../calendar/calRegisterModal.jsp"></jsp:include>
-
+	<jsp:include page="../calendar/bmkCalModal.jsp"></jsp:include>
 
 
 	

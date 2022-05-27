@@ -108,19 +108,18 @@ public class MailServiceImpl implements MailService{
 		int result = mStore.deleteChkMailFile(sqlSession, values);
 		return result;
 	}
-
+	// 보낸 메일
 	@Override
 	public Mail printOneMail(int mailNo) {
 		Mail mail = mStore.selectOneMail(sqlSession, mailNo);
 		return mail;
 	}
-
+	//받은 메일
 	@Override
 	public List<MailRec> printOneMailRec(int mailNo) {
 		List<MailRec> mailRec = mStore.selectOneMailRec(sqlSession, mailNo);
 		return mailRec;
 	}
-	
 
 
 	@Override
@@ -177,32 +176,24 @@ public class MailServiceImpl implements MailService{
 
 
 	@Override
-	public int removeMail(int mailNo) {
-		int result = mStore.deleteMail(sqlSession, mailNo);
+	public int removeMail(int values) {
+		int result = mStore.deleteMail(sqlSession, values);
 		return result;
 	}
 
 
 	@Override
-	public int removeMailRec(int mailNo) {
-		int result = mStore.deleteMailRec(sqlSession, mailNo);
+	public int removeMailRec(int values) {
+		int result = mStore.deleteMailRec(sqlSession, values);
 		return result;
 	}
 
 
 	@Override
-	public int removeMailRef(int mailNo) {
-		int result = mStore.deleteMailRef(sqlSession, mailNo);
+	public int removeMailRef(int values) {
+		int result = mStore.deleteMailRef(sqlSession, values);
 		return result;
 	}
-
-
-	@Override
-	public int removeMailFile(int mailNo) {
-		int result = mStore.deleteMailFile(sqlSession, mailNo);
-		return result;
-	}
-
 
 	@Override
 	public int modifyTemMail(Mail mail) {
@@ -259,18 +250,25 @@ public class MailServiceImpl implements MailService{
 		return searchFileList;
 	}
 
-
+	//보낸메일
 	@Override
 	public List<Mail> printMail(Mail mail, PageInfo pi) {
 		List<Mail> mList = mStore.selectMail(sqlSession, mail, pi);
 		return mList;
 	}
+	//수신인 리스트
 	@Override
 	public List<MailRec> printMailRecList(MailRec mailRec) {
 		List<MailRec> cList = mStore.selectMailRecList(sqlSession, mailRec);
 		return cList;
 	}
-
+	//참조인 리스트
+	@Override
+	public List<MailRef> printMailRefList(MailRef mailRef) {
+		List<MailRef> refList = mStore.selectMailRefList(sqlSession, mailRef);
+		return refList;
+	}
+	
 
 	@Override
 	public List<Mail> printMailRec(Mail mail, PageInfo pi) {
@@ -346,11 +344,24 @@ public class MailServiceImpl implements MailService{
 		return totalmFileCount;
 	}
 
+	//읽은 메일 카운트
+	@Override
+	public int viewCountMail(Mail mail) {
+		int count = mStore.updateICount(sqlSession, mail);
+		return count;
+	}
+	
+	@Override
+	public int viewRecCountMail(Mail mail) {
+		int recCount = mStore.updateRecCount(sqlSession, mail);
+		return recCount;
+	}
+
 
 	@Override
-	public int viewCountMail(int mailNo) {
-		int count = mStore.updateICount(sqlSession, mailNo);
-		return count;
+	public int viewRefCountMail(Mail mail) {
+		int refCount = mStore.updateRefCount(sqlSession, mail);
+		return refCount;
 	}
 
 	@Override
@@ -359,34 +370,25 @@ public class MailServiceImpl implements MailService{
 		return result;
 	}
 
-
+	//중요메일 등록
 	@Override
-	public int regiesteriMailRec(Mail mail) {
-		int mRecResult = mStore.insertiMailRec(mail, sqlSession);
+	public int regiesteriMailRec(int values) {
+		int mRecResult = mStore.insertiMailRec(values, sqlSession);
 		return mRecResult;
 	}
 
 	@Override
-	public int regiesteriMail(Mail mail ){
-		int mResult = mStore.insertiMail(mail, sqlSession);
+	public int regiesteriMail(int values){
+		int mResult = mStore.insertiMail(values, sqlSession);
 		return mResult;
 		
 	}
 	@Override
-	public int regiesteriMailMy(Mail mail) {
-		int mMyResult = mStore.insertiMailMy(mail, sqlSession);
-		return mMyResult;
+	public int regiesteriMailRef(int values) {
+		int mRefResult = mStore.insertiMailRef(values, sqlSession);
+		return mRefResult;
 	}
-	@Override
-	public int regiesteriMailFile(Mail mail) {
-		int mFileResult = mStore.insertiMailFile(mail, sqlSession);
-		return mFileResult;
-	}
-
-
 	
-
-
 	@Override
 	public int registerAppMail(Mail mail) {
 		int mResult = mStore.insertAppMail(mail, sqlSession);
@@ -542,12 +544,23 @@ public class MailServiceImpl implements MailService{
 
 
 	@Override
-	public int removeiMail(int mailNo) {
-		int result = mStore.deleteiMail(sqlSession, mailNo);
+	public int removeiMail(int values) {
+		int result = mStore.deleteiMail(sqlSession, values);
+		return result;
+	}
+
+	@Override
+	public int removeiMailRec(int values) {
+		int result = mStore.deleteiMailRec(sqlSession, values);
 		return result;
 	}
 
 
+	@Override
+	public int removeiMailRef(int values) {
+		int result = mStore.deleteiMailRef(sqlSession, values);
+		return result;
+	}
 	
 
 	//모달 즐겨찾는 그룹 목록 
@@ -562,6 +575,11 @@ public class MailServiceImpl implements MailService{
 	public int getReceiverCount(Mail mail) {
 		int cTotalCount = mStore.selectReceiverCount(sqlSession, mail);
 		return cTotalCount;
+	}
+	@Override
+	public int getRefereeCount(Mail mail) {
+		int fTotalCount = mStore.selectRefereeCount(sqlSession, mail);
+		return fTotalCount;
 	}
 
 
@@ -579,6 +597,22 @@ public class MailServiceImpl implements MailService{
 	}
 
 
+	@Override
+	public int printMailNo(Mail mail) {
+		int noResult = mStore.selectMailNo(sqlSession, mail);
+		return noResult;
+	}
+
+
+	
+
+
+	
+	
+
+	
+
+	
 	
 
 	

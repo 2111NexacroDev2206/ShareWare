@@ -153,28 +153,21 @@ public class MailStoreLogic implements MailStore{
 	}
 
 	@Override
-	public int deleteMail(SqlSession sqlSession, int mailNo) {
-		int result = sqlSession.delete("MailMapper.deleteMail", mailNo);
+	public int deleteMail(SqlSession sqlSession, int values) {
+		int result = sqlSession.delete("MailMapper.deleteMail", values);
 		return result;
 	}
 
 	@Override
-	public int deleteMailRec(SqlSession sqlSession, int mailNo) {
-		int result = sqlSession.delete("MailMapper.deleteMailRec", mailNo);
-		return result;
-
-	}
-
-	@Override
-	public int deleteMailRef(SqlSession sqlSession, int mailNo) {
-		int result = sqlSession.delete("MailMapper.deleteMailRef", mailNo);
+	public int deleteMailRec(SqlSession sqlSession, int values) {
+		int result = sqlSession.delete("MailMapper.deleteMailRec", values);
 		return result;
 
 	}
 
 	@Override
-	public int deleteMailFile(SqlSession sqlSession, int mailNo) {
-		int result = sqlSession.delete("MailMapper.deleteMailFile", mailNo);
+	public int deleteMailRef(SqlSession sqlSession, int values) {
+		int result = sqlSession.delete("MailMapper.deleteMailRef", values);
 		return result;
 
 	}
@@ -245,6 +238,7 @@ public class MailStoreLogic implements MailStore{
 	}
 
 	//메일 목록
+	//보낸 메일함
 	@Override
 	public List<Mail> selectMail(SqlSession sqlSession, Mail mail, PageInfo pi) {
 		int limit = pi.getDocLimit();
@@ -254,12 +248,19 @@ public class MailStoreLogic implements MailStore{
 		List<Mail>  mList = sqlSession.selectList("MailMapper.selectMail", mail, rowBounds);
 		return mList;
 	}
+	//수신인 리스트
 	@Override
 	public List<MailRec> selectMailRecList(SqlSession sqlSession, MailRec mailRec) {
 		List<MailRec> cList = sqlSession.selectList("MailMapper.selectMailRecList", mailRec);
 		return cList;
 	}
-
+	//참조인 리스트
+	@Override
+	public List<MailRef> selectMailRefList(SqlSession sqlSession, MailRef mailRef) {
+		 List<MailRef> fList = sqlSession.selectList("MailMapper.selectMailRefList", mailRef);
+		return fList;
+	}
+	//받은 메일함
 	@Override
 	public List<Mail> selectRecMail(SqlSession sqlSession, Mail mail, PageInfo pi) {
 		int limit = pi.getDocLimit();
@@ -338,11 +339,22 @@ public class MailStoreLogic implements MailStore{
 	}
 	
 	@Override
-	public int updateICount(SqlSession sqlSession, int mailNo) {
-		int count = sqlSession.update("MailMapper.viewCount", mailNo);
+	public int updateICount(SqlSession sqlSession, Mail mail) {
+		int count = sqlSession.update("MailMapper.viewCount", mail);
 		return count;
 	}
+	
+	@Override
+	public int updateRecCount(SqlSession sqlSession, Mail mail) {
+		int recCount = sqlSession.update("MailMapper.viewRecCount", mail);
+		return recCount;
+	}
 
+	@Override
+	public int updateRefCount(SqlSession sqlSession, Mail mail) {
+		int refCount = sqlSession.update("MailMapper.viewRefCount", mail);
+		return refCount;
+	}
 
 	@Override
 	public int insertBmk(SqlSession sqlSession, MailBmk mailBmk) {
@@ -351,26 +363,20 @@ public class MailStoreLogic implements MailStore{
 	}
 
 	@Override
-	public int insertiMail(Mail mail, SqlSession sqlSession) {
-		int mResult = sqlSession.insert("MailMapper.insertiMail", mail);
+	public int insertiMail(int values, SqlSession sqlSession) {
+		int mResult = sqlSession.insert("MailMapper.insertiMail", values);
 		return mResult;
 	}
 	@Override
-	public int insertiMailRec(Mail mail, SqlSession sqlSession) {
-		int mRecResult = sqlSession.insert("MailMapper.insertiMailRec", mail);
+	public int insertiMailRec(int values, SqlSession sqlSession) {
+		int mRecResult = sqlSession.insert("MailMapper.insertiMailRec", values);
 		return mRecResult;
 	}
 
 	@Override
-	public int insertiMailMy(Mail mail, SqlSession sqlSession) {
-		int mMyResult = sqlSession.insert("MailMapper.insertiMailMy", mail);
-		return mMyResult;
-	}
-
-	@Override
-	public int insertiMailFile(Mail mail, SqlSession sqlSession) {
-		int mFileResult = sqlSession.insert("MailMapper.insertiMailFile", mail);
-		return mFileResult;
+	public int insertiMailRef(int values, SqlSession sqlSession) {
+		int mRefResult = sqlSession.insert("MailMapper.insertiMailRef", values);
+		return mRefResult;
 	}
 
 	@Override
@@ -473,7 +479,7 @@ public class MailStoreLogic implements MailStore{
 
 	@Override
 	public int selectIListCount(SqlSession sqlSession, Mail mail) {
-		int totalICount = sqlSession.selectOne("MailMapper.selectIListCount", mail);
+		int totalICount = sqlSession.selectOne("MailMapper.selectImpListCount", mail);
 		return totalICount;
 	}
 
@@ -483,7 +489,7 @@ public class MailStoreLogic implements MailStore{
 		int currentPage = pi.getCurrentPage();
 		int offset = (currentPage - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		 List<Mail> iList = sqlSession.selectList("MailMapper.selectIMail", mail, rowBounds);
+		 List<Mail> iList = sqlSession.selectList("MailMapper.selectImpMail", mail, rowBounds);
 		return iList;
 	}
 
@@ -495,19 +501,19 @@ public class MailStoreLogic implements MailStore{
 
 	@Override
 	public List<MailRec> selectOneIMailRec(SqlSession sqlSession, int mailNo) {
-		List<MailRec> mailRec = sqlSession.selectOne("MailMapper.selectOneIMailRec", mailNo);
+		List<MailRec> mailRec = sqlSession.selectList("MailMapper.selectOneIMailRec", mailNo);
 		return mailRec;
 	}
 
 	@Override
 	public List<MailRef> selectOneIMailRef(SqlSession sqlSession, int mailNo) {
-		List<MailRef> mailRef = sqlSession.selectOne("MailMapper.selectOneIMailRef", mailNo);
+		List<MailRef> mailRef = sqlSession.selectList("MailMapper.selectOneIMailRef", mailNo);
 		return mailRef;
 	}
 
 	@Override
 	public List<MailFile> selectOneIMailFile(SqlSession sqlSession, int mailNo) {
-		List<MailFile> mailFile = sqlSession.selectOne("MailMapper.selectOneIMailFile", mailNo);
+		List<MailFile> mailFile = sqlSession.selectList("MailMapper.selectOneIMailFile", mailNo);
 		return mailFile;
 	}
 
@@ -528,13 +534,28 @@ public class MailStoreLogic implements MailStore{
 		int cTotalCount = sqlSession.selectOne("MailMapper.selectReceiverCount", mail);
 		return cTotalCount;
 	}
-
 	@Override
-	public int deleteiMail(SqlSession sqlSession, int mailNo) {
-		int result = sqlSession.delete("MailMapper.deleteiMail", mailNo);
+	public int selectRefereeCount(SqlSession sqlSession, Mail mail) {
+		int fTotalCount = sqlSession.selectOne("MailMapper.selectRefereeCount", mail);
+		return fTotalCount;
+	}
+	//중요메일 취소
+	@Override
+	public int deleteiMail(SqlSession sqlSession, int values) {
+		int result = sqlSession.delete("MailMapper.deleteiMail", values);
+		return result;
+	}
+	@Override
+	public int deleteiMailRec(SqlSession sqlSession, int values) {
+		int result = sqlSession.delete("MailMapper.deleteiMailRec", values);
 		return result;
 	}
 
+	@Override
+	public int deleteiMailRef(SqlSession sqlSession, int values) {
+		int result = sqlSession.delete("MailMapper.deleteiMailRef", values);
+		return result;
+	}
 	@Override
 	public int deleteMailBmk(SqlSession sqlSession, MailBmk mailBmk) {
 		int result = sqlSession.delete("MailMapper.deleteMailBmk", mailBmk);
@@ -546,6 +567,20 @@ public class MailStoreLogic implements MailStore{
 		List<MailBmk> bmkList = sqlSession.selectList("MailMapper.selectBmkAllList",mailBmk);
 		return bmkList;
 	}
+
+	@Override
+	public int selectMailNo(SqlSession sqlSession, Mail mail) {
+		int noResult = sqlSession.selectOne("MailMapper.selectMailNo", mail);
+		return noResult;
+	}
+
+	
+	
+	
+
+	
+
+
 
 	
 	

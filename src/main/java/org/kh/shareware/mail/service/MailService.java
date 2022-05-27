@@ -35,9 +35,12 @@ public interface MailService {
 	//메일함 목록
 	//보낸 편지함
 	public List<Mail> printMail(Mail mail, PageInfo pi);
-	public List<MailRec> printMailRecList(MailRec mailRec);
 	//받은 편지함
 	public List<Mail> printMailRec(Mail mail, PageInfo pi);
+	//수신인 리스트
+	public List<MailRec> printMailRecList(MailRec mailRec);
+	//참조인 리스트
+	public List<MailRef> printMailRefList(MailRef mailRef);
 	// 내게 쓴 편지함
 	public List<Mail> printMailMy(Mail mail, PageInfo pi);
 	//파일 첨부함
@@ -90,13 +93,11 @@ public interface MailService {
 	
 	
 	//메일 삭제
-	public int removeMail(int mailNo);
+	public int removeMail(int values);
 
-	public int removeMailRec(int mailNo);
+	public int removeMailRec(int values);
 
-	public int removeMailRef(int mailNo);
-
-	public int removeMailFile(int mailNo);
+	public int removeMailRef(int values);
 	
 	//메일 검색 목록
 	public List<Mail> printSearchMail(Search search, PageInfo pi);
@@ -122,18 +123,21 @@ public interface MailService {
 	public int getSearchMailMyCount(Search search);
 
 	public int getSearchMailFileCount(Search search);
+	//메일 읽은메일 카운트
+	public int viewCountMail(Mail mail);
+	
+	public int viewRecCountMail(Mail mail);
 
-	public int viewCountMail(int mailNo);
+	public int viewRefCountMail(Mail mail);
 	
 	public int registerMailBmk(MailBmk mailBmk);
+	//즐겨찾는 메일 등록
+	public int regiesteriMail(int values);
 
-	public int regiesteriMail(Mail mail);
+	public int regiesteriMailRec(int values);
 
-	public int regiesteriMailRec(Mail mail);
+	public int regiesteriMailRef(int values);
 
-	public int regiesteriMailMy(Mail mail);
-
-	public int regiesteriMailFile(Mail mail);
 
 	public int registerAppMail(Mail mail);
 
@@ -178,22 +182,31 @@ public interface MailService {
 	public List<MailFile> printOneIMailFile(int mailNo);
 
 	public List<MailBmk> printBmk(MailBmk mailBmk);
+	//즐겨찾는 메일 삭제
+	public int removeiMail(int values);
 
-	public int removeiMail(int mailNo);
+	public int removeiMailRec(int values);
 
-//	public int removeiMailRec(Mail mail);
-//
-//	public int removeiMailMy(Mail mail);
-//
-//	public int removeiMailFile(Mail mail);
+	public int removeiMailRef(int values);
+
 
 	public List<MailBmk> printModalBmk(MailBmk mailBmk);
 
 	public int getReceiverCount(Mail mail);
+	
+	public int getRefereeCount(Mail mail);
 
 	public int deleteMailBmk(MailBmk mailBmk);
 
 	public List<MailBmk> printBmkList(MailBmk mailBmk);
+
+	public int printMailNo(Mail mail);
+
+	
+
+	
+
+	
 
 	
 

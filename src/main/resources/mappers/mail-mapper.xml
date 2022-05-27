@@ -25,19 +25,27 @@
 		<result property="resHour" column="RES_HOUR"/>
 		<result property="resMin" column="RES_MIN"/>
 		<result property="memNum" column="MEM_NUM"/>
+		<result property="mailStatus" column="MAIL_STATUS"/>
 		<result property="mailReceiver" column="MAIL_RECEIVER"/>
 		<result property="mailReferee" column="MAIL_REFEREE"/>
+		<result property="recStatus" column="REC_STATUS"/>
+		<result property="recNo" column="REC_NO"/>
+		<result property="recImpStatus" column="REC_IMP_STATUS"/>
+		<result property="recReadType" column="REC_READ_TYPE"/>
 		<result property="mailFileName" column="MAIL_FILE_NAME"/>
 		<result property="mailFileRename" column="MAIL_FILE_RENAME"/>
 		<result property="mailFilePath" column="MAIL_FILE_PATH"/>
+		<result property="refYn" column="REF_YN"/>
 		<collection property="recList" column="MAIL_NO" javaType="java.util.ArrayList" ofType="MailRec" select="selectMailRecList"/>
+		<collection property="refList" column="MAIL_NO" javaType="java.util.ArrayList" ofType="MailRef" select="selectMailRefList"/>
 	</resultMap>
 	
 	<resultMap type="MailRec" id="mailRecResultMap">
 		<id property="mailNo" column="MAIL_NO"/>	
 		<result property="mailReceiver" column="MAIL_RECEIVER"/>
 		<result property="recNo" column="REC_NO"/>
-		<result property="mailToAddr" column="MAIL_TO_ADDR"/>	
+		<result property="mailToAddr" column="MAIL_TO_ADDR"/>
+		<result property="recStatus" column="REC_STATUS"/>	
 	</resultMap> 
 	
 	<resultMap type="MailRef" id="mailRefResultMap">
@@ -45,6 +53,7 @@
 		<result property="mailReferee" column="MAIL_REFEREE"/>
 		<result property="refNo" column="REF_NO"/>
 		<result property="mailToAddr" column="MAIL_TO_ADDR"/>	
+		<result property="refStatus" column="REF_STATUS"/>	
 	</resultMap> 
 	
 	<resultMap type="MailFile" id="mailFileResultMap">
@@ -68,14 +77,14 @@
 	</resultMap> 
 		<!-- 일반메일 등록-->
 		<insert id="insertMail">
-		 	INSERT INTO MAIL(MAIL_NO, MAIL_TYPE, MAIL_SUBJECT, MAIL_CONTENT, MAIL_SENDER, MAIL_FROM_DATE, MAIL_COUNT, F_STATUS, I_STATUS, READ_TYPE, MEM_NUM) 
-			VALUES(SEQ_MAIL_NO.NEXTVAL, #{mailType}, #{mailSubject}, #{mailContent}, #{mailSender}, DEFAULT, DEFAULT, #{fStatus}, DEFAULT, DEFAULT, #{memNum}) 
+		 	INSERT INTO MAIL(MAIL_NO, MAIL_TYPE, MAIL_SUBJECT, MAIL_CONTENT, MAIL_SENDER, MAIL_FROM_DATE, MAIL_COUNT, F_STATUS, I_STATUS, READ_TYPE, MEM_NUM, MAIL_STATUS) 
+			VALUES(SEQ_MAIL_NO.NEXTVAL, #{mailType}, #{mailSubject}, #{mailContent}, #{mailSender}, DEFAULT, DEFAULT, #{fStatus}, DEFAULT, DEFAULT, #{memNum}, DEFAULT) 
 		</insert>
 		<insert id="insertMailRec">
-			INSERT INTO MAIL_REC(MAIL_NO, MAIL_RECEIVER, REC_NO) VALUES(SEQ_MAIL_NO.CURRVAL, #{mailReceiver}, SEQ_REC_NO.NEXTVAL) 
+			INSERT INTO MAIL_REC(MAIL_NO, MAIL_RECEIVER, REC_NO, REC_STATUS, REC_IMP_STATUS, REC_READ_TYPE) VALUES(SEQ_MAIL_NO.CURRVAL, #{mailReceiver}, SEQ_MAIL_INCOME.NEXTVAL, DEFAULT, DEFAULT, DEFAULT) 
 		</insert>
 		<insert id="insertMailRef">
-			INSERT INTO MAIL_REF(MAIL_NO, MAIL_REFEREE, REF_NO) VALUES(SEQ_MAIL_NO.CURRVAL, #{mailReferee}, SEQ_REF_NO.NEXTVAL)
+			INSERT INTO MAIL_REF(MAIL_NO, MAIL_REFEREE, REF_NO, REF_STATUS, REF_IMP_STATUS, REF_READ_TYPE) VALUES(SEQ_MAIL_NO.CURRVAL, #{mailReferee}, SEQ_MAIL_INCOME.NEXTVAL, DEFAULT, DEFAULT, DEFAULT)
 		</insert>
 		<insert id="insertMailFile">
 			INSERT INTO MAIL_FILE(MAIL_FILE_NO, MAIL_NO, MAIL_FILE_NAME, MAIL_FILE_RENAME, MAIL_FILE_PATH, MEM_NUM)
@@ -83,8 +92,8 @@
 		</insert>
 		<!--  임시저장 등록-->
 		<insert id="insertTemMail">
-			INSERT INTO MAIL(MAIL_NO, MAIL_TYPE, MAIL_SUBJECT, MAIL_CONTENT, MAIL_SENDER, MAIL_FROM_DATE, MEM_NUM) 
-			VALUES(SEQ_MAIL_NO.NEXTVAL, 'T', #{mailSubject}, #{mailContent}, #{mailSender}, DEFAULT, #{memNum}) 
+			INSERT INTO MAIL(MAIL_NO, MAIL_TYPE, MAIL_SUBJECT, MAIL_CONTENT, MAIL_SENDER, MAIL_FROM_DATE, MEM_NUM, F_STATUS) 
+			VALUES(SEQ_MAIL_NO.NEXTVAL, 'T', #{mailSubject}, #{mailContent}, #{mailSender}, DEFAULT, #{memNum}, #{fStatus}) 
 		</insert>
 		<insert id="insertTemMailRec">
 			INSERT INTO MAIL_REC(MAIL_NO, MAIL_RECEIVER, REC_NO) VALUES(SEQ_MAIL_NO.CURRVAL, #{mailReceiver}, SEQ_REC_NO.NEXTVAL) 
@@ -102,10 +111,10 @@
 			VALUES(SEQ_MAIL_NO.NEXTVAL, 'A', #{mailSubject}, #{mailContent}, #{mailSender}, DEFAULT, DEFAULT, #{fStatus}, DEFAULT, '대기', DEFAULT, DEFAULT, DEFAULT, #{memNum}) 
 		</insert>
 		<insert id="insertAppMailRec">
-			INSERT INTO MAIL_REC(MAIL_NO, MAIL_RECEIVER, REC_NO) VALUES(SEQ_MAIL_NO.CURRVAL, #{mailReceiver}, SEQ_REC_NO.NEXTVAL) 
+			INSERT INTO MAIL_REC(MAIL_NO, MAIL_RECEIVER, REC_NO, REC_IMP_STATUS, REC_READ_TYPE) VALUES(SEQ_MAIL_NO.CURRVAL, #{mailReceiver}, SEQ_REC_NO.NEXTVAL, DEFAULT, DEFAULT) 
 		</insert>
 		<insert id="insertAppMailRef">
-			INSERT INTO MAIL_REF(MAIL_NO, MAIL_REFEREE, REF_NO) VALUES(SEQ_MAIL_NO.CURRVAL, #{mailReferee}, SEQ_REF_NO.NEXTVAL)
+			INSERT INTO MAIL_REF(MAIL_NO, MAIL_REFEREE, REF_NO, REF_IMP_STATUS, REF_READ_TYPE) VALUES(SEQ_MAIL_NO.CURRVAL, #{mailReferee}, SEQ_REF_NO.NEXTVAL, DEFAULT, DEFAULT)
 		</insert>
 		<insert id="insertAppMailFile">
 			INSERT INTO MAIL_FILE(MAIL_FILE_NO, MAIL_NO, MAIL_FILE_NAME, MAIL_FILE_RENAME, MAIL_FILE_PATH, MEM_NUM)
@@ -113,16 +122,13 @@
 		</insert>
 		<!-- 즐겨찾는 메일 등록 -->
 		<insert id="insertiMail">
-			UPDATE MAIL SET I_STATUS = '1' WHERE MAIL_NO = #{mailNo}
+			UPDATE MAIL SET I_STATUS = '1' WHERE MAIL_NO = #{rNo}
 		</insert>
 		<insert id="insertiMailRec">
-			UPDATE MAIL SET I_STATUS = '1' WHERE MAIL_NO = #{mailNo} 
+			UPDATE MAIL_REC SET REC_IMP_STATUS = '1' WHERE REC_NO = #{rNo} 
 		</insert>
-		<insert id="insertiMailMy">
-			UPDATE MAIL SET I_STATUS = '1' WHERE MAIL_NO = #{mailNo} 
-		</insert>
-		<insert id="insertiMailFile">
-			UPDATE MAIL SET I_STATUS = '1' WHERE MAIL_NO = #{mailNo} 
+		<insert id="insertiMailRef">
+			UPDATE MAIL_REF SET REF_IMP_STATUS = '1' WHERE REF_NO = #{rNo} 
 		</insert>
 		<!-- 즐겨찾는 그룹 등록 -->
 		<insert id="insertBmk">
@@ -141,150 +147,382 @@
 		<update id="updateTemMailFile">
 			UPDATE MAIL_FILE SET MAIL_FILE_NAME = #{mailFileName}, MAIL_FILE_RENAME = #{mailFileRename}, MAIL_FILE_PATH = #{mailFilePath} WHERE MAIL_NO = #{mailNo}
 		</update> 
-		<!-- 조회수로 읽은메일/ 안읽은메일 확인-->
+		<!-- 조회수로 보낸메일 읽은메일/ 안읽은메일 확인-->
 		<update id="viewCount">
 			UPDATE MAIL SET MAIL_COUNT = MAIL_COUNT + 1, READ_TYPE = '1' WHERE MAIL_NO = #{mailNo}
 		</update>
+		<!-- 조회수로 받은메일 읽은메일/ 안읽은메일 확인 -->
+		<update id="viewRecCount">
+			UPDATE MAIL_REC SET REC_READ_TYPE = '1' WHERE MAIL_NO = #{mailNo} AND MAIL_RECEIVER = #{mailReceiver}
+		</update>
+		<!-- 조회수로 받은메일(참조인) 읽은메일/ 안읽은메일 확인 -->
+		<update id="viewRefCount">
+			UPDATE MAIL_REF SET REF_READ_TYPE = '1' WHERE MAIL_NO = #{mailNo} AND MAIL_REFEREE = #{mailReferee}
+		</update>
 		<!-- 보낸 메일-->
 		<select id="selectMail" resultMap="mailResultMap">
-			SELECT * FROM MAIL WHERE MEM_NUM = #{memNum} AND MAIL_TYPE = 'S' ORDER BY MAIL_NO DESC
+			SELECT * FROM MAIL WHERE MEM_NUM = #{memNum} AND MAIL_TYPE = 'S'  AND MAIL_STATUS = 'Y' ORDER BY MAIL_NO DESC
 		</select>
-		<!-- 보낸메일함 수신인 -->
+		<!--  수신인 리스트 -->
 		<select id="selectMailRecList"  resultMap="mailRecResultMap">
 			SELECT MAIL_RECEIVER FROM MAIL_REC WHERE MAIL_NO = #{mailNo}
 		</select>
+		<!-- 참조인 리스트 -->
+		<select id="selectMailRefList"  resultMap="mailRefResultMap">
+			SELECT MAIL_REFEREE FROM MAIL_REF WHERE MAIL_NO = #{mailNo}
+		</select>
 		<!-- 받은 메일 -->
 		<select id="selectRecMail" resultMap="mailResultMap">
-			SELECT * FROM
-			(SELECT MAIL_NO, I_STATUS, READ_TYPE, F_STATUS, MAIL_SENDER, MAIL_SUBJECT, MAIL_FROM_DATE, MEM_NUM
-			 FROM MAIL WHERE MAIL_TYPE = 'S' AND MAIL_SENDER != #{mailSender})
-			JOIN MAIL_REC USING(MAIL_NO)
-			JOIN MEMBER ON (MEM_NUM = MEMBER_NUM)
-			WHERE MAIL_RECEIVER = #{mailReceiver} 
-			AND MAIL_SENDER != #{mailSender}
-			ORDER BY MAIL_NO DESC
+			  SELECT * FROM MAIL_INCOME WHERE MAIL_RECEIVER = #{mailReceiver} AND MAIL_TYPE = 'S' AND REC_STATUS = 'Y' ORDER BY MAIL_NO DESC
 		</select>
 		<!-- 내게 쓴 메일 -->
 		<select id="selectMyMail" resultMap="mailResultMap">
 			SELECT * FROM
-			 MAIL WHERE MAIL_TYPE = 'F' AND MEM_NUM = #{memNum}
-			ORDER BY MAIL_NO DESC
+			 MAIL WHERE MAIL_TYPE = 'F' AND MEM_NUM = #{memNum} AND MAIL_STATUS = 'Y'
+			ORDER BY MAIL_NO DESC 
 		</select>
 		<!-- 첨부파일 메일 -->
 		<select id="selectFileMail" resultMap="mailResultMap">
-			 SELECT * FROM 
-            (SELECT * FROM          
-			(SELECT * FROM
-			(SELECT MAIL_NO, I_STATUS, READ_TYPE, F_STATUS, MAIL_SENDER, MAIL_SUBJECT, MAIL_FROM_DATE, MEM_NUM
-			 FROM MAIL WHERE MAIL_TYPE = 'S')
-            JOIN MEMBER ON (MEM_NUM = MEMBER_NUM)
-            JOIN MAIL_REC USING(MAIL_NO))
-			JOIN MAIL_FILE USING(MAIL_NO))
-			WHERE (MAIL_RECEIVER = #{mailReceiver} OR MAIL_SENDER = #{mailSender}) AND MAIL_FILE_NAME IS NOT NULL
-			ORDER BY MAIL_NO DESC
+			SELECT 
+			    MAIL.MAIL_NO,
+			    MAIL_TYPE,
+			    MAIL_SUBJECT,
+			    MAIL_CONTENT,
+			    MAIL_COUNT,
+			    MAIL_SENDER,
+			    F_STATUS,
+			    MAIL_FROM_DATE,
+			    MAIL_TO_DATE,
+			    A_STATUS,
+			    MAIL.MEM_NUM,
+			    MAIL_STATUS,
+			    I_STATUS,
+			    READ_TYPE,
+			    'R' "REF_YN",
+			    0 "REC_NO",
+			    MAIL_FILE_NAME,
+			    MAIL_FILE_RENAME,
+			    MAIL_FILE_PATH
+			FROM MAIL JOIN MAIL_FILE ON (MAIL.MAIL_NO = MAIL_FILE.MAIL_NO) 
+			WHERE MAIL.MEM_NUM = #{memNum} AND MAIL.MAIL_TYPE = 'S' AND MAIL.MAIL_STATUS = 'Y'
+			UNION SELECT 
+			    MAIL_INCOME.MAIL_NO,
+			    MAIL_TYPE,
+			    MAIL_SUBJECT,
+			    MAIL_CONTENT,
+			    MAIL_COUNT,
+			    MAIL_RECEIVER,
+			    F_STATUS,
+			    MAIL_FROM_DATE,
+			    MAIL_TO_DATE,
+			    A_STATUS,
+			    MAIL_INCOME.MEM_NUM,
+			    REC_STATUS,
+			    REC_IMP_STATUS,
+			    REC_READ_TYPE,
+			    REF_YN,
+			    REC_NO,
+			    MAIL_FILE_NAME,
+			    MAIL_FILE_RENAME,
+			    MAIL_FILE_PATH
+			FROM MAIL_INCOME 
+			JOIN MAIL_FILE ON (MAIL_INCOME.MAIL_NO = MAIL_FILE.MAIL_NO) 
+			WHERE MAIL_RECEIVER = #{mailReceiver} AND MAIL_TYPE = 'S' AND REC_STATUS = 'Y' ORDER BY 1 DESC
 		</select>
 		<select id="selectTemMail" resultMap="mailResultMap">
-			SELECT * FROM MAIL WHERE MEM_NUM = #{memNum} AND MAIL_TYPE = 'T' ORDER BY MAIL_NO DESC
+			SELECT * FROM MAIL WHERE MEM_NUM = #{memNum} AND MAIL_TYPE = 'T' AND MAIL_STATUS = 'Y' ORDER BY MAIL_NO DESC
 		</select>
 		<select id="selectAppMail" resultMap="mailResultMap">
-			SELECT * FROM MAIL WHERE MAIL_TYPE = 'A' AND MEM_NUM = #{memNum} ORDER BY MAIL_NO DESC
+			SELECT * FROM MAIL WHERE MAIL_TYPE = 'A' AND MEM_NUM = #{memNum} AND MAIL_STATUS = 'Y' ORDER BY MAIL_NO DESC
 		</select>
-		<select id="selectIMail" resultMap="mailResultMap">
-			SELECT * FROM MAIL JOIN  MAIL_REC USING(MAIL_NO) WHERE I_STATUS = '1' AND (MAIL_RECEIVER = #{mailReceiver} OR MAIL_SENDER = #{mailSender})
+		<select id="selectImpMail" resultMap="mailResultMap">
+			SELECT 
+				MAIL.MAIL_NO,
+				MAIL_TYPE,
+				MAIL_SUBJECT,
+				MAIL_CONTENT,
+				MAIL_COUNT,
+				MAIL_SENDER,
+				R_STATUS,
+				F_STATUS,
+				MAIL_FROM_DATE,
+				MAIL_TO_DATE,
+				A_STATUS,
+				A_DATE,
+				REJ_REASON,
+				RES_DATE,
+				RES_HOUR,
+				RES_MIN,
+				MAIL.MEM_NUM,
+				MAIL_STATUS,
+				I_STATUS,
+				READ_TYPE,
+				'R' "MAIL_CATEGORY",
+				0 "REC_NO"
+			FROM MAIL WHERE MAIL.MEM_NUM = #{memNum} AND MAIL.MAIL_TYPE IN ('S', 'F')  AND MAIL.MAIL_STATUS = 'Y' AND I_STATUS = 1
+			UNION SELECT 
+				MAIL_INCOME.MAIL_NO,
+				MAIL_TYPE,
+				MAIL_SUBJECT,
+				MAIL_CONTENT,
+				MAIL_COUNT,
+				MAIL_RECEIVER,
+				R_STATUS,
+				F_STATUS,
+				MAIL_FROM_DATE,
+				MAIL_TO_DATE,
+				A_STATUS,
+				A_DATE,
+				REJ_REASON,
+				RES_DATE,
+				RES_HOUR,
+				RES_MIN,
+				MAIL_INCOME.MEM_NUM,
+				REC_STATUS,
+				REC_IMP_STATUS,
+				REC_READ_TYPE,
+				REF_YN,
+				REC_NO
+			FROM MAIL_INCOME WHERE MAIL_RECEIVER = #{mailReceiver} AND MAIL_TYPE = 'S' AND REC_STATUS = 'Y' AND REC_IMP_STATUS = 1 ORDER BY 1 DESC
 		</select>
+		<!-- 모달 즐겨찾는 그룹 목록 -->
 		<select id="selectBmk" resultMap="mailBmkResultMap">
 			 SELECT DISTINCT BMK_SUBJECT FROM MAIL_BMK WHERE MEM_NUM = #{memNum}
 		</select>
+		<!-- 즐겨찾는 그룹 선택시  -->
 		<select id="selectBmkList" resultMap="mailBmkResultMap">
 			 SELECT * FROM MAIL_BMK WHERE BMK_SUBJECT = #{bmkSubject }
 		</select>
 		<select id="selectBmkAllList" resultMap="mailBmkResultMap">
 		 	SELECT * FROM MAIL_BMK WHERE MEM_NUM = #{memNum}
 		</select>
-		<select id="selectMailCount" resultType="_int"><!-- 메일함 페이징 -->
+		<!-- 메일 발송시 페이지 번호 -->
+		<select id="selectMailNo" resultType="_int">
+			SELECT MAX(MAIL_NO) FROM MAIL
+		</select>
+		<!-- 보낸 메일함 카운트 -->
+		<select id="selectMailCount" resultType="_int">
 			SELECT COUNT(*) 
             FROM  MAIL 
             WHERE MAIL_TYPE = 'S' 
-            AND MEM_NUM = #{memNum}
+            AND MEM_NUM = #{memNum} AND MAIL_STATUS = 'Y'
 		</select>
-		<select id="selectMailRecCount" resultType="_int"><!-- 메일함 페이징 -->
-			SELECT COUNT(*) 
-            FROM  MAIL  
-            JOIN MAIL_REC USING(MAIL_NO)
-            WHERE MAIL_TYPE = 'S' 
-            AND MAIL_RECEIVER = #{mailReceiver}
-            AND MAIL_SENDER != #{mailSender}
+		<!-- 받은 메일함 카운트 -->
+		<select id="selectMailRecCount" resultType="_int">
+			  SELECT COUNT(*) FROM( SELECT * FROM MAIL JOIN MAIL_REC USING (MAIL_NO) UNION
+            SELECT * FROM MAIL JOIN MAIL_REF USING (MAIL_NO)) WHERE MAIL_TYPE = 'S' AND (MAIL_RECEIVER = #{mailReceiver} ) AND MAIL_SENDER != #{mailSender} AND REC_STATUS = 'Y'
 		</select>
-		<select id="selectMailMyCount" resultType="_int"><!-- 메일함 페이징 -->
+		<!-- 내게 쓴 메일함 카운트 -->
+		<select id="selectMailMyCount" resultType="_int">
 			SELECT COUNT(*) 
             FROM  MAIL  
             WHERE MAIL_TYPE = 'F' 
-            AND MEM_NUM = #{memNum}
+            AND MEM_NUM = #{memNum}  AND MAIL_STATUS = 'Y'
 		</select>
-		<select id="selectMailFileCount" resultType="_int"><!-- 메일함 페이징 -->
-			SELECT COUNT(*) 
-            FROM  MAIL  
-            JOIN MAIL_REC USING(MAIL_NO)
-            WHERE MAIL_TYPE != 'T'
-            AND (MAIL_RECEIVER = #{mailReceiver}
-            OR MAIL_SENDER = #{mailSender} )
-            AND F_STATUS = '1'
+		<!-- 파일 메일함 카운트 -->
+		<select id="selectMailFileCount" resultType="_int">
+			SELECT  COUNT(*) 
+            FROM  (SELECT 
+			    MAIL.MAIL_NO,
+			    MAIL_TYPE,
+			    MAIL_SUBJECT,
+			    MAIL_CONTENT,
+			    MAIL_COUNT,
+			    MAIL_SENDER,
+			    F_STATUS,
+			    MAIL_FROM_DATE,
+			    MAIL_TO_DATE,
+			    A_STATUS,
+			    MAIL.MEM_NUM,
+			    MAIL_STATUS,
+			    I_STATUS,
+			    READ_TYPE,
+			    'R' "REF_YN",
+			    0 "REC_NO",
+			    MAIL_FILE_NAME,
+			    MAIL_FILE_RENAME,
+			    MAIL_FILE_PATH
+			FROM MAIL JOIN MAIL_FILE ON (MAIL.MAIL_NO = MAIL_FILE.MAIL_NO) 
+			WHERE MAIL.MEM_NUM = #{memNum} AND MAIL.MAIL_TYPE = 'S' AND MAIL.MAIL_STATUS = 'Y'
+			UNION SELECT 
+			    MAIL_INCOME.MAIL_NO,
+			    MAIL_TYPE,
+			    MAIL_SUBJECT,
+			    MAIL_CONTENT,
+			    MAIL_COUNT,
+			    MAIL_RECEIVER,
+			    F_STATUS,
+			    MAIL_FROM_DATE,
+			    MAIL_TO_DATE,
+			    A_STATUS,
+			    MAIL_INCOME.MEM_NUM,
+			    REC_STATUS,
+			    REC_IMP_STATUS,
+			    REC_READ_TYPE,
+			    REF_YN,
+			    REC_NO,
+			    MAIL_FILE_NAME,
+			    MAIL_FILE_RENAME,
+			    MAIL_FILE_PATH
+			FROM MAIL_INCOME 
+			JOIN MAIL_FILE ON (MAIL_INCOME.MAIL_NO = MAIL_FILE.MAIL_NO) 
+			WHERE MAIL_RECEIVER = #{mailReceiver} AND MAIL_TYPE = 'S' AND REC_STATUS = 'Y')
 		</select>
+		<!-- 임시 메일함 카운트 -->
 		<select id="selectTemListCount" resultType="_int">
 			 SELECT COUNT(*) FROM MAIL 
-			WHERE MAIL_TYPE ='T' AND MEM_NUM = #{memNum}
+			WHERE MAIL_TYPE ='T' AND MEM_NUM = #{memNum}  AND MAIL_STATUS = 'Y'
 		</select>
+		<!-- 승인 메일함 카운트 -->
 		<select id="selectAppListCount" resultType="_int">
 			 SELECT COUNT(*) FROM MAIL 
-			WHERE MAIL_TYPE ='A' AND MEM_NUM = #{memNum}
+			WHERE MAIL_TYPE ='A' AND MEM_NUM = #{memNum}  AND MAIL_STATUS = 'Y'
 		</select>
-		<select id="selectIListCount" resultType="_int">
+		<!-- 중요 메일함 카운트 -->
+		<select id="selectImpListCount" resultType="_int">
 			SELECT COUNT(*) 
-            FROM  MAIL  
-            JOIN MAIL_REC USING(MAIL_NO)
-          	WHERE I_STATUS = '1'
-            AND (MAIL_RECEIVER = #{mailReceiver}
-            OR MAIL_SENDER = #{mailSender} )
+            FROM  (SELECT 
+				MAIL.MAIL_NO,
+				MAIL_TYPE,
+				MAIL_SUBJECT,
+				MAIL_CONTENT,
+				MAIL_COUNT,
+				MAIL_SENDER,
+				R_STATUS,
+				F_STATUS,
+				MAIL_FROM_DATE,
+				MAIL_TO_DATE,
+				A_STATUS,
+				A_DATE,
+				REJ_REASON,
+				RES_DATE,
+				RES_HOUR,
+				RES_MIN,
+				MAIL.MEM_NUM,
+				MAIL_STATUS,
+				I_STATUS,
+				READ_TYPE,
+				'R' "MAIL_CATEGORY",
+				0 "REC_NO"
+			FROM MAIL WHERE MAIL.MEM_NUM = #{memNum} AND MAIL.MAIL_TYPE IN ('S', 'F')  AND MAIL.MAIL_STATUS = 'Y' AND I_STATUS = 1
+			UNION SELECT 
+				MAIL_INCOME.MAIL_NO,
+				MAIL_TYPE,
+				MAIL_SUBJECT,
+				MAIL_CONTENT,
+				MAIL_COUNT,
+				MAIL_RECEIVER,
+				R_STATUS,
+				F_STATUS,
+				MAIL_FROM_DATE,
+				MAIL_TO_DATE,
+				A_STATUS,
+				A_DATE,
+				REJ_REASON,
+				RES_DATE,
+				RES_HOUR,
+				RES_MIN,
+				MAIL_INCOME.MEM_NUM,
+				REC_STATUS,
+				REC_IMP_STATUS,
+				REC_READ_TYPE,
+				REF_YN,
+				REC_NO
+			FROM MAIL_INCOME WHERE MAIL_RECEIVER = #{mailReceiver} AND MAIL_TYPE = 'S' AND REC_STATUS = 'Y' AND REC_IMP_STATUS = 1)
 		</select>
+		<!-- 안읽은 메일 카운트 -->
 		<select id="selectReadListCount" resultType="_int">
 			SELECT COUNT(*) 
-            FROM  MAIL  
-            JOIN MAIL_REC USING(MAIL_NO)
-            WHERE READ_TYPE = '0'
-            AND (MAIL_RECEIVER = #{mailReceiver}
-            OR MAIL_SENDER = #{mailSender} )
+            FROM  (SELECT 
+				MAIL.MAIL_NO,
+				MAIL_TYPE,
+				MAIL_SUBJECT,
+				MAIL_CONTENT,
+				MAIL_COUNT,
+				MAIL_SENDER,
+				R_STATUS,
+				F_STATUS,
+				MAIL_FROM_DATE,
+				MAIL_TO_DATE,
+				A_STATUS,
+				A_DATE,
+				REJ_REASON,
+				RES_DATE,
+				RES_HOUR,
+				RES_MIN,
+				MAIL.MEM_NUM,
+				MAIL_STATUS,
+				I_STATUS,
+				READ_TYPE,
+				'R' "MAIL_CATEGORY",
+				0 "REC_NO"
+			FROM MAIL WHERE MAIL.MEM_NUM = #{memNum} AND MAIL.MAIL_TYPE IN ('S', 'F')  AND MAIL.MAIL_STATUS = 'Y' AND READ_TYPE = 0
+			UNION SELECT 
+				MAIL_INCOME.MAIL_NO,
+				MAIL_TYPE,
+				MAIL_SUBJECT,
+				MAIL_CONTENT,
+				MAIL_COUNT,
+				MAIL_RECEIVER,
+				R_STATUS,
+				F_STATUS,
+				MAIL_FROM_DATE,
+				MAIL_TO_DATE,
+				A_STATUS,
+				A_DATE,
+				REJ_REASON,
+				RES_DATE,
+				RES_HOUR,
+				RES_MIN,
+				MAIL_INCOME.MEM_NUM,
+				REC_STATUS,
+				REC_IMP_STATUS,
+				REC_READ_TYPE,
+				REF_YN,
+				REC_NO
+			FROM MAIL_INCOME WHERE MAIL_RECEIVER = #{mailReceiver} AND MAIL_TYPE = 'S' AND REC_STATUS = 'Y' AND REC_READ_TYPE = 0)
 		</select>
+		<!-- 수신인 카운트 -->
 		<select id="selectReceiverCount" resultType="_int">
 			SELECT COUNT(*) 
             FROM  MAIL JOIN MAIL_REC USING(MAIL_NO)
             WHERE MAIL_NO = #{mailNo}
 		</select>
+		<!-- 참조인 카운트 -->
+		<select id="selectRefereeCount" resultType="_int">
+			SELECT COUNT(*) 
+            FROM  MAIL JOIN MAIL_REF USING(MAIL_NO)
+            WHERE MAIL_NO = #{mailNo}
+		</select>
+		<!-- 체크한 목록 메일함에서 삭제 -->
 		<delete id="deleteChkMail">
-			DELETE FROM MAIL WHERE MAIL_NO = #{values}
+			UPDATE MAIL SET MAIL_STATUS = 'N' WHERE MAIL_NO = #{mailNo}
 		</delete>
 		<delete id="deleteChkMailRec">
-			DELETE FROM MAIL_REC WHERE MAIL_NO = #{values}
+			UPDATE MAIL_REC SET REC_STATUS = 'N' WHERE REC_NO = #{rNo}
 		</delete>
 		<delete id="deleteChkMailRef">
-			DELETE FROM MAIL_REF WHERE MAIL_NO = #{values}
+			UPDATE MAIL_REF SET REF_STATUS = 'N' WHERE REF_NO = #{rNo}
 		</delete>
-		<delete id="deleteChkMailFile">
-			DELETE FROM MAIL_FILE WHERE MAIL_NO = #{values}
-		</delete>
+		<!-- 상세페이지 삭제 -->
 		<delete id="deleteMail">
-			DELETE FROM MAIL WHERE MAIL_NO = #{mailNo}
+			UPDATE MAIL SET MAIL_STATUS = 'N' WHERE MAIL_NO = #{mailNo}
 		</delete>
 		<delete id="deleteMailRec">
-			DELETE FROM MAIL_REC WHERE MAIL_NO = #{mailNo}
+			UPDATE MAIL_REC SET REC_STATUS = 'N' WHERE REC_NO = #{rNo} 
 		</delete>
 		<delete id="deleteMailRef">
-			DELETE FROM MAIL_REF WHERE MAIL_NO = #{mailNo}
+			UPDATE MAIL_REF SET REF_STATUS = 'N' WHERE REF_NO = #{rNo} 
 		</delete>
-		<delete id="deleteMailFile">
-			DELETE FROM MAIL_FILE WHERE MAIL_NO = #{mailNo}
-		</delete>
+		<!-- 중요메일 취소 -->
 		<delete id="deleteiMail">
 			UPDATE MAIL SET I_STATUS ='0' WHERE MAIL_NO = #{mailNo}
+		</delete>
+		<delete id="deleteiMailRec">
+			UPDATE MAIL_REC SET REC_IMP_STATUS ='0' WHERE  REC_NO = #{rNo}
+		</delete>
+		<delete id="deleteiMailRef">
+			UPDATE MAIL_REF SET REF_IMP_STATUS ='0' WHERE REF_NO = #{rNo}
 		</delete>
 		<delete id="deleteMailBmk">
 			DELETE FROM MAIL_BMK WHERE BMK_SUBJECT = #{bmkSubject} AND MEM_NUM = #{memNum}
@@ -311,28 +549,28 @@
 		</select>		
 		<!-- 임시저장 상세페이지 -->
 		<select id="selectOneTemMail"  resultMap="mailResultMap">
-				SELECT MAIL_NO, MAIL_SENDER, MAIL_SUBJECT, MAIL_CONTENT
+				SELECT * 
 				FROM MAIL 
-			    WHERE MAIL_NO = #{mailNo} AND MAIL_TYPE = 'T'
+			    WHERE MAIL_NO = #{mailNo} AND MAIL_TYPE = 'T' AND MAIL_STATUS = 'Y'
 		</select>
 		<select id="selectOneTemMailRec" resultMap="mailRecResultMap">
-				SELECT MAIL_NO, MAIL_RECEIVER
+				SELECT *
 				FROM MAIL_REC
 				WHERE MAIL_NO = #{mailNo} 
 		</select>
 		<select id="selectOneTemMailRef" resultMap="mailRefResultMap">
-				SELECT MAIL_NO, MAIL_REFEREE
+				SELECT *
 				FROM MAIL_REF
 				WHERE MAIL_NO = #{mailNo}
 		</select>
 		<select id="selectOneTemMailFile" resultMap="mailFileResultMap">
-				SELECT MAIL_NO, MAIL_FILE_NAME, MAIL_FILE_RENAME, MAIL_FILE_PATH
+				SELECT *
 				FROM MAIL_FILE
 				WHERE MAIL_NO = #{mailNo} 
 		</select>	
 		<!-- 승인메일 상세페이지 -->
 		<select id="selectOneAppMail" resultMap="mailResultMap">
-				SELECT MAIL_NO, MAIL_SENDER, MAIL_SUBJECT, MAIL_CONTENT
+				SELECT *
 				FROM MAIL 
 			    WHERE MAIL_NO = #{mailNo} AND MAIL_TYPE = 'A'
 		</select>	
@@ -352,22 +590,22 @@
 				WHERE MAIL_NO = #{mailNo}
 		</select>	
 		<select id="selectOneIMail" resultMap="mailResultMap">
-				SELECT MAIL_NO, MAIL_SENDER, MAIL_SUBJECT, MAIL_CONTENT
+				SELECT *
 				FROM MAIL 
-			    WHERE MAIL_NO = #{mailNo} AND MAIL_TYPE = 'S' 
+			    WHERE MAIL_NO = #{mailNo}
 		</select>
 		 <select id="selectOneIMailRec" resultMap="mailRecResultMap">
-				SELECT MAIL_NO, MAIL_RECEIVER
+				SELECT*
 				FROM MAIL_REC
-				WHERE MAIL_NO = #{mailNo}
+				WHERE MAIL_NO = #{mailNo} 
 		</select>
 		<select id="selectOneIMailRef" resultMap="mailRefResultMap">
-				SELECT MAIL_NO, MAIL_REFEREE
+				SELECT *
 				FROM MAIL_REF
 				WHERE MAIL_NO = #{mailNo}
 		</select>
 		<select id="selectOneIMailFile" resultMap="mailFileResultMap">
-				SELECT MAIL_NO, MAIL_FILE_NAME, MAIL_FILE_RENAME, MAIL_FILE_PATH
+				SELECT *
 				FROM MAIL_FILE
 				WHERE MAIL_NO = #{mailNo}
 		</select> 
