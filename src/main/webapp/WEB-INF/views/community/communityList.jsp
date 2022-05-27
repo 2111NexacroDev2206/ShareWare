@@ -16,7 +16,7 @@
 		<h2 id="h-title">자유게시판 목록</h2>
 			<button id="writeBtnDiv" onclick="location.href='/community/WriteView.sw'">작성</button>
 		<br><br>
-		<table align="center" class="type04">
+		<table align="center" class="type01">
 			<thead>
 				<tr>
 					<th colspan="2" class="th-3">&nbsp;&nbsp;&nbsp;제 목</th>
@@ -38,7 +38,7 @@
 								<c:url var="cDetail" value="/community/detail.sw">
 									<c:param name="comNo" value="${community.comNo }"></c:param>
 								</c:url>
-							<td><a href ="${cDetail}">${community.comTitle }</a></td>
+							<td class="td-title"><a href ="${cDetail}">${community.comTitle }</a></td>
 							<td>${community.member.memberName }</td>
 							<td>${community.comDate }</td>
 							<td>${community.comView }</td>

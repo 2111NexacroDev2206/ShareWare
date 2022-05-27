@@ -23,9 +23,6 @@
 				<div id="notice-TileDiv">${notice.noticeTitle}</div>
 				<div id="notice-ContentDiv">${notice.noticeContent}
 				
-					<c:if test="${notice.noticeImgName != null}">
-						<img src = "../../../resources/loadFile/${notice.noticeImgRemane}" alt="${notice.noticeImgName}">
-					</c:if>
 				</div>
 			</div>
 		</div>

@@ -37,24 +37,31 @@ a {
 	background-color:rgb(255, 255, 255);
 }
 
+.WriteDiv{
+    margin-top: 15px;
+    height: 20px;
+    width: 600px;
+    float: left;
+}
+
 .optionBtnDiv{
-    height: 32px;
+    height: 45px;
     width: 168px;
     float: right;
   }
 
   .dateDiv{
+    margin-top: 15px;
+    margin-right: 5px;
     height: 20px;
     width: 150px;
     float: right;
-    margin-right: 5px;
   }
 
   .optionBtnDiv #updateBtn{
-    margin-left: 3px;
-    margin-right: 3px;
+    margin-left: 5px;
     width: 80px;
-    height: 32px;
+    height: 45px;
     border-radius: 5px;
     border: 1px solid rgb(147, 169, 209);
     background-color: rgb(147, 169, 209);
@@ -66,7 +73,7 @@ a {
 
 .optionBtnDiv #cancleBtn{
     width: 80px;
-    height: 32px;
+    height: 45px;
     border-radius: 5px;
     border: 1px solid rgb(147, 169, 209);
     background-color: rgb(255, 255, 255);

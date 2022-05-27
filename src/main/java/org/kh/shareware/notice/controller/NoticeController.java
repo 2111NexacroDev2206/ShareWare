@@ -61,9 +61,7 @@ public class NoticeController {
 
 	// 넥사크로 리스트 검색
 	@RequestMapping(value = "/admin/notice/searchList.sw", method = RequestMethod.POST)
-	public NexacroResult adminNoticeSearchList(@ParamVariable(name = "searchCondition") String searchCondition // 콤보박스에
-																												// 넣은 뭘로
-																												// 검색할지
+	public NexacroResult adminNoticeSearchList(@ParamVariable(name = "searchCondition") String searchCondition // 콤보박스에넣은 뭘로검색할지
 			, @ParamVariable(name = "searchValue") String searchValue) {
 		// 에디트에 넣은 검색 값
 

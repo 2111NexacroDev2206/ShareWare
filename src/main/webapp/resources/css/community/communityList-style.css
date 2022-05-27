@@ -3,7 +3,7 @@
 #h-title {
 	margin-top: 25px;
 }
-.type04 {
+.type01 {
 	width: 1350px;
 	margin: 20px 0;
 	font-size: 14px;
@@ -12,30 +12,39 @@
 	border-top: 2px solid rgb(200, 200, 200);
 	border-bottom: 2px solid rgb(200, 200, 200);
   }
- .type04 tr:hover {
+ .type01 tr:hover {
 	background-color: rgb(250, 250, 250);
 }
-.type04 tr {
+.type01 tr {
 	border-top: 1px solid rgb(200, 200, 200);
 	height: 45px;
 }
-.type04 th {
+.type01 th {
 	background-color: rgb(240, 240, 240);
 }
-.type04 a {
+.type01 a {
 	text-decoration: none;
 	color: black;
 	cursor: pointer;
 }
-.type04 .th-1{
+.type01 .th-1{
 	width: 80px;
 }
-.type04 .th-2{
+.type01 .th-2{
 	width: 200px;
 }
-.type04 .th-3{
+.type01 .th-3{
 	width: 630px;
 }
+
+.td-title{
+	text-align: left;
+}
+
+.td-title a{
+	margin-left: 15px;
+}
+
  #writeBtnDiv {
 	display: inline-block;
 	width: 120px;
@@ -43,8 +52,8 @@
 	background-color: white;
 	border: 1px solid rgb(51, 51, 51);
 	border-radius: 4px;
-	font-size: 15px;
 	float: right;
+	font-size: 15px;
 	cursor: pointer;
  }
 #no{

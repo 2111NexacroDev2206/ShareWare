@@ -15,7 +15,7 @@
 	<div class="s-container">
 		<h2 id="h-title">공지게시판 목록</h2>
 		<br>
-			<table align="center" class="type04">
+			<table align="center" class="type01">
 			<thead>
 				<tr>
 					<th colspan="2" class="th-3">&nbsp;&nbsp;&nbsp;제 목</th>
@@ -37,7 +37,7 @@
 									<c:url var="nDetail" value="/notice/detail.sw">
 										<c:param name="noticeNo" value="${notice.noticeNo }"></c:param>
 									</c:url>
-								<td><a href ="${nDetail}">${notice.noticeTitle }</a></td>
+								<td class="td-title"><a href ="${nDetail}">${notice.noticeTitle }</a></td>
 								<td>${notice.memberNum }</td>
 								<td>${notice.noticeDate }</td>
 								<td>${notice.noticeView }</td>		

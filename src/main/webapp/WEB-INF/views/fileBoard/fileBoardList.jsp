@@ -16,7 +16,7 @@
 		<h2 id="h-title">자료실 목록</h2>
 			<button id="writeBtnDiv" onclick="location.href='/fileBoard/WriteView.sw'">작성</button>
 		<br><br>
-		<table align="center" class="type04">
+		<table class="type01">
 		<thead>
 			<tr>
 				<th colspan="2" class="th-3">&nbsp;&nbsp;&nbsp;제 목</th>
@@ -33,7 +33,7 @@
 								<c:url var="fDetail" value="/fileBoard/detail.sw">
 									<c:param name="fileBoardNo" value="${fileBoard.fileBoardNo }"></c:param>
 								</c:url>
-							<td><a href ="${fDetail}">${fileBoard.fileBoardTitle }</a></td>
+							<td class="td-title"><a href ="${fDetail}">${fileBoard.fileBoardTitle }</a></td>
 							<td>${fileBoard.member.memberName }</td>
 							<td>${fileBoard.fileBoardDate }</td>
 							<td>${fileBoard.fileBoardView }</td>
