@@ -30,5 +30,8 @@ public interface CalendarStore {
 	public CalSch selectOneHomeCal(SqlSession sqlSession, int schNo); // 일정 상세
 
 	public List<CalSch> selectAllHomeCal(SqlSession sqlSession, String memberNum); // 전체 일정 목록
+	
+	// 알림
+	public CalSch selectLastCalSch(SqlSession sqlSession); // 최근 전사 일정 조회
 
 }

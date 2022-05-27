@@ -74,5 +74,12 @@ public class CalendarStoreLogic implements CalendarStore{
 		List<CalSch> sList = sqlSession.selectList("CalendarMapper.selectAllHomeCal", memberNum);
 		return sList;
 	}
+	
+	// 알림
+	@Override
+	public CalSch selectLastCalSch(SqlSession sqlSession) { // 최근 전사 일정 조회
+		CalSch calSch = sqlSession.selectOne("CalendarMapper.selectLastCalSch");
+		return calSch;
+	}
 
 }

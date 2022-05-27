@@ -30,5 +30,8 @@ public interface CalendarService {
 	public CalSch printOneHomeCal(int schNo); // 일정 상세
 
 	public List<CalSch> printAllHomeCal(String memberNum); // 전체 일정 목록
+	
+	// 알림
+	public CalSch printLastCalSch(); // 최근 전사 일정 조회
 
 }

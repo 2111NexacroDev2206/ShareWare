@@ -226,7 +226,7 @@
 	
 	// 더보기 버튼 클릭
 	function calViewMove() {
-		location.href="/calendar/schWriteView.sw";
+		location.href="/calendar/schListView.sw";
 	}
 </script>
 </html>
