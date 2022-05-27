@@ -11,7 +11,6 @@
 <body>
 <jsp:include page="projectMainMenu.jsp"></jsp:include>
 	<div class="s-container">
-		<form action="/project/projectRegister.sw" method="post">
 		<div>
 		<br>
 			<div>
@@ -55,7 +54,6 @@
 				</table>
 			</div>
 		</div>
-		</form>
 	</div>
 	<jsp:include page="projectModal.jsp"></jsp:include> <!-- 참여자 선택 모달 -->
 </body>

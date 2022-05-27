@@ -194,7 +194,7 @@ public class DailyController {
 				// 디비에 해당 데이터 저장(비즈니스 로직)
 				int result = service.modifyDaily(daily);
 				if(result > 0) {
-					mv.setViewName("report/dailyDetail");
+					mv.setViewName("redirect:/report/dailyDetail.sw?drNo=" + daily.getDrNo());
 				}else {
 					mv.addObject("msg", "업무일지 수정실패");
 					mv.setViewName("common/errorPage");

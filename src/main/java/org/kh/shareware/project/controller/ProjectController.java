@@ -175,8 +175,7 @@ public class ProjectController {
 					, @ModelAttribute Project project
 					, HttpServletRequest request
 					, @ModelAttribute Participant participant
-					, @RequestParam(value="memNum") String memNum
-					, @RequestParam(value= "projectNo", required=false) Integer projectNo) {
+					, @RequestParam(value="memNum") String memNum) {
 				try {
 					int result = service.modifyProject(project);
 					int pResult= 0;
@@ -189,7 +188,6 @@ public class ProjectController {
 						}
 					}
 					if(result > 0) {
-						mv.addObject("projectNo", projectNo);
 						mv.setViewName("redirect:/project/detail.sw?projectNo=" + project.getProjectNo());
 					}else {
 						mv.addObject("msg", "프로젝트 수정실패");

@@ -17,7 +17,7 @@
 				<span id="title">새 프로젝트 생성</span>
 			</div>
 			<div>
-				<table class="project-tbl-update">>
+				<table class="project-tbl-update">
 					<tr>
 						<td>프로젝트 명</td>
 						<td><input type="text" id="name" name="projectTitle" placeholder="내용을 입력해주세요"></td>

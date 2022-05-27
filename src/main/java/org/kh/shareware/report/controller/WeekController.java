@@ -193,7 +193,7 @@ public class WeekController {
 					}
 					int result = service.modifyWeek(week);
 					if(result > 0) {
-						mv.setViewName("report/weekDetail");
+						mv.setViewName("redirect:/report/weekDetail.sw?wrNo=" + week.getWrNo());
 					}else {
 						mv.addObject("msg", "업무일지 수정실패");
 						mv.setViewName("common/errorPage");
