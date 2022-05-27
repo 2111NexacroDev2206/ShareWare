@@ -147,12 +147,15 @@
 	$("#comVoteInsert").on("click",function(){
 		if(voteBodyDiv.style.display == 'none'){  //만약 화면에 없으면
 			voteBodyDiv.style.display = 'block'; //화면에 보이게
+			$("#vote-input1").val(divText1);
+			$("#vote-input2").val(divText2);
 			if(divText3 != ""){//선택지 3이 null이 아니면 보이게 하기
 				div3.style.display = 'block'; 
 				divButton1.style.display = 'block';
 				if(divText4 != ""){//선택지 4가 null이 아니면 보이게 하기
 					divButton1.style.display = 'none';
 					divButton2.style.display = 'block';
+					divButtonAdd.style.display ='none';
 					div4.style.display = 'block';
 					}
 					$("#vote-input1").val(divText1);
@@ -301,41 +304,52 @@
 	const imageInput = $("#comImgName")[0];
 
 	$("#updateBtn").on("click", function(){
-			var comTitle = $("#comTitle").val();
-			var comContent = $("#comContent").val();
-			var comNo = "${community.comNo}";
-			var cVoteState = "${communityVote.cVoteState}";
-			
-			 const formData = new FormData();
-			  formData.append("uploadFile", imageInput.files[0]);
-			  formData.append("comNo", comNo);
-			   formData.append("comTitle", comTitle);
-			   formData.append("comContent", comContent);
-			   formData.append("cVoteState", cVoteState);
-			   
-			   if(cVoteText1 != "" || cVoteText2 != "" || cVoteText1 != null || cVoteText2 != null){
-					formData.append("cVoteText1", cVoteText1);
-					formData.append("cVoteText2", cVoteText2);
-					formData.append("cVoteText3", cVoteText3);
-					formData.append("cVoteText4", cVoteText4);
-			   }
-			  jQuery.ajax({
-		             url : "/community/modify.sw"
-		           ,processData: false
-		           ,contentType: false
-		           , type : "POST"
-		           , data : formData
-		           , success:function(data){
-		        	   if(data == "success"){
-		        		   location.href = '/community/list.sw';
-		           }else{
-		        	   alert("등록 실패!");
-		        	   }
-		        },error : function() {
-					alert("ajax 통신 오류! 관리자에게 문의해주세요.");
-				}
-			})
-		});
+		
+		if(voteBodyDiv.style.display === 'block'){
+			alert("투표 작성을 끝마쳐주요.");
+		}else{
+				var comTitle = $("#comTitle").val();
+				var comContent = $("#comContent").val();
+				var comNo = "${community.comNo}";
+				var cVoteState = "${communityVote.cVoteState}";
+				
+				 const formData = new FormData();
+				  formData.append("uploadFile", imageInput.files[0]);
+				  formData.append("comNo", comNo);
+				   formData.append("comTitle", comTitle);
+				   formData.append("comContent", comContent);
+				   formData.append("cVoteState", cVoteState);
+				   
+				   if(cVoteText1 != "" || cVoteText2 != "" || cVoteText1 != null || cVoteText2 != null){
+						formData.append("cVoteText1", cVoteText1);
+						formData.append("cVoteText2", cVoteText2);
+						formData.append("cVoteText3", cVoteText3);
+						formData.append("cVoteText4", cVoteText4);
+				   }		
+				if(comTitle == ""){
+					alert("제목을 입력해주세요!");
+				}else if(comContent == ""){
+						alert("본문을 입력해주세요!");
+				}else{
+					  jQuery.ajax({
+				             url : "/community/modify.sw"
+				           ,processData: false
+				           ,contentType: false
+				           , type : "POST"
+				           , data : formData
+				           , success:function(data){
+				        	   if(data == "success"){
+				        		   location.href = '/community/list.sw';
+				           }else{
+				        	   alert("등록 실패!");
+				        	   }
+				        },error : function() {
+							alert("ajax 통신 오류! 관리자에게 문의해주세요.");
+						}
+					})
+			}
+		}
+	});
 
 	</script>
 

@@ -64,23 +64,29 @@
 			  formData.append("uploadFile", fileInput.files[0]); //컨트롤러에서 받을 때  "upload File"
 			   formData.append("fileTitle", fileTitle);
 			   formData.append("fileContent", fileContent);
+			   if(fileTitle == ""){
+					alert("제목을 입력해주세요!");
+				}else if(fileContent == ""){
+						alert("본문을 입력해주세요!");
+				}else{
 			   
-			  jQuery.ajax({
-		             url : "/fileBoard/register.sw"
-		           ,processData: false
-		           ,contentType: false
-		           , type : "POST"
-		           , data : formData
-		           , success:function(data){
-		        	   if(data == "success"){
-		        		   location.href = '/fileBoard/list.sw';
-		           }else{
-		        	   alert("등록 실패!");
-		        	   }
-		        },error : function() {
-					alert("ajax 통신 오류! 관리자에게 문의해주세요.");
+					  jQuery.ajax({
+				             url : "/fileBoard/register.sw"
+				           ,processData: false
+				           ,contentType: false
+				           , type : "POST"
+				           , data : formData
+				           , success:function(data){
+				        	   if(data == "success"){
+				        		   location.href = '/fileBoard/list.sw';
+				           }else{
+				        	   alert("등록 실패!");
+				        	   }
+				        },error : function() {
+							alert("ajax 통신 오류! 관리자에게 문의해주세요.");
+						}
+					})
 				}
-			})
 		}
 			 
 	});
