@@ -147,4 +147,10 @@ public class MemberServiceImpl implements MemberService{
 		return mList;
 	}
 
+	@Override
+	public int modifyPassword(Member member) { // 비밀번호 변경
+		int result = mStore.updatePassword(sqlSession, member);
+		return result;
+	}
+
 }

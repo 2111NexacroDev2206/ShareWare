@@ -153,5 +153,12 @@ public class MemberStoreLogic implements MemberStore{
 		List<Member> mList = sqlSession.selectList("MemberMapper.selectListAlarmMember");
 		return mList;
 	}
+	
+	// 비밀번호 변경
+	@Override
+	public int updatePassword(SqlSession sqlSession, Member member) {
+		int result = sqlSession.update("MemberMapper.updatePassword", member);
+		return result;
+	}
 
 }

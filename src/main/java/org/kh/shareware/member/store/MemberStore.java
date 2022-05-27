@@ -46,5 +46,8 @@ public interface MemberStore {
 	
 	// 알림
 	public List<Member> selectAllAlarmMember(SqlSession sqlSession); // 전체 사원 조회
+	
+	// 비밀번호 변경
+	public int updatePassword(SqlSession sqlSession, Member member);
 
 }

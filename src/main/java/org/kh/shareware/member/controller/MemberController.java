@@ -35,7 +35,7 @@ public class MemberController {
 	
 	@RequestMapping(value="member/loginView.sw",method=RequestMethod.GET)
 	public String memberLoginView() {
-	return "member/memberLogin";
+	return "common/login";
 	}
 	
 	//로그인
@@ -48,8 +48,9 @@ public class MemberController {
 				session.setAttribute("loginUser", loginUser);
 				return "redirect:/home.sw";
 			}else {
-				request.setAttribute("msg", "회원 조회 실패");
-				return "common/errorPage";
+				request.setAttribute("msg", "비밀번호를 잘못 입력했습니다.");
+				request.setAttribute("loc", "loginView.sw");
+				return "common/msg";
 			}
 	}
 	
@@ -421,5 +422,22 @@ public class MemberController {
 		result.addVariable("ErrorCode", nErrorCode);
 		result.addVariable("ErrorMsg", strErrorMsg);
 		return result;
+	}
+	
+	// 비밀번호 변경
+	@RequestMapping(value = "/member/modifyPassword.sw", method = RequestMethod.POST)
+	public String modifyPassword(@RequestParam("newPassword") String newPassword
+			, @RequestParam("memberNum") String memberNum
+			, HttpServletRequest request) {
+		Member member = new Member();
+		member.setMemberNum(memberNum);
+		member.setPassword(newPassword); // 변경할 비밀번호
+		int result = mService.modifyPassword(member);
+		if(result > 0) {
+			return "common/login";
+		}else {
+			request.setAttribute("msg", "비밀번호 변경 실패");
+			return "common/errorPage";
+		}
 	}
 }
