@@ -231,12 +231,12 @@
 	const imageInput = $("#comImgName")[0];
 	
 	function comInsert(){
+		 //투표가 보여지고 있을 때
 		if(voteBodyDiv.style.display === 'block'){
 			alert("투표 작성을 끝마쳐주요.");
 		}else{
-				var comTitle = $("#comTitle").val();
-				var comContent = $('#comContent').val();
-				
+			var comTitle = $("#comTitle").val();
+			var comContent = $('#comContent').val();
 				 const formData = new FormData();
 				  formData.append("uploadFile", imageInput.files[0]);
 				   formData.append("comTitle", comTitle);
@@ -248,27 +248,30 @@
 					   formData.append("cVoteText3", cVoteText3);
 					   formData.append("cVoteText4", cVoteText4);
 				   }
-				   //투표가 보여지고 있을 때
-				   
-			
-				  jQuery.ajax({
-			             url : "/community/register.sw"
-			           ,processData: false
-			           ,contentType: false
-			           , type : "POST"
-			           , data : formData
-			           , success:function(data){
-			        	   if(data == "success"){
-			        		   location.href = '/community/list.sw';
-			           }else{
-			        	   alert("등록 실패!");
-			        	   }
-			        },error : function() {
-						alert("ajax 통신 오류! 관리자에게 문의해주세요.");
-					}
-				})
+			if(comTitle == ""){
+						alert("제목을 입력해주세요!");
+			}else if(comContent == ""){
+				alert("본문을 입력해주세요!");
+			}else{
+				 jQuery.ajax({
+		             url : "/community/register.sw"
+		           ,processData: false
+		           ,contentType: false
+		           , type : "POST"
+		           , data : formData
+		           , success:function(data){
+		        	   if(data == "success"){
+		        		   location.href = '/community/list.sw';
+		           }else{
+		        	   alert("등록 실패!");
+		        	   }
+		        },error : function() {
+					alert("ajax 통신 오류! 관리자에게 문의해주세요.");
+				}
+			})
+			}
 		}
-	}
+	};
 	 
 			
 			 

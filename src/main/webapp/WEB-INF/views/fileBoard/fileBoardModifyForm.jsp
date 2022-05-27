@@ -78,23 +78,28 @@ $(document).ready(function(){
 						   formData.append("fileBoardTitle", fileBoardTitle);
 						   formData.append("fileBoaedContent", fileBoaedContent);
 						   formData.append("fileBoardNo", fileBoardNo);
-						   
-						jQuery.ajax({
-				             url : "/fileBoard/modify.sw"
-				           ,processData: false
-				           ,contentType: false
-				           , type : "POST"
-				           , data : formData
-				           , success:function(data){
-				        	   if(data == "success"){
-				        		   location.href = '/fileBoard/list.sw';
-		        	   }else{
-		        	   alert("수정 실패!");
-		        	   }
-		        },error : function() {
-					alert("ajax 통신 오류! 관리자에게 문의해주세요.");
+						   if(fileBoardTitle == ""){
+								alert("제목을 입력해주세요!");
+							}else if(fileBoaedContent == ""){
+									alert("본문을 입력해주세요!");
+							}else{
+								jQuery.ajax({
+						             url : "/fileBoard/modify.sw"
+						           ,processData: false
+						           ,contentType: false
+						           , type : "POST"
+						           , data : formData
+						           , success:function(data){
+						        	   if(data == "success"){
+						        		   location.href = '/fileBoard/list.sw';
+				        	   }else{
+				        	   alert("수정 실패!");
+				        	   }
+				        },error : function() {
+							alert("ajax 통신 오류! 관리자에게 문의해주세요.");
+						}
+					})
 				}
-			})
 			}	
 		});
 	</script>
