@@ -256,4 +256,8 @@
 		UNION ALL
 		SELECT MEMBER_NUM AS DIV_CODE, MEMBER_NAME AS DIV_NAME, 3 AS DIV_LEVEL FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE WHERE DIV_CODE = #{divCode}
 	</select>
+	<!-- 알림 전체 사원 조회 -->
+	<select id="selectListAlarmMember" resultMap="memberResultMap">
+		SELECT * FROM MEMBER
+	</select>
   </mapper>

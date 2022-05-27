@@ -96,5 +96,11 @@ public class NoticeServiceImpl implements NoticeService{
 		int result = nStore.deleteAdminNotice(sqlsession, noticeNo);
 		return result;
 	}
+	//알림 최근 공지 조회
+	@Override
+	public Notice printLastNotice() {
+		Notice notice = nStore.selectOneLastNotice(sqlsession);
+		return notice;
+	}
 
 }

@@ -348,7 +348,7 @@ public class MemberController {
 		NexacroResult result = new NexacroResult();
 		String photo = null;
 		if(member.getString(0, "photo") != null) {
-			photo = member.getString(0, "memberNum") + "." + member.getString(0, "photo").substring(member.getString(0, "photo").lastIndexOf(".") + 1);
+			photo = member.getString(0, "photo").substring(member.getString(0, "photo").lastIndexOf("\\") + 1);
 		}
 		// UPDATE
 		Member newMember = new Member(

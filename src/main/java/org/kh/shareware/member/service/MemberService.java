@@ -36,4 +36,6 @@ public interface MemberService {
 	// 조직도
 	public List<Division> printAllDivision(); // 부서 조회
 	public List<Division> printOneDivision(String divCode); // 부서 사원 조회
+	// 알림 - 전체 사원 조회
+	public List<Member> printAllAlarmMember();
 }

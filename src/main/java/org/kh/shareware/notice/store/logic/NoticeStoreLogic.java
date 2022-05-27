@@ -101,5 +101,11 @@ public class NoticeStoreLogic implements NoticeStore{
 		int result = sqlsession.delete("NoticeMapper.deleteNotice", noticeNo);
 		return result;
 	}
+	//알림 최근 공지 조회
+	@Override
+	public Notice selectOneLastNotice(SqlSession sqlsession) {
+		Notice notice = sqlsession.selectOne("NoticeMapper.selectOneLastNotice");
+		return notice;
+	}
 
 }

@@ -9,10 +9,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.kh.shareware.alarm.domain.Alarm;
+import org.kh.shareware.alarm.service.AlarmService;
 import org.kh.shareware.common.PageInfo;
 import org.kh.shareware.common.Pagination;
 import org.kh.shareware.common.Search;
 import org.kh.shareware.member.domain.Member;
+import org.kh.shareware.member.service.MemberService;
 import org.kh.shareware.notice.domain.Notice;
 import org.kh.shareware.notice.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,12 @@ public class NoticeController {
 
 	@Autowired
 	private NoticeService nService;
+	
+	@Autowired
+	private AlarmService alService;
+	
+	@Autowired
+	private MemberService mService;
 
 	// 넥사크로 리스트 보기
 	@RequestMapping(value = "/admin/notice/nexaList.sw", method = RequestMethod.GET)
@@ -124,7 +133,7 @@ public class NoticeController {
 		newNotice.setNoticeTitle(notice.getString(0, "noticeTitle"));
 		newNotice.setNoticeContent(notice.getString(0, "noticeContent"));
 		int nResult = nService.registerNotice(newNotice);
-
+		alarmRegister(); // 전체 사원에게 공지 알림 등록
 		if (nResult > 0) {
 			nErrorCode = 0;
 			strErrorMsg = "SUCC";
@@ -263,5 +272,19 @@ public class NoticeController {
 			return "";
 		else
 			return value;
+	}
+	
+	// 알림 등록
+	public void alarmRegister() {
+		Alarm alarm = new Alarm();
+		Notice notice = nService.printLastNotice(); // 공지사항
+		alarm.setKind("<span class='al-kind notice'>[공지]</span>");
+		List<Member> mList = mService.printAllAlarmMember();
+		for(int i = 0; i < mList.size(); i++) {
+			alarm.setMemNum(mList.get(i).getMemberNum()); // 모든 사원에게 알림
+			alarm.setAlarmUrl("'/notice/detail.sw?noticeNo=" + notice.getNoticeNo() + "'");
+			alarm.setAlarmContent("<span class='al-content'><strong>'" + notice.getNoticeTitle() + "'</strong> 글이 등록되었습니다.</span>");
+			alService.registerAlarm(alarm); // 알림 등록
+		}
 	}
 }

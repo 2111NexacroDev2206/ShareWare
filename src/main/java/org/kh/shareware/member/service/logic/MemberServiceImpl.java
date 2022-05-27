@@ -139,5 +139,12 @@ public class MemberServiceImpl implements MemberService{
 		List<Division> mList = mStore.selectOneDivision(sqlSession, divCode);
 		return mList;
 	}
+	
+	// 알림
+	@Override
+	public List<Member> printAllAlarmMember() { // 전체 사원 조회
+		List<Member> mList = mStore.selectAllAlarmMember(sqlSession);
+		return mList;
+	}
 
 }

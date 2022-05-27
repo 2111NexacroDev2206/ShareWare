@@ -147,4 +147,11 @@ public class MemberStoreLogic implements MemberStore{
 		return mList;
 	}
 
+	// 알림
+	@Override
+	public List<Member> selectAllAlarmMember(SqlSession sqlSession) { // 전체 사원 조회
+		List<Member> mList = sqlSession.selectList("MemberMapper.selectListAlarmMember");
+		return mList;
+	}
+
 }

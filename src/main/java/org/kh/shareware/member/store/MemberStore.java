@@ -43,5 +43,8 @@ public interface MemberStore {
 	// 조직도
 	public List<Division> selectAllDivision(SqlSession sqlSession); // 부서 조회
 	public List<Division> selectOneDivision(SqlSession sqlSession, String divCode); // 부서 사원 조회
+	
+	// 알림
+	public List<Member> selectAllAlarmMember(SqlSession sqlSession); // 전체 사원 조회
 
 }

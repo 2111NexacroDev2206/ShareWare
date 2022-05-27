@@ -34,6 +34,8 @@ public interface NoticeService {
 	Notice adminNoticeDetail(int noticeNo);
 	//넥사크로 공지사항삭제
 	int removeNotice(int noticeNo);
+	//알림 최근 공지 조회
+	public Notice printLastNotice();
 	
 
 }

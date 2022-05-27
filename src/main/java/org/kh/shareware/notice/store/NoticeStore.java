@@ -34,5 +34,7 @@ public interface NoticeStore {
 	Notice selectOneAdminNotice(SqlSession sqlsession, int noticeNo);
 	//넥사크로 글 삭제
 	int deleteAdminNotice(SqlSession sqlsession, int noticeNo);
+	//알림 최근 공지 조회
+	public Notice selectOneLastNotice(SqlSession sqlsession);
 
 }
