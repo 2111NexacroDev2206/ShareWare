@@ -15,9 +15,9 @@
 			<i class="fa-solid fa-folder-open"></i>		
 		</div>
 		<input id="newProjectbtn" type="button" value="프로젝트 생성" onclick="location.href='/project/newProjectView.sw'">
-		<div class="s-list-item ${listCondition eq 'All' ? 'active' : ''}"><a href="/project/projectList.sw">전체보기</a></div>
-		<div class="s-list-item ${listCondition eq 'yList' ? 'active' : ''}"><a href="/project/projectList.sw?pStatus=Y">진행중인 프로젝트</a></div>
-		<div class="s-list-item ${listCondition eq 'nList' ? 'active' : ''}"><a href="/project/projectList.sw?pStatus=N">종료된 프로젝트</a></div>
+		<div class="s-list-item ${pStatus eq 'A' ? 'active' : ''}"><a href="/project/projectList.sw">전체보기</a></div>
+		<div class="s-list-item ${pStatus eq 'Y' ? 'active' : ''}"><a href="/project/projectList.sw?pStatus=Y">진행중인 프로젝트</a></div>
+		<div class="s-list-item ${pStatus eq 'N' ? 'active' : ''}"><a href="/project/projectList.sw?pStatus=N">종료된 프로젝트</a></div>
 	</div>
 </body>
 </html>

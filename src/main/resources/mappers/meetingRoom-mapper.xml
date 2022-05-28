@@ -39,7 +39,7 @@
   	</select>
   	<select id="selectListReservation" resultMap ="MeetingRoomResultMap">
   	<![CDATA[
-		SELECT * FROM MEETING_ROOM WHERE MEMBER_NUM = #{memberNum} AND TO_DATE(SYSDATE, 'yyyy mm dd') <= TO_DATE(MR_DATE, 'yyyy mm dd') AND MR_RESERVATION = 1 ORDER BY MR_DATE ASC
+  		SELECT MEMBER_NUM, MR_NO, TO_CHAR(MR_DATE, 'YYYY-MM-DD') AS MR_DATE, MR_TIME, MR_RESERVATION FROM MEETING_ROOM WHERE MEMBER_NUM = #{memberNum} AND TO_DATE(SYSDATE, 'yyyy mm dd') <= TO_DATE(MR_DATE, 'yyyy mm dd') AND MR_RESERVATION = 1 ORDER BY MR_DATE ASC
 		]]>
   	</select>
   	
@@ -50,5 +50,10 @@
 	<![CDATA[
   		SELECT COUNT(*) FROM MEETING_ROOM WHERE MEMBER_NUM = #{memberNum} AND TO_DATE(SYSDATE, 'yyyy mm dd') <= TO_DATE(MR_DATE, 'yyyy mm dd') AND MR_RESERVATION = 1
   	]]>
+  	</select>
+  	
+  	<!-- 넥사크로 onload 페이지시 기본 셀렉트 -->
+  	<select id="selectListAdminReservation" resultMap ="MeetingRoomResultMap">
+  		SELECT MEMBER_NAME AS MEMBER_NUM, MR_NO, MR_DATE, MR_TIME, MR_RESERVATION FROM MEETING_ROOM JOIN MEMBER ON MEETING_ROOM.MEMBER_NUM = MEMBER.MEMBER_NUM WHERE MR_DATE = #{meetingDate} AND MR_RESERVATION = 1 AND MR_NO LIKE '%'||#{meetingNo} ||'%' 
   	</select>
 </mapper>

@@ -1,17 +1,17 @@
 package org.kh.shareware.member.domain;
 
-import java.sql.Date;
-
 public class Member {
 	private String memberNum;
 	private String memberName;
+	private String divCode;
 	private String division;
+	private String rankCode;
 	private String rank;
 	private String address;
 	private String phone;
 	private String mail;
-	private Date hireDate;
-	private Date retireDate;
+	private String hireDate;
+	private String retireDate;
 	private String birth;
 	private String account;
 	private String bank;
@@ -23,13 +23,15 @@ public class Member {
 	
 	public Member() {}
 
-	public Member(String memberNum, String memberName, String division, String rank, String address, String phone,
-			String mail, Date hireDate, Date retireDate, String birth, String account, String bank, String password,
-			String gender, String photo, String breakTotal, String mStatus) {
+	public Member(String memberNum, String memberName, String divCode, String division, String rankCode, String rank,
+			String address, String phone, String mail, String hireDate, String retireDate, String birth, String account,
+			String bank, String password, String gender, String photo, String breakTotal, String mStatus) {
 		super();
 		this.memberNum = memberNum;
 		this.memberName = memberName;
+		this.divCode = divCode;
 		this.division = division;
+		this.rankCode = rankCode;
 		this.rank = rank;
 		this.address = address;
 		this.phone = phone;
@@ -62,12 +64,28 @@ public class Member {
 		this.memberName = memberName;
 	}
 
+	public String getDivCode() {
+		return divCode;
+	}
+
+	public void setDivCode(String divCode) {
+		this.divCode = divCode;
+	}
+
 	public String getDivision() {
 		return division;
 	}
 
 	public void setDivision(String division) {
 		this.division = division;
+	}
+
+	public String getRankCode() {
+		return rankCode;
+	}
+
+	public void setRankCode(String rankCode) {
+		this.rankCode = rankCode;
 	}
 
 	public String getRank() {
@@ -102,19 +120,19 @@ public class Member {
 		this.mail = mail;
 	}
 
-	public Date getHireDate() {
+	public String getHireDate() {
 		return hireDate;
 	}
 
-	public void setHireDate(Date hireDate) {
+	public void setHireDate(String hireDate) {
 		this.hireDate = hireDate;
 	}
 
-	public Date getRetireDate() {
+	public String getRetireDate() {
 		return retireDate;
 	}
 
-	public void setRetireDate(Date retireDate) {
+	public void setRetireDate(String retireDate) {
 		this.retireDate = retireDate;
 	}
 
@@ -184,13 +202,11 @@ public class Member {
 
 	@Override
 	public String toString() {
-		return "Member [memberNum=" + memberNum + ", memberName=" + memberName + ", division=" + division + ", rank="
-				+ rank + ", address=" + address + ", phone=" + phone + ", mail=" + mail + ", hireDate=" + hireDate
-				+ ", retireDate=" + retireDate + ", birth=" + birth + ", account=" + account + ", bank=" + bank
-				+ ", password=" + password + ", gender=" + gender + ", photo=" + photo + ", breakTotal=" + breakTotal
-				+ ", mStatus=" + mStatus + "]";
+		return "Member [memberNum=" + memberNum + ", memberName=" + memberName + ", divCode=" + divCode + ", division="
+				+ division + ", rankCode=" + rankCode + ", rank=" + rank + ", address=" + address + ", phone=" + phone
+				+ ", mail=" + mail + ", hireDate=" + hireDate + ", retireDate=" + retireDate + ", birth=" + birth
+				+ ", account=" + account + ", bank=" + bank + ", password=" + password + ", gender=" + gender
+				+ ", photo=" + photo + ", breakTotal=" + breakTotal + ", mStatus=" + mStatus + "]";
 	}
-
-	
 	
 }

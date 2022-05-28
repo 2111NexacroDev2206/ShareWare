@@ -12,6 +12,8 @@
   		<result property="attTotalTime" column="ATT_TOTAL_TIME"/>
   		<result property="attStatus" column="ATT_STATUS"/>
   		<result property="memNum" column="MEM_NUM"/>
+  		<result property="memberName" column="MEMBER_NAME"/>
+  		<result property="division" column="DIV_NAME"/>
   	</resultMap>
   	
   		<resultMap type="Stats" id="statsResultMap">
@@ -22,7 +24,7 @@
   
   	<!-- 출근 등록 -->
   	<update id="insertAttendance">           
-        UPDATE ATTENDANCE SET ATT_STR_TIME = TO_CHAR(SYSDATE, 'HH24:MI:SS'), ATT_STATUS = #{attStatus } WHERE  ATT_NO = (SELECT MAX(ATT_NO) FROM ATTENDANCE WHERE MEM_NUM = #{memNum})
+        UPDATE ATTENDANCE SET ATT_STR_TIME = TO_CHAR(SYSDATE, 'HH24:MI:SS'), ATT_STATUS = #{attStatus } WHERE ATT_NO = (SELECT MAX(ATT_NO) FROM ATTENDANCE WHERE MEM_NUM = #{memNum})
   	</update>
   	
   	<!-- 퇴근 등록 / 총근무시간 -->
@@ -38,9 +40,14 @@
              , ATT_FIN_TIME
              , ATT_TOTAL_TIME
              , ATT_STATUS
-             , MEM_NUM 
+             , MEM_NUM
   		  FROM ATTENDANCE 
   		 WHERE MEM_NUM || TO_CHAR(ATT_DATE,'YYYY-MM') LIKE #{memNum} || '%'
+  		 AND ATT_NO IN(SELECT ATT_NO FROM ATTENDANCE
+  		 WHERE MEM_NUM || TO_CHAR(ATT_DATE,'YYYY-MM') LIKE #{memNum} || '%'
+  		 AND ATT_NO IN(SELECT MIN(ATT_NO) FROM ATTENDANCE
+  		 WHERE MEM_NUM || TO_CHAR(ATT_DATE,'YYYY-MM') LIKE #{memNum} || '%'
+  		 GROUP BY TO_CHAR(ATT_DATE,'YYYY-MM-DD'), MEM_NUM))
   		 ORDER BY ATT_DATE DESC
   	</select>
   	<select id="selectListCount" resultType="_int"> 
@@ -92,6 +99,74 @@
 	
 	<!-- 홈 - 근태 관리 -->
 	<select id="selectOneAtt" resultMap="attendanceResultMap">
-		SELECT * FROM ATTENDANCE WHERE ATT_DATE = TO_CHAR(SYSDATE, 'YY/MM/DD') AND MEM_NUM = #{memberNum}
+		SELECT * FROM ATTENDANCE WHERE TO_CHAR(ATT_DATE, 'YY/MM/DD') = TO_CHAR(SYSDATE, 'YY/MM/DD') AND MEM_NUM = #{memberNum}
 	</select>
-  </mapper>
+	
+<!-- 넥사크로- 근태 관리 -->
+	  	<select id="selectAllAttNexa" resultMap="attendanceResultMap">
+  		SELECT MEMBER_NAME
+  			 , DIV_NAME 
+             , TO_CHAR(ATT_DATE,'YYYY-MM-DD') AS ATT_DATE
+             , ATT_STR_TIME
+             , ATT_FIN_TIME
+             , ATT_TOTAL_TIME
+             , ATT_STATUS
+             , MEM_NUM
+             , ( SELECT COUNT(*) 
+		         FROM ATTENDANCE
+		        WHERE TO_CHAR(ATT_DATE,'YYYYMMDD') = #{inVar} 
+		          AND ATT_STATUS = '지각' ) AS lateNum
+			 , ( SELECT COUNT(*) 
+			       FROM ATTENDANCE
+	              WHERE TO_CHAR(ATT_DATE,'YYYYMMDD') = #{inVar} 
+	                AND ATT_STATUS = '출근') AS attNum
+		     , ( SELECT COUNT(*) 
+			       FROM ATTENDANCE
+			      WHERE TO_CHAR(ATT_DATE,'YYYYMMDD') = #{inVar} 
+			        AND ATT_STATUS = '결근') AS absNum 
+  		  FROM ATTENDANCE JOIN MEMBER ON MEM_NUM = MEMBER_NUM JOIN DIVISION ON DIV_CODE = DIVISION 
+  		 WHERE TO_CHAR(ATT_DATE,'YYYYMMDD') = #{inVar}
+  		 ORDER BY ATT_NO
+  	</select>
+<!-- 넥사크로- 근태 관리 검색 -->
+	  	<select id="selectAllSearchAttNexa" resultMap="attendanceResultMap">
+  		SELECT MEMBER_NAME
+  			 , DIV_NAME 
+             , TO_CHAR(ATT_DATE,'YYYY-MM-DD') AS ATT_DATE
+             , ATT_STR_TIME
+             , ATT_FIN_TIME
+             , ATT_TOTAL_TIME
+             , ATT_STATUS
+             , MEM_NUM
+  		  FROM ATTENDANCE JOIN MEMBER ON MEM_NUM = MEMBER_NUM JOIN DIVISION ON DIV_CODE = DIVISION 
+  		 WHERE TO_CHAR(ATT_DATE,'YYYYMMDD') = #{type}
+  		 <if test="searchCondition.toString() == 'memberName'">
+			AND MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'division'">
+			AND DIV_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'all'">
+			AND (MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+			OR DIV_NAME LIKE '%' || #{searchValue} || '%')
+		</if>
+		ORDER BY ATT_NO
+  	</select>
+ 
+ <!-- 넥사크로- 근태 통계 --> 	
+  <select id="selecAttStsNexa" resultMap="statsResultMap">
+  	SELECT ( SELECT COUNT(*) 
+		       FROM ATTENDANCE
+		      WHERE TO_CHAR(ATT_DATE,'YYYYMMDD') = #{inVar} 
+		        AND ATT_STATUS = '지각' ) AS lateNum
+		 , ( SELECT COUNT(*) 
+		       FROM ATTENDANCE
+              WHERE TO_CHAR(ATT_DATE,'YYYYMMDD') = #{inVar} 
+                AND ATT_STATUS = '출근') AS attNum
+	     , ( SELECT COUNT(*) 
+		       FROM ATTENDANCE
+		      WHERE TO_CHAR(ATT_DATE,'YYYYMMDD') = #{inVar} 
+		        AND ATT_STATUS = '결근') AS absNum  
+	  FROM DUAL               
+  </select>             
+</mapper>

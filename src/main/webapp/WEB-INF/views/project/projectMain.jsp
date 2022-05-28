@@ -16,7 +16,7 @@
 		<div class="s-container">
 		<br><br>
 		<div class="important-table">
-			<span>중요공지</span><button onclick="location.href='/project/importantList.sw?projectNo=${projectNo}'">+ 더보기</button>
+			<span>중요공지사항</span><button onclick="location.href='/project/importantList.sw?projectNo=${projectNo}'">+ 더보기</button>
 			<hr class="line">
 			<table>
 				<c:forEach items="${iList }" var="important" varStatus="status">
@@ -34,7 +34,7 @@
 		</div>
 	
 		<div class="work-table">
-			<span>업무현황</span><button onclick="location.href='/project/workList.sw?projectNo=${projectNo}'">+더보기</button>
+			<span>업무진행현황</span><button onclick="location.href='/project/workList.sw?projectNo=${projectNo}'">+더보기</button>
 			<hr class="line">
 			<table>
 				<c:forEach items="${wList }" var="work" varStatus="status">
@@ -52,20 +52,26 @@
 		</div>
 		<br><br>
 			<div>
-				<div class="chart" style="position: relative; height:500px; width:500px;">
+				<div class="chart" style="position:relative; height:500px; width:500px;">
 					<span id="chart-span">업무진행률</span><button id="chart-btn" onclick="chart()">입력</button>
 					<canvas id="Chart" width="500" height="400"></canvas>
 				</div>
 				<div class="participant" >
-					<span id="par-span">구성원</span>
-					<br><br>
+					<span id="par-span">구성원  <i class="fa-solid fa-people-line fa-lg"></i></span>
+					<br>
 					<div style="overflow-x:hidden;overflow-y:scroll;width:300px; height:150px; padding:10px; border:solid 1px gray; border-radius:3px">
 						<div id="manager">프로젝트 관리자 ${project.projectMade }</div>
 						<c:forEach items="${pList }" var="participant">
 							<div>${participant.division } ${participant.memberName } ${participant.rank }</div>
 						</c:forEach>
 					</div>
-					
+				</div>
+				<div class="project-info">
+					<div id="info-box">
+						<div id="info-tit">${project.projectTitle }</div>
+						<div id="info-made">담 당 자 : ${project.projectMade }</div>
+						<div id="info-date">${project.pStartDate } ~ ${project.pEndDate }</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -78,14 +84,15 @@
 		  data: {
 		      labels: [<c:forEach items="${cList }" var="workChart">'${workChart.projectWriter }',</c:forEach>],
 		      datasets: [{
-		          label: '진행현황',
+		          label: '진행률(%)',
 		          data: [<c:forEach items="${cList }" var="workChart">${workChart.wpRate },</c:forEach>],
-		          backgroundColor: 'rgba(117, 144, 194, 0.38)',
-		          borderColor: 'rgb(47, 71, 117)',
+		          backgroundColor: ['rgb(228, 82, 89)','rgba(117, 144, 194, 0.6)', 'rgb(241, 196, 15, 0.6)','rgb(171, 210, 145)','rgb(243, 156, 18)'],
+		          borderColor: 'rgb(94, 94, 94)',
 		          borderWidth: 1
 		      }]
 		  },
 		  options: {
+			  maxBarThickness: 90,
 			  responsive : false,
 		      scales: {
 		          y: {

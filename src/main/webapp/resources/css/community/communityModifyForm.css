@@ -38,23 +38,23 @@ a {
 }
 
 .optionBtnDiv{
-    height: 32px;
+    height: 45px;
     width: 168px;
     float: right;
   }
 
   .dateDiv{
+    margin-top: 15px;
     height: 20px;
     width: 150px;
     float: right;
     margin-right: 5px;
   }
 
-  .optionBtnDiv #upDateBtn{
-    margin-left: 3px;
-    margin-right: 3px;
+  .optionBtnDiv #updateBtn{
+    margin-left: 5px;
     width: 80px;
-    height: 32px;
+    height: 45px;
     border-radius: 5px;
     border: 1px solid rgb(147, 169, 209);
     background-color: rgb(147, 169, 209);
@@ -66,7 +66,7 @@ a {
 
 .optionBtnDiv #cancleBtn{
     width: 80px;
-    height: 32px;
+    height: 45px;
     border-radius: 5px;
     border: 1px solid rgb(147, 169, 209);
     background-color: rgb(255, 255, 255);
@@ -180,7 +180,7 @@ a {
     position: absolute;
     width: 400px;
 	height: auto;
-    padding: 20px 10px 10px 20px;
+    padding: 5px 10px 10px 20px;
 	top:50%;
 	left: 50%;
 	margin: -250px 0 0 -250px;
@@ -189,6 +189,22 @@ a {
 	border: 2px solid rgb(145, 168, 210);
 	z-index: 2;
 }
+
+#returnBtn{
+    margin-left: 360px;
+    margin-bottom: 10px;
+	width: 40px;
+    height: 40px;
+	font-family: FontAwesome;
+    display: inline-flex;
+	justify-content:center;
+	border: none;
+	cursor : pointer;
+	background-color : transparent;
+    font-size: 30px;
+    color: rgb(145, 168, 210);
+}
+
 #vote-textbox-div {
     margin-bottom: 10px;
     width: 400px;

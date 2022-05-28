@@ -1,7 +1,10 @@
 package org.kh.shareware.meetingRoom.controller;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.kh.shareware.member.domain.Member;
+import org.kh.shareware.notice.domain.Notice;
 import org.kh.shareware.common.PageInfo;
 import org.kh.shareware.common.Pagination;
 import org.kh.shareware.community.domain.Reply;
@@ -26,12 +30,57 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
+import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 @Controller
 public class MeetingRoomController {
 	
 	@Autowired
 	private MeetingRoomService mService;
+	
+	//넥사크로 미팅룸 예약보기
+		@RequestMapping(value="/admin/meetingRoom/view.sw", method=RequestMethod.POST)
+		public NexacroResult noticeListView(
+				 @ParamVariable(name = "meetingDate") String meetingDate
+				,@ParamVariable(name = "meetingNo") String meetingNo){
+			
+			
+			int 	nErrorCode = 0;
+			String  strErrorMsg = "START";
+			NexacroResult result = new NexacroResult();
+			
+			MeetingRoom meetingRoom = new MeetingRoom();
+			meetingRoom.setMeetingDate(meetingDate);
+			meetingRoom.setMeetingNo(meetingNo);
+			
+			List<MeetingRoom> mList = mService.adminReservationList(meetingRoom);
+			
+			List<MeetingRoom> reList = new ArrayList<>();
+			for(int a = 1; a < 6; a++) {
+				MeetingRoom reMeetingRoom = new MeetingRoom();
+				reMeetingRoom.setMeetingDate(meetingDate);
+				reMeetingRoom.setMeetingNo(meetingNo);
+				reMeetingRoom.setMeetingTime(a);
+				reList.add(reMeetingRoom);
+			}
+			for(int i = 0; i < mList.size(); i++) {
+				int mRTime = mList.get(i).getMeetingTime();
+				reList.get(mRTime - 1).setMemberNum(mList.get(i).getMemberNum()); //reList 에 mList 값을 넣어줌
+			}
+			
+				if(!mList.isEmpty()) {
+					nErrorCode = 0;
+					strErrorMsg ="SUCC";
+				}else {
+					nErrorCode =1;
+					strErrorMsg ="fail";
+				}
+			result.addDataSet("out_meetingRoomData", reList);
+			result.addVariable("ErrorCode", nErrorCode);
+			result.addVariable("ErrorMsg", strErrorMsg);
+			return result;
+		}
 	
 	//예약 페이지 보기
 		@RequestMapping(value="/meetionRoom/meetingRoomReservationView.sw", method=RequestMethod.GET)
@@ -52,7 +101,7 @@ public class MeetingRoomController {
 				,@RequestParam("meetingTime") String meetingTime) {
 			
 				MeetingRoom meetingRoom = new MeetingRoom();
-				meetingRoom.setMeetingDate(Date.valueOf(meetingDate));
+				meetingRoom.setMeetingDate(meetingDate);
 				meetingRoom.setMeetingNo(meetingNo);
 				meetingRoom.setMeetingTime(Integer.parseInt(meetingTime));
 				
@@ -80,7 +129,7 @@ public class MeetingRoomController {
 				,HttpServletResponse response) throws Exception{
 			
 				MeetingRoom meetingRoom = new MeetingRoom();
-				meetingRoom.setMeetingDate(Date.valueOf(meetingDate));
+				meetingRoom.setMeetingDate(meetingDate);
 				meetingRoom.setMeetingNo(meetingNo);
 						
 				List<MeetingRoom> mList = mService.selectCheck(meetingRoom);
@@ -110,11 +159,14 @@ public class MeetingRoomController {
 			PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
 					
 			List<MeetingRoom> mList = mService.reservationList(pi,memberNum);
+			
+			
 			if(mList != null) {
 				model.addAttribute("mList", mList);
 				model.addAttribute("pi", pi);
 				model.addAttribute("myCondition", "meetingRoom");
 				model.addAttribute("listCondition", "roomCheck");
+				model.addAttribute("currentPage", currentPage);
 				return "meetingRoom/meetingRoomCheck";
 			}else {
 				model.addAttribute("msg", "리스트 출력 실패");
@@ -133,7 +185,7 @@ public class MeetingRoomController {
 				) {
 					
 				MeetingRoom meetingRoom = new MeetingRoom();
-				meetingRoom.setMeetingDate(Date.valueOf(meetingDate));
+				meetingRoom.setMeetingDate(meetingDate);
 				meetingRoom.setMeetingNo(meetingNo);
 				meetingRoom.setMeetingTime(Integer.parseInt(meetingTime));
 				meetingRoom.setMemberNum(memberNum);

@@ -8,12 +8,16 @@
 		<id property="leaveTotal" column="LEAVE_TOTAL" />
 		<result property="leaveUse" column="LEAVE_USE" />
 		<result property="leaveRemain" column="LEAVE_REMAIN" />
+		<result property="memberNum" column="MEMBER_NUM" />
+		<result property="memberName" column="MEMBER_NAME" />
+		<result property="hireDate" column="HIRE_DATE" />
 	</resultMap>
 
 	<resultMap type="LeaveList" id="leaveListResultMap">
 		<id property="leaveType" column="LEAVE_TYPE" />
 		<result property="leaveStart" column="LEAVE_START" />
 		<result property="leaveEnd" column="LEAVE_END" />
+		<result property="leaveTime" column="LEAVE_TIME" />
 		<result property="leaveDay" column="LEAVE_DAY" />
 	</resultMap>
 
@@ -23,7 +27,7 @@
 	</select>
 <!-- 사용연차 -->
 	<select id="selectLeaveUse" resultType="_float">
-		SELECT SUM(LEAVE_APPLY) FROM APP_DOC WHERE MEM_NUM = #{memNum} AND FORM_NO = 3 AND LEAVE_TYPE IN('연차', '반차') AND SUBSTR(DOC_DATE, 1, 4) = TO_CHAR(SYSDATE, 'YYYY') AND DOC_STATUS = '완료' GROUP BY MEM_NUM
+		SELECT NVL(MAX(A_COUNT), 0) FROM(SELECT SUM(LEAVE_APPLY) AS A_COUNT FROM APP_DOC WHERE MEM_NUM || SUBSTR(DOC_DATE,0,4) LIKE #{memNum} || '%' AND FORM_NO = 3 AND LEAVE_TYPE IN('연차', '반차') AND DOC_STATUS = '완료' GROUP BY MEM_NUM)
 	</select>
 
 <!-- 연차리스트 -->
@@ -31,11 +35,30 @@
 		SELECT LEAVE_TYPE
 			 ,LEAVE_START
 			 ,LEAVE_END
-			 ,LEAVE_DAY 
+			 ,LEAVE_TIME 
+			 ,LEAVE_DAY
 		FROM APP_DOC 
 		WHERE MEM_NUM || SUBSTR(DOC_DATE,0,4) LIKE #{memNum} || '%'
-			AND LEAVE_TYPE IS NOT NULL 
+			AND LEAVE_TYPE IS NOT NULL AND DOC_STATUS = '완료'
 		ORDER BY DOC_NO DESC
 	</select>
 
+
+<!-- 넥사크로 연차리스트 -->
+	<select id="selectAllLeaveNexa" resultMap="leaveResultMap">
+		SELECT MEMBER_NAME, HIRE_DATE, BREAK_TOTAL AS LEAVE_TOTAL, NVL((SELECT SUM(LEAVE_APPLY) AS A_COUNT FROM APP_DOC WHERE MEM_NUM = MEMBER_NUM AND SUBSTR(DOC_DATE,0,4) = #{inYear} AND FORM_NO = 3 AND LEAVE_TYPE IN('연차', '반차') AND DOC_STATUS = '완료' GROUP BY MEM_NUM), 0) AS LEAVE_USE, BREAK_TOTAL-NVL((SELECT SUM(LEAVE_APPLY) AS A_COUNT FROM APP_DOC WHERE MEM_NUM = MEMBER_NUM AND SUBSTR(DOC_DATE,0,4) = #{inYear} AND FORM_NO = 3 AND LEAVE_TYPE IN('연차', '반차') AND DOC_STATUS = '완료' GROUP BY MEM_NUM), 0) AS LEAVE_REMAIN, MEMBER_NUM FROM MEMBER
+	</select>
+	<select id="selectAllSearchLeaveNexa" resultMap="leaveResultMap">
+		SELECT MEMBER_NAME, HIRE_DATE, BREAK_TOTAL AS LEAVE_TOTAL, NVL((SELECT SUM(LEAVE_APPLY) AS A_COUNT FROM APP_DOC WHERE MEM_NUM = MEMBER_NUM AND SUBSTR(DOC_DATE,0,4) = #{type} AND FORM_NO = 3 AND LEAVE_TYPE IN('연차', '반차') AND DOC_STATUS = '완료' GROUP BY MEM_NUM), 0) AS LEAVE_USE, BREAK_TOTAL-NVL((SELECT SUM(LEAVE_APPLY) AS A_COUNT FROM APP_DOC WHERE MEM_NUM = MEMBER_NUM AND SUBSTR(DOC_DATE,0,4) = #{type} AND FORM_NO = 3 AND LEAVE_TYPE IN('연차', '반차') AND DOC_STATUS = '완료' GROUP BY MEM_NUM), 0) AS LEAVE_REMAIN, MEMBER_NUM FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE
+		<if test="searchCondition.toString() == 'memberName'">
+			WHERE MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'division'">
+			WHERE DIV_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'all'">
+			WHERE (MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+			OR DIV_NAME LIKE '%' || #{searchValue} || '%')
+		</if>
+	</select>
 </mapper>

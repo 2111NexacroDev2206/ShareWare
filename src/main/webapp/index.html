@@ -36,6 +36,27 @@
 		</div>
 	</div>
 </form>
+<!-- 비밀번호 변경 모달 -->
+<div class="d-password">
+	<div class="m-password">
+		<div class="h-password">
+			<span class="h-p-logo">ShareWare</span>
+			<span class="h-p-text">에 오신 것을 환영합니다 !</span>
+		</div>
+		<form action="/member/modifyPassword.sw" method="post" enctype="multipart/form-data" onsubmit="return password_check();">
+			<input type="hidden" name="memberNum" id="mMemberNum">
+			<span class="s-p-text">새 비밀번호를 입력해 주세요.</span>
+			<input type="password" id="mPassword" name="newPassword" class="s-p-input">
+			<span class="s-p-text">비밀번호를 재입력 해주세요.</span>
+			<input type="password" id="rPassword" class="s-p-input">
+			<span class="chk-password" id="chkText"></span>
+			<div class="f-password">
+				<button type="button" class="pw-cancle">취소</button>
+				<button type="submit" class="pw-confirm">확인</button>
+			</div>
+		</form>
+	</div>
+</div>
 <script>
 $(function() {
     fnInit();
@@ -43,6 +64,15 @@ $(function() {
 
 function frm_check(){
   saveid();
+  // 비밀번호 번경 모달
+  if($("#loginPw").val() == "00") {
+	  $(".d-password").css('display', 'flex').hide().fadeIn();
+	  $("#mMemberNum").val($("#loginId").val()); // 입력한 사원번호 가져오기
+	  $("#mPassword").val("");
+	  $("#rPassword").val("");
+	  $("#chkText").text("");
+	  return false;
+  }
 }
 
 function fnInit(){
@@ -98,6 +128,31 @@ function saveid() {
     expdate.setTime(expdate.getTime() - 1000 * 3600 * 24 * 30);
      setCookie("saveid", $("#loginId").val(), expdate);   
  }
+}
+
+// 비밀번호 변경 모달
+$(".pw-cancle").click(function(){
+    modalClose();
+});
+function modalClose(){
+    $(".d-password").fadeOut();
+}
+
+// 비밀번호 유효성 체크
+function password_check() {
+	if($("#mPassword").val() != $("#rPassword").val()) {
+		$("#chkText").text("* 비밀번호가 일치하지 않습니다.");
+		return false;
+	}else if($("#mPassword").val() == "00") {
+		$("#chkText").text("* 임시 비밀번호와 일치합니다.");
+		return false;
+	}
+	var result = confirm("비밀번호를 변경하시겠습니까?");
+	if(result == true) {
+		modalClose();
+	}else {
+		return false;
+	}
 }
 </script>
 </body>

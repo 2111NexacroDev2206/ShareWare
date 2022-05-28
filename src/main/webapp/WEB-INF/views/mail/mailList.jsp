@@ -465,7 +465,6 @@ a {
 				</c:if>
 		</c:forEach>
 		<jsp:include page="mailPaging.jsp"></jsp:include>
-		<jsp:include page="mailBmkModal.jsp"></jsp:include>
 	</div>
 </body>
 </html>

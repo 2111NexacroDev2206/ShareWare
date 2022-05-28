@@ -1,107 +1,69 @@
 @charset "UTF-8";
 
-body, div, h1, textarea, input, button, a, p {
-    margin: 0;
-    padding: 0;
+#h-title {
+	margin-top: 25px;
 }
-
-a {
+.type01 {
+	width: 1350px;
+	margin: 20px 0;
+	font-size: 14px;
+	text-align: center;
+	border-collapse: collapse;
+	border-top: 2px solid rgb(200, 200, 200);
+	border-bottom: 2px solid rgb(200, 200, 200);
+  }
+ .type01 tr:hover {
+	background-color: rgb(250, 250, 250);
+}
+.type01 tr {
+	border-top: 1px solid rgb(200, 200, 200);
+	height: 45px;
+}
+.type01 th {
+	background-color: rgb(240, 240, 240);
+}
+.type01 a {
 	text-decoration: none;
 	color: black;
-  }
-
-#coreDiv {
-	height: 100%;
-	width: 100%;
+	cursor: pointer;
 }
-#marging{
-	width: 440px;
-	height: 100%;
-	float: left;
+.type01 .th-1{
+	width: 80px;
 }
-#position{
-	position: relative;
-	top: 75px;
-	width: 100%;
-	height: 100%;
+.type01 .th-2{
+	width: 200px;
+}
+.type01 .th-3{
+	width: 630px;
 }
 
-#contents{
-	position:absolute;
-	top: 200;
-	margin-top: 100px;
-	margin-left: 540px;
-	margin-right: 100px;
-	margin-bottom: 400px;
-	background-color:rgb(255, 255, 255);
+.td-title{
+	text-align: left;
 }
 
-table {
-    margin-left:auto; 
-    margin-right:auto;
-	border-bottom: 1px solid #ccc;
-	border-right: none;
-	border-left: none;
-	border-collapse: collapse;
+.td-title a{
+	margin-left: 15px;
 }
-
-table.type04 {
-	border-collapse: collapse;
-	border-spacing: 1px;
-	line-height: 1.5;
-	border-top: 1px solid #ccc;
-	margin : 10px 10px;
-  }
-
-  table.type04 th {
-	width: 150px;
-	padding: 10px;
-	font-weight: bold;
-	vertical-align: top;
-	border-bottom: 1px solid #ccc;
-	background-color: rgb(145, 168, 210);
-  }
-
-  table.type04 td {
-	padding: 10px;
-	vertical-align: top;
-	border-bottom: 1px solid #ccc;
-  }
-
-  .comNoTd{
-	width: 3%;
-  }
-
-  .comTitleTd{
-	width: 65%;
-  }
-
-  .defualtTd{
-	text-align :center;
-  }
 
  #writeBtnDiv {
-	margin-top: 10px;
-	margin-left: 1150px;
-	width: 60px;
-	height: 30px;
+	display: inline-block;
+	width: 120px;
+	height: 50px;
+	background-color: white;
+	border: 1px solid rgb(51, 51, 51);
+	border-radius: 4px;
+	float: right;
+	font-size: 15px;
+	cursor: pointer;
  }
- #writeBtnDiv button{
-	width: 80px;
-    height: 32px;
-    border-radius: 5px;
-    border: 1px solid rgb(51, 51, 51);
-    background-color: rgb(255, 255, 255);
-    font-size: 15px;
-    font-weight:bold;
-    color: black;
- }
-
- .paging {
+#no{
+	width :30px;
+}
+.paging {
 	display: inline-flex;
 	height: 40px;
-	width: 836px;
-	margin-left: 257px;
+	width: 840px;
+	margin-left: 253px;
 	justify-content: center;
 }
 .page-btn {
@@ -147,14 +109,34 @@ table.type04 {
 	width: 137px;
 	border: none;
 }
-.i-search {
+.i-search{
+	display: inline-flex;
+    width: 33px;
+    justify-content: center;
+    font-size: 17px;
+    font-family: FontAwesome;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+    color: rgb(51, 51, 51);
+}
+.paging {
 		display: inline-flex;
-		width: 33px;
-		justify-content:center;
-		font-size: 17px;
-		font-family: FontAwesome;
-		border: none;
-		cursor : pointer;
-		background-color : transparent;
-		color: rgb(51, 51, 51);
+		height: 40px;
+		width: 840px;
+		margin-left: 170px;
+		justify-content: center;
 	}
+.page-btn {
+	width: 40px;
+	height: 40px;
+	border: none;
+	background-color: transparent;
+	font-size: 14px;
+	margin: 0 5px;
+	cursor: pointer;
+}
+.page-btn:hover, .page-btn.active {
+	border: 1px solid rgb(51, 51, 51);
+	border-radius: 4px;
+}

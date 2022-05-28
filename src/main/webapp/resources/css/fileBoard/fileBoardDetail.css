@@ -40,31 +40,33 @@ a {
 
 
 .WriteDiv{
+    margin-top: 15px;
     height: 20px;
-    width: 880px;
+    width: 600px;
     float: left;
 }
 
 
 .dateDiv{
+  margin-top: 15px;
   height: 20px;
   width: 150px;
   float: right;
+  margin-right: 10px;
 }
 
 
 .optionBtnDiv{
-    height: 32px;
-    width: 168px;
+    height: 45px;
+    width: auto;
     float: right;
   }
 
 
 .optionBtnDiv #upload{
-    margin-left: 3px;
-    margin-right: 3px;
+    margin-left: 5px;
     width: 80px;
-    height: 32px;
+    height: 45px;
     border-radius: 5px;
     border: 1px solid rgb(147, 169, 209);
     background-color: rgb(147, 169, 209);
@@ -75,8 +77,21 @@ a {
 }
 
 .optionBtnDiv #delete{
+    margin-left: 5px;
     width: 80px;
-    height: 32px;
+    height: 45px;
+    border-radius: 5px;
+    border: 1px solid rgb(147, 169, 209);
+    background-color: rgb(255, 255, 255);
+    font-size: 15px;
+    font-weight:bold;
+    float: right;
+    color: black;
+}
+
+.optionBtnDiv #return{
+    width: 80px;
+    height: 45px;
     border-radius: 5px;
     border: 1px solid rgb(147, 169, 209);
     background-color: rgb(255, 255, 255);

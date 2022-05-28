@@ -37,6 +37,7 @@ public class WeekController {
 	public ModelAndView weekListView(Model model, ModelAndView mv
 			, HttpServletRequest request
 			,@RequestParam(value="page", required=false) Integer page) {
+		model.addAttribute("myCondition", "report");
 		model.addAttribute("listCondition", "weekList");
 		HttpSession session = request.getSession();
 		String memNum = ((Member)(session.getAttribute("loginUser"))).getMemberNum();
@@ -60,6 +61,8 @@ public class WeekController {
 		@RequestMapping(value="/report/weekWriteView.sw")
 		public String weekWriteView(Model model
 				,HttpServletRequest request) {
+			model.addAttribute("myCondition", "report");
+			model.addAttribute("listCondition", "weekWrite");
 			Date nowTime = new Date();
 		    SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 		    model.addAttribute("nowTime", sf.format(nowTime));
@@ -73,7 +76,6 @@ public class WeekController {
 				,@RequestParam(value="uploadFile", required=false) MultipartFile uploadFile
 				,HttpServletRequest request
 				,Model model){
-			model.addAttribute("listCondition", "weekWrite");
 			try {
 				if(uploadFile != null && !uploadFile.getOriginalFilename().equals("")) {
 					HashMap<String, String> fileMap = saveFile(uploadFile, request); // 업로드한 파일 저장하고 경로 리턴
@@ -127,6 +129,8 @@ public class WeekController {
 		   public ModelAndView weekDetailView(
 				   ModelAndView mv
 					, @RequestParam(value = "wrNo", required =false) Integer wrNo) {
+			mv.addObject("myCondition", "report");
+			mv.addObject("listCondition", "weekList");
 		try {
 			Week week = service.printOneByNo(wrNo);
 			if(week != null) {
@@ -148,6 +152,8 @@ public class WeekController {
 			public String weekModifyView(
 					  Model model
 					, @RequestParam(value = "wrNo", required =false) Integer wrNo) {
+			 	model.addAttribute("myCondition", "report");
+				model.addAttribute("listCondition", "weekList");
 				try {
 					// 수정화면에 필요한 데이터 DB 가져오기
 					Week week = service.printOneByNo(wrNo);
@@ -187,7 +193,7 @@ public class WeekController {
 					}
 					int result = service.modifyWeek(week);
 					if(result > 0) {
-						mv.setViewName("report/weekDetail");
+						mv.setViewName("redirect:/report/weekDetail.sw?wrNo=" + week.getWrNo());
 					}else {
 						mv.addObject("msg", "업무일지 수정실패");
 						mv.setViewName("common/errorPage");

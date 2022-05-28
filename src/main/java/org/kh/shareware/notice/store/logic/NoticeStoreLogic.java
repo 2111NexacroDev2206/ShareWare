@@ -64,5 +64,48 @@ public class NoticeStoreLogic implements NoticeStore{
 		List<Notice> nList = sqlsession.selectList("NoticeMapper.selectListHomeNotice");
 		return nList;
 	}
+	//넥사크로 글작성
+	@Override
+	public int insertNotice(SqlSession sqlsession, Notice newNotice) {
+		int result = sqlsession.insert("NoticeMapper.insertNotice",newNotice);
+		return result;
+	}
+	
+	//넥사크로 글 수정
+	@Override
+	public int updateNotice(SqlSession sqlsession, Notice newNotice) {
+		int result = sqlsession.update("NoticeMapper.updateNotice", newNotice);
+		return result;
+	}
+	//넥사크로 글목록
+	@Override
+	public List<Notice> selectAdminList(SqlSession sqlsession) {
+		List<Notice> nList = sqlsession.selectList("NoticeMapper.selectAdminList");
+		return nList;
+	}
+	//넥사크로 검색
+	@Override
+	public List<Notice> selectAdminSearch(SqlSession sqlsession, Search search) {
+		List<Notice> nList = sqlsession.selectList("NoticeMapper.selectAdminSearch", search);
+		return nList;
+	}
+	//넥사크로 상세보기
+	@Override
+	public Notice selectOneAdminNotice(SqlSession sqlsession, int noticeNo) {
+		Notice notice = sqlsession.selectOne("NoticeMapper.selectOneAdminNotice", noticeNo);
+		return notice;
+	}
+	//넥사크로 글 삭제
+	@Override
+	public int deleteAdminNotice(SqlSession sqlsession, int noticeNo) {
+		int result = sqlsession.delete("NoticeMapper.deleteNotice", noticeNo);
+		return result;
+	}
+	//알림 최근 공지 조회
+	@Override
+	public Notice selectOneLastNotice(SqlSession sqlsession) {
+		Notice notice = sqlsession.selectOne("NoticeMapper.selectOneLastNotice");
+		return notice;
+	}
 
 }

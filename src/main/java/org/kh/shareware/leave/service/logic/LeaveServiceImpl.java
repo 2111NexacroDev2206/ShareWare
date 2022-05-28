@@ -4,6 +4,7 @@ package org.kh.shareware.leave.service.logic;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.kh.shareware.common.Search;
 import org.kh.shareware.leave.domain.LeaveList;
 import org.kh.shareware.leave.service.LeaveService;
 import org.kh.shareware.leave.store.LeaveStore;
@@ -36,6 +37,19 @@ public class LeaveServiceImpl implements LeaveService{
 		List<LeaveList>lList = lStore.selectAll(sqlSession,memNum);
 		return lList;
 	}
+	
+	//넥사크로-연차조회
+	@Override
+	public List<LeaveList> printAllLeave(String inYear) {
+		List<LeaveList> lList = lStore.selectAllLeaveNexa(sqlSession, inYear);
+		return lList;
+	}
+	@Override
+	public List<LeaveList> printAllSearchLeave(Search search) {
+		List<LeaveList> lList = lStore.selectAllSearchLeaveNexa(sqlSession, search);
+		return lList;
+	}
+	
 
 	
 

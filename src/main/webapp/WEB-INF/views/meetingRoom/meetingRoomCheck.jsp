@@ -117,7 +117,7 @@
 			var $imgDiv = $("<div>");
 			var $imgTag = $("<img src=\"../../../resources/img/meetingRoom1.png\" id=\"roomImg\">");
 			var $detailDiv = $("<div class=\"detailDiv\">");
-			var $detailList = $("<ul>").append("<li>적정인원  5인</li>")
+			var $detailList = $("<ul>").append("<li>적정인원  10인</li>")
 										.append("<li>빔프로젝트</li>")
 										.append("<li>노트북</li>")
 										.append("<li>화이트보드</li>");
@@ -126,7 +126,7 @@
 			var $imgDiv = $("<div>");
 			var $imgTag = $("<img src=\"../../../resources/img/meetingRoom1.png\" id=\"roomImg\">");
 			var $detailDiv = $("<div class=\"detailDiv\">");
-			var $detailList = $("<ul>").append("<li>적정인원  5~6인</li>")
+			var $detailList = $("<ul>").append("<li>적정인원  10인</li>")
 										.append("<li>빔프로젝트</li>")
 										.append("<li>노트북</li>")
 										.append("<li>화이트보드</li>");
@@ -135,18 +135,18 @@
 			var $imgDiv = $("<div>");
 			var $imgTag = $("<img src=\"../../../resources/img/meetingRoom1.png\" id=\"roomImg\">");
 			var $detailDiv = $("<div class=\"detailDiv\">");
-			var $detailList = $("<ul>").append("<li>적정인원 15인</li>")
-										.append("<li>빔프로젝트</li>")
+			var $detailList = $("<ul>").append("<li>적정인원 7인</li>")
+										.append("<li>24인치 TV</li>")
 										.append("<li>노트북</li>")
-										.append("<li>스피커</li>")
 										.append("<li>화이트보드</li>");
 		}
 		if(meetingNo == "4 회의실"){
 			var $imgDiv = $("<div>");
 			var $imgTag = $("<img src=\"../../../resources/img/meetingRoom1.png\" id=\"roomImg\">");
 			var $detailDiv = $("<div class=\"detailDiv\">");
-			var $detailList = $("<ul>").append("<li>적정인원  5~6인</li>")
+			var $detailList = $("<ul>").append("<li>적정인원  15인</li>")
 										.append("<li>빔프로젝트</li>")
+										.append("<li>노트북 대여</li>")
 										.append("<li>스피커</li>")
 										.append("<li>화이트보드</li>");
 		}
@@ -154,9 +154,9 @@
 			var $imgDiv = $("<div>");
 			var $imgTag = $("<img src=\"../../../resources/img/meetingRoom1.png\" id=\"roomImg\">");
 			var $detailDiv = $("<div class=\"detailDiv\">");
-			var $detailList = $("<ul>").append("<li>적정인원  5~6인</li>")
-										.append("<li>빔프로젝트</li>")
-										.append("<li>정수기</li>")
+			var $detailList = $("<ul>").append("<li>적정인원  6인</li>")
+										.append("<li>24인치 TV</li>")
+										.append("<li>스피커</li>")
 										.append("<li>화이트보드</li>");
 		}
 		

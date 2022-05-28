@@ -57,4 +57,9 @@
 	<select id="selectAllHomeCal" resultMap="calSchResultMap"><!-- 전체 일정 목록 -->
 		SELECT SCH_NO, MEM_NUM, CAL_NO, SCH_NAME, SCH_START_DATE, TO_DATE(SCH_END_DATE, 'YYYY-MM-DD') + 1 AS SCH_END_DATE, SCH_COLOR FROM CAL_SCH WHERE MEM_NUM IN ('admin', #{memberNum})
 	</select>
+	
+	<!-- 알림 -->
+	<select id="selectLastCalSch" resultMap="calSchResultMap">
+		SELECT * FROM CAL_SCH WHERE MEM_NUM = 'admin' AND SCH_NO = (SELECT MAX(SCH_NO) FROM CAL_SCH WHERE MEM_NUM = 'admin')
+	</select>
 	</mapper>

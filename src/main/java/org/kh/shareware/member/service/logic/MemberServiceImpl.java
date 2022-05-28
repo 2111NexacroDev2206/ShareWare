@@ -47,16 +47,16 @@ public class MemberServiceImpl implements MemberService{
 	}
 	//주소록 검색
 	@Override
-	public List<Member> printAllSearch(PageInfo pi) {
-		List<Member> mList = mStore.selectAllSearch(sqlSession, pi);
-		return mList;
-	}
-	//검색 페이징
-	@Override
-	public int getListCountSearch() {
-		int totalCount = mStore.selectListCountSearch(sqlSession);
+	public int getListCount(Search search) {
+		int totalCount = mStore.selectListCount(sqlSession, search);
 		return totalCount;
 	}
+	@Override
+	public List<Member> printAllSearch(Search search, PageInfo pi) {
+		List<Member> mList = mStore.selectAllSearch(sqlSession, pi, search);
+		return mList;
+	}
+	
 	//조직도
 	@Override
 	public List<Division> printOrganization() {
@@ -95,6 +95,62 @@ public class MemberServiceImpl implements MemberService{
 	public List<Member> modalChatInviteSearch(Search search) {
 		List<Member> mList = mStore.selectAllChatMemberSearch(sqlSession, search);
 		return mList;
+	}
+	
+	// 넥사크로 - 관리자
+	@Override
+	public List<Member> printAllMember(Search search) { // 사원 전체 조회
+		List<Member> mList = mStore.selectAllMemberNexa(sqlSession, search);
+		return mList;
+	}
+	
+	@Override
+	public int registerMember(Member newMember) { // 사원 등록
+		int result = mStore.insertMember(sqlSession, newMember);
+		return result;
+	}
+
+	@Override
+	public Member printOneMember(String memberNum) { // 사원 상세 조회
+		Member member = mStore.selectOneMember(sqlSession, memberNum);
+		return member;
+	}
+
+	@Override
+	public int removeMember(String memberNum) { // 사원 삭제
+		int result = mStore.deleteMember(sqlSession, memberNum);
+		return result;
+	}
+
+	@Override
+	public int modifyMember(Member newMember) { // 사원 정보 수정
+		int result = mStore.updateMember(sqlSession, newMember);
+		return result;
+	}
+
+	@Override
+	public List<Division> printAllDivision() { // 부서 조회
+		List<Division> dList = mStore.selectAllDivision(sqlSession);
+		return dList;
+	}
+
+	@Override
+	public List<Division> printOneDivision(String divCode) { // 부서 사원 조회
+		List<Division> mList = mStore.selectOneDivision(sqlSession, divCode);
+		return mList;
+	}
+	
+	// 알림
+	@Override
+	public List<Member> printAllAlarmMember() { // 전체 사원 조회
+		List<Member> mList = mStore.selectAllAlarmMember(sqlSession);
+		return mList;
+	}
+
+	@Override
+	public int modifyPassword(Member member) { // 비밀번호 변경
+		int result = mStore.updatePassword(sqlSession, member);
+		return result;
 	}
 
 }

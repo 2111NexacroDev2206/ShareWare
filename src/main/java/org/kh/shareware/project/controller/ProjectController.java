@@ -47,11 +47,12 @@ public class ProjectController {
 	
 	//프로젝트 목록
 	@RequestMapping(value="/project/projectList.sw" , method = RequestMethod.GET)
-	public ModelAndView projectListView(ModelAndView mv
+	public ModelAndView projectListView(Model model, ModelAndView mv
 			,HttpServletRequest request
 			,@RequestParam(value="pStatus", required=false) String pStatus
 			,@RequestParam(value="page", required=false) Integer page
 			,@ModelAttribute Project project) {
+		model.addAttribute("myCondition", "project");
 		HttpSession session = request.getSession();
 		String memberNum = ((Member)session.getAttribute("loginUser")).getMemberNum();
 		int currentPage = (page != null) ? page : 1;
@@ -84,6 +85,7 @@ public class ProjectController {
 			, HttpServletRequest request
 			, @RequestParam(value="page", required = false) Integer page
 			, @RequestParam(value="pStatus", required=false) String pStatus) {
+				model.addAttribute("myCondition", "project");
 			try {
 				HttpSession session = request.getSession();
 				search.setMemberNum(((Member)session.getAttribute("loginUser")).getMemberNum()); //
@@ -111,11 +113,13 @@ public class ProjectController {
 	}
 	//프로젝트 정보(상세)
 		@RequestMapping(value="/project/detail.sw", method=RequestMethod.GET)
-		public ModelAndView projectDetailVeiw(
+		public ModelAndView projectDetailVeiw(Model model,
 					ModelAndView mv
 					,@RequestParam(value= "projectNo") int projectNo
 					,@ModelAttribute Participant participant
 					,@ModelAttribute Member member) {
+				model.addAttribute("myCondition", "project");
+				model.addAttribute("listCondition", "projectDetail");
 			try {
 				Project project = service.printOneProjectDetail(projectNo);
 				List<Member> pList = service.printAllParticipant(projectNo);
@@ -146,6 +150,8 @@ public class ProjectController {
 					// 수정화면에 필요한 데이터 DB 가져오기
 					Project project = service.printOneProject(projectNo);
 					List<Member> pList = service.printAllParticipant(projectNo);
+					model.addAttribute("myCondition", "project");
+					model.addAttribute("listCondition", "projectDetail");
 					if(project != null) {
 						model.addAttribute("project", project);
 						model.addAttribute("projectNo", projectNo);
@@ -169,19 +175,19 @@ public class ProjectController {
 					, @ModelAttribute Project project
 					, HttpServletRequest request
 					, @ModelAttribute Participant participant
-					, @RequestParam(value="memNum") String memNum
-					, @RequestParam(value= "projectNo", required=false) Integer projectNo) {
+					, @RequestParam(value="memNum") String memNum) {
 				try {
 					int result = service.modifyProject(project);
-					int delResult = service.removeParticipant(participant);
 					int pResult= 0;
-					String[] parArr = memNum.split(","); // [0]정은진 / [1]권지혜 / [2]김아름
-					for(int i = 0; i < parArr.length; i++) {
-						participant.setMemberNum(parArr[i]); // 사원번호
-						pResult = service.registerParticipant(participant);
+					if(!memNum.equals("")) {
+						int delResult = service.removeParticipant(participant);
+						String[] parArr = memNum.split(","); // [0]정은진 / [1]권지혜 / [2]김아름
+						for(int i = 0; i < parArr.length; i++) {
+							participant.setMemberNum(parArr[i]); // 사원번호
+							pResult = service.registerParticipant(participant);
+						}
 					}
 					if(result > 0) {
-						mv.addObject("projectNo", projectNo);
 						mv.setViewName("redirect:/project/detail.sw?projectNo=" + project.getProjectNo());
 					}else {
 						mv.addObject("msg", "프로젝트 수정실패");
@@ -214,9 +220,11 @@ public class ProjectController {
 	} 
 	//프로젝트 메인페이지
 	@RequestMapping(value="/project/main.sw", method=RequestMethod.GET)
-	public ModelAndView projectMainView(
+	public ModelAndView projectMainView(Model model,
 				ModelAndView mv
 				,@RequestParam("projectNo") int projectNo) {
+			model.addAttribute("myCondition", "project");
+			model.addAttribute("listCondition", "projectMain");
 		try {
 			Project project = service.printOneProject(projectNo);
 			List<Work> wList = wService.printAllWork(projectNo);

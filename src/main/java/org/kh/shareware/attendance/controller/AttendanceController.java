@@ -1,6 +1,8 @@
 package org.kh.shareware.attendance.controller;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,8 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.kh.shareware.attendance.domain.Attendance;
 import org.kh.shareware.attendance.domain.Stats;
 import org.kh.shareware.attendance.service.AttendanceService;
-import org.kh.shareware.member.common.PageInfo;
-import org.kh.shareware.member.common.Pagination;
+import org.kh.shareware.common.Search;
 import org.kh.shareware.member.domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
+import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 @Controller
 public class AttendanceController {
@@ -107,21 +111,19 @@ public class AttendanceController {
 			Model model
 			, HttpSession session
 			, @RequestParam(value="page", required=false) Integer page
-			, @RequestParam(value="date", required=false) String date) {
-		int currentPage = (page != null) ? page : 1;
+			, @RequestParam(value="date", required=false) String date){
 		Member value = (Member) session.getAttribute("loginUser");
-		String memNum = value.getMemberNum();
-		int totalCount = aService.getListCount(memNum);
-		PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
-		List<Attendance> aList = aService.printAll(pi, memNum);
+		Date nowTime = new Date(); // 현재 날짜 가져오기
+		SimpleDateFormat sf = new SimpleDateFormat("YYYY-MM");
+		String memNum = value.getMemberNum() + sf.format(nowTime);
+		List<Attendance> aList = aService.printAll(memNum);
 		List<Stats> sList = aService.printStats(memNum); //통계
 		if(!aList.isEmpty()) {
 			model.addAttribute("sList", sList); //통계
 			model.addAttribute("aList", aList);
-			model.addAttribute("pi", pi);
-			model.addAttribute("myCondition", "attendance");
-			model.addAttribute("listCondition", "attendance");
 		}		
+		model.addAttribute("myCondition", "attendance");
+		model.addAttribute("listCondition", "attendance");
 		return "attendance/attListViewEmp";
 	}
 	
@@ -129,22 +131,82 @@ public class AttendanceController {
 	//날짜 검색 (연도/월)
 	@PostMapping("/attendance/searchDate.sw")
 	public String searchDate(String date, HttpSession session, Model model) {			
-		
-		int currentPage = 1;
 		Member value = (Member) session.getAttribute("loginUser");
 		String memNum = value.getMemberNum()+date;  //A02022-06
-		
-		int totalCount = aService.getListCount(memNum);
-		PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
-		List<Attendance> aList = aService.printAll(pi, memNum);
+		List<Attendance> aList = aService.printAll(memNum);
 		List<Stats> sList = aService.printStats(memNum); //통계
 		if(!aList.isEmpty()) {
 			model.addAttribute("sList", sList); //통계
 			model.addAttribute("aList", aList);
-			model.addAttribute("pi", pi);
 		}	
-		//return "redirect:/attendance/attListViewEmp.sw";
+		model.addAttribute("myCondition", "attendance");
+		model.addAttribute("listCondition", "attendance");
+		model.addAttribute("date", date);
 		return "attendance/attListViewEmp";
 	}
-				
+	
+	//넥사크로-근태관리 리스트
+		@RequestMapping(value = "/admin/attendance/attList.sw", method = RequestMethod.POST)
+		public NexacroResult adminAttList(@ParamVariable(name = "inVar") String inVar) {
+			int 	nErrorCode = 0;
+			String 	strErrorMsg = "START";
+			NexacroResult result = new NexacroResult();
+			List<Attendance> aList = aService.printAllAtt(inVar);
+			if(!aList.isEmpty()) {
+				nErrorCode = 0;
+				strErrorMsg = "SUCC";
+			} else {
+				nErrorCode = -1;
+				strErrorMsg = "Fail";
+			}
+			result.addDataSet("out_att", aList);
+			result.addVariable("ErrorCode", nErrorCode);
+			result.addVariable("ErrorMsg", strErrorMsg);
+			return result;
+		}
+	//넥사크로-근태관리 검색
+		@RequestMapping(value = "/admin/attendance/searchList.sw", method = RequestMethod.POST)
+		public NexacroResult adminAttSearchList(@ParamVariable(name = "inVar") String inVar
+				, @ParamVariable(name = "searchCondition") String searchCondition
+				, @ParamVariable(name = "searchValue") String searchValue) {
+			int 	nErrorCode = 0;
+			String 	strErrorMsg = "START";
+			NexacroResult result = new NexacroResult();
+			Search search = new Search();
+			search.setSearchCondition(searchCondition);
+			search.setSearchValue(searchValue);
+			search.setType(inVar);
+			List<Attendance> aList = aService.printAllSearchAtt(search);
+			if(!aList.isEmpty()) {
+				nErrorCode = 0;
+				strErrorMsg = "SUCC";
+			} else {
+				nErrorCode = -1;
+				strErrorMsg = "Fail";
+			}
+			result.addDataSet("out_att", aList);
+			result.addVariable("ErrorCode", nErrorCode);
+			result.addVariable("ErrorMsg", strErrorMsg);
+			return result;
+		}
+		//넥사크로-근태관리 통계
+		@RequestMapping(value = "/admin/attendance/attStats.sw", method = RequestMethod.POST)
+		public NexacroResult adminAttStats(@ParamVariable(name = "inVar") String inVar) {
+			int 	nErrorCode = 0;
+			String 	strErrorMsg = "START";
+			NexacroResult result = new NexacroResult();
+			List<Stats> sList = aService.printAttStats(inVar);			
+			if(!sList.isEmpty()) {
+				nErrorCode = 0;
+				strErrorMsg = "SUCC";
+			} else {
+				nErrorCode = -1;
+				strErrorMsg = "Fail";
+			}
+			
+			result.addDataSet("out_attSts", sList);
+			result.addVariable("ErrorCode", nErrorCode);
+			result.addVariable("ErrorMsg", strErrorMsg);
+			return result;
+		}
 }

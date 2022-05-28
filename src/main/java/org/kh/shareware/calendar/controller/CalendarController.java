@@ -8,10 +8,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.kh.shareware.alarm.domain.Alarm;
+import org.kh.shareware.alarm.service.AlarmService;
 import org.kh.shareware.calendar.domain.CalSch;
 import org.kh.shareware.calendar.domain.Calendar;
 import org.kh.shareware.calendar.service.CalendarService;
 import org.kh.shareware.member.domain.Member;
+import org.kh.shareware.member.service.MemberService;
+import org.kh.shareware.notice.domain.Notice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,8 +33,11 @@ public class CalendarController {
 	@Autowired
 	CalendarService cService;
 	
+	@Autowired
+	private AlarmService alService;
 	
-	
+	@Autowired
+	private MemberService mService;
 	
 	@RequestMapping( value="/calendar/schWriteView.sw")
 	public String scheduleWriteView() {
@@ -48,6 +55,9 @@ public class CalendarController {
 			Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
 			calSch.setMemNum(member.getMemberNum());
 			int result = cService.registerSchedule(calSch);
+			if(member.getMemberNum().equals("admin")) {
+				alarmRegister();
+			}
 			if(result>0) {
 				mv.setViewName("redirect:/calendar/schListView.sw");
 			} else {
@@ -178,6 +188,27 @@ public class CalendarController {
 			return "success";
 		}else {
 			return "fail";
+		}
+	}
+	
+	// 알림 등록
+	public void alarmRegister() {
+		Alarm alarm = new Alarm();
+		CalSch calSch = cService.printLastCalSch(); // 최근 전사 일정 조회
+		alarm.setKind("<span class='al-kind cal'>[일정]</span>");
+		List<Member> mList = mService.printAllAlarmMember();
+		String schName = calSch.getSchName();
+		String schDate = calSch.getSchStartDate();
+		String schTime = calSch.getSchStartTime();
+		for(int i = 0; i < mList.size(); i++) {
+			alarm.setMemNum(mList.get(i).getMemberNum()); // 모든 사원에게 알림
+			alarm.setAlarmUrl("'/calendar/schListView.sw'");
+			if(schTime == null) {
+				alarm.setAlarmContent("<span class='al-content'><strong>" + schDate + "</strong>에 <strong>'" + schName + "'</strong> 일정이 등록되었습니다.</span>");
+			}else {
+				alarm.setAlarmContent("<span class='al-content'><strong>" + schDate + " " + schTime + "</strong>에 <strong>'" + schName + "'</strong> 일정이 등록되었습니다.</span>");
+			}
+			alService.registerAlarm(alarm); // 알림 등록
 		}
 	}
 }

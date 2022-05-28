@@ -9,16 +9,7 @@
 <link rel="stylesheet" href="../../../resources/css/fileBoard/fileBoardWriteForm.css">
 </head>
 <body>
-	<jsp:include page="../common/menuBar.jsp"></jsp:include>
-	<div class="s-menu">
-		<div class="s-menu-title">
-			<p>자료실
-				<i class="fa-solid fa-pen-to-square fa-lg"></i>
-		</div>
-		<div class="s-list-item ${listCondition eq 'community' ? 'active' : ''}"><a href="/community/list.sw?docStatus=전체">자유게시판</a></div>
-		<div class="s-list-item ${listCondition eq 'notice' ? 'active' : ''}"><a href="/notice/list.sw?docStatus=전체">공지게시판</a></div>
-		<div class="s-list-item ${listCondition eq 'fileBoard' ? 'active' : ''}"><a href="/fileBoard/list.sw?docStatus=전체">자료실</a></div>
-	</div>
+	<jsp:include page="../notice/noticeMenu.jsp"></jsp:include>
 	<div id="coreDiv">
 		<div id="marging">
 		</div>
@@ -33,7 +24,7 @@
 							<input type="text" id="fileTitle" placeholder="글 제목을 입력해주세요.">
 						</div>
 						<div id="fileBoard-ContentDiv">
-								<textarea id="fileContent" rows="" cols=""></textarea>
+								<textarea id="fileContent" rows="" cols="" placeholder="글 제목을 입력해주세요."></textarea>
 						</div>
 						<div class="fileDiv">
 							<input class="upload-name" value="파일선택" disabled="disabled">				
@@ -47,6 +38,18 @@
 	</div>
 	<script>
 	
+	$(document).ready(function(){ 
+		var fileTarget = $('.fileDiv #fileName'); 
+		fileTarget.on('change', function(){ 
+			// 값이 변경되면 
+			if(window.FileReader)
+			{ // modern browser
+			 var filename = $(this)[0].files[0].name; 
+			} else { 
+				// old IE 
+				var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
+			} // 추출한 파일명 삽입 
+			$(this).siblings('.upload-name').val(filename); }); });
 
 	const fileInput = $("#fileName")[0];
 	
@@ -61,23 +64,29 @@
 			  formData.append("uploadFile", fileInput.files[0]); //컨트롤러에서 받을 때  "upload File"
 			   formData.append("fileTitle", fileTitle);
 			   formData.append("fileContent", fileContent);
+			   if(fileTitle == ""){
+					alert("제목을 입력해주세요!");
+				}else if(fileContent == ""){
+						alert("본문을 입력해주세요!");
+				}else{
 			   
-			  jQuery.ajax({
-		             url : "/fileBoard/register.sw"
-		           ,processData: false
-		           ,contentType: false
-		           , type : "POST"
-		           , data : formData
-		           , success:function(data){
-		        	   if(data == "success"){
-		        		   location.href = '/fileBoard/list.sw';
-		           }else{
-		        	   alert("등록 실패!");
-		        	   }
-		        },error : function() {
-					alert("ajax 통신 오류! 관리자에게 문의해주세요.");
+					  jQuery.ajax({
+				             url : "/fileBoard/register.sw"
+				           ,processData: false
+				           ,contentType: false
+				           , type : "POST"
+				           , data : formData
+				           , success:function(data){
+				        	   if(data == "success"){
+				        		   location.href = '/fileBoard/list.sw';
+				           }else{
+				        	   alert("등록 실패!");
+				        	   }
+				        },error : function() {
+							alert("ajax 통신 오류! 관리자에게 문의해주세요.");
+						}
+					})
 				}
-			})
 		}
 			 
 	});

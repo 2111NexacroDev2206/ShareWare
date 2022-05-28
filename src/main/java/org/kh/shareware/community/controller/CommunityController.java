@@ -45,6 +45,7 @@ public class CommunityController {
 	@RequestMapping(value="/community/WriteView.sw", method=RequestMethod.GET)
 	public String CommunityWriteView(Model model) {
 		model.addAttribute("myCondition", "board");
+		model.addAttribute("listCondition", "community");
 		return "community/communityWriteForm";
 	}
 	
@@ -118,18 +119,29 @@ public class CommunityController {
 		@RequestMapping(value="/community/list.sw", method=RequestMethod.GET)
 		public String CommunityListView(
 				Model model
-				,@RequestParam(value="page", required=false) Integer page) {
+				,@RequestParam(value="page", required=false) Integer page
+				,HttpServletRequest request) {
+			
+			HttpSession session = request.getSession();
+			String memberNum = "";
+			Member member = (Member)session.getAttribute("loginUser");
+			memberNum = member.getMemberNum();
+			
+			Community community = new Community();
+			community.setMemberNum(memberNum);
 			
 			int currentPage = (page != null) ? page : 1;
 			//DB에서 전체 게시물의 갯수
-			int totalCount = cService.getListCount();
+			int totalCount = cService.getListCount(memberNum);
 			PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
-			List<Community> cList = cService.listCommunity(pi);
+			List<Community> cList = cService.listCommunity(pi, memberNum);
+			
 			if(cList != null) {
 				model.addAttribute("cList", cList);
 				model.addAttribute("pi", pi);
 				model.addAttribute("myCondition", "board");
 				model.addAttribute("currentPage", currentPage);
+				model.addAttribute("totalCount", totalCount);
 				model.addAttribute("listCondition", "community");
 				return "community/communityList";
 			}else {
@@ -156,6 +168,7 @@ public class CommunityController {
 		
 		if(community != null) {
 			model.addAttribute("myCondition", "board");
+			model.addAttribute("listCondition", "community");
 			model.addAttribute("community",community);
 			return "community/communityDetail";
 		}else {
@@ -182,6 +195,7 @@ public class CommunityController {
 		
 		if(community != null) {
 			model.addAttribute("myCondition", "board");
+			model.addAttribute("listCondition", "community");
 			model.addAttribute("community",community);
 			model.addAttribute("communityVote",communityVote);
 			model.addAttribute("cVoteSelect",cVoteSelect);
@@ -452,7 +466,7 @@ public class CommunityController {
 	
 	//검색
 	@RequestMapping(value="/community/search.sw", method=RequestMethod.GET)
-	public ModelAndView noticeSearchList(
+	public ModelAndView communitySearchList(
 			ModelAndView mv
 			, @ModelAttribute Search search
 			, HttpServletRequest request
@@ -460,16 +474,24 @@ public class CommunityController {
 		try {
 			HttpSession session = request.getSession();//세션에서 로그인 된 아이디를 가져옴->검색을 했는지 안했는지를 판별
 			search.setMemberNum(((Member)session.getAttribute("loginUser")).getMemberNum());
+			String memberNum = "";
+			Member member = (Member)session.getAttribute("loginUser");
+			memberNum = member.getMemberNum();
+			
+			search.setMemberNum(memberNum);
+			
 			int currentPage = (page != null) ? page : 1;
 			PageInfo pi = null;
 			int totalCount = cService.getSearchCount(search);
 			pi = Pagination.getPageInfo(currentPage, totalCount);
 			
 			
-			List<Search> cList = cService.printSearchCommunity(search, pi);
+			List<Search> cList = cService.printSearchCommunity(pi,search);
 				
 			mv.addObject("cList", cList);
 			mv.addObject("search", search);
+			mv.addObject("currentPage",currentPage);
+			mv.addObject("totalCount",totalCount);
 			mv.addObject("pi", pi);
 			mv.setViewName("community/communityList");
 			

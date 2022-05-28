@@ -13,7 +13,7 @@
 <style type="text/css">
 	.d-orgList{ /* 조직도 영역 */
 	display:inline-block;
-	width: 200px;
+	width: 250px;
 	font-size: 14px;
 	}
 	.d-table{ /* 오른쪽 테이블 영역 */
@@ -21,11 +21,24 @@
 	float: right;
 	}
 	.stats-List{
-	width: 500px;
-	margin: 20px 0;
 	font-size: 14px;
 	text-align: center;
-	border : 1px;
+	border-collapse: collapse;
+	}
+	.stats-List td {
+		border: 1px solid rgb(224, 224, 224);
+		width: 262px;
+		height: 50px;
+	}
+	.stats-List .td-left {
+		background: rgba(224, 224, 224, 0.5);
+	}
+	.stats-List img {
+		width: 262px;
+		height: 262px;
+		image-rendering: -webkit-optimize-contrast;
+		object-fit: cover;
+		display: block;
 	}
  	.d-table{margin-bottom:30px}
     .d-table button {cursor:pointer;font-family:Arial,'돋움',Dotum;border:none;padding:0; outline:0}
@@ -35,43 +48,43 @@
 </head>
 <body>
 <jsp:include page="../common/menuBar.jsp"></jsp:include>
-
-	<div class="s-container">
-		<h2 id="h-title">조직도</h2><br>
+	<div class="container">
+		<div class="menu-title">
+			<p>조직도
+			<i class="fa-solid fa-users"></i>
+		</div>
 		<div class="d-orgList">
 			<ul id="orgList"></ul>
 		</div>
 		<div class="d-table" id="d-table">
 		<form action="/member/organizationInfo.sw" method="post" id="memInfo">
-			<table class="stats-List" border="1">
+			<table class="stats-List">
 				<tr>
-					<td>사원번호</td>
+					<td class="td-left">사원번호</td>
 					<td id="memberNum"></td>
-					<td rowspan="4"><img src="" alt="사원사진"></td>
+					<td rowspan="4"><img id="photo" alt="사원 사진"></td>
 				</tr>
 				<tr>
-					<td>이름</td>
+					<td class="td-left">이름</td>
 					<td id="memberName"></td>
 				</tr>
 				<tr>
-					<td>부서</td>
+					<td class="td-left">부서</td>
 					<td id="division"></td>
 				</tr>
 				<tr>
-					<td>직급</td>
+					<td class="td-left">직급</td>
 					<td id="rank"></td>
 				</tr>	
 				<tr>
-					<td>이메일</td>
+					<td class="td-left">이메일</td>
 					<td colspan="2" id="mail"></td>							
 				<tr>
-					<td>전화번호</td>
+					<td class="td-left">전화번호</td>
 					<td colspan="2" id="phone"></td>
 				</tr>
 			</table>
 			<br>
-			<input type="button" id="button" value="채팅">
-			<input type="button" id="button" value="이메일">
 		</form>
 		</div>
 	</div>	
@@ -151,6 +164,7 @@
 		    		$("#rank").text(data.rank);
 		    		$("#mail").text(data.mail);
 		    		$("#phone").text(data.phone);
+		    		$("#photo").attr("src", "../../resources/profile/" + data.photo);
 		    	},
 		    	error : function() {
 		    		alert("ajax 실행 오류!!");

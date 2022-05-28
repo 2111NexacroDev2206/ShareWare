@@ -11,7 +11,6 @@
 <body>
 <jsp:include page="projectMainMenu.jsp"></jsp:include>
 	<div class="s-container">
-		<form action="/project/projectRegister.sw" method="post">
 		<div>
 		<br>
 			<div>
@@ -46,15 +45,15 @@
 					</tr>
 					<tr>
 						<td colspan="2">
-		<%-- 					<c:if test="${loginUser.memberNum eq project.projectMade}"></c:if>	 --%>
-								<input type="button" id="btn" onclick="location.href='/project/projectModifyView.sw?projectNo=${project.projectNo }'" value="수정">
-								<input type="button" id="btn" onclick="location.href='/project/main.sw?projectNo=${project.projectNo }'" value="취소">
+								<c:if test="${loginUser.memberNum eq project.projectMadeNum}">
+									<input type="button" id="btn" onclick="location.href='/project/projectModifyView.sw?projectNo=${project.projectNo }'" value="수정">
+								</c:if>
+									<input type="button" id="btn" onclick="location.href='/project/main.sw?projectNo=${project.projectNo }'" value="목록">
 						</td>
 					</tr>
 				</table>
 			</div>
 		</div>
-		</form>
 	</div>
 	<jsp:include page="projectModal.jsp"></jsp:include> <!-- 참여자 선택 모달 -->
 </body>

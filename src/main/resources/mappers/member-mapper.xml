@@ -6,7 +6,9 @@
   	<resultMap type="Member" id="memberResultMap">
   		<id property="memberNum" column="MEMBER_NUM"/>
   		<result property="memberName" column="MEMBER_NAME"/>
+  		<result property="divCode" column="DIVISION"/>
   		<result property="division" column="DIV_NAME"/>
+  		<result property="rankCode" column="RANK"/>
   		<result property="rank" column="RANK_NAME"/>
   		<result property="address" column="ADDRESS"/>
   		<result property="phone" column="PHONE"/>
@@ -57,21 +59,39 @@
 		SELECT COUNT(*) FROM MEMBER
 	</select>
 <!-- 주소록 검색 페이징-->
-	<select id="selectListCountSearch" resultType="_int"> 
-		SELECT COUNT(*) FROM MEMBER 
-	</select>
-<!-- 주소록 검색 -->
-	<select id="selectMemberSearch" resultMap="memberResultMap">
-		SELECT MEMBER_NUM, MEMBER_NAME, DIV_NAME, RANK_NAME, MAIL FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE
+	<select id="selectListSearchCount" resultType="_int"> 
+		SELECT COUNT(*) FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE
 		<if test="searchCondition.toString() == 'division'">
 			WHERE DIV_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'rank'">
+			WHERE RANK_NAME LIKE '%' || #{searchValue} || '%'
 		</if>
 		<if test="searchCondition.toString() == 'memberName'">
 			WHERE MEMBER_NAME LIKE '%' || #{searchValue} || '%'
 		</if>
 		<if test="searchCondition.toString() == 'all'">
+			WHERE (DIV_NAME LIKE '%' || #{searchValue} || '%'
+			OR RANK_NAME LIKE '%' || #{searchValue} || '%'
+			OR MEMBER_NAME LIKE '%' || #{searchValue} || '%')
+		</if>
+	</select>
+<!-- 주소록 검색 -->
+	<select id="selectMemberSearch" resultMap="memberResultMap">
+		SELECT * FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE
+		<if test="searchCondition.toString() == 'division'">
 			WHERE DIV_NAME LIKE '%' || #{searchValue} || '%'
-			OR MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'rank'">
+			WHERE RANK_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'memberName'">
+			WHERE MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'all'">
+			WHERE (DIV_NAME LIKE '%' || #{searchValue} || '%'
+			OR RANK_NAME LIKE '%' || #{searchValue} || '%'
+			OR MEMBER_NAME LIKE '%' || #{searchValue} || '%')
 		</if>
 	</select>
 <!-- 조직도 -->
@@ -149,4 +169,98 @@
 			OR MEMBER_NAME LIKE '%' || #{searchValue} || '%')
 		</if>
 	</select>
+	
+	<!-- 넥사크로 - 관리자 -->
+	<!-- 사원 전체 조회 -->
+	<select id="selectAllListMemberNexa" resultMap="memberResultMap">
+		SELECT * FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE
+		<if test="searchCondition.toString() == 'exist'"><!-- 재직자 -->
+			WHERE RETIRE_DATE IS NULL
+		</if>
+		<if test="searchCondition.toString() == 'noExist'"><!-- 퇴직자 -->
+			WHERE RETIRE_DATE IS NOT NULL
+		</if>
+		<!-- 검색 -->
+		<if test="searchCondition.toString() == 'memberName'">
+			WHERE MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'division'">
+			WHERE DIV_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'rank'">
+			WHERE RANK_NAME LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() == 'all'">
+			WHERE (MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+			OR DIV_NAME LIKE '%' || #{searchValue} || '%'
+			OR RANK_NAME LIKE '%' || #{searchValue} || '%')
+		</if>
+	</select>
+	<!-- 사원 등록 -->
+	<insert id="insertMember">
+		INSERT INTO MEMBER VALUES(
+		#{memberNum}, 
+		#{memberName}, 
+		#{division}, 
+		#{rank}, 
+		#{address}, 
+		#{phone}, 
+		#{mail}, 
+		#{hireDate}, 
+		#{retireDate}, 
+		#{birth},
+		#{account},
+		#{bank},
+		#{password},
+		#{gender},
+		#{photo},
+		#{breakTotal})
+	</insert>
+	<!-- 사원 상세 조회 -->
+	<select id="selectOneMember" resultMap="memberResultMap">
+		SELECT * FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE MEMBER_NUM = #{memberNum}
+	</select>
+	<!-- 사원 삭제 -->
+	<delete id="deleteMember">
+		DELETE FROM MEMBER WHERE MEMBER_NUM = #{memberNum}
+	</delete>
+	<!-- 사원 정보 수정 -->
+	<update id="updateMember">
+		UPDATE MEMBER SET 
+			MEMBER_NAME = #{memberName}, 
+			DIVISION = #{divCode},
+			RANK = #{rankCode},
+			ADDRESS = #{address},
+			PHONE = #{phone},
+			MAIL = #{mail}, 
+			HIRE_DATE = #{hireDate}, 
+			RETIRE_DATE = #{retireDate}, 
+			BIRTH = #{birth},
+			ACCOUNT = #{account},
+			BANK = #{bank},
+			PASSWORD = #{password},
+			GENDER = #{gender},
+			PHOTO = #{photo},
+			BREAK_TOTAL = #{breakTotal}
+		WHERE MEMBER_NUM = #{memberNum}
+	</update>
+	<!-- 조직도 -->
+	<!-- 부서 조회 -->
+	<select id="selectAllDivision" resultMap="divisionResultMap">
+		SELECT * FROM DIVISION ORDER BY DIV_CODE
+	</select>
+	<!-- 부서 사원 조회 -->
+	<select id="selectOneDivision" resultMap="divisionResultMap">
+		SELECT DIV_CODE, DIV_NAME, DIV_LEVEL FROM DIVISION WHERE DIV_CODE = #{divCode}
+		UNION ALL
+		SELECT MEMBER_NUM AS DIV_CODE, MEMBER_NAME AS DIV_NAME, 3 AS DIV_LEVEL FROM MEMBER JOIN DIVISION ON DIVISION = DIV_CODE WHERE DIV_CODE = #{divCode}
+	</select>
+	<!-- 알림 전체 사원 조회 -->
+	<select id="selectListAlarmMember" resultMap="memberResultMap">
+		SELECT * FROM MEMBER
+	</select>
+	<!-- 비밀번호 변경 -->
+	<update id="updatePassword">
+		UPDATE MEMBER SET PASSWORD = #{password} WHERE MEMBER_NUM = #{memberNum}
+	</update>
   </mapper>

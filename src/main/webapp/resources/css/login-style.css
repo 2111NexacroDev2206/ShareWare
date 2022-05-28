@@ -68,3 +68,102 @@ header {
 	font-size: 17px;
 	margin: 20px 0 7px 0;
 }
+/* 비밀번호 변경 모달 */
+.d-password {
+	background-color:rgba(0,0,0,.3);
+	justify-content:center;
+	align-items:center;
+	position:fixed;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	display:none;
+	padding:15px;
+	z-index: 1000;
+	width:100%;
+}
+	.m-password {
+		width:100%;
+		max-width:500px;
+		background-color:#ffffff;
+		border-radius: 3px;
+		overflow:hidden;
+		box-shadow: 5px 10px 10px 1px rgba(0,0,0,.3);
+	}
+	.h-password {
+		width:100%;
+		margin-top: 20px;
+		display:flex;
+		align-items:center;
+		justify-content:center;
+		font-size: 20px;
+	}
+	.h-p-logo {
+		color: rgb(117, 144, 194);
+		font-size: 35px;
+		font-weight: lighter;
+		font-family: 'Changa', sans-serif;
+	}
+	.h-p-text {
+		color: black;
+		margin-left: 5px;
+		margin-top: 4px;
+	}
+	.m-password form {
+		width: calc(100% - 100px);
+		padding: 0 50px;
+		justify-content: center;
+		text-align: center;
+	}
+	.s-p-text, .s-p-input{
+		display: inline-flex;
+		width: 350px;
+		height: 50px;
+		font-size: 18px;
+		justify-content: center;
+		align-items: center;
+	}
+	.s-p-input {
+		border-radius: 4px;
+		border: solid 1px rgb(190, 190, 190);
+		padding-left: 10px;
+	}
+	.chk-password {
+		display: inline-block;
+		width: 350px;
+		height: 50px;
+		font-size: 18px;
+		vertical-align: middle;
+		text-align: center;
+		line-height: 50px;
+		color: red;
+	}
+	.f-password {
+		width: calc(100% - 50px);
+		height:80px;
+		display:flex;
+		margin: 0 25px 10px;
+		justify-content:center;
+		border-top: solid 1px rgb(190, 190, 190);
+	}
+	.pw-cancle, .pw-confirm {
+		display:inline-flex;
+		justify-content:center;
+		width:100px;
+		height:35px;
+		align-items:center;
+		cursor:pointer;
+		margin-top: 20px;
+		font-size: 14px;
+		background: transparent;
+		border: none;
+		font-size: 17px;
+	}
+	.pw-cancle {
+		margin-right: 10px;
+	}
+	.pw-confirm {
+		margin-left: 10px;
+		color: rgb(77, 112, 171);
+	}

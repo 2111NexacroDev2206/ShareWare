@@ -1,11 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ page import="java.util.Date" %>
+<%@page import="java.util.Calendar"%>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	Date nowTime = new Date();
-	SimpleDateFormat sf = new SimpleDateFormat("a hh:mm:ss");
+	SimpleDateFormat sf = new SimpleDateFormat("HH:mm:ss");
+	Calendar cal = Calendar.getInstance();
+	cal.setTime(nowTime); // 10분 더하기
+	cal.add(Calendar.SECOND, 4);
 %>
 
 
@@ -17,13 +21,11 @@
 <link href="/resources/css/approval/appList-style.css" rel="stylesheet">
 	<style type="text/css">
 	.stats-List{
-	width: 500px;
-	margin: 20px 0;
-	font-size: 14px;
-	text-align: center;
-	border-collapse: collapse;
-	border-top: 2px solid rgb(200, 200, 200);
-	border-bottom: 2px solid rgb(200, 200, 200);
+		font-size: 14px;
+		text-align: center;
+		border-collapse: collapse;
+		border-top: 2px solid rgb(200, 200, 200);
+		border-bottom: 2px solid rgb(200, 200, 200);
 	}
 	.stats-List tr {
 		border-top: 1px solid rgb(200, 200, 200);
@@ -55,6 +57,78 @@
 		border: 1px;
 		color: white;
 	}
+	.att-header {
+		width: 100%;
+		height: 153px;
+		margin: 10px 0;
+	}
+	.div-time-btn {
+		width: 40%;
+		height: 100%;
+		float: left;
+		min-width: 340px;
+	}
+	#now-time {
+		font-size: 70px;
+	}
+	.div-time-btn form{
+		display: inline-block;
+	}
+	.btn-sub {
+		width: 115px;
+		height: 60px;
+		background: rgb(117, 144, 194);
+		border: none;
+		border-radius: 4px;
+		color: white;
+		font-size: 17px;
+	}
+	#button1 {
+		margin-right: 25px;
+	}
+	.div-stats {
+		width: 60%;
+		height: 100%;
+		float: right;
+		display: inline-flex;
+    	align-items: flex-end;
+    	min-width: 515px;
+	}
+	.t-search {
+		margin: 20px 0 10px;
+		width: 50%;
+		margin-right: auto;
+		text-align: center;
+		border-collapse: collapse;
+    	border: 2px solid rgb(200, 200, 200);
+    	min-width: 430px;
+	}
+	.t-search tr {
+		height: 45px;
+	}
+	.t-search-title {
+	    background-color: rgb(240, 240, 240);
+	    width: 200px;
+	}
+	.t-search input {
+		vertical-align: middle;
+	}
+	.t-search input[name="date"] {
+		height: 30px;
+		font-size: 14px;
+		border: 1px solid gray;
+		border-radius: 4px;
+		width: 120px;
+		margin-right: 15px;
+	}
+	.t-search input[type="submit"] {
+		background: white;
+		border: 1px solid gray;
+		border-radius: 4px;
+		width: 55px;
+		height: 31px;
+		font-size: 14px;
+	}
 	</style>
 
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
@@ -66,31 +140,20 @@
 <jsp:include page="appMenu.jsp"></jsp:include> <!-- 메뉴 + 소메뉴 -->
 	
 	<div class="s-container">
-	<h2 id="h-title">근태관리</h2><br>
-	<div id="now-time"></div>
-<%-- 	<%= sf.format(nowTime) %><br> --%>
-	
-	<div>
-		<form action="/attendance/registerAtt.sw" method="post">
-			<input type="submit" id="button1" value="출근">
-		</form>
-		<form action="/attendance/modifyAtt.sw" method="post">
-			<input type="submit" id="button2" value="퇴근">
-			 <br>
-		</form>		
-	</div>
-	
-	<!-- 검색일<input type="text" id="searchDate">  -->
-	<form action="/attendance/searchDate.sw" method="post">
-    	<div>
-	      <input type="month" value="Sysdate" name="date">
-	      <input type="submit" value="검색">
-    	</div>
-    
-    	<br>
-    	<div>
+	<div class="att-header">
+		<div class="div-time-btn">
+			<div id="now-time"><%= sf.format(cal.getTime()) %></div>
+			<form action="/attendance/registerAtt.sw" method="post">
+				<input type="submit" id="button1" class="btn-sub" value="출근">
+			</form>
+			<form action="/attendance/modifyAtt.sw" method="post">
+				<input type="submit" id="button2" class="btn-sub" value="퇴근">
+				 <br>
+			</form>		
+		</div>
+	   	<div class="div-stats">
 			<table class="stats-List">
-				<tr><th>통계</th></tr>
+				<tr><th colspan="3">통계</th></tr>
 				<tr>
 					<th class="th-1">지각</th>
 					<th class="th-1">조퇴</th>
@@ -105,16 +168,28 @@
 				</c:if>
 			</table>
 		</div>
+	</div>
+	<!-- 검색일<input type="text" id="searchDate">  -->
+	<form action="/attendance/searchDate.sw" method="post">
+    	<table class="t-search">
+    	<tr>
+    		<td class="t-search-title">
+    			검색일
+    		</td>
+    		<td>
+	      		<input type="month" id="nowMonth" name="date">
+	      		<input type="submit" value="검색">
+	      	</td>
+	     </tr>
+    	</table>
     </form>
-  	<br>
-		
 		<div>
 			<table class="t-List">
 				<tr>
 					<th class="th-1">날짜</th>
 					<th class="th-1">출근시간</th>
 					<th class="th-1">퇴근시간</th>
-					<th class="th-1">무시간</th>
+					<th class="th-1">근무시간</th>
 					<th class="th-1">근무상태</th>
 				</tr>
 				<c:forEach items="${aList }" var="attendance">
@@ -130,21 +205,17 @@
 				</c:forEach>
 			</table>
 			<br>
-			<div id="page" align="center">
-				<c:forEach var="p" begin="${pi.startNavi }"
-					end="${pi.endNavi }">
-					<c:url var="pagination" value="/attendance/attListViewEmp.sw">
-						<c:param name="page" value="${p }"></c:param>
-					</c:url>
-					<a href="${pagination }">${p }</a>&nbsp;
-				</c:forEach>
-			</div>
 		</div>
 </div>
 <script>
 $(document).ready(function () { 
-    startDate(); 
-}); 
+    startDate();
+    if("${date}" != "") {
+    	$("#nowMonth").val("${date}");
+    }else {
+		$("#nowMonth").val(new Date().toISOString().slice(0, 7));
+    }
+});
 
 function startDate() { 
     date = setInterval(function () { 
@@ -152,7 +223,7 @@ function startDate() {
         var newDate = new Date();
         dateString += ("0" + newDate.getHours()).slice(-2) + ":"; 
         dateString += ("0" + newDate.getMinutes()).slice(-2) + ":"; 
-        dateString += ("0" + newDate.getSeconds()).slice(-2);
+        dateString += ("0" + (newDate.getSeconds() + 4)).slice(-2);
         //document.write(dateString); 문서에 바로 그릴 수 있다. 
         $("#now-time").text(dateString); 
     }, 1000); 

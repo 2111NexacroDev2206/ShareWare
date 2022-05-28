@@ -18,7 +18,7 @@
 			<table class="work-tbl">
 				<tr>
 					<td id="tit">제목</td>
-					<td><input type="text" name="workTitle"></td>
+					<td><input type="text" name="workTitle" style="height:30px;width:500px;font-size:large;"></td>
 				</tr>
 				<tr>
 					<td id="tit">작성자</td>

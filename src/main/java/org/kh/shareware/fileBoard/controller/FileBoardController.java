@@ -31,7 +31,9 @@ public class FileBoardController {
  
 //글작성 페이지 보기
 	@RequestMapping(value="/fileBoard/WriteView.sw", method=RequestMethod.GET)
-	public String fileBoardWriteView() {
+	public String fileBoardWriteView(Model model) {
+		model.addAttribute("myCondition", "board");
+		model.addAttribute("listCondition", "fileBoard");
 		return "fileBoard/fileBoardWriteForm";
 	}
  
@@ -89,6 +91,7 @@ public class FileBoardController {
 		if(fList != null) {
 			model.addAttribute("fList", fList);
 			model.addAttribute("pi", pi);
+			model.addAttribute("totalCount", totalCount);
 			model.addAttribute("currentPage", currentPage);
 			model.addAttribute("listCondition", "fileBoard");
 			model.addAttribute("myCondition", "board");
@@ -115,6 +118,7 @@ public class FileBoardController {
 			
 			if(fileBoard != null) {
 				model.addAttribute("myCondition", "board");
+				model.addAttribute("listCondition", "fileBoard");
 				model.addAttribute("fileBoard",fileBoard);
 				return "fileBoard/fileBoardDetail";
 			}else {
@@ -134,6 +138,7 @@ public class FileBoardController {
 			
 			if(fileBoard != null) {
 				model.addAttribute("myCondition", "board");
+				model.addAttribute("listCondition", "fileBoard");
 				model.addAttribute("fileBoard",fileBoard);
 				return "fileBoard/fileBoardModifyForm";
 			}else {

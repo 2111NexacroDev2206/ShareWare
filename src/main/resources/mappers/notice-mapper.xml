@@ -10,11 +10,6 @@
 		<result property="noticeTitle" column="NOTICE_TITLE"/>
 		<result property="noticeContent" column="NOTICE_CONTENT"/>
 		<result property="noticeView" column="NOTICE_VIEW"/>
-		<result property="noticeImgName" column="NOTICE_IMG_NAME"/>
-		<result property="noticeImgRemane" column="NOTICE_IMG_RENAME"/>
-		<result property="noticeImgPath" column="NOTICE_IMG_PATH"/>
-		<result property="noticeDelete" column="NOTICE_DELETE"/>
-		<result property="noticeVoteno" column="NOTICE_VOTE_NO"/>
 		<collection property="member" resultMap="memberResultMap"/>
 	</resultMap>
 	
@@ -38,7 +33,7 @@
   	</resultMap>
   	
   	<update id="countViewNotice">
-	UPDATE NOTICE SET NOTICE_VIEW = NOTICE_VIEW+1 WHERE NOTICE_NO = #{noticeNo}
+		UPDATE NOTICE SET NOTICE_VIEW = NOTICE_VIEW+1 WHERE NOTICE_NO = #{noticeNo}
 	</update>
 
 	<select id="selectClistCount" resultType="_int">
@@ -46,12 +41,26 @@
 	</select>
 	
 	<select id="selectOneNotice" resultMap="NoticeResultMap">
-		SELECT * FROM NOTICE JOIN MEMBER ON NOTICE.MEMBER_NUM = MEMBER.MEMBER_NUM WHERE NOTICE_NO = #{noticeNo}
+		SELECT NOTICE_NO, NOTICE_TITLE, TO_CHAR(NOTICE_DATE, 'YYYY-MM-DD') AS NOTICE_DATE, MEMBER_NAME AS MEMBER_NUM, NOTICE_CONTENT FROM NOTICE JOIN MEMBER ON NOTICE.MEMBER_NUM = MEMBER.MEMBER_NUM WHERE NOTICE_NO = #{noticeNo}
 	</select>
 	
 	<select id="noticeList" resultMap="NoticeResultMap">
-		SELECT * FROM NOTICE JOIN MEMBER ON NOTICE.MEMBER_NUM = MEMBER.MEMBER_NUM ORDER BY NOTICE_DATE DESC
+		SELECT NOTICE_NO, NOTICE_TITLE, TO_CHAR(NOTICE_DATE, 'YYYY-MM-DD') AS NOTICE_DATE, MEMBER_NAME AS MEMBER_NUM, NOTICE_VIEW FROM NOTICE JOIN MEMBER ON NOTICE.MEMBER_NUM = MEMBER.MEMBER_NUM ORDER BY NOTICE_NO DESC
 	</select>
+	
+	
+	<!-- 넥사크로 admin 글작성 -->
+	<insert id="insertNotice">
+		INSERT INTO NOTICE VALUES(SEQ_NOTICE_NO.NEXTVAL ,'admin' ,DEFAULT ,#{noticeTitle },#{noticeContent }, DEFAULT)
+	</insert>
+	
+	<update id="updateNotice">
+		UPDATE NOTICE SET NOTICE_TITLE = #{noticeTitle }, NOTICE_CONTENT = #{noticeContent } WHERE NOTICE_NO = #{noticeNo} 
+	</update>
+	<!-- 넥사크로 admin 글 삭제 -->
+	<delete id="deleteNotice">
+		DELETE FROM NOTICE WHERE NOTICE_NO = #{noticeNo }
+	</delete>
 	
 	<select id="selectNoticeSearchCount" resultType="_int">
 		SELECT COUNT(*) FROM NOTICE JOIN MEMBER ON NOTICE.MEMBER_NUM = MEMBER.MEMBER_NUM
@@ -93,5 +102,37 @@
 	<!-- 홈 - 공지사항 -->
 	<select id="selectListHomeNotice" resultMap="NoticeResultMap">
 		SELECT * FROM NOTICE WHERE ROWNUM <![CDATA[<]]> 6 ORDER BY NOTICE_NO DESC
+	</select>
+	
+	<!-- admin 넥사크로 리스트 보기 -->
+	<select id="selectAdminList" resultMap="NoticeResultMap">
+		SELECT MEMBER_NAME AS MEMBER_NUM, NOTICE_NO, NOTICE_DATE, NOTICE_VIEW, NOTICE_TITLE FROM NOTICE JOIN MEMBER ON NOTICE.MEMBER_NUM = MEMBER.MEMBER_NUM ORDER BY NOTICE_NO DESC
+	</select>
+	
+		<!-- admin 넥사크로 검색 -->
+	<select id="selectAdminSearch" resultMap="NoticeResultMap">
+		SELECT MEMBER_NAME AS MEMBER_NUM, NOTICE_NO, NOTICE_DATE, NOTICE_VIEW, NOTICE_TITLE FROM NOTICE JOIN MEMBER ON NOTICE.MEMBER_NUM = MEMBER.MEMBER_NUM
+		<if test ="searchCondition.toString()=='writer'">
+		WHERE MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='title'">
+		WHERE NOTICE_TITLE LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='contents'">
+		WHERE NOTICE_CONTENT LIKE '%'||#{searchValue} ||'%'
+	</if>
+	<if test ="searchCondition.toString()=='all'">
+		WHERE MEMBER_NAME LIKE '%'||#{searchValue} ||'%'
+		OR NOTICE_TITLE LIKE '%'||#{searchValue} ||'%'
+		OR NOTICE_CONTENT LIKE '%'||#{searchValue} ||'%'
+	</if>
+	</select>
+	<!-- admin 넥사크로 상세페이지 -->
+	<select id="selectOneAdminNotice" resultMap="NoticeResultMap">
+		SELECT MEMBER_NAME AS MEMBER_NUM, NOTICE_NO, TO_CHAR(NOTICE_DATE, 'YYYY-MM-DD') AS NOTICE_DATE, NOTICE_CONTENT, NOTICE_TITLE FROM NOTICE JOIN MEMBER ON NOTICE.MEMBER_NUM = MEMBER.MEMBER_NUM WHERE NOTICE_NO = #{noticeNo}
+	</select>
+	<!-- 알림 최근 공지 조회 -->
+	<select id="selectOneLastNotice" resultMap="NoticeResultMap">
+		SELECT * FROM NOTICE WHERE NOTICE_NO = (SELECT MAX(NOTICE_NO) FROM NOTICE)
 	</select>
 </mapper>

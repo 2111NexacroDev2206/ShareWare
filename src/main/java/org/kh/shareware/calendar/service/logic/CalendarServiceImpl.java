@@ -73,5 +73,12 @@ public class CalendarServiceImpl implements CalendarService{
 		List<CalSch> sList = cStore.selectAllHomeCal(sqlSession, memberNum);
 		return sList;
 	}
+	
+	// 알림
+	@Override
+	public CalSch printLastCalSch() { // 최근 전사 일정 조회
+		CalSch calSch = cStore.selectLastCalSch(sqlSession);
+		return calSch;
+	}
 
 }

@@ -38,8 +38,8 @@ a {
 	background-color:rgb(255, 255, 255);
 }
 
-
 .WriteDiv{
+    margin-top: 15px;
     height: 20px;
     width: 880px;
     float: left;
@@ -47,36 +47,15 @@ a {
 
 
 .dateDiv{
+ margin-top: 15px;
   height: 20px;
   width: 150px;
   float: right;
 }
 
-
-.optionBtnDiv{
-    height: 32px;
-    width: 168px;
-    float: right;
-  }
-
-
-.optionBtnDiv #upload{
-    margin-left: 3px;
-    margin-right: 3px;
+.optionBtnDiv #return{
     width: 80px;
-    height: 32px;
-    border-radius: 5px;
-    border: 1px solid rgb(147, 169, 209);
-    background-color: rgb(147, 169, 209);
-    font-size: 15px;
-    font-weight:bold;
-    float: right;
-    color: white;
-}
-
-.optionBtnDiv #delete{
-    width: 80px;
-    height: 32px;
+    height: 40px;
     border-radius: 5px;
     border: 1px solid rgb(147, 169, 209);
     background-color: rgb(255, 255, 255);
@@ -85,6 +64,12 @@ a {
     float: right;
     color: black;
 }
+
+.optionBtnDiv{
+    height: 32px;
+    width: 90px;
+    float: right;
+  }
 
 #notice-TileDiv{
     float: left;
