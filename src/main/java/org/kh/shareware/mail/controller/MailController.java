@@ -1562,6 +1562,8 @@ public class MailController {
 			}
 			mail.setMailReceiver(String.join(", ", receiver));
 			int allCount = mService.printAppAllCount();
+			List<MailFile> fList = mService.printOneMailFile(mailNo);
+			String fileCount = fList.size() + "개";
 			if(mail != null && allCount > -1) {
 				nErrorCode = 0;
 				strErrorMsg = "SUCC";
@@ -1570,6 +1572,8 @@ public class MailController {
 				strErrorMsg = "Fail";
 			}
 			result.addDataSet("out_mail", mail);
+			result.addDataSet("out_file", fList);
+			result.addVariable("fileCount", fileCount);
 			result.addVariable("allCount", allCount);
 			result.addVariable("ErrorCode", nErrorCode);
 			result.addVariable("ErrorMsg", strErrorMsg);
@@ -1671,6 +1675,8 @@ public class MailController {
 					mService.registerMailRec(rejMailRec);
 				}
 			}
+			List<MailFile> fList = mService.printOneMailFile(mailNo);
+			String fileCount = fList.size() + "개";
 			if(uResult > 0 && newMail != null && allCount > -1) {
 				nErrorCode = 0;
 				strErrorMsg = "SUCC";
@@ -1679,7 +1685,9 @@ public class MailController {
 				strErrorMsg = "Fail";
 			}
 			result.addDataSet("out_mail", newMail);
+			result.addDataSet("out_file", fList);
 			result.addVariable("allCount", allCount);
+			result.addVariable("fileCount", fileCount);
 			result.addVariable("ErrorCode", nErrorCode);
 			result.addVariable("ErrorMsg", strErrorMsg);
 			return result;
