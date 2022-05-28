@@ -16,13 +16,18 @@ public class Mail {
 	private String fStatus;
 	private Date mailFromDate;
 	private Date mailToDate;
+	private String sMailToDate;
 	private String aStatus;
 	private Date aDate;
+	private String sADate;
 	private String rejReason;
 	private Date resDate;
 	private char resHour;
 	private char resMin;
 	private String memNum;
+	private String memberName;
+	private String divName;
+	private String rankName;
 	private String mailStatus;
 	private String mailReceiver;
 	private String mailReferee;
@@ -41,10 +46,11 @@ public class Mail {
 
 	public Mail(int mailNo, String mailType, String mailSubject, String mailContent, int mailCount, String mailSender,
 			String rStatus, String iStatus, String readType, String fStatus, Date mailFromDate, Date mailToDate,
-			String aStatus, Date aDate, String rejReason, Date resDate, char resHour, char resMin, String memNum,
-			String mailStatus, String mailReceiver, String mailReferee, int recNo, String recStatus,
-			String recImpStatus, String recReadType, String mailFileName, String mailFileRename, String mailFilePath,
-			String refYn, List<MailRec> recList, List<MailRef> refList) {
+			String sMailToDate, String aStatus, Date aDate, String sADate, String rejReason, Date resDate, char resHour,
+			char resMin, String memNum, String memberName, String divName, String rankName, String mailStatus,
+			String mailReceiver, String mailReferee, int recNo, String recStatus, String recImpStatus,
+			String recReadType, String mailFileName, String mailFileRename, String mailFilePath, String refYn,
+			List<MailRec> recList, List<MailRef> refList) {
 		super();
 		this.mailNo = mailNo;
 		this.mailType = mailType;
@@ -58,13 +64,18 @@ public class Mail {
 		this.fStatus = fStatus;
 		this.mailFromDate = mailFromDate;
 		this.mailToDate = mailToDate;
+		this.sMailToDate = sMailToDate;
 		this.aStatus = aStatus;
 		this.aDate = aDate;
+		this.sADate = sADate;
 		this.rejReason = rejReason;
 		this.resDate = resDate;
 		this.resHour = resHour;
 		this.resMin = resMin;
 		this.memNum = memNum;
+		this.memberName = memberName;
+		this.divName = divName;
+		this.rankName = rankName;
 		this.mailStatus = mailStatus;
 		this.mailReceiver = mailReceiver;
 		this.mailReferee = mailReferee;
@@ -176,6 +187,14 @@ public class Mail {
 		this.mailToDate = mailToDate;
 	}
 
+	public String getsMailToDate() {
+		return sMailToDate;
+	}
+
+	public void setsMailToDate(String sMailToDate) {
+		this.sMailToDate = sMailToDate;
+	}
+
 	public String getaStatus() {
 		return aStatus;
 	}
@@ -190,6 +209,14 @@ public class Mail {
 
 	public void setaDate(Date aDate) {
 		this.aDate = aDate;
+	}
+
+	public String getsADate() {
+		return sADate;
+	}
+
+	public void setsADate(String sADate) {
+		this.sADate = sADate;
 	}
 
 	public String getRejReason() {
@@ -230,6 +257,30 @@ public class Mail {
 
 	public void setMemNum(String memNum) {
 		this.memNum = memNum;
+	}
+
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+
+	public String getDivName() {
+		return divName;
+	}
+
+	public void setDivName(String divName) {
+		this.divName = divName;
+	}
+
+	public String getRankName() {
+		return rankName;
+	}
+
+	public void setRankName(String rankName) {
+		this.rankName = rankName;
 	}
 
 	public String getMailStatus() {
@@ -341,18 +392,14 @@ public class Mail {
 		return "Mail [mailNo=" + mailNo + ", mailType=" + mailType + ", mailSubject=" + mailSubject + ", mailContent="
 				+ mailContent + ", mailCount=" + mailCount + ", MailSender=" + MailSender + ", rStatus=" + rStatus
 				+ ", iStatus=" + iStatus + ", readType=" + readType + ", fStatus=" + fStatus + ", mailFromDate="
-				+ mailFromDate + ", mailToDate=" + mailToDate + ", aStatus=" + aStatus + ", aDate=" + aDate
-				+ ", rejReason=" + rejReason + ", resDate=" + resDate + ", resHour=" + resHour + ", resMin=" + resMin
-				+ ", memNum=" + memNum + ", mailStatus=" + mailStatus + ", mailReceiver=" + mailReceiver
-				+ ", mailReferee=" + mailReferee + ", recNo=" + recNo + ", recStatus=" + recStatus + ", recImpStatus="
-				+ recImpStatus + ", recReadType=" + recReadType + ", mailFileName=" + mailFileName + ", mailFileRename="
-				+ mailFileRename + ", mailFilePath=" + mailFilePath + ", refYn=" + refYn + ", recList=" + recList
-				+ ", refList=" + refList + "]";
+				+ mailFromDate + ", mailToDate=" + mailToDate + ", sMailToDate=" + sMailToDate + ", aStatus=" + aStatus
+				+ ", aDate=" + aDate + ", sADate=" + sADate + ", rejReason=" + rejReason + ", resDate=" + resDate
+				+ ", resHour=" + resHour + ", resMin=" + resMin + ", memNum=" + memNum + ", memberName=" + memberName
+				+ ", divName=" + divName + ", rankName=" + rankName + ", mailStatus=" + mailStatus + ", mailReceiver="
+				+ mailReceiver + ", mailReferee=" + mailReferee + ", recNo=" + recNo + ", recStatus=" + recStatus
+				+ ", recImpStatus=" + recImpStatus + ", recReadType=" + recReadType + ", mailFileName=" + mailFileName
+				+ ", mailFileRename=" + mailFileRename + ", mailFilePath=" + mailFilePath + ", refYn=" + refYn
+				+ ", recList=" + recList + ", refList=" + refList + "]";
 	}
-
-	
-	
-
-	
 	
 }

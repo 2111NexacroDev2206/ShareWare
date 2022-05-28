@@ -185,6 +185,23 @@ public interface MailStore {
 	public List<MailBmk> selectBmkList(SqlSession sqlSession, MailBmk mailBmk);
 
 	public int selectMailNo(SqlSession sqlSession, Mail mail);
+	
+	// 넥사크로 - 승인 메일 관리
+	public List<Mail> selectListAppMail(SqlSession sqlSession); // 전체 승인 메일 조회
+
+	public int selectOneAppCount(SqlSession sqlSession); // 승인 대기 메일 개수
+
+	public List<Mail> selectListSearchAppMail(SqlSession sqlSession, String searchValue); // 승인 메일 검색
+
+	public int selectOneAppAllCount(SqlSession sqlSession); // 전체 승인 메일 개수
+
+	public Mail selectOneAdminAppMail(SqlSession sqlSession, int mailNo); // 승인 메일 상세 조회
+
+	public List<Mail> selectListFilterAppMail(SqlSession sqlSession, String aStatus); // 승인 상태 필터 조회
+
+	public int updateRStatusAppMail(SqlSession sqlSession, String mailNo); // 승인 메일 삭제
+
+	public int updateAStatusAppMail(SqlSession sqlSession, Mail mail); // 승인 상태 변경
 
 	
 	

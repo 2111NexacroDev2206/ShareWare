@@ -573,6 +573,55 @@ public class MailStoreLogic implements MailStore{
 		int noResult = sqlSession.selectOne("MailMapper.selectMailNo", mail);
 		return noResult;
 	}
+	
+	// 넥사크로 - 승인 메일 관리
+	@Override
+	public List<Mail> selectListAppMail(SqlSession sqlSession) { // 전체 승인 메일 조회
+		List<Mail> mList = sqlSession.selectList("MailMapper.selectListAppMail");
+		return mList;
+	}
+
+	@Override
+	public int selectOneAppCount(SqlSession sqlSession) { // 승인 대기 메일 개수
+		int count = sqlSession.selectOne("MailMapper.selectOneAppCount");
+		return count;
+	}
+
+	@Override
+	public List<Mail> selectListSearchAppMail(SqlSession sqlSession, String searchValue) { // 승인 메일 검색
+		List<Mail> mList = sqlSession.selectList("MailMapper.selectListSearchAppMail", searchValue);
+		return mList;
+	}
+
+	@Override
+	public int selectOneAppAllCount(SqlSession sqlSession) { // 전체 승인 메일 개수
+		int allCount = sqlSession.selectOne("MailMapper.selectOneAppAllCount");
+		return allCount;
+	}
+
+	@Override
+	public Mail selectOneAdminAppMail(SqlSession sqlSession, int mailNo) { // 승인 메일 상세 조회
+		Mail mail = sqlSession.selectOne("MailMapper.selectOneAdminAppMail", mailNo);
+		return mail;
+	}
+
+	@Override
+	public List<Mail> selectListFilterAppMail(SqlSession sqlSession, String aStatus) { // 승인 상태 필터 조회
+		List<Mail> mList = sqlSession.selectList("MailMapper.selectListFilterAppMail", aStatus);
+		return mList;
+	}
+
+	@Override
+	public int updateRStatusAppMail(SqlSession sqlSession, String mailNo) { // 승인 메일 삭제
+		int result = sqlSession.update("MailMapper.updateRStatusAppMail", mailNo);
+		return result;
+	}
+
+	@Override
+	public int updateAStatusAppMail(SqlSession sqlSession, Mail mail) { // 승인 상태 변경
+		int result = sqlSession.update("MailMapper.updateAStatusAppMail", mail);
+		return result;
+	}
 
 	
 	

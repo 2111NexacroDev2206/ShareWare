@@ -201,6 +201,24 @@ public interface MailService {
 	 public List<MailBmk> printBmkList(MailBmk mailBmk);
 
 	public int printMailNo(Mail mail);
+	
+	
+	// 넥사크로 - 승인 메일 관리
+	public List<Mail> printAllAppMail(); // 승인 메일 전체 조회
+
+	public int printAppCount(); // 승인 대기 메일 개수
+
+	public List<Mail> printSearchAppMail(String searchValue); // 승인 메일 검색
+
+	public int printAppAllCount(); // 전체 승인 메일 개수
+
+	public Mail adminPrintOneAppMail(int mailNo); // 승인 메일 상세 조회
+
+	public List<Mail> printFilterAppMail(String aStatus); // 승인 상태 필터 조회
+
+	public int deleteAppMail(String mailNo); // 승인 메일 삭제
+
+	public int modifyAppMailStatus(Mail mail); // 승인 상태 변경
 
 	
 

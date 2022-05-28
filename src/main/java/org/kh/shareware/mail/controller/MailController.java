@@ -41,6 +41,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
+import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
+import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 
 @Controller
@@ -1490,5 +1492,196 @@ public class MailController {
 			mail.setMailSender(member.getMail());
 			int count = mService.getMailReadCount(mail);
 			return new Gson().toJson(count);
+		}
+		
+		// 넥사크로 - 승인 메일 관리
+		// 승인 메일 전체 조회
+		@RequestMapping(value = "/admin/mail/list.sw")
+		public NexacroResult appMailList() {
+			int 	nErrorCode = 0;
+			String 	strErrorMsg = "START";
+			NexacroResult result = new NexacroResult();
+			List<Mail> mList = mService.printAllAppMail();
+			int count = mService.printAppCount();
+			int allCount = mService.printAppAllCount();
+			if(!mList.isEmpty() && count > -1 && allCount > -1) {
+				for(int i = 0; i < mList.size(); i++) {
+					mList.get(i).setMemberName(mList.get(i).getMemberName() + " " + mList.get(i).getRankName() + "(" + mList.get(i).getDivName() + ")");
+					mList.get(i).setMailCount(0);
+				}
+				nErrorCode = 0;
+				strErrorMsg = "SUCC";
+			} else {
+				nErrorCode = -1;
+				strErrorMsg = "Fail";
+			}
+			result.addDataSet("out_mail", mList);
+			result.addVariable("count", count);
+			result.addVariable("allCount", allCount);
+			result.addVariable("ErrorCode", nErrorCode);
+			result.addVariable("ErrorMsg", strErrorMsg);
+			return result;
+		}
+		
+		// 승인 메일 검색
+		@RequestMapping(value = "/admin/mail/searchList.sw", method = RequestMethod.POST)
+		public NexacroResult appMailSearch(@ParamVariable(name = "searchValue") String searchValue) {
+			int 	nErrorCode = 0;
+			String 	strErrorMsg = "START";
+			NexacroResult result = new NexacroResult();
+			List<Mail> mList = mService.printSearchAppMail(searchValue);
+			if(!mList.isEmpty()) {
+				for(int i = 0; i < mList.size(); i++) {
+					mList.get(i).setMemberName(mList.get(i).getMemberName() + " " + mList.get(i).getRankName() + "(" + mList.get(i).getDivName() + ")");
+					mList.get(i).setMailCount(0);
+				}
+				nErrorCode = 0;
+				strErrorMsg = "SUCC";
+			} else {
+				nErrorCode = -1;
+				strErrorMsg = "Fail";
+			}
+			result.addDataSet("out_mail", mList);
+			result.addVariable("ErrorCode", nErrorCode);
+			result.addVariable("ErrorMsg", strErrorMsg);
+			return result;
+		}
+		
+		// 승인 메일 상세 조회
+		@RequestMapping(value = "/admin/mail/detail.sw")
+		public NexacroResult appMailDetail(@ParamVariable(name = "mailNo") int mailNo) {
+			int 	nErrorCode = 0;
+			String 	strErrorMsg = "START";
+			NexacroResult result = new NexacroResult();
+			Mail mail = mService.adminPrintOneAppMail(mailNo);
+			List<MailRec> mailRec = mService.printOneAppMailRec(mailNo);
+			String [] receiver = new String[mailRec.size()];
+			mail.setMailSender(mail.getDivName() + " " + mail.getMemberName() + " " + mail.getRankName() + "<" + mail.getMailSender() + ">");
+			for(int i = 0; i < mailRec.size(); i++) {
+				receiver[i] = mailRec.get(i).getMailReceiver();
+			}
+			mail.setMailReceiver(String.join(", ", receiver));
+			int allCount = mService.printAppAllCount();
+			if(mail != null && allCount > -1) {
+				nErrorCode = 0;
+				strErrorMsg = "SUCC";
+			} else {
+				nErrorCode = -1;
+				strErrorMsg = "Fail";
+			}
+			result.addDataSet("out_mail", mail);
+			result.addVariable("allCount", allCount);
+			result.addVariable("ErrorCode", nErrorCode);
+			result.addVariable("ErrorMsg", strErrorMsg);
+			return result;
+		}
+		
+		// 승인 상태 필터 조회
+		@RequestMapping(value = "/admin/mail/filterList.sw", method = RequestMethod.POST)
+		public NexacroResult appMailFilter(@ParamVariable(name = "aStatus") String aStatus) {
+			int 	nErrorCode = 0;
+			String 	strErrorMsg = "START";
+			NexacroResult result = new NexacroResult();
+			List<Mail> mList = mService.printFilterAppMail(aStatus);
+			if(!mList.isEmpty()) {
+				for(int i = 0; i < mList.size(); i++) {
+					mList.get(i).setMemberName(mList.get(i).getMemberName() + " " + mList.get(i).getRankName() + "(" + mList.get(i).getDivName() + ")");
+					mList.get(i).setMailCount(0);
+				}
+				nErrorCode = 0;
+				strErrorMsg = "SUCC";
+			} else {
+				nErrorCode = -1;
+				strErrorMsg = "Fail";
+			}
+			result.addDataSet("out_mail", mList);
+			result.addVariable("ErrorCode", nErrorCode);
+			result.addVariable("ErrorMsg", strErrorMsg);
+			return result;
+		}
+		
+		// 승인 메일 삭제
+		@RequestMapping(value = "/admin/mail/delete.sw", method = RequestMethod.POST)
+		public NexacroResult appMailDelete(@ParamVariable(name = "mailNo") String mailNo) {
+			int 	nErrorCode = 0;
+			String 	strErrorMsg = "START";
+			NexacroResult result = new NexacroResult();
+			int dResult = 0;
+			String [] delMailNo = mailNo.split(",");
+			for(int i = 0; i < delMailNo.length; i++) {
+				dResult = mService.deleteAppMail(delMailNo[i]);
+			}
+			int count = mService.printAppCount();
+			int allCount = mService.printAppAllCount();
+			if(dResult > 0) {
+				nErrorCode = 0;
+				strErrorMsg = "SUCC";
+			} else {
+				nErrorCode = -1;
+				strErrorMsg = "Fail";
+			}
+			result.addVariable("count", count);
+			result.addVariable("allCount", allCount);
+			result.addVariable("ErrorCode", nErrorCode);
+			result.addVariable("ErrorMsg", strErrorMsg);
+			return result;
+		}
+		
+		// 승인 상태 변경
+		@RequestMapping(value = "/admin/mail/update.sw", method = RequestMethod.POST)
+		public NexacroResult appMailUpdate(@ParamVariable(name = "mailNo") int mailNo
+				, @ParamVariable(name = "aStatus") String aStatus
+				, @ParamVariable(name = "rejReason") String rejReason) {
+			int 	nErrorCode = 0;
+			String 	strErrorMsg = "START";
+			NexacroResult result = new NexacroResult();
+			Mail mail = new Mail();
+			mail.setMailNo(mailNo);
+			mail.setaStatus(aStatus);
+			if(!rejReason.equals("undefined")) {
+				mail.setRejReason(rejReason);
+			}
+			java.util.Date nowTime = new java.util.Date(); // 현재 날짜 가져오기
+			SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
+			mail.setsADate(sf.format(nowTime));
+			int uResult = mService.modifyAppMailStatus(mail);
+			Mail newMail = mService.adminPrintOneAppMail(mailNo);
+			List<MailRec> mailRec = mService.printOneAppMailRec(mailNo);
+			String [] receiver = new String[mailRec.size()];
+			String mailSender = newMail.getMailSender(); // 보낸 사람 메일 주소
+			newMail.setMailSender(newMail.getDivName() + " " + newMail.getMemberName() + " " + newMail.getRankName() + "<" + newMail.getMailSender() + ">");
+			for(int i = 0; i < mailRec.size(); i++) {
+				receiver[i] = mailRec.get(i).getMailReceiver();
+			}
+			newMail.setMailReceiver(String.join(", ", receiver));
+			int allCount = mService.printAppAllCount();
+			// 반려인 경우 사용자에게 메일 보내기
+			if(aStatus.equals("반려")) {
+				Mail rejMail = new Mail();
+				rejMail.setMailType("S");
+				rejMail.setMailSubject("'" + newMail.getMailSubject() + "' 메일이 반려되었습니다.");
+				rejMail.setMailContent("반려 사유 : " + rejReason);
+				rejMail.setMailSender("관리자");
+				rejMail.setfStatus("0");
+				rejMail.setMemNum("admin");
+				int rResult = mService.registerMail(rejMail);
+				if(rResult > 0) {
+					MailRec rejMailRec = new MailRec();
+					rejMailRec.setMailReceiver(mailSender);
+					mService.registerMailRec(rejMailRec);
+				}
+			}
+			if(uResult > 0 && newMail != null && allCount > -1) {
+				nErrorCode = 0;
+				strErrorMsg = "SUCC";
+			} else {
+				nErrorCode = -1;
+				strErrorMsg = "Fail";
+			}
+			result.addDataSet("out_mail", newMail);
+			result.addVariable("allCount", allCount);
+			result.addVariable("ErrorCode", nErrorCode);
+			result.addVariable("ErrorMsg", strErrorMsg);
+			return result;
 		}
 }
