@@ -13,6 +13,7 @@
   		<result property="address" column="ADDRESS"/>
   		<result property="phone" column="PHONE"/>
   		<result property="mail" column="MAIL"/>
+  		<result property="hireDate" column="HIRE_DATE"/>
   		<result property="retireDate" column="RETIRE_DATE"/>
   		<result property="birth" column="BIRTH"/>
   		<result property="account" column="ACCOUNT"/>
