@@ -75,9 +75,9 @@ border-bottom: 1px solid lightgray;
 }
 
 #mailRList {
-	float: right;
+	float: left;
 	margin-top: 120px;
-	margin-right: 30px;
+	margin-left: 480px;
 	}
 .l-search {
 	float: left;
@@ -168,6 +168,9 @@ a {
 		});
 	</script>
 	<script type="text/javascript">
+	function refreshList(){ //실행시 재로드
+		location.reload();
+	}
 		$(function() {
 			$("#allCheck").click(function() {
 				var chk_listArr = $("input[name='RowCheck']");
@@ -181,15 +184,23 @@ a {
 		
 
 		function deleteValue() {
-	
-			var valueArr = new Array();
+			var mailCategory = document.querySelector("#mailCategory").value;
+			var paramArr = new Array();
 			var list = $("input[name='RowCheck']");
 			for (var i = 0; i < list.length; i++) {
+				var paramObj = {};
 				if (list[i].checked) {
-					valueArr.push(list[i].value);
+					var paramData = list[i].value.split("/");
+					paramObj.mailNo = paramData[0];
+					paramObj.rNo = paramData[1]; 
+					paramObj.refYn = paramData[2];
+					paramObj.mailCate = paramData[3];
+					paramObj.mailType = paramData[4];
+					paramArr.push(paramObj);
 				}
 			}
-			if (valueArr.length == 0) {
+			console.log(paramArr);
+			if (paramArr.length == 0) {
 				alert("선택된 메일이 없습니다.")
 			} else {
 				var chk = confirm("정말 삭제하시겠습니까?");
@@ -198,29 +209,73 @@ a {
 					url : '/mail/chkMailDelete.sw',
 					type : 'get',
 					traditional : true,
-					data : {
-						valueArr : valueArr 
-					//보내는 변수
-					},
+					data : { "paramArr" : JSON.stringify(paramArr) },
 					success : function(data) {
-						if (data = 1) {
+						if (data == "success") {
 							alert("삭제되었습니다.");
-							if(mailCategory =='R'){
-							 location.href="/mail/RmailListView.sw"//page로 새로고침 */
-							} else if(mailCategory =='S'){
-							 location.href="/mail/SmailListView.sw"//page로 새로고침 */
-							} else if(mailCategory =='M'){
-							 location.href("/mail/MmailListView.sw")//page로 새로고침 */
-							} else if(mailCategory =='F'){
-							 location.href("/mail/FmailListView.sw")//page로 새로고침 */
-							}
+							location.href="/mail/"+paramData[3]+"mailListView.sw"
 						} else {
-							alert("삭제 실패했습니다.")
+							alert("실패했습니다.")
 						}
 					}
 				});
 			}
 		}
+		function impValue(obj) {
+			var mailCategory = document.querySelector("#mailCategory").value;
+			var inputTag = $(obj).prev();
+			var paramObj = {};
+			var paramData = inputTag[0].value.split("/");
+			paramObj.mailNo = paramData[0];
+			paramObj.rNo = paramData[1]; 
+			paramObj.refYn = paramData[2];
+			paramObj.mailCate = paramData[3];
+			paramObj.mailType = paramData[4];
+				
+			console.log(paramObj);
+			$.ajax({				
+				url : '/mail/registerI.sw',
+				type : 'get',
+				traditional : true,
+				data : { "paramObj" : JSON.stringify(paramObj) },
+				success : function(data) {
+					if (data == "success") {
+						alert("중요메일함에 추가되었습니다.");
+						location.href="/mail/"+paramData[3]+"mailListView.sw"
+					} else {
+						alert("실패했습니다.");
+					}
+				}
+			});
+		}
+		function impCancel(obj) {
+			var mailCategory = document.querySelector("#mailCategory").value;
+			var inputTag = $(obj).prev();
+			var paramObj = {};
+			var paramData = inputTag[0].value.split("/");
+			paramObj.mailNo = paramData[0];
+			paramObj.rNo = paramData[1]; 
+			paramObj.refYn = paramData[2];
+			paramObj.mailCate = paramData[3];
+			paramObj.mailType = paramData[4];
+				
+			console.log(paramObj);
+			$.ajax({				
+				url : '/mail/cancelI.sw',
+				type : 'get',
+				traditional : true,
+				data : { "paramObj" : JSON.stringify(paramObj) },
+				success : function(data) {
+					if (data == "success") {
+						alert("중요메일함에서 삭제되었습니다.");
+						location.href="/mail/"+paramData[3]+"mailListView.sw"
+					} else {
+						alert("실패했습니다.");
+					}
+				}
+			});
+		}
+	
 	</script>
 	<div id="mailRList">
 		<div id="mailTop">
@@ -247,31 +302,30 @@ a {
 	</form> 	
 		</div>
 	
-			
+			<input type="hidden" id="mailCategory" value="${mailCategory }">
 			<table id="rMail" border="0">
 			<c:forEach items="${mList }" var="mail">
 			<!-- 받은 메일 함 -->
 			<c:if test="${mailCategory == 'S' }">
 				<tr>
-					 <c:url var="mDetail" value="/mail/mailDetailView.sw">
-					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
-						</c:url> 
-						<c:url var="iRegister" value="/mail/registerI.sw">
+					 <c:url var="mDetail" value="/mail/${mailCategory}mailDetailView.sw">
 					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
 						</c:url> 
 					<td width="30px;"><input name="RowCheck" type="checkbox"
-						value="${mail.mailNo}" /></td>
+						value="${mail.mailNo}/${mail.recNo}/${mail.refYn }/${mailCategory}/${mail.mailType}" /></td>
 					<td width="30px;">
-					<span><c:if test="${mail.iStatus eq '0'}">
-					<a href="${iRegister}"><i class="fa-regular fa-star"></i></a>
-					</c:if>
-					<c:if test="${mail.iStatus eq '1'}">
-					<i class="fa-solid fa-star"></i>
-					</c:if>
-					</span>
+						<span>
+							<input name="m-value" type="hidden" value="${mail.mailNo}/${mail.recNo}/${mail.refYn }/${mailCategory}/${mail.mailType}" />
+							<c:if test="${mail.recImpStatus eq '0'}">
+								<a href="javascript:void(0)" onclick="impValue(this);" id="m-value"><i class="fa-regular fa-star"></i></a>
+							</c:if>
+							<c:if test="${mail.recImpStatus eq '1'}">
+								<a href="javascript:void(0)" onclick="impCancel(this);" id="m-value"><i class="fa-solid fa-star"></i></a>
+							</c:if>
+						</span>	
 					</td>
-					<td width="30px;"><c:if test="${mail.readType eq '0'}"><i class="fa-regular fa-envelope"></i></c:if>
-					<c:if test="${mail.readType eq '1'}"><i class="fa-solid fa-envelope-open-text"></i></c:if>
+					<td width="30px;"><c:if test="${mail.recReadType eq '0'}"><i class="fa-regular fa-envelope"></i></c:if>
+					<c:if test="${mail.recReadType eq '1'}"><i class="fa-solid fa-envelope-open-text"></i></c:if>
 					</td>
 					<td width="30px;"><c:if test="${mail.fStatus eq '0' }"></c:if>
 					<c:if test="${mail.fStatus eq '1' }"><i class="fa-regular fa-file"></i></c:if>
@@ -286,22 +340,24 @@ a {
 				<c:if test="${mailCategory == 'R' }">
 				<tr>
 				
-					 <c:url var="mDetail" value="/mail/mailDetailView.sw">
+					 <c:url var="mDetail" value="/mail/${mailCategory}mailDetailView.sw">
 					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
 						</c:url> 
 							<c:url var="iRegister" value="/mail/registerI.sw">
 					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
 						</c:url> 
 					<td width="30px;"><input name="RowCheck" type="checkbox"
-						value="${mail.mailNo}" /></td>
+						value="${mail.mailNo}/${mail.recNo}/${mail.refYn }/${mailCategory}/${mail.mailType}" /></td>
 					<td width="30px;">
-					<span><c:if test="${mail.iStatus eq '0'}">
-					<a href="${iRegister}"><i class="fa-regular fa-star"></i></a>
-					</c:if>
-					<c:if test="${mail.iStatus eq '1'}">
-					<i class="fa-solid fa-star"></i>
-					</c:if>
-					</span>
+						<span>
+							<input name="m-value" type="hidden" value="${mail.mailNo}/${mail.recNo}/${mail.refYn }/${mailCategory}/${mail.mailType}" />
+							<c:if test="${mail.iStatus eq '0'}">
+								<a href="javascript:void(0)" onclick="impValue(this);" id="m-value"><i class="fa-regular fa-star"></i></a>
+							</c:if>
+							<c:if test="${mail.iStatus eq '1'}">
+								<a href="javascript:void(0)" onclick="impCancel(this);" id="m-value"><i class="fa-solid fa-star"></i></a>
+							</c:if>
+						</span>	
 					</td>
 					<td width="30px;"><c:if test="${mail.readType eq '0'}"><i class="fa-regular fa-envelope"></i></c:if>
 					<c:if test="${mail.readType eq '1'}"><i class="fa-solid fa-envelope-open-text"></i></c:if>
@@ -323,21 +379,24 @@ a {
 				<c:if test="${mailCategory == 'M' && mail.mailType == 'F'}">
 				
 				<tr>
-					 <c:url var="mDetail" value="/mail/mailDetailView.sw">
+					 <c:url var="mDetail" value="/mail/${mailCategory}mailDetailView.sw">
 					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
 						</c:url> 
 							<c:url var="iRegister" value="/mail/registerI.sw">
 					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
 						</c:url> 
-					<td width="30px;"><input name="RowCheck" type="checkbox" value="${mail.mailNo}" /></td>
+					<td width="30px;"><input name="RowCheck" type="checkbox" 
+						value="${mail.mailNo}/${mail.recNo}/${mail.refYn }/${mailCategory}/${mail.mailType}" /></td>
 					<td width="30px;">
-					<span><c:if test="${mail.iStatus eq '0'}">
-					<a href="${iRegister}"><i class="fa-regular fa-star"></i></a>
-					</c:if>
-					<c:if test="${mail.iStatus eq '1'}">
-					<i class="fa-solid fa-star"></i>
-					</c:if>
-					</span>
+						<span>
+							<input name="m-value" type="hidden" value="${mail.mailNo}/${mail.recNo}/${mail.refYn }/${mailCategory}/${mail.mailType}" />
+							<c:if test="${mail.iStatus eq '0'}">
+								<a href="javascript:void(0)" onclick="impValue(this);" id="m-value"><i class="fa-regular fa-star"></i></a>
+							</c:if>
+							<c:if test="${mail.iStatus eq '1'}">
+								<a href="javascript:void(0)" onclick="impCancel(this);" id="m-value"><i class="fa-solid fa-star"></i></a>
+							</c:if>
+						</span>	
 					</td>
 					<td width="30px;"><c:if test="${mail.readType eq '0'}"><i class="fa-regular fa-envelope"></i></c:if>
 					<c:if test="${mail.readType eq '1'}"><i class="fa-solid fa-envelope-open-text"></i></c:if>
@@ -353,51 +412,25 @@ a {
 				</c:if>
 				</c:forEach>
 				</table>
-				
-				<%-- <c:if test="${mailCategory == 'F' }">
-				<tr>
-					 <c:url var="mDetail" value="/mail/mailDetailView.sw">
-					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
-						</c:url> 
-					<td width="30px;"><input name="RowCheck" type="checkbox"
-						value="${mail.mailNo}" /></td>
-					<td width="30px;">
-					<span><c:if test="${mail.iStatus eq '0'}"><i class="fa-regular fa-star"></i></c:if>
-					<c:if test="${mail.iStatus eq '1'}"><i class="fa-solid fa-star"></i></c:if></span>
-					</td>
-					<td width="30px;"><c:if test="${mail.readType eq '0'}"><i class="fa-regular fa-envelope"></i></c:if>
-					<c:if test="${mail.readType eq '1'}"><i class="fa-solid fa-envelope-open-text"></i></c:if>
-					</td>
-					<td width="30px;"><c:if test="${mail.fStatus eq '0' }"></c:if>
-					<c:if test="${mail.fStatus eq '1' }"><i class="fa-regular fa-file"></i></c:if>
-					</td>
-					<td width="150px;">${mail.mailReceiver }</td>
-					<td><a href="${mDetail}">${mail.mailSubject }</a></td>
-					<td width="150px;"><a href="/resources/mUploadFiles/${mail.mailFileRename}" download>${mail.mailFileName}</a></td>
-					<td width="150px;"><fmt:formatDate
-							value="${mail.mailFromDate }" pattern="yyyy/MM/ddHH:mm:ss" /></td>
-				</tr>
-				</c:if> --%>
 				<c:forEach items="${mList }" var="mail">
 				<c:if test="${mailCategory == 'F' }">
 				<div id="fileBox" style="" >
 					
-					<div id="fMailDiv" style="margin: ">
-					<c:url var="mDetail" value="/mail/mailDetailView.sw">
-					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
-						</c:url> 
-							<c:url var="iRegister" value="/mail/registerI.sw">
-					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
-						</c:url> 
-						<c:url var="iCancel" value="/mail/cancelI.sw">
-					<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
+					<div id="fMailDiv" style="margin-left:10px; margin-right: 10px;">
+						<c:url var="mDetail" value="/mail/${mailCategory}mailDetailView.sw">
+							<c:param name="mailNo" value="${mail.mailNo}"></c:param> 
 						</c:url> 
 						<div id="fMailIcon">
-						<div style="float: left; margin-left: 10px; margin-right: 10px;"><input name="RowCheck" type="checkbox"
-						value="${mail.mailNo}" /></div>
+						<div style="float: left; margin-left: 10px; margin-right: 10px;">
+						<input name="RowCheck" type="checkbox"
+							value="${mail.mailNo}/${mail.recNo}/${mail.refYn }/${mailCategory}/${mail.mailType}" /></div>
 						<div style="float: left; margin-right: 10px;">
-							<span><c:if test="${mail.iStatus eq '0'}"><a href="${iRegister}"><i class="fa-regular fa-star"></i></a></c:if>
-							<c:if test="${mail.iStatus eq '1'}"><a href="${iCancel}"><i class="fa-solid fa-star"></i></a></c:if></span>
+							<span>
+							<input name="m-value" type="hidden" value="${mail.mailNo}/${mail.recNo}/${mail.refYn }/${mailCategory}/${mail.mailType}" />
+							<c:if test="${mail.iStatus eq '0'}">
+							<a href="javascript:void(0)" onclick="impValue(this);" id="m-value"><i class="fa-regular fa-star"></i></a></c:if>
+							<c:if test="${mail.iStatus eq '1'}">
+							<a href="javascript:void(0)" onclick="impCancel(this);" id="m-value"><i class="fa-solid fa-star"></i></a></c:if></span>
 						</div>
 						<div style="float: left; margin-right: 10px;"><c:if test="${mail.readType eq '0'}"><i class="fa-regular fa-envelope"></i></c:if>
 						<c:if test="${mail.readType eq '1'}"><i class="fa-solid fa-envelope-open-text"></i></c:if>
@@ -409,11 +442,13 @@ a {
 								value="${mail.mailFromDate }" pattern="yyyy/MM/ddHH:mm:ss" /></div>
 						<br>
 						
-						<div>${mail.mailReceiver }</div>
+						<div><c:forEach items="${mail.recList }" var="rec" varStatus="status">
+							${rec.mailReceiver }<c:if test="${status.count ne cTotalCount }">,</c:if>
+							</c:forEach></div>
 						
-						<div><a href="${mDetail}"><c:if test="${mail.mailReceiver eq loginUser.mail && mail.mailSender ne loginUser.mail}">[받은 메일함] ${mail.mailSubject }</c:if>
-						<c:if test="${mail.mailReceiver ne loginUser.mail && mail.mailSender eq loginUser.mail}">[보낸 메일함] ${mail.mailSubject }</c:if>
-						<c:if test="${mail.mailReceiver eq loginUser.mail && mail.mailSender eq loginUser.mail}">[내게 쓴 메일함] ${mail.mailSubject }</c:if>
+						<div><a href="${mDetail}"><%-- <c:if test="${mail.mailsender eq loginUser.mail || mail.mailReferee eq loginUser.mail}">[받은 메일함] ${mail.mailSubject }</c:if>
+						<c:if test="${mail.mailsender eq loginUser.mail || mail.mailReferee eq loginUser.mail}">[보낸 메일함] ${mail.mailSubject }</c:if>
+						<c:if test="${mail.mailType }">[내게 쓴 메일함] ${mail.mailSubject }</c:if> --%>
 						</a></div>
 						</div>
 						<div id="fBox">

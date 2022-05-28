@@ -10,7 +10,6 @@ public class Mail {
 	private String mailContent;
 	private int mailCount;
 	private String MailSender;
-	private String mailFromAddr;
 	private String rStatus;
 	private String iStatus;
 	private String readType;
@@ -24,20 +23,28 @@ public class Mail {
 	private char resHour;
 	private char resMin;
 	private String memNum;
+	private String mailStatus;
 	private String mailReceiver;
 	private String mailReferee;
+	private int recNo;
+	private String recStatus;
+	private String recImpStatus;
+	private String recReadType;
 	private String mailFileName;
 	private String mailFileRename;
 	private String mailFilePath;
+	private String refYn;
 	private List<MailRec> recList;
+	private List<MailRef> refList;
 	
 	public Mail() {}
 
 	public Mail(int mailNo, String mailType, String mailSubject, String mailContent, int mailCount, String mailSender,
-			String mailFromAddr, String rStatus, String iStatus, String readType, String fStatus, Date mailFromDate,
-			Date mailToDate, String aStatus, Date aDate, String rejReason, Date resDate, char resHour, char resMin,
-			String memNum, String mailReceiver, String mailReferee, String mailFileName, String mailFileRename,
-			String mailFilePath, List<MailRec> recList) {
+			String rStatus, String iStatus, String readType, String fStatus, Date mailFromDate, Date mailToDate,
+			String aStatus, Date aDate, String rejReason, Date resDate, char resHour, char resMin, String memNum,
+			String mailStatus, String mailReceiver, String mailReferee, int recNo, String recStatus,
+			String recImpStatus, String recReadType, String mailFileName, String mailFileRename, String mailFilePath,
+			String refYn, List<MailRec> recList, List<MailRef> refList) {
 		super();
 		this.mailNo = mailNo;
 		this.mailType = mailType;
@@ -45,7 +52,6 @@ public class Mail {
 		this.mailContent = mailContent;
 		this.mailCount = mailCount;
 		MailSender = mailSender;
-		this.mailFromAddr = mailFromAddr;
 		this.rStatus = rStatus;
 		this.iStatus = iStatus;
 		this.readType = readType;
@@ -59,12 +65,19 @@ public class Mail {
 		this.resHour = resHour;
 		this.resMin = resMin;
 		this.memNum = memNum;
+		this.mailStatus = mailStatus;
 		this.mailReceiver = mailReceiver;
 		this.mailReferee = mailReferee;
+		this.recNo = recNo;
+		this.recStatus = recStatus;
+		this.recImpStatus = recImpStatus;
+		this.recReadType = recReadType;
 		this.mailFileName = mailFileName;
 		this.mailFileRename = mailFileRename;
 		this.mailFilePath = mailFilePath;
+		this.refYn = refYn;
 		this.recList = recList;
+		this.refList = refList;
 	}
 
 	public int getMailNo() {
@@ -113,14 +126,6 @@ public class Mail {
 
 	public void setMailSender(String mailSender) {
 		MailSender = mailSender;
-	}
-
-	public String getMailFromAddr() {
-		return mailFromAddr;
-	}
-
-	public void setMailFromAddr(String mailFromAddr) {
-		this.mailFromAddr = mailFromAddr;
 	}
 
 	public String getrStatus() {
@@ -227,6 +232,14 @@ public class Mail {
 		this.memNum = memNum;
 	}
 
+	public String getMailStatus() {
+		return mailStatus;
+	}
+
+	public void setMailStatus(String mailStatus) {
+		this.mailStatus = mailStatus;
+	}
+
 	public String getMailReceiver() {
 		return mailReceiver;
 	}
@@ -241,6 +254,38 @@ public class Mail {
 
 	public void setMailReferee(String mailReferee) {
 		this.mailReferee = mailReferee;
+	}
+
+	public int getRecNo() {
+		return recNo;
+	}
+
+	public void setRecNo(int recNo) {
+		this.recNo = recNo;
+	}
+
+	public String getRecStatus() {
+		return recStatus;
+	}
+
+	public void setRecStatus(String recStatus) {
+		this.recStatus = recStatus;
+	}
+
+	public String getRecImpStatus() {
+		return recImpStatus;
+	}
+
+	public void setRecImpStatus(String recImpStatus) {
+		this.recImpStatus = recImpStatus;
+	}
+
+	public String getRecReadType() {
+		return recReadType;
+	}
+
+	public void setRecReadType(String recReadType) {
+		this.recReadType = recReadType;
 	}
 
 	public String getMailFileName() {
@@ -267,6 +312,14 @@ public class Mail {
 		this.mailFilePath = mailFilePath;
 	}
 
+	public String getRefYn() {
+		return refYn;
+	}
+
+	public void setRefYn(String refYn) {
+		this.refYn = refYn;
+	}
+
 	public List<MailRec> getRecList() {
 		return recList;
 	}
@@ -275,16 +328,31 @@ public class Mail {
 		this.recList = recList;
 	}
 
+	public List<MailRef> getRefList() {
+		return refList;
+	}
+
+	public void setRefList(List<MailRef> refList) {
+		this.refList = refList;
+	}
+
 	@Override
 	public String toString() {
 		return "Mail [mailNo=" + mailNo + ", mailType=" + mailType + ", mailSubject=" + mailSubject + ", mailContent="
-				+ mailContent + ", mailCount=" + mailCount + ", MailSender=" + MailSender + ", mailFromAddr="
-				+ mailFromAddr + ", rStatus=" + rStatus + ", iStatus=" + iStatus + ", readType=" + readType
-				+ ", fStatus=" + fStatus + ", mailFromDate=" + mailFromDate + ", mailToDate=" + mailToDate
-				+ ", aStatus=" + aStatus + ", aDate=" + aDate + ", rejReason=" + rejReason + ", resDate=" + resDate
-				+ ", resHour=" + resHour + ", resMin=" + resMin + ", memNum=" + memNum + ", mailReceiver="
-				+ mailReceiver + ", mailReferee=" + mailReferee + ", mailFileName=" + mailFileName + ", mailFileRename="
-				+ mailFileRename + ", mailFilePath=" + mailFilePath + ", recList=" + recList + "]";
+				+ mailContent + ", mailCount=" + mailCount + ", MailSender=" + MailSender + ", rStatus=" + rStatus
+				+ ", iStatus=" + iStatus + ", readType=" + readType + ", fStatus=" + fStatus + ", mailFromDate="
+				+ mailFromDate + ", mailToDate=" + mailToDate + ", aStatus=" + aStatus + ", aDate=" + aDate
+				+ ", rejReason=" + rejReason + ", resDate=" + resDate + ", resHour=" + resHour + ", resMin=" + resMin
+				+ ", memNum=" + memNum + ", mailStatus=" + mailStatus + ", mailReceiver=" + mailReceiver
+				+ ", mailReferee=" + mailReferee + ", recNo=" + recNo + ", recStatus=" + recStatus + ", recImpStatus="
+				+ recImpStatus + ", recReadType=" + recReadType + ", mailFileName=" + mailFileName + ", mailFileRename="
+				+ mailFileRename + ", mailFilePath=" + mailFilePath + ", refYn=" + refYn + ", recList=" + recList
+				+ ", refList=" + refList + "]";
 	}
 
+	
+	
+
+	
+	
 }

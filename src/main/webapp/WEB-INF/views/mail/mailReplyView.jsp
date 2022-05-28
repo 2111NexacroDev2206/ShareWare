@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
@@ -84,10 +84,16 @@
 #write {
 	color: grey;
 }
+
+textarea::placeholder {
+  font-size: 15px;
+}
 </style>
 
 
 </head>
+
+
 
 <body>
 	<jsp:include page="../common/menuBar.jsp"></jsp:include>
@@ -102,7 +108,6 @@
 					<button type="submit"class="btn-mail"  style=" width:110px;" onclick= "javascript: form.action='mailRegister.sw'"><i class="fa-solid fa-paper-plane"></i>&nbsp;<strong>보내기</strong></button>&nbsp;&nbsp;
 						<button type="submit" class="btn-mail" onclick= "javascript: form.action='mailTemRegister.sw'"><i class="fa-solid fa-download"></i>&nbsp;<strong>임시 저장</strong></button>
 						<button type="submit" class="btn-mail" onclick= "javascript: form.action='mailAppRegister.sw'"><i class="fa-solid fa-user-check"></i>&nbsp;<strong>승인 메일</strong></button>
-						<button type="button" class="btn-mail" >발송 예약</button>
 						<a href="/mail/WriteMyView.sw"><i class="fa-solid fa-rotate"></i>내게 쓰기</a>&nbsp;&nbsp;
 					</div>
 				</div>
@@ -111,24 +116,16 @@
 		<div id="mailRegister">
 		<input type="hidden" name="mailSender" value="${loginUser.mail }">
 			<div>
-				<div><strong id="write">받는사람</strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-				<c:forEach items="${mailRec }" var="mailRec">
-				<input type="text" size="130" style= "height: 30px" id="mailRec"  name="mailReceiver" value="${mailRec.mailReceiver}">
-				</c:forEach> 
-				&nbsp;<button type="button" class="btn-mail" style="width:80px" onclick="participant2();"><i class="fa-regular fa-address-book"></i>&nbsp;주소록</button>&nbsp;<button type="button" class="btn-mail" style="width: 130px;" onclick="bmk();"><i class="fa-solid fa-at"></i>&nbsp;즐겨찾는 그룹</button></div>
+				<div><strong id="write">받는사람</strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="text" size="130" style= "height: 30px" id="mailRec"  name="mailReceiver" value="<c:forEach items="${mailRec }" var="mailRec">${mailRec.mailReceiver} </c:forEach>"> &nbsp;<button type="button" class="btn-mail" style="width:80px" onclick="participant2();"><i class="fa-regular fa-address-book"></i>&nbsp;주소록</button>&nbsp;<button type="button" class="btn-mail" style="width: 130px;" onclick="bmk();"><i class="fa-solid fa-at"></i>&nbsp;즐겨찾는 그룹</button></div>
 				<!-- <p id="mailReceiver"> -->
 			</div>
 			<br>
 			<div>
-				<div><strong id="write">참조인</strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-				
-				<input type="text" size="130" style= "height: 30px"id="mailReferee" name="mailReferee" value="<c:forEach items="${mailRef }" var="mailRef">${mailRef.mailReferee} </c:forEach>" >
-				
-				&nbsp;&nbsp;<button type="button" class="btn-mail" style="width:80px" onclick="participant3();"><i class="fa-regular fa-address-book"></i>&nbsp;주소록</button>&nbsp;<button type="button" class="btn-mail" style="width: 130px;" onclick="bmk();"><i class="fa-solid fa-at"></i>&nbsp;즐겨찾는 그룹</button></div>
+				<div><strong id="write">참조인</strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="text" size="130" style= "height: 30px"id="mailReferee" name="mailReferee"  value="<c:forEach items="${mailRef }" var="mailRef">${mailRef.mailReferee} </c:forEach>">&nbsp;&nbsp;<button type="button" class="btn-mail" style="width:80px" onclick="participant3();"><i class="fa-regular fa-address-book"></i>&nbsp;주소록</button>&nbsp;<button type="button" class="btn-mail" style="width: 130px;" onclick="bmk();"><i class="fa-solid fa-at"></i>&nbsp;즐겨찾는 그룹</button></div>
 			</div>
 			<br>
 			<div>
-				<div><strong id="write">제목 </strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;<input type="text" size="130" style= "height: 30px" name="mailSubject" value="${mail.mailSubject}"></div>
+				<div><strong id="write">제목 </strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;<input type="text" size="130" style= "height: 30px" name="mailSubject" value="RE: ${mail.mailSubject }"></div>
 			</div>
 			<br>
 			<br>
@@ -139,9 +136,20 @@
 			</div> 
 			<br>
 			<br>
-			<div>
-				<div><textarea rows="25" cols="160" name="mailContent">${mail.mailContent }</textarea></div>
-			</div>	
+			
+				<strong><textarea rows="25" cols="160" name="mailContent" id="mailContent">
+				
+   -----Original Message----- 
+From: ${mail.mailSender } 
+To:<c:forEach items="${mailRec }" var="mailRec"> ${mailRec.mailReceiver } </c:forEach>
+
+Cc: <c:forEach items="${mailRef }" var="mailRef">${mailRef.mailReferee }  </c:forEach>
+Sent: ${mail.mailFromDate } 
+Subject: ${mail.mailSubject } 
+${mail.mailContent }
+				
+				</textarea></strong>
+			
 		</div>
 		</form>
 		<jsp:include page="../mail/mailAddrModal.jsp"></jsp:include>
@@ -150,6 +158,7 @@
 		<jsp:include page="../mail/bmkListModal.jsp"></jsp:include>
 		</body>
 		<script type="text/javascript">
+	
 		function bmk() {
 			$("#header4").html("즐겨찾는 그룹 찾기");
 			$("#s-text4").html("그룹");
@@ -234,5 +243,6 @@
 			$("input[name='mailReceiver']").val(arrText4.join(" "))
 			
 		}
+		
 		</script>
 </html>

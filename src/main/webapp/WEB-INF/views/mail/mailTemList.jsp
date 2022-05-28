@@ -25,18 +25,18 @@
 
 .mailHeader {
 	padding-bottom: 210px;
-	border-bottom: 1px lightgray solid;
+	/* border-bottom: 1px lightgray solid; */
 }
 
 .mailWriteMenu {
-	float: right;
+	float: left;
 	margin-top: 12%;
-	margin-right: 37%;
+	margin-left: 300px;;
 }
 
 .btn-mail {
 	display: inline-block;
-	width: 80px;
+	width: 85px;
 	height: 40px;
 	background-color: white;
 	border: 1px solid rgb(51, 51, 51);
@@ -51,11 +51,10 @@
 	font-size: 14px;
 	text-align: center;
 	border-collapse: collapse;
-	border-top: 2px solid rgb(200, 200, 200);
+	border-top: 1px solid rgb(200, 200, 200);
 	border-bottom: 2px solid rgb(200, 200, 200);
 }
 #rMail tr {
-	border-top: 1px solid rgb(200, 200, 200);
 	height: 45px;
 }
 #rMail tr:hover {
@@ -63,11 +62,10 @@ background-color: rgb(250, 250, 250);
 }
 #rMail th{
 background-color: rgb(240, 240, 240);
-
-
+border-top: 2px solid rgb(200, 200, 200);
 }
 #rMail td {
-border-top: 1px solid gray;
+
 border-bottom: 1px solid lightgray;
 }
 #rMail a {
@@ -77,20 +75,18 @@ border-bottom: 1px solid lightgray;
 }
 
 #mailRList {
-	float: right;
-	margin-top: 10%;
-	margin-right: 30px;
+	float: left;
+	margin-top: 120px;
+	margin-left: 480px;
 	}
 .l-search {
-	display: flex;
-	height:40px;
-	margin-bottom: 10px;
 	float: left;
 	display: inline-block;
 	width: 100px;
-	height: 40px;
+	height: 37px;
 	background-color: white;
-	border: 1px solid rgb(190, 190, 190);
+	border: none;
+	border-left: 2px solid rgb(190, 190, 190);
 	border-radius: 4px;
 	font-size: 15px;
 	cursor: pointer;
@@ -102,27 +98,63 @@ border-bottom: 1px solid lightgray;
 	height: 40px;
 	width: 80px;
 	border-radius: 4px;
-	border: solid 1px rgb(190, 190, 190);
-	margin-right: 5px;
+	border: solid 2px rgb(190, 190, 190);
+	margin-right: 7px;
 	text-align: center;
 	float:left;
 }
 .l-input {
 	display: flex;
-	height: 40px;
+	height: 37px;
 	width: 190px;
 	border-radius: 4px;
-	border: solid 1px rgb(190, 190, 190);
+	border: solid 2px rgb(190, 190, 190);
 }
 .l-text {
 	display: inline-flex;
 	width: 137px;
 	border: none;
+	
 }
 #delete {
 	float:left;
+	border: solid 2px rgb(190, 190, 190);
+}
+#fileBox {
+margin-left: 30px;
+
+}
+#fMailDiv {
+	border: solid 1px rgb(190, 190, 190);
+	 display: inline-block;
+	   box-sizing: border-box;
+    text-align: center;
+    padding-top: 10px;
+     flex: 1;
+     height: 310px;
+     float: left;
+     width:30%;
+     margin-left: 30px;
+  	margin-bottom: 20px;
+  	  justify-content : center;
+}
+#fileBox {
+	background: rgb(240, 240, 240);
+}
+#fMailIcon {
+	border-bottom: solid 1px rgb(190, 190, 190);
+	box-sizing: border-box;
+	padding-bottom: 10px;
+}
+#mailTop {
+padding-bottom: 20px;
+	border-bottom: 2px solid rgb(190, 190, 190);
 	
 }
+a {
+	text-decoration: none;
+}
+
 </style>
 </head>
 
@@ -140,19 +172,6 @@ border-bottom: 1px solid lightgray;
 			});			
 			
 		});
-		/* $(function() {
-			var chkObj = document.getElementsByName("RowCheck");
-			var rowCnt = chkObj.length;
-	
-			
-			$("input[name='RowCheck']").click(function() {
-				if ($("input[name='RowCheck']:checked").length == rowCnt) {
-					$("input[name='allCheck']")[0].checked = true;
-				} else {
-					$("input[name='allCheck']")[0].checked = false;
-				}
-			});
-		}); */
 		function deleteValue() {
 	
 			var valueArr = new Array();
@@ -169,7 +188,7 @@ border-bottom: 1px solid lightgray;
 				var chk = confirm("정말 삭제하시겠습니까?");
 	
 				$.ajax({
-					url : '/mail/chkMailDelete.sw',
+					url : '/mail/chkOtherMailDelete.sw',
 					type : 'get',
 					traditional : true,
 					data : {
@@ -192,24 +211,24 @@ border-bottom: 1px solid lightgray;
 
 	<!-- <form action="/mail/mailRListView.sw" method="post"></form> -->
 	<div id="mailRList">
-		<button type="submit" id="delete" class="btn-mail" onclick="deleteValue();">삭제하기</button>
-		<form action="/mail/TmailSearch.sw" method="get">
-				<select class= "l-select" name="searchCondition"  style="text-align: left; width:80px; margin-left:10px;">
+		<div id="mailTop">
+			<div style="width:1300px ; padding-bottom: 15px; margin-bottom: -20px;">
+				<input style="zoom:1.5; margin-left: 10px; margin-top: 5px; float:left; " name="allCheck" type="checkbox" id="allCheck" />
+			</div>
+	<button type="submit" class="btn-mail" id="delete" style="margin-left: 15px;" onclick="deleteValue();"><i class="fa-solid fa-trash" style=" color:rgb(190, 190, 190);"></i>&nbsp;삭제하기</button>
+	<form action="/mail/TmailSearch.sw" method="get">
+				<select class= "l-select" id="s-condition" name="searchCondition" style="text-align: left; width:80px; margin-left:15px; ">
 					<option value="all">전체</option>
 					<option value="receiver">수신인</option>
 					<option value="subject">제목</option>
 					<option value="content">내용</option>
 				</select>
-			<div class="l-input">
-			<input type="text" name="searchValue" class="l-text">
-			<input type="submit" value="검색" class="l-search" >
-			</div>
+			<div class="l-input" style="margin-top: 5px;">
+			<input type="text" id="s-value" name="searchValue" class="l-text" >
+			<input type="submit" id="btn-search" value="검색" class="l-search">
+			</div>	
 	</form> 
-		
-			<br>
-			<div style="width:1300px ;background-color: rgb(145, 168, 210); border:1px solid grey; padding-bottom: 15px; margin-bottom: -20px;">
-				<input style="zoom:1.5; margin-left: 5px; margin-top: 5px;" name="allCheck" type="checkbox" id="allCheck" />
-			</div>
+	</div>
 			<table id="rMail" border="0">
 			<c:forEach items="${tList }" var="mail">
 				<tr>
@@ -224,12 +243,16 @@ border-bottom: 1px solid lightgray;
 					<td width="30px;"><c:if test="${mail.fStatus eq '0' }"></c:if>
 					<c:if test="${mail.fStatus eq '1' }"><i class="fa-regular fa-file"></i></c:if>
 					</td>
-					<c:if test="${mail.mailReceiver eq null}">
-					<td width="150px;">(받는이없음)</td>
+					<td width="150px;">
+					<c:forEach items="${mail.recList }" var="rec" varStatus="status">
+					<c:if test="${rec.mailReceiver eq null}">
+					(받는이없음)
 					</c:if>
-					<c:if test="${mail.mailReceiver ne null}">
-					<td width="150px;">${mail.mailReceiver }</td>
+					<c:if test="${rec.mailReceiver ne null}">
+					${rec.mailReceiver }<c:if test="${status.count ne cTotalCount }">,</c:if>
 					</c:if>
+					</c:forEach>
+					</td>
 					<td><a href="${mDetail}">${mail.mailSubject }</a></td>
 					<td width="150px;"><fmt:formatDate
 							value="${mail.mailFromDate }" pattern="yyyy/MM/dd/HH:mm:ss" /></td>
