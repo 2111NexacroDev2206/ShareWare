@@ -103,7 +103,7 @@
 			//voteMember에 insert
 			//vote update 해야됨
 			$.ajax({
-				url: "/community/insetCommunityVote.sw",
+				url: "/community/insertCommunityVote.sw",
 				type: "GET",
 				data: {"comNo": comNo
 					,"comVoteNo": comVoteNo

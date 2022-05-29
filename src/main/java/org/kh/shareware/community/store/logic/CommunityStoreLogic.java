@@ -87,7 +87,7 @@ public class CommunityStoreLogic implements CommunityStore {
 	}
 
 	@Override
-	public CommunityVote detailCommunityVote(SqlSession sqlsession, Integer comNo) {
+	public CommunityVote selectCommunityVote(SqlSession sqlsession, Integer comNo) {
 		CommunityVote communityVote = sqlsession.selectOne("CommnuityMapper.CommnuityVoteView", comNo);
 		return communityVote;
 	}
@@ -105,7 +105,7 @@ public class CommunityStoreLogic implements CommunityStore {
 	}
 
 	@Override
-	public int registerCVoteSelect(SqlSession sqlsession, CommunityVoteSelect cVoteSelect) {
+	public int insertCVoteSelect(SqlSession sqlsession, CommunityVoteSelect cVoteSelect) {
 		int result = sqlsession.insert("CommnuityMapper.insertCVoteSelect",cVoteSelect);
 		return result;
 	}
@@ -117,7 +117,7 @@ public class CommunityStoreLogic implements CommunityStore {
 	}
 
 	@Override
-	public int removeCVoteMember(SqlSession sqlsession, Integer comNo) {
+	public int deleteCVoteMember(SqlSession sqlsession, Integer comNo) {
 		int result = sqlsession.delete("CommnuityMapper.deleteCVoteMember", comNo);
 		return result;
 	}
