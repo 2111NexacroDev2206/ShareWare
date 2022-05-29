@@ -18,3 +18,4 @@ loadFile/
 *.xml$
 */$temporary$/*
 nexaui/
+*.ucls
