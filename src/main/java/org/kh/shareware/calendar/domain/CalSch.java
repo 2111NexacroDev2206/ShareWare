@@ -12,7 +12,7 @@ public class CalSch {
 	private String schEndDate;
 	private String schEndTime;
 	private String schContent;
-	private String alStatus;
+	private String schCate;
 	private String schColor;
 	
 	
@@ -22,7 +22,7 @@ public class CalSch {
 
 
 	public CalSch(int schNo, String memNum, String calNo, String schName, String schStartDate, String schStartTime,
-			String schEndDate, String schEndTime, String schContent, String alStatus, String schColor) {
+			String schEndDate, String schEndTime, String schContent, String schCate, String schColor) {
 		super();
 		this.schNo = schNo;
 		this.memNum = memNum;
@@ -33,7 +33,7 @@ public class CalSch {
 		this.schEndDate = schEndDate;
 		this.schEndTime = schEndTime;
 		this.schContent = schContent;
-		this.alStatus = alStatus;
+		this.schCate = schCate;
 		this.schColor = schColor;
 	}
 
@@ -147,14 +147,14 @@ public class CalSch {
 
 
 
-	public String getAlStatus() {
-		return alStatus;
+	public String getSchCate() {
+		return schCate;
 	}
 
 
 
-	public void setAlStatus(String alStatus) {
-		this.alStatus = alStatus;
+	public void setSchCate(String schCate) {
+		this.schCate = schCate;
 	}
 
 
@@ -175,13 +175,8 @@ public class CalSch {
 	public String toString() {
 		return "CalSch [schNo=" + schNo + ", memNum=" + memNum + ", calNo=" + calNo + ", schName=" + schName
 				+ ", schStartDate=" + schStartDate + ", schStartTime=" + schStartTime + ", schEndDate=" + schEndDate
-				+ ", schEndTime=" + schEndTime + ", schContent=" + schContent + ", alStatus=" + alStatus + ", schColor="
+				+ ", schEndTime=" + schEndTime + ", schContent=" + schContent + ", schCate=" + schCate + ", schColor="
 				+ schColor + "]";
 	}
-
-	
-
-	
-	
 	
 }

@@ -23,14 +23,30 @@ public class CalendarServiceImpl implements CalendarService{
 
 
 	@Override
-	public int registerSchedule(CalSch calSch) {
-		int result = cStore.insertSchedule(calSch, sqlSession);
-		return result;
+	public int registerMySchedule(CalSch calSch) {
+		int mResult = cStore.insertMySchedule(calSch, sqlSession);
+		return mResult;
 	}
+	@Override
+	public int registerComSchedule(CalSch calSch) {
+		int cResult = cStore.insertComSchedule(calSch, sqlSession);
+		return cResult;
+	}
+	@Override
+	public int registerDeptSchedule(CalSch calSch) {
+		int dResult = cStore.insertDeptSchedule(calSch, sqlSession);
+		return dResult;
+	}
+	
 	@Override
 	public List<CalSch> printAllSchedule(CalSch calSch) {
 		List<CalSch> sList = cStore.selectAllSchedule(calSch, sqlSession);
 		return sList;
+	}
+	@Override
+	public List<CalSch> printAllComSchedule(CalSch calSch) {
+		List<CalSch> cList = cStore.selectAllComSchedule(calSch, sqlSession);
+		return cList;
 	}
 	@Override
 	public CalSch printOneSchedule(int schNo) {
@@ -40,6 +56,11 @@ public class CalendarServiceImpl implements CalendarService{
 	@Override
 	public int modifySchedule(CalSch calSch) {
 		int result = cStore.updateSchedule(calSch, sqlSession);
+		return result;
+	}
+	@Override
+	public int deleteSchedule(int schNo) {
+		int result = cStore.deleteSchedule(schNo, sqlSession);
 		return result;
 	}
 	@Override
@@ -80,5 +101,12 @@ public class CalendarServiceImpl implements CalendarService{
 		CalSch calSch = cStore.selectLastCalSch(sqlSession);
 		return calSch;
 	}
+	@Override
+	public List<CalSch> printMyCalendar(int calNo) {
+		List<CalSch> cList = cStore.selectMyCalendar(calNo, sqlSession);
+		return cList;
+	}
+	
+	
 
 }

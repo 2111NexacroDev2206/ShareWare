@@ -11,17 +11,19 @@
 	}
 	#m-list2 {
 		height: 35%;
-		width: 100%;
-		
+		width: 170%;
+		text-align: center;
 	}
 	#m-list-table2 {
 		margin: 10px;
 		font-size: 14px;
 		border-collapse: collapse;
 		cursor:pointer;
-		width: 280px;
+		width: 350px;
 	}
+
 </style>
+
 </head>
 <body>
 	<div class="m-appSel-wrap" id="bmkCalModal">
@@ -42,12 +44,12 @@
 					</div>
 				</div>
 				<div class="m-list" id="m-list2">
-					<table id="m-list-table2">
+					<table id ="bmk-list-table">
 					</table>
 				</div>
 				<div class="m-select">
 					<strong id="s-text2"></strong><br>
-					<p id="s-list2">
+					<p id="bmk-text-list">
 				</div>
 			</div>
 			<div class="m-footer">
@@ -58,4 +60,108 @@
 	</div>
 
 </body>
+<script type="text/javascript">
+
+function bmkSchedule() {
+	$("#header2").html("관심 캘린더 등록");
+	$("#s-text2").html("캘린더");
+	$("#bmkCalModal").css('display', 'flex').hide().fadeIn();
+	$.ajax({
+		url : "/modal/member/list.sw",
+		type : "get",
+		success : function(mList) {
+			$("#bmk-value").val(""); // 검색 입력창 지우기
+			bmkMemList(mList);
+		},
+		error : function() {
+			alert("사원 목록 조회 실패");
+		}
+	})
+}    
+function bmkCalModalClose(){
+    $("#bmkCalModal").fadeOut();
+}
+$("#confirm-bmkCal").click(function(){
+ 	 bmkMemView();  
+ 	 bmkCalModalClose();
+});
+$("#cancel-bmkCal").click(function(){
+	 $("#s-list2").val(""); 
+	 bmkCalModalClose();
+});
+
+//참여자 선택 사원 검색
+$("#btn-search2").click(function() {
+	var searchCondition = $("#s-condition").val();
+	var searchValue = $("#s-value").val(); 
+	$.ajax({
+		url : "/modal/member/search.sw",
+		type : "get",
+		data : { "searchCondition" : searchCondition,  "searchValue" : searchValue },
+		success : function() {
+			bmkMemList(mList); 
+		},
+		error : function() {
+			alert("사원 목록 검색 실패");
+		}
+	})
+});
+//사원 목록 불러오기
+function bmkMemList(mList) {
+	$("#bmk-list-table").html(""); // 테이블 값 지우기
+	var tr;
+	$.each(mList, function(i) {
+		tr += '<tr class="tr"><td style="display:none;">' + mList[i].memberNum
+		+ '</td><td>' + mList[i].division
+		+ '</td><td>' + mList[i].memberName
+		+ '</td><td>' + mList[i].rank  + '</td></tr>';
+	});
+	$("#bmk-list-table").append(tr);
+	
+	bmkMemSelect(); // 참여자 선택
+}
+
+
+// 선택한 참여자 문서 작성 페이지에 표시
+function bmkMemView() {
+	/* $("#m-bmk").html({mailBmk.bmkSubject}); */
+	/* $("#mailRec").val('arrText.join("<br>")'); */
+/* 	$("input[name='mailReceiver']").val(arrText.join(" ")) */
+}
+function bmkMemSelect() {
+	$("#bmk-list-table tr").click(function(){
+		var trArr = new Object(); // 한 행의 배열을 담을 객체 선언
+		var tdArr = new Array(); // 배열 선언(사원번호, 부서, 이름, 직급)
+		
+		// 현재 클릭된 Row(<tr>)
+		var tr = $(this);
+		var td = tr.children();
+					
+		// 반복문을 이용해서 배열에 값을 담아 사용 가능
+		td.each(function(i){
+			tdArr.push(td.eq(i).text());
+		});
+		
+		// td.eq(index)를 통해 값 가져와서 trArr 객체에 넣기
+		trArr.memberNum = td.eq(0).text();
+		trArr.division = td.eq(1).text();
+		trArr.memberName = td.eq(2).text();
+		trArr.rank = td.eq(3).text();
+		
+		// 객체에 데이터가 있는지 여부 판단
+		var checkedArrIdx = _.findIndex(Arr, { memberNum : trArr.memberNum }); // 동일한 값 인덱스 찾기
+		arrText = []; // 배열 비우기
+		if(checkedArrIdx > -1) {
+			_.remove(Arr, { memberNum : trArr.memberNum }); // 동일한 값 지우기
+		}else {
+			Arr.push(trArr);
+		} arrText = [];
+		Arr.forEach(function(el, index) {
+			arrText.push(el.mail);
+		});
+		$("#bmk-text-list").html("");
+		$("#bmk-text-list").html(arrText.join("<br>")); // 개행해서 s-list 영역에 출력
+	});
+}
+</script>
 </html>

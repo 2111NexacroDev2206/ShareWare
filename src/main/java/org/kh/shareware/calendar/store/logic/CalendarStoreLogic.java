@@ -15,9 +15,19 @@ public class CalendarStoreLogic implements CalendarStore{
 
 
 	@Override
-	public int insertSchedule(CalSch calSch, SqlSession sqlSession) {
-		int result = sqlSession.insert("CalendarMapper.insertSchedule", calSch);
-		return result;
+	public int insertMySchedule(CalSch calSch, SqlSession sqlSession) {
+		int mResult = sqlSession.insert("CalendarMapper.insertMySchedule", calSch);
+		return mResult;
+	}
+	@Override
+	public int insertComSchedule(CalSch calSch, SqlSession sqlSession) {
+		int cResult = sqlSession.insert("CalendarMapper.insertComSchedule", calSch);
+		return cResult;
+	}
+	@Override
+	public int insertDeptSchedule(CalSch calSch, SqlSession sqlSession) {
+		int dResult = sqlSession.insert("CalendarMapper.insertDeptSchedule", calSch);
+		return dResult;
 	}
 
 	@Override
@@ -25,7 +35,11 @@ public class CalendarStoreLogic implements CalendarStore{
 		List<CalSch> sList = sqlSession.selectList("CalendarMapper.selectAllSchedule", calSch);
 		return sList;
 	}
-
+	@Override
+	public List<CalSch> selectAllComSchedule(CalSch calSch, SqlSession sqlSession) {
+		List<CalSch> sList = sqlSession.selectList("CalendarMapper.selectAllComSchedule", calSch);
+		return sList;
+	}
 	@Override
 	public CalSch selectOneSchedule(SqlSession sqlSession, int schNo) {
 		CalSch calSch = sqlSession.selectOne("CalendarMapper.selectOneSchedule", schNo);
@@ -37,7 +51,11 @@ public class CalendarStoreLogic implements CalendarStore{
 		int result = sqlSession.update("CalendarMapper.updateSchedule", calSch);
 		return result;
 	}
-	
+	@Override
+	public int deleteSchedule(int schNo, SqlSession sqlSession) { // 일정 삭제
+		int result = sqlSession.delete("CalendarMapper.deleteSchedule", schNo);
+		return result;
+	}
 	@Override
 	public int registerCalendar(Calendar calendar, SqlSession sqlSession) {
 		int result = sqlSession.insert("CalendarMapper.insertCalendar", calendar);
@@ -81,5 +99,11 @@ public class CalendarStoreLogic implements CalendarStore{
 		CalSch calSch = sqlSession.selectOne("CalendarMapper.selectLastCalSch");
 		return calSch;
 	}
-
+	@Override
+	public List<CalSch> selectMyCalendar(int calNo, SqlSession sqlSession) {
+		List<CalSch> cList = sqlSession.selectList("CalendarMapper.selectCalList", calNo);
+		return cList;
+	}
+	
+	
 }

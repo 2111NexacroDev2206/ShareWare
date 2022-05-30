@@ -9,14 +9,19 @@ import org.kh.shareware.calendar.domain.Calendar;
 public interface CalendarService {
 
 	
-
-	public int registerSchedule(CalSch calSch);
-
+	// 개인 일정 등록
+	public int registerMySchedule(CalSch calSch);
+	// 전사 일정 등록
+	public int registerComSchedule(CalSch calSch);
+	//부서 일정 등록
+	public int registerDeptSchedule(CalSch calSch);
 	public List<CalSch> printAllSchedule(CalSch calSch);
 
 	public CalSch printOneSchedule(int schNo);
 	
 	public int modifySchedule(CalSch calSch);
+	
+	public int deleteSchedule(int schNo);
 	
 	public int registerCalendar(Calendar calendar);
 	// 내 캘린더 메뉴바에서 조회
@@ -33,5 +38,15 @@ public interface CalendarService {
 	
 	// 알림
 	public CalSch printLastCalSch(); // 최근 전사 일정 조회
+	
+	//내 캘린더 조회
+	public List<CalSch> printMyCalendar(int calNo);
+	//전사 일정 조회
+	public List<CalSch> printAllComSchedule(CalSch calSch);
+	
+
+
+
+	
 
 }
