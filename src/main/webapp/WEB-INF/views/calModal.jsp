@@ -70,10 +70,15 @@
 	// 모달 닫고 열기
 	function calModalView(calSch) {
 		$("#header").text(calSch.schName); // 일정 제목
-		if(calSch.memNum == "admin") { // 캘린더 이름
+		if(calSch.schCate == "전사") { // 캘린더 이름
 			$("#m-cal-Name").text("전사 일정");
 		}else {
-			$("#m-cal-Name").text("내 캘린더");
+			if(calSch.calNo != null) {
+				$("#m-cal-Name").text(calSch.calNo);
+			}else {
+				$("#m-cal-Name").text("내 캘린더");
+			}
+			
 		}
 		$("#m-sch-start").text(calSch.schStartDate + " " + (calSch.schStartTime != null ? calSch.schStartTime : "")); // 시작
 		$("#m-sch-end").text(calSch.schEndDate + " " + (calSch.schEndTime != null ? calSch.schEndTime : "")); // 종료

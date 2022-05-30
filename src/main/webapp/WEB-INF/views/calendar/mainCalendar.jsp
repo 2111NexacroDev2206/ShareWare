@@ -23,462 +23,7 @@
 
 
 
-<script>
-	  function schWrite(){ // 버튼 클릭 시 이벤트 추가
-		  $('#exampleModalLabel').text('일정 작성');
-			$('#addCalendar').text('등록');
-			  $('input[name="scheduleNo"]').val('');
-	            $('input[name="schName"]').val('');
-	            $('input[name="schStartDate"]').val('');
-	            $('input[name="schEndDate"]').val('');
-	            $('textarea[name="schContent"]').val('');
-	            $('select[name="schStartTime"]').val('');
-	            $('select[name="schEndTime"]').val('');
 
-          $("#calendarModal").modal("show"); // modal 나타내기
-        
-             $(function(){
-          	   
-              $('input[name=alStatus]').on('change', function(){  //알림여부 체크시 셀렉트 박스 보이게
-                  var alStatus = this.checked;
-                  
-                    if(alStatus){
-                       $('#aType').show(); 
-                       
-                    } else {
-                    $('#aType').hide();
-                    }
-               })
-            })
-          
-				//$("addCalendar").modal
-				
-				$("#addCalendar").on("click",function(){  // modal의 추가 버튼 클릭 시
-					var schNo = $("schNo").val();
-					var memNum = $("memNum").val();
-              var schName = $("#schName").val();
-              var schContent = $("#schContent").val();
-              var schStartDate = $("#schStartDate").val();
-              var schStartTime = $("#schStartTime").val();
-              var schEndDate = $("#schEndDate").val();
-              var schEndTime = $("#schEndTime").val();
-             /*  var alStatus;
-              if($("alStatus").attr("checked")) {
-              	alStatus = "y";
-              }else{
-              	alStatus = "n";
-              } */
-              var schColor = $(".selected").css("backgroundColor");
-              $.ajax({
-        		  url: "/calendar/schRegister.sw",
-        		  type: "post",
-        		  data: { 
-        			  "schNo" : schNo,
-        			  "memNum" : memNum,
-        			  "schName" : schName,
-                    "schContent" : schContent,
-                    "schStartDate" : schStartDate,
-                    "schStartTime" : schStartTime,
-                    "schEndDate" : schEndDate,
-                    "schEndTime" : schEndTime,
-                   /*  "alStatus" : alStatus, */
-                    "schColor" : schColor
-                    }
-           /*     success : function(data) {
-              	if(data == "success") {
-              		
-              	}
-              }  */
-        		});
-            //내용 입력 여부 확인
-              if(schName == null || schName == ""){
-                  alert("제목을 입력하세요.");
-              }else if(schStartDate == "" || schEndDate ==""){
-                  alert("날짜를 입력하세요.");
-              }else if(new string(schEndDate)- new String(schStartTime) < 0){ // date 타입으로 변경 후 확인
-                  alert("종료일이 시작일보다 먼저입니다.");
-              }else{ // 정상적인 입력 시
-                  var obj = {
-                  	"schNo" : schNo,
-                      "schName" : schName,
-                      "schContent" : schContent,
-                      "schStartDate" : schStartDate,
-                      "schStartTime" : schStartTime,
-                      "schEndDate" : schEndDate,
-                      "schEndTime" : schEndTime,
-                    /*   "alStatus" : alStatus, */
-                      "schColor" : schColor
-                      
-                  }//전송할 객체 생성
-                  console.log(obj); //서버로 해당 객체를 전달해서 DB 연동 가능
-                  
-              }
-          });
-			 
-      }
-	  
-	  
-	  
-	var calendar;
-	document.addEventListener("DOMContentLoaded", function() {
-	    var calendarDiv = document.querySelector("#calendarBox");
-	    calendar = new FullCalendar.Calendar(calendarDiv, {
-	        initialView : "dayGridMonth",
-	        headerToolbar: {
-	        	left:'title',
-	        	center:'today,prev,next', 
-               	right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek' // headerToolbar에 버튼을 추가
-               
-	        },   
-	        buttonText : {
-	        	today : "오늘",
-	        	month : "월간",
-	        	week : "주간",
-	        	day : "일간",
-	        	list : "목록"
-	        },
-	        droppable: false,
-	        selectable: true,
-	   		dayMaxEvents: true,
-	     	select: function(arg) {  var title = (' '); 
-	     // title 값이 있을때, 화면에 calendar.addEvent() json형식으로 일정을 추가
-			     if (title) { 
-			    	 calendar.addEvent({ 
-			    	 title: title, start: arg.start,
-			    	 end: arg.end+1, 
-			    	 allDay: arg.allDay, 
-			    	 backgroundColor:" ", textColor:" " }) 
-			     }
-		     	 calendar.unselect() 
-	     	}, 
-     		eventClick: function(arg) { // 있는 일정 클릭시, console.log("#등록된 일정 클릭#"); 
-     		   $("#calendarModal").modal("show");
-   				$('#exampleModalLabel').text('일정 상세');
-     			$('#addCalendar').text('수정');
-     			$('input[name="schNo"]').val(arg.event.extendedProps.schNo);
-                $('input[name="schName"]').val(arg.event.title);
-                $('input[name="schStartDate"]').val(arg.event.start.toISOString().substr(0, 10));
-                $('input[name="schEndDate"]').val(arg.event.end.toISOString().substr(0, 10)); 
-                $('textarea[name="schContent"]').val(arg.event.extendedProps.schContent);
-                $('select[name="schStartTime"]').val(arg.event.extendedProps.schStartTime);
-                $('select[name="schEndTime"]').val(arg.event.extendedProps.schEndTime);
-                $("#addCalendar").on("click",function(){  // modal의 추가 버튼 클릭 시
-					var schNo = $('input[name="schNo"]').val();
-					var memNum = $("memNum").val();
-                  var schName = $("#schName").val();
-                  var schContent = $("#schContent").val();
-                  var schStartDate = $("#schStartDate").val();
-                  var schStartTime = $("#schStartTime").val();
-                  var schEndDate = $("#schEndDate").val();
-                  var schEndTime = $("#schEndTime").val();
-                  var schColor = $(".selected").css("backgroundColor");
-                  $.ajax({
-            		  url: "/calendar/schModifyView.sw",
-            		  type: "post",
-            		  data: { 
-            			  "schNo" : schNo,
-            			  "memNum" : memNum,
-            			  "schName" : schName,
-                        "schContent" : schContent,
-                        "schStartDate" : schStartDate,
-                        "schStartTime" : schStartTime,
-                        "schEndDate" : schEndDate,
-                        "schEndTime" : schEndTime,
-                        "schColor" : schColor
-                        }
-                 /*  success : function(data) {
-                  	if(data == "success") {
-                  		
-                  	}
-                  } */
-            		});
-                //내용 입력 여부 확인
-                  if(schName == null || schName == ""){
-                      alert("제목을 입력하세요.");
-                  }else if(schStartDate == "" || schEndDate ==""){
-                      alert("날짜를 입력하세요.");
-                  }else if(new Date(schEndDate)- new Date(schStartTime) < 0){ // date 타입으로 변경 후 확인
-                      alert("종료일이 시작일보다 먼저입니다.");
-                  }else{ // 정상적인 입력 시
-                      var obj = {
-                      	"schNo" : schNo,
-                          "schName" : schName,
-                          "schContent" : schContent,
-                          "schStartDate" : schStartDate,
-                          "schStartTime" : schStartTime,
-                          "schEndDate" : schEndDate,
-                          "schEndTime" : schEndTime,
-                          "schColor" : schColor
-                      }//전송할 객체 생성
-                      console.log(obj); //서버로 해당 객체를 전달해서 DB 연동 가능
-                  }
-              });
-     		},
-       		editable : true, //수정가능
-        	selectable: true, // 달력일자 선택 가능, 드래그
-        	nowIndicator: true, // 현재 시간 마크
-        	/*  locale: 'ko', //한국어 설정  */
-	        	events: [
-	        		<c:forEach items="${sList}" var="sList">
-	        		{
-	        			title: '${sList.schName}',
-	        			start: '${sList.schStartDate}',
-	        			end:'${sList.schEndDate}',
-	        			backgroundColor: '${sList.schColor}',
-	        			borderColor: '${sList.schColor}',
-	        			extendedProps: {
-	        				'schNo' : '${sList.schNo}',
-	        				'schContent' : '${sList.schContent}',
-	        				'schStartTime' : '${sList.schStartTime}',
-	        				'schEndTime' : '${sList.schEndTime}'
-	        			}
-	        		},
-	        		</c:forEach>
-	        	],			
-	        /* 	eventRender:function(event, eventElement) {   //이미지 첨부
-	                if(event.imageurl) {
-	                    eventElement.find("span.fc-title").prepend("<center><img src='" + event.imageurl + "'><center>");
-	                }
-	            },
- */
-	
-	        eventAdd:function() {
-	        	$('#exampleModalLabel').text('일정 작성');
-     			$('#addCalendar').text('등록');
-     			 $('input[name="scheduleNo"]').val('');
- 	            $('input[name="schName"]').val('');
- 	            $('input[name="schStartDate"]').val('');
- 	            $('input[name="schEndDate"]').val('');
- 	            $('textarea[name="schContent"]').val('');
- 	            $('select[name="schStartTime"]').val('');
- 	            $('select[name="schEndTime"]').val('');
-	        	 $("#calendarModal").modal("show");
-	        	
-	        	/*  $("#schModal").css('display', 'flex').hide().fadeIn();   */
-	        	
-	        	$(function(){
-             	   
-                    $('input[name=alStatus]').on('change', function(){  //알림여부 체크시 셀렉트 박스 보이게
-                        var alStatus = this.checked;
-                        
-                          if(alStatus){
-                             $('#aType').show(); 
-                             
-                          } else {
-                          $('#aType').hide();
-                          }
-                     })
-                  });
-                  $("#addCalendar").on("click",function(){  // modal의 추가 버튼 클릭 시
-						var schNo = $("schNo").val();
-						var memNum =  $("memNum").val();
-                      var schName = $("#schName").val();
-                      var schContent = $("#schContent").val();
-                      var schStartDate = $("#schStartDate").val();
-                      var schStartTime = $("#schStartTime").val();
-                      var schEndDate = $("#schEndDate").val();
-                      var schEndTime = $("#schEndTime").val();
-                     /*  var alStatus;
-                      if($("alStatus").attr("checked")) {
-                      	alStatus = "y";
-                      }else{
-                      	alStatus = "n";
-                      } */
-                      var schColor = $(".selected").css("backgroundColor");
-                      $.ajax({
-                		  url: "/calendar/schRegister.sw",
-                		  type: "post",
-                		  data: { 
-                			  "schNo" : schNo,
-                			  "memNum" : memNum,
-                			  "schName" : schName,
-                            "schContent" : schContent,
-                            "schStartDate" : schStartDate,
-                            "schStartTime" : schStartTime,
-                            "schEndDate" : schEndDate,
-                            "schEndTime" : schEndTime,
-                           /*  "alStatus" : alStatus, */
-                            "schColor" : schColor
-                            }
-                     /*  success : function(data) {
-                      	if(data == "success") {
-                      		
-                      	}
-                      } */
-                		});
-                    //내용 입력 여부 확인
-                      if(schName == null || schName == ""){
-                          alert("제목을 입력하세요.");
-                      }else if(schStartDate == "" || schEndDate ==""){
-                          alert("날짜를 입력하세요.");
-                      }else if(new Date(schEndDate)- new Date(schStartTime) < 0){ // date 타입으로 변경 후 확인
-                          alert("종료일이 시작일보다 먼저입니다.");
-                      }else{ // 정상적인 입력 시
-                          var obj = {
-                          	"schNo" : schNo,
-                              "schName" : schName,
-                              "schContent" : schContent,
-                              "schStartDate" : schStartDate,
-                              "schStartTime" : schStartTime,
-                              "schEndDate" : schEndDate,
-                              "schEndTime" : schEndTime,
-                            /*   "alStatus" : alStatus, */
-                              "schColor" : schColor
-                          }//전송할 객체 생성
-                          console.log(obj); //서버로 해당 객체를 전달해서 DB 연동 가능
-                      }
-                      refreshMemList();
-                  });
-	        }
-	       
-	    });
-	    calendar.render();
-	});
-
-	function color(arg){
-		 // 선택색상 세팅
-		var backColor = $(arg).css("backgroundColor");
-	    $('input[name="schColor"]').val(backColor);
-	    $('.colors span').removeClass('selected');
-	    for(let i=1; i <= $('.colors span').length; i++) {
-	        if($('.colors span:nth-child('+i+')').css('background-color') == backColor) {
-	            $('.colors span:nth-child('+i+')').addClass('selected');
-	        }
-	    }
-		  }
-		  
-	function resetColor(arg){
-	// 선택색상 첫 순서 색으로 리셋
-	   $('.colors span').removeClass('selected');
-	   $('.colors span:first-of-type').addClass('selected');
-	
-	   let defaultColor = $('.colors span:first-of-type').css('background-color');
-	   $('input[name="scheduleColor"]').val('defaultColor');
-	}
-	function refreshList(){ //실행시 재로드
-		location.reload();
-	}
-	
-    function deleteBmk(calNo) {
-    	$.ajax({
-    		url : "/calendar/deleteCal.sw",
-    		type : "get",
-    		data : {
-    			"calNo" : calNo
-    		},
-    		success : function(data) {
-    			
-    			refreshList();
-    		},
-    		error : function() {
-    			alert("Ajax 통신 실패!");
-    		}
-    	});
-    }
-     
-    function bmkSchedule() {
-    	$("#header2").html("주소록");
-    	$("#s-text2").html("주소");
-    	$("#bmkCalModal").css('display', 'flex').hide().fadeIn();
-    	$.ajax({
-    		url : "/modal/member/list.sw",
-    		type : "get",
-    		success : function(mList) {
-    			$("#bmk-value").val(""); // 검색 입력창 지우기
-    			appList3(mList);
-    		},
-    		error : function() {
-    			alert("사원 목록 조회 실패");
-    		}
-    	})
-    }     
-    $("#confirm-bmkCal").click(function(){
-    	appSelView();
-    	 $("#bmkCalModal").fadeOut();
-    });
-    $("#cancel-bmkCal").click(function(){
-    	$("#s-list2").val("");
-    	 $("#bmkCalModal").fadeOut();
-    });
-   
-    //참여자 선택 사원 검색
-    $("#btn-search2").click(function() {
-    	var searchCondition = $("#s-condition").val();
-    	var searchValue = $("#s-value").val(); 
-    	$.ajax({
-    		url : "/modal/member/search.sw",
-    		type : "get",
-    		data : { "searchCondition" : searchCondition,  "searchValue" : searchValue },
-    		success : function(mList) {
-    			appList2(mList);
-    		},
-    		error : function() {
-    			alert("사원 목록 검색 실패");
-    		}
-    	})
-    });
-    //사원 목록 불러오기
-    function appList3(mList) {
-    	$("#m-list-table2").html(""); // 테이블 값 지우기
-    	var tr;
-    	$.each(mList, function(i) {
-    		tr += '<tr class="tr"><td style="display:none;">' + mList[i].memberNum
-    		+ '</td><td>' + mList[i].division
-    		+ '</td><td>' + mList[i].memberName
-    		+ '</td><td>' + mList[i].rank 
-    		+ '</td><td>' + mList[i].mail + '</td></tr>';
-    	});
-    	$("#m-list-table2").append(tr);
-    	
-    	appSelect2(); // 참여자 선택
-    }
-
-
-    // 선택한 참여자 문서 작성 페이지에 표시
-    function appSelView2() {
-    	/* $("#m-bmk").html({mailBmk.bmkSubject}); */
-    	/* $("#mailRec").val('arrText.join("<br>")'); */
-    	$("input[name='mailReceiver']").val(arrText.join(" "))
-    }
-    function appSelect2() {
-    	$("#m-list-table2 tr").click(function(){
-    		var trArr = new Object(); // 한 행의 배열을 담을 객체 선언
-    		var tdArr = new Array(); // 배열 선언(사원번호, 부서, 이름, 직급)
-    		
-    		// 현재 클릭된 Row(<tr>)
-    		var tr = $(this);
-    		var td = tr.children();
-    					
-    		// 반복문을 이용해서 배열에 값을 담아 사용 가능
-    		td.each(function(i){
-    			tdArr.push(td.eq(i).text());
-    		});
-    		
-    		// td.eq(index)를 통해 값 가져와서 trArr 객체에 넣기
-    		trArr.memberNum = td.eq(0).text();
-    		trArr.division = td.eq(1).text();
-    		trArr.memberName = td.eq(2).text();
-    		trArr.rank = td.eq(3).text();
-    		trArr.mail = td.eq(4).text();
-    		
-    		// 객체에 데이터가 있는지 여부 판단
-    		var checkedArrIdx = _.findIndex(Arr, { memberNum : trArr.memberNum }); // 동일한 값 인덱스 찾기
-    		arrText = []; // 배열 비우기
-    		if(checkedArrIdx > -1) {
-    			_.remove(Arr, { memberNum : trArr.memberNum }); // 동일한 값 지우기
-    		}else {
-    			Arr.push(trArr);
-    		} arrText = [];
-    		Arr.forEach(function(el, index) {
-    			arrText.push(el.mail);
-    		});
-    		$("#s-list2").html("");
-    		$("#s-list2").html(arrText.join("<br>")); // 개행해서 s-list 영역에 출력
-    	});
-    }
-
-    
-    </script>
 <style>
 #calendarBox {
 	height: 900px;
@@ -607,13 +152,21 @@ strong {
 		</div>
 		<div id="subject">
 		<c:forEach items="${cList }" var="cal">
-					<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-circle-minus" style="color: grey;" onclick="deleteBmk('${cal.calNo}');"></i>&nbsp;&nbsp;${cal.calName }</div>
+					<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="hidden" name="calNo" value="${cal.calNo }">
+					<i class="fa-solid fa-circle-minus" style="color: grey;" onclick="deleteBmk('${cal.calNo}');"></i>
+					&nbsp;&nbsp;<a href="/calendar/schListView.sw?calNo=${cal.calNo }&schCate=개인">${cal.calName }</a></div>
 					</c:forEach> 
 		</div>
 				&nbsp;
 		<div class="s-list-item ${listCondition eq 'calBmk' ? 'active' : ''}" >
 			
 				<a href="javascript:bmkSchedule();"><strong>관심 캘린더</strong></a>&nbsp;&nbsp;<i
+					class="fa-solid fa-bookmark"></i>
+		</div>
+		<div class="s-list-item ${listCondition eq 'calBmk' ? 'active' : ''}" >
+					
+				<a href="/calendar/schListView.sw?schCate=전사"><strong>전사 일정</strong></a>&nbsp;&nbsp;<i
 					class="fa-solid fa-bookmark"></i>
 		</div>
 		&nbsp;
@@ -623,7 +176,7 @@ strong {
 
 	<div id="calendarBox"></div>
 	<%-- <jsp:include page="schWrite.jsp"></jsp:include> --%>
-	<div class="modal fade" id="calendarModal" tabindex="-1" role="dialog"
+	<div class="modal fade" id="calendarModal" tabindex="" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -659,6 +212,18 @@ strong {
 								</div>
 						
 					</div>
+					<div class="form-group" id="schCateRadio">
+					<select id="selSchCate">
+						<option value="개인">개인 일정</option>
+						<option value="전사">전사 일정</option>
+					</select>
+					<select id="selCalNo" class="cal-value">
+						<option value="">선택</option>
+						<c:forEach items="${cList }" var="cal">
+							<option value="${cal.calNo }">${cal.calName }</option>
+              	      </c:forEach>
+                    </select>
+                    </div>
 					<div class="form-group">
 						<label for="taskId" class="col-form-label"><strong>기간</strong></label>
 						<div>
@@ -690,7 +255,7 @@ strong {
 							<input type="date" class="form-control" id="schEndDate"
 								name="schEndDate"> <select class="form-control"
 								id="schEndTime" name="schEndTime">
-								<option value="09:00">09:00</option>
+								<option value="09:00" >09:00</option>
 								<option value="09:30">09:30</option>
 								<option value="10:00">10:00</option>
 								<option value="10:30">10:30</option>
@@ -719,34 +284,21 @@ strong {
 							
 						<div class="form-group">
 						<label for="allDay"><strong>종일</strong></label>
-						<div class="form-check">
-							<input type="checkbox" class="form-check-input" value="true"
-								name="allDay">
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" value="true"
+									name="allDay">
+							</div>
 						</div>
-					</div>
+						
 					<div class="form-group">
 						<label for="taskId" class="col-form-label"><strong>일정 내용</strong></label>
 						<br>
 						<textarea rows="8" cols="70" id="schContent" name="schContent"></textarea>
-						<!-- <label for="taskId" class="col-form-label">알림 <input
-							type="checkbox" class="form-control" id="input_check"
-							name="alStatus">
-						</label> <label id="aType" style="display: none;"> <select
-							class="form-control" id="aType" name="aType">
-								<option value="1">15분전</option>
-								<option value="2">30분전</option>
-								<option value="3">45분전</option>
-								<option value="4">1시간전</option>
-								<option value="5">3시간전</option>
-								<option value="6">5시간전</option>
-						</select>
-						</label>
- -->
 					</div>
 
 				</div>
 				<div class="modal-footer">
-					<a href="">삭제하기</a>
+					<a href="javascript:deleteSch(this);">삭제하기</a>
 					<button type="submit" class="btn-cal" id="addCalendar">저장</button>
 					<button type="button" class="btn-cal" data-dismiss="modal"
 						id="sprintSettingModalClose">취소</button>
@@ -773,6 +325,415 @@ strong {
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
-
+<script>
+	if("${schCate}" != "") {
+		$("#selSchCate").val("${schCate}");
+		if("${schCate}" == '전사') {
+			$("#schCateRadio").hide();
+		}else {
+			$("#selCalNo").val("${calNo}").prop('selected', true);
+		}
+	}
+	
+	function refreshSch() {
+		// 스케쥴 넘버 제거
+        if($('input[name="schNo"]').length != 0) {
+            $('input[name="schNo"]').remove();
+         // 입력값 리셋
+            $('input[name="schNo"]').val('');
+            $('input[name="schSubject"]').val('');
+            $('input[name="schStartDate"]').val('');
+            $('input[name="schEndDate"]').val('');
+            $('textarea[name="schContent"]').val('');
+        }
+	}
+	  function schWrite(){ // 버튼 클릭 시 이벤트 추가
+		refreshSch();
+		  $('#exampleModalLabel').text('일정 작성');
+			$('#addCalendar').text('등록');
+			  $('input[name="schNo"]').val('');
+			  $('input[name="calNo"]').val('');
+	            $('input[name="schName"]').val('');
+	            $('input[name="schStartDate"]').val('');
+	            $('input[name="schEndDate"]').val('');
+	            $('textarea[name="schContent"]').val('');
+	            $('select[name="schStartTime"]').val('');
+	            $('select[name="schEndTime"]').val('');
+	            $('[name="schCate"]:checked').val('');
+	 	          $('[name="calNo"]:checked').val('');
+	 	         $("#selSchCate").attr("disabled", false);
+          $("#calendarModal").modal("show"); // modal 나타내기
+			$("#addCalendar").on("click",function(){  // modal의 추가 버튼 클릭 시
+			  var schNo = $("#schNo").val();
+			  var memNum = $("#memNum").val();
+              var schName = $("#schName").val();
+              var schContent = $("#schContent").val();
+              var schStartDate = $("#schStartDate").val();
+              var schStartTime = $("#schStartTime").val();
+              var schEndDate = $("#schEndDate").val();
+              var schEndTime = $("#schEndTime").val();
+              var schCate = $("#selSchCate").val();
+              var calNo = $("#selCalNo").val();
+              var schColor = $(".selected").css("backgroundColor");
+              $.ajax({
+        		  url: "/calendar/schRegister.sw",
+        		  type: "post",
+        		  data: { 
+        			  "schNo" : schNo,
+        			  "memNum" : memNum,
+        			  "schName" : schName,
+                    "schContent" : schContent,
+                    "schStartDate" : schStartDate,
+                    "schStartTime" : schStartTime,
+                    "schEndDate" : schEndDate,
+                    "schEndTime" : schEndTime,
+                    "schCate" : schCate,
+                    "calNo" : calNo,
+                    "schColor" : schColor
+                    },
+                    success: function(result) {
+                  //  	alert("등록 성공");
+                  		location.reload();
+                    },
+                    error: function() {
+                   // 	alert("등록 실패");
+                    }
+        		});
+            //내용 입력 여부 확인
+              if(schName == null || schName == ""){
+                  alert("제목을 입력하세요.");
+              }else if(schStartDate == "" || schEndDate ==""){
+                  alert("날짜를 입력하세요.");
+              }else if(new String(schEndDate)- new String(schStartTime) < 0){ // date 타입으로 변경 후 확인
+                  alert("종료일이 시작일보다 먼저입니다.");
+              }else{ // 정상적인 입력 시
+                  var obj = {
+                  	"schNo" : schNo,
+                      "schName" : schName,
+                      "schContent" : schContent,
+                      "schStartDate" : schStartDate,
+                      "schStartTime" : schStartTime,
+                      "schEndDate" : schEndDate,
+                      "schEndTime" : schEndTime,
+                      "schCate" : schCate,
+                      "calNo" : calNo,
+                    /*   "alStatus" : alStatus, */
+                      "schColor" : schColor
+                      
+                  }//전송할 객체 생성
+                  console.log(obj); //서버로 해당 객체를 전달해서 DB 연동 가능
+                  
+              }
+          });
+			 
+      }
+	  
+	  
+	  
+	var calendar;
+	document.addEventListener("DOMContentLoaded", function() {
+	    var calendarDiv = document.querySelector("#calendarBox");
+	    calendar = new FullCalendar.Calendar(calendarDiv, {
+	        initialView : "dayGridMonth",
+	        headerToolbar: {
+	        	left:'title',
+	        	center:'today,prev,next', 
+               	right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek' // headerToolbar에 버튼을 추가
+               
+	        },   
+	        buttonText : {
+	        	today : "오늘",
+	        	month : "월간",
+	        	week : "주간",
+	        	day : "일간",
+	        	list : "목록"
+	        },
+	        droppable: false,
+	        selectable : true,
+	   		dayMaxEvents: true,
+	   		displayEventTime: false,
+	   		navLinks : false,
+	     	 select : function(arg) {  var title = (' '); 
+	     	 if (title) { 
+		    	 calendar.addEvent({ 
+		    	 title: title, start: arg.startStr,
+		    	 end: arg.end, 
+		    	 allDay: arg.allDay })
+		     } 
+	     	 calendar.unselect() 
+	     			let startDate = arg.startStr;
+	                let endDateFull = arg.endStr.split('-');
+	                let dayOfEndDate = parseInt(endDateFull[2])-1;
+	                if(dayOfEndDate<10) {
+	                    dayOfEndDate = '0' + dayOfEndDate;
+	                }
+	                let endDate = endDateFull[0]+ '-' +endDateFull[1]+ '-' +dayOfEndDate;
+	                $('input[name="schStartDate"]').val(startDate);
+	                $('input[name="schEndDate"]').val(endDate);
+	                $('select[name="schStartTime"]').val('09:00');
+	                $('select[name="schEndTime"]').val('18:00');
+	               
+	     		}, 
+     		eventClick: function(arg) { // 있는 일정 클릭시, console.log("#등록된 일정 클릭#"); 
+     		   $("#calendarModal").modal("show");
+   				$('#exampleModalLabel').text('일정 상세');
+     			$('#addCalendar').text('수정');
+     			$('input[name="schNo"]').val(arg.event.extendedProps.schNo);
+                $('input[name="schName"]').val(arg.event.title);
+                $('input[name="schStartDate"]').val(arg.event.startStr.substr(0, 10)); 
+                $('input[name="schEndDate"]').val(arg.event.end.toISOString().substr(0, 10));
+                $('textarea[name="schContent"]').val(arg.event.extendedProps.schContent);
+                $('select[name="schStartTime"]').val(arg.event.extendedProps.schStartTime);
+                $('select[name="schEndTime"]').val(arg.event.extendedProps.schEndTime);
+                $("#selSchCate").val(arg.event.extendedProps.schCate);
+                if(arg.event.extendedProps.schCate == '전사') {
+        			$("#selCalNo").hide();
+        			$("#selSchCate").attr("disabled", true);
+        		}else if(arg.event.extendedProps.schCate == '개인'){
+        			$("#selCalNo").show();
+        			$("#selCalNo").val(arg.event.extendedProps.calNo);
+        			$("#selSchCate").attr("disabled", true);
+        		}
+                
+                if(arg.event.schNo != null && "${loginUser.memberNum}" != arg.event.extendedProps.memNum) {
+                	$(".modal-footer").hide();
+                }
+                $("#addCalendar").on("click",function(){  // modal의 추가 버튼 클릭 시
+				  var schNo = $('input[name="schNo"]').val();
+				  var memNum = $("memNum").val();
+                  var schName = $("#schName").val();
+                  var schContent = $("#schContent").val();
+                  var schStartDate = $("#schStartDate").val();
+                  var schStartTime = $("#schStartTime").val();
+                  var schEndDate = $("#schEndDate").val();
+                  var schEndTime = $("#schEndTime").val();
+                  var schColor = $(".selected").css("backgroundColor");
+                  var calNo = $("#selCalNo").val();
+                  $.ajax({
+            		  url: "/calendar/schModifyView.sw",
+            		  type: "post",
+            		  data: { 
+            			"schNo" : schNo,
+            			"memNum" : memNum,
+            			"schName" : schName,
+                        "schContent" : schContent,
+                        "schStartDate" : schStartDate,
+                        "schStartTime" : schStartTime,
+                        "schEndDate" : schEndDate,
+                        "schEndTime" : schEndTime,
+                        "schColor" : schColor,
+                        "calNo" : calNo
+                        },
+	                   success : function(data) {
+	                	   location.reload();
+	                  	}
+            		});
+                //내용 입력 여부 확인
+                  if(schName == null || schName == ""){
+                      alert("제목을 입력하세요.");
+                  }else if(schStartDate == "" || schEndDate ==""){
+                      alert("날짜를 입력하세요.");
+                  }else if(new Date(schEndDate)- new Date(schStartTime) < 0){ // date 타입으로 변경 후 확인
+                      alert("종료일이 시작일보다 먼저입니다.");
+                  }else{ // 정상적인 입력 시
+                      var obj = {
+                      	"schNo" : schNo,
+                          "schName" : schName,
+                          "schContent" : schContent,
+                          "schStartDate" : schStartDate,
+                          "schStartTime" : schStartTime,
+                          "schEndDate" : schEndDate,
+                          "schEndTime" : schEndTime,
+                          "schColor" : schColor
+                      }//전송할 객체 생성
+                      console.log(obj); //서버로 해당 객체를 전달해서 DB 연동 가능
+                      $("#calendarModal").fadeOut(100);
+                      $(".show").fadeOut();
+                     
+                  }
+              });
+               
+     		},
+     		selectable: true, // 달력일자 선택 가능, 드래그 ,
+       		editable : false, //수정가능
+        	
+        	/*  locale: 'ko', //한국어 설정  */
+	        	events: [
+	        		<c:forEach items="${mList}" var="mList">
+	        		{
+	        			title: '${mList.schName}',
+	        			start: '${mList.schStartDate}',
+	        			end:'${mList.schEndDate}',
+	        			backgroundColor: '${mList.schColor}',
+	        			borderColor: '${mList.schColor}',
+	        			extendedProps: {
+	        				'schNo' : '${mList.schNo}',
+	        				'schCate' : '${mList.schCate}',
+	        				'schContent' : '${mList.schContent}',
+	        				'schStartTime' : '${mList.schStartTime}',
+	        				'schEndTime' : '${mList.schEndTime}',
+	        				'calNo' : '${mList.calNo}',
+	        				'schCate' : '${mList.schCate}',
+	        				'memNum' : '${mList.memNum}'
+	        			}
+	        		},
+	        		</c:forEach>
+	        		
+	        	],			
+	        /* 	eventRender:function(event, eventElement) {   //이미지 첨부
+	                if(event.imageurl) {
+	                    eventElement.find("span.fc-title").prepend("<center><img src='" + event.imageurl + "'><center>");
+	                }
+	            },
+ */
+	
+	        eventAdd:function() {
+                 $("#selSchCate").change(function(){  //개인일정 체크시 캘린더 보이게 
+                     if($("#selSchCate").val() == '전사'){
+                    	 $("#selCalNo").hide();
+                     }else {
+                    	 $("#selCalNo").show();
+                     }
+                  });
+	        	$('#exampleModalLabel').text('일정 작성');
+     			$('#addCalendar').text('등록');
+     			 $('input[name="schNo"]').val('');
+ 	            $('input[name="schName"]').val('');
+ 	            $('input[name="schStartDate"]').val('');
+ 	            $('input[name="schEndDate"]').val('');
+ 	            $('textarea[name="schContent"]').val('');
+ 	            $('select[name="schStartTime"]').val('');
+ 	            $('select[name="schEndTime"]').val('');
+	        	 $("#calendarModal").modal("show");
+	        	 
+                  $("#addCalendar").on("click",function(){  // modal의 추가 버튼 클릭 시
+                	  
+						var schNo = $("schNo").val();
+						var memNum =  $("memNum").val();
+                      var schName = $("#schName").val();
+                      var schContent = $("#schContent").val();
+                      var schStartDate = $("#schStartDate").val();
+                      var schStartTime = $("#schStartTime").val();
+                      var schEndDate = $("#schEndDate").val();
+                      var schEndTime = $("#schEndTime").val();
+                      var schCate = $("#selSchCate").val();
+                      var calNo = $("#selCalNo").val();
+                      console.log(schCate);
+                      console.log(calNo);
+                      var schColor = $(".selected").css("backgroundColor");
+                      $.ajax({
+                		  url: "/calendar/schRegister.sw",
+                		  type: "post",
+                		  data: { 
+                			  "schNo" : schNo,
+                			  "memNum" : memNum,
+                			  "schName" : schName,
+                            "schContent" : schContent,
+                            "schStartDate" : schStartDate,
+                            "schStartTime" : schStartTime,
+                            "schEndDate" : schEndDate,
+                            "schEndTime" : schEndTime,
+                            "schCate" : schCate,
+                            "calNo" : calNo,
+                            "schColor" : schColor
+                            },
+                    	success: function(result) {
+                    		location.reload();
+                    	},
+                    	error: function() {
+                    		alert("일정 등록 실패");
+                    	}
+                		});
+                    //내용 입력 여부 확인
+                      if(schName == null || schName == ""){
+                          alert("제목을 입력하세요.");
+                      }else if(schStartDate == "" || schEndDate ==""){
+                          alert("날짜를 입력하세요.");
+                      }else if(new Date(schEndDate)- new Date(schStartTime) < 0){ // date 타입으로 변경 후 확인
+                          alert("종료일이 시작일보다 먼저입니다.");
+                      }else{ // 정상적인 입력 시
+                          var obj = {
+                          	"schNo" : schNo,
+                              "schName" : schName,
+                              "schContent" : schContent,
+                              "schStartDate" : schStartDate,
+                              "schStartTime" : schStartTime,
+                              "schEndDate" : schEndDate,
+                              "schEndTime" : schEndTime,
+                              "schCate" : schCate,
+                              "calNo" : calNo,
+                              "schColor" : schColor
+                          }//전송할 객체 생성
+                          console.log(obj); //서버로 해당 객체를 전달해서 DB 연동 가능
+                      }
+                      $("#calendarModal").fadeOut(100);
+                      $(".show").fadeOut();
+                      window.location.reload();
+                  });
+	        }
+	       
+	    });
+	    calendar.render();
+	});
+	function deleteSch(obj){
+		var schNo = $('input[name="schNo"]').val();
+     	$.ajax({
+     		 url: "/calendar/schDelete.sw",
+    		  type: "get",
+    		  data: { 
+    			  "schNo" : schNo
+                },
+	     	success : function(data) {
+				
+				refreshList();
+			},
+			error : function() {
+				alert("Ajax 통신 실패!");
+			}
+     })
+	};
+	function color(arg){
+		 // 선택색상 세팅
+		var backColor = $(arg).css("backgroundColor");
+	    $('input[name="schColor"]').val(backColor);
+	    $('.colors span').removeClass('selected');
+	    for(let i=1; i <= $('.colors span').length; i++) {
+	        if($('.colors span:nth-child('+i+')').css('background-color') == backColor) {
+	            $('.colors span:nth-child('+i+')').addClass('selected');
+	        }
+	    }
+		  }
+		  
+	function resetColor(arg){
+	// 선택색상 첫 순서 색으로 리셋
+	   $('.colors span').removeClass('selected');
+	   $('.colors span:first-of-type').addClass('selected');
+	
+	   let defaultColor = $('.colors span:first-of-type').css('background-color');
+	   $('input[name="scheduleColor"]').val('defaultColor');
+	}
+	function refreshList(){ //실행시 재로드
+		location.reload();
+	}
+	
+    function deleteBmk(calNo) {
+    	$.ajax({
+    		url : "/calendar/deleteCal.sw",
+    		type : "get",
+    		data : {
+    			"calNo" : calNo
+    		},
+    		success : function(data) {
+    			
+    			refreshList();
+    		},
+    		error : function() {
+    			alert("Ajax 통신 실패!");
+    		}
+    	});
+    }
+   
+    </script>
 </body>
+
 </html>
