@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <interface id="1" language="java" name="org.kh.shareware.notice.service.NoticeService" project="ShareWare" 
+    file="/ShareWare/src/main/java/org/kh/shareware/notice/service/NoticeService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="780" y="432"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="2" language="java" name="org.kh.shareware.notice.domain.Notice" project="ShareWare" 
+    file="/ShareWare/src/main/java/org/kh/shareware/notice/domain/Notice.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="495" width="213" x="21" y="-102"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="org.kh.shareware.notice.service.logic.NoticeServiceImpl" project="ShareWare" 
+    file="/ShareWare/src/main/java/org/kh/shareware/notice/service/logic/NoticeServiceImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="351" width="267" x="646" y="-102"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="org.kh.shareware.notice.store.logic.NoticeStoreLogic" project="ShareWare" 
+    file="/ShareWare/src/main/java/org/kh/shareware/notice/store/logic/NoticeStoreLogic.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="333" width="332" x="274" y="-102"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="5" language="java" name="org.kh.shareware.notice.store.NoticeStore" project="ShareWare" 
+    file="/ShareWare/src/main/java/org/kh/shareware/notice/store/NoticeStore.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="440" y="427"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="6" language="java" name="org.kh.shareware.notice.controller.NoticeController" project="ShareWare" 
+    file="/ShareWare/src/main/java/org/kh/shareware/notice/controller/NoticeController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="315" width="435" x="953" y="-102"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <realization id="7">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="1"/>  
+  </realization>  
+  <association id="8">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="9" name="nService"/>      
+      <multiplicity id="10" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="11">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="12" name="nStore"/>      
+      <multiplicity id="13" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="14">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="5"/>  
+  </realization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
