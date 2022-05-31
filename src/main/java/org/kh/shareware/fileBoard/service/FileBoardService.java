@@ -17,7 +17,7 @@ public interface FileBoardService {
 	//상세보기
 	FileBoard detailFileBoard(Integer fileBoardNo);
 	//글 삭제
-	int deleteFile(Integer fileBoardNo);
+	int removeFileBoard(Integer fileBoardNo);
 	//글 수정
 	int modifyFileBoard(FileBoard fileBoard);
 

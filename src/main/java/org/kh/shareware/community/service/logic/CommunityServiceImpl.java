@@ -86,7 +86,7 @@ public class CommunityServiceImpl implements CommunityService{
 
 	@Override
 	public CommunityVote detailCommunityVote(Integer comNo) {
-		CommunityVote communityVote = cStore.detailCommunityVote(sqlsession,comNo);
+		CommunityVote communityVote = cStore.selectCommunityVote(sqlsession,comNo);
 		return communityVote;
 	}
 
@@ -104,7 +104,7 @@ public class CommunityServiceImpl implements CommunityService{
 
 	@Override
 	public int registerCVoteSelect(CommunityVoteSelect cVoteSelect) {
-		int result = cStore.registerCVoteSelect(sqlsession, cVoteSelect);
+		int result = cStore.insertCVoteSelect(sqlsession, cVoteSelect);
 		return result;
 	}
 
@@ -117,7 +117,7 @@ public class CommunityServiceImpl implements CommunityService{
 
 	@Override
 	public int removeCVoteMember(Integer comNo) {
-		int result =cStore.removeCVoteMember(sqlsession, comNo);
+		int result =cStore.deleteCVoteMember(sqlsession, comNo);
 		return result;
 	}
 

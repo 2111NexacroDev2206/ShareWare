@@ -49,7 +49,7 @@ public class FileBoardServiceImpl implements FileBoardService{
 	}
 	// 글삭제
 	@Override
-	public int deleteFile(Integer fileBoardNo) {
+	public int removeFileBoard(Integer fileBoardNo) {
 		int result = fStore.deleteFile(sqlsession,fileBoardNo);
 		return result;
 	}

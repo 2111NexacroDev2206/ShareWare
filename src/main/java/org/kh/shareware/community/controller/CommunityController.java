@@ -301,7 +301,7 @@ public class CommunityController {
 	
 	//투표 	
 	@ResponseBody
-	@RequestMapping(value="/community/insetCommunityVote.sw", method=RequestMethod.GET)
+	@RequestMapping(value="/community/insertCommunityVote.sw", method=RequestMethod.GET)
 	public String registerCommunityVote(
 		@RequestParam("comNo") int comNo
 		,@RequestParam("comVoteNo") int comVoteNo
