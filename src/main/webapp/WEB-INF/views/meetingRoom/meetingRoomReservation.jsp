@@ -286,8 +286,8 @@
 	        	   //만약 예약 되어있으면 선택하지 못하게
 	       		  for(var i = 0; i<data.length; i++){
 	       			  for(var j = 1; j<6; j++){
-	       				  if(data[i].meetingTime == j || data[i].meetingReservation == 0){
-	       					$("#time"+j).attr("disabled", "disabled"); 
+	       				  if(data[i].meetingTime == j && data[i].meetingReservation == 1){
+	       					$("#time"+j).attr("disabled", "disabled");
 	       				  }
 	       			  }
 	       		  }
