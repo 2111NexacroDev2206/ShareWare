@@ -6,27 +6,27 @@
 <head>
 <meta charset="UTF-8">
 <title>페이징</title>
-<link href="/resources/css/approval/appList-style.css" rel="stylesheet">
 <style type="text/css">
-	.paging {
+.paging {
 	display: inline-flex;
 	height: 40px;
-	width: 840px;
-	margin-left: 253px;
+	width: 836px;
+	margin-left: 257px;
 	justify-content: center;
-	}
-	.page_btn {
+}
+.page-btn {
 	width: 40px;
 	height: 40px;
 	border: none;
 	background-color: transparent;
 	font-size: 14px;
-	}
-	.page-btn:hover {
+	margin: 0 5px;
+	cursor: pointer;
+}
+.page-btn:hover, .page-btn.active {
 	border: 1px solid rgb(51, 51, 51);
 	border-radius: 4px;
 }
-
 </style>
 </head>
 <body>
