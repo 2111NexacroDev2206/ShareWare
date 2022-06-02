@@ -13,8 +13,3 @@ iuploadFiles/
 wkuploadFiles/
 muploadFiles/
 loadFile/
-*.geninfo
-*.xfdl$
-*.xml$
-*/$temporary$/*
-nexaui/

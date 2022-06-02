@@ -29,7 +29,7 @@ public interface CommunityService {
 	int registerCommunityVote(CommunityVote communityVote);
 	int removeCommunityVote(Integer comNo);
 	CommunityVote detailCommunityVote(Integer comNo);
-	CommunityVoteSelect viewCommunityVote(Integer comNo);
+	CommunityVoteSelect viewCommunityVote(CommunityVoteSelect cVoteSelect);
 	int endCommunityVote(Integer comNo);
 	int registerCVoteSelect(CommunityVoteSelect cVoteSelect);
 	int countCVoteSelect(Map<String, Object> map);
@@ -52,6 +52,7 @@ public interface CommunityService {
 	void removeReplyAll(Integer comNo);
 	//댓글 수정
 	int modifyReply(Reply reply);
+	
 	
 	
 

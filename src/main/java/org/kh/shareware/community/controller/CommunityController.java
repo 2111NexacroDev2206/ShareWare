@@ -190,15 +190,12 @@ public class CommunityController {
 		Community community = cService.detailCommunity(comNo);
 		//투표 번호 검색
 		CommunityVote communityVote = cService.detailCommunityVote(comNo);
-		//사용자 번호로 사용자 투표테이블 가져오기
-		CommunityVoteSelect cVoteSelect = cService.viewCommunityVote(comNo);
 		
 		if(community != null) {
 			model.addAttribute("myCondition", "board");
 			model.addAttribute("listCondition", "community");
 			model.addAttribute("community",community);
 			model.addAttribute("communityVote",communityVote);
-			model.addAttribute("cVoteSelect",cVoteSelect);
 			return "community/communityModifyForm";
 		}else {
 			model.addAttribute("msg", "게시글 상세보기 실패");
@@ -301,7 +298,7 @@ public class CommunityController {
 	
 	//투표 	
 	@ResponseBody
-	@RequestMapping(value="/community/insetCommunityVote.sw", method=RequestMethod.GET)
+	@RequestMapping(value="/community/insertCommunityVote.sw", method=RequestMethod.GET)
 	public String registerCommunityVote(
 		@RequestParam("comNo") int comNo
 		,@RequestParam("comVoteNo") int comVoteNo
@@ -334,12 +331,23 @@ public class CommunityController {
 	@RequestMapping(value="/community/viewCommunityVote.sw", method=RequestMethod.GET)
 		public void viewCommunityVote(
 		@RequestParam("comNo") int  comNo
-		,HttpServletResponse response) throws Exception{{
+		,HttpServletResponse response
+		,HttpServletRequest request) throws Exception{{
+			
+			HttpSession session = request.getSession();
+			String memberNum = "";
+			Member member = (Member)session.getAttribute("loginUser");
+			memberNum = member.getMemberNum();
+			
+			
+			CommunityVoteSelect voteSelect = new CommunityVoteSelect();
+			voteSelect.setComNo(comNo);
+			voteSelect.setMemberNum(memberNum);
 							
 		//투표 검색				
 		CommunityVote Result = cService.detailCommunityVote(comNo);
 		//투표한 사람 검색
-		CommunityVoteSelect mResult = cService.viewCommunityVote(comNo);
+		CommunityVoteSelect mResult = cService.viewCommunityVote(voteSelect);
 		
 		if(Result != null) {
 			if(mResult == null) {
@@ -385,11 +393,10 @@ public class CommunityController {
 	@ResponseBody
 	@RequestMapping(value="/community/deleteCommuntyVote.sw", method=RequestMethod.GET)
 		public String removeCommunityVote(
-			@RequestParam("comNo") Integer comNo
-			,@RequestParam("cSelect") Integer cSelect) {
-				if(cSelect!= null) {
-					cService.removeCVoteMember(comNo);
-				}
+			@RequestParam("comNo") Integer comNo) {
+				
+				cService.removeCVoteMember(comNo);
+			
 				int result = cService.removeCommunityVote(comNo);
 			
 			if(result >0) {

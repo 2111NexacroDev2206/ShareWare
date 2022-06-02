@@ -27,12 +27,12 @@ public interface CommunityStore {
 	int countViewCommunity(SqlSession sqlsession, Integer comNo);
 	int insertCommunityVote(SqlSession sqlsession, CommunityVote communityVote);
 	int deleteCommunityVote(SqlSession sqlsession, Integer comNo);
-	CommunityVote detailCommunityVote(SqlSession sqlsession, Integer comNo);
-	CommunityVoteSelect selectVoteSelect(SqlSession sqlsession, Integer comNo);
+	CommunityVote selectCommunityVote(SqlSession sqlsession, Integer comNo);
+	CommunityVoteSelect selectVoteSelectMember(SqlSession sqlsession, CommunityVoteSelect voteSelect);
 	int updateEndVote(SqlSession sqlsession, Integer comNo);
-	int registerCVoteSelect(SqlSession sqlsession, CommunityVoteSelect cVoteSelect);
+	int insertCVoteSelect(SqlSession sqlsession, CommunityVoteSelect cVoteSelect);
 	int updateCountCVote(SqlSession sqlsession, Map<String, Object> map);
-	int removeCVoteMember(SqlSession sqlsession, Integer comNo);
+	int deleteCVoteMember(SqlSession sqlsession, Integer comNo);
 	void updateCommunityVote(SqlSession sqlsession, CommunityVote communityVote);
 	
 	//전체 검색된 글 개수
@@ -49,6 +49,7 @@ public interface CommunityStore {
 	int deleteAllReply(SqlSession sqlsession, Integer comNo);
 	//댓글 수정
 	int updateReply(SqlSession sqlsession, Reply reply);
+	
 	
 
 	

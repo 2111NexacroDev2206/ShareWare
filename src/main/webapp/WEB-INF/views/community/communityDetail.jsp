@@ -68,25 +68,21 @@
 	viewCommunityVote();
 	
 	function select1(comVoteNo){
-		alert("1번 버튼 실행");
 		var select = 1;
 		voteSelect(select, comVoteNo)
 	}
 	
 	function select2(comVoteNo){
-		alert("2번 버튼 실행");
 		var select = 2;
 		voteSelect(select, comVoteNo)
 	}
 	
 	function select3(comVoteNo){
-		alert("3번 버튼 실행");
 		var select = 3;
 		voteSelect(select, comVoteNo)
 	}
 	
 	function select4(comVoteNo){
-		alert("4번 버튼 실행");
 		var select = 4;
 		voteSelect(select, comVoteNo)
 	}
@@ -103,7 +99,7 @@
 			//voteMember에 insert
 			//vote update 해야됨
 			$.ajax({
-				url: "/community/insetCommunityVote.sw",
+				url: "/community/insertCommunityVote.sw",
 				type: "GET",
 				data: {"comNo": comNo
 					,"comVoteNo": comVoteNo
@@ -213,7 +209,7 @@
 								$("#voteSelect4-div").css("color","white");
 							}
 						
-						}else{
+						}else if(cSelectTrue != 1 || cVoteState !=2 || writer != loginUser ){
 							var $voteBodyDiv = $("#vote-body-div");
 							$voteBodyDiv.html("");//vote-body-div안에있는 내용지우기
 							var $voteBox1 = $("<div id=\"voteBox1-div\" class=\"voteBox\">");
@@ -291,9 +287,8 @@
 		
 	};
 	
-	//투표종료
+	//투종료
 	function andVote(){
-		alert("버튼실행");
 		var comNo = "${community.comNo}";
 		$.ajax({
 			url: "/community/endVoteCommunity.sw",

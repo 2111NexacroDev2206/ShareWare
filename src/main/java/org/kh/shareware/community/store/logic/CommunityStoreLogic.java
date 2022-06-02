@@ -87,16 +87,17 @@ public class CommunityStoreLogic implements CommunityStore {
 	}
 
 	@Override
-	public CommunityVote detailCommunityVote(SqlSession sqlsession, Integer comNo) {
+	public CommunityVote selectCommunityVote(SqlSession sqlsession, Integer comNo) {
 		CommunityVote communityVote = sqlsession.selectOne("CommnuityMapper.CommnuityVoteView", comNo);
 		return communityVote;
 	}
 
 	@Override
-	public CommunityVoteSelect selectVoteSelect(SqlSession sqlsession, Integer comNo) {
-		CommunityVoteSelect cVoteSelect = sqlsession.selectOne("CommnuityMapper.selectCommnuityVote", comNo);
+	public CommunityVoteSelect selectVoteSelectMember(SqlSession sqlsession, CommunityVoteSelect voteSelect) {
+		CommunityVoteSelect cVoteSelect = sqlsession.selectOne("CommnuityMapper.selectCommnuityVoteMember", voteSelect);
 		return cVoteSelect;
 	}
+	
 	
 	@Override
 	public int updateEndVote(SqlSession sqlsession, Integer comNo) {
@@ -105,7 +106,7 @@ public class CommunityStoreLogic implements CommunityStore {
 	}
 
 	@Override
-	public int registerCVoteSelect(SqlSession sqlsession, CommunityVoteSelect cVoteSelect) {
+	public int insertCVoteSelect(SqlSession sqlsession, CommunityVoteSelect cVoteSelect) {
 		int result = sqlsession.insert("CommnuityMapper.insertCVoteSelect",cVoteSelect);
 		return result;
 	}
@@ -117,7 +118,7 @@ public class CommunityStoreLogic implements CommunityStore {
 	}
 
 	@Override
-	public int removeCVoteMember(SqlSession sqlsession, Integer comNo) {
+	public int deleteCVoteMember(SqlSession sqlsession, Integer comNo) {
 		int result = sqlsession.delete("CommnuityMapper.deleteCVoteMember", comNo);
 		return result;
 	}
@@ -176,5 +177,7 @@ public class CommunityStoreLogic implements CommunityStore {
 		int result = sqlsession.update("CommnuityMapper.updateReply", reply);
 		return result;
 	}
+
+
 	
 }

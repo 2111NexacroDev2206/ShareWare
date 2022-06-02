@@ -223,7 +223,7 @@ function startDate() {
         var newDate = new Date();
         dateString += ("0" + newDate.getHours()).slice(-2) + ":"; 
         dateString += ("0" + newDate.getMinutes()).slice(-2) + ":"; 
-        dateString += ("0" + (newDate.getSeconds() + 4)).slice(-2);
+        dateString += ("0" + newDate.getSeconds()).slice(-2);
         //document.write(dateString); 문서에 바로 그릴 수 있다. 
         $("#now-time").text(dateString); 
     }, 1000); 

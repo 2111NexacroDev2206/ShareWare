@@ -42,7 +42,7 @@ public class ChatController {
 			for(int i = 0; i < rList.size(); i++) {
 				ChatContent chatContent = cService.printChatContent(rList.get(i).getChatRoomNo()); // 마지막 대화 내용과 날짜 가져오기
 				rList.get(i).setChatContent(chatContent.getChatContent()); // 마지막 대화 내용 넣어주기
-				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd a K:mm"); // 2022-05-10 오후 5:30
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd a h:mm"); // 2022-05-10 오후 5:30
 				rList.get(i).setChatDate(sf.format(chatContent.getChatDate())); // 마지막 대화 날짜 넣어주기
 			}
 		}
@@ -263,7 +263,7 @@ public class ChatController {
 	public String chatContentAjax(@RequestParam("chatRoomNo") int chatRoomNo) {
 		List<ChatContent> cList = cService.printAllChat(chatRoomNo); // 채팅 목록 조회
 		for(int i = 0; i < cList.size(); i++) {
-			SimpleDateFormat sf = new SimpleDateFormat("a K:mm"); // 오후 5:30
+			SimpleDateFormat sf = new SimpleDateFormat("a h:mm"); // 오후 5:30
 			cList.get(i).setChatDateFormat(sf.format(cList.get(i).getChatDate())); // Date -> String(새로운 포멧 형태로 변환)
 		}
 		return new Gson().toJson(cList);

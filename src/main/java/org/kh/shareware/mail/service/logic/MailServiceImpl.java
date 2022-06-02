@@ -603,40 +603,61 @@ public class MailServiceImpl implements MailService{
 		return noResult;
 	}
 
+	// 넥사크로 - 승인 메일 관리
+	@Override
+	public List<Mail> printAllAppMail() { // 전체 승인 메일 조회
+		List<Mail> mList = mStore.selectListAppMail(sqlSession);
+		return mList;
+	}
+
+
+	@Override
+	public int printAppCount() { // 승인 대기 메일 개수
+		int count = mStore.selectOneAppCount(sqlSession);
+		return count;
+	}
+
+
+	@Override
+	public List<Mail> printSearchAppMail(String searchValue) { // 승인 메일 검색
+		List<Mail> mList = mStore.selectListSearchAppMail(sqlSession, searchValue);
+		return mList;
+	}
+
+
+	@Override
+	public int printAppAllCount() { // 전체 승인 메일 개수
+		int allCount = mStore.selectOneAppAllCount(sqlSession);
+		return allCount;
+	}
+
+
+	@Override
+	public Mail adminPrintOneAppMail(int mailNo) { // 승인 메일 상세 조회
+		Mail mail = mStore.selectOneAdminAppMail(sqlSession, mailNo);
+		return mail;
+	}
+
+
+	@Override
+	public List<Mail> printFilterAppMail(String aStatus) { // 승인 상태 필터 조회
+		List<Mail> mList = mStore.selectListFilterAppMail(sqlSession, aStatus);
+		return mList;
+	}
+
+
+	@Override
+	public int deleteAppMail(String mailNo) { // 승인 메일 삭제
+		int result = mStore.updateRStatusAppMail(sqlSession, mailNo);
+		return result;
+	}
+
+
+	@Override
+	public int modifyAppMailStatus(Mail mail) { // 승인 상태 변경
+		int result = mStore.updateAStatusAppMail(sqlSession, mail);
+		return result;
+	}	
 
 	
-
-
-	
-
-
-	
-	
-
-	
-
-	
-	
-
-	
-
-
-	
-
-	
-
-	
-
-
-	
-
-	
-	
-
-
-
-
-
-	
-
 }

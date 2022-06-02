@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 import org.kh.shareware.member.domain.Member;
 import org.kh.shareware.project.common.PageInfo;
 import org.kh.shareware.project.common.Pagination;
-import org.kh.shareware.project.domain.Important;
 import org.kh.shareware.project.domain.Work;
 import org.kh.shareware.project.service.WorkService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class WorkController {@Autowired
+public class WorkController {
+	
+	@Autowired
 	private WorkService service;
 	
 	//업무현황 목록

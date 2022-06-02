@@ -173,11 +173,10 @@
 	$modalDiv.append($buttonDiv);
 	}
 	
-
+	
+	//예약취소
 	function cancleRoom(meetingTime,meetingNo,meetingDate){
 		var memberNum = "${loginUser.memberNum}";
-		alert(memberNum);
-		alert(meetingTime);
 		
 		$.ajax({
 			url  : "/meetingRoom/roomReset.sw",
@@ -188,10 +187,11 @@
 					,"memberNum" : memberNum}, //받은 파라미터 값은 사용하기
 			success : function(data) {//컨트롤러에서 데이터를 받아옴
 				if(data == "success") {//데이터 값이 success면 성공
-					alert("성공");
+					alert("예약이 취소되었습니다.");
+					location.reload();
 				}else{
 					// 실패시 실패메시지
-					alert("확인 실패!");//result값이 0이여서 뜨는 에러->where 조건절에 맞는 데이터가 없다.
+					alert("예약취소 실패!");//result값이 0이여서 뜨는 에러->where 조건절에 맞는 데이터가 없다.
 				}
 			},
 			error 	: function() {

@@ -848,6 +848,61 @@
 			OR MAIL_CONTENT LIKE '%' || #{searchValue} || '%')
 		</if>
 		</select>
+		
+		<!-- 넥사크로 - 승인 메일 관리 -->
+		<resultMap type="Mail" id="adminMailResultMap">
+			<id property="mailNo" column="MAIL_NO"/>
+			<result property="mailSubject" column="MAIL_SUBJECT"/>
+			<result property="mailContent" column="MAIL_CONTENT"/>
+			<result property="mailSender" column="MAIL_SENDER"/>
+			<result property="sMailToDate" column="MAIL_TO_DATE"/>
+			<result property="aStatus" column="A_STATUS"/>
+			<result property="rStatus" column="R_STATUS"/>
+			<result property="sADate" column="A_DATE"/>
+			<result property="rejReason" column="REJ_REASON"/>
+			<result property="memNum" column="MEM_NUM"/>
+			<result property="memberName" column="MEMBER_NAME"/>
+			<result property="divName" column="DIV_NAME"/>
+			<result property="rankName" column="RANK_NAME"/>
+		</resultMap>
+		<!-- 전체 승인 메일 조회 -->
+		<select id="selectListAppMail" resultMap="adminMailResultMap">
+			SELECT MAIL_NO, MAIL_SUBJECT, TO_CHAR(MAIL_TO_DATE, 'MM-DD HH:MI') AS MAIL_TO_DATE, A_STATUS, R_STATUS, TO_CHAR(A_DATE, 'MM-DD HH:MI') AS A_DATE, MEMBER_NAME, RANK_NAME, DIV_NAME FROM MAIL JOIN MEMBER ON MEM_NUM = MEMBER_NUM JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE MAIL_TYPE = 'A' AND R_STATUS != '1' ORDER BY MAIL_NO DESC
+		</select>
+		<!-- 승인 대기 메일 개수 -->
+		<select id="selectOneAppCount" resultType="_int">
+			SELECT COUNT(*) FROM MAIL WHERE A_STATUS = '대기' AND R_STATUS != '1'
+		</select>
+		<!-- 승인 메일 검색 -->
+		<select id="selectListSearchAppMail" resultMap="adminMailResultMap">
+			SELECT MAIL_NO, MAIL_SUBJECT, TO_CHAR(MAIL_TO_DATE, 'MM-DD HH:MI') AS MAIL_TO_DATE, A_STATUS, TO_CHAR(A_DATE, 'MM-DD HH:MI') AS A_DATE, MEMBER_NAME, RANK_NAME, DIV_NAME FROM MAIL JOIN MEMBER ON MEM_NUM = MEMBER_NUM JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE
+			WHERE MAIL_TYPE = 'A' AND R_STATUS != '1'
+			AND (MAIL_SUBJECT LIKE '%' || #{searchValue} || '%' 
+			OR MAIL_CONTENT LIKE '%' || #{searchValue} || '%'
+			OR MEMBER_NAME LIKE '%' || #{searchValue} || '%'
+			OR MAIL_SENDER LIKE '%' || #{searchValue} || '%')
+			ORDER BY MAIL_NO DESC
+		</select>
+		<!-- 전체 승인 메일 개수 -->
+		<select id="selectOneAppAllCount" resultType="_int">
+			SELECT COUNT(*) FROM MAIL WHERE MAIL_TYPE = 'A' AND R_STATUS != '1'
+		</select>
+		<!-- 승인 메일 상세 조회 -->
+		<select id="selectOneAdminAppMail" resultMap="adminMailResultMap">
+			SELECT MAIL_NO, MAIL_SUBJECT, MAIL_CONTENT, A_STATUS, REJ_REASON, MAIL_SENDER, TO_CHAR(A_DATE, 'MM-DD HH:MI') AS A_DATE, MEMBER_NAME, RANK_NAME, DIV_NAME FROM MAIL JOIN MEMBER ON MEM_NUM = MEMBER_NUM JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE MAIL_NO = #{mailNo}
+		</select>
+		<!-- 승인 상태 필터 조회 -->
+		<select id="selectListFilterAppMail" resultMap="adminMailResultMap">
+			SELECT MAIL_NO, MAIL_SUBJECT, TO_CHAR(MAIL_TO_DATE, 'MM-DD HH:MI') AS MAIL_TO_DATE, A_STATUS, TO_CHAR(A_DATE, 'MM-DD HH:MI') AS A_DATE, MEMBER_NAME, RANK_NAME, DIV_NAME FROM MAIL JOIN MEMBER ON MEM_NUM = MEMBER_NUM JOIN DIVISION ON DIVISION = DIV_CODE JOIN RANK ON RANK = RANK_CODE WHERE MAIL_TYPE = 'A' AND R_STATUS != '1' AND A_STATUS = #{aStatus}
+		</select>
+		<!-- 승인 메일 삭제 -->
+		<update id="updateRStatusAppMail">
+			UPDATE MAIL SET R_STATUS = '1' WHERE MAIL_NO = #{mailNo}
+		</update>
+		<!-- 승인 상태 변경 -->
+		<update id="updateAStatusAppMail">
+			UPDATE MAIL SET A_STATUS = #{aStatus}, REJ_REASON = #{rejReason}, A_DATE = TO_DATE(#{sADate}, 'YYYYMMDDHH24MISS') WHERE MAIL_NO = #{mailNo}
+		</update>
 	</mapper>
 	
 		

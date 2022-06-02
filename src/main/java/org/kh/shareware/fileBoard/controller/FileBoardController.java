@@ -192,7 +192,7 @@ public class FileBoardController {
 				,HttpServletRequest request
 				,@RequestParam("fileBoardNo") Integer fileBoardNo) {
 			
-			int reulst = fService.deleteFile(fileBoardNo);
+			int reulst = fService.removeFileBoard(fileBoardNo);
 					
 			if(reulst > 0) {
 				return "success";
