@@ -161,9 +161,10 @@
 		<result property="cSelect" column="C_SELECT"/>
 	</resultMap>
 
-<select id="selectCommnuityVote" resultMap="CommunityVoteSelectResultMap">
-	SELECT * FROM C_VOTE_MEMBER WHERE COM_NO= #{comNo}
+<select id="selectCommnuityVoteMember" resultMap="CommunityVoteSelectResultMap">
+	SELECT * FROM C_VOTE_MEMBER WHERE COM_NO= #{comNo} AND MEMBER_NUM = #{memberNum}
 </select>
+
 
 <insert id="insertCVoteSelect">
 	INSERT INTO C_VOTE_MEMBER VALUES(#{comVoteNo}, #{comNo}, #{memberNum}, 1, #{cSelect} )

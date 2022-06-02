@@ -215,13 +215,11 @@
 			}
 		}else{
 			var comNo = "${community.comNo}";
-			var cSelect = "${cVoteSelect.cSelect}";
 			
 			$.ajax({
 				url: "/community/deleteCommuntyVote.sw",
 				type: "GET",
-				data: {"comNo": comNo
-					,"cSelect":cSelect},
+				data: {"comNo": comNo},
 				success : function(data) {
 					if(data == "success") {
 						alert("투표삭제 성공!");
