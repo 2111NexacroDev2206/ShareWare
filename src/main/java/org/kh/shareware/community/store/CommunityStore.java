@@ -28,7 +28,7 @@ public interface CommunityStore {
 	int insertCommunityVote(SqlSession sqlsession, CommunityVote communityVote);
 	int deleteCommunityVote(SqlSession sqlsession, Integer comNo);
 	CommunityVote selectCommunityVote(SqlSession sqlsession, Integer comNo);
-	CommunityVoteSelect selectVoteSelect(SqlSession sqlsession, Integer comNo);
+	CommunityVoteSelect selectVoteSelectMember(SqlSession sqlsession, CommunityVoteSelect voteSelect);
 	int updateEndVote(SqlSession sqlsession, Integer comNo);
 	int insertCVoteSelect(SqlSession sqlsession, CommunityVoteSelect cVoteSelect);
 	int updateCountCVote(SqlSession sqlsession, Map<String, Object> map);
@@ -49,6 +49,7 @@ public interface CommunityStore {
 	int deleteAllReply(SqlSession sqlsession, Integer comNo);
 	//댓글 수정
 	int updateReply(SqlSession sqlsession, Reply reply);
+	
 	
 
 	

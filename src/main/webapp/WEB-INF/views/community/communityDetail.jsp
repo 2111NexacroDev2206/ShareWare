@@ -209,7 +209,7 @@
 								$("#voteSelect4-div").css("color","white");
 							}
 						
-						}else{
+						}else if(cSelectTrue != 1 || cVoteState !=2 || writer != loginUser ){
 							var $voteBodyDiv = $("#vote-body-div");
 							$voteBodyDiv.html("");//vote-body-div안에있는 내용지우기
 							var $voteBox1 = $("<div id=\"voteBox1-div\" class=\"voteBox\">");
@@ -287,7 +287,7 @@
 		
 	};
 	
-	//투표종료
+	//투종료
 	function andVote(){
 		var comNo = "${community.comNo}";
 		$.ajax({

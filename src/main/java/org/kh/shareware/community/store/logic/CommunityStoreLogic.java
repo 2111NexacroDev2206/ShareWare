@@ -93,10 +93,11 @@ public class CommunityStoreLogic implements CommunityStore {
 	}
 
 	@Override
-	public CommunityVoteSelect selectVoteSelect(SqlSession sqlsession, Integer comNo) {
-		CommunityVoteSelect cVoteSelect = sqlsession.selectOne("CommnuityMapper.selectCommnuityVote", comNo);
+	public CommunityVoteSelect selectVoteSelectMember(SqlSession sqlsession, CommunityVoteSelect voteSelect) {
+		CommunityVoteSelect cVoteSelect = sqlsession.selectOne("CommnuityMapper.selectCommnuityVoteMember", voteSelect);
 		return cVoteSelect;
 	}
+	
 	
 	@Override
 	public int updateEndVote(SqlSession sqlsession, Integer comNo) {
@@ -176,5 +177,7 @@ public class CommunityStoreLogic implements CommunityStore {
 		int result = sqlsession.update("CommnuityMapper.updateReply", reply);
 		return result;
 	}
+
+
 	
 }
