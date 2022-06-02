@@ -26,7 +26,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class WorkController {@Autowired
+public class WorkController {
+	@Autowired
 	private WorkService service;
 	
 	//업무현황 목록
