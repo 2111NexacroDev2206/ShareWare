@@ -1,7 +1,5 @@
 package org.kh.shareware.project.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,9 +17,6 @@ import org.kh.shareware.project.domain.WorkChart;
 import org.kh.shareware.project.service.ImportantService;
 import org.kh.shareware.project.service.ProjectService;
 import org.kh.shareware.project.service.WorkService;
-import org.kh.shareware.report.domain.Daily;
-import org.kh.shareware.report.domain.Week;
-import org.kh.shareware.report.service.WeekService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +24,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
