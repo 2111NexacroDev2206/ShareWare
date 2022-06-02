@@ -201,7 +201,7 @@ public interface MailService {
 	 public List<MailBmk> printBmkList(MailBmk mailBmk);
 
 	public int printMailNo(Mail mail);
-
+	
 	
 
 	

@@ -137,9 +137,11 @@ public class MailController {
 	public ModelAndView mailRegister(ModelAndView mv, 
 			@ModelAttribute Mail mail
 			,@ModelAttribute MailFile mailFile
+			,@ModelAttribute MailBmk mailBmk
 			,@RequestParam("mailSender") String mailSender
 			,@RequestParam("mailReceiver") String mailReceiver
 			,@RequestParam("mailReferee") String mailReferee
+			,@RequestParam("bmkSubject") String bmkSubject
 			,@RequestParam(value="uploadFiles",required=false)List<MultipartFile> multipartfile
 	         ,HttpServletRequest request) {
 		
@@ -167,6 +169,7 @@ public class MailController {
 			
 			for(int i = 0; i < recArr.length; i++) {
 				mailRec.setMailReceiver(recArr[i]);
+				
 				recResult = mService.registerMailRec(mailRec);
 			}
 			for(int i = 0; i < refArr.length; i++) {
@@ -1026,11 +1029,6 @@ public class MailController {
 					mv.addObject("mailRef", mailRef);
 					mv.addObject("mailFile", mailFile);
 					mv.setViewName("mail/mailDetail");
-					
-				
-				} else {
-					mv.addObject("msg", "메일 상세 조회 실패");
-					mv.setViewName("common/errorPage");
 				}
 				mv.addObject("mailCategory", mailCategory);
 				mv.addObject("totalICount", totalICount);

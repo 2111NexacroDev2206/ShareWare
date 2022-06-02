@@ -185,6 +185,7 @@ public interface MailStore {
 	public List<MailBmk> selectBmkList(SqlSession sqlSession, MailBmk mailBmk);
 
 	public int selectMailNo(SqlSession sqlSession, Mail mail);
+	
 
 	
 	
