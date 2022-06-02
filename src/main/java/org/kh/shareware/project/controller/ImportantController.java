@@ -12,7 +12,6 @@ import org.kh.shareware.project.common.PageInfo;
 import org.kh.shareware.project.common.Pagination;
 import org.kh.shareware.project.domain.Important;
 import org.kh.shareware.project.service.ImportantService;
-import org.kh.shareware.report.domain.Daily;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
