@@ -680,7 +680,7 @@ public class MailController {
 			}
 			
 			mv.addObject("pi", pi);
-			
+			mv.addObject("currentPage", currentPage);
 			mv.addObject("mailCategory", mailCategory);
 			mv.setViewName("mail/mailList");
 			mv.addObject("bList", bList);
@@ -743,7 +743,7 @@ public class MailController {
 				mv.addObject("tList", tList);
 				mv.setViewName("mail/mailTemList");
 				mv.addObject("pi", pi);
-		
+				mv.addObject("currentPage", currentPage);
 			mv.addObject("bList", bList);
 			mv.addObject("totalCount", totalCount);
 			mv.addObject("totalICount", totalICount);
@@ -796,7 +796,7 @@ public class MailController {
 				mv.addObject("aList", aList);
 				mv.setViewName("mail/mailAppList");
 				mv.addObject("pi", pi);
-			
+				mv.addObject("currentPage", currentPage);
 			mv.addObject("bList", bList);
 			mv.addObject("totalICount", totalICount);
 			mv.addObject("totalmCount", totalmCount);
@@ -846,7 +846,7 @@ public class MailController {
 			mv.addObject("iList", iList);
 			mv.setViewName("mail/mailIList");
 			mv.addObject("pi", pi);
-			
+			mv.addObject("currentPage", currentPage);
 			mv.addObject("bList", bList);
 			mv.addObject("totalICount", totalICount);
 			mv.addObject("totalmCount", totalmCount);
@@ -914,6 +914,7 @@ public class MailController {
 
 				mv.setViewName("common/msg");
 			}
+				mv.addObject("currentPage", currentPage);
 				mv.addObject("pi", pi);
 				mv.addObject("mailCategory", mailCategory);
 				mv.setViewName( "mail/mailList");
@@ -947,6 +948,7 @@ public class MailController {
 			List<Mail>searchTemList = mService.printSearchTemMail(search,pi);
 			mv.addObject("tList", searchTemList);
 			mv.addObject("totalTemCount", totalTemCount);
+			mv.addObject("currentPage", currentPage);
 			mv.setViewName( "mail/mailTemList");
 		} catch (Exception e) {
 			mv.addObject("msg", e.toString());
@@ -977,6 +979,7 @@ public class MailController {
 			List<Mail>searchAppList = mService.printSearchAppMail(search,pi);
 			mv.addObject("aList", searchAppList);
 			mv.addObject("totalAppCount", totalAppCount);
+			mv.addObject("currentPage", currentPage);
 			mv.setViewName( "mail/mailAppList");
 		} catch (Exception e) {
 			mv.addObject("msg", e.toString());

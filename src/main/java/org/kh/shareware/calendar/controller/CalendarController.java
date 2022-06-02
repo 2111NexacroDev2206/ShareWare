@@ -87,6 +87,7 @@ public class CalendarController {
 		}
 		calendar.setMemNum(member.getMemberNum());
 		List<Calendar> cList = cService.printAllMyCalendar(calendar);
+		mv.addObject("myCondition", "calendar");
 		mv.addObject("mList", mList);
 		mv.addObject("cList", cList);
 		mv.addObject("schCate", schCate);
