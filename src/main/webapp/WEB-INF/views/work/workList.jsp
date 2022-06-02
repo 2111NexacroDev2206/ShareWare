@@ -15,8 +15,8 @@
 	<div class="s-container">
 	<h2 id="w-title">업무진행현황</h2>
 	<div>
-		<span class="type ${Status eq 'all' ? 'active' : ''}"><a href="/project/workList.sw?projectNo=${projectNo }">전체</a></span>
-		<span class="type ${Status eq 'myList' ? 'active' : ''}"><a href="/project/workList.sw?projectNo=${projectNo }&status=myList">내가 쓴 글</a></span>
+		<span class="type ${status eq 'all' ? 'active' : ''}"><a href="/project/workList.sw?projectNo=${projectNo }">전체</a></span>
+		<span class="type ${status eq 'myList' ? 'active' : ''}"><a href="/project/workList.sw?projectNo=${projectNo }&status=myList">내가 쓴 글</a></span>
 		<button id="write-btn" onclick="location.href='/project/workWriteView.sw?projectNo=${projectNo }'">글작성</button>
 	</div>
 	<table class="t-List">
