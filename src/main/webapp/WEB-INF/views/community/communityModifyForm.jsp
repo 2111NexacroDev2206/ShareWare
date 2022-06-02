@@ -100,7 +100,6 @@
 	var cVoteText2 ="";
 	var cVoteText3 ="";
 	var cVoteText4 ="";
-
 //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ파일이름 추출&출력ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
 	$(document).ready(function(){ 
@@ -174,6 +173,11 @@
 		 cVoteText2 = $("#vote-input2").val();
 		 cVoteText3 = $("#vote-input3").val();
 		 cVoteText4 = $("#vote-input4").val();
+		 divText1 = $("#vote-input1").val();
+		 divText2 = $("#vote-input2").val();
+		 divText3 = $("#vote-input3").val();
+		 divText4 = $("#vote-input4").val();
+		 
 		
 		
 		if(voteBodyDiv.style.display === 'block'){
@@ -316,16 +320,19 @@
 				 const formData = new FormData();
 				  formData.append("uploadFile", imageInput.files[0]);
 				  formData.append("comNo", comNo);
-				   formData.append("comTitle", comTitle);
-				   formData.append("comContent", comContent);
-				   formData.append("cVoteState", cVoteState);
+				  formData.append("comTitle", comTitle);
+				  formData.append("comContent", comContent);
+				  formData.append("cVoteState", cVoteState);
+				  
+				  
+					 if(cVoteText1 != "" || cVoteText2 != "" || cVoteText1 != null || cVoteText2 != null){
+						formData.append("cVoteText1", divText1);
+						formData.append("cVoteText2", divText2);
+						formData.append("cVoteText3", divText3);
+						formData.append("cVoteText4", divText4);
+					}
 				   
-				   if(cVoteText1 != "" || cVoteText2 != "" || cVoteText1 != null || cVoteText2 != null){
-						formData.append("cVoteText1", cVoteText1);
-						formData.append("cVoteText2", cVoteText2);
-						formData.append("cVoteText3", cVoteText3);
-						formData.append("cVoteText4", cVoteText4);
-				   }		
+				  
 				if(comTitle == ""){
 					alert("제목을 입력해주세요!");
 				}else if(comContent == ""){
