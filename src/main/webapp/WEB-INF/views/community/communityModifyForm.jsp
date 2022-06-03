@@ -269,6 +269,7 @@
 
 		if(div3.style.display === 'block'){
 			div3.style.display = 'none';
+			divButtonAdd.style.display = 'block';
 			cVoteText3 ="";
 			$("#vote-input3").val("");
 		}
@@ -279,6 +280,7 @@
 		if(div4.style.display === 'block'){
 			div4.style.display = 'none';
 			divButton1.style.display = 'block';
+			divButtonAdd.style.display = 'block';
 			cVoteText4 ="";
 			$("#vote-input4").val("");
 		}
