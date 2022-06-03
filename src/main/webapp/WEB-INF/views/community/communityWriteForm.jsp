@@ -78,6 +78,8 @@
 	document.getElementById("btn-delete2").style.display = "none";
 	
 	const voteBodyDiv =document.getElementById('vote-body-div');
+	const voteDiv3 =document.getElementById('vote-textbox3-div');
+	const voteDiv4 =document.getElementById('vote-textbox4-div');
 
 	$("#returnBtn").on("click",function(){
 		if(voteBodyDiv.style.display === 'block'){
@@ -189,23 +191,17 @@
 		 cVoteText4 = $("#vote-input4").val();
 		
 		
-		if(voteBodyDiv.style.display === 'block'){
-			   if(cVoteText1 == "" && cVoteText2 == ""){
+		 if(voteBodyDiv.style.display === 'block'){
+			   if(cVoteText1 == "" || cVoteText2 == ""){
 				   //만약 text1이랑  text2가 값이 없으면
 				   alert("투표 선택지를 입력해주세요!");
-				}else{//투표 선택지에 값이 있으면 데이터 보내기
-				   voteBodyDiv.style.display = 'none';
-			   }
-			   if(div3.style.display != 'none' && cVoteText3 == ""){
+				}else if(voteDiv3.style.display === 'block' && cVoteText3 == ""){//투표 선택지에 값이 있으면 데이터 보내기
 					alert("투표 선택지를 입력해주세요!");
-				}else{//투표 선택지에 값이 있으면 데이터 보내기
+			    }else if(voteDiv4.style.display === 'block' && cVoteText4 == ""){
+				    alert("투표 선택지를 입력해주세요!");
+			    }else{//투표 선택지에 값이 있으면 데이터 보내기
 				   voteBodyDiv.style.display = 'none';
-			   }
-			   if(div4.style.display != 'none' && cVoteText4 == ""){
-					alert("투표 선택지를 입력해주세요!");
-			   }else{//투표 선택지에 값이 있으면 데이터 보내기
-				   voteBodyDiv.style.display = 'none';
-			   }
+			    }
 		}
 		
 	});
