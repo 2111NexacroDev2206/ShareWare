@@ -9,7 +9,6 @@
 	SimpleDateFormat sf = new SimpleDateFormat("HH:mm:ss");
 	Calendar cal = Calendar.getInstance();
 	cal.setTime(nowTime); // 10분 더하기
-	cal.add(Calendar.SECOND, 4);
 %>
 
 
@@ -144,9 +143,11 @@
 		<div class="div-time-btn">
 			<div id="now-time"><%= sf.format(cal.getTime()) %></div>
 			<form action="/attendance/registerAtt.sw" method="post">
+				<input type="hidden" id="in-time" name="attStrTime">
 				<input type="submit" id="button1" class="btn-sub" value="출근">
 			</form>
 			<form action="/attendance/modifyAtt.sw" method="post">
+				<input type="hidden" id="up-time" name="attFinTime">
 				<input type="submit" id="button2" class="btn-sub" value="퇴근">
 				 <br>
 			</form>		
@@ -226,6 +227,8 @@ function startDate() {
         dateString += ("0" + newDate.getSeconds()).slice(-2);
         //document.write(dateString); 문서에 바로 그릴 수 있다. 
         $("#now-time").text(dateString); 
+        $("#in-time").val(dateString); 
+        $("#up-time").val(dateString); 
     }, 1000); 
 }
 </script>
