@@ -333,7 +333,7 @@ a {
 					<td width="150px;">${mail.mailSender }</td>
 					<td><a href="${mDetail}">${mail.mailSubject }</a></td>
 					<td width="150px;"><fmt:formatDate
-							value="${mail.mailFromDate }" pattern="yyyy/MM/ddHH:mm:ss" /></td>
+							value="${mail.mailFromDate }" pattern="yyyy/MM/dd/HH:mm:ss" /></td>
 				</tr>
 				</c:if>
 				<!-- 보낸 메일 함 --> 
@@ -372,7 +372,7 @@ a {
 					</td>
 					<td><a href="${mDetail}">${mail.mailSubject }</a></td>
 					<td width="150px;"><fmt:formatDate
-							value="${mail.mailFromDate }" pattern="yyyy/MM/ddHH:mm:ss" /></td>
+							value="${mail.mailFromDate }" pattern="yyyy/MM/dd/HH:mm:ss" /></td>
 				</tr>
 				</c:if>
 				<!-- 내게 쓴 메일 함 -->
@@ -407,10 +407,15 @@ a {
 					<td width="150px;">${mail.mailSender }</td>
 					<td><a href="${mDetail}">${mail.mailSubject }</a></td>
 					<td width="150px;"><fmt:formatDate
-							value="${mail.mailFromDate }" pattern="yyyy/MM/ddHH:mm:ss" /></td>
+							value="${mail.mailFromDate }" pattern="yyyy/MM/dd/HH:mm:ss" /></td>
 				</tr>
 				</c:if>
 				</c:forEach>
+				<c:if test="${fn:length(mList) eq 0 }">
+					<tr>
+						<td colspan="4">메일이 존재하지 않습니다.</td>
+					</tr>
+				</c:if>
 				</table>
 				<c:forEach items="${mList }" var="mail">
 				<c:if test="${mailCategory == 'F' }">
@@ -439,16 +444,16 @@ a {
 							<c:if test="${mail.fStatus eq '1' }"><i class="fa-regular fa-file"></i></c:if>
 							</div>
 						<div style="float: right; margin-right: 3px;"><fmt:formatDate
-								value="${mail.mailFromDate }" pattern="yyyy/MM/ddHH:mm:ss" /></div>
+								value="${mail.mailFromDate }" pattern="yyyy/MM/dd/HH:mm:ss" /></div>
 						<br>
 						
 						<div><c:forEach items="${mail.recList }" var="rec" varStatus="status">
 							${rec.mailReceiver }<c:if test="${status.count ne cTotalCount }">,</c:if>
 							</c:forEach></div>
 						
-						<div><a href="${mDetail}"><%-- <c:if test="${mail.mailsender eq loginUser.mail || mail.mailReferee eq loginUser.mail}">[받은 메일함] ${mail.mailSubject }</c:if>
-						<c:if test="${mail.mailsender eq loginUser.mail || mail.mailReferee eq loginUser.mail}">[보낸 메일함] ${mail.mailSubject }</c:if>
-						<c:if test="${mail.mailType }">[내게 쓴 메일함] ${mail.mailSubject }</c:if> --%>
+						<div><a href="${mDetail}"><c:if test="${mail.mailType eq 'S' && mail.refYn ne 'R'}">[받은 메일함] ${mail.mailSubject }</c:if>
+						<c:if test="${mail.mailType eq 'S' && mail.refYn eq 'R'}">[보낸 메일함] ${mail.mailSubject }</c:if>
+						<c:if test="${mail.mailType eq 'F' }">[내게 쓴 메일함] ${mail.mailSubject }</c:if> 
 						</a></div>
 						</div>
 						<div id="fBox">
@@ -464,6 +469,7 @@ a {
 					</div>
 				</c:if>
 		</c:forEach>
+		
 		<jsp:include page="mailPaging.jsp"></jsp:include>
 	</div>
 </body>

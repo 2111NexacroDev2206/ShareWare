@@ -524,9 +524,12 @@
 		<delete id="deleteiMailRef">
 			UPDATE MAIL_REF SET REF_IMP_STATUS ='0' WHERE REF_NO = #{rNo}
 		</delete>
-		<delete id="deleteMailBmk">
+		<delete id="deleteMailBmk" >
 			DELETE FROM MAIL_BMK WHERE BMK_SUBJECT = #{bmkSubject} AND MEM_NUM = #{memNum}
 		</delete>
+		<select id="selectOneMailBmk" resultMap="mailBmkResultMap">
+			SELECT BMK_ADDR FROM MAIL_BMK WHERE BMK_SUBJECT = #{bmkSubject} AND MEM_NUM = #{memNum }
+		</select>
 		<!--메일 상세페이지  -->
 		<select id="selectOneMail" resultMap="mailResultMap">
 			SELECT * FROM MAIL 

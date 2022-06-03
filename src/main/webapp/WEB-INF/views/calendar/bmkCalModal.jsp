@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%-- <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -21,7 +21,6 @@
 		cursor:pointer;
 		width: 350px;
 	}
-
 </style>
 
 </head>
@@ -61,7 +60,6 @@
 
 </body>
 <script type="text/javascript">
-
 function bmkSchedule() {
 	$("#header2").html("관심 캘린더 등록");
 	$("#s-text2").html("캘린더");
@@ -89,7 +87,6 @@ $("#cancel-bmkCal").click(function(){
 	 $("#s-list2").val(""); 
 	 bmkCalModalClose();
 });
-
 //참여자 선택 사원 검색
 $("#btn-search2").click(function() {
 	var searchCondition = $("#s-condition").val();
@@ -120,8 +117,6 @@ function bmkMemList(mList) {
 	
 	bmkMemSelect(); // 참여자 선택
 }
-
-
 // 선택한 참여자 문서 작성 페이지에 표시
 function bmkMemView() {
 	/* $("#m-bmk").html({mailBmk.bmkSubject}); */
@@ -164,4 +159,4 @@ function bmkMemSelect() {
 	});
 }
 </script>
-</html>
+</html> --%>

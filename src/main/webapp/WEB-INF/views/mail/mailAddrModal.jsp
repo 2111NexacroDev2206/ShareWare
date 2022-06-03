@@ -59,8 +59,8 @@
 	
 </body>
 <script type="text/javascript">
-var Arr = new Array(); // 선택한 참여자 담을 배열 선언
-var arrText = new Array(); // 화면에 보여줄 텍스트 배열 선언
+var Arr2 = new Array(); // 선택한 참여자 담을 배열 선언
+var arrText2 = new Array(); // 화면에 보여줄 텍스트 배열 선언
 // 참여자 선택 모달
 function participant2() {
 	$("#header2").html("주소록");
@@ -83,7 +83,6 @@ $("#confirm2").click(function(){
 	 modalClose2();
 });
 $("#cancel2").click(function(){
-	$("#s-list2").html("");
     modalClose2();
 });
 function modalClose2(){
@@ -108,17 +107,18 @@ $("#btn-search2").click(function() {
 //사원 목록 불러오기
 function appList2(mList) {
 	$("#m-list-table2").html(""); // 테이블 값 지우기
-	var tr;
+	var tr2;
 	$.each(mList, function(i) {
-		tr += '<tr class="tr"><td style="display:none;">' + mList[i].memberNum
+		tr2 += '<tr class="tr2"><td style="display:none;">' + mList[i].memberNum
 		+ '</td><td>' + mList[i].division
 		+ '</td><td>' + mList[i].memberName
 		+ '</td><td>' + mList[i].rank 
 		+ '</td><td>' + mList[i].mail + '</td></tr>';
 	});
-	$("#m-list-table2").append(tr);
-	
+	$("#m-list-table2").append(tr2);
 	appSelect2(); // 참여자 선택
+	
+	
 }
 
 
@@ -126,42 +126,44 @@ function appList2(mList) {
 function appSelView2() {
 	/* $("#m-bmk").html({mailBmk.bmkSubject}); */
 	/* $("#mailRec").val('arrText.join("<br>")'); */
-	$("input[name='mailReceiver']").val(arrText.join(" "))
+	$("input[name='mailReceiver']").val(arrText2.join(" "))
 }
 function appSelect2() {
+	
 	$("#m-list-table2 tr").click(function(){
-		var trArr = new Object(); // 한 행의 배열을 담을 객체 선언
-		var tdArr = new Array(); // 배열 선언(사원번호, 부서, 이름, 직급)
+		var trArr2 = new Object(); // 한 행의 배열을 담을 객체 선언
+		var tdArr2 = new Array(); // 배열 선언(사원번호, 부서, 이름, 직급)
 		
 		// 현재 클릭된 Row(<tr>)
-		var tr = $(this);
-		var td = tr.children();
+		var tr2 = $(this);
+		var td2 = tr2.children();
 					
 		// 반복문을 이용해서 배열에 값을 담아 사용 가능
-		td.each(function(i){
-			tdArr.push(td.eq(i).text());
+		td2.each(function(i){
+			tdArr2.push(td2.eq(i).text());
 		});
 		
 		// td.eq(index)를 통해 값 가져와서 trArr 객체에 넣기
-		trArr.memberNum = td.eq(0).text();
-		trArr.division = td.eq(1).text();
-		trArr.memberName = td.eq(2).text();
-		trArr.rank = td.eq(3).text();
-		trArr.mail = td.eq(4).text();
+		trArr2.memberNum = td2.eq(0).text();
+		trArr2.division = td2.eq(1).text();
+		trArr2.memberName = td2.eq(2).text();
+		trArr2.rank = td2.eq(3).text();
+		trArr2.mail = td2.eq(4).text();
 		
 		// 객체에 데이터가 있는지 여부 판단
-		var checkedArrIdx = _.findIndex(Arr, { memberNum : trArr.memberNum }); // 동일한 값 인덱스 찾기
-		arrText = []; // 배열 비우기
+		var checkedArrIdx = _.findIndex(Arr2, { memberNum : trArr2.memberNum }); // 동일한 값 인덱스 찾기
+		arrText2 = []; // 배열 비우기
 		if(checkedArrIdx > -1) {
-			_.remove(Arr, { memberNum : trArr.memberNum }); // 동일한 값 지우기
+			_.remove(Arr2, { memberNum : trArr2.memberNum }); // 동일한 값 지우기
 		}else {
-			Arr.push(trArr);
-		} arrText = [];
-		Arr.forEach(function(el, index) {
-			arrText.push(el.mail);
+			Arr2.push(trArr2);
+		}
+		Arr2.forEach(function(el, index) {
+			arrText2.push(el.mail);
+			
 		});
-		$("#s-list2").html("");
-		$("#s-list2").html(arrText.join("<br>")); // 개행해서 s-list 영역에 출력
+		$("#s-list2").html(arrText2.join("<br>")); // 개행해서 s-list 영역에 출력
+		
 	});
 }
 

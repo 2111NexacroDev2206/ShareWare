@@ -160,11 +160,6 @@ strong {
 		</div>
 				&nbsp;
 		<div class="s-list-item ${listCondition eq 'calBmk' ? 'active' : ''}" >
-			
-				<a href="javascript:bmkSchedule();"><strong>관심 캘린더</strong></a>&nbsp;&nbsp;<i
-					class="fa-solid fa-bookmark"></i>
-		</div>
-		<div class="s-list-item ${listCondition eq 'calBmk' ? 'active' : ''}" >
 					
 				<a href="/calendar/schListView.sw?schCate=전사"><strong>전사 일정</strong></a>&nbsp;&nbsp;<i
 					class="fa-solid fa-bookmark"></i>
@@ -298,7 +293,7 @@ strong {
 
 				</div>
 				<div class="modal-footer">
-					<a href="javascript:deleteSch(this);">삭제하기</a>
+					<a href="javascript:deleteSch(this);" id="delete-sch" ></a>
 					<button type="submit" class="btn-cal" id="addCalendar">저장</button>
 					<button type="button" class="btn-cal" data-dismiss="modal"
 						id="sprintSettingModalClose">취소</button>
@@ -351,6 +346,7 @@ strong {
 		refreshSch();
 		  $('#exampleModalLabel').text('일정 작성');
 			$('#addCalendar').text('등록');
+			$('#delete-sch').text('');
 			  $('input[name="schNo"]').val('');
 			  $('input[name="calNo"]').val('');
 	            $('input[name="schName"]').val('');
@@ -478,6 +474,7 @@ strong {
      		   $("#calendarModal").modal("show");
    				$('#exampleModalLabel').text('일정 상세');
      			$('#addCalendar').text('수정');
+     			$('#delete-sch').text('삭제하기');
      			$('input[name="schNo"]').val(arg.event.extendedProps.schNo);
                 $('input[name="schName"]').val(arg.event.title);
                 $('input[name="schStartDate"]').val(arg.event.startStr.substr(0, 10)); 
@@ -597,6 +594,7 @@ strong {
                   });
 	        	$('#exampleModalLabel').text('일정 작성');
      			$('#addCalendar').text('등록');
+     			$('#delete-sch').text('');
      			 $('input[name="schNo"]').val('');
  	            $('input[name="schName"]').val('');
  	            $('input[name="schStartDate"]').val('');

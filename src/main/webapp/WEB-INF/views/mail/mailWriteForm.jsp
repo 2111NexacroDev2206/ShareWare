@@ -113,14 +113,15 @@
 	    	</div>
 		
 		<div id="mailRegister">
+		<input type="hidden" name="bmkSubject" >
 		<input type="hidden" name="mailSender" value="${loginUser.mail }">
 			<div>
-				<div><strong id="write">받는사람</strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="text" size="130" style= "height: 30px" id="mailRec"  name="mailReceiver"> &nbsp;<button type="button" class="btn-mail" style="width:80px" onclick="participant2();"><i class="fa-regular fa-address-book"></i>&nbsp;주소록</button>&nbsp;<button type="button" class="btn-mail" style="width: 130px;" onclick="bmk();"><i class="fa-solid fa-at"></i>&nbsp;즐겨찾는 그룹</button></div>
+				<div><strong id="write">받는사람</strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="text" size="130" style= "height: 30px" id="mailRec"  name="mailReceiver" > &nbsp;<button type="button" class="btn-mail" style="width:80px" onclick="participant2();"><i class="fa-regular fa-address-book"></i>&nbsp;주소록</button>&nbsp;<button type="button" class="btn-mail" style="width: 130px;" onclick="bmkRec();"><i class="fa-solid fa-at"></i>&nbsp;즐겨찾는 그룹</button></div>
 				<!-- <p id="mailReceiver"> -->
 			</div>
 			<br>
 			<div>
-				<div><strong id="write">참조인</strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="text" size="130" style= "height: 30px"id="mailReferee" name="mailReferee">&nbsp;&nbsp;<button type="button" class="btn-mail" style="width:80px" onclick="participant3();"><i class="fa-regular fa-address-book"></i>&nbsp;주소록</button>&nbsp;<button type="button" class="btn-mail" style="width: 130px;" onclick="bmk();"><i class="fa-solid fa-at"></i>&nbsp;즐겨찾는 그룹</button></div>
+				<div><strong id="write">참조인</strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="text" size="130" style= "height: 30px" id="mailReferee" name="mailReferee" >&nbsp;&nbsp;<button type="button" class="btn-mail" style="width:80px" onclick="participant3();"><i class="fa-regular fa-address-book"></i>&nbsp;주소록</button>&nbsp;<button type="button" class="btn-mail" style="width: 130px;" onclick="bmkRef();"><i class="fa-solid fa-at"></i>&nbsp;즐겨찾는 그룹</button></div>
 			</div>
 			<br>
 			<div>
@@ -146,7 +147,7 @@
 		<jsp:include page="../mail/bmkListModal.jsp"></jsp:include>
 		</body>
 		<script type="text/javascript">
-		function bmk() {
+		function bmkRec() {
 			$("#header4").html("즐겨찾는 그룹 찾기");
 			$("#s-text4").html("그룹");
 			$("#bmkSelModal").css('display', 'flex').hide().fadeIn();
@@ -155,6 +156,7 @@
 				type : "get",
 				dataType : "json",
 				success : function(data) {
+					arrText4 = [];
 					 bmkList(data);
 					 console.log(data);
 				},
@@ -163,8 +165,9 @@
 				}
 		});
 		}
+		
+		
 		function bmkList(bList) {
-			
 			
 			$("#b-list-table").html(""); // 테이블 값 지우기
 			var tr = "";
@@ -176,6 +179,8 @@
 			bmkSelect(); // 참여자 선택
 		}
 		function bmkSelect() {
+			$("#s-list3").val('');
+			arrText4 = [];
 			$("#b-list-table tr").click(function(){
 				var trArr = new Object(); // 한 행의 배열을 담을 객체 선언
 				var tdArr = new Array(); // 배열 선언(사원번호, 부서, 이름, 직급)
@@ -227,9 +232,97 @@
 		//선택한 참여자 문서 작성 페이지에 표시
 		function bmkSelView() {
 			/* $("#m-bmk").html({mailBmk.bmkSubject}); */
-			$("input[name='mailReceiver']").val(arrText4.join(" "))
-			
+			$("input[name='mailReceiver']").val(arrText4.join(" "));
+			$("input[name='bmkSubject']").val(arrText4.join(" "));
 		}
 		
+		
+		function bmkRef() {
+			$("#bmkHeader").html("즐겨찾는 그룹 찾기");
+			$("#bmk-text").html("그룹");
+			$("#bmkRefSelModal").css('display', 'flex').hide().fadeIn();
+			$.ajax({
+				url : "/modal/mailBmklist.sw",
+				type : "get",
+				dataType : "json",
+				success : function(data) {
+					bmkArrText = [];
+					bmkRefList(data);
+				},
+				error : function() {
+					alert("즐겨찾는 그룹 목록 검색 실패");
+				}
+		});
+		}
+		
+		
+		function bmkRefList(bList) {
+			$("#bmk-list-table").html(""); // 테이블 값 지우기
+			var trBmk = "";
+			trBmk = [];
+			for(var i = 0; i<bList.length; i++) {
+				trBmk += '<tr class="tr"><td><i class="fa-solid fa-user-group"></i></td><td id="td-refBmk">' +bList[i].bmkSubject + '</td></tr>';
+			}
+
+			$("#bmk-list-table").append(trBmk);
+			bmkRefSelect(); // 참여자 선택
+		}
+		function bmkRefSelect() {
+			$("#bmk-list2").val('');
+			bmkArrText = [];
+			$("#bmk-list-table tr").click(function(){
+				var trArr = new Object(); // 한 행의 배열을 담을 객체 선언
+				var tdArr = new Array(); // 배열 선언(사원번호, 부서, 이름, 직급)
+				
+				// 현재 클릭된 Row(<tr>)
+				var tr = $(this);
+				var td = tr.children("#td-refBmk");
+							
+				// 반복문을 이용해서 배열에 값을 담아 사용 가능
+				td.each(function(i){
+					tdArr.push(td.eq(i).text());
+				});
+				
+				// td.eq(index)를 통해 값 가져와서 trArr 객체에 넣기
+				trArr.bmkSubject = td.eq(0).text();
+				trArr.memNum = td.eq(1).text();
+				trArr.division = td.eq(2).text();
+				trArr.bmkName = td.eq(3).text();
+				trArr.rank = td.eq(4).text();
+				trArr.bmkAddr = td.eq(5).text();
+				
+				// 객체에 데이터가 있는지 여부 판단
+				var checkedArrIdx = _.findIndex(Arr, { memNum : trArr.memNum }); // 동일한 값 인덱스 찾기
+				bmkArrText = []; // 배열 비우기
+				if(checkedArrIdx > -1) {
+					_.remove(Arr, { memNum : trArr.memNum }); // 동일한 값 지우기
+				}else {
+					Arr.push(trArr);
+				}
+				Arr.forEach(function(el, index) {
+					bmkArrText = [];
+					bmkArrText.push(el.bmkSubject);
+				});
+				$("#bmk-list2").html(bmkArrText.join("<br>")); // 개행해서 s-list 영역에 출력
+			});
+		}
+		$("#bmk-ref-confirm").click(function(){
+			bmkRefSelView();
+			modalCloseRef();
+		    
+		});
+		$("#bmk-ref-cancel").click(function(){
+			modalCloseRef();
+		});
+		function modalCloseRef(){
+		    $("#bmkRefSelModal").fadeOut();
+		}
+
+		//선택한 참여자 문서 작성 페이지에 표시
+		function bmkRefSelView() {
+			/* $("#m-bmk").html({mailBmk.bmkSubject}); */
+			$("input[name='mailReferee']").val(bmkArrText.join(" "));
+			$("input[name='bmkSubject']").val(bmkArrText.join(" "));
+		}
 		</script>
 </html>

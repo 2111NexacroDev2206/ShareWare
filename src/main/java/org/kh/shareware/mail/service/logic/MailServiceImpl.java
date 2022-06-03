@@ -657,6 +657,13 @@ public class MailServiceImpl implements MailService{
 	public int modifyAppMailStatus(Mail mail) { // 승인 상태 변경
 		int result = mStore.updateAStatusAppMail(sqlSession, mail);
 		return result;
+	}
+
+
+	@Override
+	public List<MailBmk> printOneMailBmk(MailBmk mailBmk) {
+		List<MailBmk> bList = mStore.selectOneMailBmk(sqlSession, mailBmk);
+		return bList;
 	}	
 
 	

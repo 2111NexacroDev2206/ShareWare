@@ -284,10 +284,10 @@ a {
 					<td width="30px;"><c:if test="${mail.fStatus eq '0' }"></c:if>
 					<c:if test="${mail.fStatus eq '1' }"><i class="fa-regular fa-file"></i></c:if>
 					</td>
-					<td width="200px;">${mail.mailReceiver }</td>
-					<td width="80px;"><c:if test="${mail.mailReferee eq loginUser.mail || mail.mailReceiver eq loginUser.mail && mail.mailSender ne loginUser.mail} ">[받은 메일함]</c:if>
-						<c:if test="${mail.mailReceiver ne loginUser.mail && mail.mailSender eq loginUser.mail}">[보낸 메일함] </c:if>
-						<c:if test="${mail.mailReceiver eq loginUser.mail && mail.mailSender eq loginUser.mail}">[내게 쓴 메일함]</c:if>
+					<td width="200px;">${mail.mailSender }</td>
+					<td width="80px;"><c:if test="${mail.mailType eq 'S' && mail.refYn ne 'R'}">[받은 메일함]</c:if>
+						<c:if test="${mail.mailType eq 'S' && mail.refYn eq 'R'}">[보낸 메일함] </c:if>
+						<c:if test="${mail.mailType eq 'F' }">[내게 쓴 메일함]</c:if>
 					</td>
 					<td><a href="${mDetail}">${mail.mailSubject }</a></td>
 					<td width="200px;"><fmt:formatDate

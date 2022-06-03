@@ -108,106 +108,6 @@
 <body>
 	<jsp:include page="../common/menuBar.jsp"></jsp:include>
 	<jsp:include page="../mail/mailMenu.jsp"></jsp:include>
-	<script type="text/javascript">
-	function refreshList(){ //실행시 재로드
-		location.reload();
-	}
-	function detailDelete(obj) {
-		if(confirm("메일을 삭제하시겠습니까?")) {
-			var inputTag = $(obj).prev();
-			var paramObj = {};
-			var paramData = inputTag[0].value.split("/");
-			paramObj.mailNo = paramData[0];
-			paramObj.rNo = paramData[1]; 
-			paramObj.refYn = paramData[2];
-			paramObj.mailCate = paramData[3];
-			paramObj.mailType = paramData[4];
-			$.ajax({				
-				url : '/mail/mailDelete.sw',
-				type : 'get',
-				data : { "paramObj" : JSON.stringify(paramObj) },
-				success : function(data) {
-					debugger;
-					if (data == "success") {
-						alert("삭제되었습니다.");
-						location.href="/mail/"+paramData[3]+"mailListView.sw"
-// 						refreshList();
-					} else {
-						alert("실패했습니다.")
-					}
-				}
-			});
-		}
-	}
-	// 답장
-    function replyMail() {
-       var mailNo= ${mail.mailNo};
-          location.href='/mail/mailReplyView.sw?mailNo='+mailNo;
-       
-    }
- // 전달
-    function relayMail() {
-       var mailNo= ${mail.mailNo};
-          location.href='/mail/mailRelayView.sw?mailNo='+mailNo;
-       
-    }
-    function impValue(obj) {
-		var mailCategory = document.querySelector("#mailCategory").value;
-		var inputTag = $(obj).prev();
-		var paramObj = {};
-		var paramData = inputTag[0].value.split("/");
-		paramObj.mailNo = paramData[0];
-		paramObj.rNo = paramData[1]; 
-		paramObj.refYn = paramData[2];
-		paramObj.mailCate = paramData[3];
-		paramObj.mailType = paramData[4];
-			
-		console.log(paramObj);
-		$.ajax({				
-			url : '/mail/registerI.sw',
-			type : 'get',
-			traditional : true,
-			data : { "paramObj" : JSON.stringify(paramObj) },
-			success : function(data) {
-				if (data) {
-					alert("중요메일함에 추가되었습니다.");
-					
-					refreshList();
-				} else {
-					alert("실패했습니다.")
-				}
-			}
-		});
-	}
-	function impCancel(obj) {
-		var mailCategory = document.querySelector("#mailCategory").value;
-		var inputTag = $(obj).prev();
-		var paramObj = {};
-		var paramData = inputTag[0].value.split("/");
-		paramObj.mailNo = paramData[0];
-		paramObj.rNo = paramData[1]; 
-		paramObj.refYn = paramData[2];
-		paramObj.mailCate = paramData[3];
-		paramObj.mailType = paramData[4];
-			
-		console.log(paramObj);
-		$.ajax({				
-			url : '/mail/cancelI.sw',
-			type : 'get',
-			traditional : true,
-			data : { "paramObj" : JSON.stringify(paramObj) },
-			success : function(data) {
-				if (data) {
-					alert("중요메일함에서 삭제되었습니다.");
-					
-					refreshList();
-				} else {
-					alert("실패했습니다.")
-				}
-			}
-		});
-	}
-	</script>
 	<form action="/mail/${mailCategory }mailDetailView.sw" method="post" enctype="multipart/form-data">
 		<div>
 	 		<div class="mailHeader">
@@ -309,5 +209,102 @@
 			
 	
 		</form>
+		<script type="text/javascript">
+	function refreshList(){ //실행시 재로드
+		location.reload();
+	}
+	function detailDelete(obj) {
+		if(confirm("메일을 삭제하시겠습니까?")) {
+			var inputTag = $(obj).prev();
+			var paramObj = {};
+			var paramData = inputTag[0].value.split("/");
+			paramObj.mailNo = paramData[0];
+			paramObj.rNo = paramData[1]; 
+			paramObj.refYn = paramData[2];
+			paramObj.mailCate = paramData[3];
+			paramObj.mailType = paramData[4];
+			$.ajax({				
+				url : '/mail/mailDelete.sw',
+				type : 'get',
+				data : { "paramObj" : JSON.stringify(paramObj) },
+				success : function(data) {
+					if (data == "success") {
+						location.href="/mail/"+paramData[3]+"mailListView.sw";
+					} else {
+						alert("실패했습니다.")
+					}
+				}
+			});
+		}
+	}
+	// 답장
+    function replyMail() {
+       var mailNo= ${mail.mailNo};
+          location.href='/mail/mailReplyView.sw?mailNo='+mailNo;
+       
+    }
+ // 전달
+    function relayMail() {
+       var mailNo= ${mail.mailNo};
+          location.href='/mail/mailRelayView.sw?mailNo='+mailNo;
+       
+    }
+    function impValue(obj) {
+		var mailCategory = document.querySelector("#mailCategory").value;
+		var inputTag = $(obj).prev();
+		var paramObj = {};
+		var paramData = inputTag[0].value.split("/");
+		paramObj.mailNo = paramData[0];
+		paramObj.rNo = paramData[1]; 
+		paramObj.refYn = paramData[2];
+		paramObj.mailCate = paramData[3];
+		paramObj.mailType = paramData[4];
+			
+		console.log(paramObj);
+		$.ajax({				
+			url : '/mail/registerI.sw',
+			type : 'get',
+			traditional : true,
+			data : { "paramObj" : JSON.stringify(paramObj) },
+			success : function(data) {
+				if (data) {
+					alert("중요메일함에 추가되었습니다.");
+					
+					refreshList();
+				} else {
+					alert("실패했습니다.")
+				}
+			}
+		});
+	}
+	function impCancel(obj) {
+		var mailCategory = document.querySelector("#mailCategory").value;
+		var inputTag = $(obj).prev();
+		var paramObj = {};
+		var paramData = inputTag[0].value.split("/");
+		paramObj.mailNo = paramData[0];
+		paramObj.rNo = paramData[1]; 
+		paramObj.refYn = paramData[2];
+		paramObj.mailCate = paramData[3];
+		paramObj.mailType = paramData[4];
+			
+		console.log(paramObj);
+		$.ajax({				
+			url : '/mail/cancelI.sw',
+			type : 'get',
+			traditional : true,
+			data : { "paramObj" : JSON.stringify(paramObj) },
+			success : function(data) {
+				if (data) {
+					alert("중요메일함에서 삭제되었습니다.");
+					
+					refreshList();
+				} else {
+					alert("실패했습니다.")
+				}
+			}
+		});
+	}
+	</script>
 </body>
 </html>
