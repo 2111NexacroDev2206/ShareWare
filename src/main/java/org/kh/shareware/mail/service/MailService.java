@@ -201,7 +201,8 @@ public interface MailService {
 	 public List<MailBmk> printBmkList(MailBmk mailBmk);
 
 	public int printMailNo(Mail mail);
-	
+	// 메일 발송시 즐겨찾는 그룹 선택 그룹원
+	public List<MailBmk> printOneMailBmk(MailBmk mailBmk);
 	
 	// 넥사크로 - 승인 메일 관리
 	public List<Mail> printAllAppMail(); // 승인 메일 전체 조회
@@ -219,6 +220,7 @@ public interface MailService {
 	public int deleteAppMail(String mailNo); // 승인 메일 삭제
 
 	public int modifyAppMailStatus(Mail mail); // 승인 상태 변경
+	
 	
 	
 

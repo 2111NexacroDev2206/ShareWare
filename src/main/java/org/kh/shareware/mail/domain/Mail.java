@@ -1,6 +1,6 @@
 package org.kh.shareware.mail.domain;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 public class Mail {

@@ -139,11 +139,9 @@ public class MailController {
 	public ModelAndView mailRegister(ModelAndView mv, 
 			@ModelAttribute Mail mail
 			,@ModelAttribute MailFile mailFile
-			,@ModelAttribute MailBmk mailBmk
 			,@RequestParam("mailSender") String mailSender
 			,@RequestParam("mailReceiver") String mailReceiver
-			,@RequestParam("mailReferee") String mailReferee
-			,@RequestParam("bmkSubject") String bmkSubject
+			,@RequestParam(value="mailReferee",required=false,defaultValue="") String mailReferee
 			,@RequestParam(value="uploadFiles",required=false)List<MultipartFile> multipartfile
 	         ,HttpServletRequest request) {
 		
@@ -151,6 +149,7 @@ public class MailController {
 			
 			MailRec mailRec = new MailRec();
 			MailRef mailRef = new MailRef();
+			MailBmk mailBmk = new MailBmk();
 			HttpSession session = request.getSession();
 			Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
 			mail.setMemNum(member.getMemberNum());
@@ -168,16 +167,49 @@ public class MailController {
 			int refResult = 0;
 			String[] recArr = mailReceiver.split(" ");
 			String[] refArr = mailReferee.split(" ");
+			//수신부분
+			if(!recArr[0].contains("@")) { // 그룹일때 
+				MailBmk bmkParam = new MailBmk();
+				bmkParam.setBmkSubject(recArr[0]);
+				bmkParam.setMemNum(member.getMemberNum());
+				List<MailBmk> bList = mService.printOneMailBmk(bmkParam);
+				if(!bList.isEmpty()) {
+					for( int i= 0; i<bList.size(); i++) {
+						mailRec.setMailReceiver(bList.get(i).getBmkAddr());
+						recResult = mService.registerMailRec(mailRec);
+					}
+				}else {
+					mailRec.setMailReceiver(recArr[0]);
+					recResult = mService.registerMailRec(mailRec);
+				}
+			}else { // 주소록일때
+				for(int i = 0; i < recArr.length; i++) {
+					mailRec.setMailReceiver(recArr[i]);
+					recResult = mService.registerMailRec(mailRec);
+				}
+			}
+			//참조부분
+			if(!refArr[0].contains("@")) { // 그룹일때
+				MailBmk bmkParam = new MailBmk();
+				bmkParam.setBmkSubject(refArr[0]);
+				bmkParam.setMemNum(member.getMemberNum());
+				List<MailBmk> fList = mService.printOneMailBmk(bmkParam);
+				if(!fList.isEmpty()) {
+					for( int i = 0; i<fList.size(); i++) {
+						mailRef.setMailReferee(fList.get(i).getBmkAddr());
+						refResult = mService.registerMailRef(mailRef);
+					}
+				}else {
+					mailRef.setMailReferee(refArr[0]);
+					refResult = mService.registerMailRef(mailRef);
+				}
+			}else { // 주소록일때
+				for(int i = 0; i < refArr.length; i++) {
+					mailRef.setMailReferee(refArr[i]);
+					refResult = mService.registerMailRef(mailRef);
+				}
+			}
 			
-			for(int i = 0; i < recArr.length; i++) {
-				mailRec.setMailReceiver(recArr[i]);
-				
-				recResult = mService.registerMailRec(mailRec);
-			}
-			for(int i = 0; i < refArr.length; i++) {
-				mailRef.setMailReferee(refArr[i]);
-				refResult = mService.registerMailRef(mailRef);
-			}
 		   
 			for(int i= 0; i<multipartfile.size(); i++) {
 		    if(multipartfile.size() > 0 && !multipartfile.get(i).getOriginalFilename().equals("")) {
@@ -422,12 +454,27 @@ public class MailController {
 	// 답장 화면
 	   @RequestMapping(value="/mail/mailReplyView.sw", method=RequestMethod.GET)
 	   public ModelAndView mailReplyView(ModelAndView mv
-	         , @RequestParam("mailNo") int mailNo) {
-	      try {
-	         Mail mail = mService.printOneMail(mailNo);
+	         , @RequestParam("mailNo") int mailNo
+	         , HttpServletRequest request) {
+		   		HttpSession session = request.getSession();
+				Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
+				Mail mail = mService.printOneMail(mailNo);
+				MailBmk mailBmk = new MailBmk();
+	         	mail.setMemNum(member.getMemberNum());
+				mail.setMailReceiver(member.getMail());
+				mail.setMailSender(member.getMail());
+				mailBmk.setMemNum(member.getMemberNum());
 	         List<MailRec> mailRec = mService.printOneMailRec(mailNo);
 			 List<MailRef> mailRef = mService.printOneMailRef(mailNo);
 			 List<MailFile> mailFile = mService.printOneMailFile(mailNo);
+			 	int totalICount = mService.getIMailCount(mail);
+				int totalmCount = mService.getMailCount(mail);
+				int totalmRecCount = mService.getMailRecCount(mail);
+				int totalmMyCount = mService.getMailMyCount(mail);
+				int totalmFileCount = mService.getMailFileCount(mail);
+				int readTypeNCount = mService.getMailReadCount(mail);
+				int totalAppCount = mService.getAppMailCount(mail);
+				int totalTemCount = mService.getTemMailCount(mail);
 	         if(mail != null) {
 	            mv.addObject("mail", mail);
 	            mv.addObject("mailRec", mailRec);
@@ -435,22 +482,41 @@ public class MailController {
 	            mv.addObject("mailFile", mailFile);
 	            mv.setViewName("mail/mailReplyView");
 	         }
-	      }catch(Exception e) {
-	         mv.addObject("msg", e.toString());
-	         mv.setViewName("common/errorPage");
-	      }
+			mv.addObject("totalICount", totalICount);
+			mv.addObject("totalmCount", totalmCount);
+			mv.addObject("totalmRecCount", totalmRecCount);
+			mv.addObject("totalmMyCount", totalmMyCount);
+			mv.addObject("totalmFileCount", totalmFileCount);
+			mv.addObject("readTypeNCount", readTypeNCount);
+			mv.addObject("totalAppCount", totalAppCount);
+			mv.addObject("totalTemCount", totalTemCount);
 	      return mv;
 	   }
 	   
 	// 전달 화면
 	   @RequestMapping(value="/mail/mailRelayView.sw", method=RequestMethod.GET)
 	   public ModelAndView mailRelayView(ModelAndView mv
-	         , @RequestParam("mailNo") int mailNo) {
-	      try {
+	         , @RequestParam("mailNo") int mailNo
+	         , HttpServletRequest request) {
+		   	 HttpSession session = request.getSession();
+			 Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
 	         Mail mail = mService.printOneMail(mailNo);
+	         MailBmk mailBmk = new MailBmk();
+	         mail.setMemNum(member.getMemberNum());
+			 mail.setMailReceiver(member.getMail());
+			 mail.setMailSender(member.getMail());
+			 mailBmk.setMemNum(member.getMemberNum());
 	         List<MailRec> mailRec = mService.printOneMailRec(mailNo);
 			 List<MailRef> mailRef = mService.printOneMailRef(mailNo);
 			 List<MailFile> mailFile = mService.printOneMailFile(mailNo);
+			 	int totalICount = mService.getIMailCount(mail);
+				int totalmCount = mService.getMailCount(mail);
+				int totalmRecCount = mService.getMailRecCount(mail);
+				int totalmMyCount = mService.getMailMyCount(mail);
+				int totalmFileCount = mService.getMailFileCount(mail);
+				int readTypeNCount = mService.getMailReadCount(mail);
+				int totalAppCount = mService.getAppMailCount(mail);
+				int totalTemCount = mService.getTemMailCount(mail);
 	         if(mail != null) {
 	            mv.addObject("mail", mail);
 	            mv.addObject("mailRec", mailRec);
@@ -458,10 +524,14 @@ public class MailController {
 	            mv.addObject("mailFile", mailFile);
 	            mv.setViewName("mail/mailRelayView");
 	         }
-	      }catch(Exception e) {
-	         mv.addObject("msg", e.toString());
-	         mv.setViewName("common/errorPage");
-	      }
+	         mv.addObject("totalICount", totalICount);
+			mv.addObject("totalmCount", totalmCount);
+			mv.addObject("totalmRecCount", totalmRecCount);
+			mv.addObject("totalmMyCount", totalmMyCount);
+			mv.addObject("totalmFileCount", totalmFileCount);
+			mv.addObject("readTypeNCount", readTypeNCount);
+			mv.addObject("totalAppCount", totalAppCount);
+			mv.addObject("totalTemCount", totalTemCount);
 	      return mv;
 	   }
 	//중요 메일 등록
@@ -876,7 +946,7 @@ public class MailController {
 			, @RequestParam(value="page", required = false) Integer page
 			, @ModelAttribute Mail mail) {
 		
-		try {
+		
 			List<Mail> searchList= null;
 			List<Mail> searchRecList = null;
 			List<Mail> searchMyList = null;
@@ -884,13 +954,22 @@ public class MailController {
 			HttpSession session = request.getSession();
 			Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기 // 세션 값에서 사원번호 가져오기
 			search.setMemberNum(((Member)session.getAttribute("loginUser")).getMemberNum());
+			mail.setMemNum(member.getMemberNum());
 			mail.setMailReceiver(member.getMail());
 			mail.setMailSender(member.getMail());
 			int currentPage = (page != null) ? page : 1;
-			int totalmCount = mService.getSearchMailCount(search);
-			int totalmRecCount = mService.getSearchMailRecCount(search);
+			int totalCount = mService.getSearchMailCount(search);
+			int totalRecCount = mService.getSearchMailRecCount(search);
 			int totalMyCount = mService.getSearchMailMyCount(search);
-			int totalmFileCount = mService.getSearchMailFileCount(search);
+			int totalFileCount = mService.getSearchMailFileCount(search);
+			int totalICount = mService.getIMailCount(mail);
+			int totalmCount = mService.getMailCount(mail);
+			int totalmRecCount = mService.getMailRecCount(mail);
+			int totalmMyCount = mService.getMailMyCount(mail);
+			int totalmFileCount = mService.getMailFileCount(mail);
+			int readTypeNCount = mService.getMailReadCount(mail);
+			int totalAppCount = mService.getAppMailCount(mail);
+			int totalTemCount = mService.getTemMailCount(mail);
 			PageInfo pi = null;
 			if(mailCategory.equals("R")) {
 				pi = Pagination.getPageInfo(currentPage, totalmCount);
@@ -921,11 +1000,15 @@ public class MailController {
 				mv.addObject("pi", pi);
 				mv.addObject("mailCategory", mailCategory);
 				mv.setViewName( "mail/mailList");
-			
-		} catch (Exception e) {
-			mv.addObject("msg", e.toString());
-			mv.setViewName("common/errorPage");
-		}
+				mv.addObject("totalICount", totalICount);
+				mv.addObject("totalmCount", totalmCount);
+				mv.addObject("totalmRecCount", totalmRecCount);
+				mv.addObject("totalmMyCount", totalmMyCount);
+				mv.addObject("totalmFileCount", totalmFileCount);
+				mv.addObject("readTypeNCount", readTypeNCount);
+				mv.addObject("totalAppCount", totalAppCount);
+				mv.addObject("totalTemCount", totalTemCount);
+		
 		
 		return mv;
 		
@@ -938,25 +1021,38 @@ public class MailController {
 			, HttpServletRequest request
 			, @RequestParam(value="page", required = false) Integer page
 			, @ModelAttribute Mail mail) {
-		try {
+		
 			HttpSession session = request.getSession();
 			Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기 // 세션 값에서 사원번호 가져오기
 			search.setMemberNum(((Member)session.getAttribute("loginUser")).getMemberNum());
+			mail.setMemNum(member.getMemberNum());
 			mail.setMailReceiver(member.getMail());
 			mail.setMailSender(member.getMail());
+			int totalICount = mService.getIMailCount(mail);
+			int totalmCount = mService.getMailCount(mail);
+			int totalmRecCount = mService.getMailRecCount(mail);
+			int totalmMyCount = mService.getMailMyCount(mail);
+			int totalmFileCount = mService.getMailFileCount(mail);
+			int readTypeNCount = mService.getMailReadCount(mail);
+			int totalAppCount = mService.getAppMailCount(mail);
+			int totalTemCount = mService.getTemMailCount(mail);
 			int currentPage = (page != null) ? page : 1;
-			int totalTemCount = mService.getSearchTemMailCount(search);
+			int totalTemSearchCount = mService.getSearchTemMailCount(search);
 			PageInfo pi = Pagination.getPageInfo(currentPage, totalTemCount);
 			mv.addObject("search", search);
 			List<Mail>searchTemList = mService.printSearchTemMail(search,pi);
 			mv.addObject("tList", searchTemList);
-			mv.addObject("totalTemCount", totalTemCount);
+			mv.addObject("totalTemSearchCount", totalTemSearchCount);
 			mv.addObject("currentPage", currentPage);
 			mv.setViewName( "mail/mailTemList");
-		} catch (Exception e) {
-			mv.addObject("msg", e.toString());
-			mv.setViewName("common/errorPage");
-		}
+		 mv.addObject("totalICount", totalICount);
+		mv.addObject("totalmCount", totalmCount);
+		mv.addObject("totalmRecCount", totalmRecCount);
+		mv.addObject("totalmMyCount", totalmMyCount);
+		mv.addObject("totalmFileCount", totalmFileCount);
+		mv.addObject("readTypeNCount", readTypeNCount);
+		mv.addObject("totalAppCount", totalAppCount);
+		mv.addObject("totalTemCount", totalTemCount);
 				return mv;
 
 		
@@ -969,25 +1065,38 @@ public class MailController {
 			, HttpServletRequest request
 			, @RequestParam(value="page", required = false) Integer page
 			, @ModelAttribute Mail mail) {
-		try {
+		
 			HttpSession session = request.getSession();
 			Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기 // 세션 값에서 사원번호 가져오기
 			search.setMemberNum(((Member)session.getAttribute("loginUser")).getMemberNum());
+			mail.setMemNum(member.getMemberNum());
 			mail.setMailReceiver(member.getMail());
 			mail.setMailSender(member.getMail());
+			int totalICount = mService.getIMailCount(mail);
+			int totalmCount = mService.getMailCount(mail);
+			int totalmRecCount = mService.getMailRecCount(mail);
+			int totalmMyCount = mService.getMailMyCount(mail);
+			int totalmFileCount = mService.getMailFileCount(mail);
+			int readTypeNCount = mService.getMailReadCount(mail);
+			int totalAppCount = mService.getAppMailCount(mail);
+			int totalTemCount = mService.getTemMailCount(mail);
 			int currentPage = (page != null) ? page : 1;
-			int totalAppCount = mService.getSearchAppMailCount(search);
+			int totalAppSearchCount = mService.getSearchAppMailCount(search);
 			PageInfo pi = Pagination.getPageInfo(currentPage, totalAppCount);
 			mv.addObject("search", search);
 			List<Mail>searchAppList = mService.printSearchAppMail(search,pi);
 			mv.addObject("aList", searchAppList);
-			mv.addObject("totalAppCount", totalAppCount);
+			mv.addObject("totalAppSearchCount", totalAppSearchCount);
 			mv.addObject("currentPage", currentPage);
 			mv.setViewName( "mail/mailAppList");
-		} catch (Exception e) {
-			mv.addObject("msg", e.toString());
-			mv.setViewName("common/errorPage");
-		}
+			mv.addObject("totalICount", totalICount);
+			mv.addObject("totalmCount", totalmCount);
+			mv.addObject("totalmRecCount", totalmRecCount);
+			mv.addObject("totalmMyCount", totalmMyCount);
+			mv.addObject("totalmFileCount", totalmFileCount);
+			mv.addObject("readTypeNCount", readTypeNCount);
+			mv.addObject("totalAppCount", totalAppCount);
+			mv.addObject("totalTemCount", totalTemCount);
 		
 				return mv;
 			
@@ -1006,7 +1115,13 @@ public class MailController {
 				Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
 				MailBmk mailBmk = new MailBmk();
 				
-				Mail mail = mService.printOneMail(mailNo);
+				Mail mailDetail = mService.printOneMail(mailNo);
+				Mail mail = new Mail();
+				mail.setMailNo(mailNo);
+				mail.setMemNum(member.getMemberNum());
+				mail.setMailReceiver(member.getMail());
+				mail.setMailSender(member.getMail());
+				mail.setMemNum(member.getMemberNum());
 				List<MailRec> mailRec = mService.printOneMailRec(mailNo);
 				List<MailRef> mailRef = mService.printOneMailRef(mailNo);
 				List<MailFile> mailFile = mService.printOneMailFile(mailNo);
@@ -1029,7 +1144,7 @@ public class MailController {
 				
 				if(mail != null && mailRec!= null && mailRef!= null) {
 					
-					mv.addObject("mail", mail);
+					mv.addObject("mail", mailDetail);
 					mv.addObject("mailRec", mailRec);
 					mv.addObject("mailRef", mailRef);
 					mv.addObject("mailFile", mailFile);
@@ -1065,6 +1180,10 @@ public class MailController {
 						HttpSession session = request.getSession();
 						Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
 						Mail mail = mService.printOneTemMail(mailNo);
+						mail.setMailReceiver(member.getMail());
+						mail.setMailNo(mailNo);
+						mail.setMailSender(member.getMail());
+						mail.setMemNum(member.getMemberNum());
 						List<MailRec> mailRec = mService.printOneTemMailRec(mailNo);
 						List<MailRef> mailRef = mService.printOneTemMailRef(mailNo);
 						List<MailFile> mailFile = mService.printOneTemMailFile(mailNo);
@@ -1117,6 +1236,10 @@ public class MailController {
 						HttpSession session = request.getSession();
 						Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
 						Mail mail = mService.printOneAppMail(mailNo);
+						mail.setMailReceiver(member.getMail());
+						mail.setMailNo(mailNo);
+						mail.setMailSender(member.getMail());
+						mail.setMemNum(member.getMemberNum());
 						List<MailRec> mailRec = mService.printOneAppMailRec(mailNo);
 						List<MailRef> mailRef= mService.printOneAppMailRef(mailNo);
 						List<MailFile> mailFile = mService.printOneAppMailFile(mailNo);
@@ -1168,7 +1291,10 @@ public class MailController {
 						HttpSession session = request.getSession();
 						Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
 						Mail mail = mService.printOneIMail(mailNo);
-						
+						mail.setMailReceiver(member.getMail());
+						mail.setMailNo(mailNo);
+						mail.setMailSender(member.getMail());
+						mail.setMemNum(member.getMemberNum());
 						List<MailRec> mailRec = mService.printOneIMailRec(mailNo);
 						List<MailRef> mailRef = mService.printOneIMailRef(mailNo);
 						List<MailFile> mailFile = mService.printOneIMailFile(mailNo);
@@ -1189,10 +1315,7 @@ public class MailController {
 							mv.addObject("mailRef", mailRef);
 							mv.addObject("mailFile", mailFile);
 							mv.setViewName("mail/mailIDetail");
-						} else {
-							mv.addObject("msg", "메일 상세 조회 실패");
-							mv.setViewName("common/errorPage");
-						}
+						} 
 						mv.addObject("bList", bList);
 						mv.addObject("totalICount", totalICount);
 						mv.addObject("totalmCount", totalmCount);
@@ -1219,6 +1342,10 @@ public class MailController {
 						HttpSession session = request.getSession();
 						Member member = (Member) session.getAttribute("loginUser"); // 세션 값 가져오기
 						Mail mail = mService.printOneTemMail(mailNo);
+						mail.setMailReceiver(member.getMail());
+						mail.setMailNo(mailNo);
+						mail.setMailSender(member.getMail());
+						mail.setMemNum(member.getMemberNum());
 						List<MailRec> mailRec = mService.printOneTemMailRec(mailNo);
 						List<MailRef> mailRef = mService.printOneTemMailRef(mailNo);
 						List<MailFile> mailFile = mService.printOneTemMailFile(mailNo);
@@ -1359,8 +1486,7 @@ public class MailController {
 					Integer rNo = Integer.parseInt((String)fromObj.get("rNo"));
 					String refYn = (String)fromObj.get("refYn");
 					if(mailCategory.equals("R")) {
-					  mResult = mService.removeChkMail(mailNo);
-					  	return("redirect:/mail/RmailListView.sw");
+						mResult = mService.removeChkMail(mailNo);
 					} else if(mailCategory.equals("S")) {
 						if(!refYn.equals("Y")) {
 							mRecResult = mService.removeChkMailRec(rNo);
@@ -1443,12 +1569,12 @@ public class MailController {
 				if(mailCategory.equals("R")) {
 					 mResult = mService.removeMail(mailNo);
 				} else if(mailCategory.equals("S")) {
-					if(!refYn.equals("Y")) {
+					if(!refYn.equals("") && !refYn.equals("Y")) {
 					mRecResult = mService.removeMailRec(rNo);
 					} else {
 					mRefResult = mService.removeMailRef(rNo);
 					}
-				} else if(mailCategory.equals("M")) {
+				} else if(mailCategory.equals("M") || refYn.equals("")) {
 					 mResult = mService.removeMail(mailNo);
 				} else if(mailCategory.equals("F")) {
 					mResult = mService.removeMail(mailNo);

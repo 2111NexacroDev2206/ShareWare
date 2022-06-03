@@ -33,6 +33,7 @@
 	<div class="paging">
 		<!-- 목록 페이징 -->
 		<c:if test="${search.memberNum == null }">
+		
 			<c:if test="${pi.startNavi == 1 }">
 				<a href="/mail/${mailCategory }mailListView.sw?page=1"></a>
 			</c:if>

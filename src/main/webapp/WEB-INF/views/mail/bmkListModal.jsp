@@ -54,5 +54,29 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="m-appSel-wrap" id="bmkRefSelModal">
+		<div class="m-appSel">
+			<div class="m-header">
+				<span class="m-header-title" id="bmkHeader"></span>
+			</div>
+			<div class="m-body">
+				<div class="m-list">
+					<table id="bmk-list-table">
+					</table>
+				</div>
+				<div class="m-select">
+					<strong id="bmk-text"></strong><br>
+					<p id="bmk-list2">
+					
+				</div>
+			</div>
+			<div class="m-footer">
+				<span class="m-btn confirm" id="bmk-ref-confirm">확인</span>
+				<span class="m-btn cancel" id="bmk-ref-cancel">취소</span>
+			</div>
+		</div>
+	</div>
+	
 </body>
 </html>

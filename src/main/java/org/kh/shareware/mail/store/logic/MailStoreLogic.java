@@ -623,6 +623,12 @@ public class MailStoreLogic implements MailStore{
 		return result;
 	}
 
+	@Override
+	public List<MailBmk> selectOneMailBmk(SqlSession sqlSession, MailBmk mailBmk) {
+		List<MailBmk>bList = sqlSession.selectList("MailMapper.selectOneMailBmk", mailBmk);
+		return bList;
+	}
+
 
 	
 	

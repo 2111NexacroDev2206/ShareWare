@@ -82,7 +82,6 @@ $("#confirm3").click(function(){
 	 modalClose3();
 });
 $("#cancel3").click(function(){
-	$("arrText2").val("");
     modalClose3();
 });
 function modalClose3(){
@@ -107,16 +106,20 @@ $("#btn-search").click(function() {
 //사원 목록 불러오기
 function appList3(mList) {
 	$("#m-list-table3").html(""); // 테이블 값 지우기
-	var tr;
+	var tr3;
+	tr3 = [];
 	$.each(mList, function(i) {
-		tr += '<tr class="tr"><td style="display:none;">' + mList[i].memberNum
+		tr3 += '<tr class="tr3"><td style="display:none;">' + mList[i].memberNum
 		+ '</td><td>' + mList[i].division
 		+ '</td><td>' + mList[i].memberName
 		+ '</td><td>' + mList[i].rank 
 		+ '</td><td>' + mList[i].mail + '</td></tr>';
 	});
-	$("#m-list-table3").append(tr);
+	
+	$("#m-list-table3").append(tr3);
 	appSelect3(); // 참여자 선택
+	
+	
 }
 
 
@@ -129,39 +132,41 @@ function appSelView3() {
 }
 function appSelect3() {
 	$("#m-list-table3 tr").click(function(){
+		
 		arrText3 = [];
-		var trArr = new Object(); // 한 행의 배열을 담을 객체 선언
-		var tdArr = new Array(); // 배열 선언(사원번호, 부서, 이름, 직급)
+		var trArr3 = new Object(); // 한 행의 배열을 담을 객체 선언
+		var tdArr3 = new Array(); // 배열 선언(사원번호, 부서, 이름, 직급)
 		
 		// 현재 클릭된 Row(<tr>)
-		var tr = $(this);
-		var td = tr.children();
+		var tr3 = $(this);
+		var td3 = tr3.children();
 					
 		// 반복문을 이용해서 배열에 값을 담아 사용 가능
-		td.each(function(i){
-			tdArr.push(td.eq(i).text());
+		td3.each(function(i){
+			tdArr3.push(td3.eq(i).text());
 		});
 		
 		// td.eq(index)를 통해 값 가져와서 trArr 객체에 넣기
-		trArr.memberNum = td.eq(0).text();
-		trArr.division = td.eq(1).text();
-		trArr.memberName = td.eq(2).text();
-		trArr.rank = td.eq(3).text();
-		trArr.mail = td.eq(4).text();
-		
+		trArr3.memberNum = td3.eq(0).text();
+		trArr3.division = td3.eq(1).text();
+		trArr3.memberName = td3.eq(2).text();
+		trArr3.rank = td3.eq(3).text();
+		trArr3.mail = td3.eq(4).text();
+		console.log(trArr3);
 		// 객체에 데이터가 있는지 여부 판단
-		var checkedArrIdx = _.findIndex(Arr, { memberNum : trArr.memberNum }); // 동일한 값 인덱스 찾기
+		var checkedArrIdx = _.findIndex(Arr, { memberNum : trArr3.memberNum }); // 동일한 값 인덱스 찾기
 		arrText3 = []; // 배열 비우기
 		if(checkedArrIdx > -1) {
-			_.remove(Arr, { memberNum : trArr.memberNum }); // 동일한 값 지우기
+			_.remove(Arr, { memberNum : trArr3.memberNum }); // 동일한 값 지우기
 		}else {
-			Arr.push(trArr);
+			Arr.push(trArr3);
 		}
 		Arr.forEach(function(el, index) {
 			
 			arrText3.push(el.mail);
 			
 		});
+		
 		$("#s-list3").html(arrText3.join("<br>")); // 개행해서 s-list 영역에 출력
 	});
 }

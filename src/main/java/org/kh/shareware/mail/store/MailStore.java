@@ -202,6 +202,8 @@ public interface MailStore {
 	public int updateRStatusAppMail(SqlSession sqlSession, String mailNo); // 승인 메일 삭제
 
 	public int updateAStatusAppMail(SqlSession sqlSession, Mail mail); // 승인 상태 변경
+	// 메일 발송시 즐겨찾는 그룹 선택 그룹원
+	public List<MailBmk> selectOneMailBmk(SqlSession sqlSession, MailBmk mailBmk);
 
 	
 	
