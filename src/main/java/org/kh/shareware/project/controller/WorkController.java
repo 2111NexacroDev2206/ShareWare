@@ -205,7 +205,6 @@ public class WorkController {
 						}
 						int result = service.modifyWork(work);
 						if(result > 0) {
-							mv.addObject("projectNo", projectNo);
 							mv.setViewName("redirect:/project/workDetail.sw?projectNo=" + projectNo + "&workNo=" + work.getWorkNo());
 						}else {
 							mv.addObject("msg", "업무현황 수정실패");

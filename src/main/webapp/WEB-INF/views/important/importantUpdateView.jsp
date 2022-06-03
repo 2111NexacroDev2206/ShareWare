@@ -39,7 +39,7 @@
 					<td colspan="4"><textarea name="importantContent">${important.importantContent }</textarea></td>
 				</tr>
 			</table>
-				<input id="btn" type="button" onclick="location.href='/project/importantDetail.sw?projectNo=${projectNo}&importantNo=${important.importantNo }&projectNo=${projectNo}'"value="취소">
+				<input id="btn" type="button" onclick="location.href='/project/importantDetail.sw?projectNo=${projectNo}&importantNo=${important.importantNo }'"value="취소">
 				<input id="btn" type="submit" value="등록">
 		</form>
 		

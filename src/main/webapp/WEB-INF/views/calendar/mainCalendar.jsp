@@ -358,6 +358,13 @@ strong {
 	            $('[name="schCate"]:checked').val('');
 	 	          $('[name="calNo"]:checked').val('');
 	 	         $("#selSchCate").attr("disabled", false);
+	 	        $("#selSchCate").change(function(){  //개인일정 체크시 캘린더 보이게 
+                    if($("#selSchCate").val() == '전사'){
+                   	 $("#selCalNo").hide();
+                    }else {
+                   	 $("#selCalNo").show();
+                    }
+                 });
           $("#calendarModal").modal("show"); // modal 나타내기
 			$("#addCalendar").on("click",function(){  // modal의 추가 버튼 클릭 시
 			  var schNo = $("#schNo").val();

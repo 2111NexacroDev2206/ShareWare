@@ -191,7 +191,6 @@ public class ImportantController {
 				}
 				int result = service.modifyImportant(important);
 				if(result > 0) {
-					mv.addObject("projectNo", projectNo);
 					mv.setViewName("redirect:/project/importantDetail.sw?projectNo=" + projectNo + "&importantNo=" + important.getImportantNo());
 				}else {
 					mv.addObject("msg", "업무일지 수정실패");
