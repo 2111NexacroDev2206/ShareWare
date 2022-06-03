@@ -308,7 +308,7 @@
 	$("#updateBtn").on("click", function(){
 		
 		if(voteBodyDiv.style.display === 'block'){
-			alert("투표 작성을 끝마쳐주요.");
+			alert("투표 작성을 끝마쳐주세요.");
 		}else{
 				var comTitle = $("#comTitle").val();
 				var comContent = $("#comContent").val();
