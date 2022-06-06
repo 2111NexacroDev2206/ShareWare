@@ -8,7 +8,8 @@
 ### [3. 사용기술 및 개발환경](#사용기술-및-개발환경)
 ### [4. 프로젝트 기능 구현](#프로젝트-기능-구현)
 ### [5. 주요 기능](#주요-기능)
-### [6. Document](#Document)
+### [6. ERD](#ERD)
+### [7. 시연 영상](#시연-영상)
 
 ## 개요
 코로나 장기화로 재택근무를 시행하거나 사무실 밖에서 업무를 처리하는 등의 비대면 업무를 공유해야 하는 일이 더욱 많아지고
@@ -95,10 +96,10 @@
 ## 주요 기능
 [공유해조_최종보고서.pdf](https://github.com/1129khNexapring/ShareWare/files/8841917/1._.pdf)
 
-## 시연 영상
-[ShareWare 시연영상](https://youtu.be/7Bx2yFBbJY8)
-
 ## ERD
 ![erd](https://user-images.githubusercontent.com/97680096/171777191-c342807c-3b1a-4cd6-ace8-cbd9e7108e6c.png)
+
+## 시연 영상
+[ShareWare 시연영상](https://youtu.be/7Bx2yFBbJY8)
 
 
