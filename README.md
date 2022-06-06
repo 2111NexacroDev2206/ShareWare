@@ -36,8 +36,6 @@
 | Server   | Apatch Tomcat(v8.5) |
 | DataBase | Oracle(11g) - SQL Developer |
 
-![개발환경](https://user-images.githubusercontent.com/97680096/171772108-c4f928bc-284b-4f08-8d0a-3e599c5d567d.png)
-
 ## 프로젝트 기능 구현
 * 권지혜
   + 전자결재 
