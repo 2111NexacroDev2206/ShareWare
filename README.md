@@ -99,13 +99,13 @@
      + 업무진행률(그래프)
 
 ## 보고서
-[ShareWare.pdf](https://github.com/1129khNexapring/ShareWare/files/8842049/ShareWare.pdf)
-[ShareWare_UseCase.pdf](https://github.com/1129khNexapring/ShareWare/files/8842050/ShareWare_UseCase.pdf)
-[ShareWare_Wireframe.pdf](https://github.com/1129khNexapring/ShareWare/files/8842051/ShareWare_Wireframe.pdf)
-[ShareWare_FlowChart.pdf](https://github.com/1129khNexapring/ShareWare/files/8842052/ShareWare_FlowChart.pdf)
-[ShareWare_ERD.pdf](https://github.com/1129khNexapring/ShareWare/files/8842053/ShareWare_ERD.pdf)
-[ShareWare_ClassDiagram.pdf](https://github.com/1129khNexapring/ShareWare/files/8842054/ShareWare_ClassDiagram.pdf)
-[ShareWare_SequenceDiagram.pdf](https://github.com/1129khNexapring/ShareWare/files/8842055/ShareWare_SequenceDiagram.pdf)
+### [ShareWare.pdf](https://github.com/1129khNexapring/ShareWare/files/8842049/ShareWare.pdf)
+### [ShareWare_UseCase.pdf](https://github.com/1129khNexapring/ShareWare/files/8842050/ShareWare_UseCase.pdf)
+### [ShareWare_Wireframe.pdf](https://github.com/1129khNexapring/ShareWare/files/8842051/ShareWare_Wireframe.pdf)
+### [ShareWare_FlowChart.pdf](https://github.com/1129khNexapring/ShareWare/files/8842052/ShareWare_FlowChart.pdf)
+### [ShareWare_ERD.pdf](https://github.com/1129khNexapring/ShareWare/files/8842053/ShareWare_ERD.pdf)
+### [ShareWare_ClassDiagram.pdf](https://github.com/1129khNexapring/ShareWare/files/8842054/ShareWare_ClassDiagram.pdf)
+### [ShareWare_SequenceDiagram.pdf](https://github.com/1129khNexapring/ShareWare/files/8842055/ShareWare_SequenceDiagram.pdf)
 
 ## ERD
 ![erd](https://user-images.githubusercontent.com/97680096/171777191-c342807c-3b1a-4cd6-ace8-cbd9e7108e6c.png)
