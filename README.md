@@ -100,6 +100,4 @@
 ![erd](https://user-images.githubusercontent.com/97680096/171777191-c342807c-3b1a-4cd6-ace8-cbd9e7108e6c.png)
 
 ## 시연 영상
-[!ShareWare 시연영상](https://img.youtube.com/vi/7Bx2yFBbJY8/0.jpg)](https://youtu.be/7Bx2yFBbJY8)
-
-
+[![ShareWare 시연영상](https://img.youtube.com/vi/7Bx2yFBbJY8/0.jpg)](https://youtu.be/7Bx2yFBbJY8)
