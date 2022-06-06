@@ -7,7 +7,7 @@
 ### [2. 설계의 주안점](#설계의-주안점)
 ### [3. 사용기술 및 개발환경](#사용기술-및-개발환경)
 ### [4. 프로젝트 기능 구현](#프로젝트-기능-구현)
-### [5. 주요 기능](#주요-기능)
+### [5. 보고서](#보고서)
 ### [6. ERD](#ERD)
 ### [7. 시연 영상](#시연-영상)
 
@@ -79,8 +79,15 @@
    + 일정 관리 
      + 개인 일정 등록 가능
      + 전사 일정 조회가능 
-   + 메일 
-     + 내게 쓴 메일 
+   + 메일
+     + 받은 메일함
+     + 보낸 메일함
+     + 내게 쓴 메일함
+     + 보낸 승인 메일함
+     + 중요 메일함
+     + 첨부 메일함
+     + 즐겨찾는 그룹
+     + 임시 저장함
  
  * 정은진
    + 업무일지 
@@ -91,8 +98,14 @@
      + 업무진행현황 
      + 업무진행률(그래프)
 
-## 주요 기능
-[공유해조_최종보고서.pdf](https://github.com/1129khNexapring/ShareWare/files/8841917/1._.pdf)
+## 보고서
+[ShareWare.pdf](https://github.com/1129khNexapring/ShareWare/files/8842049/ShareWare.pdf)
+[ShareWare_UseCase.pdf](https://github.com/1129khNexapring/ShareWare/files/8842050/ShareWare_UseCase.pdf)
+[ShareWare_Wireframe.pdf](https://github.com/1129khNexapring/ShareWare/files/8842051/ShareWare_Wireframe.pdf)
+[ShareWare_FlowChart.pdf](https://github.com/1129khNexapring/ShareWare/files/8842052/ShareWare_FlowChart.pdf)
+[ShareWare_ERD.pdf](https://github.com/1129khNexapring/ShareWare/files/8842053/ShareWare_ERD.pdf)
+[ShareWare_ClassDiagram.pdf](https://github.com/1129khNexapring/ShareWare/files/8842054/ShareWare_ClassDiagram.pdf)
+[ShareWare_SequenceDiagram.pdf](https://github.com/1129khNexapring/ShareWare/files/8842055/ShareWare_SequenceDiagram.pdf)
 
 ## ERD
 ![erd](https://user-images.githubusercontent.com/97680096/171777191-c342807c-3b1a-4cd6-ace8-cbd9e7108e6c.png)
