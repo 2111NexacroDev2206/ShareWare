@@ -30,7 +30,7 @@
 | ------- | ------ |
 | FrontEnd | HTML5, JS, CSS3, Nexacro-Platform 17|
 | BackEnd  | Java(JDK 1.8), JSP |
-| FrameWork| Spring, Mybatis, jQuery |
+| FrameWork| Spring, Mybatis |
 | OS       | Windows 10, 11 |
 | IDE      | Eclipse, GitHub |
 | Server   | Apatch Tomcat(v8.5) |
