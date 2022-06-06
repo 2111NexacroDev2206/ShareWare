@@ -94,12 +94,12 @@
      + 업무진행률(그래프)
 
 ## 주요 기능
-[공유해조_최종보고서.pdf](https://github.com/1129khNexapring/ShareWare/files/8841917/1._.pdf)
+![공유해조_최종보고서.pdf](https://github.com/1129khNexapring/ShareWare/files/8841917/1._.pdf)
 
 ## ERD
 ![erd](https://user-images.githubusercontent.com/97680096/171777191-c342807c-3b1a-4cd6-ace8-cbd9e7108e6c.png)
 
 ## 시연 영상
-[ShareWare 시연영상](https://youtu.be/7Bx2yFBbJY8)
+![ShareWare 시연영상](https://youtu.be/7Bx2yFBbJY8)
 
 
