@@ -105,14 +105,12 @@
 	$(document).ready(function(){ 
 		var fileTarget = $('.fileDiv #comImgName'); 
 		fileTarget.on('change', function(){ 
-			// 값이 변경되면 
 			if(window.FileReader)
-			{ // modern browser
+			{ 
 			 var filename = $(this)[0].files[0].name; 
 			} else { 
-				// old IE 
-				var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
-			} // 추출한 파일명 삽입 
+				var filename = $(this).val().split('/').pop().split('\\').pop();
+			} 
 			$(this).siblings('.upload-name').val(filename); }); });
 	
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ버튼 관련ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -142,16 +140,16 @@
 			cVoteText4 = $("#vote-input4").val();
 			}
 	});
-	//투표 등록 버튼을 눌렀을 때 투표가 화면 보이게 
+
 	$("#comVoteInsert").on("click",function(){
-		if(voteBodyDiv.style.display == 'none'){  //만약 화면에 없으면
-			voteBodyDiv.style.display = 'block'; //화면에 보이게
+		if(voteBodyDiv.style.display == 'none'){  
+			voteBodyDiv.style.display = 'block'; 
 			$("#vote-input1").val(divText1);
 			$("#vote-input2").val(divText2);
-			if(divText3 != ""){//선택지 3이 null이 아니면 보이게 하기
+			if(divText3 != ""){
 				div3.style.display = 'block'; 
 				divButton1.style.display = 'block';
-				if(divText4 != ""){//선택지 4가 null이 아니면 보이게 하기
+				if(divText4 != ""){
 					divButton1.style.display = 'none';
 					divButton2.style.display = 'block';
 					divButtonAdd.style.display ='none';
@@ -182,9 +180,9 @@
 		
 		if(voteBodyDiv.style.display === 'block'){
 			if(cVoteText1 == "" && cVoteText2 == "" || div3.style.display != 'none' && cVoteText3 == "" ||div4.style.display != 'none' && cVoteText4 == ""){
-				   //만약 text1이랑  text2가 값이 없으면
+				  
 				   alert("투표 선택지를 입력해주세요!");
-				}else{//투표 선택지에 값이 있으면 데이터 보내기
+				}else{
 				   voteBodyDiv.style.display = 'none';
 		}
 	}
@@ -192,12 +190,9 @@
 	});
 	
 	
-	//투표 삭제 버튼을 누르면 안보이게
-	//만약 투표 테이블이 있으면 테이블 삭제
-	//테이블이 없으면 투표 창만 안보이도록
+
 	$("#voteDelete").on("click",function(){
-		if(voteResult == null || voteResult == 0){ //이전 투표가 없었으면 투표를 삭제하는 ajax를 실행시키지않고
-			//그냥 비워줌
+		if(voteResult == null || voteResult == 0){ 
 			if(voteBodyDiv.style.display === 'block'){
 			cVoteText1 ="";
 			cVoteText2 ="";
@@ -251,12 +246,12 @@
 	
 	$("#voteInputAdd").on("click",function(){
 		
-		//div1 이 생성됐을 때는 -버튼이 보여야함
+	
 		if(div3.style.display === 'none'){
 			div3.style.display = 'block';
 			divButton1.style.display = 'block';
 			divButtonAdd.style.display = 'block';
-		//div2가 생성됐을 때는 div1의 -버튼이 보이면 안됨
+	
 		}else if(div3.style.display === 'block'){
 			div4.style.display = 'block';
 			divButton1.style.display = 'none';
@@ -285,24 +280,6 @@
 			$("#vote-input4").val("");
 		}
 	});
-	
-	// //ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ이미지 미리보기ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-	// const imageInput = $("#comImgName")[0]; //첨부파일 input id
-	//   console.log("imageInput: ", imageInput.files) //콘솔출력
-	
-	//   function loadImg(obj){
-	// 	console.log(obj.files);
-	// 	if(obj.files.length != 0 && obj.files[0] !=0){//만약 파일 크기가 null이 아니고 파일이 null이 아니면 실행
-	// 		var reader = new FileReader();
-	// 		reader.readAsDataURL(obj.files[0]);
-	// 		reader.onload = function(e){
-	// 			$("#img").attr("src", e.target.result);
-				
-	// 			bookedImgbox.style.display = 'none';
-	// 		}
-	// 	}
-	// }
-
 		
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ수정ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	const imageInput = $("#comImgName")[0];
@@ -354,8 +331,8 @@
 							alert("ajax 통신 오류! 관리자에게 문의해주세요.");
 						}
 					})
+				}
 			}
-		}
 	});
 
 	</script>

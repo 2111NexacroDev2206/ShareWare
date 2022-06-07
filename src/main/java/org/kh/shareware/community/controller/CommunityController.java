@@ -41,7 +41,7 @@ public class CommunityController {
 	@Autowired
 	private CommunityService cService;
 	
-//글작성 페이지 보기
+
 	@RequestMapping(value="/community/WriteView.sw", method=RequestMethod.GET)
 	public String CommunityWriteView(Model model) {
 		model.addAttribute("myCondition", "board");
@@ -49,14 +49,12 @@ public class CommunityController {
 		return "community/communityWriteForm";
 	}
 	
-	
-	//글작성
 	@ResponseBody
 	@RequestMapping(value="/community/register.sw", method=RequestMethod.POST)
 	public String registerCommunity(Model Model
-			,HttpServletRequest request //session 에 저장 된 아이디를 가져와야함
+			,HttpServletRequest request 
 			,@RequestParam(value="uploadFile", required=false) MultipartFile comImgName
-			,@RequestParam("comContent")String comContent // @RequestParam으로 값을 가져와서 세팅해줘야함
+			,@RequestParam("comContent")String comContent 
 			,@RequestParam("comTitle")String comTitle
 			,@RequestParam(value="cVoteText1", required=false, defaultValue="")String cVoteText1
 			,@RequestParam(value="cVoteText2", required=false, defaultValue="")String cVoteText2
@@ -83,10 +81,10 @@ public class CommunityController {
 			if(comImgName != null && !comImgName.getOriginalFilename().equals("")) {
 				HashMap<String, String> fileMap = saveFile(comImgName, request);
 				String filePath = fileMap.get("filePath");
-				String fileRename = fileMap.get("fileName"); //바꾼 이름을 가져옴
+				String fileRename = fileMap.get("fileName"); 
 				if(filePath != null && !filePath.equals("")) {
 					community.setComImgName(comImgName.getOriginalFilename()); 
-					community.setComImgRename(fileRename); //가져온 값을 넣어줌
+					community.setComImgRename(fileRename); 
 					community.setComImgPath(filePath);
 				}
 			}
@@ -94,10 +92,7 @@ public class CommunityController {
 			int result = cService.registerCommunity(community);
 			
 			if(!cVoteText1.equals("")) {
-				//글 번호를 가져오는 select 로직을 가셔와서 사용
 				int comNo = cService.searchComNo();
-				
-				//여기에 대신 넣어줌
 
 				communityVote.setComNo(comNo);
 				communityVote.setcVoteText1(cVoteText1);
@@ -115,7 +110,6 @@ public class CommunityController {
 			}
 	}
 	
-		//리스트 페이지 보기
 		@RequestMapping(value="/community/list.sw", method=RequestMethod.GET)
 		public String CommunityListView(
 				Model model
@@ -131,7 +125,6 @@ public class CommunityController {
 			community.setMemberNum(memberNum);
 			
 			int currentPage = (page != null) ? page : 1;
-			//DB에서 전체 게시물의 갯수
 			int totalCount = cService.getListCount(memberNum);
 			PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
 			List<Community> cList = cService.listCommunity(pi, memberNum);
@@ -150,19 +143,14 @@ public class CommunityController {
 			}
 		}
 	
-		
-		
-//디테일 페이지 보기
 	@RequestMapping(value="/community/detail.sw", method=RequestMethod.GET)
 	public String datailCommunity(
 			Model model
 			,HttpServletRequest request
 			,@RequestParam("comNo") Integer comNo) {
-		//조회수 증가
+
 		cService.countViewCommunity(comNo);
-	
-		
-		//게시글 번호로 검색
+
 		Community community = cService.detailCommunity(comNo);
 
 		
@@ -177,18 +165,13 @@ public class CommunityController {
 		}
 	}
 	
-
-	
-	//글 수정 페이지 보기
 	@RequestMapping(value="/community/modifyView.sw", method=RequestMethod.GET)
 	public String CommunityModifyView(
 			Model model
 			,@RequestParam("comNo") int comNo) {
 	
 		
-		//게시글 번호로 검색
 		Community community = cService.detailCommunity(comNo);
-		//투표 번호 검색
 		CommunityVote communityVote = cService.detailCommunityVote(comNo);
 		
 		if(community != null) {
@@ -203,7 +186,6 @@ public class CommunityController {
 		}	
 	}
 	
-	//글 수정
 	@ResponseBody
 	@RequestMapping(value="/community/modify.sw", method=RequestMethod.POST)
 	public String modifyCommunity(
@@ -256,7 +238,6 @@ public class CommunityController {
 		}
 		
 		if(!cVoteText1.equals("") && cVoteState == null) {
-			//투표가 등록되어있지 않은 게시판에 투표를 새로 추가할 경우
 			cService.registerCommunityVote(communityVote);
 		}
 		
@@ -270,11 +251,7 @@ public class CommunityController {
 			return "fail";
 		}
 	}
-	
-	
 
-	
-	//글삭제
 	@ResponseBody
 	@RequestMapping(value="/community/deleteCommunity.sw", method=RequestMethod.GET)
 	public String removeCommunity(
@@ -295,8 +272,7 @@ public class CommunityController {
 		}
 		return "fail";
 	}
-	
-	//투표 	
+		
 	@ResponseBody
 	@RequestMapping(value="/community/insertCommunityVote.sw", method=RequestMethod.GET)
 	public String registerCommunityVote(
@@ -326,7 +302,6 @@ public class CommunityController {
 			return "fail";
 		}
 	
-	//투표 보기
 	@ResponseBody
 	@RequestMapping(value="/community/viewCommunityVote.sw", method=RequestMethod.GET)
 		public void viewCommunityVote(
@@ -343,10 +318,8 @@ public class CommunityController {
 			CommunityVoteSelect voteSelect = new CommunityVoteSelect();
 			voteSelect.setComNo(comNo);
 			voteSelect.setMemberNum(memberNum);
-							
-		//투표 검색				
+								
 		CommunityVote Result = cService.detailCommunityVote(comNo);
-		//투표한 사람 검색
 		CommunityVoteSelect mResult = cService.viewCommunityVote(voteSelect);
 		
 		if(Result != null) {
@@ -360,7 +333,6 @@ public class CommunityController {
 				gson.toJson(map, response.getWriter());
 				
 				}else {
-					// 성공했을 때
 					HashMap<Object, Object> map = new HashMap<>();
 					map.put("communityVote",Result);
 					map.put("cVoteSelect",mResult);
@@ -372,106 +344,95 @@ public class CommunityController {
 		}
 	}
 
-	//투표 종료
+
 	@ResponseBody
 	@RequestMapping(value="/community/endVoteCommunity.sw", method=RequestMethod.GET)
-			public String andVoteCommunity(
-				@RequestParam("comNo") Integer comNo) {
-						
-					
-						int Result = cService.endCommunityVote(comNo);
-						
-						
-					if(Result >0) {
-						return "success";
-					}
-					return "fail";
+		public String andVoteCommunity(
+			@RequestParam("comNo") Integer comNo) {
+					int Result = cService.endCommunityVote(comNo);
+
+				if(Result >0) {
+					return "success";
 				}
+				return "fail";
+			}
 
 	
-	//투표 삭제
 	@ResponseBody
 	@RequestMapping(value="/community/deleteCommuntyVote.sw", method=RequestMethod.GET)
 		public String removeCommunityVote(
-			@RequestParam("comNo") Integer comNo) {
+				@RequestParam("comNo") Integer comNo) {
+					
+					cService.removeCVoteMember(comNo);
 				
-				cService.removeCVoteMember(comNo);
-			
-				int result = cService.removeCommunityVote(comNo);
-			
-			if(result >0) {
-				return "success";
+					int result = cService.removeCommunityVote(comNo);
+				
+				if(result >0) {
+					return "success";
+				}
+				return "fail";
 			}
-			return "fail";
-		}
 	
-	//댓글 리스트 출력
 	@RequestMapping(value="/community/replyList.sw", method=RequestMethod.GET)
 	public void listReply(
 				@RequestParam("comNo") int  comNo
 				,HttpServletResponse response) throws Exception{
-		
+			
 		List<Reply> cReplyList = cService.printAllCommunityReply(comNo);
 		if(!cReplyList.isEmpty()) {
-			// 성공했을 때
-			//Gson gson = new Gson();
 			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-			gson.toJson(cReplyList, response.getWriter()); // List를 json로 바꿈
+			gson.toJson(cReplyList, response.getWriter()); 
 		}
 	}
-	
-	//댓글 등록
+		
 	@ResponseBody
 	@RequestMapping(value="/community/replyAdd.sw", method=RequestMethod.POST)
 		public String registerReply (
 			HttpServletRequest request
 			,@ModelAttribute Reply Reply) {
-		
+			
 			HttpSession session = request.getSession();
 			String memberNum = "";
 			Member member = (Member)session.getAttribute("loginUser");
 				memberNum = member.getMemberNum();
 				Reply.setMemberNum(memberNum);
-					
+						
 			int result = cService.registerReply(Reply);
-		
+			
 			if(result >0) {
 				return "success";
 			}
 			return "fail";
 		}
 	
-	//댓글 수정
-		@ResponseBody
-		@RequestMapping(value="/community/modifyReply.sw", method=RequestMethod.POST)
-			public String modifyReply (
-				@ModelAttribute Reply Reply) {
+	@ResponseBody
+	@RequestMapping(value="/community/modifyReply.sw", method=RequestMethod.POST)
+		public String modifyReply (
+			@ModelAttribute Reply Reply) {
 						
-				int result = cService.modifyReply(Reply);
+			int result = cService.modifyReply(Reply);
 			
-				if(result >0) {
-					return "success";
-				}
-				return "fail";
+			if(result >0) {
+				return "success";
 			}
+			return "fail";
+		}
 	
 	
 	
-	//댓글 삭제
-		@ResponseBody
-		@RequestMapping(value="/community/deleteReply.sw", method=RequestMethod.GET)
-			public String deleteReply (
-				@ModelAttribute Reply Reply) {
+	@ResponseBody
+	@RequestMapping(value="/community/deleteReply.sw", method=RequestMethod.GET)
+		public String deleteReply (
+			@ModelAttribute Reply Reply) {
 			
-				int result = cService.deleteReply(Reply);
+			int result = cService.deleteReply(Reply);
 			
-				if(result >0) {
-					return "success";
-				}
-				return "fail";
+			if(result >0) {
+				return "success";
 			}
+			return "fail";
+		}
 	
-	//검색
 	@RequestMapping(value="/community/search.sw", method=RequestMethod.GET)
 	public ModelAndView communitySearchList(
 			ModelAndView mv
@@ -484,65 +445,55 @@ public class CommunityController {
 			String memberNum = "";
 			Member member = (Member)session.getAttribute("loginUser");
 			memberNum = member.getMemberNum();
-			
+				
 			search.setMemberNum(memberNum);
-			
+				
 			int currentPage = (page != null) ? page : 1;
 			PageInfo pi = null;
 			int totalCount = cService.getSearchCount(search);
 			pi = Pagination.getPageInfo(currentPage, totalCount);
-			
-			
-			List<Search> cList = cService.printSearchCommunity(pi,search);
 				
+				
+			List<Search> cList = cService.printSearchCommunity(pi,search);
+					
 			mv.addObject("cList", cList);
 			mv.addObject("search", search);
 			mv.addObject("currentPage",currentPage);
 			mv.addObject("totalCount",totalCount);
 			mv.addObject("pi", pi);
 			mv.setViewName("community/communityList");
-			
+				
 		}catch(Exception e) {
 			mv.addObject("msg", e.toString());
 			mv.setViewName("common/errorPage");
 		}
 		return mv;
 	}
-		
+			
 	public HashMap<String, String> saveFile(MultipartFile file, HttpServletRequest request) {
 		String filePath = "";
 		HashMap<String, String> fileMap = new HashMap<String, String>();
-		//HashMap 선언
-		
-		// 파일 경로 설정
+			
 		String root = request.getSession().getServletContext().getRealPath("resources");
-		
-		// 저장 폴더 선택
+			
 		String savePath = root + "\\loadFile";
-		// 없으면 생성
 		File folder = new File(savePath);
 		if(!folder.exists()) folder.mkdir();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-		
-		// 업로드한 파일명
+			
 		String originalFileName = file.getOriginalFilename();
-		// 파일 확장자명
 		String extensionName = originalFileName.substring(originalFileName.lastIndexOf(".")+1);
-		// 변경할 파일명, 변경할 때에는 SimpleDateFormat 객체를 이용해서
-		// 시간을 파일의 이름으로 바꿔줌
 		String renameFileName 
 			= sdf.format(new Date(System.currentTimeMillis()))+"."+extensionName;
 		filePath = folder + "\\" + renameFileName;
-		// 두가지 값을 map에 저장하여 리턴하기
 		fileMap.put("filePath", filePath);
 		fileMap.put("fileName", renameFileName); 
-		// 파일 저장
 		try {
 			file.transferTo(new File(filePath)); // 파일 저장됨
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// 파일경로 리턴
+	
 		return fileMap;
 	}
 }

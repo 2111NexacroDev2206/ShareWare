@@ -8,8 +8,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div class="paging"> <!-- 일반 리스트 페이징 -->
-		<c:if test="${search.memberNum == null }"> <!-- 검색 하지 않았으면 -->
+	<div class="paging">
+		<c:if test="${search.memberNum == null }"> 
 				<c:if test="${pi.prev == true}">
 					<a href='<c:url value="/notice/list.sw?page=${pi.startNavi-1 }"/>'><button class="page-btn">＜</button></a>
 				</c:if>

@@ -70,9 +70,8 @@ public class NoticeController {
 
 	// 넥사크로 리스트 검색
 	@RequestMapping(value = "/admin/notice/searchList.sw", method = RequestMethod.POST)
-	public NexacroResult adminNoticeSearchList(@ParamVariable(name = "searchCondition") String searchCondition // 콤보박스에넣은 뭘로검색할지
+	public NexacroResult adminNoticeSearchList(@ParamVariable(name = "searchCondition") String searchCondition 
 			, @ParamVariable(name = "searchValue") String searchValue) {
-		// 에디트에 넣은 검색 값
 
 		int nErrorCode = 0;
 		String strErrorMsg = "START";
@@ -99,7 +98,6 @@ public class NoticeController {
 	// 넥사크로 상세보기
 	@RequestMapping(value = "/admin/notice/detail.sw", method = RequestMethod.POST)
 	public NexacroResult adminNoticeDetail(@ParamVariable(name = "noticeNo") int noticeNo) {
-		// 에디트에 넣은 검색 값
 
 		int nErrorCode = 0;
 		String strErrorMsg = "START";
@@ -127,11 +125,11 @@ public class NoticeController {
 		int nErrorCode = 0;
 		String strErrorMsg = "START";
 		NexacroResult result = new NexacroResult();
-		Notice newNotice = new Notice(); // 가져온 데이터셋 notice의 정보를 도메인에 넣어줌
+		Notice newNotice = new Notice(); 
 		newNotice.setNoticeTitle(notice.getString(0, "noticeTitle"));
 		newNotice.setNoticeContent(notice.getString(0, "noticeContent"));
 		int nResult = nService.registerNotice(newNotice);
-		alarmRegister(); // 전체 사원에게 공지 알림 등록
+		alarmRegister(); 
 		if (nResult > 0) {
 			nErrorCode = 0;
 			strErrorMsg = "SUCC";
@@ -155,7 +153,7 @@ public class NoticeController {
 		String strErrorMsg = "START";
 		NexacroResult result = new NexacroResult();
 
-		Notice newNotice = new Notice();// 가져온 데이터셋 notice의 정보를 도메인에 넣어줌
+		Notice newNotice = new Notice();
 		newNotice.setNoticeNo(notice.getInt(0, "noticeNo"));
 		newNotice.setNoticeTitle(notice.getString(0, "noticeTitle"));
 		newNotice.setNoticeContent(notice.getString(0, "noticeContent"));
@@ -221,7 +219,6 @@ public class NoticeController {
 		// 조회수 증가
 		nService.countViewNotice(noticeNo);
 
-		// 게시글 번호로 검색
 		Notice notice = nService.detailNotice(noticeNo);
 
 		if (notice != null) {
@@ -238,9 +235,9 @@ public class NoticeController {
 	// 검색
 	@RequestMapping(value = "/notice/search.sw", method = RequestMethod.GET)
 	public ModelAndView noticeSearchList(ModelAndView mv, @ModelAttribute Search search, HttpServletRequest request,
-			@RequestParam(value = "page", required = false) Integer page) {// form으로 보냄
+			@RequestParam(value = "page", required = false) Integer page) {
 		try {
-			HttpSession session = request.getSession();// 세션에서 로그인 된 아이디를 가져옴->검색을 했는지 안했는지를 판별
+			HttpSession session = request.getSession();
 			search.setMemberNum(((Member) session.getAttribute("loginUser")).getMemberNum());
 			int currentPage = (page != null) ? page : 1;
 			PageInfo pi = null;
@@ -275,11 +272,11 @@ public class NoticeController {
 	// 알림 등록
 	public void alarmRegister() {
 		Alarm alarm = new Alarm();
-		Notice notice = nService.printLastNotice(); // 공지사항
+		Notice notice = nService.printLastNotice(); 
 		alarm.setKind("<span class='al-kind notice'>[공지]</span>");
 		List<Member> mList = mService.printAllAlarmMember();
 		for(int i = 0; i < mList.size(); i++) {
-			alarm.setMemNum(mList.get(i).getMemberNum()); // 모든 사원에게 알림
+			alarm.setMemNum(mList.get(i).getMemberNum()); 
 			alarm.setAlarmUrl("'/notice/detail.sw?noticeNo=" + notice.getNoticeNo() + "'");
 			alarm.setAlarmContent("<span class='al-content'><strong>'" + notice.getNoticeTitle() + "'</strong> 글이 등록되었습니다.</span>");
 			alService.registerAlarm(alarm); // 알림 등록

@@ -15,7 +15,6 @@ public interface CommunityService {
 
 	int registerCommunity(Community community);
 	int searchComNo();
-	//전체 게시물의 갯수
 	int getListCount(String memberNum);
 	List<Community> listCommunity(PageInfo pi, String memberNum);
 	Community detailCommunity(Integer comNo);
@@ -37,20 +36,13 @@ public interface CommunityService {
 	int modifyCommunity(Community community);
 	void modifyCommunityVote(CommunityVote communityVote);
 	
-	//글 검색 개수
+
 	int getSearchCount(Search search);
-	//검색
 	List<Search> printSearchCommunity(PageInfo pi, Search search);
-	//덧글
-	//리스트 보기
 	List<Reply> printAllCommunityReply(int comNo);
-	//등록
 	int registerReply(Reply reply);
-	//자신이 쓴 댓글 삭제
 	int deleteReply(Reply reply);
-	//댓글 전체 삭제
 	void removeReplyAll(Integer comNo);
-	//댓글 수정
 	int modifyReply(Reply reply);
 	
 	

@@ -48,7 +48,7 @@
 									<th>회의실</th>
 									<th></th>
 								</tr>
-										<c:if test ="${fn:length(mList) eq 0}"> <!-- list의 길이를 구해서 길이가 0이면 해당 문구를 출력 -->
+										<c:if test ="${fn:length(mList) eq 0}"> 
 											<tr>
 												<td colspan = "5">예약 정보가 없습니다.</td>
 											</tr>
@@ -184,19 +184,18 @@
 			data : { "meetingDate" : meetingDate
 					,"meetingTime" : meetingTime
 					,"meetingNo" : meetingNo
-					,"memberNum" : memberNum}, //받은 파라미터 값은 사용하기
-			success : function(data) {//컨트롤러에서 데이터를 받아옴
-				if(data == "success") {//데이터 값이 success면 성공
+					,"memberNum" : memberNum}, 
+			success : function(data) {
+				if(data == "success") {
 					alert("예약이 취소되었습니다.");
 					location.reload();
 				}else{
-					// 실패시 실패메시지
-					alert("예약취소 실패!");//result값이 0이여서 뜨는 에러->where 조건절에 맞는 데이터가 없다.
+					
+					alert("예약취소 실패!");
 				}
 			},
 			error 	: function() {
 				alert("Ajax 통신 실패!!");
-				//ajax 자체가 돌아가지 않았다.
 			}
 		})
 	};

@@ -41,9 +41,9 @@ public class FileBoardController {
 	@ResponseBody
 	@RequestMapping(value="/fileBoard/register.sw", method=RequestMethod.POST)
 	public String registerCommunity(
-			HttpServletRequest request //session 에 저장 된 아이디를 가져와야함
+			HttpServletRequest request
 			,@RequestParam(value="uploadFile", required=false) MultipartFile fileName
-			,@RequestParam("fileContent")String fileContent // @RequestParam으로 값을 가져와서 세팅해줘야함
+			,@RequestParam("fileContent")String fileContent 
 			,@RequestParam("fileTitle")String fileTitle){
 	
 			HttpSession session = request.getSession();
@@ -52,7 +52,7 @@ public class FileBoardController {
 				memberNum = member.getMemberNum();
 			
 			FileBoard fileBoard = new FileBoard();
-			fileBoard.setMemberNum(memberNum);//값넣어주기
+			fileBoard.setMemberNum(memberNum);
 			fileBoard.setFileBoardTitle(fileTitle);
 			fileBoard.setFileBoaedContent(fileContent);
 			
@@ -84,7 +84,7 @@ public class FileBoardController {
 			,@RequestParam(value="page", required=false) Integer page) {
 		
 		int currentPage = (page != null) ? page : 1;
-		//DB에서 전체 게시물의 갯수
+		
 		int totalCount = fService.getListCount();
 		PageInfo pi = Pagination.getPageInfo(currentPage, totalCount);
 		List<FileBoard> fList = fService.listFileBoard(pi);
@@ -103,38 +103,38 @@ public class FileBoardController {
 	}
 	
 	//디테일 페이지 보기
-		@RequestMapping(value="/fileBoard/detail.sw", method=RequestMethod.GET)
-		public String datailCommunity(
-				Model model
-				,HttpServletRequest request
-				,@RequestParam("fileBoardNo") Integer fileBoardNo) {
-			//조회수 증가
-			fService.viewCountFileBoard(fileBoardNo);
+	@RequestMapping(value="/fileBoard/detail.sw", method=RequestMethod.GET)
+	public String datailCommunity(
+			Model model
+			,HttpServletRequest request
+			,@RequestParam("fileBoardNo") Integer fileBoardNo) {
+		//조회수 증가
+		fService.viewCountFileBoard(fileBoardNo);
 		
 			
-			//게시글 번호로 검색
-			FileBoard fileBoard = fService.detailFileBoard(fileBoardNo);
+		//게시글 번호로 검색
+		FileBoard fileBoard = fService.detailFileBoard(fileBoardNo);
 
 			
-			if(fileBoard != null) {
-				model.addAttribute("myCondition", "board");
-				model.addAttribute("listCondition", "fileBoard");
-				model.addAttribute("fileBoard",fileBoard);
-				return "fileBoard/fileBoardDetail";
-			}else {
-				model.addAttribute("msg", "게시글 상세보기 실패");
-				return "common/errorPage";
-			}
+		if(fileBoard != null) {
+			model.addAttribute("myCondition", "board");
+			model.addAttribute("listCondition", "fileBoard");
+			model.addAttribute("fileBoard",fileBoard);
+			return "fileBoard/fileBoardDetail";
+		}else {
+			model.addAttribute("msg", "게시글 상세보기 실패");
+			return "common/errorPage";
 		}
+	}
 		
-		//글 수정 페이지 보기
-		@RequestMapping(value="/fileBoard/modifyView.sw", method=RequestMethod.GET)
-		public String fileBoardyModifyView(
-				Model model
-				,@RequestParam("fileBoardNo") int fileBoardNo) {
+	//글 수정 페이지 보기
+	@RequestMapping(value="/fileBoard/modifyView.sw", method=RequestMethod.GET)
+	public String fileBoardyModifyView(
+			Model model
+			,@RequestParam("fileBoardNo") int fileBoardNo) {
 			
-			//게시글 번호로 검색
-			FileBoard fileBoard = fService.detailFileBoard(fileBoardNo);
+		//게시글 번호로 검색
+		FileBoard fileBoard = fService.detailFileBoard(fileBoardNo);
 			
 			if(fileBoard != null) {
 				model.addAttribute("myCondition", "board");
@@ -147,15 +147,15 @@ public class FileBoardController {
 			}	
 		}
 		
-		//글 수정
-		@ResponseBody
-		@RequestMapping(value="/fileBoard/modify.sw", method=RequestMethod.POST)
-		public String fileBoardModify(
-				@RequestParam(value="uploadFile", required=false) MultipartFile fileName
-			   ,@RequestParam("fileBoardNo") int fileBoardNo
-			   ,@RequestParam("fileBoaedContent") String fileBoaedContent
-			   ,@RequestParam("fileBoardTitle") String fileBoardTitle
-			   ,HttpServletRequest request) {
+	//글 수정
+	@ResponseBody
+	@RequestMapping(value="/fileBoard/modify.sw", method=RequestMethod.POST)
+	public String fileBoardModify(
+			@RequestParam(value="uploadFile", required=false) MultipartFile fileName
+		   ,@RequestParam("fileBoardNo") int fileBoardNo
+	       ,@RequestParam("fileBoaedContent") String fileBoaedContent
+		   ,@RequestParam("fileBoardTitle") String fileBoardTitle
+		   ,HttpServletRequest request) {
 			
 			FileBoard fileBoard = new FileBoard();
 			fileBoard.setFileBoardNo(fileBoardNo);
@@ -184,57 +184,53 @@ public class FileBoardController {
 			}
 		}
 	
-		//글 삭제
-		@ResponseBody
-		@RequestMapping(value="/fileBoard/deletefile.sw", method=RequestMethod.GET)
-		public String deletefile(
-				Model model
-				,HttpServletRequest request
-				,@RequestParam("fileBoardNo") Integer fileBoardNo) {
+	//글 삭제
+	@ResponseBody
+	@RequestMapping(value="/fileBoard/deletefile.sw", method=RequestMethod.GET)
+	public String deletefile(
+			Model model
+			,HttpServletRequest request
+			,@RequestParam("fileBoardNo") Integer fileBoardNo) {
 			
-			int reulst = fService.removeFileBoard(fileBoardNo);
+		int reulst = fService.removeFileBoard(fileBoardNo);
 					
-			if(reulst > 0) {
-				return "success";
-			}else {
-				return "fail";
-			}
+		if(reulst > 0) {
+			return "success";
+		}else {
+			return "fail";
 		}
+	}
  
  public HashMap<String, String> saveFile(MultipartFile file, HttpServletRequest request) {
 		String filePath = "";
 		HashMap<String, String> fileMap = new HashMap<String, String>();
-		//HashMap 선언
-		
-		// 파일 경로 설정
+	
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		
-		// 저장 폴더 선택
 		String savePath = root + "\\loadFile";
-		// 없으면 생성
+	
 		File folder = new File(savePath);
 		if(!folder.exists()) folder.mkdir();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		
-		// 업로드한 파일명
+		
 		String originalFileName = file.getOriginalFilename();
-		// 파일 확장자명
+		
 		String extensionName = originalFileName.substring(originalFileName.lastIndexOf(".")+1);
-		// 변경할 파일명, 변경할 때에는 SimpleDateFormat 객체를 이용해서
-		// 시간을 파일의 이름으로 바꿔줌
+		
 		String renameFileName 
 			= sdf.format(new Date(System.currentTimeMillis()))+"."+extensionName;
 		filePath = folder + "\\" + renameFileName;
-		// 두가지 값을 map에 저장하여 리턴하기
+		
 		fileMap.put("filePath", filePath);
 		fileMap.put("fileName", renameFileName); 
-		// 파일 저장
+		
 		try {
 			file.transferTo(new File(filePath)); // 파일 저장됨
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// 파일경로 리턴
+	
 		return fileMap;
 	}
 }

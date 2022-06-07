@@ -25,7 +25,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:if test ="${fn:length(nList) eq 0}"> <!-- list의 길이를 구해서 길이가 0이면 해당 문구를 출력 -->
+				<c:if test ="${fn:length(nList) eq 0}"> 
 						<tr>
 							<td colspan = "5">검색 정보가 없습니다.</td>
 						</tr>
@@ -68,8 +68,8 @@
 <script>
 
 	function search(f){
-		if(f.keyCode == 13){ //javascript에서는 13이 enter키를 의미함 
-		searchForm.submit(); //formname에 사용자가 지정한 form의 name입력 
+		if(f.keyCode == 13){ 
+		searchForm.submit(); 
 		}
 	}
 	</script>

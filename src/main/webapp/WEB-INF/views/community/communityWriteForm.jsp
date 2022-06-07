@@ -26,7 +26,6 @@
 					<input type="text" id="comTitle" placeholder="글 제목을 입력해주세요.">
 				</div>
 				<div id="community-ContentDiv">
-					<!-- <div contentEditable="true" id="comContent" style="height:500px;">  -->
 						<textarea id="comContent" name="content" rows="" cols="" placeholder="글 내용을 입력해주세요."></textarea>
 						<div id="vote-body-div">
 							<div id="returnBtnDiv">
@@ -90,23 +89,16 @@
 	$(document).ready(function(){ 
 		var fileTarget = $('.fileDiv #comImgName'); 
 		fileTarget.on('change', function(){ 
-			// 값이 변경되면 
+			
 			if(window.FileReader)
-			{ // modern browser
+			{ 
 			 var filename = $(this)[0].files[0].name; 
 			} else { 
-				// old IE 
+				
 				var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
-			} // 추출한 파일명 삽입 
+			}
 			$(this).siblings('.upload-name').val(filename); }); });
 
-
-	// CKEditor
-/* 		CKEDITOR.replace( 'content', {
-				height: 350,
-				removePlugins: "exportpdf"
-			} );
- */
 	$("#comVoteInsert").on("click",function(){
 
 	
@@ -126,11 +118,11 @@
 		const divButton2 =document.getElementById('btn-delete2');
 		const divButtonAdd =document.getElementById('voteInputAdd');
 
-		//div1 이 생성됐을 때는 -버튼이 보여야함
+		
 		if(div1.style.display === 'none'){
 			div1.style.display = 'block';
 			divButton1.style.display = 'block';
-		//div2가 생성됐을 때는 div1의 -버튼이 보이면 안됨
+		
 		}else if(div1.style.display === 'block'){
 			div2.style.display = 'block';
 			divButtonAdd.style.display = 'none';
@@ -165,19 +157,7 @@
 		}
 	});
 
-	// const imageInput = $("#comImgName")[0];
-	//   console.log("imageInput: ", imageInput.files)
 
-	//   function loadImg(obj){
-	// 	console.log(obj.files);
-	// 	if(obj.files.length != 0 && obj.files[0] !=0){
-	// 		var reader = new FileReader();
-	// 		reader.readAsDataURL(obj.files[0]);
-	// 		reader.onload = function(e){
-	// 			$("#img").attr("src", e.target.result);
-	// 		}
-	// 	}
-	// }
 	
 	var cVoteText1 ="";
 	var cVoteText2 ="";
@@ -193,13 +173,13 @@
 		
 		 if(voteBodyDiv.style.display === 'block'){
 			   if(cVoteText1 == "" || cVoteText2 == ""){
-				   //만약 text1이랑  text2가 값이 없으면
+				  
 				   alert("투표 선택지를 입력해주세요!");
 				}else if(voteDiv3.style.display === 'block' && cVoteText3 == ""){//투표 선택지에 값이 있으면 데이터 보내기
 					alert("투표 선택지를 입력해주세요!");
 			    }else if(voteDiv4.style.display === 'block' && cVoteText4 == ""){
 				    alert("투표 선택지를 입력해주세요!");
-			    }else{//투표 선택지에 값이 있으면 데이터 보내기
+			    }else{
 				   voteBodyDiv.style.display = 'none';
 			    }
 		}
@@ -223,11 +203,11 @@
 
 
 	
-	//글 등록comInsert
+	//글 등록
 	const imageInput = $("#comImgName")[0];
 	
 	function comInsert(){
-		 //투표가 보여지고 있을 때
+		 
 		if(voteBodyDiv.style.display === 'block'){
 			alert("투표 작성을 끝마쳐주요.");
 		}else{
@@ -268,8 +248,7 @@
 			}
 		}
 	};
-	 
-			
+	 	
 			 
 	</script>
 </body>

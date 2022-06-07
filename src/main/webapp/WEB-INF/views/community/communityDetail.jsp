@@ -96,8 +96,6 @@
 			var comVoteNo = comVoteNo;
 			var memberNum = "${loginUser.memberNum}";
 			
-			//voteMember에 insert
-			//vote update 해야됨
 			$.ajax({
 				url: "/community/insertCommunityVote.sw",
 				type: "GET",
@@ -120,7 +118,7 @@
 		
 	};
 	
-	//페이지를 불러올 때 자동 실행 투표
+
 	function viewCommunityVote(){
 		var comNo = "${community.comNo}";
 		
@@ -130,20 +128,20 @@
 			,data: { "comNo" : comNo }
 			,dataType : "json"
 			,success : function(data) {
-					var comVoteNo = data.communityVote.comVoteNo; //투표 번호
+					var comVoteNo = data.communityVote.comVoteNo; 
 					var loginUser ="${loginUser.memberNum}";
 					var writer = "${community.memberNum}";
 					var vote3 = data.communityVote.cVoteText3;
 					var vote4 = data.communityVote.cVoteText4;
-					var cSelectTrue = data.cVoteSelect.cSelectTrue; //투표 참가 여부
-					var cVoteState = data.communityVote.cVoteState; //투표 상태 상태가 0 수정가능 1수정불가 2투표 종료
+					var cSelectTrue = data.cVoteSelect.cSelectTrue; 
+					var cVoteState = data.communityVote.cVoteState; 
 					var cVoteSelect = data.cVoteSelect.cSelect;
 					
 					console.log(cVoteSelect);
 					
-					if(cSelectTrue == 1 || cVoteState ==2 || writer == loginUser ){ //투표에 참가했거나 아니면 투표가 종료 되었을 경우 투표 결과를 보여줌 아니면? 글쓴사람과 로그인한 사람이 같은 경우
+					if(cSelectTrue == 1 || cVoteState ==2 || writer == loginUser ){ 
 						var $voteBodyDiv = $("#vote-body-div");
-						$voteBodyDiv.html("");//vote-body-div안에있는 내용지우기
+						$voteBodyDiv.html("");
 						var $voteBox1 = $("<div id=\"voteBox1-div\" class=\"voteBox\">");
 						var $voteText1 = $("<div id=\"voteTextBox1-div\" class=\"voteTextBox\">").text(data.communityVote.cVoteText1);
 						var $voteSelect1 = $("<div id=\"voteSelect1-div\"class=\"voteSelect\">").text(data.communityVote.cVoteSelect1+"표");
@@ -211,7 +209,7 @@
 						
 						}else if(cSelectTrue != 1 || cVoteState !=2 || writer != loginUser ){
 							var $voteBodyDiv = $("#vote-body-div");
-							$voteBodyDiv.html("");//vote-body-div안에있는 내용지우기
+							$voteBodyDiv.html("");
 							var $voteBox1 = $("<div id=\"voteBox1-div\" class=\"voteBox\">");
 							var $voteText1 = $("<div id=\"voteTextBox1-div\" class=\"voteTextBox\">").text(data.communityVote.cVoteText1);
 							var $voteSelect1 = $("<button type=\"button\" id=\"selectBtn1\" class=\"voteSelectBtn\"onclick='select1("+comVoteNo+")'>투표</button>");
@@ -249,9 +247,8 @@
 						}
 			},
 			error : function() {
-				//검색이 안됐을 경우 
 				var $voteBodyDiv = $("#vote-body-div");
-				$voteBodyDiv.html("");//vote-body-div안에있는 내용지우기
+				$voteBodyDiv.html("");
 				$("#vote-body-div").css("display","none");
 			}
 		})
@@ -287,7 +284,7 @@
 		
 	};
 	
-	//투종료
+	//투표종료
 	function andVote(){
 		var comNo = "${community.comNo}";
 		$.ajax({
@@ -323,25 +320,26 @@
 			success : function(data) {
 				replyCount = 1;
 				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ댓글 갯수 알려 주기ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-				var count = data.length; //댓글의 갯수를 알 수 있음
-				var $replyDiv = $("#replyDiv");//기존 div
-				$replyDiv.html("");//기존 div안에 있는 html 태그를 전부 지우기
-				var $divCountReply = $("<div>");//div 만들기
+				var count = data.length; 
+				var $replyDiv = $("#replyDiv");
+				$replyDiv.html("");
+				var $divCountReply = $("<div>");
 				var $divCountReplySpan = $("<span>").html("<b>댓글("+count+")</b>");
-				$divCountReply.append($divCountReplySpan);//div 안에 span 태그 넣기
-				$replyDiv.append($divCountReply);//div 안에 div 넣기
+				$divCountReply.append($divCountReplySpan);
+				$replyDiv.append($divCountReply);
 				
 				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ댓글 입력창 추가ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-				var $insertDiv = $("<div id=\"insertDiv\">"); //덧글 작성 div
+				var $insertDiv = $("<div id=\"insertDiv\">"); 
 				var $inputTextDiv = $("<div id=\"inputTextDiv\">");
 				var $insertBtnDiv = $("<div id=\"insertBtnDiv\">");
 				var $inputText = $("<input type=\"text\" id=\"replyContent\">");
 				var $btnInsert = $("<button type=\"button\" id=\"replyInsert\" onclick='insertReply()'>작성</button>");
-				$inputTextDiv.append($inputText);//input태그를 div에 넣기
-				$insertBtnDiv.append($btnInsert);//버튼을 버튼 div에 넣기
+				$inputTextDiv.append($inputText);
+				$insertBtnDiv.append($btnInsert);
 				$insertDiv.append($inputTextDiv);
-				$insertDiv.append($insertBtnDiv);//두 idv넣기
-				$replyDiv.append($insertDiv);//댓글 div에 댓글 입력 div 넣기
+				$insertDiv.append($insertBtnDiv);
+				$replyDiv.append($insertDiv);
+				
 				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ댓글 출력ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 				
 				var $listTable = $("#listTable tbody");
@@ -372,25 +370,25 @@
 
 				}
 			}, 
-			error   : function() {//기본값을 넣지 않고 동적으로 처리하기
+			error   : function() {
 				replyCount = 0;
-				var $replyDiv = $("#replyDiv");//기존 div
-				$replyDiv.html("");//기존 div안에 있는 html 태그를 전부 지우기
-				var $divCountReply = $("<div>");//div 만들기
+				var $replyDiv = $("#replyDiv");
+				$replyDiv.html("");
+				var $divCountReply = $("<div>");
 				var $divCountReplySpan = $("<span>").html("<b>댓글(0)</b>");
-				$divCountReply.append($divCountReplySpan);//div 안에 span 태그 넣기
-				$replyDiv.append($divCountReply);//div 안에 div 넣기
+				$divCountReply.append($divCountReplySpan);
+				$replyDiv.append($divCountReply);
 				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ댓글작성 란ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-				var $insertDiv = $("<div id=\"insertDiv\">"); //덧글 작성 div
+				var $insertDiv = $("<div id=\"insertDiv\">"); 
 				var $inputTextDiv = $("<div id=\"inputTextDiv\">");
 				var $insertBtnDiv = $("<div id=\"insertBtnDiv\">");
 				var $inputText = $("<input type=\"text\" id=\"replyContent\">");
 				var $btnInsert = $("<button type=\"button\" id=\"replyInsert\" onclick='insertReply()'>작성</button>");
-				$inputTextDiv.append($inputText);//input태그를 div에 넣기
-				$insertBtnDiv.append($btnInsert);//버튼을 버튼 div에 넣기
+				$inputTextDiv.append($inputText);
+				$insertBtnDiv.append($btnInsert);
 				$insertDiv.append($inputTextDiv);
-				$insertDiv.append($insertBtnDiv);//두 idv넣기
-				$replyDiv.append($insertDiv);//댓글 div에 댓글 입력 div 넣기
+				$insertDiv.append($insertBtnDiv);
+				$replyDiv.append($insertDiv);
 				//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 				var $listTable = $("#listTable tbody");
 				$listTable.html("");
@@ -406,20 +404,16 @@
 	function insertReply(){	
 		var comNo = "${community.comNo}";
 		var replyContent   = $("#replyContent").val();
-		//console.log(rContents);
-		// ajax (jQuery 사용해서 Ajax 동작 시킴)
+		
 		$.ajax({
 			url  : "/community/replyAdd.sw",
 			type : "post",
 			data : { "comNo" : comNo,
-					"replyContent" : replyContent }, // json 형태
+					"replyContent" : replyContent }, 
 			success  : function(data) { 
-				// 성공했을 때 댓글 불러오기
-				// 작성된 내용 초기화
 				getCommunityReply();
-				$("#replyContent").val(""); //댓글 등록과 함께 text박스를 지워주기
+				$("#replyContent").val("");
 			},
-			// 실패했을 때 실패메시지 alert
 			error 	 : function() { 
 				alert("ajax 실패!") 
 			},
@@ -428,14 +422,14 @@
 	}
 	
 	//댓글 수정 보기
-	function modReplyView(obj, comNo, replyNo, replyContent) { // 위에서 function을 소환할 때 받기
-		var $tr = $(obj).parent().parent();//버튼의 부모의 부모 선택
+	function modReplyView(obj, comNo, replyNo, replyContent) {
+		var $tr = $(obj).parent().parent();
 		$tr.html("");
 		var $tdModify = $("<td colspan='3'>");
 		var $tdModifyBtn = $("<td width='120'>").append("<a href='javascript:void(0)'onclick='modifyReply("+comNo+","+replyNo+");'>수정 </a>")
 												.append("<a href='javascript:void(0)' onclick='getCommunityReply();'>취소</a>");
 		
-		$tdModify.append("<input type='text' size='50' value='"+replyContent+"' id='modifyData'>"); //td에 input 추가+적혀있던 덧글 넣기
+		$tdModify.append("<input type='text' size='50' value='"+replyContent+"' id='modifyData'>"); 
 		$tr.append($tdModify);
 		$tr.append($tdModifyBtn);
 		$(obj).parent().parent().after($tr)
@@ -444,7 +438,7 @@
 	
 	//댓글 수정
 	function modifyReply(comNo, replyNo){
-			var replyContent = $("#modifyData").val(); //id로 가져오는 값
+			var replyContent = $("#modifyData").val(); 
 			$.ajax({
 				url:"/community/modifyReply.sw",
 				type:"post",
@@ -467,39 +461,25 @@
 	
 	
 		//댓글 삭제기능
-		function removeReply(comNo, replyNo) { // 위에서 function을 소환할 때 받기
-			// ajax없이(둘다 사용은 못함 둘중 하나로 사용)
-			//location.href = '';
-			// ajax로
+		function removeReply(comNo, replyNo) {
 			$.ajax({
 				url  : "/community/deleteReply.sw",
 				type : "get",
-				data : { "comNo" : comNo, "replyNo" : replyNo },//받은 파라미터 값은 사용하기
-				success : function(data) {//컨트롤러에서 데이터를 받아옴
-					if(data == "success") {//데이터 값이 success면 성공
-						// 삭제가 성공하면 댓글 리스트 불러오기
+				data : { "comNo" : comNo, "replyNo" : replyNo },
+				success : function(data) {
+					if(data == "success") {
 						getCommunityReply();
 					}else{
-						// 실패시 실패메시지
-						alert("댓글 삭제 실패!");//result값이 0이여서 뜨는 에러->where 조건절에 맞는 데이터가 없다.
+						alert("댓글 삭제 실패!");
 					}
 				},
 				error 	: function() {
 					alert("Ajax 통신 실패!!");
-					//ajax 자체가 돌아가지 않았다.
 				}
 			});
 		}
 	
-			
-	
-				
-		
-		
-		
-	
 
-	
 </script>
 </body>
 </html>

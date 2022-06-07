@@ -100,7 +100,7 @@
 		var date = document.getElementById('roomRDate');
 		var today = new Date();
 		var dd = today.getDate();
-		var mm = today.getMonth()+1; //January is 0 so need to add 1 to make it 1!
+		var mm = today.getMonth()+1;
 		var yyyy = today.getFullYear();
 		dateVaule();
 		dateMax();
@@ -220,9 +220,9 @@
 
 		function dayIf(){
 			dd = today.getDate();
-			mm = today.getMonth()+1; //January is 0 so need to add 1 to make it 1!
+			mm = today.getMonth()+1; 
 			yyyy = today.getFullYear();
-			if(dd<10){ //달이 10보다 작으면 앞에 0을 붙여줌 
+			if(dd<10){ 
 				  dd='0'+dd
 				} 
 				if(mm<10){
@@ -230,7 +230,7 @@
 				}
 		};
 			
-		//날짜가 바뀌면 room 선택 값 초기화
+		
 		$("#roomRDate").on("input",function(){
 			$("#room").val("1 회의실").prop("selected", true);
 			$("#time").val("a").prop("selected", true);
@@ -282,8 +282,7 @@
 	        	   		 ,"meetingNo" : meetingNo}
 			 	,dataType : "json"
 	           , success:function(data){
-        		   
-	        	   //만약 예약 되어있으면 선택하지 못하게
+        		
 	       		  for(var i = 0; i<data.length; i++){
 	       			  for(var j = 1; j<6; j++){
 	       				  if(data[i].meetingTime == j && data[i].meetingReservation == 1){
